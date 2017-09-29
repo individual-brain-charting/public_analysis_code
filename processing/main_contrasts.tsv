@@ -1,0 +1,52 @@
+	task	contrast	pretty name	left label	right label
+0	archi_standard	left-right_button_press	Left vs. right hand button press	right hand	left hand
+1	archi_standard	reading-listening	Sentence reading vs. sentence listening	sentence reading	sentence listening
+2	archi_standard	motor-cognitive	Button presses vs. sentence/computation	cognitive tasks	button presses
+3	archi_standard	reading-checkerboard	Sentence reading vs. checkerboard	checkerboard	sentence reading
+4	archi_standard	computation-sentences	Mental subtraction vs. sentence reading	sentence reading	mental subtraction
+5	archi_standard	horizontal-vertical	Horizontal vs. vertical checkerboard	vert. checkerboard	hor. checkerboard
+6	archi_spatial	saccades	Saccades vs. fixation	fixation	saccades
+7	archi_spatial	hand-side	Left or right hand vs. hand palm or back	hand palm or back	left or right hand
+8	archi_spatial	grasp-orientation	Object grasping vs. image orientation judgment	orientation judgment	object grasping
+9	archi_spatial	rotation_side	Hand palm or back vs. fixation	fixation	hand palm or back
+10	archi_spatial	object_orientation	Image orientation judgment vs. fixation	fixation	orientation judgment
+11	archi_social	triangle_mental-random	Social-interaction motion vs. random motion	random motion	Social-interaction motion
+12	archi_social	false_belief-mechanistic_audio	False belief tale vs. mechanistic tale	mechanistic tale	false belief tale
+13	archi_social	triangle_random	Random motion vs. fixation	fixation	random motion
+14	archi_social	mechanistic_audio	Listening to a mechanistic tale vs. baseline	baseline	mechanistic tale
+15	archi_social	mechanistic_video	Reading a mechanistic story vs. baseline	baseline	mechanistic story
+16	archi_social	non_speech_sound	Listen to natural sound vs. baseline	silence	natural sound
+17	archi_social	false_belief-mechanistic_video	False belief story vs. mechanistic story	mechanistic story	false belief story
+18	archi_social	speech-non_speech	Listen to voice sound vs. natural sound	natural sound	voice sound
+19	archi_emotional	expression_gender-control	Assess gender from eyes' expression vs. visual pattern	visual pattern	gender assessment
+20	archi_emotional	expression_intention-gender	Assess intention vs. gender from eyes' expression	gender assessment	expression intention
+21	archi_emotional	face_gender-control	Assess gender of face vs. visual pattern	visual pattern	gender assessment
+22	archi_emotional	face_trusty-gender	Assess face trustfulness vs. gender of face	gender assessment	face trusty
+23	hcp_language	story-math	Listening to story vs. mental additions	math	story
+24	hcp_language	math	Mental additions vs. fixation	fixation	mental addition
+25	hcp_social	mental-random	Social-interaction motion vs. random motion	random motion	Social-interaction motion
+26	hcp_social	random	Random motion vs. fixation	fixation	any motion
+27	hcp_gambling	punishment-reward	Negative vs. positive gambling outcome	reward	punishement
+28	hcp_gambling	reward	Positive gambling outcome vs. fixation	fixation	reward
+29	hcp_motor	left_hand-avg	Move left hand vs. right hand, feet and tongue	any motion	left hand
+30	hcp_motor	right_hand-avg	Move right hand vs. left hand, feet and tongue	any motion	right hand
+31	hcp_motor	left_foot-avg	Move left foot vs. right foot, hands and tongue	any motion	left foot
+32	hcp_motor	right_foot-avg	Move right foot vs. left foot, hands and tongue	any motion	right foot
+33	hcp_motor	tongue-avg	Move tongue vs. hands and feet	any motion	tongue
+34	hcp_emotion	shape	Shape comparison vs. fixation	fixation cross	shape outline
+35	hcp_emotion	face-shape	Emotional face comparison vs. shape comparison	shape outline	face image
+36	hcp_relational	relational-match	Relational comparison vs. visual feature matching	visual matching	relational processing
+37	hcp_relational	match	Visual feature matching vs. fixation	fixation	visual matching
+38	hcp_wm	2back-0back	2-back vs. 0-back	0-back	2-back
+39	hcp_wm	body-avg	Body image n-back vs. face, place, tool  n-back	any image	body image
+40	hcp_wm	face-avg	Face image n-back vs. body, place, tool  n-back	any image	face image
+41	hcp_wm	place-avg	Place image n-back vs. face, body, tool  n-back	any image	place image
+42	hcp_wm	tools-avg	Tool image  n-back vs. face, place, body  n-back	any image	tool image
+43	language_	complex-simple	Complex- vs. simple-syntax sentence reading	simple sentence	complex sentence
+44	language_	sentence-jabberwocky	Reading sentence vs. jabberwocky	read jabberwocky	read sentence
+45	language_	sentence-word	Reading sentence vs. words	read words	read sentence
+46	language_	word-consonant_string	Reading words vs. consonant strings	consonant strings	read words
+47	language_	jabberworcky-pseudo	Reading jabberwocky vs. pseudowords	read pseudowords	read jabberwocky
+48	language_	word-pseudo	Reading words vs. pseudowords	read pseudowords	read words
+49	language_	pseudo-consonant_string	Reading pseudowords vs. consonant strings	consonant strings	read pseudowords
+50	language_	consonant_string	Consonant strings' encoding vs. fixation	fixation	consonant strings

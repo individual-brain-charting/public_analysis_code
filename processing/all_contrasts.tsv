@@ -1,0 +1,118 @@
+contrast	task	pretty name	left label	right label	visual form recognition	feature comparison	response selection	response execution	emotional face recognition	animacy perception	animacy decision	motion detection	working memory	left finger response execution	left toe response execution	tongue response execution	right finger response execution	right toe response execution	updating	visual tool recognition	tool maintenance	body maintenance	visual body recognition	place maintenance	visual place recognition	face maintenance	visual face recognition	auditory sentence recognition	story comprehension	auditory arithmetic processing	visual arithmetic processing	reward processing	punishment processing	relational comparison	visual pattern recognition	visual pseudo word recognition	visual word recognition	word maintenance	sentence processing	syntactic parsing	string maintenance	visual string recognition	vertical checkerboard	horizontal checkerboard	Visual tracking	grasping	Hand chirality recognition	Hand side recognition	sounds perception	voice perception	theory of mind	emotion expression identification	gender discrimination	facial trustworthiness recognition
+left-right_button_press	archi_standard	Left vs right hand button press	right hand	left hand			1.0	1.0						1.0																																								
+reading-listening	archi_standard	Listening to sentence vs reading a sentence	read sentence	listen to sentence																																	1.0		1.0															
+motor-cognitive	archi_standard	Button presses vs narrative/computation	cognitive tasks	button presses			1.0	1.0									1.0																																					
+reading-checkerboard	archi_standard	Read sentence vs checkerboard	checkerboard	read sentence																																	1.0		1.0															
+computation-sentences	archi_standard	Mental subtraction vs sentence reading	sentence	mental subtraction																											1.0								1.0															
+horizontal-vertical	archi_standard	Horizontal vs vertical checkerboard	vert. checkerboard	hor. checkerboard																																								1.0										
+audio_left_button_press	archi_standard	left hand button presses upon audio intrsuctions					1.0	1.0						1.0														1.0																										
+audio_right_button_press	archi_standard	right hand button presses upon audio intrsuctions					1.0	1.0									1.0											1.0																										
+video_left_button_press	archi_standard	left hand button presses upon video intrsuctions					1.0	1.0						1.0																																								
+video_right_button_press	archi_standard	right hand button presses upon video intrsuctions					1.0	1.0									1.0																																					
+right-left_button_press	archi_standard	Right vs left hand button press					1.0	1.0									1.0																																					
+listening-reading	archi_standard	reading a sentence vs listening to a sentence																										1.0																										
+cognitive-motor	archi_standard	Narrative/computation vs button presses																										1.0																										
+vertical-horizontal	archi_standard	vertical vs horizontal checkerboard																																									1.0											
+horizontal_checkerboard	archi_standard	Watch horizontal checkerboard																																										1.0										
+vertical_checkerboard	archi_standard	Watch vertical checkerboard																																									1.0											
+audio_sentence	archi_standard	Listen to narrative sentence																										1.0																										
+video_sentence	archi_standard	Read narrative sentence																																			1.0		1.0															
+audio_computation	archi_standard	Mental subtraction upon audio instruction																												1.0																								
+video_computation	archi_standard	Mental subtraction upon video instruction																													1.0								1.0															
+sentences	archi_standard	Read or listen to sentences																																			1.0		1.0															
+computation	archi_standard	Mental subtraction																													1.0								1.0															
+sentences-computation	archi_standard	Sentence reading vs mental subtraction 																																			1.0		1.0															
+saccades	archi_spatial	Saccades versus fixation	fixation	saccades																																									1.0									
+hand-side	archi_spatial	Left or right hand vs hand palm or back	hand palm or back	left or right hand			1.0																1.0																									1.0						
+grasp-orientation	archi_spatial	Object grasping vs orientation reporting	mimick orientation	object grasping			1.0	1.0									1.0			1.0																										1.0								
+rotation_side	archi_spatial	Hand palm or back vs fixation	fixation	hand palm or back			1.0																1.0																									1.0						
+object_orientation	archi_spatial	Image orientation reporting	fixation	mimick orientation			1.0	1.0									1.0			1.0																																		
+rotation_hand	archi_spatial	Left or right hand					1.0																1.0																								1.0							
+object_grasp	archi_spatial	Object grasping					1.0	1.0									1.0			1.0																										1.0								
+triangle_mental-random	archi_social	Mental motion vs random motion	random motion	mental motion						1.0	1.0	1.0																																										
+false_belief-mechanistic_audio	archi_social	False belief tale vs mechanistic tale	mechanistic tale	false belief tale																								1.0	1.0																						1.0			
+triangle_random	archi_social	Randomly drifting figures	fixation	random motion								1.0																																										
+mechanistic_audio	archi_social	Listening to a mechanistic tale	baseline	mechanistic tale																								1.0	1.0																									
+mechanistic_video	archi_social	 Reading a mechanistic story	baseline	mechanistic story																																	1.0		1.0															
+non_speech_sound	archi_social	Listen to natural sound	silence	natural sound																																													1.0					
+false_belief-mechanistic_video	archi_social	False belief story vs mechanistic story	mechanistic story	false belief story																																	1.0		1.0												1.0			
+speech-non_speech	archi_social	Listen to voice sound vs natural sound	natural sound	voice sound																																														1.0				
+triangle_mental	archi_social	Mental motion of triangle								1.0	1.0	1.0																																										
+false_belief_audio	archi_social	False belief tale 																										1.0	1.0																						1.0			
+false_belief_video	archi_social	False belief story 																																			1.0		1.0												1.0			
+speech_sound	archi_social	Listen to speech sound																																																1.0				
+expression_gender-control	archi_emotional	Guess the gender from expression	visual pattern	expression gender																																																1.0	1.0	
+expression_intention-gender	archi_emotional	Guess expression intention vs expression gender	expression gender	expression intention																																																1.0		1.0
+face_gender-control	archi_emotional	Guess the gender from face image	visual pattern	face gender																							1.0																										1.0	
+face_trusty-gender	archi_emotional	Assess face trustfulness vs gender	face gender	face trusty																							1.0																											1.0
+face_gender	archi_emotional	Guess the gender from face image																									1.0																										1.0	
+face_control	archi_emotional	Look at scambled face image																									1.0																											
+face_trusty	archi_emotional	Assess face trustfulness																									1.0																											1.0
+expression_intention	archi_emotional	Guess expression intention																																																		1.0		1.0
+expression_gender	archi_emotional	Guess gender from expression																																																		1.0	1.0	
+expression_control	archi_emotional	Look at scambled eye image																																																		1.0		
+trusty_and_intention-control	archi_emotional	Assess face trustfulness or Guess expression intention																									1.0																											1.0
+trusty_and_intention-gender	archi_emotional	Assess face trustfulness or Guess expression intention, vs quess the gender																									1.0																											1.0
+face_trusty-control	archi_emotional	Assess face trustfulness vs low-level control																									1.0																											1.0
+expression_intention-control	archi_emotional	Guess expression intention vs low-level control																																																		1.0		1.0
+story-math	hcp_language	Listening to story vs mental additions	math	story			1.0	1.0																				1.0	1.0																									
+math	hcp_language	Mental additions	fixation	mental addition			1.0	1.0																						1.0																								
+math-story	hcp_language	Mental additions vs listening to story					1.0	1.0																						1.0																								
+story	hcp_language	Listening to story					1.0	1.0																				1.0	1.0																									
+mental-random	hcp_social	Mental motion vs random motion	random motion	mental motion			1.0	1.0		1.0	1.0	1.0																																										
+random	hcp_social	Random motion vs fixation	fixation	any motion			1.0	1.0				1.0																																										
+mental	hcp_social	Mental motion					1.0	1.0		1.0	1.0	1.0																																										
+punishment-reward	hcp_gambling	Positive versus negative gambling outcome	reward	punishement			1.0	1.0																									1.0																					
+reward	hcp_gambling	Gambling with positive outcome	fixation	reward			1.0	1.0																								1.0																						
+punishment	hcp_gambling	negative gambling outcome					1.0	1.0																									1.0																					
+reward-punishment	hcp_gambling	Gambling with positive outcome					1.0	1.0																								1.0																						
+left_hand-avg	hcp_motor	Move left hand vs right hand, feet and tongue	any motion	left hand				1.0						1.0																																								
+right_hand-avg	hcp_motor	Move right hand vs left hand, feet and tongue	any motion	right hand				1.0									1.0																																					
+left_foot-avg	hcp_motor	Move left foot vs right foot, hands and tongue	any motion	left foot				1.0							1.0																																							
+right_foot-avg	hcp_motor	Move right foot vs left foot, hands and tongue	any motion	right foot				1.0										1.0																																				
+tongue-avg	hcp_motor	Move tongue vs hands and feet	any motion	tongue				1.0								1.0																																						
+left_hand	hcp_motor	Move left hand						1.0						1.0																																								
+right_hand	hcp_motor	Move right hand 						1.0									1.0																																					
+left_foot	hcp_motor	Move left foot 						1.0							1.0																																							
+right_foot	hcp_motor	Move right foot 						1.0										1.0																																				
+tongue	hcp_motor	Move tongue						1.0								1.0																																						
+cue	hcp_motor	Motion cue					1.0						1.0																																									
+shape	hcp_emotion	Shape comparison	fixation cross	shape outline	1.0	1.0	1.0	1.0																																														
+face-shape	hcp_emotion	Emotional face comparison vs shape comparison	shape outline	face image		1.0	1.0	1.0	1.0																																													
+face	hcp_emotion	Emotional face comparison				1.0	1.0	1.0	1.0																																													
+shape-face	hcp_emotion	shape comparison vs Emotional face comparison			1.0	1.0	1.0	1.0																																														
+relational-match	hcp_relational	Relational comparison vs matching	visual matching	relational processing	1.0	1.0	1.0	1.0																										1.0	1.0																			
+match	hcp_relational	Visual feature matching	fixation	visual matching	1.0	1.0	1.0	1.0																											1.0																			
+relational	hcp_relational	Relational comparison			1.0	1.0	1.0	1.0																										1.0	1.0																			
+2back-0back	hcp_wm	2-back vs 0-back	0-back	2-back			1.0	1.0					1.0						1.0		1.0	1.0		1.0		1.0																												
+body-avg	hcp_wm	Body image versus face, place, tool	any image	body image				1.0					1.0						1.0			1.0	1.0																															
+face-avg	hcp_wm	Face image versus body, place, tool	any image	face image				1.0					1.0						1.0							1.0	1.0																											
+place-avg	hcp_wm	Place image versus face, body, tool	any image	place image				1.0					1.0						1.0					1.0	1.0																													
+tools-avg	hcp_wm	Tool image versus face, place, body	any image	tool image				1.0					1.0						1.0	1.0	1.0																																	
+0back-2back	hcp_wm	0-back vs 2-back					1.0	1.0											1.0																																			
+0back_body	hcp_wm	Body image 0-back task						1.0					1.0									1.0	1.0																															
+2back_body	hcp_wm	Body image 2-back task						1.0					1.0						1.0			1.0	1.0																															
+0back_face	hcp_wm	Face image 0-back task						1.0					1.0													1.0	1.0																											
+2back_face	hcp_wm	Face image 2-back task						1.0					1.0						1.0							1.0	1.0																											
+0back_tools	hcp_wm	Tool image 0-back task						1.0					1.0							1.0	1.0																																	
+2back_tools	hcp_wm	Tool image 2-back task						1.0					1.0						1.0	1.0	1.0																																	
+0back_place	hcp_wm	Place image 0-back task						1.0					1.0											1.0	1.0																													
+2back_place	hcp_wm	Face image 0-back task						1.0					1.0						1.0					1.0	1.0																													
+complex-simple	language_	Read sentence with complex vs simple syntax	simple sentence	complex sentence									1.0																								1.0	1.0	1.0	1.0														
+sentence-jabberwocky	language_	Read sentence vs jabberwocky	read jabberwocky	read sentence									1.0																								1.0	1.0	1.0	1.0														
+sentence-word	language_	Read sentence vs words	read words	read sentence									1.0																								1.0	1.0	1.0	1.0														
+word-consonant_string	language_	Read words vs consonant strings	consonant strings	read words									1.0																								1.0	1.0																
+jabberworcky-pseudo	language_	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky									1.0																							1.0			1.0															
+word-pseudo	language_	Read words vs pseudo-words	read pseudo words	read words									1.0																								1.0	1.0																
+pseudo-consonant_string	language_	Read pseudo words vs consonant strings	consonant strings	read pseudo words									1.0																							1.0																		
+consonant_string	language_	Read and encode consonant strings	fixation	consonant strings									1.0																												1.0	1.0												
+complex	language_	Read sentence with complex  syntax											1.0																								1.0	1.0	1.0	1.0														
+simple	language_	Read sentence with  simple syntax											1.0																								1.0	1.0	1.0															
+jabberwocky	language_	Read jabberwocky											1.0																							1.0			1.0															
+word_list	language_	Read words											1.0																								1.0	1.0																
+pseudoword_list	language_	Read pseudo-words											1.0																							1.0																		
+sentence-consonant_string	language_	Read sentence vs consonant strings											1.0																								1.0	1.0	1.0	1.0														
+simple-consonant_string	language_	Read simple sentence vs consonant strings											1.0																								1.0	1.0	1.0															
+complex-consonant_string	language_	Read complex sentence vs consonant strings											1.0																								1.0	1.0	1.0	1.0														
+sentence-pseudo	language_	Read sentence vs pseudo-words											1.0																								1.0	1.0	1.0	1.0														
+probe	language_	Word probe					1.0	1.0																																														
