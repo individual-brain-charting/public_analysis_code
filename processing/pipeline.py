@@ -172,7 +172,7 @@ def run_subject_preproc(jobfile, subject, session=None):
 def get_subject_session(protocol):
     """ utility to get all (subject, session) for a given protocol"""
     import pandas as pd
-    df = pd.DataFrame().from_csv('../neurospin_data/sessions.csv', sep='\t')
+    df = pd.DataFrame().from_csv('sessions.csv', sep='\t')
     # FIXME: move that file
     subject_session = []
     for session in df.columns:
