@@ -108,8 +108,7 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
         "--out=%s" % (merged_zeroth_fieldmap_file, acq_params_file,
                       topup_results_basename))
     print "\r\nExecuting '%s' ..." % topup_cmd    
-    print(cache(commands.getoutput, mem)(topup_cmd))
-    
+    print(commands.getoutput(topup_cmd))
     # apply topup to images
     func_dir = os.path.join(write_dir, modality)
     for i, f in enumerate(fmri_files):
@@ -126,7 +125,7 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
             "--topup=%s --out=%s --datain=%s --method=jac" % (
                 f, inindex, topup_results_basename, dcf, acq_params_file))
         print "\r\nExecuting '%s' ..." % applytopup_cmd
-        print(cache(commands.getoutput, mem)(applytopup_cmd))
+        print commands.getoutput(applytopup_cmd)
 
 
 def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,

@@ -137,7 +137,7 @@ def apply_topup(main_dir, cache_dir, subject_sess=None):
     if subject_sess is None:
         subject_sess = [('sub-%02d, ses-%02d' % (i, j)) for i in range(0, 15) # FIXME
                         for j in range(0, 10)]
-    Parallel(n_jobs=4)(
+    Parallel(n_jobs=1)(
         delayed(run_topup)(mem, main_dir, subject_ses[0], subject_ses[1])
         for subject_ses in subject_sess)
 
@@ -190,7 +190,7 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/media/bt206016/ext_drive/cache_dir'
     prepare_derivatives(main_dir)
-    subject_session = get_subject_session('mtt2')
+    subject_session = [get_subject_session('mtt1')[3]]
     
     if do_topup:
         apply_topup(main_dir, cache_dir, subject_session)
