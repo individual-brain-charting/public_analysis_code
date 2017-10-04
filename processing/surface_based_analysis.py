@@ -28,13 +28,13 @@ subjects = ['sub-%02d' % i for i in [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]]
 # Step 1: Perform recon-all
 os.environ['SUBJECTS_DIR'] = ''
 
-def recon_all(work_dir, subject):
+def recon_all(work_dir, subject, high_res=True):
     # create directories in output_dir
     mem = Memory(base_dir='/data/cache_dir')
-    if 1:
+    if high_res:
         # high-resolution T1
         anat_img = glob.glob(os.path.join(
-            work_dir, subject, 'ses-*/anat/sub-*_ses-*_acq-highres_T1w.nii'))[0]
+            work_dir, subject, 'ses-*/anat/sub-*_ses-*_acq-highres_T1w.nii.gz'))[0]
         t1_dir = os.path.dirname(anat_img)
     else:
         # low-resolution T1
@@ -47,10 +47,10 @@ def recon_all(work_dir, subject):
                       subjects_dir=t1_dir,
                       T1_files=anat_img)
 
-"""    
-Parallel(n_jobs=3)(delayed(recon_all)(work_dir, subject)
+
+Parallel(n_jobs=1)(delayed(recon_all)(work_dir, subject)
                         for subject in subjects)
-"""
+
 
 # Step 2: Perform the projection
 def project_volume(work_dir, subject, do_bbr=True):
@@ -113,7 +113,8 @@ def project_volume(work_dir, subject, do_bbr=True):
                 '--hemi rh --nsmooth-out 5' %
                 (subject, right_fmri_tex, right_fsaverage_fmri_tex)))
 
+"""
 Parallel(n_jobs=6)(
     delayed(project_volume)(work_dir, subject, do_bbr=False)
     for subject in subjects)
-
+"""
