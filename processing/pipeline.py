@@ -186,17 +186,17 @@ def get_subject_session(protocol):
 if __name__ == '__main__':    
     # correction of distortion_parameters
     # custom solution, to be improved in the future
-    do_topup = True
+    do_topup = False
     main_dir = '/neurospin/ibc/'
     cache_dir = '/media/bt206016/ext_drive/cache_dir'
     prepare_derivatives(main_dir)
-    subject_session = [get_subject_session('mtt1')[3]]
+    subject_session = [get_subject_session('archi')[13]]
     
     if do_topup:
         apply_topup(main_dir, cache_dir, subject_session)
     
     subject_data = []
-    for protocol in ['mtt2']:  #'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp1', 'hcp2' 'archi' 
+    for protocol in ['mtt1']:  #'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp1', 'hcp2' 'archi' 
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_data_ = Parallel(n_jobs=4)(
             delayed(run_subject_preproc)(jobfile, subject, session)
