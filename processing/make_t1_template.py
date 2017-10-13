@@ -23,22 +23,32 @@ subject_ids = [os.path.basename(x)
                for x in glob.glob(os.path.join(data_dir, subject_id_wildcard))]
 subject_ids.sort()
 
+
+anats = glob.glob(
+    os.path.join(
+    data_dir, 'sub*', 'ses-*', 'anat', 'sub-*_ses-*_acq-highres_T1w.nii'))
+for anat in anats:
+    img = nib.load(anat)
+    nib.Nifti1Image(img.get_data().astype('int32'), img.affine).to_filename(anat)
+
 # producer subject data
 def subject_factory():
-    for subject_id in subject_ids:
+    anats = glob.glob(
+        os.path.join(
+            data_dir, 'sub*', 'ses-*', 'anat', 'sub-*_ses-*_acq-highres_T1w.nii'))
+    subject_sessions = [(anat.split('/')[-4], anat.split('/')[-3]) for anat in anats]
+    for subject_session in subject_sessions:
+        subject, session = subject_session
         subject_data = SubjectData(isdicom=False, scratch=scratch, session_output_dirs=[], n_sessions=0)
-        subject_data.subject_id = subject_id
-        
-        subject_data.anat = glob.glob(
-            os.path.join(
-                data_dir, subject_id, 'ses-00', 'anat', '%s_ses-00_T1w.nii' %
-                subject_id))[0]
+        subject_data.subject_id = subject
+        subject_data.anat = os.path.join(data_dir, subject, session, 'anat',
+                                         '%s_%s_acq-highres_T1w.nii' % (subject, session))
         subject_data.func = []
         subject_data.output_dir = os.path.join(
-            data_dir, subject_id, 'ses-00', 'anat', 'dartel')
+            data_dir, subject, session, 'anat', 'dartel')
         # yield data for this subject
         yield subject_data
-
+    
 # do preprocessing proper
 report_filename = os.path.join(output_dir, '_report.html')
 
@@ -52,14 +62,15 @@ do_subjects_preproc(
     report_filename=report_filename,
     do_shutdown_reloaders=True,)
 
-# Create mean images for masking and display
-wanats = [os.path.join(data_dir, subject_id, 'ses-00', 'anat', 'dartel', 'w%s_ses-00_T1w.nii.gz' % subject_id)
-          for subject_id in subject_ids]
-template = mean_img(wanats)
-template.to_filename(os.path.join(output_dir, 'T1avg.nii.gz'))
 
-mgms = [os.path.join(data_dir, subject_id, 'ses-00', 'anat', 'dartel', 'mwc1%s_ses-00_T1w.nii.gz' % subject_id)
-          for subject_id in subject_ids]
+# Create mean images for masking and display
+wanats = sorted(glob.glob(os.path.join(data_dir, 'sub-*', 'ses-*', 'anat', 'dartel',
+                                'w*_ses-*_acq-highres_T1w.nii.gz')))
+template = mean_img(wanats)
+template.to_filename(os.path.join(output_dir, 'highres_T1avg.nii.gz'))
+
+mgms = sorted(glob.glob(os.path.join(data_dir, 'sub-*', 'ses-*', 'anat', 'dartel',
+                                     'mwc1*_ses-*_acq-highres_T1w.nii.gz')))
 
 # take a reference functional image
 ref_image = nib.load(ref_img)
@@ -69,5 +80,5 @@ mean_gm = mean_img(
     mgms, target_affine=ref_affine, target_shape=ref_shape) 
 gm_mask = nib.Nifti1Image((mean_gm.get_data() > .25).astype('uint8'),
                           ref_affine)
-mean_gm.to_filename(os.path.join(output_dir, 'mean_gm.nii.gz'))
-gm_mask.to_filename(os.path.join(output_dir, 'gm_mask.nii.gz'))
+mean_gm.to_filename(os.path.join(output_dir, 'mean_highres_gm.nii.gz'))
+gm_mask.to_filename(os.path.join(output_dir, 'highres_gm_mask.nii.gz'))
