@@ -17,7 +17,7 @@ archi_social = ['false_belief_video', 'non_speech', 'speech', 'mechanistic_audio
 relevant_conditions = {
     'emotional': ['Face', 'Shape'],
     'gambling': ['Reward', 'Punishment', 'Neutral'],
-    'language': ['Math', 'Story'],
+    'hcp_language': ['math', 'story'],
     'motor': ['LeftHand', 'RightHand', 'LeftFoot', 'RightFoot',
               'Cue', 'Tongue'],
     'relational': ['Relational', 'Cue', 'Control'],
@@ -53,7 +53,7 @@ def post_process(df, paradigm_id):
         df = df.replace('right_hand_cue', 'cue')
         df = df.replace('left_hand_cue', 'cue')
         df = df.replace('tongue_cue', 'cue')
-
+        
     if paradigm_id in relevant_conditions.keys():
         relevant_items = relevant_conditions[paradigm_id]
         condition = np.array([df.trial_type == r for r in relevant_items]).sum(0).astype(np.bool)

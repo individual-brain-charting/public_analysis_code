@@ -73,8 +73,8 @@ def prepare_derivatives(main_dir):
     import shutil
     source_dir = os.path.join(main_dir, 'sourcedata')
     output_dir = os.path.join(main_dir, 'derivatives')
-    subjects = ['sub-%02d' % i for i in range(0, 15)]
-    sess =  ['ses-%02d' % j for j in range(0, 15)]
+    subjects = ['sub-%02d' % i for i in range(0, 16)]
+    sess =  ['ses-%02d' % j for j in range(0, 20)]
     modalities = ['anat', 'fmap', 'func', 'dwi']
     dirs = ([output_dir] +
             [os.path.join(output_dir, subject) for subject in subjects
@@ -101,7 +101,8 @@ def prepare_derivatives(main_dir):
                 shutil.copyfile(tsv_file, 
                                 os.path.join(dst, os.path.basename(tsv_file)))
         highres = glob.glob(
-            os.path.join(source_dir, subject, 'ses-*', 'anat', '*highres_T*w*'))
+            os.path.join(source_dir, subject, 'ses-*', 'anat', '*'))  #'*highres_T*w*'))
+
         for hr in highres:
             parts = hr.split('/')
             dst = os.path.join(output_dir, subject, parts[-3], 'anat', parts[-1])
@@ -118,16 +119,18 @@ def run_topup(mem, data_dir, subject, ses):
         return
     functional_data.sort()
     # gather the field maps
-    field_maps = [
-        glob.glob(
-            os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb3_dir-1_epi.nii.gz'))[-1],
-                  glob.glob(
-            os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb3_dir-0_epi.nii.gz'))[-1]]
-    #field_maps = [
-    #    os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap',
-    #                 '%s_%s_dir-1_epi.nii.gz' % (subject, ses)),
-    #    os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap',
-    #                 '%s_%s_dir-0_epi.nii.gz' % (subject, ses))]
+    if 0:
+        field_maps = [
+            glob.glob(
+                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb3_dir-1_epi.nii.gz'))[-1],
+            glob.glob(
+                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb3_dir-0_epi.nii.gz'))[-1]]
+    else:
+        field_maps = [
+            glob.glob(
+                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*dir-1_epi.nii.gz'))[-1],
+            glob.glob(
+                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*dir-0_epi.nii.gz'))[-1]]
     return fsl_topup(field_maps, functional_data, mem, write_dir)
 
 
@@ -190,13 +193,13 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/media/bt206016/ext_drive/cache_dir'
     prepare_derivatives(main_dir)
-    subject_session = [get_subject_session('archi')[13]]
+    subject_session = get_subject_session('clips4')
     
     if do_topup:
         apply_topup(main_dir, cache_dir, subject_session)
     
     subject_data = []
-    for protocol in ['mtt1']:  #'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp1', 'hcp2' 'archi' 
+    for protocol in ['retino']:  #'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp1', 'hcp2'
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_data_ = Parallel(n_jobs=4)(
             delayed(run_subject_preproc)(jobfile, subject, session)
