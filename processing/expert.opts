@@ -1,0 +1,2 @@
+mri_em_register -p .5
+mris_fix_topology -s 100
