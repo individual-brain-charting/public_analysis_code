@@ -7,15 +7,12 @@
 
 
 import os
-import json
-from pypreprocess.nipype_preproc_spm_utils import (do_subjects_preproc,
-                                                   SubjectData)
 from pypreprocess.conf_parser import _generate_preproc_pipeline
-from joblib import Memory, Parallel, delayed
-from utils_pipeline import fixed_effects_analysis, first_level, fsl_topup
-from os.path import join
-import glob
-from pipeline import clean_subject, clean_anatomical_images, adapt_jobfile
+from joblib import Parallel, delayed
+from utils_pipeline import fixed_effects_analysis, first_level
+
+from pipeline import (clean_subject, clean_anatomical_images,
+                      _adapt_jobfile, get_subject_session)
 
 
 SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]
@@ -67,16 +64,14 @@ def generate_glm_input(jobfile):
     return output
 
         
-def run_subject_surface_glm(jobfile, subject, protocol):
+def run_subject_surface_glm(jobfile, subject, session, protocol):
     """ Create jobfile and run it """
     output_name = os.path.join(
-        '/tmp', os.path.basename(jobfile)[:-4] + '_%02d.ini' % subject)
-    adapt_jobfile(jobfile, 'sub-%02d' % subject, output_name)
+        '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
+    _adapt_jobfile(jobfile, subject, output_name, session)
     list_subjects_update = generate_glm_input(output_name)
     clean_anatomical_images('/neurospin/ibc')
     for subject in list_subjects_update:
-        if len(subject['session_id']) > 0:
-            print(len(subject['session_id']))
         clean_subject(subject)
         if len(subject['session_id']) > 0:
             print(len(subject['session_id']))
@@ -87,11 +82,12 @@ def run_subject_surface_glm(jobfile, subject, protocol):
             else:
                 first_level(subject, compcorr=True, smooth=None, surface=True)
                 fixed_effects_analysis(subject, surface=True)
-    
+
 
 if __name__ == '__main__':
-    for protocol in ['archi', 'hcp2',  'language', 'hcp1']:  # 'clips4', 
+    for protocol in ['hcp2', 'hcp1']:  # 'clips4', 'archi',   'language', 
         jobfile = 'IBC_preproc_%s.ini' % protocol
+        subject_session = get_subject_session(protocol)
         Parallel(n_jobs=4)(
-            delayed(run_subject_surface_glm)(jobfile, subject, protocol)
-            for subject in SUBJECTS)
+            delayed(run_subject_surface_glm)(jobfile, subject, session, protocol)
+            for (subject, session) in subject_session)

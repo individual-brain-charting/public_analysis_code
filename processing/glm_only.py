@@ -7,7 +7,7 @@
 
 import os
 from pypreprocess.conf_parser import _generate_preproc_pipeline
-from joblib import Memory, Parallel, delayed
+from joblib import Parallel, delayed
 from utils_pipeline import fixed_effects_analysis, first_level
 import glob
 from pipeline import clean_subject, clean_anatomical_images, _adapt_jobfile, get_subject_session
