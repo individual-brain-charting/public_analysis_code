@@ -57,6 +57,11 @@ def _make_merged_filename(fmap_dir, basenames):
     """Create filename for merged field_maps"""
     dic0 = _bids_filename_to_dic(basenames[0])
     dic1 = _bids_filename_to_dic(basenames[1])
+    if 'sub' not in dic0.keys():
+        dic0['sub'] = dic0['pilot']
+    if 'sub' not in dic1.keys():
+        dic0['sub'] = dic1['pilot']
+
     if 'acq' in dic0.keys():
         merged_basename = (
             'sub-' + dic0['sub'] + '_sess-' + dic0['ses'] + '_acq-' +

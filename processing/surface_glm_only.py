@@ -86,7 +86,7 @@ def run_subject_surface_glm(jobfile, subject, session, protocol):
 
 if __name__ == '__main__':
     for protocol in ['hcp2', 'hcp1']:  # 'clips4', 'archi',   'language', 
-        jobfile = 'IBC_preproc_%s.ini' % protocol
+        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
         Parallel(n_jobs=4)(
             delayed(run_subject_surface_glm)(jobfile, subject, session, protocol)

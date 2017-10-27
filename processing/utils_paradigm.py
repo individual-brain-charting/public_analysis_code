@@ -58,7 +58,19 @@ def post_process(df, paradigm_id):
         relevant_items = relevant_conditions[paradigm_id]
         condition = np.array([df.trial_type == r for r in relevant_items]).sum(0).astype(np.bool)
         df = df[condition]
-        
+
+    if paradigm_id == 'PreferencePaintings':
+        df['modulation'] = df['score'] - df[df.trial_type == 'painting']['score'].mean()
+        df = df.fillna(1)
+    elif paradigm_id == 'PreferenceFaces':
+        df['modulation'] = df['score'] - df[df.trial_type == 'face']['score'].mean()
+        df = df.fillna(1)
+    elif paradigm_id ==  'PreferenceHouses':
+        df['modulation'] = df['score'] - df[df.trial_type == 'house']['score'].mean()
+        df = df.fillna(1)    
+    elif paradigm_id == 'PreferenceFood':
+        df['modulation'] = df['score'] - df[df.trial_type == 'food']['score'].mean()
+        df = df.fillna(1)    
     return df
 
 

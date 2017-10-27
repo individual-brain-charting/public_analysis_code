@@ -14,7 +14,7 @@ else:
 DERIVATIVES = os.path.join(ibc, 'derivatives')
 SMOOTH_DERIVATIVES = os.path.join(ibc, 'smooth_derivatives')
 SUBJECTS = [os.path.basename(full_path) for full_path in
-            sorted(glob.glob(os.path.join(DERIVATIVES, 'sub-*')))]
+            sorted(glob.glob(os.path.join(DERIVATIVES, 'sub-*')))][:-1]
 CONDITIONS = pd.DataFrame().from_csv('conditions.tsv', sep='\t')
 CONTRASTS = pd.DataFrame().from_csv('main_contrasts.tsv', sep='\t')
 
