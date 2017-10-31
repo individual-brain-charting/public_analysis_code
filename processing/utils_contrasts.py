@@ -37,14 +37,17 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
     elif paradigm_id in ['cont_ring', 'exp_ring', 'wedge_clock',
                          'wedge_anti']:
         return retino(design_matrix_columns)
-    elif paradigm_id == 'PreferencePaintings':
-        return preferences(design_matrix_columns, 'painting')
-    elif paradigm_id == 'PreferenceHouses':
-        return preferences(design_matrix_columns, 'house')
-    elif paradigm_id == 'PreferenceFood':
-        return preferences(design_matrix_columns, 'food')
-    elif paradigm_id == 'PreferenceFaces':
-        return preferences(design_matrix_columns, 'face')
+    elif paradigm_id in ['PreferencePaintings', 'PreferenceFaces',
+                         'PreferenceHouses', 'PreferenceFood']:
+        if paradigm_id  == 'PreferencePaintings':
+            domain = 'painting'
+        elif paradigm_id == 'PreferenceFaces':
+            domain = 'face'
+        elif paradigm_id == 'PreferenceHouses':
+            domain = 'house'
+        elif paradigm_id == 'PreferenceFood':
+            domain = 'food'
+        return preferences(design_matrix_columns, domain)
     elif paradigm_id in ['IslandWE', 'IslandWE1', 'IslandWE2', 'IslandWE3']:
         return mtt_ew(design_matrix_columns)
     elif paradigm_id in ['IslandNS', 'IslandNS1', 'IslandNS2', 'IslandNS3']:
@@ -113,13 +116,14 @@ def colour(design_matrix_columns):
 def preferences(design_matrix_columns, domain):
     """Contrast for preference experiment"""
     if domain not in ['painting', 'house', 'face', 'food']:
-        raise ValueError('Not a correct doamin')
-    contrast_names = ['preference_%s' % domain]
+        raise ValueError('Not a correct domain')
+    contrast_names = ['%s_linear' % domain, '%s_constant' % domain,
+                      '%s_quadratic' % domain]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {'preference_%s' % domain: con[domain]}
-    assert((np.sort(contrasts.keys()) == np.sort(contrast_names)).all())
+    contrasts = dict([(key, con[key]) for key in contrast_names])
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts

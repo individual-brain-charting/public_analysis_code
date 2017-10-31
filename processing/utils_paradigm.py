@@ -4,7 +4,7 @@ Some utils too deal with peculiar protocols or peculiar ways of handling them
 Author: Bertrand Thirion, Ana Luisa Grilo Pinho, 2015
 """
 import numpy as np
-from pandas import DataFrame
+from pandas import DataFrame, concat
 
 
 rsvp_language = ['consonant_strings', 'word_list', 'pseudoword_list', 'jabberwocky',
@@ -59,18 +59,31 @@ def post_process(df, paradigm_id):
         condition = np.array([df.trial_type == r for r in relevant_items]).sum(0).astype(np.bool)
         df = df[condition]
 
-    if paradigm_id == 'PreferencePaintings':
-        df['modulation'] = df['score'] - df[df.trial_type == 'painting']['score'].mean()
+        
+    if paradigm_id in ['PreferencePaintings', 'PreferenceFaces', 'PreferenceHouses',
+                       'PreferenceFood']:
+        if paradigm_id  == 'PreferencePaintings':
+            domain = 'painting'
+        elif paradigm_id == 'PreferenceFaces':
+            domain = 'face'
+        elif paradigm_id == 'PreferenceHouses':
+            domain = 'house'
+        elif paradigm_id == 'PreferenceFood':
+            domain = 'food'
+        # 
+        df['modulation'] = df['score'] - df[df.trial_type == domain]['score'].mean()
         df = df.fillna(1)
-    elif paradigm_id == 'PreferenceFaces':
-        df['modulation'] = df['score'] - df[df.trial_type == 'face']['score'].mean()
-        df = df.fillna(1)
-    elif paradigm_id ==  'PreferenceHouses':
-        df['modulation'] = df['score'] - df[df.trial_type == 'house']['score'].mean()
-        df = df.fillna(1)    
-    elif paradigm_id == 'PreferenceFood':
-        df['modulation'] = df['score'] - df[df.trial_type == 'food']['score'].mean()
-        df = df.fillna(1)    
+        # add a regressor with constant values
+        df2 = df[df.trial_type == domain]
+        df2.modulation = np.ones_like(df2.modulation)
+        df2.trial_type = '%s_constant' % domain
+        # add quadratic regressor
+        df3 = df[df.trial_type == domain]
+        df3.modulation = df.modulation ** 2
+        df3.modulation = df3.modulation - df3.modulation.mean()
+        df3.trial_type = '%s_quadratic' % domain
+        df = df.replace(domain, '%s_linear' % domain)
+        df = concat([df, df2, df3], axis=0, ignore_index=True)
     return df
 
 
