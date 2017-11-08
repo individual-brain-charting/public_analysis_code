@@ -214,41 +214,7 @@ def condition_similarity_(db, masker):
         X[subject] = x
 
     tasks = np.array(tasks) 
-    unique_tasks = np.unique(tasks)
-    task_pos = np.array(
-        [np.mean(np.where(tasks == task)[0]) for task in unique_tasks])
-    nice_tasks = np.array([task.replace('_', ' ') for task in unique_tasks])
 
-    """
-    # plot with subject correlations
-    plt.figure(figsize=(10, 10))
-    ax = plt.axes()
-    ax.set_yticks(task_pos)
-    ax.set_yticklabels(nice_tasks)
-    ax.set_xticks(task_pos)
-    ax.set_xticklabels(nice_tasks, rotation=60, ha='right')
-    ax.imshow(correlation, interpolation='nearest', cmap=plotting.cm.bwr)
-    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.2)
-    plt.savefig(os.path.join('output', 'condition_similarity_within.pdf'))
-
-    # plot cross-subject correlation
-    correlation_ = np.zeros((n_conditions, n_conditions))
-    for i in range(n_subjects):
-        for j in range(i):
-            X_ = np.vstack((X[unique_subjects[i]], X[unique_subjects[j]]))
-            correlation_ += np.corrcoef(X_)[n_conditions:, :n_conditions]
-            
-    correlation_ /= (n_subjects * (n_subjects - 1) * .5)
-    plt.figure(figsize=(10, 10))
-    ax = plt.axes()
-    ax.set_yticks(task_pos)
-    ax.set_yticklabels(nice_tasks)
-    ax.set_xticks(task_pos)
-    ax.set_xticklabels(nice_tasks, rotation=60, ha='right')
-    ax.imshow(correlation_, interpolation='nearest', cmap=plotting.cm.bwr)
-    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.2)
-    plt.savefig(os.path.join('output', 'condition_similarity_across.pdf'))
-    """
     # similarity at the level of conditions
     cognitive_atlas = 'cognitive_atlas.csv'
     df = pd.DataFrame().from_csv(cognitive_atlas, index_col=1, sep='\t')
