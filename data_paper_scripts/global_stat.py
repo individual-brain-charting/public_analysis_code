@@ -163,7 +163,7 @@ def condition_similarity(db, masker):
     plt.savefig(os.path.join('output', 'condition_similarity_across.pdf'))
 
     # similarity at the level of conditions
-    cognitive_atlas = '../processing/cognitive_atlas.csv'
+    cognitive_atlas = 'cognitive_atlas.csv'
     df = pd.DataFrame().from_csv(cognitive_atlas, index_col=1, sep='\t')
     df = df.fillna(0)
     df = df.drop('Tasks', 1)
@@ -193,12 +193,101 @@ def condition_similarity(db, masker):
     print('spearman', st.spearmanr(x,y))
     
 
+def condition_similarity_(db, masker):
+    """ Look at the similarity across conditions, averaged across subjects and phase encoding"""
+    df = db[db.acquisition == 'ffx']
+    conditions = df.contrast.unique()
+    n_conditions = len(conditions)
+    correlation = np.zeros((n_conditions, n_conditions))
+    X = {}
+    unique_subjects = df.subject.unique()
+    n_subjects = len(unique_subjects)
+    for subject in unique_subjects:
+        paths = []
+        tasks = []
+        for condition in conditions:
+            selection = df[df.subject == subject][df.contrast == condition]
+            tasks.append(selection.task.values[-1])
+            paths.append(selection.path.values[-1])
+        x = masker.transform(paths)
+        correlation += np.corrcoef(x)
+        X[subject] = x
+
+    tasks = np.array(tasks) 
+    unique_tasks = np.unique(tasks)
+    task_pos = np.array(
+        [np.mean(np.where(tasks == task)[0]) for task in unique_tasks])
+    nice_tasks = np.array([task.replace('_', ' ') for task in unique_tasks])
+
+    """
+    # plot with subject correlations
+    plt.figure(figsize=(10, 10))
+    ax = plt.axes()
+    ax.set_yticks(task_pos)
+    ax.set_yticklabels(nice_tasks)
+    ax.set_xticks(task_pos)
+    ax.set_xticklabels(nice_tasks, rotation=60, ha='right')
+    ax.imshow(correlation, interpolation='nearest', cmap=plotting.cm.bwr)
+    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.2)
+    plt.savefig(os.path.join('output', 'condition_similarity_within.pdf'))
+
+    # plot cross-subject correlation
+    correlation_ = np.zeros((n_conditions, n_conditions))
+    for i in range(n_subjects):
+        for j in range(i):
+            X_ = np.vstack((X[unique_subjects[i]], X[unique_subjects[j]]))
+            correlation_ += np.corrcoef(X_)[n_conditions:, :n_conditions]
+            
+    correlation_ /= (n_subjects * (n_subjects - 1) * .5)
+    plt.figure(figsize=(10, 10))
+    ax = plt.axes()
+    ax.set_yticks(task_pos)
+    ax.set_yticklabels(nice_tasks)
+    ax.set_xticks(task_pos)
+    ax.set_xticklabels(nice_tasks, rotation=60, ha='right')
+    ax.imshow(correlation_, interpolation='nearest', cmap=plotting.cm.bwr)
+    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.2)
+    plt.savefig(os.path.join('output', 'condition_similarity_across.pdf'))
+    """
+    # similarity at the level of conditions
+    cognitive_atlas = 'cognitive_atlas.csv'
+    df = pd.DataFrame().from_csv(cognitive_atlas, index_col=1, sep='\t')
+    df = df.fillna(0)
+    df = df.drop('Tasks', 1)
+    cog_model = np.zeros((n_conditions, len(df.columns)))
+    for i, condition in enumerate(conditions):
+        cog_model[i] = df[df.index == condition].values
+        print(condition, [df.columns[i] for i in range(50)
+                          if df[df.index == condition].values[0][i]])
+
+    ccorrelation = np.corrcoef(cog_model)
+    plt.figure(figsize=(10, 10))
+    ax = plt.axes()
+    ax.set_yticks(range(n_conditions))
+    ax.set_yticklabels(conditions)
+    ax.set_xticks(range(n_conditions))
+    ax.set_xticklabels(conditions, rotation=60, ha='right')
+    ax.imshow(ccorrelation, interpolation='nearest', cmap=plotting.cm.bwr)
+    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.2)
+    plt.savefig(os.path.join('output', 'condition_similarity_cognitive.pdf'))
+    plt.show()
+    x = np.triu(correlation, 1)
+    y = np.triu(ccorrelation, 1)
+    x = x[x != 0]
+    y = y[y != 0]
+    import scipy.stats as st
+    print('pearson', st.pearsonr(x,y))
+    print('spearman', st.spearmanr(x,y))
+    
+
+
+    
     
 if __name__ == '__main__':
     db = data_parser(derivatives=SMOOTH_DERIVATIVES)
     mask_gm = nib.load(os.path.join(DERIVATIVES, 'group', 'anat', 'gm_mask.nii.gz'))
     masker = NiftiMasker(mask_img=mask_gm, memory=mem).fit()
-
+    """
     design_matrix, subject_map, contrast_map, acq_map = anova(db, masker)
     subject_map.to_filename(os.path.join('output', 'subject_effect.nii.gz'))
     contrast_map.to_filename(os.path.join('output', 'contrast_effect.nii.gz'))
@@ -220,5 +309,7 @@ if __name__ == '__main__':
                            output_file=os.path.join('output', 'acq_effect.pdf'))
     
     global_similarity(db, masker)
+
     condition_similarity(db, masker)
-    
+    """
+    condition_similarity_(db, masker)
