@@ -24,6 +24,7 @@ from nipype.interfaces.freesurfer import ReconAll, BBRegister
 
 work_dir = '/neurospin/ibc/derivatives'
 subjects = ['sub-%02d' % i for i in [1, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]]
+subjects = ['sub-15']
 
 # Step 1: Perform recon-all
 os.environ['SUBJECTS_DIR'] = ''
@@ -42,16 +43,18 @@ def recon_all(work_dir, subject, high_res=True):
         subject_dir = os.path.join(work_dir, subject, 'ses-00')
         t1_dir = os.path.join(subject_dir, 'anat')
         anat_img = glob.glob(os.path.join(t1_dir, '%s_ses-00_T1w.nii*' % subject))[0]
-        reconall = mem.cache(ReconAll)
-        reconall(subject_id=subject,
-                 directive='all',
-                 subjects_dir=t1_dir,
-                 T1_files=anat_img)
+        # reconall = mem.cache(ReconAll)
+        #reconall(subject_id=subject,
+        #         directive='all',
+        #         subjects_dir=t1_dir,
+        #         T1_files=anat_img)
+        os.system('recon-all -all -subjid %s -sd %s' % (subject, t1_dir))
 
-
+"""
 Parallel(n_jobs=4)(delayed(recon_all)(work_dir, subject, True)
                         for subject in subjects)
-
+"""
+recon_all(work_dir, subjects[0], False)
 
 # Step 2: Perform the projection
 def project_volume(work_dir, subject, do_bbr=True):
