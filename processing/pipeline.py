@@ -110,7 +110,7 @@ def prepare_derivatives(main_dir):
                 shutil.copyfile(hr, dst)
                 os.system('gunzip %s' % dst)
 
-def run_topup(mem, data_dir, subject, ses):
+def run_topup(mem, data_dir, subject, ses, acq=None):
     write_dir = os.path.join(data_dir, 'derivatives', subject, ses)
     # gather the BOLD data to be corrected
     functional_data = glob.glob(
@@ -119,29 +119,31 @@ def run_topup(mem, data_dir, subject, ses):
         return
     functional_data.sort()
     # gather the field maps
-    if 0:
+    if acq == 'mb3':
         field_maps = [
             glob.glob(
                 os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb3_dir-1_epi.nii.gz'))[-1],
             glob.glob(
                 os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb3_dir-0_epi.nii.gz'))[-1]]
-    else:
+    elif acq == None:
         field_maps = [
             glob.glob(
                 os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*dir-1_epi.nii.gz'))[-1],
             glob.glob(
                 os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*dir-0_epi.nii.gz'))[-1]]
+    else:
+        raise ValueError('Unknown acq %s' % acq)
     return fsl_topup(field_maps, functional_data, mem, write_dir)
 
 
-def apply_topup(main_dir, cache_dir, subject_sess=None):
+def apply_topup(main_dir, cache_dir, subject_sess=None, acq=None):
     """ Call topup on the datasets """
     mem = Memory(cache_dir)
     if subject_sess is None:
         subject_sess = [('sub-%02d, ses-%02d' % (i, j)) for i in range(0, 15) # FIXME
                         for j in range(0, 10)]
     Parallel(n_jobs=1)(
-        delayed(run_topup)(mem, main_dir, subject_ses[0], subject_ses[1])
+        delayed(run_topup)(mem, main_dir, subject_ses[0], subject_ses[1], acq=acq)
         for subject_ses in subject_sess)
 
 
@@ -197,7 +199,7 @@ if __name__ == '__main__':
     subject_session = get_subject_session(protocol)
     
     if do_topup:
-        apply_topup(main_dir, cache_dir, subject_session)
+        apply_topup(main_dir, cache_dir, subject_session, acq='mb3')
     
     subject_data = []
     for protocol in [protocol]:  #'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp1', 'hcp2'
