@@ -117,7 +117,10 @@ def run_topup(mem, data_dir, subject, ses, acq=None):
         os.path.join(data_dir, 'sourcedata', subject, ses, 'func/*.nii.gz'))
     if functional_data == []:
         return
+    if acq == 'mb6':
+        functional_data = [fd for fd in functional_data if 'RestingState' in fd]
     functional_data.sort()
+    
     # gather the field maps
     if acq == 'mb3':
         field_maps = [
@@ -125,6 +128,12 @@ def run_topup(mem, data_dir, subject, ses, acq=None):
                 os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb3_dir-1_epi.nii.gz'))[-1],
             glob.glob(
                 os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb3_dir-0_epi.nii.gz'))[-1]]
+    elif acq == 'mb6':
+        field_maps = [
+            glob.glob(
+                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb6_dir-1_epi.nii.gz'))[-1],
+            glob.glob(
+                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb6_dir-0_epi.nii.gz'))[-1]]
     elif acq == None:
         field_maps = [
             glob.glob(
@@ -141,7 +150,7 @@ def apply_topup(main_dir, cache_dir, subject_sess=None, acq=None):
     mem = Memory(cache_dir)
     if subject_sess is None:
         subject_sess = [('sub-%02d, ses-%02d' % (i, j)) for i in range(0, 15) # FIXME
-                        for j in range(0, 10)]
+                        for j in range(0, 15)]
     Parallel(n_jobs=1)(
         delayed(run_topup)(mem, main_dir, subject_ses[0], subject_ses[1], acq=acq)
         for subject_ses in subject_sess)
@@ -192,19 +201,19 @@ if __name__ == '__main__':
     # correction of distortion_parameters
     # custom solution, to be improved in the future
     do_topup = True
-    protocol = 'mtt2'
+    protocol = 'RS2' # 'raiders2' #'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp1', 'hcp2'
     main_dir = '/neurospin/ibc/'
     cache_dir = '/media/bt206016/ext_drive/cache_dir'
     prepare_derivatives(main_dir)
-    subject_session = get_subject_session(protocol)
+    subject_session = sorted(get_subject_session('mtt2'))
     
     if do_topup:
-        apply_topup(main_dir, cache_dir, subject_session, acq='mb3')
-    
+        apply_topup(main_dir, cache_dir, subject_session, acq='mb6') # 
+
     subject_data = []
-    for protocol in [protocol]:  #'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp1', 'hcp2'
+    for protocol in [protocol]:  
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_data_ = Parallel(n_jobs=4)(
+        subject_data_ = Parallel(n_jobs=3)(
             delayed(run_subject_preproc)(jobfile, subject, session)
             for subject, session in subject_session)
         subject_data = subject_data + subject_data_[0]

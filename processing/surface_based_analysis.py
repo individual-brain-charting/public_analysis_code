@@ -57,10 +57,10 @@ Parallel(n_jobs=4)(delayed(recon_all)(work_dir, subject, True)
 recon_all(work_dir, subjects[0], False)
 
 # Step 2: Perform the projection
-def project_volume(work_dir, subject, do_bbr=True):
+def project_volume(work_dir, subject, sessions, do_bbr=True):
     t1_dir = os.path.join(work_dir, subject, 'ses-00', 'anat')
-    for idx in range(12):
-        subject_dir = os.path.join(work_dir, subject, 'ses-%02d' % idx)
+    for session in sessions:
+        subject_dir = os.path.join(work_dir, subject, 'ses-%02d' % session)
         if not os.path.exists(subject_dir):
             continue
         fmri_dir = os.path.join(subject_dir, 'func')

@@ -30,6 +30,8 @@ def generate_glm_input(jobfile, smooth=None):
                                                     'smooth_derivatives')
         else:
             output_dir = subject.output_dir
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
 
         anat = glob.glob(os.path.join(subject.anat_output_dir,
                                       'wsub*_T1w_nonan.nii.gz'))[0]
@@ -116,11 +118,11 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None):
     
 
 if __name__ == '__main__':
-    smooth = 5
-    for protocol in ['hcp1', 'hcp2']:  # ['hcp1', 'hcp2', 'archi', 'language', 'mtt2']:
+    smooth = None  # 5  # 
+    for protocol in ['mtt2']:  # ['hcp1', 'hcp2', 'archi', 'language', 'mtt2', 'hcp1', 'hcp2'
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=4)(
+        Parallel(n_jobs=3)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
 
