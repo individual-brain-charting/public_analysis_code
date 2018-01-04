@@ -4,7 +4,7 @@ Some utils too deal with peculiar protocols or peculiar ways of handling them
 Author: Bertrand Thirion, Ana Luisa Grilo Pinho, 2015
 """
 import numpy as np
-from pandas import DataFrame, concat
+from pandas import read_csv, concat
 
 
 rsvp_language = ['consonant_strings', 'word_list', 'pseudoword_list', 'jabberwocky',
@@ -91,7 +91,7 @@ def make_paradigm(onset_file, paradigm_id=None):
     """ Temporary fix """
     if paradigm_id in ['wedge_clock', 'wedge_anti', 'cont_ring', 'exp_ring']:
         return None
-    df = DataFrame().from_csv(onset_file, index_col=None, sep='\t')
+    df = read_csv(onset_file, index_col=None, sep='\t')
     if 'onset' not in df.keys() and 'Onsets' in df.keys():
         df['onset'] = df['Onsets']
         df.drop('Onsets', 1, inplace=True)

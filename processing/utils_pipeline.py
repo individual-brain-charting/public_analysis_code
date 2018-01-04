@@ -10,7 +10,7 @@ import time
 import numpy as np
 import nibabel as nib
 import warnings
-from pandas import DataFrame
+from pandas import read_csv
 from nilearn.masking import compute_multi_epi_mask
 from nilearn.image import high_variance_confounds
 
@@ -308,7 +308,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         if additional_regressors[session_id] is None:
             add_regs = confounds
         else:
-            df = DataFrame().from_csv(additional_regressors[session_id])
+            df = read_csv(additional_regressors[session_id])
             add_regs = []
             for regressor in df:
                 add_reg_names.append(regressor)

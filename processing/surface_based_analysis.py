@@ -23,8 +23,8 @@ from nipype.interfaces.freesurfer import ReconAll, BBRegister
 
 
 work_dir = '/neurospin/ibc/derivatives'
-subjects = ['sub-%02d' % i for i in [1, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]]
-subjects = ['sub-15']
+subjects = ['sub-%02d' % i for i in [1, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]]
+# subjects = ['sub-15']
 
 # Step 1: Perform recon-all
 os.environ['SUBJECTS_DIR'] = ''
@@ -53,14 +53,14 @@ def recon_all(work_dir, subject, high_res=True):
 """
 Parallel(n_jobs=4)(delayed(recon_all)(work_dir, subject, True)
                         for subject in subjects)
-"""
 recon_all(work_dir, subjects[0], False)
+"""
 
 # Step 2: Perform the projection
 def project_volume(work_dir, subject, sessions, do_bbr=True):
     t1_dir = os.path.join(work_dir, subject, 'ses-00', 'anat')
     for session in sessions:
-        subject_dir = os.path.join(work_dir, subject, 'ses-%02d' % session)
+        subject_dir = os.path.join(work_dir, subject, session)
         if not os.path.exists(subject_dir):
             continue
         fmri_dir = os.path.join(subject_dir, 'func')
@@ -105,7 +105,7 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
                 fs_dir, basename + '_fsaverage_lh.gii')
             right_fsaverage_fmri_tex = os.path.join(
                 fs_dir, basename + '_fsaverage_rh.gii')
-        
+
             print(commands.getoutput(
                 '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s --srcsurfval '\
                 '%s --trgsurfval %s --trgsubject ico --trgicoorder 7 '\
@@ -117,8 +117,10 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
                 '--hemi rh --nsmooth-out 5' %
                 (subject, right_fmri_tex, right_fsaverage_fmri_tex)))
 
-"""
+from pipeline import get_subject_session
+subject_sessions = sorted(get_subject_session('mtt2'))
+
 Parallel(n_jobs=6)(
-    delayed(project_volume)(work_dir, subject, do_bbr=False)
-    for subject in subjects)
-"""
+    delayed(project_volume)(work_dir, subject_session[0], [subject_session[1]], do_bbr=True)
+    for subject_session in subject_sessions)
+

@@ -151,7 +151,7 @@ def apply_topup(main_dir, cache_dir, subject_sess=None, acq=None):
     if subject_sess is None:
         subject_sess = [('sub-%02d, ses-%02d' % (i, j)) for i in range(0, 15) # FIXME
                         for j in range(0, 15)]
-    Parallel(n_jobs=1)(
+    Parallel(n_jobs=4)(
         delayed(run_topup)(mem, main_dir, subject_ses[0], subject_ses[1], acq=acq)
         for subject_ses in subject_sess)
 
@@ -186,7 +186,7 @@ def run_subject_preproc(jobfile, subject, session=None):
 def get_subject_session(protocol):
     """ utility to get all (subject, session) for a given protocol"""
     import pandas as pd
-    df = pd.DataFrame().from_csv('sessions.csv', sep='\t')
+    df = pd.read_csv('sessions.csv', sep='\t', index_col=0)
     # FIXME: move that file
     subject_session = []
     for session in df.columns:
@@ -200,20 +200,25 @@ def get_subject_session(protocol):
 if __name__ == '__main__':    
     # correction of distortion_parameters
     # custom solution, to be improved in the future
-    do_topup = True
-    protocol = 'RS2' # 'raiders2' #'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp1', 'hcp2'
+    do_topup = False
+    protocol = 'mtt1' # 'raiders2' #'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp1', 'hcp2'
     main_dir = '/neurospin/ibc/'
     cache_dir = '/media/bt206016/ext_drive/cache_dir'
     prepare_derivatives(main_dir)
-    subject_session = sorted(get_subject_session('mtt2'))
+    subject_session = sorted(get_subject_session(protocol))
     
     if do_topup:
-        apply_topup(main_dir, cache_dir, subject_session, acq='mb6') # 
+        acq = None
+        if protocol in ['rs1', 'rs2']:
+            acq = 'mb6'
+        elif protocol in ['mtt1', 'mtt2']:
+            acq = 'mb3'
+        apply_topup(main_dir, cache_dir, subject_session, acq=acq)
 
     subject_data = []
     for protocol in [protocol]:  
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_data_ = Parallel(n_jobs=3)(
+        subject_data_ = Parallel(n_jobs=1)(
             delayed(run_subject_preproc)(jobfile, subject, session)
             for subject, session in subject_session)
         subject_data = subject_data + subject_data_[0]

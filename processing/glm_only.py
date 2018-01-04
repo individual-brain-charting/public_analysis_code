@@ -15,7 +15,7 @@ from pipeline import clean_subject, clean_anatomical_images, _adapt_jobfile, get
 
 SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]
 
-RETINO_REG = dict([(session_id, '../neurospin_data/info/sin_cos_regressors.csv')
+RETINO_REG = dict([(session_id, 'sin_cos_regressors.csv')
                    for session_id in ['wedge_anti_pa', 'wedge_clock_ap', 'cont_ring_ap',
                                       'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']])
 
@@ -118,11 +118,12 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None):
     
 
 if __name__ == '__main__':
-    smooth = None  # 5  # 
-    for protocol in ['mtt2']:  # ['hcp1', 'hcp2', 'archi', 'language', 'mtt2', 'hcp1', 'hcp2'
+    smooth = 5 # None  # 
+    for protocol in ['archi']:  # ['hcp1', 'hcp2', 'archi', 'language', 'mtt2', 'hcp1', 'hcp2'
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=3)(
+        stop
+        Parallel(n_jobs=1)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
 

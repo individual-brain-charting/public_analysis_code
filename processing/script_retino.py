@@ -8,7 +8,7 @@ import os
 import glob
 from os.path import join as pjoin
 import numpy as np
-from nilearn.image import mean_img
+from nilearn.image import mean_img, math_img
 from utils_retino import angular_maps, phase_maps
 import nibabel as nib
 from nilearn.plotting import plot_stat_map
@@ -32,7 +32,7 @@ subjects_sessions = np.unique(subjects_sessions)
 acqs = ['res_stats_%s' % acq for acq in [
     'wedge_anti_pa', 'wedge_anti_ap', 'wedge_clock_ap', 'wedge_clock_pa',
     'exp_ring_pa', 'cont_ring_ap']]
-THRESHOLD = 4. / np.sqrt(len(acqs))
+THRESHOLD = 4.
 
 for subject_session in subjects_sessions:
     subject, session = subject_session.split('_')
@@ -49,11 +49,14 @@ for subject_session in subjects_sessions:
     z_maps = [pjoin(work_dir, acq, 'z_score_maps', 'effects_interest.nii.gz')
               for acq in acqs]
     mean_z = mean_img(z_maps)
+    n_maps = len(z_maps)
+    fixed_effects = math_img('im * %d' % n_maps, im=mean_z)
+    fixed_effects.to_filename(pjoin(write_dir, 'effects_of_interest.nii.gz'))
 
-    plot_stat_map(mean_z, threshold=THRESHOLD, bg_img=anat, dim=0,
+    plot_stat_map(fixed_effects, threshold=THRESHOLD, bg_img=anat, dim=0,
                   output_file=pjoin(write_dir, 'effects_of_interest.png'))
-    mask = mean_z.get_data() > THRESHOLD
-    mask_img = nib.Nifti1Image(mask.astype('uint8'), mean_z.affine)
+    mask = fixed_effects.get_data() > THRESHOLD
+    mask_img = nib.Nifti1Image(mask.astype('uint8'), fixed_effects.affine)
     # to be completed with region size thresholding
     masker = NiftiMasker(mask_img=mask_img).fit()
 
