@@ -50,7 +50,7 @@ for subject_session in subjects_sessions:
               for acq in acqs]
     mean_z = mean_img(z_maps)
     n_maps = len(z_maps)
-    fixed_effects = math_img('im * %d' % n_maps, im=mean_z)
+    fixed_effects = math_img('im * %d' % np.sqrt(n_maps), im=mean_z)
     fixed_effects.to_filename(pjoin(write_dir, 'effects_of_interest.nii.gz'))
 
     plot_stat_map(fixed_effects, threshold=THRESHOLD, bg_img=anat, dim=0,
@@ -84,9 +84,9 @@ for subject_session in subjects_sessions:
         'cos_wedge_neg': sin_wedge_anti,
         'cos_ring_pos': pjoin(
             work_dir, 'res_stats_exp_ring_pa', 'z_score_maps', 'cos.nii.gz'),
-        'sin_ring_neg': pjoin(
-            work_dir, 'res_stats_exp_ring_pa', 'z_score_maps', 'sin.nii.gz'),
         'sin_ring_pos': pjoin(
+            work_dir, 'res_stats_exp_ring_pa', 'z_score_maps', 'sin.nii.gz'),
+        'sin_ring_neg': pjoin(
             work_dir, 'res_stats_cont_ring_ap', 'z_score_maps', 'sin.nii.gz'),
         'cos_ring_neg': pjoin(
             work_dir, 'res_stats_cont_ring_ap', 'z_score_maps', 'cos.nii.gz')
@@ -96,7 +96,7 @@ for subject_session in subjects_sessions:
         retino_coefs[key] = masker.transform(retino_imgs[key])
     
     phase_wedge, phase_ring, phase_hemo = phase_maps(
-        retino_coefs, offset_ring=0, offset_wedge=0, do_wedge=True, do_ring=True, 
+        retino_coefs, offset_ring=np.pi, offset_wedge=0, do_wedge=True, do_ring=True, 
         do_phase_unwrapping=False, mesh=None, mask=mask_img)
 
     phase_wedge_img = masker.inverse_transform(phase_wedge)

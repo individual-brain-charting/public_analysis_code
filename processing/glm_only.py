@@ -106,6 +106,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None):
     _adapt_jobfile(jobfile, subject, output_name, session)
     list_subjects_update = generate_glm_input(output_name, smooth)
     clean_anatomical_images('/neurospin/ibc')
+    mask_img = '/neurospin/ibc/smooth_derivatives/group/resampled_gm_mask.nii.gz'
     for subject in list_subjects_update:
         clean_subject(subject)
         if len(subject['session_id']) > 0:
@@ -113,17 +114,18 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None):
                 first_level(subject, compcorr=True, additional_regressors=RETINO_REG,
                             smooth=None)
             else:
-                first_level(subject, compcorr=True, smooth=smooth)
+                first_level(subject, compcorr=True, smooth=smooth, mask_img=mask_img)
                 fixed_effects_analysis(subject)
     
 
+                
 if __name__ == '__main__':
     smooth = 5 # None  # 
-    for protocol in ['archi']:  # ['hcp1', 'hcp2', 'archi', 'language', 'mtt2', 'hcp1', 'hcp2'
+    for protocol in ['archi']:  # ['hcp1', 'hcp2', 'language', 'mtt2']
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = get_subject_session(protocol)
-        stop
-        Parallel(n_jobs=1)(
+        subject_session = get_subject_session('screening')
+        subject_session = [(ss[0], ss[1]) for ss in subject_session if ss[0] != 'sub-15']
+        Parallel(n_jobs=6)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
 

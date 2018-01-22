@@ -230,7 +230,7 @@ def masking(func, output_dir):
 
     
 def first_level(subject_dic, additional_regressors=None, compcorr=False,
-                smooth=None, surface=False):
+                smooth=None, surface=False, mask_img=None):
     """ Run the first-level analysis (GLM fitting + statistical maps)
     in a given subject
     
@@ -255,9 +255,10 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
     drift_model = subject_dic['drift_model']
     tr = subject_dic['TR']
 
-    if not surface:
+    if not surface and (mask_img is None):
         mask_img = masking(subject_dic['func'], subject_dic['output_dir'])
 
+        
     if additional_regressors is None:
         additional_regressors = dict(
             [(session_id, None) for session_id in subject_dic['session_id']])
