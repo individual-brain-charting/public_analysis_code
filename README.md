@@ -17,9 +17,23 @@ The result sof typical analysis are give here:
 These script make it possible to preprocess the data
 * run topup distortion correction
 * run motion correction
-* run corectistratyion of the fMRI scans with the individual T1 image
+* run coregistration of the fMRI scans to the individual T1 image
 * run spatial normalization of the data
 * run a general linear model to obtain brain activity maps for the main contrasts of the experiment.
+
+## Core scripts
+
+The core scripts are in the `processing` folder
+
+- `pipeline.py` lunches the full analysis on fMRI data (pre-processing + GLM)
+- `glm_only.py` launches GLM analyses on the data
+- `surface_based_analyses` launches surface extraction and registration with Freesurfer; it also projects fMRI data to the surface
+- `surface_glm_analysis.py` runs glm analyses on the surface
+- `dmri_preprocessing` (WIP) is for diffusion daat. It relies on dipy.
+- `anatomical mapping` (WIP) yields T1w, T2w and MWF surrogates from anatomical acquisitions.
+- `script_retino.py` yields some post-processing for retinotopic acquisitions (derivation of retinotopic representations from fMRI maps)
+
+## Dependences
 
 Dependences are :
 * FSL (topup)
