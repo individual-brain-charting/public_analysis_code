@@ -31,14 +31,14 @@ Dependences are :
 * Nistats to run general Linear models.
 
 The scripts have been used with the following versions of software and environment:
-FSL v5.0.9
-SPM12 rev 7219
-Nipype v0.14.0
-Pypreprocess v0.0.1.dev
-Nilearn v0.4.0
-Nistats v0.0.1.a
-Python 2.7.2
-Ubuntu 16.04
+* FSL v5.0.9
+* SPM12 rev 7219
+* Nipype v0.14.0
+* Pypreprocess v0.0.1.dev
+* Nilearn v0.4.0
+* Nistats v0.0.1.a
+* Python 2.7.2
+* Ubuntu 16.04
 
 ## Future work
 
