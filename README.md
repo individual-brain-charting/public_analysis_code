@@ -63,7 +63,7 @@ The scripts have been used with the following versions of software and environme
 
 ## Contributions
 
-Please feel free to report any issue and propose improvements on github.
+Please feel free to report any issue and propose improvements on Github.
 
 ## Author
 
