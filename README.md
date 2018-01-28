@@ -8,10 +8,10 @@ and
 .
 
 The raw data are available here:
-[OpenfMRI] http://openfmri.org/dataset/ds000244/
+[OpenfMRI](http://openfmri.org/dataset/ds000244/)
 
 The result sof typical analysis are give here:
-[NeuroVault] http://neurovault.org/collections/2138
+[NeuroVault](http://neurovault.org/collections/2138)
 
 ## Details
 
