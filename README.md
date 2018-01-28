@@ -1,16 +1,17 @@
-# public_analysis_code
-Public analysis code for the IBC project
+# public analysis code for the IBC project
 
 This Python package gives the pipeline used to process the MRI data obtained in
 the Individual brain Charting Project. More info on the data can be found at
-[webpage](http://github.com/hbp-brain-charting/public_protocols)
-[webpage](http://project.inria.fr/IBC/)
+[IBC public protocols](http://github.com/hbp-brain-charting/public_protocols)
+and
+[IBC webpage](http://project.inria.fr/IBC/)
+.
 
 The raw data are available here:
-[webpage] http://openfmri.org/dataset/ds000244/
+[OpenfMRI] http://openfmri.org/dataset/ds000244/
 
 The result sof typical analysis are give here:
-[webpage] http://neurovault.org/collections/2138
+[NeuroVault] http://neurovault.org/collections/2138
 
 ## Details
 
