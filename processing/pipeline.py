@@ -22,8 +22,8 @@ def clean_anatomical_images(main_dir):
     """ Removed NaNs from SPM12-supplied images """
     import nibabel as nib
     from numpy import isnan
-    subjects = ['sub-%02d' % i for i in range(1, 15)]
-    sessions =  ['ses-%02d' % j for j in range(0, 10)]
+    subjects = ['sub-%02d' % i for i in range(1, 16)]
+    sessions =  ['ses-%02d' % j for j in range(0, 20)]
     for subject in subjects:
         for session in sessions:
             anat_img = os.path.join(main_dir, 'derivatives', subject, session, 'anat',
@@ -201,11 +201,13 @@ if __name__ == '__main__':
     # correction of distortion_parameters
     # custom solution, to be improved in the future
     do_topup = False
-    protocol = 'mtt1' # 'raiders2' #'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp1', 'hcp2'
+    protocol = 'hcp2'  # 'preferences' #   'raiders2', 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2'
     main_dir = '/neurospin/ibc/'
-    cache_dir = '/media/bt206016/ext_drive/cache_dir'
+    cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
     subject_session = sorted(get_subject_session(protocol))
+    # subject_session = [('sub-05', 'ses-15'), ('sub-13', 'ses-15')]
+    subject_session = [('sub-15', 'ses-03')]
     
     if do_topup:
         acq = None

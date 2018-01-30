@@ -34,11 +34,11 @@ acqs = ['res_stats_%s' % acq for acq in [
     'exp_ring_pa', 'cont_ring_ap']]
 THRESHOLD = 4.
 
-for subject_session in subjects_sessions:
+for subject_session in subjects_sessions[6:7]:
     subject, session = subject_session.split('_')
     work_dir = pjoin(data_dir, subject, session)
         # result directory 
-    write_dir = pjoin(work_dir,  'retino_results')
+    write_dir = pjoin('/neurospin/ibc/smooth_derivatives',  'retino_results')
     if not os.path.exists(write_dir):
         os.mkdir(write_dir)
 
@@ -96,7 +96,7 @@ for subject_session in subjects_sessions:
         retino_coefs[key] = masker.transform(retino_imgs[key])
     
     phase_wedge, phase_ring, phase_hemo = phase_maps(
-        retino_coefs, offset_ring=np.pi, offset_wedge=0, do_wedge=True, do_ring=True, 
+        retino_coefs, offset_ring=np.pi, offset_wedge=0., do_wedge=True, do_ring=True, 
         do_phase_unwrapping=False, mesh=None, mask=mask_img)
 
     phase_wedge_img = masker.inverse_transform(phase_wedge)
@@ -112,5 +112,6 @@ for subject_session in subjects_sessions:
                   bg_img=anat, dim=0, output_file=pjoin(write_dir, 'phase_ring.png'))
     plot_stat_map(phase_hemo_img, title='hemodynamics',
                   bg_img=anat, dim=0, output_file=pjoin(write_dir, 'phase_hemo.png'))
+
 
 plt.show()
