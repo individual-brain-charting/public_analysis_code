@@ -133,6 +133,8 @@ def condition_similarity(db, masker):
     unique_tasks = np.unique(tasks)
     task_pos = np.array(
         [np.mean(np.where(tasks == task)[0]) for task in unique_tasks])
+    task_pos = np.array([25.5, 18.5, 12. ,  4.5, 40, 34, 28.5, 37. , 43, 31.5, 47.5,
+                      55. ]) ## Ugly trick, but just to maks the labels readable :-(
     nice_tasks = np.array([task.replace('_', ' ') for task in unique_tasks])
 
     # plot with subject correlations
