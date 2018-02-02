@@ -149,7 +149,7 @@ def condition_similarity(db, masker):
     # Add colorbar, make sure to specify tick locations to match desired ticklabels
     cbar = fig.colorbar(cax, ticks=[0, .95])
     cbar.ax.set_yticklabels(['0', '1'])  # vertically oriented colorbar
-    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.2)
+    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.22)
     plt.savefig(os.path.join('output', 'condition_similarity_within.pdf'))
     
     # plot cross-subject correlation
@@ -170,7 +170,7 @@ def condition_similarity(db, masker):
     # Add colorbar, make sure to specify tick locations to match desired ticklabels
     cbar = fig.colorbar(cax, ticks=[0, .4])
     cbar.ax.set_yticklabels(['0', '.4'])  # vertically oriented colorbar
-    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.2)
+    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.22)
     plt.savefig(os.path.join('output', 'condition_similarity_across.pdf'))
 
     # similarity at the level of conditions
@@ -195,7 +195,7 @@ def condition_similarity(db, masker):
     # Add colorbar, make sure to specify tick locations to match desired ticklabels
     cbar = fig.colorbar(cax, ticks=[0, 0.95])
     cbar.ax.set_yticklabels(['0', '1'])  # vertically oriented colorbar
-    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.2)
+    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.22)
     plt.savefig(os.path.join('output', 'condition_similarity_cognitive.pdf'))
     plt.show()
     x = np.triu(correlation, 1)

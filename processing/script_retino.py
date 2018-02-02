@@ -14,7 +14,13 @@ import nibabel as nib
 from nilearn.plotting import plot_stat_map
 import matplotlib.pyplot as plt
 from nilearn.input_data import NiftiMasker
+from nilearn.image import resample_img
 
+ref_affine = np.array([[-1.5, 0., 0., 78.],
+                       [0. , 1.5, 0., -112.],
+                       [0. , 0., 1.5, -70.],
+                       [0. , 0., 0., 1.]])
+ref_shape = (105, 127, 105)
 
 
 data_dir = '/neurospin/ibc/derivatives'
@@ -34,27 +40,32 @@ acqs = ['res_stats_%s' % acq for acq in [
     'exp_ring_pa', 'cont_ring_ap']]
 THRESHOLD = 4.
 
-for subject_session in subjects_sessions[6:7]:
+for subject_session in subjects_sessions:
     subject, session = subject_session.split('_')
     work_dir = pjoin(data_dir, subject, session)
-        # result directory 
-    write_dir = pjoin('/neurospin/ibc/smooth_derivatives',  'retino_results')
+    # result directory 
+    ses_dir = pjoin('/neurospin/ibc/derivatives', subject, session)
+    if not os.path.exists(ses_dir):
+        os.mkdir(ses_dir)
+    task_dir = pjoin(ses_dir, 'res_stats_retinotopy_ffx')
+    if not os.path.exists(task_dir):
+        os.mkdir(task_dir)
+    write_dir = pjoin(task_dir, 'stat_maps')
     if not os.path.exists(write_dir):
         os.mkdir(write_dir)
-
     anat = pjoin(data_dir, subject, 'ses-00', 'anat', 'w%s_ses-00_T1w_nonan.nii.gz' % subject)
 
     # Compute the fixed effects across sessions
     # quick and dirty approach: sum z maps
     z_maps = [pjoin(work_dir, acq, 'z_score_maps', 'effects_interest.nii.gz')
               for acq in acqs]
-    mean_z = mean_img(z_maps)
+    mean_z = resample_img(mean_img(z_maps), target_affine=ref_affine, target_shape=ref_shape)
     n_maps = len(z_maps)
     fixed_effects = math_img('im * %d' % np.sqrt(n_maps), im=mean_z)
-    fixed_effects.to_filename(pjoin(write_dir, 'effects_of_interest.nii.gz'))
+    fixed_effects.to_filename(pjoin(write_dir, 'retinotopicity.nii.gz'))
 
     plot_stat_map(fixed_effects, threshold=THRESHOLD, bg_img=anat, dim=0,
-                  output_file=pjoin(write_dir, 'effects_of_interest.png'))
+                  output_file=pjoin(write_dir, 'retinotopicity.png'))
     mask = fixed_effects.get_data() > THRESHOLD
     mask_img = nib.Nifti1Image(mask.astype('uint8'), fixed_effects.affine)
     # to be completed with region size thresholding
@@ -102,6 +113,7 @@ for subject_session in subjects_sessions[6:7]:
     phase_wedge_img = masker.inverse_transform(phase_wedge)
     phase_ring_img = masker.inverse_transform(phase_ring)
     phase_hemo_img = masker.inverse_transform(phase_hemo)
+    
     phase_wedge_img.to_filename(pjoin(write_dir, 'phase_wedge.nii.gz'))
     phase_ring_img.to_filename(pjoin(write_dir, 'phase_ring.nii.gz'))
     phase_hemo_img.to_filename(pjoin(write_dir, 'phase_hemo.nii.gz'))

@@ -50,6 +50,6 @@
 48	language_	word-pseudo	Reading words vs. pseudowords	read pseudowords	read words
 49	language_	pseudo-consonant_string	Reading pseudowords vs. consonant strings	consonant strings	read pseudowords
 50	language_	consonant_string	Consonant strings' encoding vs. fixation	fixation	consonant strings
-51	retino	phase_ring	Eccentricity maps	centrall cross	radial position
-52	retino	phase_wedge	Polar angle map	central cross	angular position
-53	retino	effects_of_interest	Sensitivity to retinotopy	central cross	retinal position
+51	retinotopy	phase_ring	Eccentricity maps	centrall cross	radial position
+52	retinotopy	phase_wedge	Polar angle map	central cross	angular position
+53	retinotopy	retinotopicity	Sensitivity to retinotopy	central cross	retinal position
