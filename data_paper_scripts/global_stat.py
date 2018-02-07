@@ -207,8 +207,75 @@ def condition_similarity(db, masker):
     print('spearman', st.spearmanr(x,y))
     
     
+def condition_similarity_across_subjects(db, masker):
+    """ Look at the similarity across conditions, averaged across subjects and phase encoding"""
+    import matplotlib.pyplot as plt
+    df = db[db.acquisition == 'ffx']
+    conditions = df.contrast.unique()
+    n_conditions = len(conditions)
+    correlation = np.zeros((n_conditions, n_conditions))
+    correlations = {}
+    unique_subjects = df.subject.unique()
+    n_voxels =  masker.mask_img_.get_data().sum()
+    x_sum = np.zeros((n_conditions, n_voxels))
+    for subject in unique_subjects:
+        paths = []
+        tasks = []
+        for condition in conditions:
+            selection = df[df.subject == subject][df.contrast == condition]
+            tasks.append(selection.task.values[-1])
+            paths.append(selection.path.values[-1])
+        x = masker.transform(paths)
+        correlation = np.corrcoef(x)
+        x_sum += x
+        correlations[subject] = correlation
 
-
+    tasks = np.array(tasks) 
+    unique_tasks = np.unique(tasks)
+    task_pos = np.array(
+        [np.mean(np.where(tasks == task)[0]) for task in unique_tasks])
+    task_pos = np.array([25.5, 18.5, 12. ,  4.5, 40, 34, 28.5, 37. , 43, 31.5, 47.5,
+                      55. ]) ## Ugly trick, but just to maks the labels readable :-(
+    nice_tasks = np.array([task.replace('_', ' ') for task in unique_tasks])
+    mean_correlation = np.mean(np.array(correlations.values()), 0)
+    
+    
+    # plot with subject correlations
+    fig = plt.figure(figsize=(12., 10))
+    #fig, ax = plt.subplots()
+    for i, subject in enumerate(unique_subjects):
+        ax = plt.subplot(3, 4, i + 1)
+        ax.axis('off')
+        #ax.set_yticks(task_pos)
+        #ax.set_yticklabels(nice_tasks)
+        #ax.set_xticks(task_pos)
+        #ax.set_xticklabels(nice_tasks, rotation=60, ha='right')
+        cax = ax.imshow(correlations[subject], interpolation='nearest',
+                        cmap=plotting.cm.bwr)
+    ## Add colorbar, make sure to specify tick locations to match desired ticklabels
+    #cbar = fig.colorbar(cax, ticks=[0, .95])
+    #cbar.ax.set_yticklabels(['0', '1'])  # vertically oriented colorbar
+    plt.subplots_adjust(left=.02, top=.98, right=.98, bottom=.05)
+    plt.savefig(os.path.join('output', 'condition_similarities.pdf'))
+    correlation_mean = np.corrcoef(x_sum)
+    fig = plt.figure(figsize=(6., 5))
+    ax = plt.axes()
+    ax.set_yticks(task_pos)
+    ax.set_yticklabels(nice_tasks)
+    ax.set_xticks(task_pos)
+    ax.set_xticklabels(nice_tasks, rotation=60, ha='right')
+    cax = ax.imshow(correlation_mean, interpolation='nearest', cmap=plotting.cm.bwr)
+    # Add colorbar, make sure to specify tick locations to match desired ticklabels
+    cbar = fig.colorbar(cax, ticks=[0, 0.95])
+    cbar.ax.set_yticklabels(['0', '1'])  # vertically oriented colorbar
+    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.22)
+    plt.savefig(os.path.join('output', 'condition_similarity_of_mean.pdf'))
+    plt.show()
+    _, s1, _ = np.linalg.svd(mean_correlation, 0)
+    print(s1)
+    _, s2, _ = np.linalg;svd(correlation_mean, 0)
+    print(s2)
+    
     
     
 if __name__ == '__main__':
@@ -238,4 +305,4 @@ if __name__ == '__main__':
     
     global_similarity(db, masker)
     """
-    condition_similarity(db, masker)
+    condition_similarity_across_subjects(db, masker)

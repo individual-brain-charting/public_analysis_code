@@ -186,7 +186,7 @@ def run_subject_preproc(jobfile, subject, session=None):
 def get_subject_session(protocol):
     """ utility to get all (subject, session) for a given protocol"""
     import pandas as pd
-    df = pd.read_csv('sessions.csv', sep='\t', index_col=0)
+    df = pd.read_csv('sessions.csv', index_col=0)
     # FIXME: move that file
     subject_session = []
     for session in df.columns:
