@@ -17,6 +17,7 @@ from nilearn.image import math_img
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 from nistats.thresholding import map_threshold
 from data_utils import data_parser
+import matplotlib.pyplot as plt
 
 DERIVATIVES = '/neurospin/ibc/derivatives'
 SMOOTH_DERIVATIVES = '/neurospin/ibc/smooth_derivatives'
@@ -109,7 +110,6 @@ def global_similarity(db, masker):
 
 def condition_similarity(db, masker):
     """ Look at the similarity across conditions, averaged across subjects and phase encoding"""
-    import matplotlib.pyplot as plt
     df = db[db.acquisition == 'ffx']
     conditions = df.contrast.unique()
     n_conditions = len(conditions)
@@ -209,7 +209,6 @@ def condition_similarity(db, masker):
     
 def condition_similarity_across_subjects(db, masker):
     """ Look at the similarity across conditions, averaged across subjects and phase encoding"""
-    import matplotlib.pyplot as plt
     df = db[db.acquisition == 'ffx']
     conditions = df.contrast.unique()
     n_conditions = len(conditions)
@@ -218,6 +217,7 @@ def condition_similarity_across_subjects(db, masker):
     unique_subjects = df.subject.unique()
     n_voxels =  masker.mask_img_.get_data().sum()
     x_sum = np.zeros((n_conditions, n_voxels))
+    X = []
     for subject in unique_subjects:
         paths = []
         tasks = []
@@ -229,7 +229,9 @@ def condition_similarity_across_subjects(db, masker):
         correlation = np.corrcoef(x)
         x_sum += x
         correlations[subject] = correlation
+        X.append(x)
 
+    X = np.array(X) 
     tasks = np.array(tasks) 
     unique_tasks = np.unique(tasks)
     task_pos = np.array(
@@ -238,8 +240,32 @@ def condition_similarity_across_subjects(db, masker):
                       55. ]) ## Ugly trick, but just to maks the labels readable :-(
     nice_tasks = np.array([task.replace('_', ' ') for task in unique_tasks])
     mean_correlation = np.mean(np.array(correlations.values()), 0)
-    
-    
+
+    def complexity(correlation):
+        _, s, _ = np.linalg.svd(correlation, 0)
+        return(np.log(s).sum())
+            
+    def bootstrap_complexity_correlation_mean(X, n_bootstrap=100):
+        """X is meant to be an array(n_subjects, n_voxels, n_contrasts)"""
+        complexities = []
+        for _ in range(n_bootstrap):
+            X_sum = np.zeros_like(X[0])
+            indexes = np.random.randint(0, X.shape[0], X.shape[0])
+            for i in indexes:
+                X_sum += X[i]
+            correlation_mean = np.corrcoef(X_sum)
+            complexities.append(complexity(correlation_mean))
+        return complexities
+
+    def bootstrap_complexity_mean_correlation(correlations, n_bootstrap=100):
+        """X is meant to be an array(n_subjects, n_voxels, n_contrasts)"""
+        complexities = []
+        for _ in range(n_bootstrap):
+            indexes = np.random.randint(0, correlations.shape[0], correlations.shape[0])
+            mean_correlation = np.mean(correlations[indexes], 0)
+            complexities.append(complexity(mean_correlation))
+        return complexities
+            
     # plot with subject correlations
     fig = plt.figure(figsize=(12., 10))
     #fig, ax = plt.subplots()
@@ -270,12 +296,19 @@ def condition_similarity_across_subjects(db, masker):
     cbar.ax.set_yticklabels(['0', '1'])  # vertically oriented colorbar
     plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.22)
     plt.savefig(os.path.join('output', 'condition_similarity_of_mean.pdf'))
-    plt.show()
-    _, s1, _ = np.linalg.svd(mean_correlation, 0)
-    print(s1)
-    _, s2, _ = np.linalg;svd(correlation_mean, 0)
-    print(s2)
-    
+    C1 = bootstrap_complexity_correlation_mean(X, n_bootstrap=100)
+    C2 = bootstrap_complexity_mean_correlation(np.array(correlations.values()),
+                                               n_bootstrap=100)
+    plt.figure(figsize=(6, 3))
+    bp = plt.boxplot(C1, vert=0, positions=[0], widths=.8)
+    for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']: plt.setp(bp[element], color='g', linewidth=3)
+    bp = plt.boxplot(C2, vert=0, positions=[1], widths=.8)
+    for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']: plt.setp(bp[element], color='r', linewidth=3)
+    plt.yticks([0, 1], ['correlation of average', 'mean correlation'])
+    plt.axis([-95, -40, -.5, 1.5])
+    plt.title('Complexity of correlation matrices')
+    plt.subplots_adjust(left=.35, bottom=.1, right=.95, top=.9)
+    plt.savefig(os.path.join('output', 'correlation_complexity.pdf'))
     
     
 if __name__ == '__main__':
@@ -306,3 +339,4 @@ if __name__ == '__main__':
     global_similarity(db, masker)
     """
     condition_similarity_across_subjects(db, masker)
+    plt.show()

@@ -53,3 +53,23 @@
 51	retinotopy	phase_ring	Eccentricity maps	centrall cross	radial position
 52	retinotopy	phase_wedge	Polar angle map	central cross	angular position
 53	retinotopy	retinotopicity	Sensitivity to retinotopy	central cross	retinal position
+54	mtt_ns	time_event	present vs past or future  event	future or past event 	present event
+55	mtt_ns	time_reference	time reference present vs past or future	future or past reference 	present reference
+56	mtt_ns	north-south_events	North vs south position of event	event in south	event in north
+57	mtt_ns	past-future_event	Past vs future events	event in future	event in past
+58	mtt_ns	far-close_space_event	Events occurring far vs close in space	spatially close event	spatially far event
+59	mtt_ns	north-south_reference	Spatial reference in the north vs south	spatial reference in south	spatial reference in north
+60	mtt_ns	south_north_event	Events occurring in north or south vs here	event occurring here	event in north or south
+61	mtt_ns	south_north_reference	Spatial reference in north or south vs here	spatial reference here	reference in north or south
+62	mtt_ns	far-close_time_event	Events far vs close in time	event close in time	event far in time
+63	mtt_ns	past-future_reference	temporal reference in past vs future	reference in future	reference in past
+64	mtt_we	time_event	present vs past or future  event	future or past event 	present event
+65	mtt_we	time_reference	time reference present vs past or future	future or past reference 	present reference
+66	mtt_we	West-east_events	West vs east position of event	event in east	event in west
+67	mtt_we	past-future_event	Past vs future events	event in future	event in past
+68	mtt_we	far-close_space_event	Events occurring far vs close in space	spatially close event	spatially far event
+69	mtt_we	east-west_reference	Spatial reference in the east vs west	spatial reference in west	spatial reference in east
+70	mtt_we	west_east_event	Events occurring in west or east vs here	event occurring here	event in west or east
+71	mtt_we	west_east_reference	Spatial reference in west or east vs here	spatial reference here	reference in west or east
+72	mtt_we	far-close_time_event	Events far vs close in time	event close in time	event far in time
+73	mtt_we	past-future_reference	temporal reference in past vs future	reference in future	reference in past

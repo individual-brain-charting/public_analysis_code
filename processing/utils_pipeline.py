@@ -438,7 +438,7 @@ def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
     return effect_size_maps, effect_variance_maps, data_available
     
 
-def fixed_effects_analysis(subject_dic, surface=False):
+def fixed_effects_analysis(subject_dic, surface=False, mask_img=None):
     """ Combine the AP and PA images """
     from nibabel import load, save
     from nilearn.plotting import plot_stat_map
@@ -447,7 +447,9 @@ def fixed_effects_analysis(subject_dic, surface=False):
     task_ids = _session_id_to_task_id(session_ids)
     paradigms = np.unique(task_ids)
     print(task_ids, paradigms)
-    mask_img = os.path.join(subject_dic['output_dir'], "mask.nii.gz")
+    if mask_img is None:
+        mask_img = os.path.join(subject_dic['output_dir'], "mask.nii.gz")
+
     # Guessing paradigm from file name
     for paradigm in paradigms:
         # select the sessions relevant for the paradigm

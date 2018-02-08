@@ -15,8 +15,8 @@ DERIVATIVES = os.path.join(ibc, 'derivatives')
 SMOOTH_DERIVATIVES = os.path.join(ibc, 'smooth_derivatives')
 SUBJECTS = [os.path.basename(full_path) for full_path in
             sorted(glob.glob(os.path.join(DERIVATIVES, 'sub-*')))][:-1]
-CONDITIONS = pd.DataFrame().from_csv('conditions.tsv', sep='\t')
-CONTRASTS = pd.DataFrame().from_csv('main_contrasts.tsv', sep='\t')
+CONDITIONS = pd.read_csv('conditions.tsv', sep='\t')
+CONTRASTS = pd.read_csv('main_contrasts.tsv', sep='\t')
 
 
 def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
@@ -113,7 +113,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     (subject, task, acq, contrast))
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
-                    stop
+                    pass
                 imgs_.sort()
                 # some renaming
                 contrast_id = contrast
