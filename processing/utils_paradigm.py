@@ -84,6 +84,31 @@ def post_process(df, paradigm_id):
         df3.trial_type = '%s_quadratic' % domain
         df = df.replace(domain, '%s_linear' % domain)
         df = concat([df, df2, df3], axis=0, ignore_index=True)
+    
+    if paradigm_id in ['IslandWE1', 'IslandWE2', 'IslandWE3']:
+        df = df.replace('response_we_east_present_space_close', 'response')
+        df = df.replace('response_we_west_present_time_close', 'response')
+        df = df.replace('response_we_west_present_space_far', 'response')
+        df = df.replace('response_we_center_past_space_far', 'response')
+        df = df.replace('response_we_east_present_time_far', 'response')
+        df = df.replace('response_we_center_past_space_close', 'response')
+        df = df.replace('response_we_center_present_space_close', 'response')
+        df = df.replace('response_we_center_present_space_far', 'response')
+        df = df.replace('response_we_center_present_time_far', 'response')
+        df = df.replace('response_we_east_present_time_close', 'response')
+        df = df.replace('response_we_center_past_time_close', 'response')
+        df = df.replace('response_we_center_past_time_far', 'response')
+        df = df.replace('response_we_east_present_space_far', 'response')
+        df = df.replace('response_we_center_future_time_far', 'response')
+        df = df.replace('response_we_center_future_time_close', 'response')
+        df = df.replace('response_we_west_present_space_close', 'response')
+        df = df.replace('response_we_center_present_time_close', 'response')
+        df = df.replace('response_we_center_future_space_far', 'response')
+        df = df.replace('response_we_center_future_space_close', 'response')
+        df = df.replace('response_we_west_present_time_far', 'response')
+        
+        
+        
     return df
 
 

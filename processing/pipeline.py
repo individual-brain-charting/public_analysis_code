@@ -201,12 +201,12 @@ if __name__ == '__main__':
     # correction of distortion_parameters
     # custom solution, to be improved in the future
     do_topup = True
-    protocol = 'raiders1'  # 'preferences', 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2'
+    protocol = 'tom'  # 'preferences', 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2'
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
     subject_session = sorted(get_subject_session(protocol))
-    subject_session = [('sub-01', 'ses-16')] # , ('sub-01', 'ses-17')
+    subject_session = [('sub-07', 'ses-17'), ('sub-13', 'ses-16')]
 
     if do_topup:
         acq = None

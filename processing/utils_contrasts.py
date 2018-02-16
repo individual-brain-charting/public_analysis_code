@@ -149,9 +149,15 @@ def mtt_ew(design_matrix_columns):
     past_events = con['ewe_center_past_space_close'] +\
                   con['ewe_center_past_time_close'] +\
                   con['ewe_center_past_time_far']
-    present_events = con['ewe_center_present_space_close'] + con['ewe_center_present_time_close'] + con['ewe_center_present_time_far']
-    east_events = con['ewe_east_present_space_close'] + con['ewe_east_present_time_close'] + con['ewe_east_present_time_far']
-    west_events = con['ewe_west_present_space_close'] + con['ewe_west_present_time_close'] + con['ewe_west_present_time_far']
+    present_events = con['ewe_center_present_space_close'] +\
+                     con['ewe_center_present_time_close'] +\
+                     con['ewe_center_present_time_far']
+    east_events = con['ewe_east_present_space_close'] +\
+                  con['ewe_east_present_time_close'] +\
+                  con['ewe_east_present_time_far']
+    west_events = con['ewe_west_present_space_close'] +\
+                  con['ewe_west_present_time_close'] +\
+                  con['ewe_west_present_time_far']
     contrasts = {
         # reference
         'time_reference': con['rwe_center_future'] + con['rwe_center_past'] - 2 * con['rwe_center_present'],

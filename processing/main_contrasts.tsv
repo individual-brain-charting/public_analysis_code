@@ -65,7 +65,7 @@
 63	mtt_ns	past-future_reference	temporal reference in past vs future	reference in future	reference in past
 64	mtt_we	time_event	present vs past or future  event	future or past event 	present event
 65	mtt_we	time_reference	time reference present vs past or future	future or past reference 	present reference
-66	mtt_we	West-east_events	West vs east position of event	event in east	event in west
+66	mtt_we	east-west_events	West vs east position of event	event in east	event in west
 67	mtt_we	past-future_event	Past vs future events	event in future	event in past
 68	mtt_we	far-close_space_event	Events occurring far vs close in space	spatially close event	spatially far event
 69	mtt_we	east-west_reference	Spatial reference in the east vs west	spatial reference in west	spatial reference in east
