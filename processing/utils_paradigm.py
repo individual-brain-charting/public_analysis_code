@@ -107,8 +107,28 @@ def post_process(df, paradigm_id):
         df = df.replace('response_we_center_future_space_close', 'response')
         df = df.replace('response_we_west_present_time_far', 'response')
         
-        
-        
+    if paradigm_id in ['IslandNS1', 'IslandNS2', 'IslandNS3']:
+        df = df.replace('response_sn_north_present_space_far', 'response')
+        df = df.replace('response_sn_south_present_time_close', 'response')
+        df = df.replace('response_sn_center_present_space_close', 'response')
+        df = df.replace('response_sn_south_present_time_far', 'response')
+        df = df.replace('response_sn_center_future_space_close', 'response')
+        df = df.replace('response_sn_center_past_space_close', 'response')
+        df = df.replace('response_sn_north_present_time_close', 'response')
+        df = df.replace('response_sn_center_past_space_far', 'response')
+        df = df.replace('response_sn_south_present_space_close', 'response')
+        df = df.replace('response_sn_center_present_time_far', 'response')
+        df = df.replace('response_sn_center_past_time_far', 'response')
+        df = df.replace('response_sn_center_future_space_far', 'response')
+        df = df.replace('response_sn_center_future_time_close', 'response')
+        df = df.replace('response_sn_center_past_time_close', 'response')
+        df = df.replace('response_sn_north_present_time_far', 'response')
+        df = df.replace('response_sn_south_present_space_far', 'response')
+        df = df.replace('response_sn_center_present_time_close', 'response')
+        df = df.replace('response_sn_north_present_space_close', 'response')
+        df = df.replace('response_sn_center_present_space_far', 'response')
+        df = df.replace('response_sn_center_future_time_far', 'response')
+
     return df
 
 

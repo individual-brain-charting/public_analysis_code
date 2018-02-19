@@ -200,7 +200,7 @@ def get_subject_session(protocol):
 if __name__ == '__main__':    
     # correction of distortion_parameters
     # custom solution, to be improved in the future
-    do_topup = True
+    do_topup = False
     protocol = 'tom'  # 'preferences', 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2'
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
