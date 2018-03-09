@@ -11,4 +11,4 @@ sub-11,screening,hcp1,hcp2,rsvp-language,clips1,archi,clips2,clips3,clips4,anat1
 sub-12,screening,hcp1,hcp2,archi,rsvp-language,clips1,clips2,clips3,clips4,anat1,anat2,mtt1,mtt2,raiders1,raiders1,raiders2,preferences,relaxo,tom
 sub-13,screening,hcp1,hcp2,rsvp-language,archi,clips1,clips2,clips3,clips4,anat1,anat2,mtt1,mtt2,raiders1,raiders2,preferences,tom,,
 sub-14,screening,archi,hcp1,hcp2,rsvp-language,anat1,anat2,clips1,clips2,clips3,clips4,mtt1,mtt2,preferences,raiders1,raiders2,,,
-sub-15,screening,archi,hcp1,hcp2,rsvp-language,,,,,,,,,,,,,,
+sub-15,screening,archi,hcp1,hcp2,rsvp-language,tom,,,,,,,,,,,,,
