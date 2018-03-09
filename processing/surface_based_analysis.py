@@ -21,17 +21,16 @@ from joblib import Parallel, delayed
 
 from nipype.interfaces.freesurfer import ReconAll, BBRegister
 
-
 work_dir = '/neurospin/ibc/derivatives'
 subjects = ['sub-%02d' % i for i in [1, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]]
-# subjects = ['sub-15']
+mem = Memory(base_dir='/neurospin/tmp/ibc')
 
 # Step 1: Perform recon-all
 os.environ['SUBJECTS_DIR'] = ''
 
 def recon_all(work_dir, subject, high_res=True):
     # create directories in output_dir
-    mem = Memory(base_dir='/data/cache_dir')
+    
     if high_res:
         # high-resolution T1
         anat_img = glob.glob(os.path.join(
@@ -53,7 +52,6 @@ def recon_all(work_dir, subject, high_res=True):
 """
 Parallel(n_jobs=4)(delayed(recon_all)(work_dir, subject, True)
                         for subject in subjects)
-recon_all(work_dir, subjects[0], False)
 """
 
 # Step 2: Perform the projection
@@ -118,9 +116,10 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
                 (subject, right_fmri_tex, right_fsaverage_fmri_tex)))
 
 from pipeline import get_subject_session
-subject_sessions = sorted(get_subject_session('mtt2'))
+subject_sessions = sorted(get_subject_session('language'))
+subject_sessions = [('sub-15', 'ses-04')]
 
-Parallel(n_jobs=6)(
+Parallel(n_jobs=1)(
     delayed(project_volume)(work_dir, subject_session[0], [subject_session[1]], do_bbr=True)
     for subject_session in subject_sessions)
 
