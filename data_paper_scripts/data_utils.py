@@ -65,7 +65,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         
     # gm images
     imgs_ = sorted(glob.glob(os.path.join(
-        derivatives, 'sub-*/ses-*/anat/mwcc1sub*_T1w.nii.gz')))
+        derivatives, '../derivatives', 'sub-*/ses-*/anat/mwc1sub*_T1w.nii.gz')))
     for img in imgs_:
         session = img.split('/')[-3]
         subject = img.split('/')[-4]

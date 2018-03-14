@@ -85,7 +85,8 @@ def plot_contrasts(df, task_contrast, masker, write_dir, cut=0,
                 transform=ax.transAxes)
 
     for i, subject in enumerate(SUBJECTS):
-        anat = df[df.contrast == 't1'][df.subject == subject].path.values[-1]
+        # anat = df[df.contrast == 't1'][df.subject == subject].path.values[-1]
+        anat = df[df.contrast == 'gm'][df.subject == subject].path.values[-1]
         axes = plt.axes([.01 + .167 * np.mod(i, 6) , .12 + .44 * (i / 6), .165, .44])
         th_imgs = []
         for task, contrast in task_contrast:
@@ -97,17 +98,15 @@ def plot_contrasts(df, task_contrast, masker, write_dir, cut=0,
                 th_img, _ = map_threshold(
                     img, threshold=threshold, height_control='height',
                     cluster_threshold=5)
-                #th_img, _ = map_threshold(
-                #    img, threshold=1.e-3, height_control='fpr', cluster_threshold=5)
                 th_imgs.append(th_img)
         plotting.plot_prob_atlas(
             th_imgs, bg_img=anat, axes=axes,
             display_mode=display_mode,
-            cut_coords=[cut], dim=-1, title=subject, black_bg=True,
-            colorbar=False, view_type = 'filled_contours', linewidths=1.)
+            cut_coords=[cut], black_bg=True, annotate=False, # dim=-1, title=subject,
+            colorbar=False, view_type = 'filled_contours', linewidths=2.)
         axes.axis('off')
     fig.savefig(os.path.join(write_dir, 'snapshot_%s.pdf' % name),
-                facecolor='k')
+                facecolor='k', dpi=300)
     # plt.close(fig)
 
 db = data_parser(derivatives=SMOOTH_DERIVATIVES, conditions=CONTRASTS)
@@ -115,17 +114,17 @@ db = data_parser(derivatives=SMOOTH_DERIVATIVES, conditions=CONTRASTS)
 mask_gm = nib.load(os.path.join(DERIVATIVES, 'group', 'anat', 'gm_mask.nii.gz'))
 masker = NiftiMasker(mask_img=mask_gm, memory=mem).fit()
 
-
 write_dir = 'output'
 if not os.path.exists(write_dir):
     os.mkdir(write_dir)
-
+"""
 task_contrast = [('archi_social', 'false_belief-mechanistic_video'),
                  ('archi_social', 'false_belief-mechanistic_audio'),
                  ('archi_social', 'triangle_mental-random'),
                  ('hcp_social', 'mental-random')]
 plot_contrasts(db, task_contrast, masker, write_dir, cut=-50, display_mode='x',
                name='social')
+
 #plot_contrasts(db, task_contrast, masker, write_dir, cut=20, display_mode='z')
 task_contrast = [('hcp_wm', 'body-avg'),
                  ('hcp_wm', 'face-avg'),
@@ -143,7 +142,7 @@ task_contrast = [('hcp_motor', 'left_hand-avg'),
                  ('hcp_motor',	'tongue-avg')]
 plot_contrasts(db, task_contrast, masker, write_dir, cut=-10, display_mode='y',
                name='motor')
-
+"""
 task_contrast = [('rsvp_language', 'sentence-jabberwocky'),
                  ('rsvp_language', 'sentence-word'),
                  ('rsvp_language', 'word-consonant_string'),
