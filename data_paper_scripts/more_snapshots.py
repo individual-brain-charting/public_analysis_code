@@ -85,8 +85,9 @@ def plot_contrasts(df, task_contrast, masker, write_dir, cut=0,
                 transform=ax.transAxes)
 
     for i, subject in enumerate(SUBJECTS):
-        # anat = df[df.contrast == 't1'][df.subject == subject].path.values[-1]
-        anat = df[df.contrast == 'gm'][df.subject == subject].path.values[-1]
+        # anat = df[df.contrast == 't1_bet'][df.subject == subject].path.values[-1]
+        anat = df[df.contrast == 'highres_gm'][df.subject == subject].path.values[-1]
+        print(anat)
         axes = plt.axes([.01 + .167 * np.mod(i, 6) , .12 + .44 * (i / 6), .165, .44])
         th_imgs = []
         for task, contrast in task_contrast:
@@ -102,7 +103,7 @@ def plot_contrasts(df, task_contrast, masker, write_dir, cut=0,
         plotting.plot_prob_atlas(
             th_imgs, bg_img=anat, axes=axes,
             display_mode=display_mode,
-            cut_coords=[cut], black_bg=True, annotate=False, # dim=-1, title=subject,
+            cut_coords=[cut], black_bg=True, annotate=False, dim=0, # title=subject,
             colorbar=False, view_type = 'filled_contours', linewidths=2.)
         axes.axis('off')
     fig.savefig(os.path.join(write_dir, 'snapshot_%s.pdf' % name),
@@ -142,13 +143,21 @@ task_contrast = [('hcp_motor', 'left_hand-avg'),
                  ('hcp_motor',	'tongue-avg')]
 plot_contrasts(db, task_contrast, masker, write_dir, cut=-10, display_mode='y',
                name='motor')
-"""
 task_contrast = [('rsvp_language', 'sentence-jabberwocky'),
                  ('rsvp_language', 'sentence-word'),
                  ('rsvp_language', 'word-consonant_string'),
                  ('rsvp_language', 'pseudo-consonant_string'),
                  ('archi_social', 'mechanistic_video')]
+plot_contrasts(db, task_contrast, masker, write_dir, cut=50, display_mode='x',
+               name='standard')
+"""
+task_contrast = [('archi_standard', 'left-right_button_press'),
+                 ('archi_standard', 'reading-listening'),
+                 ('archi_social', 'false_belief-mechanistic_audio'),
+                 ('archi_standard', 'computation-sentences'),
+                 ('archi_standard', 'horizontal-vertical')]
+                 
 
-plot_contrasts(db, task_contrast, masker, write_dir, cut=-50, display_mode='x',
-               name='reading')
+plot_contrasts(db, task_contrast, masker, write_dir, cut=40, display_mode='x',
+               name='standard')
 plt.show()

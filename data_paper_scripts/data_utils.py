@@ -63,6 +63,19 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         tasks.append('')
         acquisitions.append('')
         
+    imgs_ = sorted(glob.glob(os.path.join(
+        derivatives, 'sub-*/ses-*/anat/wsub*_T1w_bet.nii.gz')))
+    for img in imgs_:
+        session = img.split('/')[-3]
+        subject = img.split('/')[-4]
+        paths.append(img)
+        sessions.append(session)
+        subjects.append(subject)
+        modalities.append('T1')
+        contrasts.append('t1_bet')
+        tasks.append('')
+        acquisitions.append('')
+        
     # gm images
     imgs_ = sorted(glob.glob(os.path.join(
         derivatives, '../derivatives', 'sub-*/ses-*/anat/mwc1sub*_T1w.nii.gz')))
@@ -74,6 +87,19 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         subjects.append(subject)
         modalities.append('T1')
         contrasts.append('gm')
+        tasks.append('')
+        acquisitions.append('')
+
+    imgs_ = sorted(glob.glob(os.path.join(
+        derivatives, '../derivatives', 'sub-*/ses-*/anat/mwc1sub*_T1w.nii.gz')))
+    for img in imgs_:
+        session = img.split('/')[-3]
+        subject = img.split('/')[-4]
+        paths.append(img)
+        sessions.append(session)
+        subjects.append(subject)
+        modalities.append('T1')
+        contrasts.append('highres_gm')
         tasks.append('')
         acquisitions.append('')
         
