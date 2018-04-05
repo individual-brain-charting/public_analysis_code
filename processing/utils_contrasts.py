@@ -142,18 +142,23 @@ def mtt_ew(design_matrix_columns):
         }
     con = _elementary_contrasts(design_matrix_columns)
     future_events = con['ewe_center_future_space_close'] +\
+                    con['ewe_center_future_space_far'] +\
                     con['ewe_center_future_time_close'] +\
                     con['ewe_center_future_time_far']
     past_events = con['ewe_center_past_space_close'] +\
+                  con['ewe_center_past_space_far'] +\
                   con['ewe_center_past_time_close'] +\
                   con['ewe_center_past_time_far']
     present_events = con['ewe_center_present_space_close'] +\
+                     con['ewe_center_present_space_far'] +\
                      con['ewe_center_present_time_close'] +\
                      con['ewe_center_present_time_far']
     east_events = con['ewe_east_present_space_close'] +\
+                  con['ewe_east_present_space_far'] +\
                   con['ewe_east_present_time_close'] +\
                   con['ewe_east_present_time_far']
     west_events = con['ewe_west_present_space_close'] +\
+                  con['ewe_west_present_space_far'] +\
                   con['ewe_west_present_time_close'] +\
                   con['ewe_west_present_time_far']
     contrasts = {
@@ -168,7 +173,7 @@ def mtt_ew(design_matrix_columns):
         'far-close_space_event': (con['ewe_east_present_space_far'] + con['ewe_west_present_space_far']
                                    - con['ewe_east_present_space_close'] - con['ewe_west_present_space_close']),
         'far-close_time_event': (con['ewe_center_future_time_far'] + con['ewe_center_past_time_far']
-                                  - con['ewe_center_future_space_close'] - con['ewe_center_present_space_close']),
+                                  - con['ewe_center_future_time_close'] - con['ewe_center_present_time_close']),
         'past-future_event': past_events - future_events,
         'east-west_events': east_events - west_events,
         'reference': np.vstack((con['rwe_center_future'],
@@ -179,18 +184,23 @@ def mtt_ew(design_matrix_columns):
         'response': con['response'],
         'events': np.vstack((
             con['ewe_center_future_space_close'],
+            con['ewe_center_future_space_far'],
             con['ewe_center_future_time_close'],
             con['ewe_center_future_time_far'],
             con['ewe_center_past_space_close'],
+            con['ewe_center_past_space_far'],
             con['ewe_center_past_time_close'],
             con['ewe_center_past_time_far'],
             con['ewe_center_present_space_close'],
+            con['ewe_center_present_space_far'],
             con['ewe_center_present_time_close'],
             con['ewe_center_present_time_far'],
             con['ewe_east_present_space_close'],
+            con['ewe_east_present_space_far'],
             con['ewe_east_present_time_close'],
             con['ewe_east_present_time_far'],
             con['ewe_west_present_space_close'],
+            con['ewe_west_present_space_far'],
             con['ewe_west_present_time_close'],
             con['ewe_west_present_time_far'])),
         'cue': np.vstack((con['cwe_space_close'],
@@ -221,18 +231,23 @@ def mtt_ns(design_matrix_columns):
                 'cue_time': [],}
     con = _elementary_contrasts(design_matrix_columns)
     future_events = con['esn_center_future_space_close'] +\
+                    con['esn_center_future_space_far'] +\
                     con['esn_center_future_time_close'] +\
                     con['esn_center_future_time_far']
     past_events = con['esn_center_past_space_close'] +\
+                  con['esn_center_past_space_far'] +\
                   con['esn_center_past_time_close'] +\
                   con['esn_center_past_time_far']
     present_events = con['esn_center_present_space_close'] +\
+                     con['esn_center_present_space_far'] +\
                      con['esn_center_present_time_close'] +\
                      con['esn_center_present_time_far']
     north_events = con['esn_north_present_space_close'] +\
+                   con['esn_north_present_space_far'] +\
                    con['esn_north_present_time_close'] +\
                    con['esn_north_present_time_far']
     south_events = con['esn_south_present_space_close'] +\
+                   con['esn_south_present_space_far'] +\
                    con['esn_south_present_time_close'] +\
                    con['esn_south_present_time_far']
     contrasts = {
@@ -249,7 +264,7 @@ def mtt_ns(design_matrix_columns):
         # events
         'time_event': future_events + past_events - 2. * (present_events), #  + north_events + south_events) / 3,
         'south_north_event':  north_events + south_events - 2 * present_events,
-        'far-close_space_event': (con['esn_north_present_time_far'] + con['esn_south_present_time_far']
+        'far-close_space_event': (con['esn_north_present_space_far'] + con['esn_south_present_space_far']
                                    - con['esn_north_present_space_close'] - con['esn_south_present_space_close']),
         'far-close_time_event': (con['esn_center_future_time_far'] + con['esn_center_past_time_far']
                                   - con['esn_center_future_space_close'] - con['esn_center_present_space_close']),
@@ -258,24 +273,29 @@ def mtt_ns(design_matrix_columns):
         'response': con['response'],
         'events': np.vstack((
             con['esn_center_future_space_close'],
+            con['esn_center_future_space_far'],
             con['esn_center_future_time_close'],
             con['esn_center_future_time_far'],
             con['esn_center_past_space_close'],
+            con['esn_center_past_space_far'],
             con['esn_center_past_time_close'],
             con['esn_center_past_time_far'],
             con['esn_center_present_space_close'],
+            con['esn_center_present_space_far'],
             con['esn_center_present_time_close'],
             con['esn_center_present_time_far'],
             con['esn_south_present_space_close'],
+            con['esn_south_present_space_far'],
             con['esn_south_present_time_close'],
             con['esn_south_present_time_far'],
             con['esn_north_present_space_close'],
+            con['esn_north_present_space_far'],
             con['esn_north_present_time_close'],
             con['esn_north_present_time_far'])),
         'cue': np.vstack((con['csn_space_close'],
-                           con['csn_space_far'],
-                           con['csn_time_close'],
-                           con['csn_time_far'])),
+                          con['csn_space_far'],
+                          con['csn_time_close'],
+                          con['csn_time_far'])),
         'cue_space': con['csn_space_close'] + con['csn_space_far'],
         'cue_time': con['csn_time_close'] + con['csn_time_far'],
         }
