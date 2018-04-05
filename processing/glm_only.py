@@ -10,7 +10,8 @@ from pypreprocess.conf_parser import _generate_preproc_pipeline
 from joblib import Parallel, delayed
 from utils_pipeline import fixed_effects_analysis, first_level
 import glob
-from pipeline import clean_subject, clean_anatomical_images, _adapt_jobfile, get_subject_session
+from pipeline import (clean_subject, clean_anatomical_images, _adapt_jobfile,
+                      get_subject_session, prepare_derivatives)
 
 
 SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]
@@ -120,28 +121,12 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None):
 
                 
 if __name__ == '__main__':
-    """
+    prepare_derivatives('/neurospin/ibc/')
     smooth = 5 # None  # 
-    for protocol in ['mtt1', 'mtt2']:  # ['hcp1', 'hcp2', 'language', 'mtt2']
-        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=4)(
-            delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
-            for (subject, session) in subject_session)
-
-    smooth = None
-    for protocol in ['mtt1', 'mtt2']:
-        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=4)(
-            delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
-            for (subject, session) in subject_session)
-
-    smooth = 5
     for protocol in ['preferences']:  # ['hcp1', 'hcp2', 'language', 'mtt2']
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=4)(
+        Parallel(n_jobs=1)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
 
@@ -152,22 +137,4 @@ if __name__ == '__main__':
         Parallel(n_jobs=4)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
-    """
-    #smooth = 5
-    #for protocol in ['archi']:
-    #    jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-    #    subject_session = get_subject_session(protocol)
-    #    subject_session = [subject_session_ for subject_session_ in subject_session
-    #                       if subject_session_[0] == 'sub-15']
-    #    Parallel(n_jobs=1)(
-    #        delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
-    #        for (subject, session) in subject_session)
-    smooth = None
-    for protocol in ['language']:
-        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = get_subject_session('rsvp-language')
-        subject_session = [subject_session_ for subject_session_ in subject_session
-                           if subject_session_[0] == 'sub-15']
-        Parallel(n_jobs=1)(
-            delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
-            for (subject, session) in subject_session)
+

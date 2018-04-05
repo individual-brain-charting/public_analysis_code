@@ -37,16 +37,10 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
     elif paradigm_id in ['cont_ring', 'exp_ring', 'wedge_clock',
                          'wedge_anti']:
         return retino(design_matrix_columns)
-    elif paradigm_id in ['PreferencePaintings', 'PreferenceFaces',
-                         'PreferenceHouses', 'PreferenceFood']:
-        if paradigm_id  == 'PreferencePaintings':
-            domain = 'painting'
-        elif paradigm_id == 'PreferenceFaces':
-            domain = 'face'
-        elif paradigm_id == 'PreferenceHouses':
-            domain = 'house'
-        elif paradigm_id == 'PreferenceFood':
-            domain = 'food'
+    elif paradigm_id[:10] == 'preference':
+        domain = paradigm_id[11:]
+        if domain[-1] == 's':
+            domain = domain[: -1]
         return preferences(design_matrix_columns, domain)
     elif paradigm_id in ['IslandWE', 'IslandWE1', 'IslandWE2', 'IslandWE3']:
         return mtt_ew(design_matrix_columns)

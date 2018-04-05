@@ -64,11 +64,11 @@ def _make_merged_filename(fmap_dir, basenames):
 
     if 'acq' in dic0.keys():
         merged_basename = (
-            'sub-' + dic0['sub'] + '_sess-' + dic0['ses'] + '_acq-' +
+            'sub-' + dic0['sub'] + '_ses-' + dic0['ses'] + '_acq-' +
             dic0['acq'] + '_dir-' + dic0['dir'] + dic1['dir'] + '_epi.nii.gz')
     else:
         merged_basename = (
-            'sub-' + dic0['sub'] + '_sess-' + dic0['ses'] + '_dir-' +
+            'sub-' + dic0['sub'] + '_ses-' + dic0['ses'] + '_dir-' +
             dic0['dir'] + dic1['dir'] + '_epi.nii.gz')
     # merged_basename = basenames[0][:19] + basenames[1][18:]
     return(os.path.join(fmap_dir, merged_basename))

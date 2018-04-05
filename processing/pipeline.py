@@ -200,13 +200,16 @@ def get_subject_session(protocol):
 if __name__ == '__main__':    
     # correction of distortion_parameters
     # custom solution, to be improved in the future
-    do_topup = False
-    protocol = 'anat1'  # 'preferences', 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2'
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
+
+    do_topup = True
+    protocol =  'preferences' #, 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 
     subject_session = sorted(get_subject_session(protocol))
-    
+    subject_sessions = [('sub-05', 'ses-15'),
+                        ('sub-11', 'ses-16'),]
+
     if do_topup:
         acq = None
         if protocol in ['rs1', 'rs2']:

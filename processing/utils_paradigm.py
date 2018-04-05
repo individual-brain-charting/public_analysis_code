@@ -60,16 +60,10 @@ def post_process(df, paradigm_id):
         df = df[condition]
 
         
-    if paradigm_id in ['PreferencePaintings', 'PreferenceFaces', 'PreferenceHouses',
-                       'PreferenceFood']:
-        if paradigm_id  == 'PreferencePaintings':
-            domain = 'painting'
-        elif paradigm_id == 'PreferenceFaces':
-            domain = 'face'
-        elif paradigm_id == 'PreferenceHouses':
-            domain = 'house'
-        elif paradigm_id == 'PreferenceFood':
-            domain = 'food'
+    if paradigm_id[:10] == 'preference':
+        domain = paradigm_id[11:]
+        if domain[-1] == 's':
+            domain = domain[:-1]
         # 
         df['modulation'] = df['score'] - df[df.trial_type == domain]['score'].mean()
         df = df.fillna(1)
