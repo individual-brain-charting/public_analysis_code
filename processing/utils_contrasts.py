@@ -329,7 +329,7 @@ rsvp_language = ['consonant_string', 'word_list', 'pseudoword_list', 'jabberwock
                 '',]
 
 def rsvp_language(design_matrix_columns):
-    """ Contrasts for NSP language localizer"""
+    """ Contrasts for RSVP language localizer"""
     contrast_names = [
         'complex', 'simple', 'jabberwocky', 'word_list',
         'pseudoword_list', 'consonant_string', 'complex-simple',
