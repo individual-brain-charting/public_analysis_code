@@ -139,6 +139,8 @@ def mtt_ew(design_matrix_columns):
                 'response': [],
                 'cue_space': [],
                 'cue_time': [],
+                'average_event': [],
+                'average_reference': [],
         }
     con = _elementary_contrasts(design_matrix_columns)
     future_events = con['ewe_center_future_space_close'] +\
@@ -210,6 +212,8 @@ def mtt_ew(design_matrix_columns):
         'cue_space': con['cwe_space_close'] + con['cwe_space_far'],
         'cue_time': con['cwe_time_close'] + con['cwe_time_far']
         }
+    contrasts['average_event'] = contrasts['events'].sum(0)
+    contrasts['average_reference'] = contrasts['reference'].sum(0)
     return contrasts
 
 
@@ -228,7 +232,10 @@ def mtt_ns(design_matrix_columns):
                 'north-south_events': [],
                 'response': [],
                 'cue_space': [],
-                'cue_time': [],}
+                'cue_time': [],
+                'average_event': [],
+                'average_reference': [],
+        }
     con = _elementary_contrasts(design_matrix_columns)
     future_events = con['esn_center_future_space_close'] +\
                     con['esn_center_future_space_far'] +\
@@ -299,6 +306,8 @@ def mtt_ns(design_matrix_columns):
         'cue_space': con['csn_space_close'] + con['csn_space_far'],
         'cue_time': con['csn_time_close'] + con['csn_time_far'],
         }
+    contrasts['average_event'] = contrasts['events'].sum(0)
+    contrasts['average_reference'] = contrasts['reference'].sum(0)
     return contrasts
 
 
