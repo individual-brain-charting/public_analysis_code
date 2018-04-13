@@ -14,9 +14,8 @@ from pandas import read_csv
 from nilearn.masking import compute_multi_epi_mask
 from nilearn.image import high_variance_confounds
 
-from nistats.design_matrix import (
-    make_design_matrix, check_design_matrix, plot_design_matrix)
-
+from nistats.design_matrix import make_design_matrix, check_design_matrix
+from nistats.reporting import plot_design_matrix
 
 
 from pypreprocess.reporting.base_reporter import ProgressReport

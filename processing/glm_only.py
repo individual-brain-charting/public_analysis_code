@@ -109,7 +109,9 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None):
     clean_anatomical_images('/neurospin/ibc')
     mask_img = '/neurospin/ibc/smooth_derivatives/group/resampled_gm_mask.nii.gz'
     for subject in list_subjects_update:
+        subject['onset'] = [onset for onset in subject['onset'] if onset is not None]
         clean_subject(subject)
+        stop
         if len(subject['session_id']) > 0:
             if protocol == 'clips4':
                 first_level(subject, compcorr=True, additional_regressors=RETINO_REG,
@@ -123,15 +125,16 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None):
 if __name__ == '__main__':
     prepare_derivatives('/neurospin/ibc/')
     smooth = 5 # None  # 
-    for protocol in ['mtt1', 'mtt2']:  # ['hcp1', 'hcp2', 'language', 'mtt2' 'preferences']
+    for protocol in ['preferences']:  # ['hcp1', 'hcp2', 'language', 'mtt2' 'preferences']
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=4)(
+        subject_session = (('sub-05', 'ses-15'), ('sub-11', 'ses-16'))
+        Parallel(n_jobs=1)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
-
+    
     smooth = None
-    for protocol in ['mtt1', 'mtt2']:
+    for protocol in ['preferences']:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
         Parallel(n_jobs=4)(
