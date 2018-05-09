@@ -12,15 +12,14 @@ import os
 import commands
 from nipype.interfaces.freesurfer import BBRegister
 from joblib import Memory, Parallel, delayed
-from surfer import Brain, project_volume_data
 import glob
-import mayavi.mlab as mlab
+# import mayavi.mlab as mlab
 import numpy as np
-from surfer.io import read_scalar_data
 import nibabel as nib
 
 data_dir = '/neurospin/ibc/derivatives'
 subjects = ['sub-%02d' % i for i in [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]]
+subjects = ['sub-%02d' % i for i in [8, 9, 11, 12, 13, 14]]
 os.environ['SUBJECTS_DIR'] = ''
 
 
@@ -75,9 +74,9 @@ def closing(image):
 
 def project_volume(work_dir, subject, do_bbr=True):
     # first find the session where T1w and T2w files could be
-    ref_file = glob.glob(os.path.join(work_dir, subject, 'ses-*', 'anat',
-                                      '*-highres_T2w.nii*'))[-1]
-    session = ref_file.split('/')[-3]
+    ref_file = sorted(glob.glob(os.path.join(work_dir, subject, 'ses-*', 'anat',
+                                             '*-highres_T1w.nii*')))[-1]
+    # session = ref_file.split('/')[-3]
     anat_dir = os.path.dirname(ref_file)
     
     write_dir = os.path.join(anat_dir, 'analysis')
@@ -86,9 +85,15 @@ def project_volume(work_dir, subject, do_bbr=True):
     os.environ['SUBJECTS_DIR'] = anat_dir
     data = {}
     for modality in ['T1w', 'T2w']:
-        image = glob.glob(os.path.join(anat_dir, '%s_%s_acq-highres_%s.nii*' % (
-            subject, session, modality)))[-1]
-
+        
+        #image = glob.glob(os.path.join(anat_dir, '%s_%s_acq-highres_%s.nii*' % (
+        #    subject, session, modality)))[-1]
+        if modality == ['T1w']:
+            image = ref_file
+        else:
+            image = sorted(glob.glob(os.path.join(work_dir, subject, 'ses-*', 'anat',
+                                                  '*-highres_T2w.nii*')))[-1]
+            
         image_ = closing(image)
         
         # --------------------------------------------------------------------
@@ -143,6 +148,7 @@ def project_volume(work_dir, subject, do_bbr=True):
                 'rh': nib.load(right_smooth_tex).darrays[0].data 
                 }
         else:
+            from surfer import project_volume_data
             data[modality] = {}
             for hemi in ['lh', 'rh']:
                 data_ = project_volume_data(
@@ -151,18 +157,23 @@ def project_volume(work_dir, subject, do_bbr=True):
 
     # reset subject_dir to set fsaverage
     os.environ['SUBJECTS_DIR'] = os.path.join(work_dir, subject, 'ses-00', 'anat')    
-    views = ['lat', 'med']
     for hemi in ['lh', 'rh']:
-        fig = mlab.figure()
         ratio = data['T1w'][hemi] / data['T2w'][hemi]
+        from nibabel.gifti import write, GiftiImage, GiftiDataArray as gda
+        file_ratio = os.path.join(write_dir, 't1_t2_ratio_%s.gii' % hemi)
+        write(GiftiImage(darrays=[gda(data=ratio.astype('float32'))]), file_ratio)
+        """
+        views = ['lat', 'med']
+        fig = mlab.figure()
+        from surfer import Brain
         brain = Brain('fsaverage', hemi, "inflated", title='Ratio', figure=fig)
         brain.add_data(ratio, min=1., max=2., colormap='jet')
         brain.show_view('lateral')
-        brain.save_montage('/tmp/trial_%s.png' % hemi, order=views) 
-
+        brain.save_montage('/tmp/t1_t2_ratio_%s_%s.png' % (subject, hemi), order=views) 
+        """
         
 Parallel(n_jobs=1)(
     delayed(project_volume)(data_dir, subject)
     for subject in subjects)
 
-mlab.show()
+# mlab.show()
