@@ -205,9 +205,10 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
     
     do_topup = False
-    protocol =  'rs' #, 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 
-    subject_session = sorted(get_subject_session('mtt2'))
-
+    protocol =  'preferences' #, 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 
+    subject_session = sorted(get_subject_session(protocol))
+    subject_session = [('sub-05', 'ses-15'), ('sub-11', 'ses-16'),]
+    
     if do_topup:
         acq = None
         if protocol in ['rs']:
@@ -218,8 +219,8 @@ if __name__ == '__main__':
 
     subject_data = []
     for protocol in [protocol]:  
-        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_data_ = Parallel(n_jobs=3)(
+        jobfile = 'ini_files/IBC_preproc_%s_sub-05.ini' % protocol
+        subject_data_ = Parallel(n_jobs=1)(
             delayed(run_subject_preproc)(jobfile, subject, session)
             for subject, session in subject_session)
         subject_data = subject_data + subject_data_[0]

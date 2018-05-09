@@ -7,7 +7,7 @@ from joblib import Parallel, delayed
 import nibabel as nib
 import os
 
-do_func = True
+do_func = False
 do_anat = True
 do_3mm = True
 
@@ -59,7 +59,7 @@ for img in imgs:
 
     
 if do_3mm:
-    Parallel(n_jobs=4)(
+    Parallel(n_jobs=1)(
         delayed(resample)(img, reference, target) for (img, target) in
         zip(imgs, targets)
         if not os.path.exists(target))

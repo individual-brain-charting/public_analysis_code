@@ -110,6 +110,8 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None):
     mask_img = '/neurospin/ibc/smooth_derivatives/group/resampled_gm_mask.nii.gz'
     for subject in list_subjects_update:
         subject['onset'] = [onset for onset in subject['onset'] if onset is not None]
+        print(subject['onset'])
+        print(subject['func'])
         clean_subject(subject)
         stop
         if len(subject['session_id']) > 0:
