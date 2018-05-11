@@ -130,7 +130,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 contrast = contrast_name[i]
                 task = con_df.task[i]
                 task_name = task
-                if task == 'language_':
+                if task == 'rsvp_language':
                     task = 'language_*'
                     task_name = 'rsvp_language'
 
