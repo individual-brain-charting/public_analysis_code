@@ -123,6 +123,17 @@ def preferences(design_matrix_columns, domain):
     return contrasts
 
 
+def _beta_contrasts(design_matrix_columns):
+    """ Same as elementary contrasts, but retains only contrasts of interest"""
+    con = _elementary_contrasts(design_matrix_columns)
+    bad_names = tuple(['constant', 'rx', 'ry', 'rz', 'tx', 'ty', 'tz'] +
+                      ['drift_%d' % d for d in range(20)] +
+                      ['conf_%d' % d for d in range(20)])
+    con_ = dict([(cname, cvalue) for (cname, cvalue) in con.items()
+                if not cname.startswith(bad_names)])
+    return con_
+
+
 def mtt_ew(design_matrix_columns):
     """ Contrast for MTT north-south experiment"""
     if design_matrix_columns is None:
@@ -142,7 +153,8 @@ def mtt_ew(design_matrix_columns):
                 'average_event': [],
                 'average_reference': [],
         }
-    con = _elementary_contrasts(design_matrix_columns)
+    con = _beta_contrasts(design_matrix_columns)
+    return con ### XXX
     future_events = con['ewe_center_future_space_close'] +\
                     con['ewe_center_future_space_far'] +\
                     con['ewe_center_future_time_close'] +\
@@ -236,7 +248,8 @@ def mtt_ns(design_matrix_columns):
                 'average_event': [],
                 'average_reference': [],
         }
-    con = _elementary_contrasts(design_matrix_columns)
+    con = _beta_contrasts(design_matrix_columns)
+    return con ### XXX
     future_events = con['esn_center_future_space_close'] +\
                     con['esn_center_future_space_far'] +\
                     con['esn_center_future_time_close'] +\
