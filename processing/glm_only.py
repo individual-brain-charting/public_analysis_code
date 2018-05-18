@@ -102,6 +102,8 @@ def generate_glm_input(jobfile, smooth=None):
         
 def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None):
     """ Create jobfile and run it """
+    if protocol == 'preferences' and subject in ['sub-11']:
+        jobfile = 'ini_files/IBC_preproc_preferences_sub-11.ini'
     output_name = os.path.join(
         '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
     _adapt_jobfile(jobfile, subject, output_name, session)
@@ -110,10 +112,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None):
     mask_img = '/neurospin/ibc/smooth_derivatives/group/resampled_gm_mask.nii.gz'
     for subject in list_subjects_update:
         subject['onset'] = [onset for onset in subject['onset'] if onset is not None]
-        print(subject['onset'])
-        print(subject['func'])
         clean_subject(subject)
-        stop
         if len(subject['session_id']) > 0:
             if protocol == 'clips4':
                 first_level(subject, compcorr=True, additional_regressors=RETINO_REG,
@@ -130,7 +129,7 @@ if __name__ == '__main__':
     for protocol in ['preferences']:  # ['hcp1', 'hcp2', 'language', 'mtt2' 'preferences']
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        subject_session = (('sub-05', 'ses-15'), ('sub-11', 'ses-16'))
+        subject_session = (('sub-05', 'ses-15'),)
         Parallel(n_jobs=1)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
@@ -139,7 +138,8 @@ if __name__ == '__main__':
     for protocol in ['preferences']:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=4)(
+        subject_session = (('sub-11', 'ses-16'),)
+        Parallel(n_jobs=1)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
 

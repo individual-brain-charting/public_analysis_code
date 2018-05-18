@@ -267,7 +267,12 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             subject_dic['onset'], subject_dic['realignment_parameters']):
         
         # Guessing paradigm from file name
-        paradigm_id = session_id[:session_id.rfind('_')]
+        # paradigm_id = session_id[:session_id.rfind('_')]
+        #paradigm_id = session_id
+        #for unwanted in ['_ap', '_pa'] + ['_run%d' % d for d in range(10)]:
+        #    paradigm_id = paradigm_id.replace(unwanted, '')
+        paradigm_id = _session_id_to_task_id([session_id])[0]
+        
         if surface:
             from nibabel.gifti import read
             n_scans = np.array([darrays.data for darrays in read(fmri_path).darrays]).shape[0]
@@ -325,13 +330,6 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             add_reg_names=add_reg_names)
         _, dmtx, names = check_design_matrix(design_matrix)
 
-        #import matplotlib.pyplot as plt
-        #ax = plot_design_matrix(design_matrix)
-        #ax.set_position([.05, .25, .9, .65])
-        #ax.set_title('Design matrix')
-        #plt.savefig(os.path.join(subject_dic['output_dir'],
-        #                         'design_matrix_%s.png' % session_id))
-        
         # create the relevant contrasts
         contrasts = make_contrasts(paradigm_id, names)
 
@@ -393,9 +391,19 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
 def _session_id_to_task_id(session_ids):
     """ Converts a session_id to a task _id
     by removing non-zero digits and _ap or _pa suffixes"""
-    offset = -3 # remove the last letters from session_id to get task_id
-    task_ids = [session_id[:offset] for session_id in session_ids
-                if session_id[offset:] in ['_ap', '_pa']]
+    run_mark = tuple(['_run-%02d' % d  for d in range(10)])
+    task_ids = []
+    for i, session_id in enumerate(session_ids):
+        if session_id.endswith(run_mark):
+            task_ids.append(session_id[:-7])
+        else:
+            task_ids.append(session_id)
+
+    acq_mark = tuple(['_ap', '_pa'])
+    for i, task_id in enumerate(task_ids):
+        if task_id.endswith(acq_mark):
+            task_ids[i] = task_id[: -3]
+
     for i, task_id in enumerate(task_ids):
         for x in range(0, 10):
             task_id = task_id.replace(str(x), '')
@@ -442,7 +450,8 @@ def fixed_effects_analysis(subject_dic, surface=False, mask_img=None):
     from nibabel import load, save
     from nilearn.plotting import plot_stat_map
     
-    session_ids = subject_dic['session_id'] 
+    session_ids = subject_dic['session_id']
+    print(session_ids)
     task_ids = _session_id_to_task_id(session_ids)
     paradigms = np.unique(task_ids)
     print(task_ids, paradigms)

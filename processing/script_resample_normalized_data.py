@@ -7,7 +7,7 @@ from joblib import Parallel, delayed
 import nibabel as nib
 import os
 
-do_func = False
+do_func = True
 do_anat = True
 do_3mm = True
 
@@ -25,7 +25,8 @@ imgs = glob.glob('/neurospin/ibc/derivatives/sub-*/ses-*/func/wrdcsub-*.nii.gz')
 if do_func:
     Parallel(n_jobs=6)(
         delayed(resample)(img, reference) for img in imgs
-        if nib.load(img).shape[2] != 105)
+        if (nib.load(img).shape[2] != 105)
+        and ('RestingState' not in img))
 
 reference = '/neurospin/ibc/derivatives/sub-01/ses-10/anat/wsub-01_ses-10_acq-highres_T1w.nii.gz'
 imgs = glob.glob('/neurospin/ibc/derivatives/sub-*/ses-*/anat/mwc*sub-*_ses-*_acq-highres_T1w.nii.gz')
@@ -59,7 +60,7 @@ for img in imgs:
 
     
 if do_3mm:
-    Parallel(n_jobs=1)(
+    Parallel(n_jobs=6)(
         delayed(resample)(img, reference, target) for (img, target) in
         zip(imgs, targets)
         if not os.path.exists(target))
