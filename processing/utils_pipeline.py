@@ -593,8 +593,7 @@ def fixed_effects(contrasts, variances):
     con, var = np.asarray(contrasts), np.asarray(variances)
     var = np.maximum(var, tiny)
     prec = 1. / var
-    ffx_con = np.sum(con * prec, 0) * 1. / np.sum(prec, 0)
     ffx_var = 1. / np.sum(prec, 0)
+    ffx_con = np.sum(con * prec, 0) * ffx_var
     ffx_stat = ffx_con / np.sqrt(ffx_var)
-    arrays = [ffx_con, ffx_var, ffx_stat]
-    return arrays
+    return [ffx_con, ffx_var, ffx_stat]

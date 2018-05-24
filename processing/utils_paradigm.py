@@ -90,11 +90,11 @@ def post_process(df, paradigm_id):
                     'response_we_west_present_space_close', 'response_we_center_present_time_close',
                     'response_we_center_present_time_close','response_we_center_future_space_far',
                     'response_we_center_future_space_close', 'response_we_west_present_time_far']    
-    
+    """ ### XXX
     if paradigm_id in ['IslandWE1', 'IslandWE2', 'IslandWE3']:
         for response in responses_we:
             df = df.replace(response, 'response')    
-
+    """ ### XXX
     responses_sn = ['response_sn_north_present_space_far', 'response_sn_south_present_time_close',
                    'response_sn_center_present_space_close', 'response_sn_south_present_time_far',
                    'response_sn_center_future_space_close', 'response_sn_center_past_space_close',
@@ -106,11 +106,11 @@ def post_process(df, paradigm_id):
                    'response_sn_south_present_space_far', 'response_sn_center_present_time_close',
                    'response_sn_north_present_space_close','response_sn_center_present_space_far',
                    'response_sn_center_future_time_far', 'response_sn_center_future_time_far',]
-            
+    """ ### XXX       
     if paradigm_id in ['IslandNS1', 'IslandNS2', 'IslandNS3']:
        for response in responses_sn:
             df = df.replace(response, 'response')    
-
+    """ ### XXX
     return df
 
 

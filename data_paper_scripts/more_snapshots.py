@@ -72,7 +72,7 @@ def plot_contrasts(df, task_contrast, masker, write_dir, cut=0,
     for i in range(n_maps):
         delta = 1./ n_maps
         pos =[delta * i, 0.01, delta, .1]
-        ax = fig.add_axes(pos, axis_bgcolor='k')
+        ax = fig.add_axes(pos, facecolor='k')
         ax.axis('off')
         inset = fig.add_axes([delta * i, 0.01, .01, .05])
         inset.imshow(grid, cmap=cm.alpha_cmap(color_list[i]))
