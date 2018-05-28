@@ -10,7 +10,7 @@ from nilearn.image import math_img
 
 
 subject_session = get_subject_session('preferences')
-workdir = '/neurospin/ibc/smooth_derivatives'
+workdir = '/neurospin/ibc/derivatives'
 categories = ['face', 'food', 'house', 'painting']
 categories_ = ['faces', 'food', 'houses', 'paintings']
 

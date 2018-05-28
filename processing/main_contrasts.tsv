@@ -77,11 +77,18 @@
 75	preference_faces	face_linear	Linear effect of face preference	no face preference	face preference
 76	preference_faces	face_quadratic	quadratic effect of face preference	no confidence 	confidence in face preference
 77	preference_houses	house_constant	House preception and evaluation task	fixation	house evaluation
-78	preference_houses	house_linear	Linear effect of house preference	no house preference	house preference
+78	preference_houses	house_linear	linear effect of house preference	no house preference	house preference
 79	preference_houses	house_quadratic	quadratic effect of house preference	no confidence 	confidence in house preference
-80	preference_food	food_constant	Food image n-back vs. body, place, tool  n-back	fixation	food evaluation
-81	preference_food	food_linear	Linear effect of food preference	no food preference	food preference
+80	preference_food	food_constant	food preception and evaluation task	fixation	food evaluation
+81	preference_food	food_linear	linear effect of food preference	no food preference	food preference
 82	preference_food	food_quadratic	quadratic effect of food preference	no confidence 	confidence in food preference
-83	preference_paintings	painting_constant	painting image n-back vs. body, place, tool  n-back	fixation	painting evaluation
+83	preference_paintings	painting_constant	painting perception and evaluation task	fixation	painting evaluation
 84	preference_paintings	painting_linear	Linear effect of painting preference	no painting preference	painting preference
 85	preference_paintings	painting_quadratic	quadratic effect of painting preference	no confidence 	confidence in painting preference
+86	preference	preference_constant	object perception and evaluation	fixation	visual evaluation
+87	preference	preference_linear	Linear effect of preference	no preference	visual preference
+88	preference	preference_quadratic	Quandratic effect of preference	no confidence 	confidence in preference
+89	preference	face-others	evaluation of faces vs other categories	other categories	face evaluation
+90	preference	house-others	evaluation of houses vs other categories	other categories	house evaluation
+91	preference	food-others	evaluation of food vs other categories	other categories	food evaluation
+92	preference	painting-others	evaluation of paintings vs other categories	other categories	painting evaluation
