@@ -112,7 +112,6 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None):
     mask_img = '/neurospin/ibc/smooth_derivatives/group/resampled_gm_mask.nii.gz'
     for subject in list_subjects_update:
         subject['onset'] = [onset for onset in subject['onset'] if onset is not None]
-        stop
         clean_subject(subject)
         if len(subject['session_id']) > 0:
             if protocol == 'clips4':
@@ -126,7 +125,8 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None):
                 
 if __name__ == '__main__':
     prepare_derivatives('/neurospin/ibc/')
-    smooth = 5 # None  # 
+    smooth = 5 # None  #
+    
     for protocol in ['enumeration']:  # ['hcp1', 'hcp2', 'language', 'mtt2' 'preferences']
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)

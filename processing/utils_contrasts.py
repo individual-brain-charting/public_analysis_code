@@ -46,6 +46,10 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return mtt_ew(design_matrix_columns)
     elif paradigm_id in ['IslandNS', 'IslandNS1', 'IslandNS2', 'IslandNS3']:
         return mtt_ns(design_matrix_columns)
+    elif paradigm_id == 'pain_localizer':
+        return pain_localizer(design_matrix_columns)
+    elif paradigm_id == 'tom_localizer':
+        return tom_localizer(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -96,7 +100,7 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
 
 
 def colour(design_matrix_columns):
-    """ Contrast for colour localizer"""
+    """ Contrasts for pain lcoalizer """
     if design_matrix_columns is None:
         return {'color':[], 'grey': [], 'color-grey' : []}
     con = _elementary_contrasts(design_matrix_columns)
@@ -104,6 +108,41 @@ def colour(design_matrix_columns):
                  'grey': con['grey'],
                  'color-grey' : con['color'] - con['grey'],
              }
+    return contrasts
+
+
+def pain_localizer(design_matrix_columns):
+    """ Contrast for colour localizer"""
+    contrast_names = ['emotional_pain', 'physical_pain',
+                      'emotional-physical_pain', 'physical-emotional_pain']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {'emotional_pain': con['emotional_pain'],
+                 'physical_pain': con['physical_pain'],
+                 'emotional-physical_pain' : con['emotional_pain'] - con['physical_pain'],
+                 'physical-emotional_pain' : con['physical_pain'] - con['emotional_pain'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def tom_localizer(design_matrix_columns):
+    """ Contrast for colour localizer"""
+    contrast_names = ['belief', 'photo', 'belief-photo', 'photo-belief']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {'photo': con['photo'],
+                 'belief': con['belief'],
+                 'photo-belief' : con['photo'] - con['belief'],
+                 'belief-photo' : con['belief'] - con['photo'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
 
 

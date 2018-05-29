@@ -23,7 +23,7 @@ reference = '/neurospin/ibc/smooth_derivatives/group/resampled_gm_mask.nii.gz'
 imgs = glob.glob('/neurospin/ibc/derivatives/sub-*/ses-*/func/wrdcsub-*.nii.gz')
 
 if do_func:
-    Parallel(n_jobs=6)(
+    Parallel(n_jobs=4)(
         delayed(resample)(img, reference) for img in imgs
         if (nib.load(img).shape[2] != 105)
         and ('RestingState' not in img))
