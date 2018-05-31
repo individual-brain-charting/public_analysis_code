@@ -1,1 +1,94 @@
-../processing/main_contrasts.tsv
+	task	contrast	pretty name	left label	right label
+0	archi_standard	left-right_button_press	Left vs. right hand button press	right hand	left hand
+1	archi_standard	reading-listening	Sentence reading vs. sentence listening	sentence reading	sentence listening
+2	archi_standard	motor-cognitive	Button presses vs. sentence/computation	cognitive tasks	button presses
+3	archi_standard	reading-checkerboard	Sentence reading vs. checkerboard	checkerboard	sentence reading
+4	archi_standard	computation-sentences	Mental subtraction vs. sentence reading	sentence reading	mental subtraction
+5	archi_standard	horizontal-vertical	Horizontal vs. vertical checkerboard	vert. checkerboard	hor. checkerboard
+6	archi_spatial	saccades	Saccades vs. fixation	fixation	saccades
+7	archi_spatial	hand-side	Left or right hand vs. hand palm or back	hand palm or back	left or right hand
+8	archi_spatial	grasp-orientation	Object grasping vs. image orientation judgment	orientation judgment	object grasping
+9	archi_spatial	rotation_side	Hand palm or back vs. fixation	fixation	hand palm or back
+10	archi_spatial	object_orientation	Image orientation judgment vs. fixation	fixation	orientation judgment
+11	archi_social	triangle_mental-random	Social-interaction motion vs. random motion	random motion	Social-interaction motion
+12	archi_social	false_belief-mechanistic_audio	False belief tale vs. mechanistic tale	mechanistic tale	false belief tale
+13	archi_social	triangle_random	Random motion vs. fixation	fixation	random motion
+14	archi_social	mechanistic_audio	Listening to a mechanistic tale vs. baseline	baseline	mechanistic tale
+15	archi_social	mechanistic_video	Reading a mechanistic story vs. baseline	baseline	mechanistic story
+16	archi_social	non_speech_sound	Listen to natural sound vs. baseline	silence	natural sound
+17	archi_social	false_belief-mechanistic_video	False belief story vs. mechanistic story	mechanistic story	false belief story
+18	archi_social	speech-non_speech	Listen to voice sound vs. natural sound	natural sound	voice sound
+19	archi_emotional	expression_gender-control	Assess gender from eyes' expression vs. visual pattern	visual pattern	gender assessment
+20	archi_emotional	expression_intention-gender	Assess intention vs. gender from eyes' expression	gender assessment	expression intention
+21	archi_emotional	face_gender-control	Assess gender of face vs. visual pattern	visual pattern	gender assessment
+22	archi_emotional	face_trusty-gender	Assess face trustfulness vs. gender of face	gender assessment	face trusty
+23	hcp_language	story-math	Listening to story vs. mental additions	math	story
+24	hcp_language	math	Mental additions vs. fixation	fixation	mental addition
+25	hcp_social	mental-random	Social-interaction motion vs. random motion	random motion	Social-interaction motion
+26	hcp_social	random	Random motion vs. fixation	fixation	any motion
+27	hcp_gambling	punishment-reward	Negative vs. positive gambling outcome	reward	punishement
+28	hcp_gambling	reward	Positive gambling outcome vs. fixation	fixation	reward
+29	hcp_motor	left_hand-avg	Move left hand vs. right hand, feet and tongue	any motion	left hand
+30	hcp_motor	right_hand-avg	Move right hand vs. left hand, feet and tongue	any motion	right hand
+31	hcp_motor	left_foot-avg	Move left foot vs. right foot, hands and tongue	any motion	left foot
+32	hcp_motor	right_foot-avg	Move right foot vs. left foot, hands and tongue	any motion	right foot
+33	hcp_motor	tongue-avg	Move tongue vs. hands and feet	any motion	tongue
+34	hcp_emotion	shape	Shape comparison vs. fixation	fixation cross	shape outline
+35	hcp_emotion	face-shape	Emotional face comparison vs. shape comparison	shape outline	face image
+36	hcp_relational	relational-match	Relational comparison vs. visual feature matching	visual matching	relational processing
+37	hcp_relational	match	Visual feature matching vs. fixation	fixation	visual matching
+38	hcp_wm	2back-0back	2-back vs. 0-back	0-back	2-back
+39	hcp_wm	body-avg	Body image n-back vs. face, place, tool  n-back	any image	body image
+40	hcp_wm	face-avg	Face image n-back vs. body, place, tool  n-back	any image	face image
+41	hcp_wm	place-avg	Place image n-back vs. face, body, tool  n-back	any image	place image
+42	hcp_wm	tools-avg	Tool image  n-back vs. face, place, body  n-back	any image	tool image
+43	rsvp_language	complex-simple	Complex- vs. simple-syntax sentence reading	simple sentence	complex sentence
+44	rsvp_language	sentence-jabberwocky	Reading sentence vs. jabberwocky	read jabberwocky	read sentence
+45	rsvp_language	sentence-word	Reading sentence vs. words	read words	read sentence
+46	rsvp_language	word-consonant_string	Reading words vs. consonant strings	consonant strings	read words
+47	rsvp_language	jabberworcky-pseudo	Reading jabberwocky vs. pseudowords	read pseudowords	read jabberwocky
+48	rsvp_language	word-pseudo	Reading words vs. pseudowords	read pseudowords	read words
+49	rsvp_language	pseudo-consonant_string	Reading pseudowords vs. consonant strings	consonant strings	read pseudowords
+50	rsvp_language	consonant_string	Consonant strings' encoding vs. fixation	fixation	consonant strings
+51	retinotopy	phase_ring	Eccentricity maps	central cross	radial position
+52	retinotopy	phase_wedge	Polar angle map	central cross	angular position
+53	retinotopy	retinotopicity	Sensitivity to retinotopy	central cross	retinal position
+54	mtt_ns	time_event	present vs past or future  event	future or past event 	present event
+55	mtt_ns	time_reference	time reference present vs past or future	future or past reference 	present reference
+56	mtt_ns	north-south_events	North vs south position of event	event in south	event in north
+57	mtt_ns	past-future_event	Past vs future events	event in future	event in past
+58	mtt_ns	far-close_space_event	Events occurring far vs close in space	spatially close event	spatially far event
+59	mtt_ns	north-south_reference	Spatial reference in the north vs south	spatial reference in south	spatial reference in north
+60	mtt_ns	south_north_event	Events occurring in north or south vs here	event occurring here	event in north or south
+61	mtt_ns	south_north_reference	Spatial reference in north or south vs here	spatial reference here	reference in north or south
+62	mtt_ns	far-close_time_event	Events far vs close in time	event close in time	event far in time
+63	mtt_ns	past-future_reference	temporal reference in past vs future	reference in future	reference in past
+64	mtt_we	time_event	present vs past or future  event	future or past event 	present event
+65	mtt_we	time_reference	time reference present vs past or future	future or past reference 	present reference
+66	mtt_we	east-west_events	West vs east position of event	event in east	event in west
+67	mtt_we	past-future_event	Past vs future events	event in future	event in past
+68	mtt_we	far-close_space_event	Events occurring far vs close in space	spatially close event	spatially far event
+69	mtt_we	east-west_reference	Spatial reference in the east vs west	spatial reference in west	spatial reference in east
+70	mtt_we	west_east_event	Events occurring in west or east vs here	event occurring here	event in west or east
+71	mtt_we	west_east_reference	Spatial reference in west or east vs here	spatial reference here	reference in west or east
+72	mtt_we	far-close_time_event	Events far vs close in time	event close in time	event far in time
+73	mtt_we	past-future_reference	temporal reference in past vs future	reference in future	reference in past
+74	preference_faces	face_constant	Face preception and evaluation task	fixation	face evaluation
+75	preference_faces	face_linear	Linear effect of face preference	no face preference	face preference
+76	preference_faces	face_quadratic	quadratic effect of face preference	no confidence 	confidence in face preference
+77	preference_houses	house_constant	House preception and evaluation task	fixation	house evaluation
+78	preference_houses	house_linear	linear effect of house preference	no house preference	house preference
+79	preference_houses	house_quadratic	quadratic effect of house preference	no confidence 	confidence in house preference
+80	preference_food	food_constant	food preception and evaluation task	fixation	food evaluation
+81	preference_food	food_linear	linear effect of food preference	no food preference	food preference
+82	preference_food	food_quadratic	quadratic effect of food preference	no confidence 	confidence in food preference
+83	preference_paintings	painting_constant	painting perception and evaluation task	fixation	painting evaluation
+84	preference_paintings	painting_linear	Linear effect of painting preference	no painting preference	painting preference
+85	preference_paintings	painting_quadratic	quadratic effect of painting preference	no confidence 	confidence in painting preference
+86	preference	preference_constant	object perception and evaluation	fixation	visual evaluation
+87	preference	preference_linear	Linear effect of preference	no preference	visual preference
+88	preference	preference_quadratic	Quandratic effect of preference	no confidence 	confidence in preference
+89	preference	face-others	evaluation of faces vs other categories	other categories	face evaluation
+90	preference	house-others	evaluation of houses vs other categories	other categories	house evaluation
+91	preference	food-others	evaluation of food vs other categories	other categories	food evaluation
+92	preference	painting-others	evaluation of paintings vs other categories	other categories	painting evaluation
