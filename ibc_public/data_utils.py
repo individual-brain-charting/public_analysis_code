@@ -1,5 +1,7 @@
 """
-Common utilisities to all scripts
+Common utilities to all scripts
+
+Author: Bertrand Thirion, 2016-2018
 """
 
 import glob
@@ -15,8 +17,14 @@ DERIVATIVES = os.path.join(ibc, 'derivatives')
 SMOOTH_DERIVATIVES = os.path.join(ibc, 'smooth_derivatives')
 SUBJECTS = [os.path.basename(full_path) for full_path in
             sorted(glob.glob(os.path.join(DERIVATIVES, 'sub-*')))][:-1]
-CONDITIONS = pd.read_csv('conditions.tsv', sep='\t')
-CONTRASTS = pd.read_csv('main_contrasts.tsv', sep='\t')
+
+
+_package_directory = os.path.dirname(os.path.abspath(__file__))
+# Useful for the very simple examples
+CONDITIONS = pd.read_csv(os.path.join(
+    _package_directory, '../ibc_data', 'conditions.tsv'), sep='\t')
+CONTRASTS = pd.read_csv(os.path.join(
+    _package_directory, '../ibc_data', 'main_contrasts.tsv'), sep='\t')
 
 
 def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
