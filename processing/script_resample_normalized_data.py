@@ -23,7 +23,7 @@ reference = '/neurospin/ibc/smooth_derivatives/group/resampled_gm_mask.nii.gz'
 imgs = glob.glob('/neurospin/ibc/derivatives/sub-*/ses-*/func/wrdcsub-*.nii.gz')
 
 if do_func:
-    Parallel(n_jobs=4)(
+    Parallel(n_jobs=2)(
         delayed(resample)(img, reference) for img in imgs
         if (nib.load(img).shape[2] != 105)
         and ('RestingState' not in img))
@@ -33,7 +33,7 @@ imgs = glob.glob('/neurospin/ibc/derivatives/sub-*/ses-*/anat/mwc*sub-*_ses-*_ac
 reference_shape = nib.load(reference).shape
 
 if do_anat:
-    Parallel(n_jobs=6)(
+    Parallel(n_jobs=2)(
         delayed(resample)(img, reference) for img in imgs
         if nib.load(img).shape != reference_shape)
 
@@ -60,7 +60,7 @@ for img in imgs:
 
     
 if do_3mm:
-    Parallel(n_jobs=6)(
+    Parallel(n_jobs=2)(
         delayed(resample)(img, reference, target) for (img, target) in
         zip(imgs, targets)
         if not os.path.exists(target))

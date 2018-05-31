@@ -27,13 +27,13 @@ from dipy.data import get_sphere
 from dipy.segment.mask import median_otsu
 from dipy.viz.colormap import line_colors
 from dipy.core.gradients import gradient_table
-from mayavi import mlab
+# from mayavi import mlab
 from dipy.segment.quickbundles import QuickBundles
 
 
 source_dir = '/neurospin/ibc/sourcedata'
-do_topup = 1
-do_edc = 1
+do_topup = 0
+do_edc = 0
 dwi_dirs = glob.glob(os.path.join(source_dir, 'sub-*', 'ses-*', 'dwi', '*run*.nii.gz'))
 subjects_sessions = []
 for dwi_dir in dwi_dirs:
@@ -102,7 +102,7 @@ def filter_according_to_length(streamlines, threshold=30):
 def adapt_ini_file(template, subject, session):
     """ Adapt an ini file by changing the subject and session"""
     output_name = os.path.join(
-        '/tmp', template[:- 4] + '_' + subject + '_' + session + '.ini')
+        '/tmp', os.path.basename(template)[:- 4] + '_' + subject + '_' + session + '.ini')
     f1 = open(template, 'r')
     f2 = open(output_name, 'w')
     for line in f1.readlines():
@@ -180,7 +180,7 @@ def tractography(img, gtab, mask, dwi_dir):
         visualization(os.path.join(dwi_dir, 'streamlines.npz'))    
 
 
-def run_dmri_pipeline(subject_session):
+def run_dmri_pipeline(subject_session, do_topup=True):
     subject, session = subject_session.split('/')
     data_dir = os.path.join(source_dir,  subject_session, 'dwi')
     write_dir = os.path.join('/neurospin/ibc/derivatives', subject_session)
@@ -188,7 +188,6 @@ def run_dmri_pipeline(subject_session):
     
     # Apply topup to the images
     if do_topup:
-        output_dir = ''
         mem = Memory('/neurospin/tmp/bthirion/cache_dir')
         imgs = sorted(glob.glob('%s/*.nii.gz' % data_dir))
         se_maps = [
@@ -220,10 +219,9 @@ def run_dmri_pipeline(subject_session):
         eddy_current_correction(out, bvals_file, bvecs_file, dwi_dir, mem)
 
     ############################################################################
-    # Proceed with registration to anatomical image and normlization
-    ed_path = glob.glob(os.path.join(write_dir, 'dwi', 'eddc*.nii.gz'))[-1]
+    # Proceed with registration to anatomical image
     from pypreprocess.nipype_preproc_spm_utils import do_subjects_preproc
-    ini_file = adapt_ini_file("IBC_preproc_dwi.ini", subject, session)
+    ini_file = adapt_ini_file("ini_files/IBC_preproc_dwi.ini", subject, session)
     subject_data = do_subjects_preproc(ini_file,
                                        dataset_dir=write_dir)[0]
     
@@ -232,7 +230,7 @@ def run_dmri_pipeline(subject_session):
     subject, session = subject_session.split('/')
 
     # concatenate dmri files into one
-    img = nib.load(glob.glob(os.path.join(dwi_dir, 'weddc*.nii*'))[-1])
+    img = nib.load(glob.glob(os.path.join(dwi_dir, 'eddc*.nii*'))[-1])
     
     # load the data
     gtab = gradient_table(bvals, bvecs, b0_threshold=10)
@@ -248,7 +246,7 @@ def run_dmri_pipeline(subject_session):
     tractography(img, gtab, mask, dwi_dir)
 
 Parallel(n_jobs=1)(
-    delayed(run_dmri_pipeline)(subject_session)
+    delayed(run_dmri_pipeline)(subject_session, do_topup)
     for subject_session in subjects_sessions[-1:])
 
 

@@ -48,8 +48,14 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return mtt_ns(design_matrix_columns)
     elif paradigm_id == 'pain_localizer':
         return pain_localizer(design_matrix_columns)
+    elif paradigm_id == 'movie_localizer':
+        return movie_localizer(design_matrix_columns)
     elif paradigm_id == 'tom_localizer':
         return tom_localizer(design_matrix_columns)
+    elif paradigm_id == 'VSTM':
+        return vstm(design_matrix_columns)
+    elif paradigm_id == 'enum':
+        return enum(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -111,9 +117,92 @@ def colour(design_matrix_columns):
     return contrasts
 
 
+def vstm(design_matrix_columns):
+    """ contrasts for vstm task, Knops protocol"""
+    """
+    contrast_names = ['memorization_num_%d' % i for i in range(1, 7)] +\
+                     ['response_num_%d' % i for i in range(1, 7)]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(c, con[c]) for c in contrast_names])
+    """
+    contrast_names = ['vstm_memorization_linear', 'vstm_memorization_constant',
+                      'vstm_memorization_quadratic', 'vstm_response_linear',
+                      'vstm_response_constant', 'vstm_response_quadratic']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    constant = np.ones(6)
+    linear = np.linspace(-1, 1, 6)
+    quadratic = linear ** 2 - (linear ** 2).mean()
+    con = _elementary_contrasts(design_matrix_columns)
+    memorization = np.array([con['memorization_num_%d' % i]
+                             for i in range(1, 7)])
+    response = np.array([con['response_num_%d' % i]
+                             for i in range(1, 7)])
+    contrasts = {'vstm_memorization_constant' : np.dot(constant, memorization),
+                 'vstm_memorization_linear' : np.dot(linear, memorization),
+                 'vstm_memorization_quadratic' : np.dot(quadratic, memorization),
+                 'vstm_response_constant' : np.dot(constant, response),
+                 'vstm_response_linear' : np.dot(linear, response),
+                 'vstm_response_quadratic' : np.dot(quadratic, response),
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def enum(design_matrix_columns):
+    """ contrasts for vstm task, Knops protocol"""
+    contrast_names = ['enum_memorization_linear', 'enum_memorization_constant',
+                      'enum_memorization_quadratic', 'enum_response_linear',
+                      'enum_response_constant', 'enum_response_quadratic']
+    
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    constant = np.ones(8)
+    linear = np.linspace(-1, 1, 8)
+    quadratic = linear ** 2 - (linear ** 2).mean()
+    con = _elementary_contrasts(design_matrix_columns)
+    memorization = np.array([con['memorization_num_%d' % i]
+                             for i in range(1, 9)])
+    response = np.array([con['response_num_%d' % i]
+                             for i in range(1, 9)])
+    contrasts = {'enum_memorization_constant' : np.dot(constant, memorization),
+                 'enum_memorization_linear' : np.dot(linear, memorization),
+                 'enum_memorization_quadratic' : np.dot(quadratic, memorization),
+                 'enum_response_constant' : np.dot(constant, response),
+                 'enum_response_linear' : np.dot(linear, response),
+                 'enum_response_quadratic' : np.dot(quadratic, response),
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def movie_localizer(design_matrix_columns):
+    """ Contrast for pain task, TOM protocol"""
+    contrast_names = ['mov_pain', 'mov_mental', 'mov_mental-pain', 'mov_pain-mental']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {'mov_pain': con['pain'],
+                 'mov_mental': con['mental'],
+                 'mov_mental-pain' : con['mental'] - con['pain'],
+                 'mov_pain-mental' : con['pain'] - con['mental'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
 def pain_localizer(design_matrix_columns):
-    """ Contrast for colour localizer"""
-    contrast_names = ['emotional_pain', 'physical_pain',
+    """ Contrast for pain task, TOM protocol"""
+    contrast_names = ['physical_pain', 'emotional_pain',
                       'emotional-physical_pain', 'physical-emotional_pain']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
@@ -130,7 +219,7 @@ def pain_localizer(design_matrix_columns):
 
 
 def tom_localizer(design_matrix_columns):
-    """ Contrast for colour localizer"""
+    """ Contrast for tom task, TOM protocol"""
     contrast_names = ['belief', 'photo', 'belief-photo', 'photo-belief']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
