@@ -73,22 +73,34 @@
 71	mtt_we	west_east_reference	Spatial reference in west or east vs here	spatial reference here	reference in west or east
 72	mtt_we	far-close_time_event	Events far vs close in time	event close in time	event far in time
 73	mtt_we	past-future_reference	temporal reference in past vs future	reference in future	reference in past
-74	preference_faces	face_constant	Face preception and evaluation task	fixation	face evaluation
-75	preference_faces	face_linear	Linear effect of face preference	no face preference	face preference
-76	preference_faces	face_quadratic	quadratic effect of face preference	no confidence 	confidence in face preference
-77	preference_houses	house_constant	House preception and evaluation task	fixation	house evaluation
-78	preference_houses	house_linear	linear effect of house preference	no house preference	house preference
-79	preference_houses	house_quadratic	quadratic effect of house preference	no confidence 	confidence in house preference
-80	preference_food	food_constant	food preception and evaluation task	fixation	food evaluation
-81	preference_food	food_linear	linear effect of food preference	no food preference	food preference
-82	preference_food	food_quadratic	quadratic effect of food preference	no confidence 	confidence in food preference
-83	preference_paintings	painting_constant	painting perception and evaluation task	fixation	painting evaluation
-84	preference_paintings	painting_linear	Linear effect of painting preference	no painting preference	painting preference
-85	preference_paintings	painting_quadratic	quadratic effect of painting preference	no confidence 	confidence in painting preference
-86	preference	preference_constant	object perception and evaluation	fixation	visual evaluation
-87	preference	preference_linear	Linear effect of preference	no preference	visual preference
-88	preference	preference_quadratic	Quandratic effect of preference	no confidence 	confidence in preference
-89	preference	face-others	evaluation of faces vs other categories	other categories	face evaluation
-90	preference	house-others	evaluation of houses vs other categories	other categories	house evaluation
-91	preference	food-others	evaluation of food vs other categories	other categories	food evaluation
-92	preference	painting-others	evaluation of paintings vs other categories	other categories	painting evaluation
+74	preference	preference_constant	object perception and evaluation	fixation	visual evaluation
+75	preference	preference_linear	Linear effect of preference	no preference	visual preference
+76	preference	preference_quadratic	Quandratic effect of preference	no confidence 	confidence in preference
+77	preference	face-others	evaluation of faces vs other categories	other categories	face evaluation
+78	preference	house-others	evaluation of houses vs other categories	other categories	house evaluation
+79	preference	food-others	evaluation of food vs other categories	other categories	food evaluation
+80	preference	painting-others	evaluation of paintings vs other categories	other categories	painting evaluation
+81	tom_localizer	belief			
+82	tom_localizer	photo			
+83	tom_localizer	photo-belief			
+84	tom_localizer	belief-photo			
+85	movie_localizer	mov_pain	Attending to  movie w. physically painful  events	fixation	physical pain movie
+86	movie_localizer	mov_mental	Attending to movie w. mentally painful  events	fixation	mental pain movie
+87	movie_localizer	mov_mental-pain	Mentally-physically painful movie	physical pain movie	mental pain movie
+88	movie_localizer	mov_pain-mental	Physically-mentally painful movie	mental pain movie	physical pain movie
+89	pain_localizer	physical_pain	Listening to physical pain story	fixation	physical pain story
+90	pain_localizer	emotional_pain	Listening to emotional pain story	fixation	emotional pain story
+91	pain_localizer	emotional-physical_pain	emotional-physical pain story	physical pain story	emotional pain story
+92	pain_localizer	physical-emotional_pain	Physical-emotional pain story	emotional pain story	physical pain story
+93	enum	enum_memorization_linear	Enumeration linear  items memorization		
+94	enum	enum_memorization_constant	Enumeration constant  items memorization		
+95	enum	enum_memorization_quadratic	Enumeration quadratic  items memorization		
+96	enum	enum_response_linear	Enumeration linear  items response		
+97	enum	enum_response_constant	Enumeration constant  items response		
+98	enum	enum_response_quadratic	Enumeration quadratic  items response		
+99	VSTM	vstm_memorization_linear	VSTM linear  items memorization		
+100	VSTM	vstm_memorization_constant	VSTM constant  items memorization		
+101	VSTM	vstm_memorization_quadratic	VSTM quadratic  items memorization		
+102	VSTM	vstm_response_linear	VSTM linear  items response		
+103	VSTM	vstm_response_constant	VSTM constant  items response		
+104	VSTM	vstm_response_quadratic	VSTM quadratic  items response		
