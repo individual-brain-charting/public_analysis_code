@@ -13,7 +13,7 @@ from pypreprocess.nipype_preproc_spm_utils import (do_subjects_preproc,
                                                    SubjectData)
 from pypreprocess.conf_parser import _generate_preproc_pipeline
 from joblib import Memory, Parallel, delayed
-from utils_pipeline import fixed_effects_analysis, first_level, fsl_topup
+from ibc_public.utils_pipeline import fixed_effects_analysis, first_level, fsl_topup
 from os.path import join
 import glob
 

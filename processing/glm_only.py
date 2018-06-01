@@ -6,10 +6,10 @@
 """
 
 import os
-from pypreprocess.conf_parser import _generate_preproc_pipeline
-from joblib import Parallel, delayed
-from utils_pipeline import fixed_effects_analysis, first_level
 import glob
+from joblib import Parallel, delayed
+from pypreprocess.conf_parser import _generate_preproc_pipeline
+from ibc_public.utils_pipeline import fixed_effects_analysis, first_level
 from pipeline import (clean_subject, clean_anatomical_images, _adapt_jobfile,
                       get_subject_session, prepare_derivatives)
 
