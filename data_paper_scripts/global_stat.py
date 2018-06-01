@@ -16,14 +16,11 @@ from nilearn import plotting
 from nilearn.image import math_img
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 from nistats.thresholding import map_threshold
-from data_utils import data_parser
 import matplotlib.pyplot as plt
 
-DERIVATIVES = '/neurospin/ibc/derivatives'
-SMOOTH_DERIVATIVES = '/neurospin/ibc/smooth_derivatives'
-SUBJECTS = [os.path.basename(full_path) for full_path in
-            sorted(glob.glob(os.path.join(DERIVATIVES, 'sub-*')))]
-CONDITIONS = pd.DataFrame().from_csv('../processing/conditions.tsv', sep='\t')
+from ibc_public.data_utils import (
+    CONDITIONS, data_parser, SUBJECTS, DERIVATIVES, SMOOTH_DERIVATIVES)
+
 cache = '/neurospin/tmp/bthirion'
 mem = Memory(cachedir=cache, verbose=0)
 
