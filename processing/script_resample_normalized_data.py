@@ -38,7 +38,7 @@ if do_anat:
         if nib.load(img).shape != reference_shape)
 
 
-reference = '3mm_ref.nii.gz'
+reference = '../../ibc_public/ibc_data/3mm_ref.nii.gz'
 imgs = glob.glob('/neurospin/ibc/derivatives/sub-*/ses-*/func/wrdcsub-*.nii.gz')
 targets = []
 for img in imgs:

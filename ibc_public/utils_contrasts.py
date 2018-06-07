@@ -119,33 +119,29 @@ def colour(design_matrix_columns):
 
 def vstm(design_matrix_columns):
     """ contrasts for vstm task, Knops protocol"""
-    """
-    contrast_names = ['memorization_num_%d' % i for i in range(1, 7)] +\
-                     ['response_num_%d' % i for i in range(1, 7)]
-    if design_matrix_columns is None:
-        return dict([(name, []) for name in contrast_names])
-    con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(c, con[c]) for c in contrast_names])
-    """
-    contrast_names = ['vstm_memorization_linear', 'vstm_memorization_constant',
-                      'vstm_memorization_quadratic', 'vstm_response_linear',
-                      'vstm_response_constant', 'vstm_response_quadratic']
+    contrast_names = [
+       #'vstm_memorization_linear',
+       #'vstm_memorization_constant',
+       #'vstm_memorization_quadratic',
+       'vstm_response_linear',
+       'vstm_response_constant',
+       'vstm_response_quadratic']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     constant = np.ones(6)
     linear = np.linspace(-1, 1, 6)
     quadratic = linear ** 2 - (linear ** 2).mean()
     con = _elementary_contrasts(design_matrix_columns)
-    memorization = np.array([con['memorization_num_%d' % i]
-                             for i in range(1, 7)])
+    #memorization = np.array([con['memorization_num_%d' % i]
+    #                         for i in range(1, 7)])
     response = np.array([con['response_num_%d' % i]
                              for i in range(1, 7)])
-    contrasts = {'vstm_memorization_constant' : np.dot(constant, memorization),
-                 'vstm_memorization_linear' : np.dot(linear, memorization),
-                 'vstm_memorization_quadratic' : np.dot(quadratic, memorization),
-                 'vstm_response_constant' : np.dot(constant, response),
-                 'vstm_response_linear' : np.dot(linear, response),
-                 'vstm_response_quadratic' : np.dot(quadratic, response),
+    contrasts = {#'vstm_memorization_constant' : np.dot(constant, memorization),
+        #'vstm_memorization_linear' : np.dot(linear, memorization),
+        #'vstm_memorization_quadratic' : np.dot(quadratic, memorization),
+        'vstm_response_constant' : np.dot(constant, response),
+        'vstm_response_linear' : np.dot(linear, response),
+        'vstm_response_quadratic' : np.dot(quadratic, response),
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
@@ -155,9 +151,12 @@ def vstm(design_matrix_columns):
 
 def enum(design_matrix_columns):
     """ contrasts for vstm task, Knops protocol"""
-    contrast_names = ['enum_memorization_linear', 'enum_memorization_constant',
-                      'enum_memorization_quadratic', 'enum_response_linear',
-                      'enum_response_constant', 'enum_response_quadratic']
+    contrast_names = [#'enum_memorization_linear',
+        #'enum_memorization_constant',
+        #'enum_memorization_quadratic',
+        'enum_response_linear',
+        'enum_response_constant',
+        'enum_response_quadratic']
     
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
@@ -166,16 +165,16 @@ def enum(design_matrix_columns):
     linear = np.linspace(-1, 1, 8)
     quadratic = linear ** 2 - (linear ** 2).mean()
     con = _elementary_contrasts(design_matrix_columns)
-    memorization = np.array([con['memorization_num_%d' % i]
-                             for i in range(1, 9)])
+    #memorization = np.array([con['memorization_num_%d' % i]
+    #                         for i in range(1, 9)])
     response = np.array([con['response_num_%d' % i]
                              for i in range(1, 9)])
-    contrasts = {'enum_memorization_constant' : np.dot(constant, memorization),
-                 'enum_memorization_linear' : np.dot(linear, memorization),
-                 'enum_memorization_quadratic' : np.dot(quadratic, memorization),
-                 'enum_response_constant' : np.dot(constant, response),
-                 'enum_response_linear' : np.dot(linear, response),
-                 'enum_response_quadratic' : np.dot(quadratic, response),
+    contrasts = {#'enum_memorization_constant' : np.dot(constant, memorization),
+        #'enum_memorization_linear' : np.dot(linear, memorization),
+        #'enum_memorization_quadratic' : np.dot(quadratic, memorization),
+        'enum_response_constant' : np.dot(constant, response),
+        'enum_response_linear' : np.dot(linear, response),
+        'enum_response_quadratic' : np.dot(quadratic, response),
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)

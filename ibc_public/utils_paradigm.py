@@ -111,6 +111,14 @@ def post_process(df, paradigm_id):
        for response in responses_sn:
             df = df.replace(response, 'response')    
     """ ### XXX
+
+    if paradigm_id == 'enum':
+        for i in range(1, 9):
+            df = df.replace('memorization_num_%d' % i, 'response_num_%d' % i)
+    if paradigm_id == 'VSTM':
+        for i in range(1, 7):
+            df = df.replace('memorization_num_%d' % i, 'response_num_%d' % i)
+            
     return df
 
 
