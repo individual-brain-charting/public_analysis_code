@@ -18,7 +18,8 @@ SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]
 
 RETINO_REG = dict([(session_id, 'sin_cos_regressors.csv')
                    for session_id in ['wedge_anti_pa', 'wedge_clock_ap', 'cont_ring_ap',
-                                      'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']])
+                                      'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']] +
+                  [(session_id, None)  for session_id in ['clips_trn10', 'clips_trn11', 'clips_trn12']])
 
 def generate_glm_input(jobfile, smooth=None, lowres=False):
     """ retrun a list of dictionaries that represent the data available
@@ -132,7 +133,7 @@ if __name__ == '__main__':
             for (subject, session) in subject_session)
         
     """
-    for protocol in ['clips4', 'mtt1', 'mtt2']:  # ['hcp1', 'hcp2', , 'mtt2' 'preferences', 'screening', 'rsvp-language']
+    for protocol in ['mtt1', 'mtt2']:  # ['hcp1', 'hcp2', , 'mtt2' 'preferences', 'screening', 'rsvp-language', 'clips4', ]
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
         Parallel(n_jobs=4)(

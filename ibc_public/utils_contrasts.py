@@ -56,6 +56,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return vstm(design_matrix_columns)
     elif paradigm_id == 'enum':
         return enum(design_matrix_columns)
+    elif paradigm_id == 'clips_trn':
+        return dict([])
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -268,7 +270,6 @@ def mtt_ew(design_matrix_columns):
                 'average_reference': [],
         }
     con = _beta_contrasts(design_matrix_columns)
-    return con ### XXX
     future_events = con['ewe_center_future_space_close'] +\
                     con['ewe_center_future_space_far'] +\
                     con['ewe_center_future_time_close'] +\
@@ -363,7 +364,7 @@ def mtt_ns(design_matrix_columns):
                 'average_reference': [],
         }
     con = _beta_contrasts(design_matrix_columns)
-    return con ### XXX
+
     future_events = con['esn_center_future_space_close'] +\
                     con['esn_center_future_space_far'] +\
                     con['esn_center_future_time_close'] +\
