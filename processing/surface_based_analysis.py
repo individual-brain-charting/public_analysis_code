@@ -52,8 +52,8 @@ def recon_all(work_dir, subject, high_res=True):
         os.system('recon-all -all -subjid %s -sd %s' % (subject, t1_dir))
 
 
-Parallel(n_jobs=1)(delayed(recon_all)(work_dir, subject, True)
-                        for subject in subjects)
+#Parallel(n_jobs=1)(delayed(recon_all)(work_dir, subject, True)
+#                        for subject in subjects)
 
 
 # Step 2: Perform the projection
@@ -118,8 +118,8 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
                 (subject, right_fmri_tex, right_fsaverage_fmri_tex)))
 
 from pipeline import get_subject_session
-subject_sessions = sorted(get_subject_session('language'))
-subject_sessions = [('sub-15', 'ses-04')]
+subject_sessions = sorted(get_subject_session('mtt1'))
+
 
 Parallel(n_jobs=1)(
     delayed(project_volume)(work_dir, subject_session[0], [subject_session[1]], do_bbr=True)

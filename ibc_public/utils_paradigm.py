@@ -36,7 +36,7 @@ relevant_conditions = {
 
 def post_process(df, paradigm_id):
     if paradigm_id in (['language_00', 'language_01', 'language_02', 'language_03',
-                        'language_04', 'language_05']):
+                        'language_04', 'language_05', 'rsvp-language', 'language_']):
         targets = ['complex_sentence_objrel', 'complex_sentence_objclef',
                    'complex_sentence_subjrel']
         for target in targets:

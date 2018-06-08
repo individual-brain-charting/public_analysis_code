@@ -116,7 +116,7 @@ if __name__ == '__main__':
     prepare_derivatives('/neurospin/ibc/')
     """
     smooth = 5
-    for protocol in ['enumeration']:  # ['hcp1', 'hcp2', 'language', 'mtt2' 'preferences', 'tom']
+    for protocol in ['enumeration']:  # ['hcp1', 'hcp2', 'rsvp-language', 'mtt2' 'preferences', 'tom']
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
         Parallel(n_jobs=3)(
@@ -132,10 +132,10 @@ if __name__ == '__main__':
             for (subject, session) in subject_session)
         
     """
-    for protocol in ['rsvp-language', 'screening']:  # ['hcp1', 'hcp2', , 'mtt2' 'preferences']
+    for protocol in ['clips4', 'mtt1', 'mtt2']:  # ['hcp1', 'hcp2', , 'mtt2' 'preferences', 'screening', 'rsvp-language']
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=1)(
+        Parallel(n_jobs=4)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, lowres=True)
             for (subject, session) in subject_session)
     
