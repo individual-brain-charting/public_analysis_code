@@ -58,6 +58,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return enum(design_matrix_columns)
     elif paradigm_id == 'clips_trn':
         return dict([])
+    elif paradigm_id == 'self':
+        return self_localizer(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -106,6 +108,32 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
         contrast['derivatives'] = np.array(con)
     return contrast
 
+
+def self_localizer(design_matrix_columns):
+    """ Contrast sfor self experiment"""
+    contrast_names = [
+        'instructions', 'new_fa', 'old_other_hit', 'old_self_hit',
+        'other_relevance_with_response', 'self_relevance_with_response',
+        'self-other_hit', 'self-other_with_response'
+    ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'instructions': con['instructions'],
+        'new_fa': con['new_fa'],
+        'old_other_hit': con['old_other_hit'],
+        'old_self_hit': con['old_self_hit'],
+        'other_relevance_with_response': con['other_relevance_with_response'],
+        'self_relevance_with_response': con['self_relevance_with_response'],
+        'self-other_hit': con['old_self_hit'] - con['old_other_hit'],
+        'self-other_with_response': con['self_relevance_with_response'] - con['other_relevance_with_response'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+    
 
 def colour(design_matrix_columns):
     """ Contrasts for pain lcoalizer """
