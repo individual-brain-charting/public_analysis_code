@@ -37,21 +37,29 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
     elif paradigm_id in ['cont_ring', 'exp_ring', 'wedge_clock',
                          'wedge_anti']:
         return retino(design_matrix_columns)
-    elif paradigm_id in ['PreferencePaintings', 'PreferenceFaces',
-                         'PreferenceHouses', 'PreferenceFood']:
-        if paradigm_id  == 'PreferencePaintings':
-            domain = 'painting'
-        elif paradigm_id == 'PreferenceFaces':
-            domain = 'face'
-        elif paradigm_id == 'PreferenceHouses':
-            domain = 'house'
-        elif paradigm_id == 'PreferenceFood':
-            domain = 'food'
+    elif paradigm_id[:10] == 'preference':
+        domain = paradigm_id[11:]
+        if domain[-1] == 's':
+            domain = domain[: -1]
         return preferences(design_matrix_columns, domain)
     elif paradigm_id in ['IslandWE', 'IslandWE1', 'IslandWE2', 'IslandWE3']:
         return mtt_ew(design_matrix_columns)
     elif paradigm_id in ['IslandNS', 'IslandNS1', 'IslandNS2', 'IslandNS3']:
         return mtt_ns(design_matrix_columns)
+    elif paradigm_id == 'pain_localizer':
+        return pain_localizer(design_matrix_columns)
+    elif paradigm_id == 'movie_localizer':
+        return movie_localizer(design_matrix_columns)
+    elif paradigm_id == 'tom_localizer':
+        return tom_localizer(design_matrix_columns)
+    elif paradigm_id == 'VSTM':
+        return vstm(design_matrix_columns)
+    elif paradigm_id == 'enum':
+        return enum(design_matrix_columns)
+    elif paradigm_id == 'clips_trn':
+        return dict([])
+    elif paradigm_id == 'self':
+        return self_localizer(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -101,8 +109,34 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     return contrast
 
 
+def self_localizer(design_matrix_columns):
+    """ Contrast sfor self experiment"""
+    contrast_names = [
+        'instructions', 'new_fa', 'old_other_hit', 'old_self_hit',
+        'other_relevance_with_response', 'self_relevance_with_response',
+        'self-other_hit', 'self-other_with_response'
+    ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'instructions': con['instructions'],
+        'new_fa': con['new_fa'],
+        'old_other_hit': con['old_other_hit'],
+        'old_self_hit': con['old_self_hit'],
+        'other_relevance_with_response': con['other_relevance_with_response'],
+        'self_relevance_with_response': con['self_relevance_with_response'],
+        'self-other_hit': con['old_self_hit'] - con['old_other_hit'],
+        'self-other_with_response': con['self_relevance_with_response'] - con['other_relevance_with_response'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+    
+
 def colour(design_matrix_columns):
-    """ Contrast for colour localizer"""
+    """ Contrasts for pain lcoalizer """
     if design_matrix_columns is None:
         return {'color':[], 'grey': [], 'color-grey' : []}
     con = _elementary_contrasts(design_matrix_columns)
@@ -110,6 +144,110 @@ def colour(design_matrix_columns):
                  'grey': con['grey'],
                  'color-grey' : con['color'] - con['grey'],
              }
+    return contrasts
+
+
+def vstm(design_matrix_columns):
+    """ contrasts for vstm task, Knops protocol"""
+    contrast_names = [
+       'vstm_response_linear',
+       'vstm_response_constant',
+       'vstm_response_quadratic']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    constant = np.ones(6)
+    linear = np.linspace(-1, 1, 6)
+    quadratic = linear ** 2 - (linear ** 2).mean()
+    con = _elementary_contrasts(design_matrix_columns)
+    response = np.array([con['response_num_%d' % i]
+                             for i in range(1, 7)])
+    contrasts = {
+        'vstm_response_constant' : np.dot(constant, response),
+        'vstm_response_linear' : np.dot(linear, response),
+        'vstm_response_quadratic' : np.dot(quadratic, response),
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def enum(design_matrix_columns):
+    """ contrasts for vstm task, Knops protocol"""
+    contrast_names = [
+        'enum_response_linear',
+        'enum_response_constant',
+        'enum_response_quadratic']
+    
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    constant = np.ones(8)
+    linear = np.linspace(-1, 1, 8)
+    quadratic = linear ** 2 - (linear ** 2).mean()
+    con = _elementary_contrasts(design_matrix_columns)
+    response = np.array([con['response_num_%d' % i]
+                             for i in range(1, 9)])
+    contrasts = {
+        'enum_response_constant' : np.dot(constant, response),
+        'enum_response_linear' : np.dot(linear, response),
+        'enum_response_quadratic' : np.dot(quadratic, response),
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def movie_localizer(design_matrix_columns):
+    """ Contrast for pain task, TOM protocol"""
+    contrast_names = ['mov_pain', 'mov_mental', 'mov_mental-pain', 'mov_pain-mental']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {'mov_pain': con['pain'],
+                 'mov_mental': con['mental'],
+                 'mov_mental-pain' : con['mental'] - con['pain'],
+                 'mov_pain-mental' : con['pain'] - con['mental'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def pain_localizer(design_matrix_columns):
+    """ Contrast for pain task, TOM protocol"""
+    contrast_names = ['physical_pain', 'emotional_pain',
+                      'emotional-physical_pain', 'physical-emotional_pain']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {'emotional_pain': con['emotional_pain'],
+                 'physical_pain': con['physical_pain'],
+                 'emotional-physical_pain' : con['emotional_pain'] - con['physical_pain'],
+                 'physical-emotional_pain' : con['physical_pain'] - con['emotional_pain'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def tom_localizer(design_matrix_columns):
+    """ Contrast for tom task, TOM protocol"""
+    contrast_names = ['belief', 'photo', 'belief-photo', 'photo-belief']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {'photo': con['photo'],
+                 'belief': con['belief'],
+                 'photo-belief' : con['photo'] - con['belief'],
+                 'belief-photo' : con['belief'] - con['photo'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
 
 
@@ -129,6 +267,17 @@ def preferences(design_matrix_columns, domain):
     return contrasts
 
 
+def _beta_contrasts(design_matrix_columns):
+    """ Same as elementary contrasts, but retains only contrasts of interest"""
+    con = _elementary_contrasts(design_matrix_columns)
+    bad_names = tuple(['constant', 'rx', 'ry', 'rz', 'tx', 'ty', 'tz'] +
+                      ['drift_%d' % d for d in range(20)] +
+                      ['conf_%d' % d for d in range(20)])
+    con_ = dict([(cname, cvalue) for (cname, cvalue) in con.items()
+                if not cname.startswith(bad_names)])
+    return con_
+
+
 def mtt_ew(design_matrix_columns):
     """ Contrast for MTT north-south experiment"""
     if design_matrix_columns is None:
@@ -141,17 +290,34 @@ def mtt_ew(design_matrix_columns):
                 'far-close_space_event': [],
                 'far-close_time_event':[],
                 'past-future_event': [], 
-                'east-west_events': [],}
-    con = _elementary_contrasts(design_matrix_columns)
+                'east-west_events': [],
+                'response': [],
+                'cue_space': [],
+                'cue_time': [],
+                'average_event': [],
+                'average_reference': [],
+        }
+    con = _beta_contrasts(design_matrix_columns)
     future_events = con['ewe_center_future_space_close'] +\
+                    con['ewe_center_future_space_far'] +\
                     con['ewe_center_future_time_close'] +\
                     con['ewe_center_future_time_far']
     past_events = con['ewe_center_past_space_close'] +\
+                  con['ewe_center_past_space_far'] +\
                   con['ewe_center_past_time_close'] +\
                   con['ewe_center_past_time_far']
-    present_events = con['ewe_center_present_space_close'] + con['ewe_center_present_time_close'] + con['ewe_center_present_time_far']
-    east_events = con['ewe_east_present_space_close'] + con['ewe_east_present_time_close'] + con['ewe_east_present_time_far']
-    west_events = con['ewe_west_present_space_close'] + con['ewe_west_present_time_close'] + con['ewe_west_present_time_far']
+    present_events = con['ewe_center_present_space_close'] +\
+                     con['ewe_center_present_space_far'] +\
+                     con['ewe_center_present_time_close'] +\
+                     con['ewe_center_present_time_far']
+    east_events = con['ewe_east_present_space_close'] +\
+                  con['ewe_east_present_space_far'] +\
+                  con['ewe_east_present_time_close'] +\
+                  con['ewe_east_present_time_far']
+    west_events = con['ewe_west_present_space_close'] +\
+                  con['ewe_west_present_space_far'] +\
+                  con['ewe_west_present_time_close'] +\
+                  con['ewe_west_present_time_far']
     contrasts = {
         # reference
         'time_reference': con['rwe_center_future'] + con['rwe_center_past'] - 2 * con['rwe_center_present'],
@@ -164,7 +330,7 @@ def mtt_ew(design_matrix_columns):
         'far-close_space_event': (con['ewe_east_present_space_far'] + con['ewe_west_present_space_far']
                                    - con['ewe_east_present_space_close'] - con['ewe_west_present_space_close']),
         'far-close_time_event': (con['ewe_center_future_time_far'] + con['ewe_center_past_time_far']
-                                  - con['ewe_center_future_space_close'] - con['ewe_center_present_space_close']),
+                                  - con['ewe_center_future_time_close'] - con['ewe_center_present_time_close']),
         'past-future_event': past_events - future_events,
         'east-west_events': east_events - west_events,
         'reference': np.vstack((con['rwe_center_future'],
@@ -172,28 +338,37 @@ def mtt_ew(design_matrix_columns):
                                 con['rwe_center_present'],
                                 con['rwe_east_present'],
                                 con['rwe_west_present'])),
-        #'response': con['response'], ## fixme add it
+        'response': con['response'],
         'events': np.vstack((
             con['ewe_center_future_space_close'],
+            con['ewe_center_future_space_far'],
             con['ewe_center_future_time_close'],
             con['ewe_center_future_time_far'],
             con['ewe_center_past_space_close'],
+            con['ewe_center_past_space_far'],
             con['ewe_center_past_time_close'],
             con['ewe_center_past_time_far'],
             con['ewe_center_present_space_close'],
+            con['ewe_center_present_space_far'],
             con['ewe_center_present_time_close'],
             con['ewe_center_present_time_far'],
             con['ewe_east_present_space_close'],
+            con['ewe_east_present_space_far'],
             con['ewe_east_present_time_close'],
             con['ewe_east_present_time_far'],
             con['ewe_west_present_space_close'],
+            con['ewe_west_present_space_far'],
             con['ewe_west_present_time_close'],
             con['ewe_west_present_time_far'])),
         'cue': np.vstack((con['cwe_space_close'],
-                          # con['cwe_space_far'],  # fixme ??
+                          con['cwe_space_far'],
                           con['cwe_time_close'],
                           con['cwe_time_far'])),
+        'cue_space': con['cwe_space_close'] + con['cwe_space_far'],
+        'cue_time': con['cwe_time_close'] + con['cwe_time_far']
         }
+    contrasts['average_event'] = contrasts['events'].sum(0)
+    contrasts['average_reference'] = contrasts['reference'].sum(0)
     return contrasts
 
 
@@ -209,15 +384,42 @@ def mtt_ns(design_matrix_columns):
                 'far-close_space_event': [],
                 'far-close_time_event':[],
                 'past-future_event': [], 
-                'north-south_events': [],}
-    con = _elementary_contrasts(design_matrix_columns)
-    future_events = con['esn_center_future_space_close'] + con['esn_center_future_time_close'] + con['esn_center_future_time_far']
-    past_events = con['esn_center_past_space_close'] + con['esn_center_past_time_close'] + con['esn_center_past_time_far']
-    present_events = con['esn_center_present_space_close'] + con['esn_center_present_time_close'] + con['esn_center_present_time_far']
-    north_events = con['esn_north_present_space_close'] + con['esn_north_present_time_close'] + con['esn_north_present_time_far']
-    south_events = con['esn_south_present_space_close'] + con['esn_south_present_time_close'] + con['esn_south_present_time_far']
+                'north-south_events': [],
+                'response': [],
+                'cue_space': [],
+                'cue_time': [],
+                'average_event': [],
+                'average_reference': [],
+        }
+    con = _beta_contrasts(design_matrix_columns)
+
+    future_events = con['esn_center_future_space_close'] +\
+                    con['esn_center_future_space_far'] +\
+                    con['esn_center_future_time_close'] +\
+                    con['esn_center_future_time_far']
+    past_events = con['esn_center_past_space_close'] +\
+                  con['esn_center_past_space_far'] +\
+                  con['esn_center_past_time_close'] +\
+                  con['esn_center_past_time_far']
+    present_events = con['esn_center_present_space_close'] +\
+                     con['esn_center_present_space_far'] +\
+                     con['esn_center_present_time_close'] +\
+                     con['esn_center_present_time_far']
+    north_events = con['esn_north_present_space_close'] +\
+                   con['esn_north_present_space_far'] +\
+                   con['esn_north_present_time_close'] +\
+                   con['esn_north_present_time_far']
+    south_events = con['esn_south_present_space_close'] +\
+                   con['esn_south_present_space_far'] +\
+                   con['esn_south_present_time_close'] +\
+                   con['esn_south_present_time_far']
     contrasts = {
         # reference
+        'reference': np.vstack((con['rsn_center_future'],
+                                con['rsn_center_past'],
+                                con['rsn_center_present'],
+                                con['rsn_south_present'],
+                                con['rsn_north_present'])),
         'time_reference': con['rsn_center_future'] + con['rsn_center_past'] - 2 * con['rsn_center_present'],
         'south_north_reference': con['rsn_north_present'] + con['rsn_south_present'] - 2 * con['rsn_center_present'],
         'past-future_reference': con['rsn_center_past'] - con['rsn_center_future'],
@@ -225,39 +427,43 @@ def mtt_ns(design_matrix_columns):
         # events
         'time_event': future_events + past_events - 2. * (present_events), #  + north_events + south_events) / 3,
         'south_north_event':  north_events + south_events - 2 * present_events,
-        'far-close_space_event': (con['esn_north_present_time_far'] + con['esn_south_present_time_far']
+        'far-close_space_event': (con['esn_north_present_space_far'] + con['esn_south_present_space_far']
                                    - con['esn_north_present_space_close'] - con['esn_south_present_space_close']),
         'far-close_time_event': (con['esn_center_future_time_far'] + con['esn_center_past_time_far']
                                   - con['esn_center_future_space_close'] - con['esn_center_present_space_close']),
         'past-future_event': past_events - future_events,
         'north-south_events': north_events - south_events,
-        'reference': np.vstack((con['rsn_center_future'],
-                                con['rsn_center_past'],
-                                con['rsn_center_present'],
-                                con['rsn_south_present'],
-                                con['rsn_north_present'])),
-        # 'response': con['response'],
+        'response': con['response'],
         'events': np.vstack((
             con['esn_center_future_space_close'],
+            con['esn_center_future_space_far'],
             con['esn_center_future_time_close'],
             con['esn_center_future_time_far'],
             con['esn_center_past_space_close'],
+            con['esn_center_past_space_far'],
             con['esn_center_past_time_close'],
             con['esn_center_past_time_far'],
             con['esn_center_present_space_close'],
+            con['esn_center_present_space_far'],
             con['esn_center_present_time_close'],
             con['esn_center_present_time_far'],
             con['esn_south_present_space_close'],
+            con['esn_south_present_space_far'],
             con['esn_south_present_time_close'],
             con['esn_south_present_time_far'],
             con['esn_north_present_space_close'],
+            con['esn_north_present_space_far'],
             con['esn_north_present_time_close'],
             con['esn_north_present_time_far'])),
-        'cxxx': np.vstack((con['csn_space_close'],
-                           con['csn_space_far'],
-                           con['csn_time_close'],
-                           con['csn_time_far'])),
+        'cue': np.vstack((con['csn_space_close'],
+                          con['csn_space_far'],
+                          con['csn_time_close'],
+                          con['csn_time_far'])),
+        'cue_space': con['csn_space_close'] + con['csn_space_far'],
+        'cue_time': con['csn_time_close'] + con['csn_time_far'],
         }
+    contrasts['average_event'] = contrasts['events'].sum(0)
+    contrasts['average_reference'] = contrasts['reference'].sum(0)
     return contrasts
 
 
@@ -279,7 +485,7 @@ rsvp_language = ['consonant_string', 'word_list', 'pseudoword_list', 'jabberwock
                 '',]
 
 def rsvp_language(design_matrix_columns):
-    """ Contrasts for NSP language localizer"""
+    """ Contrasts for RSVP language localizer"""
     contrast_names = [
         'complex', 'simple', 'jabberwocky', 'word_list',
         'pseudoword_list', 'consonant_string', 'complex-simple',

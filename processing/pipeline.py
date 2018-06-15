@@ -13,7 +13,7 @@ from pypreprocess.nipype_preproc_spm_utils import (do_subjects_preproc,
                                                    SubjectData)
 from pypreprocess.conf_parser import _generate_preproc_pipeline
 from joblib import Memory, Parallel, delayed
-from utils_pipeline import fixed_effects_analysis, first_level, fsl_topup
+from ibc_public.utils_pipeline import fixed_effects_analysis, first_level, fsl_topup
 from os.path import join
 import glob
 
@@ -22,8 +22,8 @@ def clean_anatomical_images(main_dir):
     """ Removed NaNs from SPM12-supplied images """
     import nibabel as nib
     from numpy import isnan
-    subjects = ['sub-%02d' % i for i in range(1, 15)]
-    sessions =  ['ses-%02d' % j for j in range(0, 10)]
+    subjects = ['sub-%02d' % i for i in range(1, 16)]
+    sessions =  ['ses-%02d' % j for j in range(0, 30)]
     for subject in subjects:
         for session in sessions:
             anat_img = os.path.join(main_dir, 'derivatives', subject, session, 'anat',
@@ -74,7 +74,7 @@ def prepare_derivatives(main_dir):
     source_dir = os.path.join(main_dir, 'sourcedata')
     output_dir = os.path.join(main_dir, 'derivatives')
     subjects = ['sub-%02d' % i for i in range(0, 16)]
-    sess =  ['ses-%02d' % j for j in range(0, 20)]
+    sess =  ['ses-%02d' % j for j in range(0, 30)]
     modalities = ['anat', 'fmap', 'func', 'dwi']
     dirs = ([output_dir] +
             [os.path.join(output_dir, subject) for subject in subjects
@@ -117,7 +117,10 @@ def run_topup(mem, data_dir, subject, ses, acq=None):
         os.path.join(data_dir, 'sourcedata', subject, ses, 'func/*.nii.gz'))
     if functional_data == []:
         return
+    if acq == 'mb6':
+        functional_data = [fd for fd in functional_data if 'RestingState' in fd]
     functional_data.sort()
+    
     # gather the field maps
     if acq == 'mb3':
         field_maps = [
@@ -125,6 +128,12 @@ def run_topup(mem, data_dir, subject, ses, acq=None):
                 os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb3_dir-1_epi.nii.gz'))[-1],
             glob.glob(
                 os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb3_dir-0_epi.nii.gz'))[-1]]
+    elif acq == 'mb6':
+        field_maps = [
+            glob.glob(
+                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb6_dir-1_epi.nii.gz'))[-1],
+            glob.glob(
+                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb6_dir-0_epi.nii.gz'))[-1]]
     elif acq == None:
         field_maps = [
             glob.glob(
@@ -141,8 +150,8 @@ def apply_topup(main_dir, cache_dir, subject_sess=None, acq=None):
     mem = Memory(cache_dir)
     if subject_sess is None:
         subject_sess = [('sub-%02d, ses-%02d' % (i, j)) for i in range(0, 15) # FIXME
-                        for j in range(0, 10)]
-    Parallel(n_jobs=1)(
+                        for j in range(0, 15)]
+    Parallel(n_jobs=4)(
         delayed(run_topup)(mem, main_dir, subject_ses[0], subject_ses[1], acq=acq)
         for subject_ses in subject_sess)
 
@@ -177,7 +186,7 @@ def run_subject_preproc(jobfile, subject, session=None):
 def get_subject_session(protocol):
     """ utility to get all (subject, session) for a given protocol"""
     import pandas as pd
-    df = pd.DataFrame().from_csv('sessions.csv', sep='\t')
+    df = pd.read_csv('sessions.csv', index_col=0)
     # FIXME: move that file
     subject_session = []
     for session in df.columns:
@@ -191,20 +200,26 @@ def get_subject_session(protocol):
 if __name__ == '__main__':    
     # correction of distortion_parameters
     # custom solution, to be improved in the future
-    do_topup = True
-    protocol = 'mtt2'
     main_dir = '/neurospin/ibc/'
-    cache_dir = '/media/bt206016/ext_drive/cache_dir'
+    cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
-    subject_session = get_subject_session(protocol)
+    
+    do_topup = True
+    protocol = 'enumeration' # 'tom' #, 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 'preferences'
+    subject_session = sorted(get_subject_session(protocol))[-1:]
     
     if do_topup:
-        apply_topup(main_dir, cache_dir, subject_session, acq='mb3')
-    
+        acq = None
+        if protocol in ['rs']:
+            acq = 'mb6'
+        elif protocol in ['mtt1', 'mtt2']:
+            acq = 'mb3'
+        apply_topup(main_dir, cache_dir, subject_session, acq=acq)
+
     subject_data = []
-    for protocol in [protocol]:  #'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp1', 'hcp2'
+    for protocol in [protocol]:  
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_data_ = Parallel(n_jobs=4)(
+        subject_data_ = Parallel(n_jobs=3)(
             delayed(run_subject_preproc)(jobfile, subject, session)
             for subject, session in subject_session)
         subject_data = subject_data + subject_data_[0]

@@ -1,5 +1,7 @@
 """
-Common utilisities to all scripts
+Common utilities to all scripts
+
+Author: Bertrand Thirion, 2016-2018
 """
 
 import glob
@@ -13,9 +15,15 @@ else:
     
 DERIVATIVES = os.path.join(ibc, 'derivatives')
 SMOOTH_DERIVATIVES = os.path.join(ibc, 'smooth_derivatives')
+
 SUBJECTS = ['sub-%02d' % i for i in [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]]
-CONDITIONS = pd.DataFrame().from_csv('conditions.tsv', sep='\t')
-CONTRASTS = pd.DataFrame().from_csv('main_contrasts.tsv', sep='\t')
+_package_directory = os.path.dirname(os.path.abspath(__file__))
+# Useful for the very simple examples
+CONDITIONS = pd.read_csv(os.path.join(
+    _package_directory, '../ibc_data', 'conditions.tsv'), sep='\t')
+CONTRASTS = pd.read_csv(os.path.join(
+    _package_directory, '../ibc_data', 'main_contrasts.tsv'), sep='\t')
+
 
 
 def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
@@ -62,9 +70,22 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         tasks.append('')
         acquisitions.append('')
         
+    imgs_ = sorted(glob.glob(os.path.join(
+        derivatives, 'sub-*/ses-*/anat/wsub*_T1w_bet.nii.gz')))
+    for img in imgs_:
+        session = img.split('/')[-3]
+        subject = img.split('/')[-4]
+        paths.append(img)
+        sessions.append(session)
+        subjects.append(subject)
+        modalities.append('T1')
+        contrasts.append('t1_bet')
+        tasks.append('')
+        acquisitions.append('')
+        
     # gm images
     imgs_ = sorted(glob.glob(os.path.join(
-        derivatives, 'sub-*/ses-*/anat/mwcc1sub*_T1w.nii.gz')))
+        derivatives, '../derivatives', 'sub-*/ses-*/anat/mwc1sub*_T1w.nii.gz')))
     for img in imgs_:
         session = img.split('/')[-3]
         subject = img.split('/')[-4]
@@ -73,6 +94,19 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         subjects.append(subject)
         modalities.append('T1')
         contrasts.append('gm')
+        tasks.append('')
+        acquisitions.append('')
+
+    imgs_ = sorted(glob.glob(os.path.join(
+        derivatives, '../derivatives', 'sub-*/ses-*/anat/mwc1sub*_T1w.nii.gz')))
+    for img in imgs_:
+        session = img.split('/')[-3]
+        subject = img.split('/')[-4]
+        paths.append(img)
+        sessions.append(session)
+        subjects.append(subject)
+        modalities.append('T1')
+        contrasts.append('highres_gm')
         tasks.append('')
         acquisitions.append('')
         
@@ -103,7 +137,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 contrast = contrast_name[i]
                 task = con_df.task[i]
                 task_name = task
-                if task == 'language_':
+                if task == 'rsvp_language':
                     task = 'language_*'
                     task_name = 'rsvp_language'
 
@@ -112,7 +146,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     (subject, task, acq, contrast))
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
-                    stop
+                    pass
                 imgs_.sort()
                 # some renaming
                 contrast_id = contrast

@@ -10,13 +10,12 @@ import time
 import numpy as np
 import nibabel as nib
 import warnings
-from pandas import DataFrame
+from pandas import read_csv
 from nilearn.masking import compute_multi_epi_mask
 from nilearn.image import high_variance_confounds
 
-from nistats.design_matrix import (
-    make_design_matrix, check_design_matrix, plot_design_matrix)
-
+from nistats.design_matrix import make_design_matrix, check_design_matrix
+from nistats.reporting import plot_design_matrix
 
 
 from pypreprocess.reporting.base_reporter import ProgressReport
@@ -64,11 +63,11 @@ def _make_merged_filename(fmap_dir, basenames):
 
     if 'acq' in dic0.keys():
         merged_basename = (
-            'sub-' + dic0['sub'] + '_sess-' + dic0['ses'] + '_acq-' +
+            'sub-' + dic0['sub'] + '_ses-' + dic0['ses'] + '_acq-' +
             dic0['acq'] + '_dir-' + dic0['dir'] + dic1['dir'] + '_epi.nii.gz')
     else:
         merged_basename = (
-            'sub-' + dic0['sub'] + '_sess-' + dic0['ses'] + '_dir-' +
+            'sub-' + dic0['sub'] + '_ses-' + dic0['ses'] + '_dir-' +
             dic0['dir'] + dic1['dir'] + '_epi.nii.gz')
     # merged_basename = basenames[0][:19] + basenames[1][18:]
     return(os.path.join(fmap_dir, merged_basename))
@@ -230,7 +229,7 @@ def masking(func, output_dir):
 
     
 def first_level(subject_dic, additional_regressors=None, compcorr=False,
-                smooth=None, surface=False):
+                smooth=None, surface=False, mask_img=None):
     """ Run the first-level analysis (GLM fitting + statistical maps)
     in a given subject
     
@@ -255,9 +254,10 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
     drift_model = subject_dic['drift_model']
     tr = subject_dic['TR']
 
-    if not surface:
+    if not surface and (mask_img is None):
         mask_img = masking(subject_dic['func'], subject_dic['output_dir'])
 
+        
     if additional_regressors is None:
         additional_regressors = dict(
             [(session_id, None) for session_id in subject_dic['session_id']])
@@ -267,7 +267,12 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             subject_dic['onset'], subject_dic['realignment_parameters']):
         
         # Guessing paradigm from file name
-        paradigm_id = session_id[:session_id.rfind('_')]
+        # paradigm_id = session_id[:session_id.rfind('_')]
+        #paradigm_id = session_id
+        #for unwanted in ['_ap', '_pa'] + ['_run%d' % d for d in range(10)]:
+        #    paradigm_id = paradigm_id.replace(unwanted, '')
+        paradigm_id = _session_id_to_task_id([session_id])[0]
+        
         if surface:
             from nibabel.gifti import read
             n_scans = np.array([darrays.data for darrays in read(fmri_path).darrays]).shape[0]
@@ -308,7 +313,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         if additional_regressors[session_id] is None:
             add_regs = confounds
         else:
-            df = DataFrame().from_csv(additional_regressors[session_id])
+            df = read_csv(additional_regressors[session_id])
             add_regs = []
             for regressor in df:
                 add_reg_names.append(regressor)
@@ -325,13 +330,6 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             add_reg_names=add_reg_names)
         _, dmtx, names = check_design_matrix(design_matrix)
 
-        #import matplotlib.pyplot as plt
-        #ax = plot_design_matrix(design_matrix)
-        #ax.set_position([.05, .25, .9, .65])
-        #ax.set_title('Design matrix')
-        #plt.savefig(os.path.join(subject_dic['output_dir'],
-        #                         'design_matrix_%s.png' % session_id))
-        
         # create the relevant contrasts
         contrasts = make_contrasts(paradigm_id, names)
 
@@ -393,9 +391,19 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
 def _session_id_to_task_id(session_ids):
     """ Converts a session_id to a task _id
     by removing non-zero digits and _ap or _pa suffixes"""
-    offset = -3 # remove the last letters from session_id to get task_id
-    task_ids = [session_id[:offset] for session_id in session_ids
-                if session_id[offset:] in ['_ap', '_pa']]
+    run_mark = tuple(['_run-%02d' % d  for d in range(10)])
+    task_ids = []
+    for i, session_id in enumerate(session_ids):
+        if session_id.endswith(run_mark):
+            task_ids.append(session_id[:-7])
+        else:
+            task_ids.append(session_id)
+
+    acq_mark = tuple(['_ap', '_pa'])
+    for i, task_id in enumerate(task_ids):
+        if task_id.endswith(acq_mark):
+            task_ids[i] = task_id[: -3]
+
     for i, task_id in enumerate(task_ids):
         for x in range(0, 10):
             task_id = task_id.replace(str(x), '')
@@ -437,16 +445,19 @@ def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
     return effect_size_maps, effect_variance_maps, data_available
     
 
-def fixed_effects_analysis(subject_dic, surface=False):
+def fixed_effects_analysis(subject_dic, surface=False, mask_img=None):
     """ Combine the AP and PA images """
     from nibabel import load, save
     from nilearn.plotting import plot_stat_map
     
-    session_ids = subject_dic['session_id'] 
+    session_ids = subject_dic['session_id']
+    print(session_ids)
     task_ids = _session_id_to_task_id(session_ids)
     paradigms = np.unique(task_ids)
     print(task_ids, paradigms)
-    mask_img = os.path.join(subject_dic['output_dir'], "mask.nii.gz")
+    if mask_img is None:
+        mask_img = os.path.join(subject_dic['output_dir'], "mask.nii.gz")
+
     # Guessing paradigm from file name
     for paradigm in paradigms:
         # select the sessions relevant for the paradigm
@@ -582,8 +593,7 @@ def fixed_effects(contrasts, variances):
     con, var = np.asarray(contrasts), np.asarray(variances)
     var = np.maximum(var, tiny)
     prec = 1. / var
-    ffx_con = np.sum(con * prec, 0) * 1. / np.sum(prec, 0)
     ffx_var = 1. / np.sum(prec, 0)
+    ffx_con = np.sum(con * prec, 0) * ffx_var
     ffx_stat = ffx_con / np.sqrt(ffx_var)
-    arrays = [ffx_con, ffx_var, ffx_stat]
-    return arrays
+    return [ffx_con, ffx_var, ffx_stat]

@@ -4,7 +4,7 @@ Some utils too deal with peculiar protocols or peculiar ways of handling them
 Author: Bertrand Thirion, Ana Luisa Grilo Pinho, 2015
 """
 import numpy as np
-from pandas import DataFrame, concat
+from pandas import read_csv, concat
 
 
 rsvp_language = ['consonant_strings', 'word_list', 'pseudoword_list', 'jabberwocky',
@@ -36,7 +36,7 @@ relevant_conditions = {
 
 def post_process(df, paradigm_id):
     if paradigm_id in (['language_00', 'language_01', 'language_02', 'language_03',
-                        'language_04', 'language_05']):
+                        'language_04', 'language_05', 'rsvp-language', 'language_']):
         targets = ['complex_sentence_objrel', 'complex_sentence_objclef',
                    'complex_sentence_subjrel']
         for target in targets:
@@ -60,16 +60,10 @@ def post_process(df, paradigm_id):
         df = df[condition]
 
         
-    if paradigm_id in ['PreferencePaintings', 'PreferenceFaces', 'PreferenceHouses',
-                       'PreferenceFood']:
-        if paradigm_id  == 'PreferencePaintings':
-            domain = 'painting'
-        elif paradigm_id == 'PreferenceFaces':
-            domain = 'face'
-        elif paradigm_id == 'PreferenceHouses':
-            domain = 'house'
-        elif paradigm_id == 'PreferenceFood':
-            domain = 'food'
+    if paradigm_id[:10] == 'preference':
+        domain = paradigm_id[11:]
+        if domain[-1] == 's':
+            domain = domain[:-1]
         # 
         df['modulation'] = df['score'] - df[df.trial_type == domain]['score'].mean()
         df = df.fillna(1)
@@ -84,6 +78,46 @@ def post_process(df, paradigm_id):
         df3.trial_type = '%s_quadratic' % domain
         df = df.replace(domain, '%s_linear' % domain)
         df = concat([df, df2, df3], axis=0, ignore_index=True)
+
+    responses_we = ['response_we_east_present_space_close', 'response_we_west_present_space_far',
+                    'response_we_center_past_space_far', 'response_we_west_present_time_close',
+                    'response_we_east_present_time_far', 'response_we_center_past_space_close',
+                    'response_we_center_present_space_close', 'response_we_center_present_space_far',
+                    'response_we_center_present_time_far', 'response_we_east_present_time_close',
+                    'response_we_center_past_time_close', 'response_we_center_past_time_far',
+                    'response_we_east_present_space_far', 'response_we_center_future_time_far',
+                    'response_we_center_future_time_far', 'response_we_center_future_time_close',
+                    'response_we_west_present_space_close', 'response_we_center_present_time_close',
+                    'response_we_center_present_time_close','response_we_center_future_space_far',
+                    'response_we_center_future_space_close', 'response_we_west_present_time_far']    
+
+    if paradigm_id == 'IslandWE':
+        for response in responses_we:
+            df = df.replace(response, 'response')    
+
+    responses_sn = ['response_sn_north_present_space_far', 'response_sn_south_present_time_close',
+                   'response_sn_center_present_space_close', 'response_sn_south_present_time_far',
+                   'response_sn_center_future_space_close', 'response_sn_center_past_space_close',
+                   'response_sn_north_present_time_close', 'response_sn_center_past_space_far',
+                   'response_sn_south_present_space_close', 'response_sn_center_present_time_far',
+                   'response_sn_center_past_time_far', 'response_sn_center_future_space_far',
+                   'response_sn_center_future_space_far', 'response_sn_center_future_time_close',
+                   'response_sn_center_past_time_close', 'response_sn_north_present_time_far',
+                   'response_sn_south_present_space_far', 'response_sn_center_present_time_close',
+                   'response_sn_north_present_space_close','response_sn_center_present_space_far',
+                   'response_sn_center_future_time_far', 'response_sn_center_future_time_far',]
+
+    if paradigm_id  == 'IslandNS':
+       for response in responses_sn:
+            df = df.replace(response, 'response')    
+
+    if paradigm_id == 'enum':
+        for i in range(1, 9):
+            df = df.replace('memorization_num_%d' % i, 'response_num_%d' % i)
+    if paradigm_id == 'VSTM':
+        for i in range(1, 7):
+            df = df.replace('memorization_num_%d' % i, 'response_num_%d' % i)
+            
     return df
 
 
@@ -91,7 +125,7 @@ def make_paradigm(onset_file, paradigm_id=None):
     """ Temporary fix """
     if paradigm_id in ['wedge_clock', 'wedge_anti', 'cont_ring', 'exp_ring']:
         return None
-    df = DataFrame().from_csv(onset_file, index_col=None, sep='\t')
+    df = read_csv(onset_file, index_col=None, sep='\t')
     if 'onset' not in df.keys() and 'Onsets' in df.keys():
         df['onset'] = df['Onsets']
         df.drop('Onsets', 1, inplace=True)

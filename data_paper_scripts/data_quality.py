@@ -199,7 +199,7 @@ def motion_histogram(db):
     plt.plot(mbins, H, linewidth=1)
     plt.fill(mbins, H, alpha=.3)
     plt.legend(['translation x', 'translation y', 'translation z',
-                'rotation x', 'rotation y', 'rotation z'])
+                'rotation x', 'rotation y', 'rotation z'], fontsize=10)
     plt.xlabel('mm/degrees')
     plt.ylabel('normalized histogram')
     plt.title('Histogram of motion parameters')
@@ -210,12 +210,14 @@ def motion_histogram(db):
     # dummy line for
     plt.plot([xlist[i, left], xlist[i, right]], [-0.018, -.018], color='w')
     plt.axis('tight')
+    plt.subplots_adjust(bottom=.12, left=.14)
     plt.savefig(os.path.join('output', 'rp.pdf'))
     plt.show()
 
     
 if __name__ == '__main__':
     db = data_parser()
+    """
     mask = average_brain_mask()
     mask.to_filename('/tmp/mask.nii.gz')
     from nilearn.input_data import NiftiMasker
@@ -226,4 +228,5 @@ if __name__ == '__main__':
     tsnr_map.to_filename(os.path.join('output', 'average_tsnr.nii.gz'))
     plotting.plot_epi(tsnr_map, vmax=60, colorbar=True,
                       output_file=os.path.join('output', 'average_tsnr.pdf'))
-    # motion_histogram(db)
+    """
+    motion_histogram(db)

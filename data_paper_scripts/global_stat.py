@@ -9,7 +9,6 @@ import glob
 import os
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import nibabel as nib
 from nilearn.input_data import NiftiMasker
 from joblib import Memory, Parallel, delayed
@@ -17,13 +16,11 @@ from nilearn import plotting
 from nilearn.image import math_img
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 from nistats.thresholding import map_threshold
-from data_utils import data_parser
+import matplotlib.pyplot as plt
 
-DERIVATIVES = '/neurospin/ibc/derivatives'
-SMOOTH_DERIVATIVES = '/neurospin/ibc/smooth_derivatives'
-SUBJECTS = [os.path.basename(full_path) for full_path in
-            sorted(glob.glob(os.path.join(DERIVATIVES, 'sub-*')))]
-CONDITIONS = pd.DataFrame().from_csv('../processing/conditions.tsv', sep='\t')
+from ibc_public.data_utils import (
+    CONDITIONS, data_parser, SUBJECTS, DERIVATIVES, SMOOTH_DERIVATIVES)
+
 cache = '/neurospin/tmp/bthirion'
 mem = Memory(cachedir=cache, verbose=0)
 
@@ -75,6 +72,7 @@ def anova(db, masker):
 
 def global_similarity(db, masker):
     """Study the global similarity of ffx activation maps"""
+    import matplotlib.pyplot as plt
     df = db[db.acquisition == 'ffx']
     X = masker.transform(df.path)
     xcorr = np.corrcoef(X)
@@ -127,23 +125,30 @@ def condition_similarity(db, masker):
         correlation += np.corrcoef(x)
         X[subject] = x
 
+    correlation /= n_subjects
     tasks = np.array(tasks) 
     unique_tasks = np.unique(tasks)
     task_pos = np.array(
         [np.mean(np.where(tasks == task)[0]) for task in unique_tasks])
+    task_pos = np.array([25.5, 18.5, 12. ,  4.5, 40, 34, 28.5, 37. , 43, 31.5, 47.5,
+                      55. ]) ## Ugly trick, but just to maks the labels readable :-(
     nice_tasks = np.array([task.replace('_', ' ') for task in unique_tasks])
 
     # plot with subject correlations
-    plt.figure(figsize=(5, 5))
+    fig = plt.figure(figsize=(6., 5))
+    #fig, ax = plt.subplots()
     ax = plt.axes()
     ax.set_yticks(task_pos)
     ax.set_yticklabels(nice_tasks)
     ax.set_xticks(task_pos)
     ax.set_xticklabels(nice_tasks, rotation=60, ha='right')
-    ax.imshow(correlation, interpolation='nearest', cmap=plotting.cm.bwr)
-    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.2)
+    cax = ax.imshow(correlation, interpolation='nearest', cmap=plotting.cm.bwr)
+    # Add colorbar, make sure to specify tick locations to match desired ticklabels
+    cbar = fig.colorbar(cax, ticks=[0, .95])
+    cbar.ax.set_yticklabels(['0', '1'])  # vertically oriented colorbar
+    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.22)
     plt.savefig(os.path.join('output', 'condition_similarity_within.pdf'))
-
+    
     # plot cross-subject correlation
     correlation_ = np.zeros((n_conditions, n_conditions))
     for i in range(n_subjects):
@@ -152,14 +157,17 @@ def condition_similarity(db, masker):
             correlation_ += np.corrcoef(X_)[n_conditions:, :n_conditions]
             
     correlation_ /= (n_subjects * (n_subjects - 1) * .5)
-    plt.figure(figsize=(5, 5))
+    fig = plt.figure(figsize=(6., 5))
     ax = plt.axes()
     ax.set_yticks(task_pos)
     ax.set_yticklabels(nice_tasks)
     ax.set_xticks(task_pos)
     ax.set_xticklabels(nice_tasks, rotation=60, ha='right')
-    ax.imshow(correlation_, interpolation='nearest', cmap=plotting.cm.bwr)
-    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.2)
+    cax = ax.imshow(correlation_, interpolation='nearest', cmap=plotting.cm.bwr)
+    # Add colorbar, make sure to specify tick locations to match desired ticklabels
+    cbar = fig.colorbar(cax, ticks=[0, .4])
+    cbar.ax.set_yticklabels(['0', '.4'])  # vertically oriented colorbar
+    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.22)
     plt.savefig(os.path.join('output', 'condition_similarity_across.pdf'))
 
     # similarity at the level of conditions
@@ -174,14 +182,17 @@ def condition_similarity(db, masker):
                           if df[df.index == condition].values[0][i]])
 
     ccorrelation = np.corrcoef(cog_model)
-    plt.figure(figsize=(5, 5))
+    fig = plt.figure(figsize=(6., 5))
     ax = plt.axes()
     ax.set_yticks(task_pos)
     ax.set_yticklabels(nice_tasks)
     ax.set_xticks(task_pos)
     ax.set_xticklabels(nice_tasks, rotation=60, ha='right')
-    ax.imshow(ccorrelation, interpolation='nearest', cmap=plotting.cm.bwr)
-    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.2)
+    cax = ax.imshow(ccorrelation, interpolation='nearest', cmap=plotting.cm.bwr)
+    # Add colorbar, make sure to specify tick locations to match desired ticklabels
+    cbar = fig.colorbar(cax, ticks=[0, 0.95])
+    cbar.ax.set_yticklabels(['0', '1'])  # vertically oriented colorbar
+    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.22)
     plt.savefig(os.path.join('output', 'condition_similarity_cognitive.pdf'))
     plt.show()
     x = np.triu(correlation, 1)
@@ -192,16 +203,18 @@ def condition_similarity(db, masker):
     print('pearson', st.pearsonr(x,y))
     print('spearman', st.spearmanr(x,y))
     
-
-def condition_similarity_(db, masker):
+    
+def condition_similarity_across_subjects(db, masker):
     """ Look at the similarity across conditions, averaged across subjects and phase encoding"""
     df = db[db.acquisition == 'ffx']
     conditions = df.contrast.unique()
     n_conditions = len(conditions)
     correlation = np.zeros((n_conditions, n_conditions))
-    X = {}
+    correlations = {}
     unique_subjects = df.subject.unique()
-    n_subjects = len(unique_subjects)
+    n_voxels =  masker.mask_img_.get_data().sum()
+    x_sum = np.zeros((n_conditions, n_voxels))
+    X = []
     for subject in unique_subjects:
         paths = []
         tasks = []
@@ -210,43 +223,89 @@ def condition_similarity_(db, masker):
             tasks.append(selection.task.values[-1])
             paths.append(selection.path.values[-1])
         x = masker.transform(paths)
-        correlation += np.corrcoef(x)
-        X[subject] = x
+        correlation = np.corrcoef(x)
+        x_sum += x
+        correlations[subject] = correlation
+        X.append(x)
 
+    X = np.array(X) 
     tasks = np.array(tasks) 
+    unique_tasks = np.unique(tasks)
+    task_pos = np.array(
+        [np.mean(np.where(tasks == task)[0]) for task in unique_tasks])
+    task_pos = np.array([25.5, 18.5, 12. ,  4.5, 40, 34, 28.5, 37. , 43, 31.5, 47.5,
+                      55. ]) ## Ugly trick, but just to maks the labels readable :-(
+    nice_tasks = np.array([task.replace('_', ' ') for task in unique_tasks])
+    mean_correlation = np.mean(np.array(correlations.values()), 0)
 
-    # similarity at the level of conditions
-    cognitive_atlas = 'cognitive_atlas.csv'
-    df = pd.DataFrame().from_csv(cognitive_atlas, index_col=1, sep='\t')
-    df = df.fillna(0)
-    df = df.drop('Tasks', 1)
-    cog_model = np.zeros((n_conditions, len(df.columns)))
-    for i, condition in enumerate(conditions):
-        cog_model[i] = df[df.index == condition].values
-        print(condition, [df.columns[i] for i in range(50)
-                          if df[df.index == condition].values[0][i]])
+    def complexity(correlation):
+        _, s, _ = np.linalg.svd(correlation, 0)
+        return(np.log(s).sum())
+            
+    def bootstrap_complexity_correlation_mean(X, n_bootstrap=100):
+        """X is meant to be an array(n_subjects, n_voxels, n_contrasts)"""
+        complexities = []
+        for _ in range(n_bootstrap):
+            X_sum = np.zeros_like(X[0])
+            indexes = np.random.randint(0, X.shape[0], X.shape[0])
+            for i in indexes:
+                X_sum += X[i]
+            correlation_mean = np.corrcoef(X_sum)
+            complexities.append(complexity(correlation_mean))
+        return complexities
 
-    ccorrelation = np.corrcoef(cog_model)
-    plt.figure(figsize=(10, 10))
+    def bootstrap_complexity_mean_correlation(correlations, n_bootstrap=100):
+        """X is meant to be an array(n_subjects, n_voxels, n_contrasts)"""
+        complexities = []
+        for _ in range(n_bootstrap):
+            indexes = np.random.randint(0, correlations.shape[0], correlations.shape[0])
+            mean_correlation = np.mean(correlations[indexes], 0)
+            complexities.append(complexity(mean_correlation))
+        return complexities
+            
+    # plot with subject correlations
+    fig = plt.figure(figsize=(12., 10))
+    #fig, ax = plt.subplots()
+    for i, subject in enumerate(unique_subjects):
+        ax = plt.subplot(3, 4, i + 1)
+        ax.axis('off')
+        #ax.set_yticks(task_pos)
+        #ax.set_yticklabels(nice_tasks)
+        #ax.set_xticks(task_pos)
+        #ax.set_xticklabels(nice_tasks, rotation=60, ha='right')
+        cax = ax.imshow(correlations[subject], interpolation='nearest',
+                        cmap=plotting.cm.bwr)
+    ## Add colorbar, make sure to specify tick locations to match desired ticklabels
+    #cbar = fig.colorbar(cax, ticks=[0, .95])
+    #cbar.ax.set_yticklabels(['0', '1'])  # vertically oriented colorbar
+    plt.subplots_adjust(left=.02, top=.98, right=.98, bottom=.05)
+    plt.savefig(os.path.join('output', 'condition_similarities.pdf'))
+    correlation_mean = np.corrcoef(x_sum)
+    fig = plt.figure(figsize=(6., 5))
     ax = plt.axes()
-    ax.set_yticks(range(n_conditions))
-    ax.set_yticklabels(conditions)
-    ax.set_xticks(range(n_conditions))
-    ax.set_xticklabels(conditions, rotation=60, ha='right')
-    ax.imshow(ccorrelation, interpolation='nearest', cmap=plotting.cm.bwr)
-    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.2)
-    plt.savefig(os.path.join('output', 'condition_similarity_cognitive.pdf'))
-    plt.show()
-    x = np.triu(correlation, 1)
-    y = np.triu(ccorrelation, 1)
-    x = x[x != 0]
-    y = y[y != 0]
-    import scipy.stats as st
-    print('pearson', st.pearsonr(x,y))
-    print('spearman', st.spearmanr(x,y))
-    
-
-
+    ax.set_yticks(task_pos)
+    ax.set_yticklabels(nice_tasks)
+    ax.set_xticks(task_pos)
+    ax.set_xticklabels(nice_tasks, rotation=60, ha='right')
+    cax = ax.imshow(correlation_mean, interpolation='nearest', cmap=plotting.cm.bwr)
+    # Add colorbar, make sure to specify tick locations to match desired ticklabels
+    cbar = fig.colorbar(cax, ticks=[0, 0.95])
+    cbar.ax.set_yticklabels(['0', '1'])  # vertically oriented colorbar
+    plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.22)
+    plt.savefig(os.path.join('output', 'condition_similarity_of_mean.pdf'))
+    C1 = bootstrap_complexity_correlation_mean(X, n_bootstrap=100)
+    C2 = bootstrap_complexity_mean_correlation(np.array(correlations.values()),
+                                               n_bootstrap=100)
+    plt.figure(figsize=(6, 3))
+    bp = plt.boxplot(C1, vert=0, positions=[0], widths=.8)
+    for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']: plt.setp(bp[element], color='g', linewidth=3)
+    bp = plt.boxplot(C2, vert=0, positions=[1], widths=.8)
+    for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']: plt.setp(bp[element], color='r', linewidth=3)
+    plt.yticks([0, 1], ['correlation of average', 'mean correlation'])
+    plt.axis([-95, -40, -.5, 1.5])
+    plt.title('Complexity of correlation matrices')
+    plt.subplots_adjust(left=.35, bottom=.1, right=.95, top=.9)
+    plt.savefig(os.path.join('output', 'correlation_complexity.pdf'))
     
     
 if __name__ == '__main__':
@@ -275,7 +334,6 @@ if __name__ == '__main__':
                            output_file=os.path.join('output', 'acq_effect.pdf'))
     
     global_similarity(db, masker)
-
-    condition_similarity(db, masker)
     """
-    condition_similarity_(db, masker)
+    condition_similarity_across_subjects(db, masker)
+    plt.show()

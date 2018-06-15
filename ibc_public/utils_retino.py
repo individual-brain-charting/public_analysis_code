@@ -18,15 +18,17 @@ def combine_phase(phase_pos, phase_neg, offset=0, hemo=None):
         # first phase estimate
         pr1 = phase_pos - hemo
         pr2 = hemo - phase_neg
-        pr2[pr1 - pr2 > np.pi] += 2 * np.pi
-        pr1[pr2 - pr1 > np.pi] += 2 * np.pi
+        pr2[(pr1 - pr2) > np.pi] += (2 * np.pi)
+        pr2[(pr1 - pr2) > np.pi] += (2 * np.pi)
+        pr1[(pr2 - pr1) > np.pi] += (2 * np.pi)
+        pr1[(pr2 - pr1) > np.pi] += (2 * np.pi)
         phase = 0.5 * (pr1 + pr2)
         
         # add the offset and bring back to [-pi, +pi]
         phase += offset
         phase += 2 * np.pi * (phase < - np.pi)
-        phase -= 2 * np.pi * (phase > np.pi)
         phase += 2 * np.pi * (phase < - np.pi)
+        phase -= 2 * np.pi * (phase > np.pi)
         phase -= 2 * np.pi * (phase > np.pi)
         return phase, hemo
 
