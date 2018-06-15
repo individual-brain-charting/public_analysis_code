@@ -207,7 +207,7 @@ if __name__ == '__main__':
     do_topup = True
     protocol = 'enumeration' # 'tom' #, 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 'preferences'
     subject_session = sorted(get_subject_session(protocol))[-1:]
-    
+
     if do_topup:
         acq = None
         if protocol in ['rs']:
