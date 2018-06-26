@@ -15,16 +15,15 @@ else:
     
 DERIVATIVES = os.path.join(ibc, 'derivatives')
 SMOOTH_DERIVATIVES = os.path.join(ibc, 'smooth_derivatives')
-SUBJECTS = [os.path.basename(full_path) for full_path in
-            sorted(glob.glob(os.path.join(DERIVATIVES, 'sub-*')))][:-1]
 
-
+SUBJECTS = ['sub-%02d' % i for i in [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]]
 _package_directory = os.path.dirname(os.path.abspath(__file__))
 # Useful for the very simple examples
 CONDITIONS = pd.read_csv(os.path.join(
     _package_directory, '../ibc_data', 'conditions.tsv'), sep='\t')
 CONTRASTS = pd.read_csv(os.path.join(
     _package_directory, '../ibc_data', 'main_contrasts.tsv'), sep='\t')
+
 
 
 def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,

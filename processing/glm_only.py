@@ -18,7 +18,8 @@ SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]
 
 RETINO_REG = dict([(session_id, 'sin_cos_regressors.csv')
                    for session_id in ['wedge_anti_pa', 'wedge_clock_ap', 'cont_ring_ap',
-                                      'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']])
+                                      'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']] +
+                  [(session_id, None)  for session_id in ['clips_trn10', 'clips_trn11', 'clips_trn12']])
 
 def generate_glm_input(jobfile, smooth=None, lowres=False):
     """ retrun a list of dictionaries that represent the data available
@@ -99,7 +100,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None, lowre
         mask_img = '../ibc_data/gm_mask_3mm.nii.gz'
     else:
         mask_img = '../ibc_data/gm_mask_1_5mm.nii.gz'
-    
+
     for subject in list_subjects_update:
         subject['onset'] = [onset for onset in subject['onset'] if onset is not None]
         clean_subject(subject)
@@ -116,7 +117,7 @@ if __name__ == '__main__':
     prepare_derivatives('/neurospin/ibc/')
     """
     smooth = 5
-    for protocol in ['enumeration']:  # ['hcp1', 'hcp2', 'language', 'mtt2' 'preferences', 'tom']
+    for protocol in ['enumeration']:  # ['hcp1', 'hcp2', 'rsvp-language', 'mtt2' 'preferences', 'tom']
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
         Parallel(n_jobs=3)(
@@ -132,10 +133,12 @@ if __name__ == '__main__':
             for (subject, session) in subject_session)
         
     """
-    for protocol in ['preferences', 'tom', 'enumeration', 'clips4', 'mtt2', 'mtt1']: # 'archi' 
+    for protocol in ['mtt1', 'mtt2']:  # ['hcp1', 'hcp2', , 'mtt2' 'preferences', 'screening', 'rsvp-language', 'clips4', ]
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=1)(
+        Parallel(n_jobs=4)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, lowres=True)
             for (subject, session) in subject_session)
+    
+
     

@@ -56,6 +56,10 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return vstm(design_matrix_columns)
     elif paradigm_id == 'enum':
         return enum(design_matrix_columns)
+    elif paradigm_id == 'clips_trn':
+        return dict([])
+    elif paradigm_id == 'self':
+        return self_localizer(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -105,6 +109,32 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     return contrast
 
 
+def self_localizer(design_matrix_columns):
+    """ Contrast sfor self experiment"""
+    contrast_names = [
+        'instructions', 'new_fa', 'old_other_hit', 'old_self_hit',
+        'other_relevance_with_response', 'self_relevance_with_response',
+        'self-other_hit', 'self-other_with_response'
+    ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'instructions': con['instructions'],
+        'new_fa': con['new_fa'],
+        'old_other_hit': con['old_other_hit'],
+        'old_self_hit': con['old_self_hit'],
+        'other_relevance_with_response': con['other_relevance_with_response'],
+        'self_relevance_with_response': con['self_relevance_with_response'],
+        'self-other_hit': con['old_self_hit'] - con['old_other_hit'],
+        'self-other_with_response': con['self_relevance_with_response'] - con['other_relevance_with_response'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+    
+
 def colour(design_matrix_columns):
     """ Contrasts for pain lcoalizer """
     if design_matrix_columns is None:
@@ -120,9 +150,6 @@ def colour(design_matrix_columns):
 def vstm(design_matrix_columns):
     """ contrasts for vstm task, Knops protocol"""
     contrast_names = [
-       #'vstm_memorization_linear',
-       #'vstm_memorization_constant',
-       #'vstm_memorization_quadratic',
        'vstm_response_linear',
        'vstm_response_constant',
        'vstm_response_quadratic']
@@ -132,13 +159,9 @@ def vstm(design_matrix_columns):
     linear = np.linspace(-1, 1, 6)
     quadratic = linear ** 2 - (linear ** 2).mean()
     con = _elementary_contrasts(design_matrix_columns)
-    #memorization = np.array([con['memorization_num_%d' % i]
-    #                         for i in range(1, 7)])
     response = np.array([con['response_num_%d' % i]
                              for i in range(1, 7)])
-    contrasts = {#'vstm_memorization_constant' : np.dot(constant, memorization),
-        #'vstm_memorization_linear' : np.dot(linear, memorization),
-        #'vstm_memorization_quadratic' : np.dot(quadratic, memorization),
+    contrasts = {
         'vstm_response_constant' : np.dot(constant, response),
         'vstm_response_linear' : np.dot(linear, response),
         'vstm_response_quadratic' : np.dot(quadratic, response),
@@ -151,9 +174,7 @@ def vstm(design_matrix_columns):
 
 def enum(design_matrix_columns):
     """ contrasts for vstm task, Knops protocol"""
-    contrast_names = [#'enum_memorization_linear',
-        #'enum_memorization_constant',
-        #'enum_memorization_quadratic',
+    contrast_names = [
         'enum_response_linear',
         'enum_response_constant',
         'enum_response_quadratic']
@@ -165,13 +186,9 @@ def enum(design_matrix_columns):
     linear = np.linspace(-1, 1, 8)
     quadratic = linear ** 2 - (linear ** 2).mean()
     con = _elementary_contrasts(design_matrix_columns)
-    #memorization = np.array([con['memorization_num_%d' % i]
-    #                         for i in range(1, 9)])
     response = np.array([con['response_num_%d' % i]
                              for i in range(1, 9)])
-    contrasts = {#'enum_memorization_constant' : np.dot(constant, memorization),
-        #'enum_memorization_linear' : np.dot(linear, memorization),
-        #'enum_memorization_quadratic' : np.dot(quadratic, memorization),
+    contrasts = {
         'enum_response_constant' : np.dot(constant, response),
         'enum_response_linear' : np.dot(linear, response),
         'enum_response_quadratic' : np.dot(quadratic, response),
@@ -281,7 +298,6 @@ def mtt_ew(design_matrix_columns):
                 'average_reference': [],
         }
     con = _beta_contrasts(design_matrix_columns)
-    return con ### XXX
     future_events = con['ewe_center_future_space_close'] +\
                     con['ewe_center_future_space_far'] +\
                     con['ewe_center_future_time_close'] +\
@@ -376,7 +392,7 @@ def mtt_ns(design_matrix_columns):
                 'average_reference': [],
         }
     con = _beta_contrasts(design_matrix_columns)
-    return con ### XXX
+
     future_events = con['esn_center_future_space_close'] +\
                     con['esn_center_future_space_far'] +\
                     con['esn_center_future_time_close'] +\
