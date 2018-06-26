@@ -51,7 +51,7 @@ for img in imgs:
     if not os.path.exists(sess_dir):
         print(sess_dir)
         os.mkdir(sess_dir)
-    func_dir = os.path.join(subject_dir, 'func') 
+    func_dir = os.path.join(sess_dir, 'func') 
     if not os.path.exists(func_dir):
         print(func_dir)
         os.mkdir(func_dir)

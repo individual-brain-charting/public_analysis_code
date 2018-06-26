@@ -95,22 +95,26 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None, lowre
     _adapt_jobfile(jobfile, subject, output_name, session)
     list_subjects_update = generate_glm_input(output_name, smooth, lowres)
     clean_anatomical_images('/neurospin/ibc')
-    mask_img = '/neurospin/ibc/smooth_derivatives/group/resampled_gm_mask.nii.gz'
+    if lowres:
+        mask_img = '../ibc_data/gm_mask_3mm.nii.gz'
+    else:
+        mask_img = '../ibc_data/gm_mask_1_5mm.nii.gz'
+    
     for subject in list_subjects_update:
         subject['onset'] = [onset for onset in subject['onset'] if onset is not None]
         clean_subject(subject)
         if len(subject['session_id']) > 0:
             if protocol == 'clips4':
                 first_level(subject, compcorr=True, additional_regressors=RETINO_REG,
-                            smooth=smooth)
+                            smooth=smooth, mask_img=mask_img)
             else:
                 first_level(subject, compcorr=True, smooth=smooth, mask_img=mask_img)
                 fixed_effects_analysis(subject, mask_img=mask_img)
-    
 
-                
+
 if __name__ == '__main__':
     prepare_derivatives('/neurospin/ibc/')
+    """
     smooth = 5
     for protocol in ['enumeration']:  # ['hcp1', 'hcp2', 'language', 'mtt2' 'preferences', 'tom']
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
@@ -128,11 +132,10 @@ if __name__ == '__main__':
             for (subject, session) in subject_session)
         
     """
-    for protocol in ['archi']:  # ['hcp1', 'hcp2', 'language', 'mtt2' 'preferences']
+    for protocol in ['preferences', 'tom', 'enumeration', 'clips4', 'mtt2', 'mtt1']: # 'archi' 
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=3)(
+        Parallel(n_jobs=1)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, lowres=True)
             for (subject, session) in subject_session)
-    """
     
