@@ -124,10 +124,21 @@ def post_process(df, paradigm_id):
             df = df.replace(instruction, 'instructions')
         df = df.replace('sacaade_right', 'saccade_right')
         df = df.replace('sacaade_left', 'saccade_left')
-        df = df.replace('Bfix', 'fixation')
-
+        # df = df.replace('Bfix', 'fixation')
+        df = df[df.trial_type != 'Bfix']
+        
     if paradigm_id == 'lyon_mcse':
-         df = df.replace('Bfix', 'fixation')
+         #df = df.replace('Bfix', 'fixation')
+         df = df[df.trial_type != 'Bfix']
+
+    if paradigm_id == 'lyon_mvis':
+        df = df[df.trial_type != 'grid']
+        df = df[df.trial_type != 'Bfix']
+        df = df[df.trial_type != 'maintenance']
+        
+    if paradigm_id == 'lyon_mveb':
+        df = df[df.trial_type != 'cross']
+        df = df[df.trial_type != 'blank2']
          
     return df
 

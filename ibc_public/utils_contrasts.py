@@ -121,12 +121,16 @@ def lyon_mveb(design_matrix_columns):
     """ Contrasts for Lyon motor localizer"""
     contrast_names = [
         '2_letters_different', '2_letters_same', '4_letters_different',
-        '4_letters_same', '6_letters_different', '6_letters_same', 'blank2',
-        'cross', 'p_startup', 'response']
+        '4_letters_same', '6_letters_different', '6_letters_same',
+        'response', '2_letters_different-same',
+        '4_letters_different-same', '6_letters_different-same',]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(cname, con[cname]) for cname in contrast_names])
+    contrasts = dict([(cname, con[cname]) for cname in contrast_names[:-3]])
+    contrasts['2_letters_different-same'] = contrasts['2_letters_different'] - contrasts['2_letters_same']
+    contrasts['4_letters_different-same'] = contrasts['4_letters_different'] - contrasts['4_letters_same']
+    contrasts['6_letters_different-same'] = contrasts['6_letters_different'] - contrasts['6_letters_same']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -135,7 +139,7 @@ def lyon_mveb(design_matrix_columns):
 
 def lyon_mvis(design_matrix_columns):
     """ Contrasts for Lyon motor localizer"""
-    contrast_names = ['6_dots', 'maintenance', 'response', '2_dots_control',
+    contrast_names = ['response', '2_dots', '2_dots_control',
                       '4_dots', '4_dots_control', '6_dots', '6_dots_control',
                       '2_dots-2_dots_control', '4_dots-4_dots_control',
                       '6_dots-6_dots_control', '6_dots-2_dots' ]
@@ -155,13 +159,24 @@ def lyon_mvis(design_matrix_columns):
 
 def lyon_moto(design_matrix_columns):
     """ Contrasts for Lyon motor localizer"""
-    contrast_names = ['instructions', 'finger_right', 'finger_left', 'fixation_left', 'fixation_right',
-                      'foot_left', 'foot_right', 'hand_left', 'hand_right',
-                      'saccade_right', 'saccade_left', 'tongue_left', 'tongue_right',]
+    contrast_names = ['instructions', 'finger_right-avg', 'finger_left-avg', 
+                      'foot_left-avg', 'foot_right-avg', 'hand_left-avg', 'hand_right-avg',
+                      'saccade-avg', 'tongue-avg', 'fixation-avg',
+    ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(cname, con[cname]) for cname in contrast_names])
+    avg = np.mean([con[cname] for cname in contrast_names[:13]], 0)
+    contrasts = {'instructions': con['instructions']}
+    contrasts['finger_right-avg'] = con['finger_right'] - avg
+    contrasts['finger_left-avg'] = con['finger_left'] - avg
+    contrasts['foot_left-avg'] = con['foot_left'] - avg
+    contrasts['foot_right-avg'] = con['foot_right'] - avg
+    contrasts['hand_left-avg'] = con['hand_left'] - avg
+    contrasts['hand_right-avg'] = con['hand_right'] - avg
+    contrasts['saccade-avg'] = con['saccade_left'] + con['saccade_right'] - 2 * avg
+    contrasts['tongue-avg'] = con['tongue_left'] + con['tongue_right'] - 2 * avg
+    contrasts['fixation-avg'] = con['fixation_left']+ con['fixation_right'] - 2 * avg
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -171,14 +186,13 @@ def lyon_moto(design_matrix_columns):
 def lyon_mcse(design_matrix_columns):
     """ Contrasts for Lyon MCSE localizer"""
     contrast_names = [
-        'fixation', 'high_salience_left', 'high_salience_right',
+        'high_salience_left', 'high_salience_right',
         'low_salience_left', 'low_salience_right', 'high-low_salience',
         'low-high_salience', 'salience_left-right', 'salience_right-left']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {
-        'fixation': con['fixation'],
         'high_salience_left': con['hi_salience_left'],
         'high_salience_right': con['hi_salience_right'],
         'low_salience_left': con['low_salience_left'],
