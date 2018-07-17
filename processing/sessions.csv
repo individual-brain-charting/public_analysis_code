@@ -3,7 +3,7 @@ sub-01,screening,old_anat1,old_anat2,hcp1,hcp2,rsvp-language,clips1,archi,clips2
 sub-02,screening,archi,old_anat1,old_anat2,hcp1,hcp2,rsvp-language,clips1,clips2,clips3,,,,,,,,,,,,
 sub-04,screening,hcp1,hcp2,rsvp-language,archi,clips1,clips2,clips3,anat1,clips4,anat2,mtt1,mtt2,raiders1,raiders2,preferences,tom,enumeration,,,,
 sub-05,screening,hcp1,hcp2,rsvp-language,archi,clips1,clips2,clips3,anat1,clips4,anat2,mtt1,mtt2,raiders1,raiders2,preferences,tom,,,,,
-sub-06,screening,hcp1,hcp2,rsvp-language,archi,clips1,clips2,clips3,clips4,anat1,anat2,mtt1,mtt2,raiders1,raiders2,preferences,tom,enumeration,lyon1,,,
+sub-06,screening,hcp1,hcp2,rsvp-language,archi,clips1,clips2,clips3,clips4,anat1,anat2,mtt1,mtt2,raiders1,raiders2,preferences,tom,enumeration,lyon1,lyon2,,
 sub-07,screening,hcp1,hcp2,rsvp-language,archi,clips1,clips2,clips3,clips4,anat1,anat2,mtt1,mtt2,mtt2,raiders1,raiders2,preferences,tom,enumeration,lyon1,lyon2,
 sub-08,screening,archi,hcp1,hcp2,rsvp-language,clips1,clips2,clips3,clips4,anat1,anat2,mtt1,,,,,,,,,,
 sub-09,screening,hcp1,hcp2,old_anat1,rsvp-language,archi,clips1,clips2,clips3,anat1,clips4,anat2,mtt1,mtt2,raiders1,raiders2,preferences,tom,enumeration,relaxo,lyon1,
