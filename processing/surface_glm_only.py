@@ -9,13 +9,13 @@
 import os
 from pypreprocess.conf_parser import _generate_preproc_pipeline
 from joblib import Parallel, delayed
-from utils_pipeline import fixed_effects_analysis, first_level
+from ibc_public.utils_pipeline import fixed_effects_analysis, first_level
 
 from pipeline import (clean_subject, clean_anatomical_images,
                       _adapt_jobfile, get_subject_session)
 
 
-SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]
+SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
 
 RETINO_REG = dict([(session_id, '../neurospin_data/info/sin_cos_regressors.csv')
                    for session_id in ['wedge_anti_pa', 'wedge_clock_ap', 'cont_ring_ap',
@@ -85,7 +85,7 @@ def run_subject_surface_glm(jobfile, subject, session, protocol):
 
 
 if __name__ == '__main__':
-    for protocol in ['hcp2', 'hcp1']:  # 'clips4', 'archi',   'language', 
+    for protocol in ['mtt1']:  # 'clips4', 'archi',   'language', 
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
         Parallel(n_jobs=4)(
