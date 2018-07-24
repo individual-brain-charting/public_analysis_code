@@ -1,6 +1,6 @@
 	task	contrast	pretty name	left label	right label
 0	archi_standard	left-right_button_press	Left vs. right hand button press	right hand	left hand
-1	archi_standard	reading-listening	Sentence reading vs. sentence listening	sentence reading	sentence listening
+1	archi_standard	reading-listening	Sentence reading vs. sentence listening	sentence listening	sentence reading
 2	archi_standard	motor-cognitive	Button presses vs. sentence/computation	cognitive tasks	button presses
 3	archi_standard	reading-checkerboard	Sentence reading vs. checkerboard	checkerboard	sentence reading
 4	archi_standard	computation-sentences	Mental subtraction vs. sentence reading	sentence reading	mental subtraction
