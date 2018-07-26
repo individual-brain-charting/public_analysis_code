@@ -37,7 +37,7 @@ subject_sessions = [('sub-14', 'ses-05'),
                     ('sub-12', 'ses-09'),
                     ('sub-13', 'ses-09'),
                     ('sub-01', 'ses-10'),
-                    ('sub-01', 'ses-12')]
+                    ('sub-01', 'ses-10')]
 
 for (subject, session) in subject_sessions:
     subject_id = subject

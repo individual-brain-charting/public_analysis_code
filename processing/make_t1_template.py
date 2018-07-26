@@ -21,8 +21,6 @@ if not os.path.exists(output_dir):
 subject_id_wildcard = 'sub-*'
 subject_ids = [os.path.basename(x)
                for x in glob.glob(os.path.join(data_dir, subject_id_wildcard))]
-subject_ids.sort()
-
 
 anats = glob.glob(
     os.path.join(

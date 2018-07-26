@@ -9,13 +9,15 @@ on IBC datasets
 
 import os
 import json
+import glob
 from pypreprocess.nipype_preproc_spm_utils import (do_subjects_preproc,
                                                    SubjectData)
 from pypreprocess.conf_parser import _generate_preproc_pipeline
 from joblib import Memory, Parallel, delayed
 from ibc_public.utils_pipeline import fixed_effects_analysis, first_level, fsl_topup
-from os.path import join
-import glob
+from ibc_public.data_utils import get_subject_session
+
+
 
 
 def clean_anatomical_images(main_dir):
@@ -183,20 +185,6 @@ def run_subject_preproc(jobfile, subject, session=None):
     return subject_data
 
 
-def get_subject_session(protocol):
-    """ utility to get all (subject, session) for a given protocol"""
-    import pandas as pd
-    df = pd.read_csv('sessions.csv', index_col=0)
-    # FIXME: move that file
-    subject_session = []
-    for session in df.columns:
-        if (df[session] == protocol).any():
-            subjects = df[session][df[session] == protocol].keys()
-            for subject in subjects:
-                subject_session.append((subject,  session))
-    return subject_session
-
-
 if __name__ == '__main__':    
     # correction of distortion_parameters
     # custom solution, to be improved in the future
@@ -205,8 +193,9 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
 
     do_topup = True
-    protocol = 'lyon1' # 'tom' #, 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 'preferences'
-    subject_session = sorted(get_subject_session(protocol))[:1]
+    protocol = 'anat1' # 'tom' #, 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 'preferences'
+    subject_session = sorted(get_subject_session(protocol))[-1:]
+
     if do_topup:
         acq = None
         if protocol in ['rs']:
@@ -218,7 +207,7 @@ if __name__ == '__main__':
     subject_data = []
     for protocol in [protocol]:  
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_data_ = Parallel(n_jobs=3)(
+        subject_data_ = Parallel(n_jobs=1)(
             delayed(run_subject_preproc)(jobfile, subject, session)
             for subject, session in subject_session)
         subject_data = subject_data + subject_data_[0]
