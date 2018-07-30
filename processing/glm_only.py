@@ -12,14 +12,15 @@ from pypreprocess.conf_parser import _generate_preproc_pipeline
 from ibc_public.utils_pipeline import fixed_effects_analysis, first_level
 from pipeline import (clean_subject, clean_anatomical_images, _adapt_jobfile,
                       get_subject_session, prepare_derivatives)
+from ibc_public.data_utils import get_subject_session
 
-
-SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]
+SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
 
 RETINO_REG = dict([(session_id, 'sin_cos_regressors.csv')
                    for session_id in ['wedge_anti_pa', 'wedge_clock_ap', 'cont_ring_ap',
                                       'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']] +
                   [(session_id, None)  for session_id in ['clips_trn10', 'clips_trn11', 'clips_trn12']])
+IBC = '/neurospin/ibc'
 
 def generate_glm_input(jobfile, smooth=None, lowres=False):
     """ retrun a list of dictionaries that represent the data available
@@ -38,7 +39,7 @@ def generate_glm_input(jobfile, smooth=None, lowres=False):
             os.makedirs(output_dir)
 
         anat = glob.glob(os.path.join(subject.anat_output_dir,
-                                      'wsub*_T1w_nonan.nii.gz'))[0]
+                                      'wsub*_T1w.nii.gz'))[0]
         reports_output_dir = os.path.join(output_dir, 'reports')
         report_log_filename = os.path.join(reports_output_dir, 'report_log.html')
         report_preproc_filename = os.path.join(
@@ -95,7 +96,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None, lowre
         '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
     _adapt_jobfile(jobfile, subject, output_name, session)
     list_subjects_update = generate_glm_input(output_name, smooth, lowres)
-    clean_anatomical_images('/neurospin/ibc')
+    clean_anatomical_images(IBC)
     if lowres:
         mask_img = '../ibc_data/gm_mask_3mm.nii.gz'
     else:
@@ -114,8 +115,8 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None, lowre
 
 
 if __name__ == '__main__':
-    prepare_derivatives('/neurospin/ibc/')
-    
+    prepare_derivatives(IBC)
+    """
     smooth = 5
     for protocol in ['rsvp-language']:  # ['hcp1', 'hcp2', 'rsvp-language', 'mtt2' 'preferences', 'tom']
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
@@ -123,7 +124,7 @@ if __name__ == '__main__':
         Parallel(n_jobs=4)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
-  
+    """
     smooth = None
     for protocol in ['rsvp-language']:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol

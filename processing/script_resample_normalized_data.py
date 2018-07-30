@@ -7,6 +7,11 @@ from joblib import Parallel, delayed
 import nibabel as nib
 import os
 
+SMOOTH_DERIVATIVES = '/neurospin/ibc/smooth_derivatives'
+DERIVATIVES = '/neurospin/ibc/derivatives'
+THREE_MM = '/neurospin/ibc/3mm'
+_package_directory = os.path.dirname(os.path.abspath(__file__))
+
 do_func = True
 do_anat = True
 do_3mm = True
@@ -19,8 +24,9 @@ def resample(img, reference, target=None):
         rimg.to_filename(img)
     print(img)
 
-reference = '/neurospin/ibc/smooth_derivatives/group/resampled_gm_mask.nii.gz'
-imgs = glob.glob('/neurospin/ibc/derivatives/sub-*/ses-*/func/wrdcsub-*.nii.gz')
+reference = os.path.join(
+    _package_directory, '../ibc_data', 'gm_mask_1_5mm.nii.gz')
+imgs = glob.glob(os.path.join(DERIVATIVES, 'sub-*', 'ses-*', 'func', 'wrdcsub-*.nii.gz'))
 
 if do_func:
     Parallel(n_jobs=2)(
@@ -28,8 +34,8 @@ if do_func:
         if (nib.load(img).shape[2] != 105)
         and ('RestingState' not in img))
 
-reference = '/neurospin/ibc/derivatives/sub-01/ses-10/anat/wsub-01_ses-10_acq-highres_T1w.nii.gz'
-imgs = glob.glob('/neurospin/ibc/derivatives/sub-*/ses-*/anat/mwc*sub-*_ses-*_acq-highres_T1w.nii.gz')
+reference = os.path.join(DERIVATIVES, 'sub-01', 'ses-10', 'anat', 'wsub-01_ses-10_acq-highres_T1w.nii.gz') # FIXME
+imgs = glob.glob(os.path.join(DERIVATIVES, 'sub-*', 'ses-*', 'anat', 'mwc*sub-*_ses-*_acq-highres_T1w.nii.gz'))
 reference_shape = nib.load(reference).shape
 
 if do_anat:
@@ -37,13 +43,13 @@ if do_anat:
         delayed(resample)(img, reference) for img in imgs
         if nib.load(img).shape != reference_shape)
 
-
-reference = '../../ibc_public/ibc_data/3mm_ref.nii.gz'
-imgs = glob.glob('/neurospin/ibc/derivatives/sub-*/ses-*/func/wrdcsub-*.nii.gz')
+reference = os.path.join(
+    _package_directory, '../ibc_data', 'gm_mask_3mm.nii.gz')
+imgs = glob.glob(os.path.join(DERIVATIVES, 'sub-*/ses-*/func/wrdcsub-*.nii.gz'))
 targets = []
 for img in imgs:
     parts = img.split('/')
-    subject_dir = os.path.join('/neurospin/ibc/3mm/', parts[-4]) 
+    subject_dir = os.path.join(THREE_MM, parts[-4]) 
     if not os.path.exists(subject_dir):
         print(subject_dir)
         os.mkdir(subject_dir)

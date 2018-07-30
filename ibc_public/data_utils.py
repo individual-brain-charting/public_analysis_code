@@ -29,7 +29,7 @@ def get_subject_session(protocol):
     """ utility to get all (subject, session) for a given protocol"""
     import pandas as pd
     df = pd.read_csv(os.path.join(
-    _package_directory, '../ibc_data', 'sessions.csv', index_col=0))
+    _package_directory, '../ibc_data', 'sessions.csv'), index_col=0)
     # FIXME: move that file
     subject_session = []
     for session in df.columns:

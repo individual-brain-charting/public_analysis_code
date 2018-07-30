@@ -22,8 +22,8 @@ ref_affine = np.array([[-1.5, 0., 0., 78.],
                        [0. , 0., 0., 1.]])
 ref_shape = (105, 127, 105)
 
-
-data_dir = '/neurospin/ibc/derivatives'
+DERIVATIVES = '/neurospin/ibc/derivatives' 
+data_dir = DERIVATIVES
 
 # find the subjects / sessions with the retinotopy protocol
 cos_imgs = glob.glob(pjoin(data_dir, 'sub-*', 'ses-*', 'res_stats_*',
@@ -44,7 +44,7 @@ for subject_session in subjects_sessions:
     subject, session = subject_session.split('_')
     work_dir = pjoin(data_dir, subject, session)
     # result directory 
-    ses_dir = pjoin('/neurospin/ibc/derivatives', subject, session)
+    ses_dir = pjoin(DERIVATIVES, subject, session)
     if not os.path.exists(ses_dir):
         os.mkdir(ses_dir)
     task_dir = pjoin(ses_dir, 'res_stats_retinotopy_ffx')

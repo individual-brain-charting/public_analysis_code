@@ -1,60 +1,120 @@
-	condition	task
-0	audio_left_button_press	archi_standard
-1	audio_right_button_press	archi_standard
-2	video_left_button_press	archi_standard
-3	video_right_button_press	archi_standard
-4	horizontal_checkerboard	archi_standard
-5	vertical_checkerboard	archi_standard
-6	audio_sentence	archi_standard
-7	video_sentence	archi_standard
-8	audio_computation	archi_standard
-9	video_computation	archi_standard
-10	saccades	archi_spatial
-11	rotation_hand	archi_spatial
-12	rotation_side	archi_spatial
-13	object_grasp	archi_spatial
-14	object_orientation	archi_spatial
-15	mechanistic_audio	archi_social
-16	mechanistic_video	archi_social
-17	triangle_mental	archi_social
-18	triangle_random	archi_social
-19	false_belief_audio	archi_social
-20	false_belief_video	archi_social
-21	speech_sound	archi_social
-22	non_speech_sound	archi_social
-23	face_gender	archi_emotional
-24	face_control	archi_emotional
-25	face_trusty	archi_emotional
-26	expression_intention	archi_emotional
-27	expression_gender	archi_emotional
-28	expression_control	archi_emotional
-29	story	hcp_language
-30	math	hcp_language
-31	mental	hcp_social
-32	random	hcp_social
-33	punishment	hcp_gambling
-34	reward	hcp_gambling
-35	left_hand	hcp_motor
-36	right_hand	hcp_motor
-37	left_foot	hcp_motor
-38	right_foot	hcp_motor
-39	tongue	hcp_motor
-40	shape	hcp_emotion
-41	face	hcp_emotion
-42	relational	hcp_relational
-43	match	hcp_relational
-44	0back_body	hcp_wm
-45	2back_body	hcp_wm
-46	0back_face	hcp_wm
-47	2back_face	hcp_wm
-48	0back_tools	hcp_wm
-49	2back_tools	hcp_wm
-50	0back_place	hcp_wm
-51	2back_place	hcp_wm
-52	complex	language_
-53	simple	language_
-54	jabberwocky	language_
-55	word_list	language_
-56	pseudoword_list	language_
-57	consonant_string	language_
-58	probe	language_
+condition	task		
+audio_left_button_press	archi_standard		
+audio_right_button_press	archi_standard		
+video_left_button_press	archi_standard		
+video_right_button_press	archi_standard		
+horizontal_checkerboard	archi_standard		
+vertical_checkerboard	archi_standard		
+audio_sentence	archi_standard		
+video_sentence	archi_standard		
+audio_computation	archi_standard		
+video_computation	archi_standard		
+saccades	archi_spatial		
+rotation_hand	archi_spatial		
+rotation_side	archi_spatial		
+object_grasp	archi_spatial		
+object_orientation	archi_spatial		
+mechanistic_audio	archi_social		
+mechanistic_video	archi_social		
+triangle_mental	archi_social		
+triangle_random	archi_social		
+false_belief_audio	archi_social		
+false_belief_video	archi_social		
+speech_sound	archi_social		
+non_speech_sound	archi_social		
+face_gender	archi_emotional		
+face_control	archi_emotional		
+face_trusty	archi_emotional		
+expression_intention	archi_emotional		
+expression_gender	archi_emotional		
+expression_control	archi_emotional		
+story	hcp_language		
+math	hcp_language		
+mental	hcp_social		
+random	hcp_social		
+punishment	hcp_gambling		
+reward	hcp_gambling		
+left_hand	hcp_motor		
+right_hand	hcp_motor		
+left_foot	hcp_motor		
+right_foot	hcp_motor		
+tongue	hcp_motor		
+cue	hcp_motor		
+shape	hcp_emotion		
+face	hcp_emotion		
+relational	hcp_relational		
+match	hcp_relational		
+0back_body	hcp_wm		
+2back_body	hcp_wm		
+0back_face	hcp_wm		
+2back_face	hcp_wm		
+0back_tools	hcp_wm		
+2back_tools	hcp_wm		
+0back_place	hcp_wm		
+2back_place	hcp_wm		
+complex	rsvp_language		
+simple	rsvp_language		
+jabberwocky	rsvp_language		
+word_list	rsvp_language		
+pseudoword_list	rsvp_language		
+consonant_string	rsvp_language		
+probe	rsvp_language		
+phase_ring	retinotopy	Eccentricity maps	radial position
+phase_wedge	retinotopy	Polar angle map	angular position
+retinotopicity	retinotopy	Sensitivity to retinotopy	retinal position
+painting_constant	preference		
+painting_linear	preference		
+painting_quadratic	preference		
+house_constant	preference		
+house_linear	preference		
+house_quadratic	preference		
+face_constant	preference		
+face_linear	preference		
+face_quadratic	preference		
+food_constant	preference		
+food_linear	preference		
+food_quadratic	preference		
+response	mtt_ns		
+cue_space	mtt_ns		
+cue_time	mtt_ns		
+rsn_center_future	mtt_ns		
+rsn_center_past	mtt_ns		
+rsn_center_present	mtt_ns		
+rsn_south_present	mtt_ns		
+rsn_north_present	mtt_ns		
+future_events	mtt_ns		
+past_events	mtt_ns		
+present_events	mtt_ns		
+north_events	mtt_ns		
+south_events	mtt_ns		
+response	mtt_ew		
+cue_space	mtt_ew		
+cue_time	mtt_ew		
+rew_center_future	mtt_ew		
+rew_center_past	mtt_ew		
+rew_center_present	mtt_ew		
+rew_south_present	mtt_ew		
+rew_north_present	mtt_ew		
+future_events	mtt_ew		
+past_events	mtt_ew		
+present_events	mtt_ew		
+east_events	mtt_ew		
+west_events	mtt_ew		
+enum_memorization_linear	enum		
+enum_memorization_constant	enum		
+enum_memorization_quadratic	enum		
+enum_response_linear	enum		
+enum_response_constant	enum		
+enum_response_quadratic	enum		
+vstm_memorization_linear	VSTM		
+vstm_memorization_constant	VSTM		
+vstm_memorization_quadratic	VSTM		
+vstm_response_linear	VSTM		
+vstm_response_constant	VSTM		
+vstm_response_quadratic	VSTM		
+belief	tom_localizer		
+photo	tom_localizer		
+mov_pain	movie_localizer		
+mov_mental	movie_localizer		
+physical_pain	pain_localizer		
+emotional_pain	pain_localizer		

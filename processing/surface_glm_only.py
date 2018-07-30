@@ -17,7 +17,7 @@ from pipeline import (clean_subject, clean_anatomical_images,
 
 SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
 
-RETINO_REG = dict([(session_id, '../neurospin_data/info/sin_cos_regressors.csv')
+RETINO_REG = dict([(session_id, 'sin_cos_regressors.csv')
                    for session_id in ['wedge_anti_pa', 'wedge_clock_ap', 'cont_ring_ap',
                                       'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']])
 
