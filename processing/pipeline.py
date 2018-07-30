@@ -15,7 +15,7 @@ from pypreprocess.nipype_preproc_spm_utils import (do_subjects_preproc,
 from pypreprocess.conf_parser import _generate_preproc_pipeline
 from joblib import Memory, Parallel, delayed
 from ibc_public.utils_pipeline import fixed_effects_analysis, first_level, fsl_topup
-from ibc_public.data_utils import get_subject_session
+from ibc_public.utils_data import get_subject_session
 
 
 

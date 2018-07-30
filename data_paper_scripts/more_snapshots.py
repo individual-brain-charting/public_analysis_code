@@ -14,7 +14,7 @@ from nilearn import plotting
 from nilearn.image import math_img
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 from nistats.thresholding import map_threshold
-from data_utils import data_parser
+from ibc_public.utils_data import data_parser
 import matplotlib.pyplot as plt
 from make_results_db import BETTER_NAMES
                              

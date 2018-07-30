@@ -12,7 +12,8 @@ from pypreprocess.conf_parser import _generate_preproc_pipeline
 from ibc_public.utils_pipeline import fixed_effects_analysis, first_level
 from pipeline import (clean_subject, clean_anatomical_images, _adapt_jobfile,
                       get_subject_session, prepare_derivatives)
-from ibc_public.data_utils import get_subject_session
+from ibc_public.utils_data import get_subject_session
+
 
 SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
 

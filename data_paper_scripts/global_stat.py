@@ -18,7 +18,7 @@ from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 from nistats.thresholding import map_threshold
 import matplotlib.pyplot as plt
 
-from ibc_public.data_utils import (
+from ibc_public.utils_data import (
     CONDITIONS, data_parser, SUBJECTS, DERIVATIVES, SMOOTH_DERIVATIVES)
 
 cache = '/neurospin/tmp/bthirion'
