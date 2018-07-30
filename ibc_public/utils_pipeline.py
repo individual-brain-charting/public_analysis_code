@@ -329,7 +329,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             period_cut=hfcut, add_regs=add_regs,
             add_reg_names=add_reg_names)
         _, dmtx, names = check_design_matrix(design_matrix)
-
+        
         # create the relevant contrasts
         contrasts = make_contrasts(paradigm_id, names)
 
@@ -342,6 +342,8 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
 
         if not os.path.exists(subject_session_output_dir):
             os.makedirs(subject_session_output_dir)
+        np.savez(os.path.join(subject_session_output_dir, 'design_matrix.npz'),
+                 design_matrix=design_matrix)
             
         if surface:
             run_surface_glm(

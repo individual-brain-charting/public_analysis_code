@@ -117,7 +117,29 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'VSTM':
         for i in range(1, 7):
             df = df.replace('memorization_num_%d' % i, 'response_num_%d' % i)
-            
+
+    instructions = ['Ins_bouche', 'Ins_index', 'Ins_jambe', 'Ins_main', 'Ins_repos', 'Ins_yeux',]
+    if paradigm_id == 'lyon_moto':
+        for instruction in instructions:
+            df = df.replace(instruction, 'instructions')
+        df = df.replace('sacaade_right', 'saccade_right')
+        df = df.replace('sacaade_left', 'saccade_left')
+        # df = df.replace('Bfix', 'fixation')
+        df = df[df.trial_type != 'Bfix']
+        
+    if paradigm_id == 'lyon_mcse':
+         #df = df.replace('Bfix', 'fixation')
+         df = df[df.trial_type != 'Bfix']
+
+    if paradigm_id == 'lyon_mvis':
+        df = df[df.trial_type != 'grid']
+        df = df[df.trial_type != 'Bfix']
+        df = df[df.trial_type != 'maintenance']
+        
+    if paradigm_id == 'lyon_mveb':
+        df = df[df.trial_type != 'cross']
+        df = df[df.trial_type != 'blank2']
+         
     return df
 
 

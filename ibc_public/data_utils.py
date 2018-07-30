@@ -16,7 +16,7 @@ else:
 DERIVATIVES = os.path.join(ibc, 'derivatives')
 SMOOTH_DERIVATIVES = os.path.join(ibc, 'smooth_derivatives')
 
-SUBJECTS = ['sub-%02d' % i for i in [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]]
+SUBJECTS = ['sub-%02d' % i for i in [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]]
 _package_directory = os.path.dirname(os.path.abspath(__file__))
 # Useful for the very simple examples
 CONDITIONS = pd.read_csv(os.path.join(
@@ -24,6 +24,20 @@ CONDITIONS = pd.read_csv(os.path.join(
 CONTRASTS = pd.read_csv(os.path.join(
     _package_directory, '../ibc_data', 'main_contrasts.tsv'), sep='\t')
 
+
+def get_subject_session(protocol):
+    """ utility to get all (subject, session) for a given protocol"""
+    import pandas as pd
+    df = pd.read_csv(os.path.join(
+    _package_directory, '../ibc_data', 'sessions.csv', index_col=0))
+    # FIXME: move that file
+    subject_session = []
+    for session in df.columns:
+        if (df[session] == protocol).any():
+            subjects = df[session][df[session] == protocol].keys()
+            for subject in subjects:
+                subject_session.append((subject,  session))
+    return subject_session
 
 
 def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
@@ -80,6 +94,19 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         subjects.append(subject)
         modalities.append('T1')
         contrasts.append('t1_bet')
+        tasks.append('')
+        acquisitions.append('')
+
+    imgs_ = sorted(glob.glob(os.path.join(
+        DERIVATIVES, 'sub-*/ses-*/anat/wsub*_acq-highres_T1w_bet.nii.gz')))
+    for img in imgs_:
+        session = img.split('/')[-3]
+        subject = img.split('/')[-4]
+        paths.append(img)
+        sessions.append(session)
+        subjects.append(subject)
+        modalities.append('T1')
+        contrasts.append('highres_t1_bet')
         tasks.append('')
         acquisitions.append('')
         

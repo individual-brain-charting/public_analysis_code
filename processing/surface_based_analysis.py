@@ -118,7 +118,7 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
                 (subject, right_fmri_tex, right_fsaverage_fmri_tex)))
 
 from pipeline import get_subject_session
-subject_sessions = sorted(get_subject_session('mtt2'))
+subject_sessions = sorted(get_subject_session('enumeration'))
 
 
 Parallel(n_jobs=4)(

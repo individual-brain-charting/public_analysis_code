@@ -21,8 +21,6 @@ if not os.path.exists(output_dir):
 subject_id_wildcard = 'sub-*'
 subject_ids = [os.path.basename(x)
                for x in glob.glob(os.path.join(data_dir, subject_id_wildcard))]
-subject_ids.sort()
-
 
 anats = glob.glob(
     os.path.join(
@@ -37,6 +35,7 @@ def subject_factory():
         os.path.join(
             data_dir, 'sub*', 'ses-*', 'anat', 'sub-*_ses-*_acq-highres_T1w.nii'))
     subject_sessions = [(anat.split('/')[-4], anat.split('/')[-3]) for anat in anats]
+    subject_sessions = [('sub-01', 'ses-12')]
     for subject_session in subject_sessions:
         subject, session = subject_session
         subject_data = SubjectData(isdicom=False, scratch=scratch, session_output_dirs=[], n_sessions=0)
