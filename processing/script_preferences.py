@@ -3,19 +3,26 @@ This script adds a fixed-level analysis to the preference protocol
 Author: Bertrand Thirion, 2018
 """
 import os
-from utils_pipeline import fixed_effects_img
+from ibc_public.utils_pipeline import fixed_effects_img
 from pipeline import get_subject_session
 from nilearn.plotting import plot_stat_map
 from nilearn.image import math_img
 
 
+# where to work and write
+SMOOTH_DERIVATIVES = '/neurospin/ibc/smooth_derivatives' 
+workdir = SMOOTH_DERIVATIVES
+
+# misc info on preference protocol
 subject_session = get_subject_session('preferences')
-workdir = '/neurospin/ibc/derivatives'
 categories = ['face', 'food', 'house', 'painting']
 categories_ = ['faces', 'food', 'houses', 'paintings']
-
 contrasts = ['constant', 'linear', 'quadratic']
-mask_img = '/neurospin/ibc/smooth_derivatives/group/resampled_gm_mask.nii.gz'
+
+# mask image
+_package_directory = os.path.dirname(os.path.abspath(__file__))
+mask_img = os.path.join(
+    _package_directory, '../ibc_data', 'gm_mask_1_5mm.nii.gz')
 
 
 def compute_contrast(con_imgs, var_imgs, mask_img):
@@ -116,6 +123,7 @@ for (subject, session) in subject_session:
                 for category, category_ in zip(categories, categories_)]
     outputs = elementary_contrasts(
         effects, variance, mask_img)
+
     for output, category in zip(outputs, categories):
         fixed_effect, fixed_variance, fixed_stat = output
         fixed_effect.to_filename(
