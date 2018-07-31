@@ -14,15 +14,11 @@ from nilearn import plotting
 from nilearn.image import math_img
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 from nistats.thresholding import map_threshold
-from ibc_public.utils_data import data_parser
+from ibc_public.utils_data import (
+    data_parser, BETTER_NAMES, DERIVATIVES, SMOOTH_DERIVATIVES, SUBJECTS,
+    CONDITIONS, CONTRASTS)
 import matplotlib.pyplot as plt
-from make_results_db import BETTER_NAMES
                              
-DERIVATIVES = '/neurospin/ibc/derivatives'
-SMOOTH_DERIVATIVES = '/neurospin/ibc/smooth_derivatives'
-SUBJECTS = ['sub-%02d' % i for i in [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]]
-CONDITIONS = pd.read_csv('../processing/conditions.tsv', sep='\t')
-CONTRASTS = pd.read_csv('../processing/main_contrasts.tsv', sep='\t')
 cache = '/neurospin/tmp/bthirion'
 mem = Memory(cachedir=cache, verbose=0)
 task_list = ['archi_standard', 'archi_spatial', 'archi_social',
