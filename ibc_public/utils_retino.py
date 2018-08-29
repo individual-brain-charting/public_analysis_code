@@ -34,7 +34,7 @@ def combine_phase(phase_pos, phase_neg, offset=0, hemo=None):
 
 
 def phase_maps(data, offset_ring=0, offset_wedge=0, do_wedge=True, 
-               do_ring=True, do_phase_unwrapping=False, mesh=None, mask=None):
+               do_ring=True, mesh=None, mask=None):
     """ Compute the phase for each functional map
     
     Parameters
@@ -57,16 +57,13 @@ def phase_maps(data, offset_ring=0, offset_wedge=0, do_wedge=True,
     do_ring: bool,
         should we do the ring phase estimation or not
 
-    do_phase_unwrapping: bool,
-        whether or not to correct for 2pi errors
-
     mesh: path or mesh instance, optional
         underlying mesh model
 
     mask: array of shape (n_nodes), optional
         where to do the analysis 
     """
-    phase_ring, whase_wedge, hemo = None, None, None
+    phase_ring, phase_wedge, hemo = None, None, None
     if do_ring:
         phase_ring_pos = np.arctan2(data['sin_ring_pos'], data['cos_ring_pos'])
         phase_ring_neg = np.arctan2(data['sin_ring_neg'], data['cos_ring_neg'])
@@ -82,8 +79,6 @@ def phase_maps(data, offset_ring=0, offset_wedge=0, do_wedge=True,
         phase_wedge, hemo_wedge = combine_phase(
             phase_wedge_pos, phase_wedge_neg, offset_wedge)
         hemo = hemo_wedge
-        if do_phase_unwrapping:
-            phase_unwrapping(phase_wedge, mesh, mask, hemo=hemo)
 
     if do_ring and do_wedge:
         hemo = 0.5 * (hemo_ring + hemo_wedge)
@@ -92,7 +87,7 @@ def phase_maps(data, offset_ring=0, offset_wedge=0, do_wedge=True,
 
 
 def angular_maps(side, contrast_path, mask_img, mesh_path=None, all_reg=ALL_REG,
-                 threshold=3.1, size_threshold=10,
+                 threshold=3.1, 
                  offset_wedge=0, offset_ring=0, smooth=0, 
                  do_wedge=True, do_ring=True, do_phase_unwrapping=False,
                  do_delineate=True):
@@ -105,9 +100,6 @@ def angular_maps(side, contrast_path, mask_img, mesh_path=None, all_reg=ALL_REG,
     threshold: float, optional
                threshold defining the brain regions
                where the analysis is performed
-    size_threshold: int, optional
-                    threshold on connected components size
-                    to remove isolated voxels
     offset_wedge: float, optional
                   offset to be applied to wedge angle
     offset_ring float, optional
@@ -118,9 +110,6 @@ def angular_maps(side, contrast_path, mask_img, mesh_path=None, all_reg=ALL_REG,
  
         ## create an occipital data_mask
         mask = nib.load(stat_map).get_data() > threshold
-
-        # remove isolated voxels
-        mask = cc_array_mask(mask, size_threshold)
 
         # load and mask the data
         data = {}
