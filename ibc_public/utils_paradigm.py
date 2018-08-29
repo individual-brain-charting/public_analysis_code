@@ -7,12 +7,12 @@ import numpy as np
 from pandas import read_csv, concat
 
 
-rsvp_language = ['consonant_strings', 'word_list', 'pseudoword_list', 'jabberwocky',
-                'simple_sentence', 'probe','complex_sentence']
-archi_social = ['false_belief_video', 'non_speech', 'speech', 'mechanistic_audio',
-           'mechanistic_video', 'false_belief_audio', 'triangle_intention',
-           'triangle_random',
-       ]
+rsvp_language = ['consonant_strings', 'word_list', 'pseudoword_list',
+                 'jabberwocky', 'simple_sentence', 'probe','complex_sentence']
+archi_social = [
+    'false_belief_video', 'non_speech', 'speech', 'mechanistic_audio',
+    'mechanistic_video', 'false_belief_audio', 'triangle_intention',
+    'triangle_random',]
 
 relevant_conditions = {
     'emotional': ['Face', 'Shape'],
@@ -22,8 +22,8 @@ relevant_conditions = {
               'Cue', 'Tongue'],
     'relational': ['Relational', 'Cue', 'Control'],
     'social': ['Mental', 'Response', 'Random'],
-    'wm': ['2-BackBody', '0-BackBody', '2-BackFace', '0-BackFace', '2-BackTools',
-            '0-BackTools', '0-BackPlace', '2-BackPlace'],
+    'wm': ['2-BackBody', '0-BackBody', '2-BackFace', '0-BackFace',
+           '2-BackTools', '0-BackTools', '0-BackPlace', '2-BackPlace'],
     'archi_social': archi_social,
     'language_00': rsvp_language, 
     'language_01': rsvp_language,
@@ -35,13 +35,17 @@ relevant_conditions = {
 
 
 def post_process(df, paradigm_id):
-    if paradigm_id in (['language_00', 'language_01', 'language_02', 'language_03',
-                        'language_04', 'language_05', 'rsvp-language', 'language_']):
-        targets = ['complex_sentence_objrel', 'complex_sentence_objclef',
+    language_paradigms = ['language_%02d' % i for i in range(6)] +\
+                         ['rsvp-language', 'language_']
+    if paradigm_id in language_paradigms:
+        targets = ['complex_sentence_objrel',
+                   'complex_sentence_objclef',
                    'complex_sentence_subjrel']
         for target in targets:
             df = df.replace(target, 'complex_sentence')
-        targets = ['simple_sentence_cvp', 'simple_sentence_adj', 'simple_sentence_coord']
+        targets = ['simple_sentence_cvp',
+                   'simple_sentence_adj',
+                   'simple_sentence_coord']
         for target in targets:
             df = df.replace(target, 'simple_sentence')
 
@@ -53,19 +57,20 @@ def post_process(df, paradigm_id):
         df = df.replace('right_hand_cue', 'cue')
         df = df.replace('left_hand_cue', 'cue')
         df = df.replace('tongue_cue', 'cue')
-        
+
     if paradigm_id in relevant_conditions.keys():
         relevant_items = relevant_conditions[paradigm_id]
-        condition = np.array([df.trial_type == r for r in relevant_items]).sum(0).astype(np.bool)
+        condition = np.array(
+            [df.trial_type == r for r in relevant_items]).sum(0).astype(np.bool)
         df = df[condition]
 
-        
     if paradigm_id[:10] == 'preference':
         domain = paradigm_id[11:]
         if domain[-1] == 's':
             domain = domain[:-1]
-        # 
-        df['modulation'] = df['score'] - df[df.trial_type == domain]['score'].mean()
+        #
+        mean = df[df.trial_type == domain]['score'].mean()
+        df['modulation'] = df['score'] - mean
         df = df.fillna(1)
         # add a regressor with constant values
         df2 = df[df.trial_type == domain]
@@ -79,37 +84,59 @@ def post_process(df, paradigm_id):
         df = df.replace(domain, '%s_linear' % domain)
         df = concat([df, df2, df3], axis=0, ignore_index=True)
 
-    responses_we = ['response_we_east_present_space_close', 'response_we_west_present_space_far',
-                    'response_we_center_past_space_far', 'response_we_west_present_time_close',
-                    'response_we_east_present_time_far', 'response_we_center_past_space_close',
-                    'response_we_center_present_space_close', 'response_we_center_present_space_far',
-                    'response_we_center_present_time_far', 'response_we_east_present_time_close',
-                    'response_we_center_past_time_close', 'response_we_center_past_time_far',
-                    'response_we_east_present_space_far', 'response_we_center_future_time_far',
-                    'response_we_center_future_time_far', 'response_we_center_future_time_close',
-                    'response_we_west_present_space_close', 'response_we_center_present_time_close',
-                    'response_we_center_present_time_close','response_we_center_future_space_far',
-                    'response_we_center_future_space_close', 'response_we_west_present_time_far']    
+    responses_we = ['response_we_east_present_space_close',
+                    'response_we_west_present_space_far',
+                    'response_we_center_past_space_far',
+                    'response_we_west_present_time_close',
+                    'response_we_east_present_time_far',
+                    'response_we_center_past_space_close',
+                    'response_we_center_present_space_close',
+                    'response_we_center_present_space_far',
+                    'response_we_center_present_time_far',
+                    'response_we_east_present_time_close',
+                    'response_we_center_past_time_close',
+                    'response_we_center_past_time_far',
+                    'response_we_east_present_space_far',
+                    'response_we_center_future_time_far',
+                    'response_we_center_future_time_far',
+                    'response_we_center_future_time_close',
+                    'response_we_west_present_space_close',
+                    'response_we_center_present_time_close',
+                    'response_we_center_present_time_close',
+                    'response_we_center_future_space_far',
+                    'response_we_center_future_space_close',
+                    'response_we_west_present_time_far']
 
     if paradigm_id == 'IslandWE':
         for response in responses_we:
-            df = df.replace(response, 'response')    
+            df = df.replace(response, 'response')
 
-    responses_sn = ['response_sn_north_present_space_far', 'response_sn_south_present_time_close',
-                   'response_sn_center_present_space_close', 'response_sn_south_present_time_far',
-                   'response_sn_center_future_space_close', 'response_sn_center_past_space_close',
-                   'response_sn_north_present_time_close', 'response_sn_center_past_space_far',
-                   'response_sn_south_present_space_close', 'response_sn_center_present_time_far',
-                   'response_sn_center_past_time_far', 'response_sn_center_future_space_far',
-                   'response_sn_center_future_space_far', 'response_sn_center_future_time_close',
-                   'response_sn_center_past_time_close', 'response_sn_north_present_time_far',
-                   'response_sn_south_present_space_far', 'response_sn_center_present_time_close',
-                   'response_sn_north_present_space_close','response_sn_center_present_space_far',
-                   'response_sn_center_future_time_far', 'response_sn_center_future_time_far',]
+    responses_sn = ['response_sn_north_present_space_far',
+                    'response_sn_south_present_time_close',
+                    'response_sn_center_present_space_close',
+                    'response_sn_south_present_time_far',
+                    'response_sn_center_future_space_close',
+                    'response_sn_center_past_space_close',
+                    'response_sn_north_present_time_close',
+                    'response_sn_center_past_space_far',
+                    'response_sn_south_present_space_close',
+                    'response_sn_center_present_time_far',
+                    'response_sn_center_past_time_far',
+                    'response_sn_center_future_space_far',
+                    'response_sn_center_future_space_far',
+                    'response_sn_center_future_time_close',
+                    'response_sn_center_past_time_close',
+                    'response_sn_north_present_time_far',
+                    'response_sn_south_present_space_far',
+                    'response_sn_center_present_time_close',
+                    'response_sn_north_present_space_close',
+                    'response_sn_center_present_space_far',
+                    'response_sn_center_future_time_far',
+                    'response_sn_center_future_time_far',]
 
-    if paradigm_id  == 'IslandNS':
-       for response in responses_sn:
-            df = df.replace(response, 'response')    
+    if paradigm_id == 'IslandNS':
+        for response in responses_sn:
+            df = df.replace(response, 'response')
 
     if paradigm_id == 'enum':
         for i in range(1, 9):
@@ -118,7 +145,8 @@ def post_process(df, paradigm_id):
         for i in range(1, 7):
             df = df.replace('memorization_num_%d' % i, 'response_num_%d' % i)
 
-    instructions = ['Ins_bouche', 'Ins_index', 'Ins_jambe', 'Ins_main', 'Ins_repos', 'Ins_yeux',]
+    instructions = ['Ins_bouche', 'Ins_index', 'Ins_jambe',
+                    'Ins_main', 'Ins_repos', 'Ins_yeux', ]
     if paradigm_id == 'lyon_moto':
         for instruction in instructions:
             df = df.replace(instruction, 'instructions')
@@ -126,20 +154,19 @@ def post_process(df, paradigm_id):
         df = df.replace('sacaade_left', 'saccade_left')
         # df = df.replace('Bfix', 'fixation')
         df = df[df.trial_type != 'Bfix']
-        
+
     if paradigm_id == 'lyon_mcse':
-         #df = df.replace('Bfix', 'fixation')
-         df = df[df.trial_type != 'Bfix']
+        df = df[df.trial_type != 'Bfix']
 
     if paradigm_id == 'lyon_mvis':
         df = df[df.trial_type != 'grid']
         df = df[df.trial_type != 'Bfix']
         df = df[df.trial_type != 'maintenance']
-        
+
     if paradigm_id == 'lyon_mveb':
         df = df[df.trial_type != 'cross']
         df = df[df.trial_type != 'blank2']
-         
+
     return df
 
 
@@ -172,4 +199,3 @@ def make_paradigm(onset_file, paradigm_id=None):
     df = post_process(df, paradigm_id)
     df['name'] = df['trial_type']
     return df
-
