@@ -15,8 +15,6 @@ from nilearn.masking import compute_multi_epi_mask
 from nilearn.image import high_variance_confounds
 
 from nistats.design_matrix import make_design_matrix, check_design_matrix
-from nistats.reporting import plot_design_matrix
-
 
 from pypreprocess.reporting.base_reporter import ProgressReport
 from pypreprocess.reporting.glm_reporter import generate_subject_stats_report
@@ -76,7 +74,6 @@ def _make_merged_filename(fmap_dir, basenames):
 def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
     """ This function calls topup to estimate distortions from field maps
     then apply the ensuing correction to fmri_files"""
-    from nilearn._utils.cache_mixin import cache
     # merge the 0th volume of both fieldmaps
     fmap_dir = os.path.join(write_dir, 'fmap')
     basenames =  [os.path.basename(fm) for fm in field_maps]
@@ -357,12 +354,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             anat_img = nib.load(subject_dic['anat'])
             stats_report_filename = os.path.join(
                 subject_session_output_dir, 'report_stats.html')
-            # paradigm_dict = paradigm.__dict__ if paradigm is not None else None
-            if paradigm is not None:
-                paradigm_dict = {
-                    'onset': paradigm['onset'].values,
-                    'name': paradigm['name'].values, 
-                    'duration': paradigm['duration'].values,}
+
             generate_subject_stats_report(
                 stats_report_filename,
                 contrasts,
@@ -377,7 +369,6 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
                 start_time=start_time,
                 title="GLM for subject %s" % session_id,
                 # additional ``kwargs`` for more informative report
-                # paradigm=paradigm_dict,
                 TR=tr,
                 n_scans=n_scans,
                 hfcut=hfcut,
@@ -494,7 +485,7 @@ def fixed_effects_analysis(subject_dic, surface=False, mask_img=None):
                         subject_dic['output_dir'], np.unique(session_paradigm), contrast,
                         data_available=True, side=side)
                     if not data_available:
-                        stop
+                        raise ValueError('Missing texture stats files for fixed effects computations')
                     ffx_effects, ffx_variance, ffx_stat = fixed_effects_surf(
                         effect_size_maps, effect_variance_maps)
                     write(ffx_effects, os.path.join(

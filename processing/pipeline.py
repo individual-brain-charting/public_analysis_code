@@ -193,8 +193,9 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
 
     do_topup = True
-    protocol = 'clips4' # 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 'preferences'
-    subject_session = sorted(get_subject_session(protocol))[-1:]
+    protocol = 'enumeration' # 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 'preferences'
+    subject_session = sorted(get_subject_session(protocol))
+    subject_session = [('sub-06', 'ses-17'),]
 
     if do_topup:
         acq = None
