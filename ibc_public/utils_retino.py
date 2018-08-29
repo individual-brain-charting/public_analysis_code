@@ -8,47 +8,47 @@ ALL_REG = ['sin_ring_pos', 'cos_ring_pos', 'sin_ring_neg',  'cos_ring_neg',
 
 
 def combine_phase(phase_pos, phase_neg, offset=0, hemo=None):
-        """ Combine the phases estimated in two directions"""
-        if hemo == None:
-            # estimate hemodynamic delay
-            hemo = 0.5 * (phase_pos + phase_neg)
-            hemo += np.pi * (hemo < - np.pi / 4)
-            hemo += np.pi * (hemo < - np.pi / 4)
-        
-        # first phase estimate
-        pr1 = phase_pos - hemo
-        pr2 = hemo - phase_neg
-        pr2[(pr1 - pr2) > np.pi] += (2 * np.pi)
-        pr2[(pr1 - pr2) > np.pi] += (2 * np.pi)
-        pr1[(pr2 - pr1) > np.pi] += (2 * np.pi)
-        pr1[(pr2 - pr1) > np.pi] += (2 * np.pi)
-        phase = 0.5 * (pr1 + pr2)
-        
-        # add the offset and bring back to [-pi, +pi]
-        phase += offset
-        phase += 2 * np.pi * (phase < - np.pi)
-        phase += 2 * np.pi * (phase < - np.pi)
-        phase -= 2 * np.pi * (phase > np.pi)
-        phase -= 2 * np.pi * (phase > np.pi)
-        return phase, hemo
+    """ Combine the phases estimated in two directions"""
+    if hemo is None:
+        # estimate hemodynamic delay
+        hemo = 0.5 * (phase_pos + phase_neg)
+        hemo += np.pi * (hemo < - np.pi / 4)
+        hemo += np.pi * (hemo < - np.pi / 4)
+
+    # first phase estimate
+    pr1 = phase_pos - hemo
+    pr2 = hemo - phase_neg
+    pr2[(pr1 - pr2) > np.pi] += (2 * np.pi)
+    pr2[(pr1 - pr2) > np.pi] += (2 * np.pi)
+    pr1[(pr2 - pr1) > np.pi] += (2 * np.pi)
+    pr1[(pr2 - pr1) > np.pi] += (2 * np.pi)
+    phase = 0.5 * (pr1 + pr2)
+
+    # add the offset and bring back to [-pi, +pi]
+    phase += offset
+    phase += 2 * np.pi * (phase < - np.pi)
+    phase += 2 * np.pi * (phase < - np.pi)
+    phase -= 2 * np.pi * (phase > np.pi)
+    phase -= 2 * np.pi * (phase > np.pi)
+    return phase, hemo
 
 
-def phase_maps(data, offset_ring=0, offset_wedge=0, do_wedge=True, 
-               do_ring=True, mesh=None, mask=None):
+def phase_maps(data, offset_ring=0, offset_wedge=0, do_wedge=True,
+               do_ring=True):
     """ Compute the phase for each functional map
-    
+
     Parameters
     ----------
-    data: dictionary with keys 'sin_wedge_pos', 'sin_wedge_neg', 
-          'cos_wedge_neg', 'cos_ring_pos', 'sin_ring_neg', 'cos_wedge_pos', 
+    data: dictionary with keys 'sin_wedge_pos', 'sin_wedge_neg',
+          'cos_wedge_neg', 'cos_ring_pos', 'sin_ring_neg', 'cos_wedge_pos',
           'sin_ring_pos', 'cos_ring_neg'
-         arrays of shape (n_nodes) showing fMRI activations 
+         arrays of shape (n_nodes) showing fMRI activations
          for different retino conditions
 
-    offset_ring: float, 
+    offset_ring: float,
         offset value to apply to the ring phase
 
-    offset_wedge: float, 
+    offset_wedge: float,
         offset value to apply to the wedge phase
 
     do_wedge: bool,
@@ -59,9 +59,6 @@ def phase_maps(data, offset_ring=0, offset_wedge=0, do_wedge=True,
 
     mesh: path or mesh instance, optional
         underlying mesh model
-
-    mask: array of shape (n_nodes), optional
-        where to do the analysis 
     """
     phase_ring, phase_wedge, hemo = None, None, None
     if do_ring:
@@ -72,9 +69,9 @@ def phase_maps(data, offset_ring=0, offset_wedge=0, do_wedge=True,
         hemo = hemo_ring
 
     if do_wedge:
-        phase_wedge_pos = np.arctan2(data['sin_wedge_pos'], 
+        phase_wedge_pos = np.arctan2(data['sin_wedge_pos'],
                                      data['cos_wedge_pos'])
-        phase_wedge_neg = np.arctan2(data['sin_wedge_neg'], 
+        phase_wedge_neg = np.arctan2(data['sin_wedge_neg'],
                                      data['cos_wedge_neg'])
         phase_wedge, hemo_wedge = combine_phase(
             phase_wedge_pos, phase_wedge_neg, offset_wedge)
@@ -86,11 +83,10 @@ def phase_maps(data, offset_ring=0, offset_wedge=0, do_wedge=True,
     return phase_wedge, phase_ring, hemo
 
 
-def angular_maps(side, contrast_path, mask_img, mesh_path=None, all_reg=ALL_REG,
-                 threshold=3.1, 
-                 offset_wedge=0, offset_ring=0, smooth=0, 
-                 do_wedge=True, do_ring=True, do_phase_unwrapping=False,
-                 do_delineate=True):
+def angular_maps(side, contrast_path, mask_img, mesh_path=None,
+                 all_reg=ALL_REG, threshold=3.1,
+                 offset_wedge=0, offset_ring=0,
+                 do_wedge=True, do_ring=True, do_phase_unwrapping=False):
     """
     Parameters
     ----------
@@ -105,10 +101,10 @@ def angular_maps(side, contrast_path, mask_img, mesh_path=None, all_reg=ALL_REG,
     offset_ring float, optional
                   offset to be applied to ring angle
     """
-    if side == False:
+    if side is False:
         stat_map = os.path.join(contrast_path, 'effects_of_interest_z_map.nii')
- 
-        ## create an occipital data_mask
+
+        # create an occipital data_mask
         mask = nib.load(stat_map).get_data() > threshold
 
         # load and mask the data
@@ -120,12 +116,12 @@ def angular_maps(side, contrast_path, mask_img, mesh_path=None, all_reg=ALL_REG,
         mesh = None
     else:
         pass
-                
+
     # Then compute the activation phase in these regions
     phase_wedge, phase_ring, hemo = phase_maps(
-        data, offset_ring, offset_wedge, do_wedge, do_ring, 
+        data, offset_ring, offset_wedge, do_wedge, do_ring,
         do_phase_unwrapping, mesh=mesh, mask=mask)
-    
+
     # write the results
     data_, id_ = [hemo, mask[mask > 0]], ['hemo', 'mask']
     if do_ring:
@@ -134,14 +130,13 @@ def angular_maps(side, contrast_path, mask_img, mesh_path=None, all_reg=ALL_REG,
     if do_wedge:
         data_.append(phase_wedge)
         id_.append('phase_wedge')
-        
-    if side == False:
+
+    if side is False:
         for (x, name) in zip(data_, id_):
             wdata = np.zeros(nib.load(stat_map).shape)
             wdata[mask > 0] = x
             wim = nib.Nifti1Image(wdata, nib.load(stat_map).get_affine())
             nib.save(wim, os.path.join(contrast_path, '%s.nii' % name))
-   
+
 
 # Compute fixed effects_maps for effects of interest -> retinotopic maps
-# 
