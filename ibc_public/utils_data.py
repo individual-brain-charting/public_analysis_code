@@ -9,7 +9,7 @@ import os
 import pandas as pd
 import shutil
 
-if 1:
+if 0:
     ibc = '/neurospin/ibc'
 else:
     ibc = '/storage/store/data/ibc'
