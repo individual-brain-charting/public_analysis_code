@@ -13,9 +13,10 @@ if 1:
     ibc = '/neurospin/ibc'
 else:
     ibc = '/storage/store/data/ibc'
-    
+
 DERIVATIVES = os.path.join(ibc, 'derivatives')
 SMOOTH_DERIVATIVES = os.path.join(ibc, 'smooth_derivatives')
+THREE_MM = os.path.join(ibc, '3mm')
 
 SUBJECTS = ['sub-%02d' % i for i in [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]]
 _package_directory = os.path.dirname(os.path.abspath(__file__))
@@ -33,14 +34,14 @@ BETTER_NAMES = {}
 for i in range(len(CONTRASTS)):
     BETTER_NAMES[CONTRASTS.contrast[i]] = CONTRASTS['pretty name'][i]
     LABELS[CONTRASTS.contrast[i]] = [CONTRASTS['left label'][i],
-                                  CONTRASTS['right label'][i]]
+                                     CONTRASTS['right label'][i]]
+
 
 def get_subject_session(protocol):
     """ utility to get all (subject, session) for a given protocol"""
     import pandas as pd
     df = pd.read_csv(os.path.join(
-    _package_directory, '../ibc_data', 'sessions.csv'), index_col=0)
-    # FIXME: move that file
+        _package_directory, '../ibc_data', 'sessions.csv'), index_col=0)
     subject_session = []
     for session in df.columns:
         if (df[session] == protocol).any():
@@ -59,7 +60,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     ----------
     derivatives: string, optional
         path toward a valid BIDS derivatives directory
-    
+
     conditions: pandas DataFrame, optional,
         dataframe describing the conditions under considerations
 
@@ -73,7 +74,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     -------
     db: pandas DataFrame,
         "database" yielding informations (path,
-        subject, modality, contrast, session, task, acquisition) 
+        subject, modality, contrast, session, task, acquisition)
         on the images under consideration
     """
     paths = []
@@ -83,7 +84,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     contrasts = []
     tasks = []
     acquisitions = []
-    
+
     # T1 images
     imgs_ = sorted(glob.glob(os.path.join(
         derivatives, 'sub-*/ses-*/anat/wsub*_T1w.nii.gz')))
@@ -97,7 +98,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         contrasts.append('t1')
         tasks.append('')
         acquisitions.append('')
-        
+
     imgs_ = sorted(glob.glob(os.path.join(
         derivatives, 'sub-*/ses-*/anat/wsub*_T1w_bet.nii.gz')))
     for img in imgs_:
@@ -123,10 +124,10 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         contrasts.append('highres_t1_bet')
         tasks.append('')
         acquisitions.append('')
-        
+
     # gm images
     imgs_ = sorted(glob.glob(os.path.join(
-        derivatives, '../derivatives', 'sub-*/ses-*/anat/mwc1sub*_T1w.nii.gz')))
+        derivatives, '../derivatives', 'sub-*/ses-*/anat/mwc1su*_T1w.nii.gz')))
     for img in imgs_:
         session = img.split('/')[-3]
         subject = img.split('/')[-4]
@@ -139,7 +140,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         acquisitions.append('')
 
     imgs_ = sorted(glob.glob(os.path.join(
-        derivatives, '../derivatives', 'sub-*/ses-*/anat/mwc1sub*_T1w.nii.gz')))
+        derivatives, '../derivatives', 'sub-*/ses-*/anat/mwc1su*_T1w.nii.gz')))
     for img in imgs_:
         session = img.split('/')[-3]
         subject = img.split('/')[-4]
@@ -150,7 +151,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         contrasts.append('highres_gm')
         tasks.append('')
         acquisitions.append('')
-        
+
     # wm image
     imgs_ = sorted(glob.glob(os.path.join(
         derivatives, 'sub-*/ses-*/anat/mwc2sub*_T1w.nii.gz')))
@@ -196,9 +197,9 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 imgs_.sort()
                 # some renaming
                 contrast_id = contrast
-                if ((contrast_id == 'probe') and
-                    (task_name == 'rsvp_language')):
-                    contrast_id = 'language_probe'                    
+                if (contrast_id == 'probe') and\
+                   (task_name == 'rsvp_language'):
+                    contrast_id = 'language_probe'
 
                 for img in imgs_:
                     session = img.split('/')[-4]
@@ -209,7 +210,6 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     contrasts.append(contrast_id)
                     tasks.append(task_name)
                     acquisitions.append(acq)
-    
 
     # create a dictionary with all the information
     db_dict = dict(
@@ -226,6 +226,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     db = pd.DataFrame().from_dict(db_dict)
     return db
 
+
 def average_anat(db):
     """ return the average anatomical image """
     from nilearn.image import mean_img
@@ -235,19 +236,19 @@ def average_anat(db):
 
 
 def gm_mask(db, ref_affine, ref_shape, threshold=.25):
-    """ Small utility to create a gm mask by averaging glm images from the db """
+    """ Utility to create a gm mask by averaging glm images from the db """
     from nilearn.image import mean_img
     import nibabel as nib
     gm_imgs = db[db.contrast == 'gm'].path.values
     mean_gm = mean_img(
-        gm_imgs, target_affine=ref_affine, target_shape=ref_shape) 
+        gm_imgs, target_affine=ref_affine, target_shape=ref_shape)
     gm_mask = nib.Nifti1Image((mean_gm.get_data() > .25).astype('uint8'),
                               ref_affine)
     return mean_gm, gm_mask
 
 
 def resample_images(paths, ref_affine, ref_shape):
-    """ Small utility to resample images provided as paths and return an image"""
+    """ Utility to resample images provided as paths and return an image"""
     from nilearn.image import resample_img
     import nibabel as nib
     imgs = []
@@ -267,10 +268,10 @@ def summarize_db(df, plot=True):
         subjects_ = df.subject[df.task == task]
         ld.append(dict([(subject_, (subjects_ == subject_).sum())
                         for subject_ in pd.unique(subjects_)]))
-    
+
     summary = pd.DataFrame(ld, index=tasks)
     summary[summary.isnull()] = 0
-    
+
     if plot:
         import matplotlib.pyplot as plt
         plt.figure(figsize=(5, 5))
@@ -321,10 +322,11 @@ def horizontal_fingerprint(coef, seed, roi_name, labels_bottom, labels_top,
              bbox=dict(facecolor='k', alpha=0.5))
     plt.axis('tight')
     plt.subplots_adjust(bottom=.3, top=.7)
-    frequencies = [(labels_top[i], np.exp(coef[i])) for i in range(n_contrasts)]
+    frequencies = [(labels_top[i], np.exp(coef[i]))
+                   for i in range(n_contrasts)]
     if not nonneg:
             frequencies += [(labels_bottom[i], np.exp(-coef[i]))
-                           for i in range(n_contrasts)]
+                            for i in range(n_contrasts)]
     frequencies = _unique_frequencies(frequencies)
     wordcloud = wc.WordCloud().generate_from_frequencies(frequencies)
     plt.axes([.65, .1, .33, .7])
@@ -354,7 +356,7 @@ def copy_db(df, write_dir, filename='result_db.csv'):
         shutil.copy(df.iloc[i].path, new_path)
         paths.append(fname)
     df1.path = paths
-    #TODO: add mask !
+    # TODO: add mask !
     if filename is not None:
         df1.to_csv(os.path.join(write_dir, filename))
     return df1
@@ -362,7 +364,7 @@ def copy_db(df, write_dir, filename='result_db.csv'):
 
 def make_surf_db(main_dir=DERIVATIVES, conditions=False):
     """ Create a database for surface data (gifti files)
-    
+
     main_dir: string,
               directory where the studd will be found
 
@@ -377,7 +379,7 @@ def make_surf_db(main_dir=DERIVATIVES, conditions=False):
     tasks = []
 
     # fixed-effects activation images
-    if conditions == True:
+    if conditions is True:
         con_df = CONDITIONS
         contrast_name = con_df.condition
     elif conditions == 'all':
@@ -387,32 +389,38 @@ def make_surf_db(main_dir=DERIVATIVES, conditions=False):
     else:
         con_df = CONTRASTS
         contrast_name = con_df.contrast
-   
+
     for subject in SUBJECTS:
         for i in range(len(con_df)):
             contrast = contrast_name[i]
             task = con_df.task[i]
             task_ = task
-            if task_ == 'language_':
-                task_ = 'rsvp_language'
+            if task == 'rsvp_language':
+                task = 'language_'
+                task_name = 'rsvp_language'
+            if task == 'mtt_ns':
+                task = 'IslandNS'
+                task_name = 'mtt_ns'
+            if task == 'mtt_we':
+                task = 'IslandWE'
+                task_name = 'mtt_we'
             for side in ['lh', 'rh']:
                 imgs_ = glob.glob(os.path.join(
-                    main_dir, 'sub-%02d/*/res_surf_%s_ffx/stat_surf/%s_%s.gii' %
-                    (subject, task, contrast, side)))
+                    main_dir, subject, '*/res_surf_%s_ffx/stat_surf/%s_%s.gii'
+                    % (task, contrast, side)))
                 imgs_.sort()
                 # some renaming
-                if contrast == 'probe':
-                    if task == 'rsvp_language':
-                        contrast = 'language_probe' 
+                if (contrast == 'probe' & task_name == 'rsvp_language'):
+                        contrast = 'language_probe'
                 for img in imgs_:
                     session = img.split('/')[5]
                     imgs.append(img)
                     sessions.append(session)
                     subjects.append(img.split('/')[4])
                     contrasts.append(contrast)
-                    tasks.append(task_)
+                    tasks.append(task_name)
                     sides.append(side)
-    
+
     # create a dictionary with all the information
     db_dict = dict(
         path=imgs,
@@ -426,4 +434,3 @@ def make_surf_db(main_dir=DERIVATIVES, conditions=False):
     # create a FataFrame out of the dictionary and write it to disk
     db = pd.DataFrame().from_dict(db_dict)
     return db
-
