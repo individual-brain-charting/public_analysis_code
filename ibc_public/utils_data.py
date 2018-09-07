@@ -394,7 +394,7 @@ def make_surf_db(main_dir=DERIVATIVES, conditions=False):
         for i in range(len(con_df)):
             contrast = contrast_name[i]
             task = con_df.task[i]
-            task_ = task
+            task_name = task
             if task == 'rsvp_language':
                 task = 'language_'
                 task_name = 'rsvp_language'
@@ -404,14 +404,14 @@ def make_surf_db(main_dir=DERIVATIVES, conditions=False):
             if task == 'mtt_we':
                 task = 'IslandWE'
                 task_name = 'mtt_we'
+            # some renaming
+            if ((contrast == 'probe') & (task_name == 'rsvp_language')):
+                    contrast = 'language_probe'
             for side in ['lh', 'rh']:
                 imgs_ = glob.glob(os.path.join(
                     main_dir, subject, '*/res_surf_%s_ffx/stat_surf/%s_%s.gii'
                     % (task, contrast, side)))
                 imgs_.sort()
-                # some renaming
-                if (contrast == 'probe' & task_name == 'rsvp_language'):
-                        contrast = 'language_probe'
                 for img in imgs_:
                     session = img.split('/')[5]
                     imgs.append(img)
