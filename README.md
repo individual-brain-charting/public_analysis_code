@@ -13,6 +13,13 @@ The raw data are available here:
 The result sof typical analysis are give here:
 [NeuroVault](http://neurovault.org/collections/2138)
 
+## Install
+Under the main working directory of this repository in your computer, run the following command in a command prompt:
+
+```
+pip install -e .
+```
+
 ## Details
 
 These script make it possible to preprocess the data
