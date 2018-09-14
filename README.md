@@ -77,3 +77,4 @@ Please feel free to report any issue and propose improvements on Github.
 Licensed under simplified BSD.
 
 Bertrand Thirion, 2015 - present
+Ana Luísa Pinho, 2015 - present
