@@ -72,7 +72,7 @@ The scripts have been used with the following versions of software and environme
 
 Please feel free to report any issue and propose improvements on Github.
 
-## Author
+## Authors
 
 Licensed under simplified BSD.
 
