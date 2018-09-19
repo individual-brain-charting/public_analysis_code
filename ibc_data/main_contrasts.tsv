@@ -11,12 +11,12 @@ archi_spatial	grasp-orientation	object grasping vs. image orientation judgment	o
 archi_spatial	rotation_side	hand palm or back vs. fixation	fixation	hand palm or back
 archi_spatial	object_orientation	image orientation judgment vs. fixation	fixation	orientation judgment
 archi_social	triangle_mental-random	social-interaction motion vs. random motion	random motion	social-interaction motion
-archi_social	false_belief-mechanistic_audio	false belief tale vs. mechanistic tale	mechanistic tale	false belief tale
+archi_social	false_belief-mechanistic_audio	false-belief tale vs. mechanistic tale	mechanistic tale	false-belief tale
 archi_social	triangle_random	random motion vs. fixation	fixation	random motion
 archi_social	mechanistic_audio	listening to a mechanistic tale vs. baseline	baseline	mechanistic tale
 archi_social	mechanistic_video	reading a mechanistic story vs. baseline	baseline	mechanistic story
 archi_social	non_speech_sound	listen to natural sound vs. baseline	silence	natural sound
-archi_social	false_belief-mechanistic_video	false belief story vs. mechanistic story	mechanistic story	false belief story
+archi_social	false_belief-mechanistic_video	false-belief story vs. mechanistic story	mechanistic story	false-belief story
 archi_social	speech-non_speech	listen to voice sound vs. natural sound	natural sound	voice sound
 archi_emotional	expression_gender-control	assess gender from eyes' expression vs. visual pattern	visual pattern	gender assessment
 archi_emotional	expression_intention-gender	assess intention vs. gender from eyes' expression	gender assessment	expression intention
