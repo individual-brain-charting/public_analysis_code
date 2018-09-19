@@ -30,16 +30,16 @@ object_orientation	archi_spatial	Image orientation reporting	fixation	mimic orie
 rotation_hand	archi_spatial	Left or right hand					1																1																								1							
 object_grasp	archi_spatial	Object grasping					1	1									1			1																										1								
 triangle_mental-random	archi_social	Mental motion vs random motion	random motion	mental motion						1	1	1																																										
-false_belief-mechanistic_audio	archi_social	False belief tale vs mechanistic tale	mechanistic tale	false belief tale																								1	1																						1			
+false_belief-mechanistic_audio	archi_social	False-belief tale vs mechanistic tale	mechanistic tale	false-belief tale																								1	1																						1			
 triangle_random	archi_social	Randomly drifting figures	fixation	random motion								1																																										
 mechanistic_audio	archi_social	Listening to a mechanistic tale	baseline	mechanistic tale																								1	1																									
 mechanistic_video	archi_social	 Reading a mechanistic story	baseline	mechanistic story																																	1		1															
 non_speech_sound	archi_social	Listen to natural sound	silence	natural sound																																													1					
-false_belief-mechanistic_video	archi_social	False belief story vs mechanistic story	mechanistic story	false belief story																																	1		1												1			
+false_belief-mechanistic_video	archi_social	False-belief story vs mechanistic story	mechanistic story	false-belief story																																	1		1												1			
 speech-non_speech	archi_social	Listen to voice sound vs natural sound	natural sound	voice sound																																														1				
 triangle_mental	archi_social	Mental motion of triangle								1	1	1																																										
-false_belief_audio	archi_social	False belief tale 																										1	1																						1			
-false_belief_video	archi_social	False belief story 																																			1		1												1			
+false_belief_audio	archi_social	False-belief tale 																										1	1																						1			
+false_belief_video	archi_social	False-belief story 																																			1		1												1			
 speech_sound	archi_social	Listen to speech sound																																																1				
 expression_gender-control	archi_emotional	Guess the gender from expression	visual pattern	expression gender																																																1	1	
 expression_intention-gender	archi_emotional	Guess expression intention vs expression gender	expression gender	expression intention																																																1		1
