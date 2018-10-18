@@ -351,7 +351,7 @@ def copy_db(df, write_dir, filename='result_db.csv'):
             fname = '%s_%s_%s_%s.nii' % (
                 df.iloc[i].modality, df.iloc[i].subject, df.iloc[i].session,
                 df.iloc[i].contrast)
-        print fname
+        print(fname)
         new_path = os.path.join(write_dir, fname)
         shutil.copy(df.iloc[i].path, new_path)
         paths.append(fname)
