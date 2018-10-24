@@ -156,7 +156,7 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
 
     # compute contrasts
     z_maps = {}
-    for contrast_id, contrast_val in contrasts.iteritems():
+    for contrast_id, contrast_val in contrasts.items():
         print("\tcontrast id: %s" % contrast_id)
 
         # store stat maps to disk
@@ -277,6 +277,15 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         motion = np.loadtxt(motion_path)
         # define the time stamps for different images
         frametimes = np.linspace(0, (n_scans - 1) * tr, n_scans)
+        if paradigm_id == 'audio':
+            mask = np.array([1, 0, 1, 1, 0, 1, 1, 0, 1, 1])
+            n_cycles = 28
+            cycle_duration = 20
+            t_r = 2
+            cycle = np.arange(0, cycle_duration, t_r)[mask > 0]
+            frametimes = np.tile(cycle, n_cycles) +\
+                np.repeat(np.arange(n_cycles) * cycle_duration, mask.sum())
+            frametimes = frametimes[:-2]  # for some reason...
 
         if surface:
             compcorr = False  # XXX Fixme

@@ -25,7 +25,7 @@ relevant_conditions = {
     'wm': ['2-BackBody', '0-BackBody', '2-BackFace', '0-BackFace',
            '2-BackTools', '0-BackTools', '0-BackPlace', '2-BackPlace'],
     'archi_social': archi_social,
-    'language_00': rsvp_language, 
+    'language_00': rsvp_language,
     'language_01': rsvp_language,
     'language_02': rsvp_language,
     'language_03': rsvp_language,
@@ -167,6 +167,25 @@ def post_process(df, paradigm_id):
         df = df[df.trial_type != 'cross']
         df = df[df.trial_type != 'blank2']
 
+    if paradigm_id == 'audio':
+        voices = ['voice_%d' % i for i in range(60)]
+        musics = ['music_%d' % i for i in range(60)]
+        animals = ['animal_%d' % i for i in range(60)]
+        speeches = ['speech_%d' % i for i in range(60)]
+        natures = ['nature_%d' % i for i in range(60)]
+        tools = ['tools_%d' % i for i in range(60)]
+        for voice in voices:
+            df = df.replace(voice, 'voice')
+        for animal in animals:
+            df = df.replace(animal, 'animal')
+        for music in musics:
+            df = df.replace(music, 'music')
+        for speech in speeches:
+            df = df.replace(speech, 'speech')
+        for nature in natures:
+            df = df.replace(nature, 'nature')
+        for tool in tools:
+            df = df.replace(tool, 'tool')
     return df
 
 
