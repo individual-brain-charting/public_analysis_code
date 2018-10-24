@@ -13,7 +13,8 @@ from pandas import read_csv
 from nilearn.masking import compute_multi_epi_mask
 from nilearn.image import high_variance_confounds
 
-from nistats.design_matrix import make_first_level_design_matrix, check_design_matrix
+from nistats.design_matrix import (make_first_level_design_matrix,
+                                   check_design_matrix)
 
 from pypreprocess.reporting.base_reporter import ProgressReport
 from pypreprocess.reporting.glm_reporter import generate_subject_stats_report
@@ -180,7 +181,7 @@ def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
     """ """
     from nibabel.gifti import read, write, GiftiDataArray, GiftiImage
     from nistats.first_level_model import run_glm
-    from  nistats.contrasts import compute_contrast
+    from nistats.contrasts import compute_contrast
     Y = np.array([darrays.data for darrays in read(fmri_path).darrays])
     labels, res = run_glm(Y, dmtx)
     # Estimate the contrasts
@@ -202,7 +203,8 @@ def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
             map_path = os.path.join(map_dir, '%s_%s.gii' % (contrast_id, side))
             print("\t\tWriting %s ..." % map_path)
             tex = GiftiImage(
-                darrays=[GiftiDataArray().from_array(out_map, intent='t test')])
+                darrays=[GiftiDataArray().from_array(
+                    out_map, intent='t test')])
             write(tex, map_path)
 
 
@@ -239,7 +241,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
                  design_matrix
                  dictionary keys are session_ids
     compcorr: Bool, optional,
-              whetherconfound estimation and removal should be carried out or not
+              whether confound estimation and removal should be done or not
     smooth: float or None, optional,
             how much the data should spatially smoothed during masking
     """
@@ -254,7 +256,6 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
     if not surface and (mask_img is None):
         mask_img = masking(subject_dic['func'], subject_dic['output_dir'])
 
-
     if additional_regressors is None:
         additional_regressors = dict(
             [(session_id, None) for session_id in subject_dic['session_id']])
@@ -263,16 +264,12 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             subject_dic['session_id'], subject_dic['func'],
             subject_dic['onset'], subject_dic['realignment_parameters']):
 
-        # Guessing paradigm from file name
-        # paradigm_id = session_id[:session_id.rfind('_')]
-        #paradigm_id = session_id
-        #for unwanted in ['_ap', '_pa'] + ['_run%d' % d for d in range(10)]:
-        #    paradigm_id = paradigm_id.replace(unwanted, '')
         paradigm_id = _session_id_to_task_id([session_id])[0]
 
         if surface:
             from nibabel.gifti import read
-            n_scans = np.array([darrays.data for darrays in read(fmri_path).darrays]).shape[0]
+            n_scans = np.array(
+                [darrays.data for darrays in read(fmri_path).darrays]).shape[0]
         else:
             n_scans = nib.load(fmri_path).shape[3]
 
@@ -321,7 +318,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         add_reg_names += confound_names
 
         # create the design matrix
-        design_matrix = make_design_matrix(
+        design_matrix = make_first_level_design_matrix(
             frametimes, paradigm, hrf_model=hrf_model, drift_model=drift_model,
             period_cut=hfcut, add_regs=add_regs,
             add_reg_names=add_reg_names)
@@ -344,7 +341,8 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
 
         if surface:
             run_surface_glm(
-                design_matrix, contrasts, fmri_path, subject_session_output_dir)
+                design_matrix, contrasts, fmri_path,
+                subject_session_output_dir)
         else:
             z_maps = run_glm(
                 design_matrix, contrasts, fmri_path, mask_img, subject_dic,
@@ -384,7 +382,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
 def _session_id_to_task_id(session_ids):
     """ Converts a session_id to a task _id
     by removing non-zero digits and _ap or _pa suffixes"""
-    run_mark = tuple(['_run-%02d' % d  for d in range(10)])
+    run_mark = tuple(['_run-%02d' % d for d in range(10)])
     task_ids = []
     for i, session_id in enumerate(session_ids):
         if session_id.endswith(run_mark):
@@ -481,23 +479,29 @@ def fixed_effects_analysis(subject_dic, surface=False, mask_img=None):
             if surface:
                 from nibabel.gifti import write
                 for side in ['lh', 'rh']:
-                    effect_size_maps, effect_variance_maps, data_available = _load_summary_stats(
-                        subject_dic['output_dir'], np.unique(session_paradigm), contrast,
-                        data_available=True, side=side)
+                    effect_size_maps, effect_variance_maps, data_available =\
+                        _load_summary_stats(
+                            subject_dic['output_dir'],
+                            np.unique(session_paradigm),
+                            contrast,
+                            data_available=True, side=side)
                     if not data_available:
-                        raise ValueError('Missing texture stats files for fixed effects computations')
+                        raise ValueError('Missing texture stats files for '
+                                         'fixed effects computations')
                     ffx_effects, ffx_variance, ffx_stat = fixed_effects_surf(
                         effect_size_maps, effect_variance_maps)
                     write(ffx_effects, os.path.join(
                         write_dir, 'effect_surf/%s_%s.gii' % (contrast, side)))
                     write(ffx_effects, os.path.join(
-                        write_dir, 'variance_surf/%s_%s.gii' % (contrast, side)))
+                        write_dir, 'variance_surf/%s_%s.gii' %
+                        (contrast, side)))
                     write(ffx_stat, os.path.join(
                         write_dir, 'stat_surf/%s_%s.gii' % (contrast, side)))
             else:
-                effect_size_maps, effect_variance_maps, data_available = _load_summary_stats(
-                    subject_dic['output_dir'], session_paradigm, contrast,
-                    data_available=True)
+                effect_size_maps, effect_variance_maps, data_available =\
+                    _load_summary_stats(
+                        subject_dic['output_dir'], session_paradigm, contrast,
+                        data_available=True)
                 shape = load(effect_size_maps[0]).shape
                 if len(shape) > 3:
                     if shape[3] > 1:  # F contrast, skipping
@@ -513,7 +517,8 @@ def fixed_effects_analysis(subject_dic, surface=False, mask_img=None):
                 plot_stat_map(
                     ffx_stat, bg_img=subject_dic['anat'], display_mode='z',
                     dim=0, cut_coords=7, title=contrast, threshold=3.0,
-                    output_file=os.path.join( write_dir, 'stat_maps/%s.png' % contrast))
+                    output_file=os.path.join(write_dir,
+                                             'stat_maps/%s.png' % contrast))
 
 
 def fixed_effects_surf(con_imgs, var_imgs):
@@ -522,8 +527,10 @@ def fixed_effects_surf(con_imgs, var_imgs):
     from nibabel.gifti import GiftiDataArray, GiftiImage
     con, var = [], []
     for (con_img, var_img) in zip(con_imgs, var_imgs):
-        con.append(np.ravel([darrays.data for darrays in load(con_img).darrays]))
-        var.append(np.ravel([darrays.data for darrays in load(var_img).darrays]))
+        con.append(np.ravel([
+            darrays.data for darrays in load(con_img).darrays]))
+        var.append(np.ravel([
+            darrays.data for darrays in load(var_img).darrays]))
 
     outputs = []
     intents = ['NIFTI_INTENT_ESTIMATE', 'NIFTI_INTENT_ESTIMATE', 't test']
