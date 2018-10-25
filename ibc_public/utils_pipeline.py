@@ -370,7 +370,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
                 threshold=3.,
                 cluster_th=15,
                 anat=anat_img,
-                anat_affine=anat_img.get_affine(),
+                anat_affine=anat_img.affine,
                 design_matrices=[design_matrix],
                 subject_id=subject_dic['subject_id'],
                 start_time=start_time,
@@ -574,14 +574,15 @@ def fixed_effects_img(con_imgs, var_imgs, mask_img):
              the fixed effects t-test computed within the mask
     """
     import nibabel as nib
+    from nilearn._utils.compat import _basestring
     con, var = [], []
-    if isinstance(mask_img, basestring):
+    if isinstance(mask_img, _basestring):
         mask_img = nib.load(mask_img)
     mask = mask_img.get_data().astype(np.bool)
     for (con_img, var_img) in zip(con_imgs, var_imgs):
-        if isinstance(con_img, basestring):
+        if isinstance(con_img, _basestring):
             con_img = nib.load(con_img)
-        if isinstance(var_img, basestring):
+        if isinstance(var_img, _basestring):
             var_img = nib.load(var_img)
         con.append(con_img.get_data()[mask])
         var.append(var_img.get_data()[mask])
@@ -591,7 +592,7 @@ def fixed_effects_img(con_imgs, var_imgs, mask_img):
     for array in arrays:
         vol = mask.astype(np.float)
         vol[mask] = array.ravel()
-        outputs.append(nib.Nifti1Image(vol, mask_img.get_affine()))
+        outputs.append(nib.Nifti1Image(vol, mask_img.affine))
     return outputs
 
 
