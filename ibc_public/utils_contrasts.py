@@ -124,7 +124,7 @@ def audio(design_matrix_columns):
     """Contrasts for the audio protocol"""
     contrast_names = [
         'animal-others', 'music-others', 'nature-others',
-        'speech-others', 'tool-others', 'voice-others'
+        'speech-others', 'tool-others', 'voice-others', 'mean-silence'
         ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
@@ -132,6 +132,7 @@ def audio(design_matrix_columns):
     others = (con['animal'] + con['music'] + con['nature'] +
               con['speech'] + con['tool'] + con['voice']) * 1. / 5
     contrasts = {
+        'mean-silence': others - con['silence'],
         'animal-others': con['animal'] - others,
         'music-others': con['music'] - others,
         'nature-others': con['nature'] - others,
