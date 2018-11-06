@@ -9,10 +9,13 @@ import os
 import pandas as pd
 import shutil
 
-if 1:
-    ibc = '/neurospin/ibc'
+main_parent_dir = 'neurospin/ibc'
+alt_parent_dir = '/storage/store/data/ibc'
+
+if os.path.exists(main_parent_dir):
+    ibc = main_parent_dir
 else:
-    ibc = '/storage/store/data/ibc'
+    ibc = alt_parent_dir
 
 DERIVATIVES = os.path.join(ibc, 'derivatives')
 SMOOTH_DERIVATIVES = os.path.join(ibc, 'smooth_derivatives')
