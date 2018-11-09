@@ -5,7 +5,6 @@ to run fMRI data analyses.
 Author: Bertrand Thirion, 2015
 """
 import os
-import commands
 import time
 import numpy as np
 import nibabel as nib
@@ -14,13 +13,14 @@ from pandas import read_csv
 from nilearn.masking import compute_multi_epi_mask
 from nilearn.image import high_variance_confounds
 
-from nistats.design_matrix import make_design_matrix, check_design_matrix
+from nistats.design_matrix import (make_first_level_design_matrix,
+                                   check_design_matrix)
 
 from pypreprocess.reporting.base_reporter import ProgressReport
 from pypreprocess.reporting.glm_reporter import generate_subject_stats_report
 
-from utils_contrasts import make_contrasts
-from utils_paradigm import make_paradigm
+from ibc_public.utils_contrasts import make_contrasts
+from ibc_public.utils_paradigm import make_paradigm
 
 
 def _make_topup_param_file(field_maps, acq_params_file):
@@ -50,6 +50,7 @@ def _bids_filename_to_dic(filename):
             dic[key] = value
     return dic
 
+
 def _make_merged_filename(fmap_dir, basenames):
     """Create filename for merged field_maps"""
     dic0 = _bids_filename_to_dic(basenames[0])
@@ -76,25 +77,25 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
     then apply the ensuing correction to fmri_files"""
     # merge the 0th volume of both fieldmaps
     fmap_dir = os.path.join(write_dir, 'fmap')
-    basenames =  [os.path.basename(fm) for fm in field_maps]
+    basenames = [os.path.basename(fm) for fm in field_maps]
     merged_zeroth_fieldmap_file = _make_merged_filename(fmap_dir, basenames)
-    zeroth_fieldmap_files = field_maps # FIXME
+    zeroth_fieldmap_files = field_maps  # FIXME
     fslmerge_cmd = "fsl5.0-fslmerge -t %s %s %s" % (
         merged_zeroth_fieldmap_file, zeroth_fieldmap_files[0],
         zeroth_fieldmap_files[1])
-    print "\r\nExecuting '%s' ..." % fslmerge_cmd
-    print(commands.getoutput(fslmerge_cmd))
+    print("\r\nExecuting '%s' ..." % fslmerge_cmd)
+    print(os.system(fslmerge_cmd))
     # add one slide if the number is odd
     odd = (np.mod(nib.load(merged_zeroth_fieldmap_file).shape[2], 2) == 1)
     if odd:
         cmd = "fsl5.0-fslroi %s /tmp/pe 0 -1 0 -1 0 1 0 -1" %\
               merged_zeroth_fieldmap_file
         print(cmd)
-        print(mem.cache)(commands.getoutput(cmd))
+        os.system(cmd)
         cmd = "fsl5.0-fslmerge -z %s /tmp/pe %s" % (
             merged_zeroth_fieldmap_file, merged_zeroth_fieldmap_file)
         print(cmd)
-        print(mem.cache)(commands.getoutput(cmd))
+        os.system(cmd)
 
     # TOPUP
     acq_params_file = os.path.join(fmap_dir, 'b0_acquisition_params_AP.txt')
@@ -103,13 +104,13 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
     # shutil.copy('b0_acquisition_params_AP.txt', acq_params_file)
     topup_results_basename = os.path.join(fmap_dir, 'topup_result')
     if os.path.exists(topup_results_basename):
-        commands.getoutput('rm -f %s' % topup_results_basename)
+        os.system('rm -f %s' % topup_results_basename)
     topup_cmd = (
         "fsl5.0-topup --imain=%s --datain=%s --config=b02b0.cnf "
         "--out=%s" % (merged_zeroth_fieldmap_file, acq_params_file,
                       topup_results_basename))
-    print "\r\nExecuting '%s' ..." % topup_cmd    
-    print(commands.getoutput(topup_cmd))
+    print("\r\nExecuting '%s' ..." % topup_cmd)
+    print(os.system(topup_cmd))
     # apply topup to images
     func_dir = os.path.join(write_dir, modality)
     for i, f in enumerate(fmri_files):
@@ -120,44 +121,44 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
             inindex = 2
         else:
             inindex = 2
-        
+
         applytopup_cmd = (
             "fsl5.0-applytopup --imain=%s --verbose --inindex=%s "
             "--topup=%s --out=%s --datain=%s --method=jac" % (
                 f, inindex, topup_results_basename, dcf, acq_params_file))
-        print "\r\nExecuting '%s' ..." % applytopup_cmd
-        print commands.getoutput(applytopup_cmd)
+        print("\r\nExecuting '%s' ..." % applytopup_cmd)
+        print(os.system(applytopup_cmd))
 
 
 def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
             subject_session_output_dir, tr, smoothing_fwhm=False):
-    """ Run the GLM on a given session and compute contrasts 
-    
+    """ Run the GLM on a given session and compute contrasts
+
     Parameters
     ----------
     dmtx : array-like
         the design matrix for the model
     contrasts : dict
-        holding the numerical specification of contrasts 
+        holding the numerical specification of contrasts
     fmri_data : Nifti1Image
-        the fMRI data fir by the model 
+        the fMRI data fir by the model
     mask_img : Nifti1Image
         the mask used for the fMRI data
     """
     from nistats.first_level_model import FirstLevelModel
     fmri_4d = nib.load(fmri_data)
-    
+
     # GLM analysis
     print('Fitting a GLM (this takes time)...')
     fmri_glm = FirstLevelModel(mask=mask_img, t_r=tr, slice_time_ref=.5,
                                smoothing_fwhm=smoothing_fwhm).fit(
         fmri_4d, design_matrices=dmtx)
-    
+
     # compute contrasts
     z_maps = {}
-    for contrast_id, contrast_val in contrasts.iteritems():
-        print "\tcontrast id: %s" % contrast_id
-        
+    for contrast_id, contrast_val in contrasts.items():
+        print("\tcontrast id: %s" % contrast_id)
+
         # store stat maps to disk
         for map_type in ['z_score', 'stat', 'effect_size', 'effect_variance']:
             stat_map = fmri_glm.compute_contrast(
@@ -167,12 +168,12 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
             if not os.path.exists(map_dir):
                 os.makedirs(map_dir)
             map_path = os.path.join(map_dir, '%s.nii.gz' % contrast_id)
-            print "\t\tWriting %s ..." % map_path
+            print("\t\tWriting %s ..." % map_path)
             stat_map.to_filename(map_path)
-            
+
             # collect zmaps for contrasts we're interested in
             if map_type == 'z_score':
-                z_maps[contrast_id] = map_path                
+                z_maps[contrast_id] = map_path
     return z_maps
 
 
@@ -180,7 +181,7 @@ def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
     """ """
     from nibabel.gifti import read, write, GiftiDataArray, GiftiImage
     from nistats.first_level_model import run_glm
-    from  nistats.contrasts import compute_contrast
+    from nistats.contrasts import compute_contrast
     Y = np.array([darrays.data for darrays in read(fmri_path).darrays])
     labels, res = run_glm(Y, dmtx)
     # Estimate the contrasts
@@ -202,9 +203,10 @@ def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
             map_path = os.path.join(map_dir, '%s_%s.gii' % (contrast_id, side))
             print("\t\tWriting %s ..." % map_path)
             tex = GiftiImage(
-                darrays=[GiftiDataArray().from_array(out_map, intent='t test')])
+                darrays=[GiftiDataArray().from_array(
+                    out_map, intent='t test')])
             write(tex, map_path)
-    
+
 
 def masking(func, output_dir):
     """compute the mask for all sessions"""
@@ -219,27 +221,27 @@ def masking(func, output_dir):
         raise ValueError("wrong mask: volume is %f, should be larger than %f" %
                          (full_vol, ref_vol))
     mask_path = os.path.join(output_dir, "mask.nii.gz")
-    print "Saving mask image %s" % mask_path
+    print("Saving mask image %s" % mask_path)
     mask_img.to_filename(mask_path)
     # todo: cache this then add masking in pypreprocess
     return mask_img
 
-    
+
 def first_level(subject_dic, additional_regressors=None, compcorr=False,
                 smooth=None, surface=False, mask_img=None):
     """ Run the first-level analysis (GLM fitting + statistical maps)
     in a given subject
-    
+
     Parameters
     ----------
     subject_dic: dict,
                  exhaustive description of an individual acquisition
     additional_regressors: dict or None,
-                 additional regressors provided as an already sampled 
+                 additional regressors provided as an already sampled
                  design_matrix
                  dictionary keys are session_ids
     compcorr: Bool, optional,
-              whetherconfound estimation and removal should be carried out or not
+              whether confound estimation and removal should be done or not
     smooth: float or None, optional,
             how much the data should spatially smoothed during masking
     """
@@ -254,7 +256,6 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
     if not surface and (mask_img is None):
         mask_img = masking(subject_dic['func'], subject_dic['output_dir'])
 
-        
     if additional_regressors is None:
         additional_regressors = dict(
             [(session_id, None) for session_id in subject_dic['session_id']])
@@ -262,17 +263,13 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
     for session_id, fmri_path, onset, motion_path in zip(
             subject_dic['session_id'], subject_dic['func'],
             subject_dic['onset'], subject_dic['realignment_parameters']):
-        
-        # Guessing paradigm from file name
-        # paradigm_id = session_id[:session_id.rfind('_')]
-        #paradigm_id = session_id
-        #for unwanted in ['_ap', '_pa'] + ['_run%d' % d for d in range(10)]:
-        #    paradigm_id = paradigm_id.replace(unwanted, '')
+
         paradigm_id = _session_id_to_task_id([session_id])[0]
-        
+
         if surface:
             from nibabel.gifti import read
-            n_scans = np.array([darrays.data for darrays in read(fmri_path).darrays]).shape[0]
+            n_scans = np.array(
+                [darrays.data for darrays in read(fmri_path).darrays]).shape[0]
         else:
             n_scans = nib.load(fmri_path).shape[3]
 
@@ -280,14 +277,23 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         motion = np.loadtxt(motion_path)
         # define the time stamps for different images
         frametimes = np.linspace(0, (n_scans - 1) * tr, n_scans)
+        if paradigm_id == 'audio':
+            mask = np.array([1, 0, 1, 1, 0, 1, 1, 0, 1, 1])
+            n_cycles = 28
+            cycle_duration = 20
+            t_r = 2
+            cycle = np.arange(0, cycle_duration, t_r)[mask > 0]
+            frametimes = np.tile(cycle, n_cycles) +\
+                np.repeat(np.arange(n_cycles) * cycle_duration, mask.sum())
+            frametimes = frametimes[:-2]  # for some reason...
 
         if surface:
             compcorr = False  # XXX Fixme
-        
+
         if compcorr:
             confounds = high_variance_confounds(fmri_path, mask_img=mask_img)
             confounds = np.hstack((confounds, motion))
-            confound_names = ['conf_%d' % i for i in range(5)] + motion_names 
+            confound_names = ['conf_%d' % i for i in range(5)] + motion_names
         else:
             confounds = motion
             confound_names = motion_names
@@ -304,7 +310,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             paradigm = None
         else:
             paradigm = make_paradigm(onset, paradigm_id)
-        
+
         # handle manually supplied regressors
         add_reg_names = []
         if additional_regressors[session_id] is None:
@@ -317,16 +323,16 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
                 add_regs.append(df[regressor])
             add_regs = np.array(add_regs).T
             add_regs = np.hstack((add_regs, confounds))
-        
+
         add_reg_names += confound_names
 
         # create the design matrix
-        design_matrix = make_design_matrix(
+        design_matrix = make_first_level_design_matrix(
             frametimes, paradigm, hrf_model=hrf_model, drift_model=drift_model,
             period_cut=hfcut, add_regs=add_regs,
             add_reg_names=add_reg_names)
         _, dmtx, names = check_design_matrix(design_matrix)
-        
+
         # create the relevant contrasts
         contrasts = make_contrasts(paradigm_id, names)
 
@@ -341,15 +347,16 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             os.makedirs(subject_session_output_dir)
         np.savez(os.path.join(subject_session_output_dir, 'design_matrix.npz'),
                  design_matrix=design_matrix)
-            
+
         if surface:
             run_surface_glm(
-                design_matrix, contrasts, fmri_path, subject_session_output_dir)
+                design_matrix, contrasts, fmri_path,
+                subject_session_output_dir)
         else:
             z_maps = run_glm(
                 design_matrix, contrasts, fmri_path, mask_img, subject_dic,
                 subject_session_output_dir, tr=tr, smoothing_fwhm=smooth)
-            
+
             # do stats report
             anat_img = nib.load(subject_dic['anat'])
             stats_report_filename = os.path.join(
@@ -363,7 +370,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
                 threshold=3.,
                 cluster_th=15,
                 anat=anat_img,
-                anat_affine=anat_img.get_affine(),
+                anat_affine=anat_img.affine,
                 design_matrices=[design_matrix],
                 subject_id=subject_dic['subject_id'],
                 start_time=start_time,
@@ -384,7 +391,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
 def _session_id_to_task_id(session_ids):
     """ Converts a session_id to a task _id
     by removing non-zero digits and _ap or _pa suffixes"""
-    run_mark = tuple(['_run-%02d' % d  for d in range(10)])
+    run_mark = tuple(['_run-%02d' % d for d in range(10)])
     task_ids = []
     for i, session_id in enumerate(session_ids):
         if session_id.endswith(run_mark):
@@ -436,13 +443,13 @@ def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
                 os.path.join(sess_dir, 'variance_surf', '%s_%s.gii' %
                              (contrast, side)))
     return effect_size_maps, effect_variance_maps, data_available
-    
+
 
 def fixed_effects_analysis(subject_dic, surface=False, mask_img=None):
     """ Combine the AP and PA images """
     from nibabel import load, save
     from nilearn.plotting import plot_stat_map
-    
+
     session_ids = subject_dic['session_id']
     print(session_ids)
     task_ids = _session_id_to_task_id(session_ids)
@@ -481,23 +488,29 @@ def fixed_effects_analysis(subject_dic, surface=False, mask_img=None):
             if surface:
                 from nibabel.gifti import write
                 for side in ['lh', 'rh']:
-                    effect_size_maps, effect_variance_maps, data_available = _load_summary_stats(
-                        subject_dic['output_dir'], np.unique(session_paradigm), contrast,
-                        data_available=True, side=side)
+                    effect_size_maps, effect_variance_maps, data_available =\
+                        _load_summary_stats(
+                            subject_dic['output_dir'],
+                            np.unique(session_paradigm),
+                            contrast,
+                            data_available=True, side=side)
                     if not data_available:
-                        raise ValueError('Missing texture stats files for fixed effects computations')
+                        raise ValueError('Missing texture stats files for '
+                                         'fixed effects computations')
                     ffx_effects, ffx_variance, ffx_stat = fixed_effects_surf(
                         effect_size_maps, effect_variance_maps)
                     write(ffx_effects, os.path.join(
                         write_dir, 'effect_surf/%s_%s.gii' % (contrast, side)))
                     write(ffx_effects, os.path.join(
-                        write_dir, 'variance_surf/%s_%s.gii' % (contrast, side)))
+                        write_dir, 'variance_surf/%s_%s.gii' %
+                        (contrast, side)))
                     write(ffx_stat, os.path.join(
                         write_dir, 'stat_surf/%s_%s.gii' % (contrast, side)))
             else:
-                effect_size_maps, effect_variance_maps, data_available = _load_summary_stats(
-                    subject_dic['output_dir'], session_paradigm, contrast,
-                    data_available=True)
+                effect_size_maps, effect_variance_maps, data_available =\
+                    _load_summary_stats(
+                        subject_dic['output_dir'], session_paradigm, contrast,
+                        data_available=True)
                 shape = load(effect_size_maps[0]).shape
                 if len(shape) > 3:
                     if shape[3] > 1:  # F contrast, skipping
@@ -513,7 +526,8 @@ def fixed_effects_analysis(subject_dic, surface=False, mask_img=None):
                 plot_stat_map(
                     ffx_stat, bg_img=subject_dic['anat'], display_mode='z',
                     dim=0, cut_coords=7, title=contrast, threshold=3.0,
-                    output_file=os.path.join( write_dir, 'stat_maps/%s.png' % contrast))
+                    output_file=os.path.join(write_dir,
+                                             'stat_maps/%s.png' % contrast))
 
 
 def fixed_effects_surf(con_imgs, var_imgs):
@@ -522,8 +536,10 @@ def fixed_effects_surf(con_imgs, var_imgs):
     from nibabel.gifti import GiftiDataArray, GiftiImage
     con, var = [], []
     for (con_img, var_img) in zip(con_imgs, var_imgs):
-        con.append(np.ravel([darrays.data for darrays in load(con_img).darrays]))
-        var.append(np.ravel([darrays.data for darrays in load(var_img).darrays]))
+        con.append(np.ravel([
+            darrays.data for darrays in load(con_img).darrays]))
+        var.append(np.ravel([
+            darrays.data for darrays in load(var_img).darrays]))
 
     outputs = []
     intents = ['NIFTI_INTENT_ESTIMATE', 'NIFTI_INTENT_ESTIMATE', 't test']
@@ -532,10 +548,10 @@ def fixed_effects_surf(con_imgs, var_imgs):
         gii = GiftiImage(
             darrays=[GiftiDataArray().from_array(array, intent)])
         outputs.append(gii)
-            
+
     return outputs
-    
-                
+
+
 def fixed_effects_img(con_imgs, var_imgs, mask_img):
     """Compute the fixed effets given images of effects and variance
 
@@ -558,14 +574,15 @@ def fixed_effects_img(con_imgs, var_imgs, mask_img):
              the fixed effects t-test computed within the mask
     """
     import nibabel as nib
+    from nilearn._utils.compat import _basestring
     con, var = [], []
-    if isinstance(mask_img, basestring):
+    if isinstance(mask_img, _basestring):
         mask_img = nib.load(mask_img)
     mask = mask_img.get_data().astype(np.bool)
     for (con_img, var_img) in zip(con_imgs, var_imgs):
-        if isinstance(con_img, basestring):
+        if isinstance(con_img, _basestring):
             con_img = nib.load(con_img)
-        if isinstance(var_img, basestring):
+        if isinstance(var_img, _basestring):
             var_img = nib.load(var_img)
         con.append(con_img.get_data()[mask])
         var.append(var_img.get_data()[mask])
@@ -575,7 +592,7 @@ def fixed_effects_img(con_imgs, var_imgs, mask_img):
     for array in arrays:
         vol = mask.astype(np.float)
         vol[mask] = array.ravel()
-        outputs.append(nib.Nifti1Image(vol, mask_img.get_affine()))
+        outputs.append(nib.Nifti1Image(vol, mask_img.affine))
     return outputs
 
 

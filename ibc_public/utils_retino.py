@@ -135,7 +135,7 @@ def angular_maps(side, contrast_path, mask_img, mesh_path=None,
         for (x, name) in zip(data_, id_):
             wdata = np.zeros(nib.load(stat_map).shape)
             wdata[mask > 0] = x
-            wim = nib.Nifti1Image(wdata, nib.load(stat_map).get_affine())
+            wim = nib.Nifti1Image(wdata, nib.load(stat_map).affine)
             nib.save(wim, os.path.join(contrast_path, '%s.nii' % name))
 
 

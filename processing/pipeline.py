@@ -37,7 +37,7 @@ def clean_anatomical_images(main_dir):
             # Don't do it again if it was already done
             if os.path.exists(dst):
                 continue
-            anat_data = nib.load(anat_img).get_data() 
+            anat_data = nib.load(anat_img).get_data()
             anat_data[isnan(anat_data)] = 0
             anat_img_clean = nib.Nifti1Image(anat_data, nib.load(anat_img).affine)
             nib.save(anat_img_clean, dst)
@@ -63,7 +63,7 @@ def clean_subject(subject):
             funcs.append(func)
             session_ids.append(session_id)
             onsets.append(onset)
-    
+
     subject['onset'] = onsets
     subject['func'] = funcs
     subject['realignment_parameters'] = rps
@@ -83,7 +83,7 @@ def prepare_derivatives(main_dir):
              if os.path.exists(os.path.join(source_dir, subject))] +
             [os.path.join(output_dir, subject, ses) for subject in subjects
              for ses in sess
-             if os.path.exists(os.path.join(source_dir, subject, ses))] + 
+             if os.path.exists(os.path.join(source_dir, subject, ses))] +
             [os.path.join(output_dir, subject, ses, modality)
              for subject in subjects
              for ses in sess for modality in modalities
@@ -100,7 +100,7 @@ def prepare_derivatives(main_dir):
                                                '*.tsv'))
             dst = os.path.join(output_dir, subject, ses, 'func')
             for tsv_file in tsv_files:
-                shutil.copyfile(tsv_file, 
+                shutil.copyfile(tsv_file,
                                 os.path.join(dst, os.path.basename(tsv_file)))
         highres = glob.glob(
             os.path.join(source_dir, subject, 'ses-*', 'anat', '*'))  #'*highres_T*w*'))
@@ -122,7 +122,7 @@ def run_topup(mem, data_dir, subject, ses, acq=None):
     if acq == 'mb6':
         functional_data = [fd for fd in functional_data if 'RestingState' in fd]
     functional_data.sort()
-    
+
     # gather the field maps
     if acq == 'mb3':
         field_maps = [
@@ -185,7 +185,7 @@ def run_subject_preproc(jobfile, subject, session=None):
     return subject_data
 
 
-if __name__ == '__main__':    
+if __name__ == '__main__':
     # correction of distortion_parameters
     # custom solution, to be improved in the future
     main_dir = '/neurospin/ibc/'
@@ -195,7 +195,7 @@ if __name__ == '__main__':
     do_topup = True
     protocol = 'enumeration' # 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 'preferences'
     subject_session = sorted(get_subject_session(protocol))
-    subject_session = [('sub-06', 'ses-17'),]
+    subject_session = [('sub-01', 'ses-20'), ('sub-09', 'ses-18')]
 
     if do_topup:
         acq = None
@@ -206,7 +206,7 @@ if __name__ == '__main__':
         apply_topup(main_dir, cache_dir, subject_session, acq=acq)
 
     subject_data = []
-    for protocol in [protocol]:  
+    for protocol in [protocol]:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_data_ = Parallel(n_jobs=1)(
             delayed(run_subject_preproc)(jobfile, subject, session)
