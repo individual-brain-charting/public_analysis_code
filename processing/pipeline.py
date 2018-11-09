@@ -25,7 +25,7 @@ def clean_anatomical_images(main_dir):
     import nibabel as nib
     from numpy import isnan
     subjects = ['sub-%02d' % i for i in range(1, 16)]
-    sessions =  ['ses-%02d' % j for j in range(0, 30)]
+    sessions = ['ses-%02d' % i for i in range(1, 30)]
     for subject in subjects:
         for session in sessions:
             anat_img = os.path.join(main_dir, 'derivatives', subject, session, 'anat',
@@ -46,8 +46,10 @@ def clean_anatomical_images(main_dir):
 def clean_subject(subject):
     """ Remove sessions with missing data (e.g. onset files) before fitting GLM"""
     onsets, rps, funcs, session_ids = [], [], [], []
-    if not (subject.has_key('onset') and subject.has_key('realignment_parameters') and
-            subject.has_key('func') and subject.has_key('session_id')):
+    if not ('onset' in subject.keys() and
+            'realignment_parameters' in subject.keys() and
+            'func' in subject.keys() and
+            'session_id' in subject.keys()):
         subject['onset'] = onsets
         subject['func'] = funcs
         subject['realignment_parameters'] = rps
@@ -192,10 +194,10 @@ if __name__ == '__main__':
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
 
-    do_topup = True
+    do_topup = False
     protocol = 'enumeration' # 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 'preferences'
     subject_session = sorted(get_subject_session(protocol))
-    subject_session = [('sub-01', 'ses-20'), ('sub-09', 'ses-18')]
+    subject_session = [('sub-09', 'ses-18'), ('sub-01', 'ses-20')]
 
     if do_topup:
         acq = None
@@ -219,7 +221,7 @@ if __name__ == '__main__':
         dict_subject = dict_subject.__dict__
         update_dict_subject_data = {
             k: v  for (k, v) in dict_subject.items()
-            if v.__class__.__module__ == '__builtin__'}
+            if v.__class__.__module__ == 'builtins'}
         update_dict_subject_data.pop('nipype_results')
         list_subject_update.append(update_dict_subject_data)
 
@@ -237,3 +239,4 @@ if __name__ == '__main__':
         if len(subject['session_id']) > 0:
             first_level(subject, compcorr=True)
             fixed_effects_analysis(subject)
+

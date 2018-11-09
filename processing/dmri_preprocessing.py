@@ -8,22 +8,17 @@ Currently draft version with hard coded paths etc.
 Author: Bertrand Thirion, 2015
 """
 import os
-import shutil
 import glob
 from joblib import Memory, Parallel, delayed
-from nipype.workflows.dmri.fsl.epi import create_dmri_preprocessing
 import numpy as np
 import nibabel as nib
-from nilearn._utils.cache_mixin import cache
 from nilearn.masking import compute_epi_mask
-from utils_pipeline import fsl_topup
+from ibc_public.utils_pipeline import fsl_topup
 from dipy.reconst.dti import TensorModel, fractional_anisotropy
-from dipy.reconst.csdeconv import (ConstrainedSphericalDeconvModel,
-                                   auto_response)
+from dipy.reconst.csdeconv import ConstrainedSphericalDeconvModel
 from dipy.direction import peaks_from_model
 from dipy.tracking.eudx import EuDX
 from dipy.data import get_sphere
-from dipy.segment.mask import median_otsu
 from dipy.viz.colormap import line_colors
 from dipy.core.gradients import gradient_table
 # from mayavi import mlab
@@ -91,18 +86,20 @@ def length(streamline):
 
 def filter_according_to_length(streamlines, threshold=30):
     """Remove streamlines shorter than the predifeined thresold """
-    print len(streamlines)
+    print(len(streamlines))
     for i in range(len(streamlines) - 1, 0, -1):
         if length(streamlines[i]) < threshold:
             streamlines.pop(i)
 
-    print len(streamlines)
+    print(len(streamlines))
     return streamlines
+
 
 def adapt_ini_file(template, subject, session):
     """ Adapt an ini file by changing the subject and session"""
     output_name = os.path.join(
-        '/tmp', os.path.basename(template)[:- 4] + '_' + subject + '_' + session + '.ini')
+        '/tmp', os.path.basename(template)[:- 4] + '_' + subject + '_'
+        + session + '.ini')
     f1 = open(template, 'r')
     f2 = open(output_name, 'w')
     for line in f1.readlines():
@@ -125,7 +122,6 @@ def visualization(streamlines_file):
     streamlines = np.load(streamlines_file)['arr_0']
     qb = QuickBundles(streamlines, dist_thr=10., pts=18)
     centroids = qb.centroids
-    #centroids = streamlines
     colors = line_colors(centroids).astype(np.float)
     mlab.figure(bgcolor=(0., 0., 0.))
     for streamline, color in zip(centroids, colors):
@@ -164,7 +160,7 @@ def tractography(img, gtab, mask, dwi_dir):
     streamlines = filter_according_to_length(streamlines)
     np.savez(os.path.join(dwi_dir, 'streamlines.npz'), streamlines)
 
-    #write the result as images
+    #  write the result as images
     hdr = nib.trackvis.empty_header()
     hdr['voxel_size'] = img.header.get_zooms()[:3]
     hdr['voxel_order'] = 'LAS'
@@ -218,14 +214,15 @@ def run_dmri_pipeline(subject_session, do_topup=True):
     if do_edc:
         eddy_current_correction(out, bvals_file, bvecs_file, dwi_dir, mem)
 
-    ############################################################################
+    ###########################################################################
     # Proceed with registration to anatomical image
     from pypreprocess.nipype_preproc_spm_utils import do_subjects_preproc
-    ini_file = adapt_ini_file("ini_files/IBC_preproc_dwi.ini", subject, session)
+    ini_file = adapt_ini_file("ini_files/IBC_preproc_dwi.ini",
+                              subject, session)
     subject_data = do_subjects_preproc(ini_file,
                                        dataset_dir=write_dir)[0]
 
-    ############################################################################
+    ###########################################################################
     # do the tractography
     subject, session = subject_session.split('/')
 
@@ -236,18 +233,18 @@ def run_dmri_pipeline(subject_session, do_topup=True):
     gtab = gradient_table(bvals, bvecs, b0_threshold=10)
     # Create a brain mask
     # Anatomical mask
-    from nilearn.image import math_img, resample_to_img, threshold_img
+    from nilearn.image import math_img, resample_to_img
     anat_mask = math_img(" img1 + img2 ",
-                   img1=subject_data.mwgm, img2=subject_data.mwwm)
+                         img1=subject_data.mwgm, img2=subject_data.mwwm)
     anat_mask = resample_to_img(anat_mask, img)
     anat_mask = math_img(" img > .5", img=anat_mask)
     anat_mask.to_filename(os.path.join(dwi_dir, 'anat_mask.nii.gz'))
     mask = anat_mask.get_data()
     tractography(img, gtab, mask, dwi_dir)
 
+
 Parallel(n_jobs=1)(
     delayed(run_dmri_pipeline)(subject_session, do_topup)
-    for subject_session in subjects_sessions[-1:])
-
+    for subject_session in subjects_sessions[:1])
 
 mlab.show()

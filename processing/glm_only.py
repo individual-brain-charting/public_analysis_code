@@ -119,22 +119,23 @@ if __name__ == '__main__':
     prepare_derivatives(IBC)
     
     smooth = 5
-    for protocol in ['clips4']:  # ['hcp1', 'hcp2', 'rsvp-language', 'mtt2' 'preferences', 'tom']
+    for protocol in ['enumeration']:  # ['hcp1', 'hcp2', 'rsvp-language', 'mtt2' 'preferences', 'tom']
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = get_subject_session(protocol)[-2:-1]
+        subject_session = get_subject_session(protocol)
+        subject_session = [('sub-01', 'ses-20'), ('sub-09', 'ses-18')]
         Parallel(n_jobs=4)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
     
     smooth = None
-    for protocol in ['clips4']:
+    for protocol in ['enumeration']:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         Parallel(n_jobs=4)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
     
     
-    for protocol in ['clips4']:  # ['lyon1', 'preferences', 'screening', 'hcp1', 'hcp2', , 'mtt2' 'preferences', 'screening', 'rsvp-language', 'clips4' 'archi', ]
+    for protocol in ['enumeration']:  # ['lyon1', 'preferences', 'screening', 'hcp1', 'hcp2', , 'mtt2' 'preferences', 'screening', 'rsvp-language', 'clips4' 'archi', ]
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         Parallel(n_jobs=4)(
             delayed(run_subject_glm)(jobfile, protocol, subject, session, lowres=True, smooth=5)
