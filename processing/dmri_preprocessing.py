@@ -214,14 +214,14 @@ def run_dmri_pipeline(subject_session, do_topup=True):
     if do_edc:
         eddy_current_correction(out, bvals_file, bvecs_file, dwi_dir, mem)
 
-    ###########################################################################
-    # Proceed with registration to anatomical image
-    from pypreprocess.nipype_preproc_spm_utils import do_subjects_preproc
-    ini_file = adapt_ini_file("ini_files/IBC_preproc_dwi.ini",
-                              subject, session)
-    subject_data = do_subjects_preproc(ini_file,
-                                       dataset_dir=write_dir)[0]
-
+    #  ########################################################################
+    #  # Proceed with registration to anatomical image
+    #  from pypreprocess.nipype_preproc_spm_utils import do_subjects_preproc
+    #  ini_file = adapt_ini_file("ini_files/IBC_preproc_dwi.ini",
+    #                              subject, session)
+    #  subject_data = do_subjects_preproc(ini_file,
+    #                                   dataset_dir=write_dir)[0]
+    #
     ###########################################################################
     # do the tractography
     subject, session = subject_session.split('/')
@@ -232,14 +232,18 @@ def run_dmri_pipeline(subject_session, do_topup=True):
     # load the data
     gtab = gradient_table(bvals, bvecs, b0_threshold=10)
     # Create a brain mask
-    # Anatomical mask
-    from nilearn.image import math_img, resample_to_img
-    anat_mask = math_img(" img1 + img2 ",
-                         img1=subject_data.mwgm, img2=subject_data.mwwm)
-    anat_mask = resample_to_img(anat_mask, img)
-    anat_mask = math_img(" img > .5", img=anat_mask)
-    anat_mask.to_filename(os.path.join(dwi_dir, 'anat_mask.nii.gz'))
-    mask = anat_mask.get_data()
+
+    ## Anatomical mask
+    #from nilearn.image import math_img, resample_to_img
+    #anat_mask = math_img(" img1 + img2 ",
+    #                         img1=subject_data.mwgm, img2=subject_data.mwwm)
+    #anat_mask = resample_to_img(anat_mask, img)
+    #anat_mask = math_img(" img > .5", img=anat_mask)
+    #anat_mask.to_filename(os.path.join(dwi_dir, 'anat_mask.nii.gz'))
+    #mask = anat_mask.get_data()
+    from dipy.segment.mask import median_otsu
+    b0_mask, mask = median_otsu(img.get_data(), 2, 1)
+
     tractography(img, gtab, mask, dwi_dir)
 
 
