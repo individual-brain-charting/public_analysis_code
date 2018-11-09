@@ -9,7 +9,7 @@ import os
 import pandas as pd
 import shutil
 
-main_parent_dir = 'neurospin/ibc'
+main_parent_dir = '/neurospin/ibc'
 alt_parent_dir = '/storage/store/data/ibc'
 
 if os.path.exists(main_parent_dir):
@@ -90,7 +90,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
     # T1 images
     imgs_ = sorted(glob.glob(os.path.join(
-        derivatives, 'sub-*/ses-*/anat/wsub*_T1w.nii.gz')))
+        DERIVATIVES, 'sub-*/ses-*/anat/wsub*_T1w.nii.gz')))
     for img in imgs_:
         session = img.split('/')[-3]
         subject = img.split('/')[-4]
@@ -103,7 +103,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         acquisitions.append('')
 
     imgs_ = sorted(glob.glob(os.path.join(
-        derivatives, 'sub-*/ses-*/anat/wsub*_T1w_bet.nii.gz')))
+        DERIVATIVES, 'sub-*/ses-*/anat/wsub*_T1w_bet.nii.gz')))
     for img in imgs_:
         session = img.split('/')[-3]
         subject = img.split('/')[-4]
