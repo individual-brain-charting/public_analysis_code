@@ -21,8 +21,8 @@ from dipy.tracking.eudx import EuDX
 from dipy.data import get_sphere
 from dipy.viz.colormap import line_colors
 from dipy.core.gradients import gradient_table
-# from mayavi import mlab
 from dipy.segment.quickbundles import QuickBundles
+from mayavi import mlab
 
 
 source_dir = '/neurospin/ibc/sourcedata'
@@ -78,7 +78,7 @@ def eddy_current_correction(img, file_bvals, file_bvecs, write_dir, mem,
 
 def length(streamline):
     """ Compute the length of streamlines"""
-    n = int(streamline.shape[0]) / 2
+    n = streamline.shape[0] // 2
     return np.sqrt((
         (streamline[0] - streamline[n]) ** 2 +
         (streamline[-1] - streamline[n]) ** 2).sum())
@@ -175,8 +175,8 @@ def tractography(img, gtab, mask, dwi_dir):
     if 0:
         visualization(os.path.join(dwi_dir, 'streamlines.npz'))
 
-
-def run_dmri_pipeline(subject_session, do_topup=True):
+import time
+def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     subject, session = subject_session.split('/')
     data_dir = os.path.join(source_dir,  subject_session, 'dwi')
     write_dir = os.path.join('/neurospin/ibc/derivatives', subject_session)
@@ -247,8 +247,10 @@ def run_dmri_pipeline(subject_session, do_topup=True):
     tractography(img, gtab, mask, dwi_dir)
 
 
+do_topup = False
+do_edc = False
 Parallel(n_jobs=1)(
-    delayed(run_dmri_pipeline)(subject_session, do_topup)
+    delayed(run_dmri_pipeline)(subject_session, do_topup, do_edc)
     for subject_session in subjects_sessions[:1])
 
 mlab.show()

@@ -195,9 +195,10 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
 
     do_topup = False
-    protocol = 'enumeration' # 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 'preferences'
+    protocol = 'lyon2' # 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 'preferences'
     subject_session = sorted(get_subject_session(protocol))
-    subject_session = [('sub-09', 'ses-18'), ('sub-01', 'ses-20')]
+    subject_session = [('sub-06', 'ses-19'), ('sub-07', 'ses-20'),
+                       ('sub-12', 'ses-21')]
 
     if do_topup:
         acq = None
@@ -239,4 +240,3 @@ if __name__ == '__main__':
         if len(subject['session_id']) > 0:
             first_level(subject, compcorr=True)
             fixed_effects_analysis(subject)
-
