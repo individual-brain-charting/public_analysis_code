@@ -68,6 +68,14 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return lyon_mveb(design_matrix_columns)
     elif paradigm_id == 'lyon_mvis':
         return lyon_mvis(design_matrix_columns)
+    elif paradigm_id == 'lyon_lec1':
+        return lyon_lec1(design_matrix_columns)
+    elif paradigm_id == 'lyon_lec2':
+        return lyon_lec2(design_matrix_columns)
+    elif paradigm_id == 'lyon_audi':
+        return lyon_audi(design_matrix_columns)
+    elif paradigm_id == 'lyon_visu':
+        return lyon_visu(design_matrix_columns)
     elif paradigm_id == 'audio':
         return audio(design_matrix_columns)
     else:
@@ -118,6 +126,42 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     if con != []:
         contrast['derivatives'] = np.array(con)
     return contrast
+
+
+def lyon_lec2(design_matrix_columns):
+    """Contrasts for the lyon lec2 protocol"""
+    pass
+
+
+def lyon_audi(design_matrix_columns):
+    """Contrasts for the lyon ausi protocol"""
+    pass
+
+
+def lyon_visu(design_matrix_columns):
+    """Contrasts for the lyon visu protocol"""
+    pass
+
+
+def lyon_lec1(design_matrix_columns):
+    """Contrasts for the lec1 protocol"""
+    contrast_names = ['pseudoword', 'word', 'random_string', 'word-pseudoword',
+                      'word-random_string', 'pseudoword-random_string']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'pseudoword': con['pseudoword'],
+        'word': con['word'],
+        'random_string': con['random_string'],
+        'word-pseudoword': con['word'] - con['pseudoword'],
+        'word-random_string': con['word'] - con['random_string'],
+        'pseudoword-random_string': con['pseudoword'] - con['random_string']
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def audio(design_matrix_columns):
@@ -174,7 +218,7 @@ def lyon_mvis(design_matrix_columns):
     """ Contrasts for Lyon motor localizer"""
     contrast_names = ['response',
                       '2_dots-2_dots_control', '4_dots-4_dots_control',
-                      '6_dots-6_dots_control', '6_dots-2_dots' ]
+                      '6_dots-6_dots_control', '6_dots-2_dots']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)

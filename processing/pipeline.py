@@ -194,7 +194,7 @@ if __name__ == '__main__':
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
 
-    do_topup = False
+    do_topup = True
     protocol = 'lyon2' # 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 'preferences'
     subject_session = sorted(get_subject_session(protocol))
     subject_session = [('sub-06', 'ses-19'), ('sub-07', 'ses-20'),

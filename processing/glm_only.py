@@ -11,17 +11,20 @@ from joblib import Parallel, delayed
 from pypreprocess.conf_parser import _generate_preproc_pipeline
 from ibc_public.utils_pipeline import fixed_effects_analysis, first_level
 from pipeline import (clean_subject, clean_anatomical_images, _adapt_jobfile,
-                      get_subject_session, prepare_derivatives)
+                      prepare_derivatives)
 from ibc_public.utils_data import get_subject_session
 
 
 SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
 
-RETINO_REG = dict([(session_id, 'sin_cos_regressors.csv')
-                   for session_id in ['wedge_anti_pa', 'wedge_clock_ap', 'cont_ring_ap',
-                                      'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']] +
-                  [(session_id, None)  for session_id in ['clips_trn10', 'clips_trn11', 'clips_trn12']])
+RETINO_REG = dict(
+    [(session_id, 'sin_cos_regressors.csv')
+        for session_id in ['wedge_anti_pa', 'wedge_clock_ap', 'cont_ring_ap',
+                           'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']] +
+    [(session_id, None) for session_id in
+        ['clips_trn10', 'clips_trn11', 'clips_trn12']])
 IBC = '/neurospin/ibc'
+
 
 def generate_glm_input(jobfile, smooth=None, lowres=False):
     """ retrun a list of dictionaries that represent the data available
@@ -42,18 +45,20 @@ def generate_glm_input(jobfile, smooth=None, lowres=False):
         anat = glob.glob(os.path.join(subject.anat_output_dir,
                                       'wsub*_T1w.nii.gz'))[0]
         reports_output_dir = os.path.join(output_dir, 'reports')
-        report_log_filename = os.path.join(reports_output_dir, 'report_log.html')
+        report_log_filename = os.path.join(reports_output_dir,
+                                           'report_log.html')
         report_preproc_filename = os.path.join(
             reports_output_dir, 'report_preproc.html')
         report_filename = os.path.join(reports_output_dir, 'report.html')
         tmp_output_dir = os.path.join(output_dir, 'tmp')
-        basenames = ['wr' + os.path.basename(func_)[:-3] for func_ in subject.func]
+        basenames = ['wr' + os.path.basename(func_)[:-3]
+                     for func_ in subject.func]
         func = [os.path.join(session_output_dir, basename + '.gz')
                 for (session_output_dir, basename) in zip(
                         subject.session_output_dirs, basenames)]
         if lowres:
             func = [f.replace('derivatives', '3mm') for f in func]
-        
+
         realignment_parameters = [
             os.path.join(session_output_dir, 'rp_' + basename[2:-4] + '.txt')
             for (session_output_dir, basename) in
@@ -61,15 +66,15 @@ def generate_glm_input(jobfile, smooth=None, lowres=False):
 
         subject_ = {
             'scratch': output_dir,
-            'output_dir':output_dir,
+            'output_dir': output_dir,
             'session_output_dirs': subject.session_output_dirs,
             'anat_output_dir': subject.anat_output_dir,
             'tmp_output_dir': tmp_output_dir,
             'data_dir': subject.data_dir,
             'subject_id': subject.subject_id,
-            'session_id':subject.session_id,
+            'session_id': subject.session_id,
             'TR': subject.TR,
-            'drift_model':subject.drift_model,
+            'drift_model': subject.drift_model,
             'hfcut': subject.hfcut,
             'time_units': subject.time_units,
             'hrf_model': subject.hrf_model,
@@ -88,8 +93,9 @@ def generate_glm_input(jobfile, smooth=None, lowres=False):
         output.append(subject_)
     return output
 
-        
-def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None, lowres=False):
+
+def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
+                    lowres=False):
     """ Create jobfile and run it """
     if protocol == 'preferences' and subject in ['sub-11']:
         jobfile = 'ini_files/IBC_preproc_preferences_sub-11.ini'
@@ -104,40 +110,47 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None, lowre
         mask_img = '../ibc_data/gm_mask_1_5mm.nii.gz'
 
     for subject in list_subjects_update:
-        subject['onset'] = [onset for onset in subject['onset'] if onset is not None]
+        subject['onset'] = [onset for onset in subject['onset']
+                            if onset is not None]
         clean_subject(subject)
         if len(subject['session_id']) > 0:
             if protocol == 'clips4':
-                first_level(subject, compcorr=True, additional_regressors=RETINO_REG,
+                first_level(subject, compcorr=True,
+                            additional_regressors=RETINO_REG,
                             smooth=smooth, mask_img=mask_img)
             else:
-                first_level(subject, compcorr=True, smooth=smooth, mask_img=mask_img)
+                first_level(subject, compcorr=True, smooth=smooth,
+                            mask_img=mask_img)
                 fixed_effects_analysis(subject, mask_img=mask_img)
 
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
-    
     smooth = 5
-    for protocol in ['enumeration']:  # ['hcp1', 'hcp2', 'rsvp-language', 'mtt2' 'preferences', 'tom']
+    protocols = ['lyon2']
+    # ['hcp1', 'hcp2', 'rsvp-language', 'mtt2' 'preferences', 'tom']
+    # ['lyon1','screening', 'clips4' 'archi', ]
+    for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        subject_session = [('sub-01', 'ses-20'), ('sub-09', 'ses-18')]
-        Parallel(n_jobs=4)(
-            delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
-            for (subject, session) in subject_session)
-    
-    smooth = None
-    for protocol in ['enumeration']:
-        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        Parallel(n_jobs=4)(
-            delayed(run_subject_glm)(jobfile, protocol, subject, session, smooth)
-            for (subject, session) in subject_session)
-    
-    
-    for protocol in ['enumeration']:  # ['lyon1', 'preferences', 'screening', 'hcp1', 'hcp2', , 'mtt2' 'preferences', 'screening', 'rsvp-language', 'clips4' 'archi', ]
-        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        Parallel(n_jobs=4)(
-            delayed(run_subject_glm)(jobfile, protocol, subject, session, lowres=True, smooth=5)
+        subject_session = [('sub-07', 'ses-20'),
+                           ('sub-12', 'ses-21'), ('sub-06', 'ses-19'),]
+        Parallel(n_jobs=1)(
+            delayed(run_subject_glm)(
+                jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
 
+    smooth = None
+    for protocol in protocols:
+        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
+        Parallel(n_jobs=4)(
+            delayed(run_subject_glm)(
+                jobfile, protocol, subject, session, smooth)
+            for (subject, session) in subject_session)
+
+    for protocol in protocols:
+        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
+        Parallel(n_jobs=4)(
+            delayed(run_subject_glm)(
+                jobfile, protocol, subject, session, lowres=True, smooth=5)
+            for (subject, session) in subject_session)

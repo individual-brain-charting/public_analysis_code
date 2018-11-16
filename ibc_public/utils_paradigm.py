@@ -158,6 +158,12 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'lyon_mcse':
         df = df[df.trial_type != 'Bfix']
 
+    if paradigm_id == 'lyon_lec1':
+        df = df[df.trial_type != 'Bfix']
+        df = df[df.trial_type != 'start_random_string']
+        df = df[df.trial_type != 'start_pseudoword']
+        df = df[df.trial_type != 'start_word']
+
     if paradigm_id == 'lyon_mvis':
         df = df[df.trial_type != 'grid']
         df = df[df.trial_type != 'Bfix']
