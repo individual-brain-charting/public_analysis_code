@@ -147,7 +147,7 @@ def post_process(df, paradigm_id):
 
     instructions = ['Ins_bouche', 'Ins_index', 'Ins_jambe',
                     'Ins_main', 'Ins_repos', 'Ins_yeux', ]
-    if paradigm_id == 'lyon_moto':
+    if paradigm_id == 'lyon-moto':
         for instruction in instructions:
             df = df.replace(instruction, 'instructions')
         df = df.replace('sacaade_right', 'saccade_right')
@@ -155,21 +155,34 @@ def post_process(df, paradigm_id):
         # df = df.replace('Bfix', 'fixation')
         df = df[df.trial_type != 'Bfix']
 
-    if paradigm_id == 'lyon_mcse':
+    if paradigm_id == 'lyon-mcse':
         df = df[df.trial_type != 'Bfix']
 
-    if paradigm_id == 'lyon_lec1':
+    if paradigm_id == 'lyon-lec1':
         df = df[df.trial_type != 'Bfix']
         df = df[df.trial_type != 'start_random_string']
         df = df[df.trial_type != 'start_pseudoword']
         df = df[df.trial_type != 'start_word']
 
-    if paradigm_id == 'lyon_mvis':
+    if paradigm_id == 'lyon-lec2':
+        df = df[df.trial_type != 'Bfix']
+        df = df[df.trial_type != 'Suite']
+
+    if paradigm_id == 'lyon-visu':
+        df = df[df.trial_type != 'Bfix']
+
+    if paradigm_id == 'lyon-audi':
+        df = df[df.trial_type != 'Bfix']
+        df = df[df.trial_type != 'start_sound']
+        df = df[df.trial_type != 'cut']
+        df = df[df.trial_type != '1']
+
+    if paradigm_id == 'lyon-mvis':
         df = df[df.trial_type != 'grid']
         df = df[df.trial_type != 'Bfix']
         df = df[df.trial_type != 'maintenance']
 
-    if paradigm_id == 'lyon_mveb':
+    if paradigm_id == 'lyon-mveb':
         df = df[df.trial_type != 'cross']
         df = df[df.trial_type != 'blank2']
 

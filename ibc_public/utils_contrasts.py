@@ -60,21 +60,21 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return dict([])
     elif paradigm_id == 'self':
         return self_localizer(design_matrix_columns)
-    elif paradigm_id == 'lyon_moto':
+    elif paradigm_id == 'lyon-moto':
         return lyon_moto(design_matrix_columns)
-    elif paradigm_id == 'lyon_mcse':
+    elif paradigm_id == 'lyon-mcse':
         return lyon_mcse(design_matrix_columns)
-    elif paradigm_id == 'lyon_mveb':
+    elif paradigm_id == 'lyon-mveb':
         return lyon_mveb(design_matrix_columns)
-    elif paradigm_id == 'lyon_mvis':
+    elif paradigm_id == 'lyon-mvis':
         return lyon_mvis(design_matrix_columns)
-    elif paradigm_id == 'lyon_lec1':
+    elif paradigm_id == 'lyon-lec1':
         return lyon_lec1(design_matrix_columns)
-    elif paradigm_id == 'lyon_lec2':
+    elif paradigm_id == 'lyon-lec2':
         return lyon_lec2(design_matrix_columns)
-    elif paradigm_id == 'lyon_audi':
+    elif paradigm_id == 'lyon-audi':
         return lyon_audi(design_matrix_columns)
-    elif paradigm_id == 'lyon_visu':
+    elif paradigm_id == 'lyon-visu':
         return lyon_visu(design_matrix_columns)
     elif paradigm_id == 'audio':
         return audio(design_matrix_columns)
@@ -130,17 +130,50 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
 
 def lyon_lec2(design_matrix_columns):
     """Contrasts for the lyon lec2 protocol"""
-    pass
+    contrast_names = ['attend', 'unattend', 'attend-unattend',
+                      'unattend-attend']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'attend': con['attend'],
+        'unattend': con['unattend'],
+        'attend-unattend': con['attend'] - con['unattend'],
+        'unattend-attend': con['unattend'] - con['attend'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def lyon_audi(design_matrix_columns):
     """Contrasts for the lyon ausi protocol"""
-    pass
+    contrast_names = ['tear', 'suomi', 'yawn', 'human', 'silence', 'music',
+                      'reverse', 'speech', 'alphabet', 'cough', 'envir',
+                      'laugh', 'animals']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names])
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def lyon_visu(design_matrix_columns):
     """Contrasts for the lyon visu protocol"""
-    pass
+    contrast_names = ['scrambled', 'scene', 'tool', 'visage', 'target_fruit',
+                      'house', 'animal', 'characters', 'pseudoword']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names])
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def lyon_lec1(design_matrix_columns):
