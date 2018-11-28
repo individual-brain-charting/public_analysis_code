@@ -165,15 +165,29 @@ def lyon_audi(design_matrix_columns):
 def lyon_visu(design_matrix_columns):
     """Contrasts for the lyon visu protocol"""
     contrast_names = ['scrambled', 'scene', 'tool', 'visage', 'target_fruit',
-                      'house', 'animal', 'characters', 'pseudoword']
+                      'house', 'animal', 'characters', 'pseudoword',
+                      'scrambled-average', 'scene-average', 'tool-average',
+                      'visage-average', 'house-average', 'animal-average',
+                      'characters-average', 'pseudoword-average', ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names])
-    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
-    _append_derivative_contrast(design_matrix_columns, contrasts)
-    _append_effects_interest_contrast(design_matrix_columns, contrasts)
-    return contrasts
+    canonical_contrasts = ['scrambled', 'scene', 'tool', 'visage',
+                           'house', 'animal', 'characters', 'pseudoword']
+    contrast = dict([(name, con[name]) for name in canonical_contrasts])
+    average = contrast.values.sum(1) * 1. / 8
+    contrast['scrambled-average'] = contrast['scrambled'] - average
+    contrast['scene-average'] = contrast['scene'] - average
+    contrast['tool-average'] = contrast['tool'] - average
+    contrast['visage-average'] = contrast['visage'] - average
+    contrast['house-average'] = contrast['house'] - average
+    contrast['animal-average'] = contrast['animal'] - average
+    contrast['characters-average'] = contrast['characters'] - average
+    contrast['pseudoword-average'] = contrast['pseudoword'] - average
+    assert((sorted(contrast.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrast)
+    _append_effects_interest_contrast(design_matrix_columns, contrast)
+    return contrast
 
 
 def lyon_lec1(design_matrix_columns):

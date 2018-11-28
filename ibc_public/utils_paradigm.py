@@ -8,11 +8,11 @@ from pandas import read_csv, concat
 
 
 rsvp_language = ['consonant_strings', 'word_list', 'pseudoword_list',
-                 'jabberwocky', 'simple_sentence', 'probe','complex_sentence']
+                 'jabberwocky', 'simple_sentence', 'probe', 'complex_sentence']
 archi_social = [
     'false_belief_video', 'non_speech', 'speech', 'mechanistic_audio',
     'mechanistic_video', 'false_belief_audio', 'triangle_intention',
-    'triangle_random',]
+    'triangle_random', ]
 
 relevant_conditions = {
     'emotional': ['Face', 'Shape'],

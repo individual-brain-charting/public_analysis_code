@@ -195,10 +195,8 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
 
     do_topup = True
-    protocol = 'lyon2' # 'clips1', 'clips2', 'clips3', 'clips4', 'archi', 'hcp2' 'tom' 'preferences'
+    protocol = 'self'
     subject_session = sorted(get_subject_session(protocol))
-    subject_session = [('sub-06', 'ses-19'), ('sub-07', 'ses-20'),
-                       ('sub-12', 'ses-21')]
 
     if do_topup:
         acq = None
@@ -221,7 +219,7 @@ if __name__ == '__main__':
     for dict_subject in subject_data:
         dict_subject = dict_subject.__dict__
         update_dict_subject_data = {
-            k: v  for (k, v) in dict_subject.items()
+            k: v for (k, v) in dict_subject.items()
             if v.__class__.__module__ == 'builtins'}
         update_dict_subject_data.pop('nipype_results')
         list_subject_update.append(update_dict_subject_data)

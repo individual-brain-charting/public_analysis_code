@@ -11,6 +11,7 @@ import os
 import glob
 from joblib import Memory, Parallel, delayed
 import numpy as np
+import time
 import nibabel as nib
 from nilearn.masking import compute_epi_mask
 from ibc_public.utils_pipeline import fsl_topup
@@ -37,8 +38,6 @@ for dwi_dir in dwi_dirs:
 
 subjects_sessions = np.unique(subjects_sessions)
 
-
-# subjects_sessions = ['sub-01/ses-02', 'sub-01/ses-01', 'sub-02/ses-02']
 
 def concat_images(imgs, out):
     """ nib.concat_images does not work, dunno why"""
@@ -175,7 +174,7 @@ def tractography(img, gtab, mask, dwi_dir):
     if 0:
         visualization(os.path.join(dwi_dir, 'streamlines.npz'))
 
-import time
+
 def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     subject, session = subject_session.split('/')
     data_dir = os.path.join(source_dir,  subject_session, 'dwi')
@@ -233,14 +232,14 @@ def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     gtab = gradient_table(bvals, bvecs, b0_threshold=10)
     # Create a brain mask
 
-    ## Anatomical mask
-    #from nilearn.image import math_img, resample_to_img
-    #anat_mask = math_img(" img1 + img2 ",
+    # # Anatomical mask
+    # from nilearn.image import math_img, resample_to_img
+    # anat_mask = math_img(" img1 + img2 ",
     #                         img1=subject_data.mwgm, img2=subject_data.mwwm)
-    #anat_mask = resample_to_img(anat_mask, img)
-    #anat_mask = math_img(" img > .5", img=anat_mask)
-    #anat_mask.to_filename(os.path.join(dwi_dir, 'anat_mask.nii.gz'))
-    #mask = anat_mask.get_data()
+    # anat_mask = resample_to_img(anat_mask, img)
+    # anat_mask = math_img(" img > .5", img=anat_mask)
+    # anat_mask.to_filename(os.path.join(dwi_dir, 'anat_mask.nii.gz'))
+    # mask = anat_mask.get_data()
     from dipy.segment.mask import median_otsu
     b0_mask, mask = median_otsu(img.get_data(), 2, 1)
 
