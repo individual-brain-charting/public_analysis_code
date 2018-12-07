@@ -127,6 +127,10 @@ def visualization(streamlines_file):
         mlab.plot3d(streamline.T[0], streamline.T[1], streamline.T[2],
                     line_width=1., tube_radius=.5, color=tuple(color))
 
+    figname = streamlines_file[:-3] + 'png'
+    mlab.savefig(figname)
+    mlab.close()
+
 
 def tractography(img, gtab, mask, dwi_dir):
     data = img.get_data()
@@ -171,16 +175,15 @@ def tractography(img, gtab, mask, dwi_dir):
                        points_space='voxel')
     fa_image = os.path.join(dwi_dir, 'fa_map.nii.gz')
     nib.save(nib.Nifti1Image(fa, img.affine), fa_image)
-    if 0:
+    if 1:
         visualization(os.path.join(dwi_dir, 'streamlines.npz'))
-
+    return streamlines
 
 def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     subject, session = subject_session.split('/')
     data_dir = os.path.join(source_dir,  subject_session, 'dwi')
     write_dir = os.path.join('/neurospin/ibc/derivatives', subject_session)
     dwi_dir = os.path.join(write_dir, 'dwi')
-
     # Apply topup to the images
     if do_topup:
         mem = Memory('/neurospin/tmp/bthirion/cache_dir')
@@ -223,7 +226,6 @@ def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     #
     ###########################################################################
     # do the tractography
-    subject, session = subject_session.split('/')
 
     # concatenate dmri files into one
     img = nib.load(glob.glob(os.path.join(dwi_dir, 'eddc*.nii*'))[-1])
@@ -242,14 +244,14 @@ def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     # mask = anat_mask.get_data()
     from dipy.segment.mask import median_otsu
     b0_mask, mask = median_otsu(img.get_data(), 2, 1)
+    streamlines = tractography(img, gtab, mask, dwi_dir)
+    return streamlines
 
-    tractography(img, gtab, mask, dwi_dir)
 
-
-do_topup = False
-do_edc = False
+do_topup = True
+do_edc = True
 Parallel(n_jobs=1)(
     delayed(run_dmri_pipeline)(subject_session, do_topup, do_edc)
-    for subject_session in subjects_sessions[:1])
+    for subject_session in subjects_sessions)
 
-mlab.show()
+# mlab.show()

@@ -129,21 +129,27 @@ def run_topup(mem, data_dir, subject, ses, acq=None):
     if acq == 'mb3':
         field_maps = [
             glob.glob(
-                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb3_dir-1_epi.nii.gz'))[-1],
+                os.path.join(data_dir, 'sourcedata', subject, ses,
+                             'fmap/*acq-mb3_dir-1_epi.nii.gz'))[-1],
             glob.glob(
-                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb3_dir-0_epi.nii.gz'))[-1]]
+                os.path.join(data_dir, 'sourcedata', subject, ses,
+                             'fmap/*acq-mb3_dir-0_epi.nii.gz'))[-1]]
     elif acq == 'mb6':
         field_maps = [
             glob.glob(
-                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb6_dir-1_epi.nii.gz'))[-1],
+                os.path.join(data_dir, 'sourcedata', subject, ses,
+                             'fmap/*acq-mb6_dir-1_epi.nii.gz'))[-1],
             glob.glob(
-                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*acq-mb6_dir-0_epi.nii.gz'))[-1]]
-    elif acq == None:
+                os.path.join(data_dir, 'sourcedata', subject, ses,
+                             'fmap/*acq-mb6_dir-0_epi.nii.gz'))[-1]]
+    elif acq is None:
         field_maps = [
             glob.glob(
-                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*dir-1_epi.nii.gz'))[-1],
+                os.path.join(data_dir, 'sourcedata', subject, ses,
+                             'fmap/*dir-1_epi.nii.gz'))[-1],
             glob.glob(
-                os.path.join(data_dir, 'sourcedata', subject, ses, 'fmap/*dir-0_epi.nii.gz'))[-1]]
+                os.path.join(data_dir, 'sourcedata', subject, ses,
+                             'fmap/*dir-0_epi.nii.gz'))[-1]]
     else:
         raise ValueError('Unknown acq %s' % acq)
     return fsl_topup(field_maps, functional_data, mem, write_dir)
@@ -195,8 +201,9 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
 
     do_topup = True
-    protocol = 'self'
+    protocol = 'mtt2'
     subject_session = sorted(get_subject_session(protocol))
+    subject_session = subject_session[-1:]
 
     if do_topup:
         acq = None
