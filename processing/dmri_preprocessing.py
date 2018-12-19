@@ -11,7 +11,6 @@ import os
 import glob
 from joblib import Memory, Parallel, delayed
 import numpy as np
-import time
 import nibabel as nib
 from nilearn.masking import compute_epi_mask
 from ibc_public.utils_pipeline import fsl_topup
@@ -73,6 +72,7 @@ def eddy_current_correction(img, file_bvals, file_bvecs, write_dir, mem,
     cmd = 'fsl5.0-eddy_correct %s %s %d' % (img, corrected, 0)
     print(cmd)
     os.system(cmd)
+    return nib.load(corrected)
 
 
 def length(streamline):
@@ -179,29 +179,30 @@ def tractography(img, gtab, mask, dwi_dir):
         visualization(os.path.join(dwi_dir, 'streamlines.npz'))
     return streamlines
 
+
 def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     subject, session = subject_session.split('/')
     data_dir = os.path.join(source_dir,  subject_session, 'dwi')
     write_dir = os.path.join('/neurospin/ibc/derivatives', subject_session)
     dwi_dir = os.path.join(write_dir, 'dwi')
     # Apply topup to the images
-    if do_topup:
-        mem = Memory('/neurospin/tmp/bthirion/cache_dir')
-        imgs = sorted(glob.glob('%s/*.nii.gz' % data_dir))
+    input_imgs = sorted(glob.glob('%s/*.nii.gz' % data_dir))
+    dc_imgs = sorted(glob.glob(os.path.join(dwi_dir, 'dc*run*.nii.gz')))
+    mem = Memory('/neurospin/tmp/bthirion/cache_dir')
+    if len(dc_imgs) < len(input_imgs):
         se_maps = [
             os.path.join(source_dir, subject_session, 'fmap',
                          '%s_%s_dir-1_epi.nii.gz' % (subject, session)),
             os.path.join(source_dir, subject_session, 'fmap',
                          '%s_%s_dir-0_epi.nii.gz' % (subject, session))]
 
-        fsl_topup(se_maps, imgs, mem, write_dir, 'dwi')
+        fsl_topup(se_maps, input_imgs, mem, write_dir, 'dwi')
 
     # Then proceeed with Eddy current correction
     # get the images
-    imgs = sorted(glob.glob(os.path.join(dwi_dir, 'dc*run*.nii.gz')))
-    out = os.path.join(dwi_dir, 'dc%s_%s_dwi.nii.gz' %
-                       (subject, session))
-    img = concat_images(imgs, out)
+    dc_imgs = sorted(glob.glob(os.path.join(dwi_dir, 'dc*run*.nii.gz')))
+    dc_img = os.path.join(dwi_dir, 'dc%s_%s_dwi.nii.gz' % (subject, session))
+    concat_images(dc_imgs, dc_img)
 
     # get the bvals/bvec
     file_bvals = sorted(glob.glob('%s/*.bval' % data_dir))
@@ -213,44 +214,26 @@ def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     bvecs_file = os.path.join(dwi_dir, 'dc%s_%s_dwi.bvec' % (subject, session))
     np.savetxt(bvecs_file, bvecs)
 
-    if do_edc:
-        eddy_current_correction(out, bvals_file, bvecs_file, dwi_dir, mem)
+    # Get eddy-preprocessed images
+    # eddy_img = nib.load(glob.glob(os.path.join(dwi_dir, 'eddc*.nii*'))[-1])
 
-    #  ########################################################################
-    #  # Proceed with registration to anatomical image
-    #  from pypreprocess.nipype_preproc_spm_utils import do_subjects_preproc
-    #  ini_file = adapt_ini_file("ini_files/IBC_preproc_dwi.ini",
-    #                              subject, session)
-    #  subject_data = do_subjects_preproc(ini_file,
-    #                                   dataset_dir=write_dir)[0]
-    #
-    ###########################################################################
-    # do the tractography
-
-    # concatenate dmri files into one
-    img = nib.load(glob.glob(os.path.join(dwi_dir, 'eddc*.nii*'))[-1])
+    # Get eddy-preprocessed images
+    eddy_img = mem.cache(eddy_current_correction)(
+        dc_img, bvals_file, bvecs_file, dwi_dir, mem)
 
     # load the data
     gtab = gradient_table(bvals, bvecs, b0_threshold=10)
     # Create a brain mask
-
-    # # Anatomical mask
-    # from nilearn.image import math_img, resample_to_img
-    # anat_mask = math_img(" img1 + img2 ",
-    #                         img1=subject_data.mwgm, img2=subject_data.mwwm)
-    # anat_mask = resample_to_img(anat_mask, img)
-    # anat_mask = math_img(" img > .5", img=anat_mask)
-    # anat_mask.to_filename(os.path.join(dwi_dir, 'anat_mask.nii.gz'))
-    # mask = anat_mask.get_data()
     from dipy.segment.mask import median_otsu
-    b0_mask, mask = median_otsu(img.get_data(), 2, 1)
-    streamlines = tractography(img, gtab, mask, dwi_dir)
+    b0_mask, mask = median_otsu(eddy_img.get_data(), 2, 1)
+    # do the tractography
+    streamlines = tractography(eddy_img, gtab, mask, dwi_dir)
     return streamlines
 
 
 do_topup = True
 do_edc = True
-Parallel(n_jobs=1)(
+Parallel(n_jobs=4)(
     delayed(run_dmri_pipeline)(subject_session, do_topup, do_edc)
     for subject_session in subjects_sessions)
 
