@@ -83,7 +83,7 @@ def post_process(df, paradigm_id):
         df3.trial_type = '%s_quadratic' % domain
         df = df.replace(domain, '%s_linear' % domain)
         df = concat([df, df2, df3], axis=0, ignore_index=True)
-
+        stop
     responses_we = ['response_we_east_present_space_close',
                     'response_we_west_present_space_far',
                     'response_we_center_past_space_far',

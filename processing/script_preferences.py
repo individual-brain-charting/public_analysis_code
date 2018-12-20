@@ -10,7 +10,8 @@ from nilearn.image import math_img
 
 
 # where to work and write
-SMOOTH_DERIVATIVES = '/neurospin/ibc/smooth_derivatives' 
+SMOOTH_DERIVATIVES = '/neurospin/ibc/smooth_derivatives'
+THREE_MM = '/neurospin/ibc/3mm'
 workdir = SMOOTH_DERIVATIVES
 
 # misc info on preference protocol
@@ -40,7 +41,7 @@ def compute_contrast(con_imgs, var_imgs, mask_img):
             var_img = nib.load(var_img)
         con.append(con_img.get_data()[mask])
         var.append(var_img.get_data()[mask])
-        
+
     fixed_con = np.array(con).sum(0)
     fixed_var = np.array(var).sum(0)
     stat = fixed_con / np.sqrt(fixed_var)
@@ -61,9 +62,9 @@ def elementary_contrasts(con_imgs, var_imgs, mask_img):
                    for con_img in con_imgs]
         effects[i] = con_imgs[i]
         variance = [math_img('(1. / 9) * i1', i1=var_img)
-                   for var_img in var_imgs]
+                    for var_img in var_imgs]
         variance[i] = var_imgs[i]
-        
+
         output = compute_contrast(
             effects, variance, mask_img)
         outputs.append(output)
@@ -75,7 +76,7 @@ for (subject, session) in subject_session:
     anat = os.path.join(workdir, subject, 'ses-00', 'anat',
                         'w%s_ses-00_T1w.nii.gz' % subject)
     write_dir = os.path.join(workdir, subject, session,
-                             'res_stats_preference_ffx')        
+                             'res_stats_preference_ffx')
     effect_dir = os.path.join(write_dir, 'effect_size_maps')
     variance_dir = os.path.join(write_dir, 'effect_variance_maps')
     stat_dir = os.path.join(write_dir, 'stat_maps')
@@ -132,7 +133,7 @@ for (subject, session) in subject_session:
             os.path.join(variance_dir, '%s-others.nii.gz' % category))
         fixed_stat.to_filename(
             os.path.join(stat_dir, '%s-others.nii.gz' % category))
-        
+
         output_file = os.path.join(stat_dir, '%s-others.png' % category)
         plot_stat_map(fixed_stat, bg_img=anat, dim=0,
                       output_file=output_file, threshold=4.0)
