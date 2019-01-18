@@ -14,10 +14,9 @@ from pypreprocess.nipype_preproc_spm_utils import (do_subjects_preproc,
                                                    SubjectData)
 from pypreprocess.conf_parser import _generate_preproc_pipeline
 from joblib import Memory, Parallel, delayed
-from ibc_public.utils_pipeline import fixed_effects_analysis, first_level, fsl_topup
+from ibc_public.utils_pipeline import (
+    fixed_effects_analysis, first_level, fsl_topup)
 from ibc_public.utils_data import get_subject_session
-
-
 
 
 def clean_anatomical_images(main_dir):
@@ -28,10 +27,12 @@ def clean_anatomical_images(main_dir):
     sessions = ['ses-%02d' % i for i in range(1, 30)]
     for subject in subjects:
         for session in sessions:
-            anat_img = os.path.join(main_dir, 'derivatives', subject, session, 'anat',
-                                     'w%s_%s_T1w.nii') % (subject, session)
-            dst = os.path.join(main_dir, 'derivatives', subject, session, 'anat',
-                                  'w%s_%s_T1w_nonan.nii.gz') % (subject, session)
+            anat_img = os.path.join(
+                main_dir, 'derivatives', subject, session,
+                'anat', 'w%s_%s_T1w.nii') % (subject, session)
+            dst = os.path.join(
+                main_dir, 'derivatives', subject, session, 'anat',
+                'w%s_%s_T1w_nonan.nii.gz') % (subject, session)
             if not os.path.exists(anat_img):
                 continue
             # Don't do it again if it was already done
@@ -39,12 +40,14 @@ def clean_anatomical_images(main_dir):
                 continue
             anat_data = nib.load(anat_img).get_data()
             anat_data[isnan(anat_data)] = 0
-            anat_img_clean = nib.Nifti1Image(anat_data, nib.load(anat_img).affine)
+            anat_img_clean = nib.Nifti1Image(
+                anat_data, nib.load(anat_img).affine)
             nib.save(anat_img_clean, dst)
 
 
 def clean_subject(subject):
-    """ Remove sessions with missing data (e.g. onset files) before fitting GLM"""
+    """ Remove sessions with missing data (e.g. onset files)
+    before fitting GLM"""
     onsets, rps, funcs, session_ids = [], [], [], []
     if not ('onset' in subject.keys() and
             'realignment_parameters' in subject.keys() and
@@ -59,7 +62,8 @@ def clean_subject(subject):
     # if onset is None for some of the sessions, remove them
     for onset, rp, func, session_id in zip(subject['onset'],
                                            subject['realignment_parameters'],
-                                           subject['func'], subject['session_id']):
+                                           subject['func'],
+                                           subject['session_id']):
         if ((onset is not None)):
             rps.append(rp)
             funcs.append(func)
@@ -78,7 +82,7 @@ def prepare_derivatives(main_dir):
     source_dir = os.path.join(main_dir, 'sourcedata')
     output_dir = os.path.join(main_dir, 'derivatives')
     subjects = ['sub-%02d' % i for i in range(0, 16)]
-    sess =  ['ses-%02d' % j for j in range(0, 30)]
+    sess = ['ses-%02d' % j for j in range(0, 30)]
     modalities = ['anat', 'fmap', 'func', 'dwi']
     dirs = ([output_dir] +
             [os.path.join(output_dir, subject) for subject in subjects
@@ -89,7 +93,8 @@ def prepare_derivatives(main_dir):
             [os.path.join(output_dir, subject, ses, modality)
              for subject in subjects
              for ses in sess for modality in modalities
-             if os.path.exists(os.path.join(source_dir, subject, ses, modality))])
+             if os.path.exists(
+                os.path.join(source_dir, subject, ses, modality))])
 
     for dir_ in dirs:
         if not os.path.exists(dir_):
@@ -98,21 +103,23 @@ def prepare_derivatives(main_dir):
 
     for subject in subjects:
         for ses in sess:
-            tsv_files = glob.glob(os.path.join(source_dir, subject, ses, 'func',
-                                               '*.tsv'))
+            tsv_files = glob.glob(
+                os.path.join(source_dir, subject, ses, 'func', '*.tsv'))
             dst = os.path.join(output_dir, subject, ses, 'func')
             for tsv_file in tsv_files:
                 shutil.copyfile(tsv_file,
                                 os.path.join(dst, os.path.basename(tsv_file)))
         highres = glob.glob(
-            os.path.join(source_dir, subject, 'ses-*', 'anat', '*'))  #'*highres_T*w*'))
+            os.path.join(source_dir, subject, 'ses-*', 'anat', '*'))
 
         for hr in highres:
             parts = hr.split('/')
-            dst = os.path.join(output_dir, subject, parts[-3], 'anat', parts[-1])
+            dst = os.path.join(
+                output_dir, subject, parts[-3], 'anat', parts[-1])
             if not os.path.isfile(dst[:-3]):
                 shutil.copyfile(hr, dst)
                 os.system('gunzip %s' % dst)
+
 
 def run_topup(mem, data_dir, subject, ses, acq=None):
     write_dir = os.path.join(data_dir, 'derivatives', subject, ses)
@@ -122,7 +129,8 @@ def run_topup(mem, data_dir, subject, ses, acq=None):
     if functional_data == []:
         return
     if acq == 'mb6':
-        functional_data = [fd for fd in functional_data if 'RestingState' in fd]
+        functional_data = [
+            fd for fd in functional_data if 'RestingState' in fd]
     functional_data.sort()
 
     # gather the field maps
@@ -159,10 +167,11 @@ def apply_topup(main_dir, cache_dir, subject_sess=None, acq=None):
     """ Call topup on the datasets """
     mem = Memory(cache_dir)
     if subject_sess is None:
-        subject_sess = [('sub-%02d, ses-%02d' % (i, j)) for i in range(0, 15) # FIXME
+        subject_sess = [('sub-%02d, ses-%02d' % (i, j)) for i in range(0, 25)
                         for j in range(0, 15)]
     Parallel(n_jobs=4)(
-        delayed(run_topup)(mem, main_dir, subject_ses[0], subject_ses[1], acq=acq)
+        delayed(run_topup)(mem, main_dir, subject_ses[0], subject_ses[1],
+                           acq=acq)
         for subject_ses in subject_sess)
 
 
@@ -201,7 +210,7 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
 
     do_topup = True
-    protocol = 'mtt2'
+    protocol = 'self'
     subject_session = sorted(get_subject_session(protocol))
     subject_session = subject_session[-1:]
 
