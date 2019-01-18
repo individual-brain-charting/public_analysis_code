@@ -183,7 +183,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     continue
                 task_name = task
                 if task == 'rsvp_language':
-                    task = 'language_'
+                    task = 'language'
                     task_name = 'rsvp_language'
                 if task == 'mtt_ns':
                     task = 'IslandNS'
@@ -193,7 +193,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     task_name = 'mtt_we'
 
                 wildcard = os.path.join(
-                    derivatives, '%s/*/res_stats_%s_%s/stat_maps/%s.nii.gz' %
+                    derivatives, '%s/*/res_stats_%s*_%s/stat_maps/%s.nii.gz' %
                     (subject, task, acq, contrast))
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:

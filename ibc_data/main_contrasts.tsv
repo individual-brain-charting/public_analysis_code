@@ -53,10 +53,10 @@ rsvp_language	consonant_string	consonant strings' encoding vs. fixation	fixation
 retinotopy	phase_ring	eccentricity maps	central cross	radial position
 retinotopy	phase_wedge	polar angle map	central cross	angular position
 retinotopy	retinotopicity	sensitivity to retinotopy	central cross	retinal position
-mtt_ns	cue_space-time			
-mtt_ns	cue_time-space			
-mtt_ns	event_space-time			
-mtt_ns	event_time-space			
+mtt_ns	cue_space-time	spatial vs time cue about event		
+mtt_ns	cue_time-space	time vs spatial cue about event		
+mtt_ns	event_space-time	event in space vs event in time 		
+mtt_ns	event_time-space	event in time vs event in space 		
 mtt_ns	average_event	Figuring out the space/time of an event	fixation	relative event
 mtt_ns	average_reference	Updating one’s position in space and time		
 mtt_ns	cue_time	Time cue of an event		
@@ -71,10 +71,10 @@ mtt_ns	south_north_event	events occurring in north or south vs. here	event occur
 mtt_ns	south_north_reference	spatial reference in north or south vs. here	spatial reference here	reference in north or south
 mtt_ns	far-close_time_event	events far vs. close in time	event close in time	event far in time
 mtt_ns	past-future_reference	temporal reference in past vs. future	reference in future	reference in past
-mtt_we	cue_space-time			
-mtt_we	cue_time-space			
-mtt_we	event_space-time			
-mtt_we	event_time-space			
+mtt_we	cue_space-time	spatial vs time cue about event		
+mtt_we	cue_time-space	time vs spatial cue about event		
+mtt_we	event_space-time	event in space vs event in time 		
+mtt_we	event_time-space	event in time vs event in space 		
 mtt_we	average_event	Figuring out the space/time of an event		
 mtt_we	average_reference	Updating one’s position in space and time		
 mtt_we	cue_time	Time cue of an event		

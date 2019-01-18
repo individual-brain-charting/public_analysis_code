@@ -686,10 +686,10 @@ def mtt_ns(design_matrix_columns):
                 'average_event': [],
                 'average_reference': [],
                 'response': [],
-                'events_space': [],
-                'events_time': [],
-                'events_space-time': [],
-                'events_time-space': [],
+                'event_space': [],
+                'event_time': [],
+                'event_space-time': [],
+                'event_time-space': [],
                 }
     con = _beta_contrasts(design_matrix_columns)
 
@@ -832,10 +832,11 @@ def rsvp_language(design_matrix_columns):
         'complex', 'simple', 'jabberwocky', 'word_list',
         'pseudoword_list', 'consonant_string', 'complex-simple',
         'sentence-jabberwocky', 'sentence-word',
-        'word-consonant_string', 'jabberworcky-pseudo',
+        'word-consonant_string', 'jabberwocky-pseudo',
         'word-pseudo', 'pseudo-consonant_string',
         'sentence-consonant_string', 'simple-consonant_string',
-        'complex-consonant_string', 'sentence-pseudo', 'probe']
+        'complex-consonant_string', 'sentence-pseudo', 'probe',
+        'jabberwocky-consonant_string']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
 
@@ -856,7 +857,9 @@ def rsvp_language(design_matrix_columns):
         'sentence-word': (con['complex'] + con['simple'] -
                           2 * con['word_list']),
         'word-consonant_string': con['word_list'] - con['consonant_strings'],
-        'jabberworcky-pseudo': con['jabberwocky'] - con['pseudoword_list'],
+        'jabberwocky-pseudo': con['jabberwocky'] - con['pseudoword_list'],
+        'jabberwocky-consonant_string':
+            con['jabberwocky'] - con['consonant_strings'],
         'word-pseudo': con['word_list'] - con['pseudoword_list'],
         'pseudo-consonant_string':
             con['pseudoword_list'] - con['consonant_strings'],
@@ -867,7 +870,7 @@ def rsvp_language(design_matrix_columns):
         'sentence-pseudo':
             con['complex'] + con['simple'] - 2 * con['pseudoword_list']
     }
-    assert((np.sort(contrasts.keys()) == np.sort(contrast_names)).all())
+    assert(sorted(contrasts.keys()) == sorted(contrast_names))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
