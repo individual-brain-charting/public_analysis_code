@@ -78,6 +78,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return lyon_visu(design_matrix_columns)
     elif paradigm_id == 'audio':
         return audio(design_matrix_columns)
+    elif paradigm_id == 'bang':
+        return bang(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -175,7 +177,8 @@ def lyon_visu(design_matrix_columns):
     canonical_contrasts = ['scrambled', 'scene', 'tool', 'visage',
                            'house', 'animal', 'characters', 'pseudoword']
     contrast = dict([(name, con[name]) for name in canonical_contrasts])
-    average = contrast.values.sum(1) * 1. / 8
+    average = np.array([x for x in contrast.values()]).sum(0) * 1. / 8
+    contrast['target_fruit'] = con['target_fruit']
     contrast['scrambled-average'] = contrast['scrambled'] - average
     contrast['scene-average'] = contrast['scene'] - average
     contrast['tool-average'] = contrast['tool'] - average
@@ -341,6 +344,23 @@ def lyon_mcse(design_matrix_columns):
             - con['hi_salience_left'] + con['hi_salience_right']
             - con['low_salience_left'] + con['low_salience_right'],
     }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def bang(design_matrix_columns):
+    """ Contrasts for bang experiment"""
+    contrast_names = ['talk', 'no_talk', 'talk-no_talk', 'no_talk-talk']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'talk': con['talk'],
+        'no_talk': con['no_talk'],
+        'talk-no_talk': con['talk'] - con['no_talk'],
+        'no_talk-talk': con['no_talk'] - con['talk'], }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)

@@ -126,8 +126,16 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
+    protocols = ['lyon2']
+    for protocol in protocols:
+        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
+        subject_session = get_subject_session(protocol)
+        Parallel(n_jobs=4)(
+            delayed(run_subject_glm)(
+                jobfile, protocol, subject, session, lowres=True, smooth=5)
+            for (subject, session) in subject_session)
+
     smooth = 5
-    protocols = ['rsvp-language']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
@@ -139,14 +147,8 @@ if __name__ == '__main__':
     smooth = None
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
+        subject_session = get_subject_session(protocol)
         Parallel(n_jobs=4)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth)
-            for (subject, session) in subject_session)
-
-    for protocol in protocols:
-        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        Parallel(n_jobs=4)(
-            delayed(run_subject_glm)(
-                jobfile, protocol, subject, session, lowres=True, smooth=5)
             for (subject, session) in subject_session)
