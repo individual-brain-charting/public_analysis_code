@@ -23,19 +23,14 @@ from dipy.viz.colormap import line_colors
 from dipy.core.gradients import gradient_table
 from dipy.segment.quickbundles import QuickBundles
 from mayavi import mlab
-
+from ibc_public.utils_data import get_subject_session
 
 source_dir = '/neurospin/ibc/sourcedata'
-do_topup = 0
+derivatives_dir = '/neurospin/ibc/sourcedata'
+do_topup = True
 do_edc = 0
-dwi_dirs = glob.glob(os.path.join(source_dir, 'sub-*', 'ses-*', 'dwi',
-                                  '*run*.nii.gz'))
-subjects_sessions = []
-for dwi_dir in dwi_dirs:
-    subject, session = dwi_dir.split('/')[-4:-2]
-    subjects_sessions.append(os.path.join(subject, session))
-
-subjects_sessions = np.unique(subjects_sessions)
+subjects_sessions = get_subject_session('anat1')
+subjects_sessions = [('sub-05', 'ses-08')]
 
 
 def concat_images(imgs, out):
@@ -132,7 +127,7 @@ def visualization(streamlines_file):
     mlab.close()
 
 
-def tractography(img, gtab, mask, dwi_dir):
+def tractography(img, gtab, mask, dwi_dir, do_viz=True):
     data = img.get_data()
     # dirty imputation
     data[np.isnan(data)] = 0
@@ -177,13 +172,14 @@ def tractography(img, gtab, mask, dwi_dir):
     nib.save(nib.Nifti1Image(fa, img.affine), fa_image)
     if 1:
         visualization(os.path.join(dwi_dir, 'streamlines.npz'))
+    stop
     return streamlines
 
 
 def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
-    subject, session = subject_session.split('/')
-    data_dir = os.path.join(source_dir,  subject_session, 'dwi')
-    write_dir = os.path.join('/neurospin/ibc/derivatives', subject_session)
+    subject, session = subject_session
+    data_dir = os.path.join(source_dir,  subject, session, 'dwi')
+    write_dir = os.path.join(derivatives_dir, subject, session)
     dwi_dir = os.path.join(write_dir, 'dwi')
     # Apply topup to the images
     input_imgs = sorted(glob.glob('%s/*.nii.gz' % data_dir))
@@ -191,12 +187,13 @@ def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     mem = Memory('/neurospin/tmp/bthirion/cache_dir')
     if len(dc_imgs) < len(input_imgs):
         se_maps = [
-            os.path.join(source_dir, subject_session, 'fmap',
+            os.path.join(source_dir, subject, session, 'fmap',
                          '%s_%s_dir-1_epi.nii.gz' % (subject, session)),
-            os.path.join(source_dir, subject_session, 'fmap',
+            os.path.join(source_dir, subject, session, 'fmap',
                          '%s_%s_dir-0_epi.nii.gz' % (subject, session))]
 
-        fsl_topup(se_maps, input_imgs, mem, write_dir, 'dwi')
+        if do_topup:
+            fsl_topup(se_maps, input_imgs, mem, write_dir, 'dwi')
 
     # Then proceeed with Eddy current correction
     # get the images
@@ -231,9 +228,7 @@ def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     return streamlines
 
 
-do_topup = True
-do_edc = True
-Parallel(n_jobs=4)(
+Parallel(n_jobs=1)(
     delayed(run_dmri_pipeline)(subject_session, do_topup, do_edc)
     for subject_session in subjects_sessions)
 
