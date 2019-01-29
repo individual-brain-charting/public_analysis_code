@@ -58,7 +58,7 @@ mtt_ns	cue_time-space	time vs spatial cue about event
 mtt_ns	event_space-time	event in space vs event in time 		
 mtt_ns	event_time-space	event in time vs event in space 		
 mtt_ns	average_event	Figuring out the space/time of an event	fixation	relative event
-mtt_ns	average_reference	Updating one’s position in space and time		
+mtt_ns	average_reference	Updating ones position in space and time		
 mtt_ns	cue_time	Time cue of an event		
 mtt_ns	cue_space	Spatial cue of an event		
 mtt_ns	time_event	present vs. past or future  event	future or past event 	present event
@@ -76,7 +76,7 @@ mtt_we	cue_time-space	time vs spatial cue about event
 mtt_we	event_space-time	event in space vs event in time 		
 mtt_we	event_time-space	event in time vs event in space 		
 mtt_we	average_event	Figuring out the space/time of an event		
-mtt_we	average_reference	Updating one’s position in space and time		
+mtt_we	average_reference	Updating ones position in space and time		
 mtt_we	cue_time	Time cue of an event		
 mtt_we	cue_space	Spatial cue of an event		
 mtt_we	time_event	present vs. past or future  event	future or past event 	present event

@@ -29,8 +29,8 @@ source_dir = '/neurospin/ibc/sourcedata'
 derivatives_dir = '/neurospin/ibc/sourcedata'
 do_topup = True
 do_edc = 0
-subjects_sessions = get_subject_session('anat1')
-subjects_sessions = [('sub-05', 'ses-08')]
+subjects_sessions = get_subject_session('anat1')[2:]
+# subjects_sessions = [('sub-05', 'ses-08')]
 
 
 def concat_images(imgs, out):
@@ -79,7 +79,7 @@ def length(streamline):
 
 
 def filter_according_to_length(streamlines, threshold=30):
-    """Remove streamlines shorter than the predifeined thresold """
+    """Remove streamlines shorter than the predefined threshold """
     print(len(streamlines))
     for i in range(len(streamlines) - 1, 0, -1):
         if length(streamlines[i]) < threshold:
@@ -172,7 +172,7 @@ def tractography(img, gtab, mask, dwi_dir, do_viz=True):
     nib.save(nib.Nifti1Image(fa, img.affine), fa_image)
     if 1:
         visualization(os.path.join(dwi_dir, 'streamlines.npz'))
-    stop
+
     return streamlines
 
 

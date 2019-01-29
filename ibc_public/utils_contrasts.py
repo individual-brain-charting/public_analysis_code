@@ -150,7 +150,7 @@ def lyon_lec2(design_matrix_columns):
 
 
 def lyon_audi(design_matrix_columns):
-    """Contrasts for the lyon ausi protocol"""
+    """Contrasts for the lyon audi protocol"""
     contrast_names = ['tear', 'suomi', 'yawn', 'human', 'silence', 'music',
                       'reverse', 'speech', 'alphabet', 'cough', 'envir',
                       'laugh', 'animals']
@@ -646,7 +646,7 @@ def mtt_ew(design_matrix_columns):
             con['ewe_west_present_space_far'],
             con['ewe_west_present_time_close'],
             con['ewe_west_present_time_far'])),
-        'events_space': (con['ewe_center_future_space_close'] +
+        'event_space': (con['ewe_center_future_space_close'] +
                          con['ewe_center_future_space_far'] +
                          con['ewe_center_past_space_close'] +
                          con['ewe_center_past_space_far'] +
@@ -656,7 +656,7 @@ def mtt_ew(design_matrix_columns):
                          con['ewe_east_present_space_far'] +
                          con['ewe_west_present_space_close'] +
                          con['ewe_west_present_space_far']),
-        'events_time': (con['ewe_center_future_time_close'] +
+        'event_time': (con['ewe_center_future_time_close'] +
                         con['ewe_center_future_time_far'] +
                         con['ewe_center_past_time_close'] +
                         con['ewe_center_past_time_far'] +
@@ -679,9 +679,9 @@ def mtt_ew(design_matrix_columns):
         }
     contrasts['average_event'] = contrasts['events'].sum(0)
     contrasts['average_reference'] = contrasts['reference'].sum(0)
-    contrasts['events_space-time'] = contrasts['events_space'] -\
+    contrasts['event_space-time'] = contrasts['event_space'] -\
         contrasts['events_time']
-    contrasts['events_time-space'] = contrasts['events_time'] -\
+    contrasts['event_time-space'] = contrasts['event_time'] -\
         contrasts['events_space']
     return contrasts
 
