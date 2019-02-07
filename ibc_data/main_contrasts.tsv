@@ -1,122 +1,168 @@
-task	contrast	pretty name	left label	right label
-archi_standard	left-right_button_press	left vs. right hand button press	right hand	left hand
-archi_standard	reading-listening	sentence reading vs. sentence listening	sentence listening	sentence reading
-archi_standard	motor-cognitive	button presses vs. sentence/computation	cognitive tasks	button presses
-archi_standard	reading-checkerboard	sentence reading vs. checkerboard	checkerboard	sentence reading
-archi_standard	computation-sentences	mental subtraction vs. sentence reading	sentence reading	mental subtraction
-archi_standard	horizontal-vertical	horizontal vs. vertical checkerboard	vertical checkerboard	horizontal checkerboard
-archi_spatial	saccades	saccades vs. fixation	fixation	saccades
-archi_spatial	hand-side	left or right hand vs. hand palm or back	hand palm or back	left or right hand
-archi_spatial	grasp-orientation	object grasping vs. image orientation judgment	orientation judgment	object grasping
-archi_spatial	rotation_side	hand palm or back vs. fixation	fixation	hand palm or back
-archi_spatial	object_orientation	image orientation judgment vs. fixation	fixation	orientation judgment
-archi_social	triangle_mental-random	social-interaction motion vs. random motion	random motion	social-interaction motion
-archi_social	false_belief-mechanistic_audio	false-belief tale vs. mechanistic tale	mechanistic tale	false-belief tale
-archi_social	triangle_random	random motion vs. fixation	fixation	random motion
-archi_social	mechanistic_audio	listening to a mechanistic tale vs. baseline	baseline	mechanistic tale
-archi_social	mechanistic_video	reading a mechanistic story vs. baseline	baseline	mechanistic story
-archi_social	non_speech_sound	listen to natural sound vs. baseline	silence	natural sound
-archi_social	false_belief-mechanistic_video	false-belief story vs. mechanistic story	mechanistic story	false-belief story
-archi_social	speech-non_speech	listen to voice sound vs. natural sound	natural sound	voice sound
-archi_emotional	expression_gender-control	assess gender from eyes' expression vs. visual pattern	visual pattern	gender assessment
-archi_emotional	expression_intention-gender	assess intention vs. gender from eyes' expression	gender assessment	expression intention
-archi_emotional	face_gender-control	assess gender of face vs. visual pattern	visual pattern	gender assessment
-archi_emotional	face_trusty-gender	assess face trustfulness vs. gender of face	gender assessment	face trusty
-hcp_language	story-math	listening to story vs. mental additions	math	story
-hcp_language	math	mental additions vs. fixation	fixation	mental addition
-hcp_social	mental-random	social-interaction motion vs. random motion	random motion	social-interaction motion
-hcp_social	random	random motion vs. fixation	fixation	any motion
-hcp_gambling	punishment-reward	negative vs. positive gambling outcome	reward	punishement
-hcp_gambling	reward	positive gambling outcome vs. fixation	fixation	reward
-hcp_motor	left_hand-avg	move left hand vs. right hand, feet and tongue	any motion	left hand
-hcp_motor	right_hand-avg	move right hand vs. left hand, feet and tongue	any motion	right hand
-hcp_motor	left_foot-avg	move left foot vs. right foot, hands and tongue	any motion	left foot
-hcp_motor	right_foot-avg	move right foot vs. left foot, hands and tongue	any motion	right foot
-hcp_motor	tongue-avg	move tongue vs. hands and feet	any motion	tongue
-hcp_emotion	shape	shape comparison vs. fixation	fixation cross	shape outline
-hcp_emotion	face-shape	emotional face comparison vs. shape comparison	shape outline	face image
-hcp_relational	relational-match	relational comparison vs. visual feature matching	visual matching	relational processing
-hcp_relational	match	visual feature matching vs. fixation	fixation	visual matching
-hcp_wm	2back-0back	2-back vs. 0-back	0-back	2-back
-hcp_wm	body-avg	body image n-back vs. face, place, tool  n-back	any image	body image
-hcp_wm	face-avg	face image n-back vs. body, place, tool  n-back	any image	face image
-hcp_wm	place-avg	place image n-back vs. face, body, tool  n-back	any image	place image
-hcp_wm	tools-avg	tool image  n-back vs. face, place, body  n-back	any image	tool image
-rsvp_language	complex-simple	complex- vs. simple-syntax sentence reading	simple sentence	complex sentence
-rsvp_language	sentence-jabberwocky	reading sentence vs. jabberwocky	read jabberwocky	read sentence
-rsvp_language	sentence-word	reading sentence vs. words	read words	read sentence
-rsvp_language	word-consonant_string	reading words vs. consonant strings	consonant strings	read words
-rsvp_language	jabberworcky-pseudo	reading jabberwocky vs. pseudowords	read pseudowords	read jabberwocky
-rsvp_language	word-pseudo	reading words vs. pseudowords	read pseudowords	read words
-rsvp_language	pseudo-consonant_string	reading pseudowords vs. consonant strings	consonant strings	read pseudowords
-rsvp_language	consonant_string	consonant strings' encoding vs. fixation	fixation	consonant strings
-retinotopy	phase_ring	eccentricity maps	central cross	radial position
-retinotopy	phase_wedge	polar angle map	central cross	angular position
-retinotopy	retinotopicity	sensitivity to retinotopy	central cross	retinal position
-mtt_ns	cue_space-time	spatial vs time cue about event		
-mtt_ns	cue_time-space	time vs spatial cue about event		
-mtt_ns	event_space-time	event in space vs event in time 		
-mtt_ns	event_time-space	event in time vs event in space 		
-mtt_ns	average_event	Figuring out the space/time of an event	fixation	relative event
-mtt_ns	average_reference	Updating ones position in space and time		
-mtt_ns	cue_time	Time cue of an event		
-mtt_ns	cue_space	Spatial cue of an event		
-mtt_ns	time_event	present vs. past or future  event	future or past event 	present event
-mtt_ns	time_reference	time reference present vs. past or future	future or past reference 	present reference
-mtt_ns	north-south_events	north vs. south position of event	event in south	event in north
-mtt_ns	past-future_event	past vs. future events	event in future	event in past
-mtt_ns	far-close_space_event	events occurring far vs. close in space	spatially close event	spatially far event
-mtt_ns	north-south_reference	spatial reference in the north vs. south	spatial reference in south	spatial reference in north
-mtt_ns	south_north_event	events occurring in north or south vs. here	event occurring here	event in north or south
-mtt_ns	south_north_reference	spatial reference in north or south vs. here	spatial reference here	reference in north or south
-mtt_ns	far-close_time_event	events far vs. close in time	event close in time	event far in time
-mtt_ns	past-future_reference	temporal reference in past vs. future	reference in future	reference in past
-mtt_we	cue_space-time	spatial vs time cue about event		
-mtt_we	cue_time-space	time vs spatial cue about event		
-mtt_we	event_space-time	event in space vs event in time 		
-mtt_we	event_time-space	event in time vs event in space 		
-mtt_we	average_event	Figuring out the space/time of an event		
-mtt_we	average_reference	Updating ones position in space and time		
-mtt_we	cue_time	Time cue of an event		
-mtt_we	cue_space	Spatial cue of an event		
-mtt_we	time_event	present vs. past or future  event	future or past event 	present event
-mtt_we	time_reference	time reference present vs. past or future	future or past reference 	present reference
-mtt_we	east-west_events	west vs. east position of event	event in east	event in west
-mtt_we	past-future_event	past vs. future events	event in future	event in past
-mtt_we	far-close_space_event	events occurring far vs. close in space	spatially close event	spatially far event
-mtt_we	east-west_reference	spatial reference in the east vs. west	spatial reference in west	spatial reference in east
-mtt_we	west_east_event	events occurring in west or east vs. here	event occurring here	event in west or east
-mtt_we	west_east_reference	spatial reference in west or east vs. here	spatial reference here	reference in west or east
-mtt_we	far-close_time_event	events far vs. close in time	event close in time	event far in time
-mtt_we	past-future_reference	temporal reference in past vs. future	reference in future	reference in past
-preference	preference_constant	object perception and evaluation	fixation	visual evaluation
-preference	preference_linear	linear effect of preference	no preference	visual preference
-preference	preference_quadratic	quandratic effect of preference	no confidence 	confidence in preference
-preference	face-others	evaluation of faces vs. other categories	other categories	face evaluation
-preference	house-others	evaluation of houses vs. other categories	other categories	house evaluation
-preference	food-others	evaluation of food vs. other categories	other categories	food evaluation
-preference	painting-others	evaluation of paintings vs. other categories	other categories	painting evaluation
-tom_localizer	belief	Manipulation of beliefs	fixation	belief manipulation
-tom_localizer	photo	Manipulation of fact judgments	fixation	fact judgments
-tom_localizer	photo-belief	fact judgments vs belief	belief manipulation	fact judgments
-tom_localizer	belief-photo	belief vs factual judgments	fact judgments	belief manipulation
-movie_localizer	mov_pain	attending to  movie with physically painful  events	fixation	physical pain movie
-movie_localizer	mov_mental	attending to movie with mentally painful  events	fixation	mental pain movie
-movie_localizer	mov_mental-pain	mentally-physically painful movie	physical pain movie	mental pain movie
-movie_localizer	mov_pain-mental	physically-mentally painful movie	mental pain movie	physical pain movie
-pain_localizer	physical_pain	listening to physical pain story	fixation	physical pain story
-pain_localizer	emotional_pain	listening to emotional pain story	fixation	emotional pain story
-pain_localizer	emotional-physical_pain	emotional-physical pain story	physical pain story	emotional pain story
-pain_localizer	physical-emotional_pain	physical-emotional pain story	emotional pain story	physical pain story
-enum	enum_memorization_linear	enumeration linear  items memorization		
-enum	enum_memorization_constant	enumeration constant  items memorization		
-enum	enum_memorization_quadratic	enumeration quadratic  items memorization		
-enum	enum_response_linear	enumeration linear  items response		
-enum	enum_response_constant	enumeration constant  items response		
-enum	enum_response_quadratic	enumeration quadratic  items response		
-vstm	vstm_memorization_linear	vstm linear  items memorization		
-vstm	vstm_memorization_constant	vstm constant  items memorization		
-vstm	vstm_memorization_quadratic	vstm quadratic  items memorization		
-vstm	vstm_response_linear	vstm linear  items response		
-vstm	vstm_response_constant	vstm constant  items response		
-vstm	vstm_response_quadratic	vstm quadratic  items response		
+task	contrast	pretty name	left label	right label																					
+archi_standard	left-right_button_press	left vs. right hand button press	right hand	left hand																					
+archi_standard	reading-listening	sentence reading vs. sentence listening	sentence listening	sentence reading																					
+archi_standard	motor-cognitive	button presses vs. sentence/computation	cognitive tasks	button presses																					
+archi_standard	reading-checkerboard	sentence reading vs. checkerboard	checkerboard	sentence reading																					
+archi_standard	computation-sentences	mental subtraction vs. sentence reading	sentence reading	mental subtraction																					
+archi_standard	horizontal-vertical	horizontal vs. vertical checkerboard	vertical checkerboard	horizontal checkerboard																					
+archi_spatial	saccades	saccades vs. fixation	fixation	saccades																					
+archi_spatial	hand-side	left or right hand vs. hand palm or back	hand palm or back	left or right hand																					
+archi_spatial	grasp-orientation	object grasping vs. image orientation judgment	orientation judgment	object grasping																					
+archi_spatial	rotation_side	hand palm or back vs. fixation	fixation	hand palm or back																					
+archi_spatial	object_orientation	image orientation judgment vs. fixation	fixation	orientation judgment																					
+archi_social	triangle_mental-random	social-interaction motion vs. random motion	random motion	social-interaction motion																					
+archi_social	false_belief-mechanistic_audio	false-belief tale vs. mechanistic tale	mechanistic tale	false-belief tale																					
+archi_social	triangle_random	random motion vs. fixation	fixation	random motion																					
+archi_social	mechanistic_audio	listening to a mechanistic tale vs. baseline	baseline	mechanistic tale																					
+archi_social	mechanistic_video	reading a mechanistic story vs. baseline	baseline	mechanistic story																					
+archi_social	non_speech_sound	listen to natural sound vs. baseline	silence	natural sound																					
+archi_social	false_belief-mechanistic_video	false-belief story vs. mechanistic story	mechanistic story	false-belief story																					
+archi_social	speech-non_speech	listen to voice sound vs. natural sound	natural sound	voice sound																					
+archi_emotional	expression_gender-control	assess gender from eyes' expression vs. visual pattern	visual pattern	gender assessment																					
+archi_emotional	expression_intention-gender	assess intention vs. gender from eyes' expression	gender assessment	expression intention																					
+archi_emotional	face_gender-control	assess gender of face vs. visual pattern	visual pattern	gender assessment																					
+archi_emotional	face_trusty-gender	assess face trustfulness vs. gender of face	gender assessment	face trusty																					
+hcp_language	story-math	listening to story vs. mental additions	math	story																					
+hcp_language	math	mental additions vs. fixation	fixation	mental addition																					
+hcp_social	mental-random	social-interaction motion vs. random motion	random motion	social-interaction motion																					
+hcp_social	random	random motion vs. fixation	fixation	any motion																					
+hcp_gambling	punishment-reward	negative vs. positive gambling outcome	reward	punishement																					
+hcp_gambling	reward	positive gambling outcome vs. fixation	fixation	reward																					
+hcp_motor	left_hand-avg	move left hand vs. right hand, feet and tongue	any motion	left hand																					
+hcp_motor	right_hand-avg	move right hand vs. left hand, feet and tongue	any motion	right hand																					
+hcp_motor	left_foot-avg	move left foot vs. right foot, hands and tongue	any motion	left foot																					
+hcp_motor	right_foot-avg	move right foot vs. left foot, hands and tongue	any motion	right foot																					
+hcp_motor	tongue-avg	move tongue vs. hands and feet	any motion	tongue																					
+hcp_emotion	shape	shape comparison vs. fixation	fixation cross	shape outline																					
+hcp_emotion	face-shape	emotional face comparison vs. shape comparison	shape outline	face image																					
+hcp_relational	relational-match	relational comparison vs. visual feature matching	visual matching	relational processing																					
+hcp_relational	match	visual feature matching vs. fixation	fixation	visual matching																					
+hcp_wm	2back-0back	2-back vs. 0-back	0-back	2-back																					
+hcp_wm	body-avg	body image n-back vs. face, place, tool  n-back	any image	body image																					
+hcp_wm	face-avg	face image n-back vs. body, place, tool  n-back	any image	face image																					
+hcp_wm	place-avg	place image n-back vs. face, body, tool  n-back	any image	place image																					
+hcp_wm	tools-avg	tool image  n-back vs. face, place, body  n-back	any image	tool image																					
+rsvp_language	complex-simple	complex- vs. simple-syntax sentence reading	simple sentence	complex sentence																					
+rsvp_language	sentence-jabberwocky	reading sentence vs. jabberwocky	read jabberwocky	read sentence																					
+rsvp_language	sentence-word	reading sentence vs. words	read words	read sentence																					
+rsvp_language	word-consonant_string	reading words vs. consonant strings	consonant strings	read words																					
+rsvp_language	jabberworcky-pseudo	reading jabberwocky vs. pseudowords	read pseudowords	read jabberwocky																					
+rsvp_language	word-pseudo	reading words vs. pseudowords	read pseudowords	read words																					
+rsvp_language	pseudo-consonant_string	reading pseudowords vs. consonant strings	consonant strings	read pseudowords																					
+rsvp_language	consonant_string	consonant strings' encoding vs. fixation	fixation	consonant strings																					
+retinotopy	phase_ring	eccentricity maps	central cross	radial position																					
+retinotopy	phase_wedge	polar angle map	central cross	angular position																					
+retinotopy	retinotopicity	sensitivity to retinotopy	central cross	retinal position																					
+mtt_ns	cue_space-time	spatial vs time cue about event																							
+mtt_ns	cue_time-space	time vs spatial cue about event																							
+mtt_ns	event_space-time	event in space vs event in time 																							
+mtt_ns	event_time-space	event in time vs event in space 																							
+mtt_ns	average_event	Figuring out the space/time of an event	fixation	relative event																					
+mtt_ns	average_reference	Updating ones position in space and time																							
+mtt_ns	cue_time	Time cue of an event																							
+mtt_ns	cue_space	Spatial cue of an event																							
+mtt_ns	time_event	present vs. past or future  event	future or past event 	present event																					
+mtt_ns	time_reference	time reference present vs. past or future	future or past reference 	present reference																					
+mtt_ns	north-south_events	north vs. south position of event	event in south	event in north																					
+mtt_ns	past-future_event	past vs. future events	event in future	event in past																					
+mtt_ns	far-close_space_event	events occurring far vs. close in space	spatially close event	spatially far event																					
+mtt_ns	north-south_reference	spatial reference in the north vs. south	spatial reference in south	spatial reference in north																					
+mtt_ns	south_north_event	events occurring in north or south vs. here	event occurring here	event in north or south																					
+mtt_ns	south_north_reference	spatial reference in north or south vs. here	spatial reference here	reference in north or south																					
+mtt_ns	far-close_time_event	events far vs. close in time	event close in time	event far in time																					
+mtt_ns	past-future_reference	temporal reference in past vs. future	reference in future	reference in past																					
+mtt_we	cue_space-time	spatial vs time cue about event																							
+mtt_we	cue_time-space	time vs spatial cue about event																							
+mtt_we	event_space-time	event in space vs event in time 																							
+mtt_we	event_time-space	event in time vs event in space 																							
+mtt_we	average_event	Figuring out the space/time of an event																							
+mtt_we	average_reference	Updating ones position in space and time																							
+mtt_we	cue_time	Time cue of an event																							
+mtt_we	cue_space	Spatial cue of an event																							
+mtt_we	time_event	present vs. past or future  event	future or past event 	present event																					
+mtt_we	time_reference	time reference present vs. past or future	future or past reference 	present reference																					
+mtt_we	east-west_events	west vs. east position of event	event in east	event in west																					
+mtt_we	past-future_event	past vs. future events	event in future	event in past																					
+mtt_we	far-close_space_event	events occurring far vs. close in space	spatially close event	spatially far event																					
+mtt_we	east-west_reference	spatial reference in the east vs. west	spatial reference in west	spatial reference in east																					
+mtt_we	west_east_event	events occurring in west or east vs. here	event occurring here	event in west or east																					
+mtt_we	west_east_reference	spatial reference in west or east vs. here	spatial reference here	reference in west or east																					
+mtt_we	far-close_time_event	events far vs. close in time	event close in time	event far in time																					
+mtt_we	past-future_reference	temporal reference in past vs. future	reference in future	reference in past																					
+preference	preference_constant	object perception and evaluation	fixation	visual evaluation																					
+preference	preference_linear	linear effect of preference	no preference	visual preference																					
+preference	preference_quadratic	quandratic effect of preference	no confidence 	confidence in preference																					
+preference	face-others	evaluation of faces vs. other categories	other categories	face evaluation																					
+preference	house-others	evaluation of houses vs. other categories	other categories	house evaluation																					
+preference	food-others	evaluation of food vs. other categories	other categories	food evaluation																					
+preference	painting-others	evaluation of paintings vs. other categories	other categories	painting evaluation																					
+tom_localizer	photo	Manipulation of fact judgments	fixation	fact judgments																					
+tom_localizer	belief-photo	belief vs factual judgments	fact judgments	belief manipulation																					
+movie_localizer	mov_pain	attending to  movie with physically painful  events	fixation	physical pain movie																					
+movie_localizer	mov_mental-pain	mentally-physically painful movie	physical pain movie	mental pain movie																					
+pain_localizer	physical_pain	listening to physical pain story	fixation	physical pain story																					
+pain_localizer	emotional-physical_pain	emotional-physical pain story	physical pain story	emotional pain story																					
+enum	enum_memorization_linear	enumeration linear  items memorization																							
+enum	enum_memorization_constant	enumeration constant  items memorization																							
+enum	enum_memorization_quadratic	enumeration quadratic  items memorization																							
+enum	enum_response_linear	enumeration linear  items response																							
+enum	enum_response_constant	enumeration constant  items response																							
+enum	enum_response_quadratic	enumeration quadratic  items response																							
+vstm	vstm_memorization_linear	vstm linear  items memorization																							
+vstm	vstm_memorization_constant	vstm constant  items memorization																							
+vstm	vstm_memorization_quadratic	vstm quadratic  items memorization																							
+vstm	vstm_response_linear	vstm linear  items response																							
+vstm	vstm_response_constant	vstm constant  items response																							
+vstm	vstm_response_quadratic	vstm quadratic  items response																							
+self_localizer																									
+self_localizer																									
+self_localizer																									
+lyon_lec2	unattend																								
+lyon_lec2	attend-unattend																								
+lyon_audi	tear	listen to tears																							
+lyon_audi	suomi	listen to unknown language																							
+lyon_audi	yawn	listen to yawning																							
+lyon_audi	human	listen to human sounds																							
+lyon_audi	silence	listen to silence																							
+lyon_audi	music	listen to music																							
+lyon_audi	reverse	listen to reversed speech																							
+lyon_audi	speech	listen to speech																							
+lyon_audi	alphabet	listen to letters																							
+lyon_audi	cough	listen to coughing																							
+lyon_audi	envir	listen to environment sounds																							
+lyon_audi	laugh	listen to laugh																							
+lyon_audi	animals	listen to animals																							
+lyon_visu	scrambled-average	view a scrambled image																							
+lyon_visu	visage-average	view a face image																					'visage-average',	'house-average',	'animal-average',
+lyon_visu	characters-average	view a chaarcters																					'characters-average',	'pseudoword-average',	
+lyon_visu	scene-average	view a scene																							
+lyon_visu	house-average	view a house																							
+lyon_visu	animal-average	view an animal																							
+lyon_visu	pseudoword-average	view a pseudoword																							
+lyon_visu	tool-average	view a tool																							
+lyon_lec1	random_string	read a random string																							
+lyon_lec1	word-pseudoword	read a word vs a pseudo word																					'word-random_string'		'pseudoword-random_string'
+lyon_lec1	word-random_string	read a word ws a random string																							
+lyon_lec1	pseudoword-random_string	read a pseudoword vs a random string																							
+lyon_mveb	response																								
+lyon_mveb	2_letters_different-same																								
+lyon_mveb	4_letters_different-same																								
+lyon_mveb	6_letters_different-same																								
+lyon_mveb	6_letters_different-2_letters_different																								
+lyon_mvis	response																								
+lyon_mvis	2_dots-2_dots_control																								
+lyon_mvis	4_dots-4_dots_control																								
+lyon_mvis	6_dots-6_dots_control																								
+lyon_mvis	6_dots-2_dots																								
+lyon_moto	instructions																								
+lyon_moto	fixation-avg																								
+lyon_moto	finger_right-avg																								
+lyon_moto	finger_left-avg																								
+lyon_moto	foot_left-avg																								
+lyon_moto	foot_right-avg																								
+lyon_moto	hand_left-avg																								
+lyon_moto	hand_right-avg																								
+lyon_moto	saccade-avg																								
+lyon_moto	tongue-avg																								
+lyon_mcse	low-high_salience	looking for a low salience symbol																							
+lyon_mcse	salience_left-right	lookinf for a symbold in left vs right visual field																							

@@ -680,9 +680,9 @@ def mtt_ew(design_matrix_columns):
     contrasts['average_event'] = contrasts['events'].sum(0)
     contrasts['average_reference'] = contrasts['reference'].sum(0)
     contrasts['event_space-time'] = contrasts['event_space'] -\
-        contrasts['events_time']
+        contrasts['event_time']
     contrasts['event_time-space'] = contrasts['event_time'] -\
-        contrasts['events_space']
+        contrasts['event_space']
     return contrasts
 
 

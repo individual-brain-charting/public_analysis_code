@@ -26,8 +26,8 @@ from mayavi import mlab
 from ibc_public.utils_data import get_subject_session
 
 source_dir = '/neurospin/ibc/sourcedata'
-derivatives_dir = '/neurospin/ibc/sourcedata'
-do_topup = True
+derivatives_dir = '/neurospin/ibc/derivatives'
+do_topup = False
 do_edc = 0
 subjects_sessions = get_subject_session('anat1')[2:]
 # subjects_sessions = [('sub-05', 'ses-08')]
@@ -124,6 +124,7 @@ def visualization(streamlines_file):
 
     figname = streamlines_file[:-3] + 'png'
     mlab.savefig(figname)
+    print(figname)
     mlab.close()
 
 
@@ -182,8 +183,8 @@ def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     write_dir = os.path.join(derivatives_dir, subject, session)
     dwi_dir = os.path.join(write_dir, 'dwi')
     # Apply topup to the images
-    input_imgs = sorted(glob.glob('%s/*.nii.gz' % data_dir))
-    dc_imgs = sorted(glob.glob(os.path.join(dwi_dir, 'dc*run*.nii.gz')))
+    input_imgs = sorted(glob.glob('%s/sub*.nii.gz' % data_dir))
+    dc_imgs = sorted(glob.glob(os.path.join(dwi_dir, 'dcsub*run*.nii.gz')))
     mem = Memory('/neurospin/tmp/bthirion/cache_dir')
     if len(dc_imgs) < len(input_imgs):
         se_maps = [
@@ -202,11 +203,11 @@ def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     concat_images(dc_imgs, dc_img)
 
     # get the bvals/bvec
-    file_bvals = sorted(glob.glob('%s/*.bval' % data_dir))
+    file_bvals = sorted(glob.glob('%s/sub*.bval' % data_dir))
     bvals = np.concatenate([np.loadtxt(fbval) for fbval in sorted(file_bvals)])
     bvals_file = os.path.join(dwi_dir, 'dc%s_%s_dwi.bval' % (subject, session))
     np.savetxt(bvals_file, bvals)
-    file_bvecs = sorted(glob.glob('%s/*.bvec' % data_dir))
+    file_bvecs = sorted(glob.glob('%s/sub*.bvec' % data_dir))
     bvecs = np.hstack([np.loadtxt(fbvec) for fbvec in sorted(file_bvecs)])
     bvecs_file = os.path.join(dwi_dir, 'dc%s_%s_dwi.bvec' % (subject, session))
     np.savetxt(bvecs_file, bvecs)
@@ -228,7 +229,7 @@ def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     return streamlines
 
 
-Parallel(n_jobs=1)(
+Parallel(n_jobs=4)(
     delayed(run_dmri_pipeline)(subject_session, do_topup, do_edc)
     for subject_session in subjects_sessions)
 
