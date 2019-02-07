@@ -229,7 +229,7 @@ def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     return streamlines
 
 
-Parallel(n_jobs=4)(
+Parallel(n_jobs=3)(
     delayed(run_dmri_pipeline)(subject_session, do_topup, do_edc)
     for subject_session in subjects_sessions)
 

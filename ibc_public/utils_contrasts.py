@@ -196,7 +196,8 @@ def lyon_visu(design_matrix_columns):
 def lyon_lec1(design_matrix_columns):
     """Contrasts for the lec1 protocol"""
     contrast_names = ['pseudoword', 'word', 'random_string', 'word-pseudoword',
-                      'word-random_string', 'pseudoword-random_string']
+                      'word-random_string', 'pseudoword-random_string',
+                      ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
