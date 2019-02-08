@@ -136,7 +136,7 @@ def post_process(df, paradigm_id):
                     'response_sn_north_present_space_close',
                     'response_sn_center_present_space_far',
                     'response_sn_center_future_time_far',
-                    'response_sn_center_future_time_far',]
+                    'response_sn_center_future_time_far']
 
     if paradigm_id == 'IslandNS':
         for response in responses_sn:

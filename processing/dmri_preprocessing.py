@@ -25,12 +25,12 @@ from dipy.segment.quickbundles import QuickBundles
 from mayavi import mlab
 from ibc_public.utils_data import get_subject_session
 
+
 source_dir = '/neurospin/ibc/sourcedata'
 derivatives_dir = '/neurospin/ibc/derivatives'
 do_topup = False
 do_edc = 0
-subjects_sessions = get_subject_session('anat1')[2:]
-# subjects_sessions = [('sub-05', 'ses-08')]
+subjects_sessions = [('sub-13', 'ses-09')]  # get_subject_session('anat1')
 
 
 def concat_images(imgs, out):
@@ -222,14 +222,21 @@ def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     # load the data
     gtab = gradient_table(bvals, bvecs, b0_threshold=10)
     # Create a brain mask
+    from nilearn.masking import compute_epi_mask
+    from nilearn.image import index_img
+    imgs_ = [index_img(eddy_img, i) for i in range(len(bvals)) if bvals[i] < 50]
+    mask_img = compute_epi_mask(imgs_)
+    mask_img.to_filename('/tmp/mask.nii.gz')
     from dipy.segment.mask import median_otsu
     b0_mask, mask = median_otsu(eddy_img.get_data(), 2, 1)
+    if subject == 'sub-13':
+        stop
     # do the tractography
     streamlines = tractography(eddy_img, gtab, mask, dwi_dir)
     return streamlines
 
 
-Parallel(n_jobs=3)(
+Parallel(n_jobs=1)(
     delayed(run_dmri_pipeline)(subject_session, do_topup, do_edc)
     for subject_session in subjects_sessions)
 

@@ -102,67 +102,60 @@ movie_localizer	mov_pain	attending to  movie with physically painful  events	fix
 movie_localizer	mov_mental-pain	mentally-physically painful movie	physical pain movie	mental pain movie																					
 pain_localizer	physical_pain	listening to physical pain story	fixation	physical pain story																					
 pain_localizer	emotional-physical_pain	emotional-physical pain story	physical pain story	emotional pain story																					
-enum	enum_memorization_linear	enumeration linear  items memorization																							
-enum	enum_memorization_constant	enumeration constant  items memorization																							
-enum	enum_memorization_quadratic	enumeration quadratic  items memorization																							
 enum	enum_response_linear	enumeration linear  items response																							
 enum	enum_response_constant	enumeration constant  items response																							
 enum	enum_response_quadratic	enumeration quadratic  items response																							
-vstm	vstm_memorization_linear	vstm linear  items memorization																							
-vstm	vstm_memorization_constant	vstm constant  items memorization																							
-vstm	vstm_memorization_quadratic	vstm quadratic  items memorization																							
-vstm	vstm_response_linear	vstm linear  items response																							
-vstm	vstm_response_constant	vstm constant  items response																							
-vstm	vstm_response_quadratic	vstm quadratic  items response																							
-self_localizer																									
-self_localizer																									
-self_localizer																									
-lyon_lec2	unattend																								
-lyon_lec2	attend-unattend																								
-lyon_audi	tear	listen to tears																							
-lyon_audi	suomi	listen to unknown language																							
-lyon_audi	yawn	listen to yawning																							
-lyon_audi	human	listen to human sounds																							
-lyon_audi	silence	listen to silence																							
-lyon_audi	music	listen to music																							
-lyon_audi	reverse	listen to reversed speech																							
-lyon_audi	speech	listen to speech																							
-lyon_audi	alphabet	listen to letters																							
-lyon_audi	cough	listen to coughing																							
-lyon_audi	envir	listen to environment sounds																							
-lyon_audi	laugh	listen to laugh																							
-lyon_audi	animals	listen to animals																							
-lyon_visu	scrambled-average	view a scrambled image																							
-lyon_visu	visage-average	view a face image																					'visage-average',	'house-average',	'animal-average',
-lyon_visu	characters-average	view a chaarcters																					'characters-average',	'pseudoword-average',	
-lyon_visu	scene-average	view a scene																							
-lyon_visu	house-average	view a house																							
-lyon_visu	animal-average	view an animal																							
-lyon_visu	pseudoword-average	view a pseudoword																							
-lyon_visu	tool-average	view a tool																							
-lyon_lec1	random_string	read a random string																							
-lyon_lec1	word-pseudoword	read a word vs a pseudo word																					'word-random_string'		'pseudoword-random_string'
-lyon_lec1	word-random_string	read a word ws a random string																							
-lyon_lec1	pseudoword-random_string	read a pseudoword vs a random string																							
-lyon_mveb	response																								
-lyon_mveb	2_letters_different-same																								
-lyon_mveb	4_letters_different-same																								
-lyon_mveb	6_letters_different-same																								
-lyon_mveb	6_letters_different-2_letters_different																								
-lyon_mvis	response																								
-lyon_mvis	2_dots-2_dots_control																								
-lyon_mvis	4_dots-4_dots_control																								
-lyon_mvis	6_dots-6_dots_control																								
-lyon_mvis	6_dots-2_dots																								
-lyon_moto	instructions																								
-lyon_moto	fixation-avg																								
-lyon_moto	finger_right-avg																								
-lyon_moto	finger_left-avg																								
-lyon_moto	foot_left-avg																								
-lyon_moto	foot_right-avg																								
-lyon_moto	hand_left-avg																								
-lyon_moto	hand_right-avg																								
-lyon_moto	saccade-avg																								
-lyon_moto	tongue-avg																								
-lyon_mcse	low-high_salience	looking for a low salience symbol																							
-lyon_mcse	salience_left-right	lookinf for a symbold in left vs right visual field																							
+VSTM	vstm_response_linear	vstm linear  items response																							
+VSTM	vstm_response_constant	vstm constant  items response																							
+VSTM	vstm_response_quadratic	vstm quadratic  items response																							
+self_localizer	self-other_with_response																								
+bang	talk-no_talk																								
+lyon-lec2	unattend																								
+lyon-lec2	attend-unattend																								
+lyon-audi	tear	listen to tears																							
+lyon-audi	suomi	listen to unknown language																							
+lyon-audi	yawn	listen to yawning																							
+lyon-audi	human	listen to human sounds																							
+lyon-audi	silence	listen to silence																							
+lyon-audi	music	listen to music																							
+lyon-audi	reverse	listen to reversed speech																							
+lyon-audi	speech	listen to speech																							
+lyon-audi	alphabet	listen to letters																							
+lyon-audi	cough	listen to coughing																							
+lyon-audi	envir	listen to environment sounds																							
+lyon-audi	laugh	listen to laugh																							
+lyon-audi	animals	listen to animals																							
+lyon-visu	scrambled-average	view a scrambled image																							
+lyon-visu	visage-average	view a face image																					'visage-average',	'house-average',	'animal-average',
+lyon-visu	characters-average	view a chaarcters																					'characters-average',	'pseudoword-average',	
+lyon-visu	scene-average	view a scene																							
+lyon-visu	house-average	view a house																							
+lyon-visu	animal-average	view an animal																							
+lyon-visu	pseudoword-average	view a pseudoword																							
+lyon-visu	tool-average	view a tool																							
+lyon-lec1	random_string	read a random string																							
+lyon-lec1	word-pseudoword	read a word vs a pseudo word																					'word-random_string'		'pseudoword-random_string'
+lyon-lec1	word-random_string	read a word ws a random string																							
+lyon-lec1	pseudoword-random_string	read a pseudoword vs a random string																							
+lyon-mveb	response																								
+lyon-mveb	2_letters_different-same																								
+lyon-mveb	4_letters_different-same																								
+lyon-mveb	6_letters_different-same																								
+lyon-mveb	6_letters_different-2_letters_different																								
+lyon-mvis	response																								
+lyon-mvis	2_dots-2_dots_control																								
+lyon-mvis	4_dots-4_dots_control																								
+lyon-mvis	6_dots-6_dots_control																								
+lyon-mvis	6_dots-2_dots																								
+lyon-moto	instructions																								
+lyon-moto	fixation-avg																								
+lyon-moto	finger_right-avg																								
+lyon-moto	finger_left-avg																								
+lyon-moto	foot_left-avg																								
+lyon-moto	foot_right-avg																								
+lyon-moto	hand_left-avg																								
+lyon-moto	hand_right-avg																								
+lyon-moto	saccade-avg																								
+lyon-moto	tongue-avg																								
+lyon-mcse	low-high_salience	looking for a low salience symbol																							
+lyon-mcse	salience_left-right	lookinf for a symbold in left vs right visual field																							

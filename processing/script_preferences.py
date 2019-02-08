@@ -84,9 +84,8 @@ for (subject, session) in subject_session:
     for dir_ in dirs:
         if not os.path.exists(dir_):
             os.mkdir(dir_)
-
     for contrast in contrasts:
-        effects =  [os.path.join(
+        effects = [os.path.join(
             workdir, subject, session,
             'res_stats_preference_%s_ffx' % category_, 'effect_size_maps',
             '%s_%s.nii.gz' % (category, contrast))

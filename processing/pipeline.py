@@ -212,7 +212,7 @@ if __name__ == '__main__':
     do_topup = False
     protocol = 'audio1'
     subject_session = sorted(get_subject_session(protocol))
-    subject_session = subject_session
+    subject_session = subject_session[1:]
 
     if do_topup:
         acq = None
@@ -225,7 +225,7 @@ if __name__ == '__main__':
     subject_data = []
     for protocol in [protocol]:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_data_ = Parallel(n_jobs=1)(
+        subject_data_ = Parallel(n_jobs=3)(
             delayed(run_subject_preproc)(jobfile, subject, session)
             for subject, session in subject_session)
         subject_data = subject_data + subject_data_[0]

@@ -197,7 +197,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     (subject, task, acq, contrast))
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
-                    pass
+                    continue
                 imgs_.sort()
                 # some renaming
                 contrast_id = contrast
