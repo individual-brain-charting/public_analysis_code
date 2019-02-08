@@ -46,9 +46,9 @@ The core scripts are in the `processing` folder
 Dependences are :
 * FSL (topup)
 * SPM12 for preprocessing
-* Freesurfer for sueface-based analysis
-* nipype to call SPM12 functions
-* pypreprocess to generate preprocessing reports
+* Freesurfer for surface-based analysis
+* Nipype to call SPM12 functions
+* Pypreprocess to generate preprocessing reports
 * Nilearn for various functions
 * Nistats to run general Linear models.
 
