@@ -222,15 +222,17 @@ def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     # load the data
     gtab = gradient_table(bvals, bvecs, b0_threshold=10)
     # Create a brain mask
-    from nilearn.masking import compute_epi_mask
-    from nilearn.image import index_img
-    imgs_ = [index_img(eddy_img, i) for i in range(len(bvals)) if bvals[i] < 50]
-    mask_img = compute_epi_mask(imgs_)
-    mask_img.to_filename('/tmp/mask.nii.gz')
+
     from dipy.segment.mask import median_otsu
     b0_mask, mask = median_otsu(eddy_img.get_data(), 2, 1)
     if subject == 'sub-13':
-        stop
+        from nilearn.masking import compute_epi_mask
+        from nilearn.image import index_img
+        imgs_ = [index_img(eddy_img, i)
+                 for i in range(len(bvals)) if bvals[i] < 50]
+        mask_img = compute_epi_mask(imgs_, upper_cutoff=.8)
+        mask_img.to_filename('/tmp/mask.nii.gz')
+        mask = mask_img.get_data()
     # do the tractography
     streamlines = tractography(eddy_img, gtab, mask, dwi_dir)
     return streamlines

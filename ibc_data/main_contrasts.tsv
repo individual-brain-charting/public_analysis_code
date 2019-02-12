@@ -102,14 +102,15 @@ movie_localizer	mov_pain	attending to  movie with physically painful  events	fix
 movie_localizer	mov_mental-pain	mentally-physically painful movie	physical pain movie	mental pain movie																					
 pain_localizer	physical_pain	listening to physical pain story	fixation	physical pain story																					
 pain_localizer	emotional-physical_pain	emotional-physical pain story	physical pain story	emotional pain story																					
-enum	enum_response_linear	enumeration linear  items response																							
-enum	enum_response_constant	enumeration constant  items response																							
-enum	enum_response_quadratic	enumeration quadratic  items response																							
-VSTM	vstm_response_linear	vstm linear  items response																							
-VSTM	vstm_response_constant	vstm constant  items response																							
-VSTM	vstm_response_quadratic	vstm quadratic  items response																							
-self_localizer	self-other_with_response																								
-bang	talk-no_talk																								
+enum	enum_response_linear	enumeration linear  items response	fixation	enumeration linear																					
+enum	enum_response_constant	enumeration constant  items response	fixation	enumeration constant																					
+enum	enum_response_quadratic	enumeration quadratic  items response	fixation	enumeration quadratic																					
+VSTM	vstm_response_linear	vstm linear  items response	fixation	vstm linear																					
+VSTM	vstm_response_constant	vstm constant  items response	fixation	vstm constant																					
+VSTM	vstm_response_quadratic	vstm quadratic  items response	fixation	vstm quadratic																					
+self	self-other_with_response	self-reference effect	reference to other	reference to self																					
+self	self-other_hit	identify an adjective proposed to describe self vs others	memory 	recognition																					
+bang	talk-no_talk	speech vs non-speech sections in movie watching	no speech	speech																					
 lyon-lec2	unattend																								
 lyon-lec2	attend-unattend																								
 lyon-audi	tear	listen to tears																							
@@ -127,7 +128,7 @@ lyon-audi	laugh	listen to laugh
 lyon-audi	animals	listen to animals																							
 lyon-visu	scrambled-average	view a scrambled image																							
 lyon-visu	visage-average	view a face image																					'visage-average',	'house-average',	'animal-average',
-lyon-visu	characters-average	view a chaarcters																					'characters-average',	'pseudoword-average',	
+lyon-visu	characters-average	view a characters																					'characters-average',	'pseudoword-average',	
 lyon-visu	scene-average	view a scene																							
 lyon-visu	house-average	view a house																							
 lyon-visu	animal-average	view an animal																							
