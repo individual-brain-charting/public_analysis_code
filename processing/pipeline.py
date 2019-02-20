@@ -210,7 +210,7 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
 
     do_topup = True
-    protocol = 'audio1'
+    protocol = 'audio2'
     subject_session = sorted(get_subject_session(protocol))
 
     if do_topup:

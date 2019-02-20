@@ -166,7 +166,7 @@ def lyon_audi(design_matrix_columns):
 
 def lyon_visu(design_matrix_columns):
     """Contrasts for the lyon visu protocol"""
-    contrast_names = ['scrambled', 'scene', 'tool', 'visage', 'target_fruit',
+    contrast_names = ['scrambled', 'scene', 'tool', 'face', 'target_fruit',
                       'house', 'animal', 'characters', 'pseudoword',
                       'scene-scrambled', 'tool-scrambled',
                       'face-scrambled', 'house-scrambled', 'animal-scrambled',
@@ -174,14 +174,14 @@ def lyon_visu(design_matrix_columns):
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    canonical_contrasts = ['scrambled', 'scene', 'tool', 'visage',
+    canonical_contrasts = ['scrambled', 'scene', 'tool', 'face',
                            'house', 'animal', 'characters', 'pseudoword']
     contrast = dict([(name, con[name]) for name in canonical_contrasts])
     # average = np.array([x for x in contrast.values()]).sum(0) * 1. / 8
     contrast['target_fruit'] = con['target_fruit']
     contrast['scene-scrambled'] = contrast['scene'] - contrast['scrambled']
     contrast['tool-scrambled'] = contrast['tool'] - contrast['scrambled']
-    contrast['visage-scrambled'] = contrast['visage'] - contrast['scrambled']
+    contrast['face-scrambled'] = contrast['face'] - contrast['scrambled']
     contrast['house-scrambled'] = contrast['house'] - contrast['scrambled']
     contrast['animal-scrambled'] = contrast['animal'] - contrast['scrambled']
     contrast['characters-scrambled'] =\
@@ -270,7 +270,7 @@ def lyon_mvis(design_matrix_columns):
     """ Contrasts for Lyon motor localizer"""
     contrast_names = ['response',
                       '2_dots-2_dots_control', '4_dots-4_dots_control',
-                      '6_dots-6_dots_control', '6_dots-2_dots']
+                      '6_dots-6_dots_control', '6_dots-2_dots', 'dots-control']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -280,6 +280,9 @@ def lyon_mvis(design_matrix_columns):
     contrasts['4_dots-4_dots_control'] = con['4_dots'] - con['4_dots_control']
     contrasts['6_dots-6_dots_control'] = con['6_dots'] - con['6_dots_control']
     contrasts['6_dots-2_dots'] = con['6_dots'] - con['2_dots']
+    contrasts['dots-control'] = con['6_dots'] + con['4_dots'] + con['2_dots']\
+        - (con['2_dots_control'] + con['6_dots_control'] +
+           con['4_dots_control'])
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)

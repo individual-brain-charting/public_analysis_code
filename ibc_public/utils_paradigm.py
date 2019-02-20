@@ -58,10 +58,14 @@ def post_process(df, paradigm_id):
         df = df.replace('left_hand_cue', 'cue')
         df = df.replace('tongue_cue', 'cue')
 
+    if paradigm_id == 'lyon-visu':
+        df = df.replace('visage', 'face')
+
     if paradigm_id in relevant_conditions.keys():
         relevant_items = relevant_conditions[paradigm_id]
         condition = np.array(
-            [df.trial_type == r for r in relevant_items]).sum(0).astype(np.bool)
+            [df.trial_type == r for r in relevant_items])\
+            .sum(0).astype(np.bool)
         df = df[condition]
 
     if paradigm_id[:10] == 'preference':
