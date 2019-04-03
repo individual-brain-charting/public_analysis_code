@@ -5,78 +5,79 @@ motor-cognitive	archi_standard	Button presses vs narrative/computation	cognitive
 reading-checkerboard	archi_standard	Read sentence vs checkerboard	checkerboard	read sentence																																	1		1															
 computation-sentences	archi_standard	Mental subtraction vs sentence reading	sentence	mental subtraction																											1								1															
 horizontal-vertical	archi_standard	Horizontal vs vertical checkerboard	vert. checkerboard	hor. checkerboard																																								1										
-audio_left_button_press	archi_standard	left hand button presses upon audio instructions					1	1						1														1																										
-audio_right_button_press	archi_standard	right hand button presses upon audio instructions					1	1									1											1																										
-video_left_button_press	archi_standard	left hand button presses upon video instructions					1	1						1																																								
-video_right_button_press	archi_standard	right hand button presses upon video instructions					1	1									1																																					
-right-left_button_press	archi_standard	Right vs left hand button press					1	1									1																																					
-listening-reading	archi_standard	reading a sentence vs listening to a sentence																										1																										
-cognitive-motor	archi_standard	Narrative/computation vs button presses																										1																										
-vertical-horizontal	archi_standard	vertical vs horizontal checkerboard																																									1											
-horizontal_checkerboard	archi_standard	Watch horizontal checkerboard																																										1										
-vertical_checkerboard	archi_standard	Watch vertical checkerboard																																									1											
-audio_sentence	archi_standard	Listen to narrative sentence																										1																										
-video_sentence	archi_standard	Read narrative sentence																																			1		1															
-audio_computation	archi_standard	Mental subtraction upon audio instruction																												1																								
-video_computation	archi_standard	Mental subtraction upon video instruction																													1								1															
-sentences	archi_standard	Read or listen to sentences																																			1		1															
-computation	archi_standard	Mental subtraction																													1								1															
-sentences-computation	archi_standard	Sentence reading vs mental subtraction 																																			1		1															
+audio_left_button_press	archi_standard	left hand button presses upon audio instructions	fixation	audio left button press			1	1						1														1																										
+audio_right_button_press	archi_standard	right hand button presses upon audio instructions	fixation	audio right button press			1	1									1											1																										
+video_left_button_press	archi_standard	left hand button presses upon video instructions	fixation	video left button press			1	1						1																																								
+video_right_button_press	archi_standard	right hand button presses upon video instructions	fixation	video right button press			1	1									1																																					
+right-left_button_press	archi_standard	Right vs left hand button press	left hand	right hand			1	1									1																																					
+listening-reading	archi_standard	reading a sentence vs listening to a sentence	listen to sentence	read sentence																								1																										
+cognitive-motor	archi_standard	Narrative/computation vs button presses	move hands	read and calculate																								1																										
+vertical-horizontal	archi_standard	vertical vs horizontal checkerboard	hor. checkerboard	vert. checkerboard																																							1											
+horizontal_checkerboard	archi_standard	Watch horizontal checkerboard	fixation	hor. checkerboard																																								1										
+vertical_checkerboard	archi_standard	Watch vertical checkerboard	fixation	vert. checkerboard																																							1											
+audio_sentence	archi_standard	Listen to narrative sentence	fixation	listen to sentence																								1																										
+video_sentence	archi_standard	Read narrative sentence	fixation	read sentence																																	1		1															
+audio_computation	archi_standard	Mental subtraction upon audio instruction	fixation	listen then calculate																										1																								
+video_computation	archi_standard	Mental subtraction upon video instruction	fixation	read then calculate																											1								1															
+sentences	archi_standard	Read or listen to sentences	fixation	read or listen																																	1		1															
+computation	archi_standard	Mental subtraction	fixation	mental subtraction																											1								1															
+sentences-computation	archi_standard	Sentence reading vs mental subtraction 	mental subtraction	sentence																																	1		1															
 saccades	archi_spatial	Saccades versus fixation	fixation	saccades																																									1									
-hand-side	archi_spatial	Left or right hand vs hand palm or back	hand palm or back	left or right hand			1																1																									1						
+hand-side	archi_spatial	Left or right hand vs hand palm or back	hand palm or back	guess which hand			1																1																									1						
 grasp-orientation	archi_spatial	Object grasping vs orientation reporting	mimic orientation	object grasping			1	1									1			1																										1								
 rotation_side	archi_spatial	Hand palm or back vs fixation	fixation	hand palm or back			1																1																									1						
 object_orientation	archi_spatial	Image orientation reporting	fixation	mimic orientation			1	1									1			1																																		
-rotation_hand	archi_spatial	Left or right hand					1																1																								1							
-object_grasp	archi_spatial	Object grasping					1	1									1			1																										1								
+rotation_hand	archi_spatial	Left or right hand	fixation	guess which hand			1																1																								1							
+object_grasp	archi_spatial	Object grasping	fixation	object grasping			1	1									1			1																										1								
 triangle_mental-random	archi_social	Mental motion vs random motion	random motion	mental motion						1	1	1																																										
 false_belief-mechanistic_audio	archi_social	False-belief tale vs mechanistic tale	mechanistic tale	false-belief tale																								1	1																						1			
 triangle_random	archi_social	Randomly drifting triangle	fixation	random motion								1																																										
-mechanistic_audio	archi_social	Listening to a mechanistic tale	baseline	mechanistic tale																								1	1																									
-mechanistic_video	archi_social	Reading a mechanistic story	baseline	mechanistic story																																	1		1															
+mechanistic_audio	archi_social	Listening to a mechanistic tale	fixation	mechanistic tale																								1	1																									
+mechanistic_video	archi_social	Reading a mechanistic story	fixation	mechanistic story																																	1		1															
 non_speech_sound	archi_social	Listen to natural sound	silence	natural sound																																													1					
 false_belief-mechanistic_video	archi_social	False-belief story vs mechanistic story	mechanistic story	false-belief story																																	1		1												1			
+false_belief-mechanistic	archi_social	False-belief story vs mechanistic story or tale	mechanistic plot	false-belief plot																																	1		1												1			
 speech-non_speech	archi_social	Listen to voice sound vs natural sound	natural sound	voice sound																																														1				
-triangle_mental	archi_social	Mental motion of triangle								1	1	1																																										
-false_belief_audio	archi_social	False-belief tale 																										1	1																						1			
-false_belief_video	archi_social	False-belief story 																																			1		1												1			
-speech_sound	archi_social	Listen to voice sound																																																1				
-expression_gender-control	archi_emotional	Guess the gender from eyes image vs view scrambled image	visual pattern	expression gender																																																1	1	
+triangle_mental	archi_social	Mental motion of triangle	fixation	mental motion						1	1	1																																										
+false_belief_audio	archi_social	False-belief tale 	fixation	false-belief tale																								1	1																						1			
+false_belief_video	archi_social	False-belief story 	fixation	false-belief tale																																	1		1												1			
+speech_sound	archi_social	Listen to voice sound	silence	voice sound																																														1				
+expression_gender-control	archi_emotional	Guess the gender from eyes image vs view scrambled image	scrambled image	expression gender																																																1	1	
 expression_intention-gender	archi_emotional	Guess intention vs gender from eyes image	expression gender	expression intention																																																1		1
-face_gender-control	archi_emotional	Guess the gender from face image	visual pattern	face gender																							1																										1	
+face_gender-control	archi_emotional	Guess the gender from face image	scrambled image	face gender																							1																										1	
 face_trusty-gender	archi_emotional	Assess face trustfulness vs gender	face gender	face trusty																							1																											1
-face_gender	archi_emotional	Guess the gender from face image																									1																										1	
-face_control	archi_emotional	Look at scrambled image																									1																											
-face_trusty	archi_emotional	Assess face trustfulness																									1																											1
-expression_intention	archi_emotional	Guess intention from eyes image																																																		1		1
-expression_gender	archi_emotional	Guess gender from eyes image																																																		1	1	
-expression_control	archi_emotional	Look at scrambled eyes image																																																		1		
-trusty_and_intention-control	archi_emotional	Assess face trustfulness or guess expression intention vs scrambled image																									1																											1
-trusty_and_intention-gender	archi_emotional	Assess face trustfulness or guess expression intention, vs guess the gender																									1																											1
-face_trusty-control	archi_emotional	Assess face trustfulness vs  view scrambled image																									1																											1
-expression_intention-control	archi_emotional	Guess intention from eyes image vs  view scrambled image																																																		1		1
+face_gender	archi_emotional	Guess the gender from face image	fixation	expression gender																							1																										1	
+face_control	archi_emotional	Look at scrambled image	fixation	scrambled image																							1																											
+face_trusty	archi_emotional	Assess face trustfulness	fixation	face trusty																							1																											1
+expression_intention	archi_emotional	Guess intention from eyes image	fixation	expression intention																																																1		1
+expression_gender	archi_emotional	Guess gender from eyes image	fixation	expression gender																																																1	1	
+expression_control	archi_emotional	Look at scrambled eyes image	fixation	scrambled image																																																1		
+trusty_and_intention-control	archi_emotional	Assess face trustfulness or guess expression intention vs scrambled image	scrambled image	face/expression trusty																							1																											1
+trusty_and_intention-gender	archi_emotional	Assess face trustfulness or guess expression intention, vs guess the gender	face/expression gender	face/expression trusty																							1																											1
+face_trusty-control	archi_emotional	Assess face trustfulness vs  view scrambled image	scrambled image	face trusty																							1																											1
+expression_intention-control	archi_emotional	Guess intention from eyes image vs  view scrambled image	scrambled image	expression intention																																																1		1
 story-math	hcp_language	Listening to story vs mental additions	math	story			1	1																				1	1																									
 math	hcp_language	Mental additions	fixation	mental addition			1	1																						1																								
-math-story	hcp_language	Mental additions vs listening to story					1	1																						1																								
-story	hcp_language	Listening to story					1	1																				1	1																									
+math-story	hcp_language	Mental additions vs listening to story	story	math			1	1																						1																								
+story	hcp_language	Listening to story	fixation	story			1	1																				1	1																									
 mental-random	hcp_social	Mental motion vs random motion	random motion	mental motion			1	1		1	1	1																																										
-random	hcp_social	Random motion vs fixation	fixation	any motion			1	1				1																																										
-mental	hcp_social	Mental motion vs fixation					1	1		1	1	1																																										
+random	hcp_social	Random motion vs fixation	fixation	random motion			1	1				1																																										
+mental	hcp_social	Mental motion vs fixation	fixation	mental motion			1	1		1	1	1																																										
 punishment-reward	hcp_gambling	Negative versus positive gambling outcome	reward	punishment			1	1																									1																					
 reward	hcp_gambling	Gambling with positive outcome	fixation	reward			1	1																								1																						
-punishment	hcp_gambling	negative gambling outcome					1	1																									1																					
-reward-punishment	hcp_gambling	positive versus Negative gambling outcome					1	1																								1																						
+punishment	hcp_gambling	negative gambling outcome	fixation	punishment			1	1																									1																					
+reward-punishment	hcp_gambling	positive versus Negative gambling outcome	punishment	reward			1	1																								1																						
 left_hand-avg	hcp_motor	Move left hand vs right hand, feet and tongue	any motion	left hand				1						1																																								
 right_hand-avg	hcp_motor	Move right hand vs left hand, feet and tongue	any motion	right hand				1									1																																					
 left_foot-avg	hcp_motor	Move left foot vs right foot, hands and tongue	any motion	left foot				1							1																																							
 right_foot-avg	hcp_motor	Move right foot vs left foot, hands and tongue	any motion	right foot				1										1																																				
 tongue-avg	hcp_motor	Move tongue vs hands and feet	any motion	tongue				1								1																																						
-left_hand	hcp_motor	Move left hand						1						1																																								
-right_hand	hcp_motor	Move right hand 						1									1																																					
-left_foot	hcp_motor	Move left foot 						1							1																																							
-right_foot	hcp_motor	Move right foot 						1										1																																				
-tongue	hcp_motor	Move tongue						1								1																																						
-cue	hcp_motor	Motion cue of motion					1						1																																									
+left_hand	hcp_motor	Move left hand	no motion	left hand				1						1																																								
+right_hand	hcp_motor	Move right hand 	no motion	right hand				1									1																																					
+left_foot	hcp_motor	Move left foot 	no motion	left foot				1							1																																							
+right_foot	hcp_motor	Move right foot 	no motion	right foot				1										1																																				
+tongue	hcp_motor	Move tongue	no motion	tongue				1								1																																						
+cue	hcp_motor	Motion cue of motion	fixation	visual task cue			1						1																																									
 shape	hcp_emotion	Shape comparison	fixation cross	shape outline	1	1	1	1																																														
 face-shape	hcp_emotion	Emotional face comparison vs shape comparison	shape outline	face image		1	1	1	1																																													
 face	hcp_emotion	Emotional face comparison				1	1	1	1																																													

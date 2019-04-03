@@ -213,51 +213,46 @@ def post_process(df, paradigm_id):
             df = df.replace(nature, 'nature')
         for tool in tools:
             df = df.replace(tool, 'tool')
-        if paradigm_id == 'ANT':
-        df.drop('fmri_buffer', 0, inplace=True)
-        df.drop('spatial_cue', 0, inplace=True)
-        df.drop('double_cue', 0, inplace=True)
-        df.drop('fixation', 0, inplace=True)
-        df.drop('end', 0, inplace=True)
-    if paradigm_id == 'SS':
-        df.drop('fmri_buffer', 0, inplace=True)
-        df.drop('rest_block', 0, inplace=True)
-        df.drop('end', 0, inplace=True)
-    if paradigm_id == 'towertask':
-        df.drop('fmri_buffer', 0, inplace=True)
-        df.drop('trial_end_and_next_start', 0, inplace=True)
-        df.drop('practice_start_block', 0, inplace=True)
-        df.drop('test_start_block', 0, inplace=True)
-        df.drop('end', 0, inplace=True)
-    if paradigm_id == 'twobytwo':
-        df.drop('fmri_buffer', 0, inplace=True)
-        df.drop('test_start_block', 0, inplace=True)
-        df.drop('fixation', 0, inplace=True)
-        df.drop('cue', 0, inplace=True)
-        df.drop('end', 0, inplace=True)
-    if paradigm_id == 'discount-fixed':
-        df.drop('fmri_buffer', 0, inplace=True)
-        df.drop('test_start_block', 0, inplace=True)
-        df.drop('rest_block', 0, inplace=True)
-        df.drop('end', 0, inplace=True)
+    if paradigm_id == 'attention':
+        df = df[df.trial_type.isin([
+            'spatial_incongruent', 'double_congruent', 'spatial_congruent',
+            'double_incongruent', 'spatialcue', 'doublecue'])]
+    if paradigm_id == 'stop-signal':
+        df = df[df.trial_type.isin(['go', 'stop'])]
+    if paradigm_id == 'ward-aliport':
+        df = df[df.trial_type.isin([
+            'PA_with_intermediate', 'PA_without_intermediate',
+            'UA_with_intermeidate', 'UA_without_intermeidate'
+        ])]
+        df.replace('PA_with_intermediate', 'ambiguous_intermediate',
+                   inplace=True)
+        df.replace('PA_without_intermediate', 'ambiguous_direct',
+                   inplace=True)
+        df.replace('UA_with_intermeidate', 'unambiguous_intermediate',
+                   inplace=True)
+        df.replace('UA_without_intermeidate', 'unambiguous_direct',
+                   inplace=True)
+    if paradigm_id == 'two-by-two':
+        df = df[df.trial_type.isin([
+            'taskstay_cuestay', 'taskswitch_cueswitch', 'taskswitch_cuestay',
+            'taskstay_cueswitch'])]
+    if paradigm_id == 'discount':
+        df = df[df.trial_type.isin(['stim'])]
         df1 = df.copy()
-        df1.replace('large_amount', 'amplitude')
+        df1['amplitude'] = df1['large_amount']
         df1.drop('later_delay', 1, inplace=True)
-        df1.replace('stim', 'amount')
+        df1.drop('large_amount', 1, inplace=True)
+        df1.replace('stim', 'amount', inplace=True)
         df2 = df.copy()
-        df2.replace('later_delay', 'amplitude')
+        df2['amplitude'] = df2['later_delay']
         df2.drop('large_amount', 1, inplace=True)
-        df2.replace('stim', 'later_delay')
+        df2.drop('later_delay', 1, inplace=True)
+        df2.replace('stim', 'delay', inplace=True)
         df = concat([df1, df2], axis=0, ignore_index=True)
-    if paradigm_id == 'motor-selective-SS':
-        df.drop('fmri_buffer', 0, inplace=True)
-        df.drop('rest_block', 0, inplace=True)
-        df.drop('end', 0, inplace=True)
+    if paradigm_id == 'selective-stop-signal':
+        df = df[df.trial_type.isin(['go', 'ignore', 'stop'])]
     if paradigm_id == 'stroop':
-        df.drop('fmri_buffer', 0, inplace=True)
-        df.drop('test_start_block', 0, inplace=True)
-        df.drop('fixation', 0, inplace=True)
-        df.drop('end', 0, inplace=True)
+        df = df[df.trial_type.isin(['congruent', 'incongruent'])]
     if paradigm_id == 'card':
         df.drop('fmri_buffer', 0, inplace=True)
         df.drop('test_start_block', 0, inplace=True)

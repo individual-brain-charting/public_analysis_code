@@ -80,6 +80,20 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return audio(design_matrix_columns)
     elif paradigm_id == 'bang':
         return bang(design_matrix_columns)
+    elif paradigm_id == 'selective_stop_signal':
+        return selective_stop_signal(design_matrix_columns)
+    elif paradigm_id == 'stop-signal':
+        return stop_signal(design_matrix_columns)
+    elif paradigm_id == 'stroop':
+        return stroop(design_matrix_columns)
+    elif paradigm_id == 'discount':
+        return discount(design_matrix_columns)
+    elif paradigm_id == 'attention':
+        return attention(design_matrix_columns)
+    elif paradigm_id == 'ward-aliport':
+        return towertask(design_matrix_columns)
+    elif paradigm_id == 'two-by-two':
+        return two_by_two(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -128,6 +142,171 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     if con != []:
         contrast['derivatives'] = np.array(con)
     return contrast
+
+
+def discount(design_matrix_columns):
+    """ Contrasts for Stanford's attention protocol"""
+    contrast_names = ['delay', 'amount']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    constant = np.ones(6)
+    linear = np.linspace(-1, 1, 6)
+    quadratic = linear ** 2 - (linear ** 2).mean()
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'delay': con['delay'],
+        'amount': con['amount'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def towertask(design_matrix_columns):
+    """ Contrasts for Stanford's Tower task protocol"""
+    contrast_names = ['ambiguous_intermediate', 'ambiguous_direct',
+                      'unambiguous_intermediate', 'unambiguous_direct',
+                      'intermediate-direct', 'ambiguous-unambiguous']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'ambiguous_intermediate': con['PA_with_intermediate'],
+        'ambiguous_direct': con['PA_without_intermediate'],
+        'unambiguous_intermediate': con['UA_with_intermeidate'],
+        'unambiguous_direct': con['UA_without_intermeidate'],
+        'intermediate-direct':
+            con['PA_with_intermediate'] + con['UA_with_intermeidate'] -
+            (con['PA_without_intermediate'] + con['UA_without_intermeidate']),
+        'ambiguous-unambiguous':
+            con['PA_with_intermediate'] - con['UA_with_intermeidate'] +
+            con['PA_without_intermediate'] - con['UA_without_intermeidate'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def two_by_two(design_matrix_columns):
+    """ Contrasts for Stanford's two-bytwo task protocol"""
+    contrast_names = [
+        'task_stay_cue_stay', 'task_switch_cue_switch',
+        'task_switch_cue_stay', 'task_stay_cue_switch', 'task_switch-stay',
+        'cue_switch-stay']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'task_stay_cue_stay': con['taskstay_cuestay'],
+        'task_switch_cue_switch': con['taskswitch_cueswitch'],
+        'task_switch_cue_stay': con['taskswitch_cuestay'],
+        'task_stay_cue_switch': con['taskstay_cueswitch'],
+        'task_switch-stay':
+            con['taskswitch_cueswitch'] - con['taskstay_cueswitch'] +
+            con['taskswitch_cuestay'] - con['taskstay_cuestay'],
+        'cue_switch-stay':
+            con['taskswitch_cueswitch'] + con['taskstay_cueswitch'] -
+            con['taskswitch_cuestay'] - con['taskstay_cuestay'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def attention(design_matrix_columns):
+    """ Contrasts for Stanford's attention protocol"""
+    contrast_names = [
+        'spatial_cue-double_cue',
+        'spatial_cue', 'double_cue',
+        'incongruent-congruent', 'spatial_incongruent-spatial_congruent',
+        'double_incongruent-double_congruent', 'spatial_incongruent',
+        'double_congruent', 'spatial_congruent',
+        'double_incongruent'
+        ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'spatial_cue-double_cue': con['spatialcue'] - con['doublecue'],
+        'spatial_cue': con['spatialcue'],
+        'double_cue': con['doublecue'],
+        'incongruent-congruent': con['spatial_incongruent'] -
+            con['spatial_congruent'] + con['double_incongruent'] -
+            con['double_congruent'],
+        'spatial_incongruent-spatial_congruent': con['spatial_incongruent'] -
+            con['spatial_congruent'],
+        'double_incongruent-double_congruent': con['double_incongruent'] -
+            con['double_congruent'],
+        'spatial_incongruent': con['spatial_incongruent'],
+        'double_congruent': con['double_congruent'],
+        'spatial_congruent': con['spatial_congruent'],
+        'double_incongruent': con['double_incongruent']
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def selective_stop_signal(design_matrix_columns):
+    """ Contrasts for Stanford's selective_stop_signal protocol"""
+    contrast_names = ['go', 'stop', 'ignore',
+                      'stop-go', 'ignore-stop', 'stop-ignore', 'ignore-go']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'go': con['go'],
+        'stop': con['stop'],
+        'ignore': con['ignore'],
+        'stop-go': con['stop'] - con['go'],
+        'ignore-stop': con['ignore'] - con['stop'],
+        'stop-ignore': con['stop'] - con['ignore'],
+        'ignore-go': con['ignore'] - con['go'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def stop_signal(design_matrix_columns):
+    """Contrasts for the Stanford stop signal protocol"""
+    contrast_names = ['go', 'stop', 'stop-go']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'go': con['go'],
+        'stop': con['stop'],
+        'stop-go': con['stop'] - con['go'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def stroop(design_matrix_columns):
+    """Contrasts for the lyon lec2 protocol"""
+    contrast_names = ['congruent', 'incongruent', 'congruent-incongruent',
+                      'incongruent-congruent']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'congruent': con['congruent'],
+        'incongruent': con['incongruent'],
+        'incongruent-congruent': con['incongruent'] - con['congruent'],
+        'congruent-incongruent': con['congruent'] - con['incongruent'],
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def lyon_lec2(design_matrix_columns):
