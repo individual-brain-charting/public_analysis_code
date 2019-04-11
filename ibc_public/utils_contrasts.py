@@ -90,10 +90,14 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return discount(design_matrix_columns)
     elif paradigm_id == 'attention':
         return attention(design_matrix_columns)
-    elif paradigm_id == 'ward-aliport':
+    elif paradigm_id in ['ward-aliport', 'ward-and-aliport']:
         return towertask(design_matrix_columns)
     elif paradigm_id == 'two-by-two':
         return two_by_two(design_matrix_columns)
+    elif paradigm_id == 'columbia-cards':
+        return columbia_cards(design_matrix_columns)
+    elif paradigm_id == 'dot-patterns':
+        return dot_patterns(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -144,19 +148,39 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     return contrast
 
 
+def dot_patterns(design_matrix_columns):
+    """ Contrasts for Stanford's dot patterns protocol"""
+    contrast_names = ['probe_BY', 'probe_AY', 'probe_BX', 'probe_AX', 'cue']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names])
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def columbia_cards(design_matrix_columns):
+    """ Contrasts for Stanford's Columbia Cards protocol"""
+    contrast_names = ['num_loss_cards', 'loss', 'gain']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names])
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
 def discount(design_matrix_columns):
-    """ Contrasts for Stanford's attention protocol"""
+    """ Contrasts for Stanford's discount protocol"""
     contrast_names = ['delay', 'amount']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
-    constant = np.ones(6)
-    linear = np.linspace(-1, 1, 6)
-    quadratic = linear ** 2 - (linear ** 2).mean()
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {
-        'delay': con['delay'],
-        'amount': con['amount'],
-    }
+    contrasts = dict([(name, con[name]) for name in contrast_names])
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -172,16 +196,16 @@ def towertask(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {
-        'ambiguous_intermediate': con['PA_with_intermediate'],
-        'ambiguous_direct': con['PA_without_intermediate'],
-        'unambiguous_intermediate': con['UA_with_intermeidate'],
-        'unambiguous_direct': con['UA_without_intermeidate'],
+        'ambiguous_intermediate': con['ambiguous_intermediate'],
+        'ambiguous_direct': con['ambiguous_direct'],
+        'unambiguous_intermediate': con['unambiguous_intermediate'],
+        'unambiguous_direct': con['unambiguous_direct'],
         'intermediate-direct':
-            con['PA_with_intermediate'] + con['UA_with_intermeidate'] -
-            (con['PA_without_intermediate'] + con['UA_without_intermeidate']),
+            con['ambiguous_intermediate'] + con['unambiguous_intermediate'] -
+            (con['ambiguous_direct'] + con['unambiguous_direct']),
         'ambiguous-unambiguous':
-            con['PA_with_intermediate'] - con['UA_with_intermeidate'] +
-            con['PA_without_intermediate'] - con['UA_without_intermeidate'],
+            con['ambiguous_intermediate'] - con['unambiguous_intermediate'] +
+            con['ambiguous_direct'] - con['unambiguous_direct'],
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)

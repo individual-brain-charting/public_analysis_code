@@ -219,7 +219,7 @@ def post_process(df, paradigm_id):
             'double_incongruent', 'spatialcue', 'doublecue'])]
     if paradigm_id == 'stop-signal':
         df = df[df.trial_type.isin(['go', 'stop'])]
-    if paradigm_id == 'ward-aliport':
+    if paradigm_id in ['ward-aliport', 'ward-and-aliport']:
         df = df[df.trial_type.isin([
             'PA_with_intermediate', 'PA_without_intermediate',
             'UA_with_intermeidate', 'UA_without_intermeidate'
@@ -253,38 +253,28 @@ def post_process(df, paradigm_id):
         df = df[df.trial_type.isin(['go', 'ignore', 'stop'])]
     if paradigm_id == 'stroop':
         df = df[df.trial_type.isin(['congruent', 'incongruent'])]
-    if paradigm_id == 'card':
-        df.drop('fmri_buffer', 0, inplace=True)
-        df.drop('test_start_block', 0, inplace=True)
-        df.drop('inter_trials', 0, inplace=True)
-        df.drop('end', 0, inplace=True)
-        df.drop('calculate_reward', 0, inplace=True)
-        df.drop('reward', 0, inplace=True)
+    if paradigm_id == 'columbia-cards':
+        df = df[df.trial_type.isin(['card_flip'])]
         df1 = df.copy()
-        df1.replace('card_flip', 'gain')
-        df1.replace('gain_amount', 'amplitude')
-        df1.drop('loss_amount', 1, inplace=True)
-        df1.drop('num_loss_cards', 1, inplace=True)
+        df1.replace('card_flip', 'gain', inplace=True)
+        df1['modulation'] = df1['gain_amount']
         df2 = df.copy()
-        df2.replace('loss_amount', 'amplitude')
-        df2.replace('card_flip', 'loss')
-        df2.drop('gain_amount', 1, inplace=True)
-        df2.drop('num_loss_cards', 1, inplace=True)
+        df2.replace('card_flip', 'loss', inplace=True)
+        df2['modulation'] = df2['loss_amount']
         df3 = df.copy()
-        df3.replace('num_loss_cards', 'amplitude')
-        df3.replace('card_flip', 'num_loss_cards')
-        df3.drop('gain_amount', 1, inplace=True)
-        df3.drop('loss_amount', 1, inplace=True)
+        df3.replace('card_flip', 'num_loss_cards', inplace=True)
+        df3['modulation'] = df3['num_loss_cards']
         df = concat([df1, df2, df3], axis=0, ignore_index=True)
-    if paradigm_id == 'dot-pattern-expectancy':
-        df.drop('fmri_buffer', 0, inplace=True)
-        df.drop('test_start_block', 0, inplace=True)
-        df.drop('end', 0, inplace=True)
-        df.drop('fixation', 0, inplace=True)
-        df.replace('cue_AX', 'cue')
-        df.replace('cue_BX', 'cue')
-        df.replace('cue_AY', 'cue')
-        df.replace('cue_BY', 'cue')
+        df.drop('loss_amount', 1, inplace=True)
+        df.drop('num_loss_cards', 1, inplace=True)
+        df.drop('gain_amount', 1, inplace=True)
+    if paradigm_id == 'dot-patterns':
+        df.replace('cue_AX', 'cue', inplace=True)
+        df.replace('cue_BX', 'cue', inplace=True)
+        df.replace('cue_AY', 'cue', inplace=True)
+        df.replace('cue_BY', 'cue', inplace=True)
+        df = df[df.trial_type.isin([
+            'probe_BY', 'probe_AY', 'probe_BX', 'probe_AX', 'cue'])]
     return df
 
 
