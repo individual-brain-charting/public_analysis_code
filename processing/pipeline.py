@@ -209,10 +209,13 @@ if __name__ == '__main__':
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
 
-    do_topup = False
-    protocol = 'audio2'
+    do_topup = True
+    protocol = 'enumeration'
     subject_session = sorted(get_subject_session(protocol))
-    subject_session = subject_session[2:]
+    subject_session = [
+        ('sub-05', 'ses-17'), ('sub-05', 'ses-18'), ('sub-05', 'ses-19'),
+        ('sub-05', 'ses-20'), ('sub-05', 'ses-21'), ('sub-05', 'ses-22'),
+        ('sub-05', 'ses-23')]
 
     if do_topup:
         acq = None
@@ -223,12 +226,11 @@ if __name__ == '__main__':
         apply_topup(main_dir, cache_dir, subject_session, acq=acq)
 
     subject_data = []
-    for protocol in [protocol]:
-        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_data_ = Parallel(n_jobs=1)(
-            delayed(run_subject_preproc)(jobfile, subject, session)
-            for subject, session in subject_session)
-        subject_data = subject_data + subject_data_[0]
+    jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
+    subject_data_ = Parallel(n_jobs=1)(
+        delayed(run_subject_preproc)(jobfile, subject, session)
+        for subject, session in subject_session)
+    subject_data = subject_data + subject_data_[0]
 
     list_subject_update = []
     list_files_parameter = []

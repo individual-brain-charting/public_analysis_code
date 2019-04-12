@@ -150,11 +150,52 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
 
 def dot_patterns(design_matrix_columns):
     """ Contrasts for Stanford's dot patterns protocol"""
-    contrast_names = ['probe_BY', 'probe_AY', 'probe_BX', 'probe_AX', 'cue']
+    contrast_names = [
+        'cue',
+        'correct_cue_correct_probe',
+        'correct_cue_incorrect_probe',
+        'incorrect_cue_correct_probe',
+        'incorrect_cue_incorrect_probe',
+        'correct_cue_incorrect_probe-correct_cue_correct_probe',
+        'incorrect_cue_incorrect_probe-incorrect_cue_correct_probe',
+        'correct_cue_incorrect_probe-incorrect_cue_correct_probe',
+        'incorrect_cue_incorrect_probe-correct_cue_incorrect_probe',
+        'incorrect_cue-correct_cue',
+        'incorrect_probe-correct_probe'
+    ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names])
+    contrasts = {
+        'cue': con['cue'],
+        'correct_cue_correct_probe': con['correct_cue_correct_probe'],
+        'correct_cue_incorrect_probe': con['correct_cue_incorrect_probe'],
+        'incorrect_cue_correct_probe': con['incorrect_cue_correct_probe'],
+        'incorrect_cue_incorrect_probe': con['incorrect_cue_incorrect_probe'],
+        'correct_cue_incorrect_probe-correct_cue_correct_probe':
+            con['correct_cue_incorrect_probe'] -
+            con['correct_cue_correct_probe'],
+        'incorrect_cue_incorrect_probe-incorrect_cue_correct_probe':
+            con['incorrect_cue_incorrect_probe'] -
+            con['incorrect_cue_correct_probe'],
+        'correct_cue_incorrect_probe-incorrect_cue_correct_probe':
+            con['correct_cue_incorrect_probe'] -
+            con['incorrect_cue_correct_probe'],
+        'incorrect_cue_incorrect_probe-correct_cue_incorrect_probe':
+            con['incorrect_cue_incorrect_probe'] -
+            con['correct_cue_incorrect_probe'],
+        'incorrect_cue-correct_cue':
+            - con['correct_cue_correct_probe']
+            - con['correct_cue_incorrect_probe']
+            + con['incorrect_cue_correct_probe']
+            + con['incorrect_cue_incorrect_probe'],
+        'incorrect_probe-correct_probe':
+            - con['correct_cue_correct_probe']
+            + con['correct_cue_incorrect_probe']
+            - con['incorrect_cue_correct_probe']
+            + con['incorrect_cue_incorrect_probe'],
+    }
+
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)

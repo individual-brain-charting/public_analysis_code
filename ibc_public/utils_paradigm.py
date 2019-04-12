@@ -275,6 +275,10 @@ def post_process(df, paradigm_id):
         df.replace('cue_BY', 'cue', inplace=True)
         df = df[df.trial_type.isin([
             'probe_BY', 'probe_AY', 'probe_BX', 'probe_AX', 'cue'])]
+        df.replace('probe_AX', 'correct_cue_correct_probe', inplace=True)
+        df.replace('probe_BX', 'incorrect_cue_correct_probe', inplace=True)
+        df.replace('probe_AY', 'correct_cue_incorrect_probe', inplace=True)
+        df.replace('probe_BY', 'incorrect_cue_incorrect_probe', inplace=True)
     return df
 
 
