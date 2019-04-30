@@ -210,12 +210,8 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
 
     do_topup = True
-    protocol = 'enumeration'
+    protocol = 'stanford1'
     subject_session = sorted(get_subject_session(protocol))
-    subject_session = [
-        ('sub-05', 'ses-17'), ('sub-05', 'ses-18'), ('sub-05', 'ses-19'),
-        ('sub-05', 'ses-20'), ('sub-05', 'ses-21'), ('sub-05', 'ses-22'),
-        ('sub-05', 'ses-23')]
 
     if do_topup:
         acq = None

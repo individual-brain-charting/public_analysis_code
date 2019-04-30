@@ -30,7 +30,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return hcp_relational(design_matrix_columns)
     elif paradigm_id == 'hcp_social':
         return hcp_social(design_matrix_columns)
-    elif paradigm_id[:9] == 'language_':
+    elif paradigm_id == 'language':
         return rsvp_language(design_matrix_columns)
     elif paradigm_id == 'colour':
         return colour(design_matrix_columns)
@@ -1184,7 +1184,7 @@ def archi_social(design_matrix_columns):
         contrasts['false_belief-mechanistic_audio'] +\
         contrasts['false_belief-mechanistic_video']
 
-    assert((np.sort(contrasts.keys()) == np.sort(contrast_names)).all())
+    assert(sorted(contrasts.keys()) == sorted(contrast_names))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
@@ -1209,7 +1209,7 @@ def archi_spatial(design_matrix_columns):
         'hand-side': contrasts['rotation_hand'] - contrasts['rotation_side'],
         'grasp-orientation': (contrasts['object_grasp'] -
                               contrasts['object_orientation'])}
-    assert((np.sort(contrasts.keys()) == np.sort(contrast_names)).all())
+    assert(sorted(contrasts.keys()) == sorted(contrast_names))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
@@ -1286,7 +1286,7 @@ def archi_standard(design_matrix_columns, new=True):
         contrasts['horizontal_checkerboard']
 
     contrasts = dict([(x, contrasts[x]) for x in contrast_names])
-    assert((np.sort(contrasts.keys()) == np.sort(contrast_names)).all())
+    assert(sorted(contrasts.keys()) == sorted(contrast_names))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
@@ -1333,7 +1333,7 @@ def archi_emotional(design_matrix_columns):
     contrasts['trusty_and_intention-control'] = (
         contrasts['face_trusty-control'] +
         contrasts['expression_intention-control'])
-    assert((np.sort(contrasts.keys()) == np.sort(contrast_names)).all())
+    assert(sorted(contrasts.keys()) == sorted(contrast_names))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
@@ -1354,7 +1354,7 @@ def hcp_emotion(design_matrix_columns=None):
                  'shape-face': contrasts['shape'] - contrasts['face'],
                  'face': contrasts['face'],
                  'shape': contrasts['shape'], }
-    assert((np.sort(contrasts.keys()) == np.sort(contrast_names)).all())
+    assert(sorted(contrasts.keys()) == sorted(contrast_names))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
@@ -1377,7 +1377,7 @@ def hcp_gambling(design_matrix_columns):
         'reward-punishment': contrasts['reward'] - contrasts['punishment'],
         'punishment': contrasts['punishment'],
         'reward': contrasts['reward']}
-    assert((np.sort(contrasts.keys()) == np.sort(contrast_names)).all())
+    assert(sorted(contrasts.keys()) == sorted(contrast_names))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
@@ -1398,7 +1398,7 @@ def hcp_language(design_matrix_columns):
         'story-math': contrasts['story'] - contrasts['math'],
         'math': contrasts['math'],
         'story': contrasts['story']}
-    assert((np.sort(contrasts.keys()) == np.sort(contrast_names)).all())
+    assert(sorted(contrasts.keys()) == sorted(contrast_names))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
@@ -1433,7 +1433,7 @@ def hcp_motor(design_matrix_columns):
         'right_foot-avg': contrasts['right_foot'] - contrasts['Average'],
         'tongue-avg': contrasts['tongue'] - contrasts['Average']
     }
-    assert((np.sort(contrasts.keys()) == np.sort(contrast_names)).all())
+    assert(sorted(contrasts.keys()) == sorted(contrast_names))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
@@ -1454,7 +1454,7 @@ def hcp_relational(design_matrix_columns):
         'match': contrasts['control'],
         'relational': contrasts['relational'],
         'relational-match': contrasts['relational'] - contrasts['control']}
-    assert((np.sort(contrasts.keys()) == np.sort(contrast_names)).all())
+    assert(sorted(contrasts.keys()) == sorted(contrast_names))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
@@ -1474,7 +1474,7 @@ def hcp_social(design_matrix_columns):
         'mental-random': contrasts['mental'] - contrasts['random'],
         'random': contrasts['random'],
         'mental': contrasts['mental'], }
-    assert((np.sort(contrasts.keys()) == np.sort(contrast_names)).all())
+    assert(sorted(contrasts.keys()) == sorted(contrast_names))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
@@ -1522,7 +1522,7 @@ def hcp_wm(design_matrix_columns):
         'face-avg': contrasts['face'] - contrasts['average'],
         'place-avg': contrasts['place'] - contrasts['average'],
         'tools-avg': contrasts['tools'] - contrasts['average']}
-    assert((np.sort(contrasts.keys()) == np.sort(contrast_names)).all())
+    assert(sorted(contrasts.keys()) == sorted(contrast_names))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts

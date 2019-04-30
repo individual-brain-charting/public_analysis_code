@@ -126,11 +126,11 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
-    protocols = ['enumeration']
+    protocols = ['stanford1']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        subject_session = [('sub-05', 'ses-17')]
+        
         Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
@@ -139,8 +139,8 @@ if __name__ == '__main__':
     smooth = 5
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = get_subject_session(protocol)
-        subject_session = [('sub-05', 'ses-17')]
+        # subject_session = get_subject_session(protocol)
+        # subject_session = [('sub-05', 'ses-20')]
         Parallel(n_jobs=3)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth)
@@ -149,8 +149,8 @@ if __name__ == '__main__':
     smooth = None
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = get_subject_session(protocol)
-        subject_session = [('sub-05', 'ses-17')]
+        # subject_session = get_subject_session(protocol)
+        # subject_session = [('sub-05', 'ses-20')]
         Parallel(n_jobs=3)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth)

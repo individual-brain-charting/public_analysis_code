@@ -366,7 +366,7 @@ def copy_db(df, write_dir, filename='result_db.csv'):
     return df1
 
 
-def make_surf_db(main_dir=DERIVATIVES, conditions=False):
+def make_surf_db(main_dir=DERIVATIVES, conditions=False, subject_list=SUBJECTS):
     """ Create a database for surface data (gifti files)
 
     main_dir: string,
@@ -394,13 +394,13 @@ def make_surf_db(main_dir=DERIVATIVES, conditions=False):
         con_df = CONTRASTS
         contrast_name = con_df.contrast
 
-    for subject in SUBJECTS:
+    for subject in subject_list:
         for i in range(len(con_df)):
             contrast = contrast_name[i]
             task = con_df.task[i]
             task_name = task
             if task == 'rsvp_language':
-                task = 'language_'
+                task = 'language'
                 task_name = 'rsvp_language'
             if task == 'mtt_ns':
                 task = 'IslandNS'
@@ -412,9 +412,10 @@ def make_surf_db(main_dir=DERIVATIVES, conditions=False):
             if ((contrast == 'probe') & (task_name == 'rsvp_language')):
                     contrast = 'language_probe'
             for side in ['lh', 'rh']:
-                imgs_ = glob.glob(os.path.join(
+                wc = os.path.join(
                     main_dir, subject, '*/res_surf_%s_ffx/stat_surf/%s_%s.gii'
-                    % (task, contrast, side)))
+                    % (task, contrast, side))
+                imgs_ = glob.glob(wc)
                 imgs_.sort()
                 for img in imgs_:
                     session = img.split('/')[5]
@@ -424,6 +425,8 @@ def make_surf_db(main_dir=DERIVATIVES, conditions=False):
                     contrasts.append(contrast)
                     tasks.append(task_name)
                     sides.append(side)
+            if task == 'language_':
+                pass # stop
 
     # create a dictionary with all the information
     db_dict = dict(

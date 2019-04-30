@@ -4,8 +4,6 @@
 :Author: THIRION Bertrand
 
 """
-
-
 import os
 from pypreprocess.conf_parser import _generate_preproc_pipeline
 from joblib import Parallel, delayed
@@ -16,11 +14,12 @@ from pipeline import (clean_subject, clean_anatomical_images,
 
 
 SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
-
+retino_sessions = ['wedge_anti_pa', 'wedge_clock_ap', 'cont_ring_ap',
+                   'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']
 RETINO_REG = dict([(session_id, 'sin_cos_regressors.csv')
-                   for session_id in ['wedge_anti_pa', 'wedge_clock_ap', 'cont_ring_ap',
-                                      'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']])
+                   for session_id in retino_sessions])
 IBC = 'neurospin/ibc'
+
 
 def generate_glm_input(jobfile):
     """ retrun a list of dictionaries that represent the data available
@@ -30,27 +29,29 @@ def generate_glm_input(jobfile):
     for subject in list_subjects:
         output_dir = subject.output_dir
         reports_output_dir = os.path.join(output_dir, 'reports')
-        basenames = ['wr' + os.path.basename(func_)[:-3] for func_ in subject.func]
+        basenames = ['wr' + os.path.basename(func_)[:-3]
+                     for func_ in subject.func]
         gii_basenames = ['r' + os.path.basename(func_).split('.')[0] +
                          '_fsaverage_lh.gii' for func_ in subject.func]
         gii_basenames += ['r' + os.path.basename(func_).split('.')[0] +
                           '_fsaverage_rh.gii' for func_ in subject.func]
         func = [os.path.join(output_dir, 'freesurfer', basename)
-            for basename in gii_basenames]
+                for basename in gii_basenames]
         realignment_parameters = [
             os.path.join(session_output_dir, 'rp_' + basename[2:-4] + '.txt')
             for (session_output_dir, basename) in
             zip(subject.session_output_dirs, basenames)] * 2
         session_ids = [session_id for (session_id, onset) in
-                       zip(subject.session_id, subject.onset) if onset is not None]
+                       zip(subject.session_id, subject.onset)
+                       if onset is not None]
         onsets = [onset for onset in subject.onset if onset is not None]
         subject_ = {
-            'output_dir':output_dir,
+            'output_dir': output_dir,
             'session_output_dirs': subject.session_output_dirs,
             'subject_id': subject.subject_id,
-            'session_id':session_ids * 2,
+            'session_id': session_ids * 2,
             'TR': subject.TR,
-            'drift_model':subject.drift_model,
+            'drift_model': subject.drift_model,
             'hfcut': subject.hfcut,
             'time_units': subject.time_units,
             'hrf_model': subject.hrf_model,
@@ -64,7 +65,7 @@ def generate_glm_input(jobfile):
         output.append(subject_)
     return output
 
-        
+
 def run_subject_surface_glm(jobfile, subject, session, protocol):
     """ Create jobfile and run it """
     output_name = os.path.join(
@@ -78,7 +79,8 @@ def run_subject_surface_glm(jobfile, subject, session, protocol):
             print(len(subject['session_id']))
         if len(subject['session_id']) > 0:
             if protocol == 'clips4':
-                first_level(subject, compcorr=True, additional_regressors=RETINO_REG,
+                first_level(subject, compcorr=True,
+                            additional_regressors=RETINO_REG,
                             smooth=None, surface=True)
             else:
                 first_level(subject, compcorr=True, smooth=None, surface=True)
@@ -86,9 +88,10 @@ def run_subject_surface_glm(jobfile, subject, session, protocol):
 
 
 if __name__ == '__main__':
-    for protocol in ['mtt1']:  # 'clips4', 'archi',   'language', 
+    for protocol in ['rsvp-language']:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = get_subject_session(protocol)
+        subject_session = sorted(get_subject_session(protocol))
         Parallel(n_jobs=4)(
-            delayed(run_subject_surface_glm)(jobfile, subject, session, protocol)
+            delayed(run_subject_surface_glm)(
+                jobfile, subject, session, protocol)
             for (subject, session) in subject_session)

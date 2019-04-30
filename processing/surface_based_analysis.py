@@ -122,8 +122,7 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
                 (subject, right_fmri_tex, right_fsaverage_fmri_tex)))
 
 
-subject_sessions = sorted(get_subject_session('hcp1'))[-1:]
-
+subject_sessions = sorted(get_subject_session('archi'))[-1:]
 Parallel(n_jobs=1)(
     delayed(project_volume)(work_dir, subject_session[0], [subject_session[1]],
                             do_bbr=True)

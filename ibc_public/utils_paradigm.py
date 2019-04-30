@@ -30,13 +30,14 @@ relevant_conditions = {
     'language_02': rsvp_language,
     'language_03': rsvp_language,
     'language_04': rsvp_language,
-    'language_05': rsvp_language
+    'language_05': rsvp_language,
+    'language': rsvp_language,
     }
 
 
 def post_process(df, paradigm_id):
     language_paradigms = ['language_%02d' % i for i in range(6)] +\
-                         ['rsvp-language', 'language_']
+                         ['rsvp-language', 'language_', 'language']
     if paradigm_id in language_paradigms:
         targets = ['complex_sentence_objrel',
                    'complex_sentence_objclef',
