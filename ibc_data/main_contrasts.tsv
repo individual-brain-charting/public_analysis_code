@@ -25,7 +25,7 @@ archi_emotional	face_trusty-gender	assess face trustfulness vs. gender of face	g
 hcp_language	story-math	listening to story vs. mental additions	math	story																					
 hcp_language	math	mental additions vs. fixation	fixation	mental addition																					
 hcp_social	mental-random	social-interaction motion vs. random motion	random motion	social-interaction motion																					
-hcp_social	random	random motion vs. fixation	fixation	any motion																					
+hcp_social	random	random motion vs. fixation	fixation	random motion																					
 hcp_gambling	punishment-reward	negative vs. positive gambling outcome	reward	punishement																					
 hcp_gambling	reward	positive gambling outcome vs. fixation	fixation	reward																					
 hcp_motor	left_hand-avg	move left hand vs. right hand, feet and tongue	any motion	left hand																					
@@ -157,6 +157,6 @@ lyon-moto	foot_right-avg
 lyon-moto	hand_left-avg																								
 lyon-moto	hand_right-avg																								
 lyon-moto	saccade-avg																								
-lyon-moto	tongue-avg																								
+lyon-moto	tongue-avg	move tongue vs. other body parts	any motion	tongue																					
 lyon-mcse	low-high_salience	looking for a low salience symbol																							
 lyon-mcse	salience_left-right	lookinf for a symbold in left vs right visual field																							
