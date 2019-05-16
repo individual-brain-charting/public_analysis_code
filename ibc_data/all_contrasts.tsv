@@ -275,7 +275,7 @@ vstm_response_quadratic	vstm	vstm quadratic items response	fixation	vstm quadrat
 enum_response_constant	enum	enumeration constant items response	fixation	enumeration constant								1																																																							1																																		
 enum_response_linear	enum	enumeration linear items response	fixation	enumeration linear																															1																																																																		
 enum_response_quadratic	enum	enumeration quadratic items response	fixation	enumeration quadratic																															1																																																																		
-self	self-other_with_response	self-reference effect	reference to other	reference to self																																																																																																	1
-self	hit-correct_rejection	successfully recognize whether an adjective was presented before or not	memory 	recognition																																																																																			1	1		1											
-self	old_self_old_other	difference between recognizing an adjective referring to oneself vs another	old reference to another	old reference to self																																																																																						1											1
-bang	talk-no_talk	speech vs non-speech sections in movie watching	no speech	speech																																						1	1	1	1																																																								
+self-other_with_response	self	self-reference effect	reference to other	reference to self																																																																																																	1
+hit-correct_rejection	self	successfully recognize whether an adjective was presented before or not	memory 	recognition																																																																																			1	1		1											
+old_self-old_other_with_response	self	difference between recognizing an adjective referring to oneself vs another	old reference to another	old reference to self																																																																																						1											1
+talk-no_talk	bang	speech vs non-speech sections in movie watching	no speech	speech																																						1	1	1	1																																																								
