@@ -53,42 +53,34 @@ rsvp_language	consonant_string	consonant strings' encoding vs. fixation	fixation
 retinotopy	phase_ring	eccentricity maps	central cross	radial position																					
 retinotopy	phase_wedge	polar angle map	central cross	angular position																					
 retinotopy	retinotopicity	sensitivity to retinotopy	central cross	retinal position																					
-mtt_ns	cue_space-time	spatial vs time cue about event																							
-mtt_ns	cue_time-space	time vs spatial cue about event																							
-mtt_ns	event_space-time	event in space vs event in time 																							
-mtt_ns	event_time-space	event in time vs event in space 																							
-mtt_ns	average_event	Figuring out the space/time of an event	fixation	relative event																					
-mtt_ns	average_reference	Updating ones position in space and time																							
-mtt_ns	cue_time	Time cue of an event																							
-mtt_ns	cue_space	Spatial cue of an event																							
-mtt_ns	time_event	present vs. past or future  event	future or past event 	present event																					
-mtt_ns	time_reference	time reference present vs. past or future	future or past reference 	present reference																					
-mtt_ns	north-south_events	north vs. south position of event	event in south	event in north																					
-mtt_ns	past-future_event	past vs. future events	event in future	event in past																					
-mtt_ns	far-close_space_event	events occurring far vs. close in space	spatially close event	spatially far event																					
-mtt_ns	north-south_reference	spatial reference in the north vs. south	spatial reference in south	spatial reference in north																					
-mtt_ns	south_north_event	events occurring in north or south vs. here	event occurring here	event in north or south																					
-mtt_ns	south_north_reference	spatial reference in north or south vs. here	spatial reference here	reference in north or south																					
-mtt_ns	far-close_time_event	events far vs. close in time	event close in time	event far in time																					
-mtt_ns	past-future_reference	temporal reference in past vs. future	reference in future	reference in past																					
-mtt_we	cue_space-time	spatial vs time cue about event																							
-mtt_we	cue_time-space	time vs spatial cue about event																							
-mtt_we	event_space-time	event in space vs event in time 																							
-mtt_we	event_time-space	event in time vs event in space 																							
-mtt_we	average_event	Figuring out the space/time of an event																							
-mtt_we	average_reference	Updating ones position in space and time																							
-mtt_we	cue_time	Time cue of an event																							
-mtt_we	cue_space	Spatial cue of an event																							
-mtt_we	time_event	present vs. past or future  event	future or past event 	present event																					
-mtt_we	time_reference	time reference present vs. past or future	future or past reference 	present reference																					
-mtt_we	east-west_events	west vs. east position of event	event in east	event in west																					
-mtt_we	past-future_event	past vs. future events	event in future	event in past																					
-mtt_we	far-close_space_event	events occurring far vs. close in space	spatially close event	spatially far event																					
-mtt_we	east-west_reference	spatial reference in the east vs. west	spatial reference in west	spatial reference in east																					
-mtt_we	west_east_event	events occurring in west or east vs. here	event occurring here	event in west or east																					
-mtt_we	west_east_reference	spatial reference in west or east vs. here	spatial reference here	reference in west or east																					
-mtt_we	far-close_time_event	events far vs. close in time	event close in time	event far in time																					
-mtt_we	past-future_reference	temporal reference in past vs. future	reference in future	reference in past																					
+average_reference	mtt_sn	Updating ones position in space and time																							
+cue_time	mtt_sn	Time cue of an event																							
+cue_space	mtt_sn	Spatial cue of an event																							
+cue_time-space	mtt_sn	time vs spatial cue about event																							
+cue_space-time	mtt_sn	spatial vs time cue about event																							
+time_event	mtt_sn	present vs. past or future  event	future or past event 	present event																					
+event_time-space	mtt_sn	event in time vs event in space 																							
+event_space-time	mtt_sn	event in space vs event in time 																							
+past-future_event	mtt_sn	past vs. future events	event in future	event in past																					
+far-close_time_event	mtt_sn	events far vs. close in time	event close in time	event far in time																					
+north-south_events	mtt_sn	north vs. south position of event	event in south	event in north																					
+south_north_event	mtt_sn	events occurring in north or south vs. here	event occurring here	event in north or south																					
+far-close_space_event	mtt_sn	events occurring far vs. close in space	spatially close event	spatially far event																					
+average_event	mtt_sn	Figuring out the space/time of an event	fixation	relative event																					
+average_reference	mtt_we	Updating ones position in space and time																							
+cue_time	mtt_we	Time cue of an event																							
+cue_space	mtt_we	Spatial cue of an event																							
+cue_time-space	mtt_we	time vs spatial cue about event																							
+cue_space-time	mtt_we	spatial vs time cue about event																							
+time_event	mtt_we	present vs. past or future  event	future or past event 	present event																					
+event_time-space	mtt_we	event in time vs event in space 																							
+event_space-time	mtt_we	event in space vs event in time 																							
+past-future_event	mtt_we	past vs. future events	event in future	event in past																					
+far-close_time_event	mtt_we	events far vs. close in time	event close in time	event far in time																					
+east-west_events	mtt_we	west vs. east position of event	event in east	event in west																					
+west_east_event	mtt_we	events occurring in west or east vs. here	event occurring here	event in west or east																					
+far-close_space_event	mtt_we	events occurring far vs. close in space	spatially close event	spatially far event																					
+average_event	mtt_we	Figuring out the space/time of an event																							
 preference	preference_constant	object perception and evaluation	fixation	visual evaluation																					
 preference	preference_linear	linear effect of preference	no preference	visual preference																					
 preference	preference_quadratic	quandratic effect of preference	no confidence 	confidence in preference																					
@@ -100,16 +92,16 @@ tom_localizer	photo	Manipulation of fact judgments	fixation	fact judgments
 tom_localizer	belief-photo	belief vs factual judgments	fact judgments	belief manipulation																					
 movie_localizer	mov_pain	attending to  movie with physically painful  events	fixation	physical pain movie																					
 movie_localizer	mov_mental-pain	mentally-physically painful movie	physical pain movie	mental pain movie																					
-pain_localizer	physical_pain	listening to physical pain story	fixation	physical pain story																					
+pain_localizer	physical_pain	reading to physical pain story	fixation	physical pain story																					
 pain_localizer	emotional-physical_pain	emotional-physical pain story	physical pain story	emotional pain story																					
 enum	enum_response_linear	enumeration linear  items response	fixation	enumeration linear																					
 enum	enum_response_constant	enumeration constant  items response	fixation	enumeration constant																					
 enum	enum_response_quadratic	enumeration quadratic  items response	fixation	enumeration quadratic																					
-VSTM	vstm_response_linear	vstm linear  items response	fixation	vstm linear																					
-VSTM	vstm_response_constant	vstm constant  items response	fixation	vstm constant																					
-VSTM	vstm_response_quadratic	vstm quadratic  items response	fixation	vstm quadratic																					
+vstm	vstm_response_linear	vstm linear items response	fixation	vstm linear																					
+vstm	vstm_response_constant	vstm constant items response	fixation	vstm constant																					
+vstm	vstm_response_quadratic	vstm quadratic items response	fixation	vstm quadratic																					
 self	self-other_with_response	self-reference effect	reference to other	reference to self																					
-self	self-other_hit	identify an adjective proposed to describe self vs others	memory 	recognition																					
+self	hit-correct_rejection	successfully recognize whether an adjective was presented before or not	memory 	recognition																					
 bang	talk-no_talk	speech vs non-speech sections in movie watching	no speech	speech																					
 lyon-lec2	unattend																								
 lyon-lec2	attend-unattend																								
