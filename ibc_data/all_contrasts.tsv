@@ -1,281 +1,296 @@
-contrast	task	pretty name	left label	right label	visual form recognition	visual form discrimination	visual color discrimination	visual orientation	visual attention	visual working memory	visual buffer	shape recognition	visual tool recognition	visual body recognition	visual place recognition	visual face recognition	visual arithmetic processing	visual pattern recognition	visual pseudo word recognition	visual word recognition	visual string recognition	visual tracking	vertical checkerboard	horizontal checkerboard	object categorization	object recognition	object detection	feature comparison	face perception	emotional face recognition	emotion expression identification	facial trustworthiness recognition	facial attractiveness recognition	gender discrimination	numerosity	auditory perception	auditory memory	auditory arithmetic processing	sounds perception	voice perception	auditory sentence recognition	speech perception	speech processing	language comprehension	language processing	semantic processing	semantic categorization	syntactic parsing	sentence processing	story comprehension	reading	string maintenance	word maintenance	tool maintenance	body maintenance	place maintenance	face maintenance	animacy perception	animacy decision	motion detection	response selection	response execution	left finger response execution	left hand response execution	left toe response execution	tongue response execution	right finger response execution	right hand response execution	right toe response execution	updating	working memory	relational comparison	grasping	spatial cognition	spatial localization	spatial memory	spatial working memory	hand chirality recognition	hand side recognition	reward processing	reward valuation	incentive salience	food cue reactivity	punishment processing	confidence judgment	reasoning	recognition	recall 	memory retrieval	episodic memory	temporal cognition	time perception	time orientation	present-time orientation	past-time orientation	temporal distance	empathy	imagined physical pain	imagined emotional pain	theory-of-mind	self-reference effect
-left-right_button_press	archi_standard	Left vs right hand button press	right hand	left hand																																																									1	1	1																																						
-reading-listening	archi_standard	Listening to sentence vs reading a sentence	read sentence	listen to sentence																1																													1																																																				
-motor-cognitive	archi_standard	Button presses vs narrative/computation	cognitive tasks	button presses																																																									1	1					1																																		
-reading-checkerboard	archi_standard	Read sentence vs checkerboard	checkerboard	read sentence																1																													1																																																				
-computation-sentences	archi_standard	Mental subtraction vs sentence reading	sentence	mental subtraction													1																																1																																																				
-horizontal-vertical	archi_standard	Horizontal vs vertical checkerboard	vert. checkerboard	hor. checkerboard																				1																																																																													
-audio_left_button_press	archi_standard	left hand button presses upon audio instructions	fixation	audio left button press																																					1																				1	1	1																																						
-audio_right_button_press	archi_standard	right hand button presses upon audio instructions	fixation	audio right button press																																					1																				1	1					1																																		
-video_left_button_press	archi_standard	left hand button presses upon video instructions	fixation	video left button press																																																									1	1	1																																						
-video_right_button_press	archi_standard	right hand button presses upon video instructions	fixation	video right button press																																																									1	1					1																																		
-right-left_button_press	archi_standard	Right vs left hand button press	left hand	right hand																																																									1	1					1																																		
-listening-reading	archi_standard	reading a sentence vs listening to a sentence	listen to sentence	read sentence																																					1																																																												
-cognitive-motor	archi_standard	Narrative/computation vs button presses	move hands	read and calculate																																					1																																																												
-vertical-horizontal	archi_standard	vertical vs horizontal checkerboard	hor. checkerboard	vert. checkerboard																			1																																																																														
-horizontal_checkerboard	archi_standard	Watch horizontal checkerboard	fixation	hor. checkerboard																				1																																																																													
-vertical_checkerboard	archi_standard	Watch vertical checkerboard	fixation	vert. checkerboard																			1																																																																														
-audio_sentence	archi_standard	Listen to narrative sentence	fixation	listen to sentence																																					1																																																												
-video_sentence	archi_standard	Read narrative sentence	fixation	read sentence																1																													1																																																				
-audio_computation	archi_standard	Mental subtraction upon audio instruction	fixation	listen then calculate																																		1																																																															
-video_computation	archi_standard	Mental subtraction upon video instruction	fixation	read then calculate													1																																1																																																				
-sentences	archi_standard	Read or listen to sentences	fixation	read or listen																1																													1																																																				
-computation	archi_standard	Mental subtraction	fixation	mental subtraction													1																																1																																																				
-sentences-computation	archi_standard	Sentence reading vs mental subtraction 	mental subtraction	sentence																1																													1																																																				
-saccades	archi_spatial	Saccades versus fixation	fixation	saccades																		1																																																																															
-hand-side	archi_spatial	Left or right hand vs hand palm or back	hand palm or back	guess which hand										1																																															1																		1																						
-grasp-orientation	archi_spatial	Object grasping vs orientation reporting	mimic orientation	object grasping									1																																																1	1					1						1																												
-rotation_side	archi_spatial	Hand palm or back vs fixation	fixation	hand palm or back										1																																															1																		1																						
-object_orientation	archi_spatial	Image orientation reporting	fixation	mimic orientation									1																																																1	1					1																																		
-rotation_hand	archi_spatial	Left or right hand	fixation	guess which hand										1																																															1																	1																							
-object_grasp	archi_spatial	Object grasping	fixation	object grasping									1																																																1	1					1						1																												
-triangle_mental-random	archi_social	Mental motion vs random motion	random motion	mental motion																																																						1	1	1																																									
-false_belief-mechanistic_audio	archi_social	False-belief tale vs mechanistic tale	mechanistic tale	false-belief tale																																					1									1																																																		1	
-triangle_random	archi_social	Randomly drifting triangle	fixation	random motion																																																								1																																									
-mechanistic_audio	archi_social	Listening to a mechanistic tale	fixation	mechanistic tale																																					1									1																																																			
-mechanistic_video	archi_social	Reading a mechanistic story	fixation	mechanistic story																1																													1																																																				
-non_speech_sound	archi_social	Listen to natural sound	silence	natural sound																																			1																																																														
-false_belief-mechanistic_video	archi_social	False-belief story vs mechanistic story	mechanistic story	false-belief story																1																													1																																																			1	
-false_belief-mechanistic	archi_social	False-belief story vs mechanistic story or tale	mechanistic plot	false-belief plot																1																													1																																																			1	
-speech-non_speech	archi_social	Listen to voice sound vs natural sound	natural sound	voice sound																																				1																																																													
-triangle_mental	archi_social	Mental motion of triangle	fixation	mental motion																																																						1	1	1																																									
-false_belief_audio	archi_social	False-belief tale 	fixation	false-belief tale																																					1									1																																																		1	
-false_belief_video	archi_social	False-belief story 	fixation	false-belief tale																1																													1																																																			1	
-speech_sound	archi_social	Listen to voice sound	silence	voice sound																																				1																																																													
-expression_gender-control	archi_emotional	Guess the gender from eyes image vs view scrambled image	scrambled image	expression gender																											1			1																																																																			
-expression_intention-gender	archi_emotional	Guess intention vs gender from eyes image	expression gender	expression intention																											1	1																																																																					
-face_gender-control	archi_emotional	Guess the gender from face image	scrambled image	face gender												1																		1																																																																			
-face_trusty-gender	archi_emotional	Assess face trustfulness vs gender	face gender	face trusty												1																1																																																																					
-face_gender	archi_emotional	Guess the gender from face image	fixation	expression gender												1																		1																																																																			
-face_control	archi_emotional	Look at scrambled image	fixation	scrambled image												1																																																																																					
-face_trusty	archi_emotional	Assess face trustfulness	fixation	face trusty												1																1																																																																					
-expression_intention	archi_emotional	Guess intention from eyes image	fixation	expression intention																											1	1																																																																					
-expression_gender	archi_emotional	Guess gender from eyes image	fixation	expression gender																											1			1																																																																			
-expression_control	archi_emotional	Look at scrambled eyes image	fixation	scrambled image																											1																																																																						
-trusty_and_intention-control	archi_emotional	Assess face trustfulness or guess expression intention vs scrambled image	scrambled image	face/expression trusty												1																1																																																																					
-trusty_and_intention-gender	archi_emotional	Assess face trustfulness or guess expression intention, vs guess the gender	face/expression gender	face/expression trusty												1																1																																																																					
-face_trusty-control	archi_emotional	Assess face trustfulness vs  view scrambled image	scrambled image	face trusty												1																1																																																																					
-expression_intention-control	archi_emotional	Guess intention from eyes image vs  view scrambled image	scrambled image	expression intention																											1	1																																																																					
-story-math	hcp_language	Listening to story vs mental additions	math	story																																					1									1											1	1																																							
-math	hcp_language	Mental additions	fixation	mental addition																																		1																							1	1																																							
-math-story	hcp_language	Mental additions vs listening to story	story	math																																		1																							1	1																																							
-story	hcp_language	Listening to story	fixation	story																																					1									1											1	1																																							
-mental-random	hcp_social	Mental motion vs random motion	random motion	mental motion																																																						1	1	1	1	1																																							
-random	hcp_social	Random motion vs fixation	fixation	random motion																																																								1	1	1																																							
-mental	hcp_social	Mental motion vs fixation	fixation	mental motion																																																						1	1	1	1	1																																							
-punishment-reward	hcp_gambling	Negative versus positive gambling outcome	reward	punishment																																																									1	1																						1																	
-reward	hcp_gambling	Gambling with positive outcome	fixation	reward																																																									1	1																		1																					
-punishment	hcp_gambling	negative gambling outcome	fixation	punishment																																																									1	1																						1																	
-reward-punishment	hcp_gambling	positive versus Negative gambling outcome	punishment	reward																																																									1	1																		1																					
-left_hand-avg	hcp_motor	Move left hand vs right hand, feet and tongue	any motion	left hand																																																										1		1																																					
-right_hand-avg	hcp_motor	Move right hand vs left hand, feet and tongue	any motion	right hand																																																										1						1																																	
-left_foot-avg	hcp_motor	Move left foot vs right foot, hands and tongue	any motion	left foot																																																										1			1																																				
-right_foot-avg	hcp_motor	Move right foot vs left foot, hands and tongue	any motion	right foot																																																										1							1																																
-tongue-avg	hcp_motor	Move tongue vs hands and feet	any motion	tongue																																																										1				1																																			
-left_hand	hcp_motor	Move left hand	no motion	left hand																																																										1		1																																					
-right_hand	hcp_motor	Move right hand 	no motion	right hand																																																										1						1																																	
-left_foot	hcp_motor	Move left foot 	no motion	left foot																																																										1			1																																				
-right_foot	hcp_motor	Move right foot 	no motion	right foot																																																										1							1																																
-tongue	hcp_motor	Move tongue	no motion	tongue																																																										1				1																																			
-cue	hcp_motor	Motion cue of motion	fixation	visual task cue																																																									1										1																														
-shape	hcp_emotion	Shape comparison	fixation cross	shape outline	1																							1																																	1	1																																							
-face-shape	hcp_emotion	Emotional face comparison vs shape comparison	shape outline	face image																								1		1																															1	1																																							
-face	hcp_emotion	Emotional face comparison																										1		1																															1	1																																							
-shape-face	hcp_emotion	Shape comparison vs emotional face comparison			1																							1																																	1	1																																							
-relational-match	hcp_relational	Relational comparison vs matching	visual matching	relational processing	1													1										1																																	1	1										1																													
-match	hcp_relational	Visual feature matching vs fixation	fixation	visual matching	1													1										1																																	1	1																																							
-relational	hcp_relational	Relational comparison vs fixation			1													1										1																																	1	1										1																													
-2back-0back	hcp_wm	2-back vs 0-back	0-back	2-back																																																		1	1	1	1				1	1								1	1																														
-body-avg	hcp_wm	Body image versus face, place, tool image	any image	body image										1																																									1																																														
-face-avg	hcp_wm	Face image versus body, place, tool image	any image	face image												1																																									1																																												
-place-avg	hcp_wm	Place image versus face, body, tool image	any image	place image											1																																									1																																													
-tools-avg	hcp_wm	Tool image versus face, place, body image	any image	tool image									1																																									1																																															
-0back-2back	hcp_wm	0-back vs 2-back																																																											1	1								1																															
-0back_body	hcp_wm	Body image 0-back task  vs fixation												1																																									1							1									1																														
-2back_body	hcp_wm	Body image 2-back task vs fixation												1																																									1							1								1	1																														
-0back_face	hcp_wm	Face image 0-back task vs fixation														1																																									1					1									1																														
-2back_face	hcp_wm	Face image 2-back task vs fixation														1																																									1					1								1	1																														
-0back_tools	hcp_wm	Tool image 0-back task vs fixation											1																																									1								1									1																														
-2back_tools	hcp_wm	Tool image 2-back task vs fixation											1																																									1								1								1	1																														
-0back_place	hcp_wm	Place image 0-back task vs fixation													1																																									1						1									1																														
-2back_place	hcp_wm	Place image 2-back task vs fixation													1																																									1						1								1	1																														
-complex-simple	language_	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																												1	1				1																		1																														
-sentence-jabberwocky	language_	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																												1	1				1																		1																														
-sentence-word	language_	Read sentence vs words	read words	read sentence																1																												1	1				1																		1																														
-word-consonant_string	language_	Read words vs consonant strings	consonant strings	read words																1																																	1																		1																														
-jabberworcky-pseudo	language_	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																														1																						1																														
-word-pseudo	language_	Read words vs pseudo-words	read pseudo words	read words																1																																	1																		1																														
-pseudo-consonant_string	language_	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																				1																														
-consonant_string	language_	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																															1																			1																														
-complex	language_	Read sentence with complex  syntax vs fixation																		1																												1	1				1																		1																														
-simple	language_	Read sentence with  simple syntax vs fixation																		1																													1				1																		1																														
-jabberwocky	language_	Read jabberwocky vs fixation																	1																														1																						1																														
-word_list	language_	Read words vs fixation																		1																																	1																		1																														
-pseudoword_list	language_	Read pseudo-words vs fixation																	1																																																				1																														
-sentence-consonant_string	language_	Read sentence vs consonant strings																		1																												1	1				1																		1																														
-simple-consonant_string	language_	Read simple sentence vs consonant strings																		1																													1				1																		1																														
-complex-consonant_string	language_	Read complex sentence vs consonant strings																		1																												1	1				1																		1																														
-sentence-pseudo	language_	Read sentence vs pseudo-words																		1																												1	1				1																		1																														
-probe	language_	Word probe																																																											1	1																																							
-complex-simple	language_01	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																												1	1				1																		1																														
-sentence-jabberwocky	language_01	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																												1	1				1																		1																														
-sentence-word	language_01	Read sentence vs words	read words	read sentence																1																												1	1				1																		1																														
-word-consonant_string	language_01	Read words vs consonant strings	consonant strings	read words																1																																	1																		1																														
-jabberworcky-pseudo	language_01	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																														1																						1																														
-word-pseudo	language_01	Read words vs pseudo-words	read pseudo words	read words																1																																	1																		1																														
-pseudo-consonant_string	language_01	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																				1																														
-consonant_string	language_01	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																															1																			1																														
-complex	language_01	Read sentence with complex  syntax vs fixation																		1																												1	1				1																		1																														
-simple	language_01	Read sentence with  simple syntax vs fixation																		1																													1				1																		1																														
-jabberwocky	language_01	Read jabberwocky vs fixation																	1																														1																						1																														
-word_list	language_01	Read words vs fixation																		1																																	1																		1																														
-pseudoword_list	language_01	Read pseudo-words vs fixation																	1																																																				1																														
-sentence-consonant_string	language_01	Read sentence vs consonant strings																		1																												1	1				1																		1																														
-simple-consonant_string	language_01	Read simple sentence vs consonant strings																		1																													1				1																		1																														
-complex-consonant_string	language_01	Read complex sentence vs consonant strings																		1																												1	1				1																		1																														
-sentence-pseudo	language_01	Read sentence vs pseudo-words																		1																												1	1				1																		1																														
-probe	language_01	Word probe																																																											1	1																																							
-complex-simple	language_02	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																												1	1				1																		1																														
-sentence-jabberwocky	language_02	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																												1	1				1																		1																														
-sentence-word	language_02	Read sentence vs words	read words	read sentence																1																												1	1				1																		1																														
-word-consonant_string	language_02	Read words vs consonant strings	consonant strings	read words																1																																	1																		1																														
-jabberworcky-pseudo	language_02	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																														1																						1																														
-word-pseudo	language_02	Read words vs pseudo-words	read pseudo words	read words																1																																	1																		1																														
-pseudo-consonant_string	language_02	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																				1																														
-consonant_string	language_02	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																															1																			1																														
-complex	language_02	Read sentence with complex  syntax vs fixation																		1																												1	1				1																		1																														
-simple	language_02	Read sentence with  simple syntax vs fixation																		1																													1				1																		1																														
-jabberwocky	language_02	Read jabberwocky vs fixation																	1																														1																						1																														
-word_list	language_02	Read words vs fixation																		1																																	1																		1																														
-pseudoword_list	language_02	Read pseudo-words vs fixation																	1																																																				1																														
-sentence-consonant_string	language_02	Read sentence vs consonant strings																		1																												1	1				1																		1																														
-simple-consonant_string	language_02	Read simple sentence vs consonant strings																		1																													1				1																		1																														
-complex-consonant_string	language_02	Read complex sentence vs consonant strings																		1																												1	1				1																		1																														
-sentence-pseudo	language_02	Read sentence vs pseudo-words																		1																												1	1				1																		1																														
-probe	language_02	Word probe																																																											1	1																																							
-complex-simple	language_03	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																												1	1				1																		1																														
-sentence-jabberwocky	language_03	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																												1	1				1																		1																														
-sentence-word	language_03	Read sentence vs words	read words	read sentence																1																												1	1				1																		1																														
-word-consonant_string	language_03	Read words vs consonant strings	consonant strings	read words																1																																	1																		1																														
-jabberworcky-pseudo	language_03	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																														1																						1																														
-word-pseudo	language_03	Read words vs pseudo-words	read pseudo words	read words																1																																	1																		1																														
-pseudo-consonant_string	language_03	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																				1																														
-consonant_string	language_03	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																															1																			1																														
-complex	language_03	Read sentence with complex  syntax vs fixation																		1																												1	1				1																		1																														
-simple	language_03	Read sentence with  simple syntax vs fixation																		1																													1				1																		1																														
-jabberwocky	language_03	Read jabberwocky vs fixation																	1																														1																						1																														
-word_list	language_03	Read words vs fixation																		1																																	1																		1																														
-pseudoword_list	language_03	Read pseudo-words vs fixation																	1																																																				1																														
-sentence-consonant_string	language_03	Read sentence vs consonant strings																		1																												1	1				1																		1																														
-simple-consonant_string	language_03	Read simple sentence vs consonant strings																		1																													1				1																		1																														
-complex-consonant_string	language_03	Read complex sentence vs consonant strings																		1																												1	1				1																		1																														
-sentence-pseudo	language_03	Read sentence vs pseudo-words																		1																												1	1				1																		1																														
-probe	language_03	Word probe																																																											1	1																																							
-complex-simple	language_04	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																												1	1				1																		1																														
-sentence-jabberwocky	language_04	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																												1	1				1																		1																														
-sentence-word	language_04	Read sentence vs words	read words	read sentence																1																												1	1				1																		1																														
-word-consonant_string	language_04	Read words vs consonant strings	consonant strings	read words																1																																	1																		1																														
-jabberworcky-pseudo	language_04	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																														1																						1																														
-word-pseudo	language_04	Read words vs pseudo-words	read pseudo words	read words																1																																	1																		1																														
-pseudo-consonant_string	language_04	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																				1																														
-consonant_string	language_04	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																															1																			1																														
-complex	language_04	Read sentence with complex  syntax vs fixation																		1																												1	1				1																		1																														
-simple	language_04	Read sentence with  simple syntax vs fixation																		1																													1				1																		1																														
-jabberwocky	language_04	Read jabberwocky vs fixation																	1																														1																						1																														
-word_list	language_04	Read words vs fixation																		1																																	1																		1																														
-pseudoword_list	language_04	Read pseudo-words vs fixation																	1																																																				1																														
-sentence-consonant_string	language_04	Read sentence vs consonant strings																		1																												1	1				1																		1																														
-simple-consonant_string	language_04	Read simple sentence vs consonant strings																		1																													1				1																		1																														
-complex-consonant_string	language_04	Read complex sentence vs consonant strings																		1																												1	1				1																		1																														
-sentence-pseudo	language_04	Read sentence vs pseudo-words																		1																												1	1				1																		1																														
-probe	language_04	Word probe																																																											1	1																																							
-complex-simple	language_05	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																												1	1				1																		1																														
-sentence-jabberwocky	language_05	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																												1	1				1																		1																														
-sentence-word	language_05	Read sentence vs words	read words	read sentence																1																												1	1				1																		1																														
-word-consonant_string	language_05	Read words vs consonant strings	consonant strings	read words																1																																	1																		1																														
-jabberworcky-pseudo	language_05	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																														1																						1																														
-word-pseudo	language_05	Read words vs pseudo-words	read pseudo words	read words																1																																	1																		1																														
-pseudo-consonant_string	language_05	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																				1																														
-consonant_string	language_05	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																															1																			1																														
-complex	language_05	Read sentence with complex  syntax vs fixation																		1																												1	1				1																		1																														
-simple	language_05	Read sentence with  simple syntax vs fixation																		1																													1				1																		1																														
-jabberwocky	language_05	Read jabberwocky vs fixation																	1																														1																						1																														
-word_list	language_05	Read words vs fixation																		1																																	1																		1																														
-pseudoword_list	language_05	Read pseudo-words vs fixation																	1																																																				1																														
-sentence-consonant_string	language_05	Read sentence vs consonant strings																		1																												1	1				1																		1																														
-simple-consonant_string	language_05	Read simple sentence vs consonant strings																		1																													1				1																		1																														
-complex-consonant_string	language_05	Read complex sentence vs consonant strings																		1																												1	1				1																		1																														
-sentence-pseudo	language_05	Read sentence vs pseudo-words																		1																												1	1				1																		1																														
-probe	language_05	Word probe																																																											1	1																																							
-complex-simple	language_00	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																												1	1				1																		1																														
-sentence-jabberwocky	language_00	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																												1	1				1																		1																														
-sentence-word	language_00	Read sentence vs words	read words	read sentence																1																												1	1				1																		1																														
-word-consonant_string	language_00	Read words vs consonant strings	consonant strings	read words																1																																	1																		1																														
-jabberworcky-pseudo	language_00	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																														1																						1																														
-word-pseudo	language_00	Read words vs pseudo-words	read pseudo words	read words																1																																	1																		1																														
-pseudo-consonant_string	language_00	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																				1																														
-consonant_string	language_00	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																															1																			1																														
-complex	language_00	Read sentence with complex  syntax vs fixation																		1																												1	1				1																		1																														
-simple	language_00	Read sentence with  simple syntax vs fixation																		1																													1				1																		1																														
-jabberwocky	language_00	Read jabberwocky vs fixation																	1																														1																						1																														
-word_list	language_00	Read words vs fixation																		1																																	1																		1																														
-pseudoword_list	language_00	Read pseudo-words vs fixation																	1																																																				1																														
-sentence-consonant_string	language_00	Read sentence vs consonant strings																		1																												1	1				1																		1																														
-simple-consonant_string	language_00	Read simple sentence vs consonant strings																		1																													1				1																		1																														
-complex-consonant_string	language_00	Read complex sentence vs consonant strings																		1																												1	1				1																		1																														
-sentence-pseudo	language_00	Read sentence vs pseudo-words																		1																												1	1				1																		1																														
-probe	language_00	Word probe																																																											1	1																																							
-average_reference	mtt_sn	Updating ones position in space and time																																		1	1										1																																										1												
-cue_time	mtt_sn	Time cue of an event																																		1											1																																														1								
-cue_space	mtt_sn	Spatial cue of an event																																		1											1																											1	1																										
-cue_time-space	mtt_sn	time vs spatial cue about event																																																																																										1									
-cue_space-time	mtt_sn	spatial vs time cue about event																																																																									1																										
-time_event	mtt_sn	present vs. past or future  event	future or past event 	present event																																1	1																																																						1			1							
-event_time-space	mtt_sn	event in time vs event in space 																																																																																											1								
-event_space-time	mtt_sn	event in space vs event in time 																																																																								1		1	1																								
-past-future_event	mtt_sn	past vs. future events	event in future	event in past																																																																																											1						
-far-close_time_event	mtt_sn	events far vs. close in time	event close in time	event far in time																																																																																												1					
-north-south_events	mtt_sn	north vs. south position of event	event in south	event in north																																																																																																	
-south_north_event	mtt_sn	events occurring in north or south vs. here	event occurring here	event in north or south																																																																																																	
-far-close_space_event	mtt_sn	events occurring far vs. close in space	spatially close event	spatially far event																																																																																																	
-average_event	mtt_sn	Figuring out the space/time of an event	fixation	relative event																																1	1										1																																																						
-average_reference	mtt_we	Updating ones position in space and time																																		1	1										1															1																											1												
-cue_time	mtt_we	Time cue of an event																																		1											1																																														1								
-cue_space	mtt_we	Spatial cue of an event																																		1											1																											1	1																										
-cue_time-space	mtt_we	time vs spatial cue about event																																																																																										1									
-cue_space-time	mtt_we	spatial vs time cue about event																																																																									1																										
-time_event	mtt_we	present vs. past or future  event	future or past event 	present event																																1	1																																																						1			1							
-event_time-space	mtt_we	event in time vs event in space 																																																																																											1								
-event_space-time	mtt_we	event in space vs event in time 																																																																								1		1	1																								
-past-future_event	mtt_we	past vs. future events	event in future	event in past																																																																																											1						
-far-close_time_event	mtt_we	events far vs. close in time	event close in time	event far in time																																																																																												1					
-east-west_events	mtt_we	west vs. east position of event	event in east	event in west																																																																																																	
-west_east_event	mtt_we	events occurring in west or east vs. here	event occurring here	event in west or east																																																																																																	
-far-close_space_event	mtt_we	events occurring far vs. close in space	spatially close event	spatially far event																																																																																																	
-average_event	mtt_we	Figuring out the space/time of an event																																		1	1										1															1																																							
-preference_constant	preference	object perception and evaluation	fixation	visual evaluation																					1	1	1																																																																										
-preference_linear	preference	linear effect of preference	no preference	visual preference																																																																													1	1																			
-preference_quadratic	preference	quandratic effect of preference	no confidence 	confidence in preference																																																																																	1																
-face-others	preference	evaluation of faces vs. other categories	other categories	face evaluation												1													1				1																																																																				
-house-others	preference	evaluation of houses vs. other categories	other categories	house evaluation											1																																																																																						
-food-others	preference	evaluation of food vs. other categories	other categories	food evaluation																																																																															1																		
-painting-others	preference	evaluation of paintings vs. other categories	other categories	painting evaluation		1	1																																																																																														
-photo	tom_localizer	Manipulation of fact judgments	fixation	fact judgments																																										1					1																1																			1															
-belief	tom_localizer	Manipulation of belief judgments	fixation	belief judgments																																										1					1																1																			1														1	
-belief-photo	tom_localizer	belief vs factual judgments	fact judgments	belief manipulation																																																																																																1	
-physical_pain	pain_localizer	reading physical pain story	fixation	physical pain story																																															1																1																														1	1			
-emotional_pain	pain_localizer	reading emotional pain story	fixation	emotional pain story																																															1																1																														1		1	1	
-emotional-physical_pain	pain_localizer	emotional-physical pain story	physical pain story	emotional pain story																																																																																															1	1	
-mov_pain	movie_localizer	attending to movie with physically painful events	fixation	physical pain movie					1																																																																																								1	1			
-mov_mental	movie_localizer	attending to movie with mentally painful events	fixation	mental pain movie					1																																																																																								1		1	1	
-mov_mental-pain	movie_localizer	mentally-physically painful movie	physical pain movie	mental pain movie																																																																																															1	1	
-vstm_response_constant	vstm	vstm constant items response	fixation	vstm constant		1		1				1																																																							1																																		
-vstm_response_linear	vstm	vstm linear items response	fixation	vstm linear						1																																																																																											
-vstm_response_quadratic	vstm	vstm quadratic items response	fixation	vstm quadratic							1																																																																																										
-enum_response_constant	enum	enumeration constant items response	fixation	enumeration constant								1																																																							1																																		
-enum_response_linear	enum	enumeration linear items response	fixation	enumeration linear																															1																																																																		
-enum_response_quadratic	enum	enumeration quadratic items response	fixation	enumeration quadratic																															1																																																																		
-self-other_with_response	self	self-reference effect	reference to other	reference to self																																																																																																	1
-hit-correct_rejection	self	successfully recognize whether an adjective was presented before or not	memory 	recognition																																																																																			1	1		1											
-old_self-old_other_with_response	self	difference between recognizing an adjective referring to oneself vs another	old reference to another	old reference to self																																																																																						1											1
-talk-no_talk	bang	speech vs non-speech sections in movie watching	no speech	speech																																						1	1	1	1																																																								
+contrast	task	pretty name	left label	right label	visual form recognition	visual form discrimination	visual color discrimination	visual orientation	visual attention	visual working memory	visual buffer	shape recognition	visual tool recognition	visual body recognition	visual place recognition	visual face recognition	visual arithmetic processing	visual pattern recognition	visual pseudo word recognition	visual word recognition	visual string recognition	visual tracking	vertical checkerboard	horizontal checkerboard	object categorization	object recognition	object detection	feature comparison	face perception	emotional face recognition	emotion expression identification	facial trustworthiness recognition	facial attractiveness recognition	gender discrimination	numerosity	auditory perception	auditory attention	auditory memory	auditory arithmetic processing	sounds perception	voice perception	auditory sentence recognition	listening	speech perception	speech processing	language processing	language comprehension	semantic processing	semantic categorization	syntactic parsing	sentence processing	story comprehension	reading	string maintenance	word maintenance	tool maintenance	body maintenance	place maintenance	face maintenance	animacy perception	animacy decision	motion detection	response selection	response execution	left finger response execution	left hand response execution	left toe response execution	tongue response execution	right finger response execution	right hand response execution	right toe response execution	updating	working memory	relational comparison	grasping	spatial cognition	spatial localization	spatial memory	spatial working memory	hand chirality recognition	hand side recognition	reward processing	reward valuation	incentive salience	food cue reactivity	punishment processing	confidence judgment	reasoning	recognition	recall 	memory retrieval	episodic memory	temporal cognition	time perception	time orientation	present-time orientation	past-time orientation	temporal distance	empathy	imagined physical pain	imagined emotional pain	theory-of-mind	self-reference effect
+left-right_button_press	archi_standard	Left vs right hand button press	right hand	left hand																																																											1	1	1																																						
+reading-listening	archi_standard	Listening to sentence vs reading a sentence	read sentence	listen to sentence																1																															1																																																				
+motor-cognitive	archi_standard	Button presses vs narrative/computation	cognitive tasks	button presses																																																											1	1					1																																		
+reading-checkerboard	archi_standard	Read sentence vs checkerboard	checkerboard	read sentence																1																															1																																																				
+computation-sentences	archi_standard	Mental subtraction vs sentence reading	sentence	mental subtraction													1																																		1																																																				
+horizontal-vertical	archi_standard	Horizontal vs vertical checkerboard	vert. checkerboard	hor. checkerboard																				1																																																																															
+audio_left_button_press	archi_standard	left hand button presses upon audio instructions	fixation	audio left button press																																						1																					1	1	1																																						
+audio_right_button_press	archi_standard	right hand button presses upon audio instructions	fixation	audio right button press																																						1																					1	1					1																																		
+video_left_button_press	archi_standard	left hand button presses upon video instructions	fixation	video left button press																																																											1	1	1																																						
+video_right_button_press	archi_standard	right hand button presses upon video instructions	fixation	video right button press																																																											1	1					1																																		
+right-left_button_press	archi_standard	Right vs left hand button press	left hand	right hand																																																											1	1					1																																		
+listening-reading	archi_standard	reading a sentence vs listening to a sentence	listen to sentence	read sentence																																						1																																																													
+cognitive-motor	archi_standard	Narrative/computation vs button presses	move hands	read and calculate																																						1																																																													
+vertical-horizontal	archi_standard	vertical vs horizontal checkerboard	hor. checkerboard	vert. checkerboard																			1																																																																																
+horizontal_checkerboard	archi_standard	Watch horizontal checkerboard	fixation	hor. checkerboard																				1																																																																															
+vertical_checkerboard	archi_standard	Watch vertical checkerboard	fixation	vert. checkerboard																			1																																																																																
+audio_sentence	archi_standard	Listen to narrative sentence	fixation	listen to sentence																																						1																																																													
+video_sentence	archi_standard	Read narrative sentence	fixation	read sentence																1																															1																																																				
+audio_computation	archi_standard	Mental subtraction upon audio instruction	fixation	listen then calculate																																			1																																																																
+video_computation	archi_standard	Mental subtraction upon video instruction	fixation	read then calculate													1																																		1																																																				
+sentences	archi_standard	Read or listen to sentences	fixation	read or listen																1																															1																																																				
+computation	archi_standard	Mental subtraction	fixation	mental subtraction													1																																		1																																																				
+sentences-computation	archi_standard	Sentence reading vs mental subtraction 	mental subtraction	sentence																1																															1																																																				
+saccades	archi_spatial	Saccades versus fixation	fixation	saccades																		1																																																																																	
+hand-side	archi_spatial	Left or right hand vs hand palm or back	hand palm or back	guess which hand										1																																																	1																		1																						
+grasp-orientation	archi_spatial	Object grasping vs orientation reporting	mimic orientation	object grasping									1																																																		1	1					1						1																												
+rotation_side	archi_spatial	Hand palm or back vs fixation	fixation	hand palm or back										1																																																	1																		1																						
+object_orientation	archi_spatial	Image orientation reporting	fixation	mimic orientation									1																																																		1	1					1																																		
+rotation_hand	archi_spatial	Left or right hand	fixation	guess which hand										1																																																	1																	1																							
+object_grasp	archi_spatial	Object grasping	fixation	object grasping									1																																																		1	1					1						1																												
+triangle_mental-random	archi_social	Mental motion vs random motion	random motion	mental motion																																																								1	1	1																																									
+false_belief-mechanistic_audio	archi_social	False-belief tale vs mechanistic tale	mechanistic tale	false-belief tale																																						1										1																																																		1	
+triangle_random	archi_social	Randomly drifting triangle	fixation	random motion																																																										1																																									
+mechanistic_audio	archi_social	Listening to a mechanistic tale	fixation	mechanistic tale																																						1										1																																																			
+mechanistic_video	archi_social	Reading a mechanistic story	fixation	mechanistic story																1																															1																																																				
+non_speech_sound	archi_social	Listen to natural sound	silence	natural sound																																				1																																																															
+false_belief-mechanistic_video	archi_social	False-belief story vs mechanistic story	mechanistic story	false-belief story																1																															1																																																			1	
+false_belief-mechanistic	archi_social	False-belief story vs mechanistic story or tale	mechanistic plot	false-belief plot																1																															1																																																			1	
+speech-non_speech	archi_social	Listen to voice sound vs natural sound	natural sound	voice sound																																					1																																																														
+triangle_mental	archi_social	Mental motion of triangle	fixation	mental motion																																																								1	1	1																																									
+false_belief_audio	archi_social	False-belief tale 	fixation	false-belief tale																																						1										1																																																		1	
+false_belief_video	archi_social	False-belief story 	fixation	false-belief tale																1																															1																																																			1	
+speech_sound	archi_social	Listen to voice sound	silence	voice sound																																					1																																																														
+expression_gender-control	archi_emotional	Guess the gender from eyes image vs view scrambled image	scrambled image	expression gender																											1			1																																																																					
+expression_intention-gender	archi_emotional	Guess intention vs gender from eyes image	expression gender	expression intention																											1	1																																																																							
+face_gender-control	archi_emotional	Guess the gender from face image	scrambled image	face gender												1																		1																																																																					
+face_trusty-gender	archi_emotional	Assess face trustfulness vs gender	face gender	face trusty												1																1																																																																							
+face_gender	archi_emotional	Guess the gender from face image	fixation	expression gender												1																		1																																																																					
+face_control	archi_emotional	Look at scrambled image	fixation	scrambled image												1																																																																																							
+face_trusty	archi_emotional	Assess face trustfulness	fixation	face trusty												1																1																																																																							
+expression_intention	archi_emotional	Guess intention from eyes image	fixation	expression intention																											1	1																																																																							
+expression_gender	archi_emotional	Guess gender from eyes image	fixation	expression gender																											1			1																																																																					
+expression_control	archi_emotional	Look at scrambled eyes image	fixation	scrambled image																											1																																																																								
+trusty_and_intention-control	archi_emotional	Assess face trustfulness or guess expression intention vs scrambled image	scrambled image	face/expression trusty												1																1																																																																							
+trusty_and_intention-gender	archi_emotional	Assess face trustfulness or guess expression intention, vs guess the gender	face/expression gender	face/expression trusty												1																1																																																																							
+face_trusty-control	archi_emotional	Assess face trustfulness vs  view scrambled image	scrambled image	face trusty												1																1																																																																							
+expression_intention-control	archi_emotional	Guess intention from eyes image vs  view scrambled image	scrambled image	expression intention																											1	1																																																																							
+story-math	hcp_language	Listening to story vs mental additions	math	story																																						1										1											1	1																																							
+math	hcp_language	Mental additions	fixation	mental addition																																			1																								1	1																																							
+math-story	hcp_language	Mental additions vs listening to story	story	math																																			1																								1	1																																							
+story	hcp_language	Listening to story	fixation	story																																						1										1											1	1																																							
+mental-random	hcp_social	Mental motion vs random motion	random motion	mental motion																																																								1	1	1	1	1																																							
+random	hcp_social	Random motion vs fixation	fixation	random motion																																																										1	1	1																																							
+mental	hcp_social	Mental motion vs fixation	fixation	mental motion																																																								1	1	1	1	1																																							
+punishment-reward	hcp_gambling	Negative versus positive gambling outcome	reward	punishment																																																											1	1																						1																	
+reward	hcp_gambling	Gambling with positive outcome	fixation	reward																																																											1	1																		1																					
+punishment	hcp_gambling	negative gambling outcome	fixation	punishment																																																											1	1																						1																	
+reward-punishment	hcp_gambling	positive versus Negative gambling outcome	punishment	reward																																																											1	1																		1																					
+left_hand-avg	hcp_motor	Move left hand vs right hand, feet and tongue	any motion	left hand																																																												1		1																																					
+right_hand-avg	hcp_motor	Move right hand vs left hand, feet and tongue	any motion	right hand																																																												1						1																																	
+left_foot-avg	hcp_motor	Move left foot vs right foot, hands and tongue	any motion	left foot																																																												1			1																																				
+right_foot-avg	hcp_motor	Move right foot vs left foot, hands and tongue	any motion	right foot																																																												1							1																																
+tongue-avg	hcp_motor	Move tongue vs hands and feet	any motion	tongue																																																												1				1																																			
+left_hand	hcp_motor	Move left hand	no motion	left hand																																																												1		1																																					
+right_hand	hcp_motor	Move right hand 	no motion	right hand																																																												1						1																																	
+left_foot	hcp_motor	Move left foot 	no motion	left foot																																																												1			1																																				
+right_foot	hcp_motor	Move right foot 	no motion	right foot																																																												1							1																																
+tongue	hcp_motor	Move tongue	no motion	tongue																																																												1				1																																			
+cue	hcp_motor	Motion cue of motion	fixation	visual task cue																																																											1										1																														
+shape	hcp_emotion	Shape comparison	fixation cross	shape outline	1																							1																																			1	1																																							
+face-shape	hcp_emotion	Emotional face comparison vs shape comparison	shape outline	face image																								1		1																																	1	1																																							
+face	hcp_emotion	Emotional face comparison																										1		1																																	1	1																																							
+shape-face	hcp_emotion	Shape comparison vs emotional face comparison			1																							1																																			1	1																																							
+relational-match	hcp_relational	Relational comparison vs matching	visual matching	relational processing	1													1										1																																			1	1										1																													
+match	hcp_relational	Visual feature matching vs fixation	fixation	visual matching	1													1										1																																			1	1																																							
+relational	hcp_relational	Relational comparison vs fixation			1													1										1																																			1	1										1																													
+2back-0back	hcp_wm	2-back vs 0-back	0-back	2-back																																																				1	1	1	1				1	1								1	1																														
+body-avg	hcp_wm	Body image versus face, place, tool image	any image	body image										1																																											1																																														
+face-avg	hcp_wm	Face image versus body, place, tool image	any image	face image												1																																											1																																												
+place-avg	hcp_wm	Place image versus face, body, tool image	any image	place image											1																																											1																																													
+tools-avg	hcp_wm	Tool image versus face, place, body image	any image	tool image									1																																											1																																															
+0back-2back	hcp_wm	0-back vs 2-back																																																													1	1								1																															
+0back_body	hcp_wm	Body image 0-back task  vs fixation												1																																											1							1									1																														
+2back_body	hcp_wm	Body image 2-back task vs fixation												1																																											1							1								1	1																														
+0back_face	hcp_wm	Face image 0-back task vs fixation														1																																											1					1									1																														
+2back_face	hcp_wm	Face image 2-back task vs fixation														1																																											1					1								1	1																														
+0back_tools	hcp_wm	Tool image 0-back task vs fixation											1																																											1								1									1																														
+2back_tools	hcp_wm	Tool image 2-back task vs fixation											1																																											1								1								1	1																														
+0back_place	hcp_wm	Place image 0-back task vs fixation													1																																											1						1									1																														
+2back_place	hcp_wm	Place image 2-back task vs fixation													1																																											1						1								1	1																														
+complex-simple	language_	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																														1	1				1																		1																														
+sentence-jabberwocky	language_	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																														1	1				1																		1																														
+sentence-word	language_	Read sentence vs words	read words	read sentence																1																														1	1				1																		1																														
+word-consonant_string	language_	Read words vs consonant strings	consonant strings	read words																1																																			1																		1																														
+jabberworcky-pseudo	language_	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																																1																						1																														
+word-pseudo	language_	Read words vs pseudo-words	read pseudo words	read words																1																																			1																		1																														
+pseudo-consonant_string	language_	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																						1																														
+consonant_string	language_	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																																	1																			1																														
+complex	language_	Read sentence with complex  syntax vs fixation																		1																														1	1				1																		1																														
+simple	language_	Read sentence with  simple syntax vs fixation																		1																															1				1																		1																														
+jabberwocky	language_	Read jabberwocky vs fixation																	1																																1																						1																														
+word_list	language_	Read words vs fixation																		1																																			1																		1																														
+pseudoword_list	language_	Read pseudo-words vs fixation																	1																																																						1																														
+sentence-consonant_string	language_	Read sentence vs consonant strings																		1																														1	1				1																		1																														
+simple-consonant_string	language_	Read simple sentence vs consonant strings																		1																															1				1																		1																														
+complex-consonant_string	language_	Read complex sentence vs consonant strings																		1																														1	1				1																		1																														
+sentence-pseudo	language_	Read sentence vs pseudo-words																		1																														1	1				1																		1																														
+probe	language_	Word probe																																																													1	1																																							
+complex-simple	language_01	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																														1	1				1																		1																														
+sentence-jabberwocky	language_01	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																														1	1				1																		1																														
+sentence-word	language_01	Read sentence vs words	read words	read sentence																1																														1	1				1																		1																														
+word-consonant_string	language_01	Read words vs consonant strings	consonant strings	read words																1																																			1																		1																														
+jabberworcky-pseudo	language_01	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																																1																						1																														
+word-pseudo	language_01	Read words vs pseudo-words	read pseudo words	read words																1																																			1																		1																														
+pseudo-consonant_string	language_01	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																						1																														
+consonant_string	language_01	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																																	1																			1																														
+complex	language_01	Read sentence with complex  syntax vs fixation																		1																														1	1				1																		1																														
+simple	language_01	Read sentence with  simple syntax vs fixation																		1																															1				1																		1																														
+jabberwocky	language_01	Read jabberwocky vs fixation																	1																																1																						1																														
+word_list	language_01	Read words vs fixation																		1																																			1																		1																														
+pseudoword_list	language_01	Read pseudo-words vs fixation																	1																																																						1																														
+sentence-consonant_string	language_01	Read sentence vs consonant strings																		1																														1	1				1																		1																														
+simple-consonant_string	language_01	Read simple sentence vs consonant strings																		1																															1				1																		1																														
+complex-consonant_string	language_01	Read complex sentence vs consonant strings																		1																														1	1				1																		1																														
+sentence-pseudo	language_01	Read sentence vs pseudo-words																		1																														1	1				1																		1																														
+probe	language_01	Word probe																																																													1	1																																							
+complex-simple	language_02	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																														1	1				1																		1																														
+sentence-jabberwocky	language_02	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																														1	1				1																		1																														
+sentence-word	language_02	Read sentence vs words	read words	read sentence																1																														1	1				1																		1																														
+word-consonant_string	language_02	Read words vs consonant strings	consonant strings	read words																1																																			1																		1																														
+jabberworcky-pseudo	language_02	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																																1																						1																														
+word-pseudo	language_02	Read words vs pseudo-words	read pseudo words	read words																1																																			1																		1																														
+pseudo-consonant_string	language_02	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																						1																														
+consonant_string	language_02	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																																	1																			1																														
+complex	language_02	Read sentence with complex  syntax vs fixation																		1																														1	1				1																		1																														
+simple	language_02	Read sentence with  simple syntax vs fixation																		1																															1				1																		1																														
+jabberwocky	language_02	Read jabberwocky vs fixation																	1																																1																						1																														
+word_list	language_02	Read words vs fixation																		1																																			1																		1																														
+pseudoword_list	language_02	Read pseudo-words vs fixation																	1																																																						1																														
+sentence-consonant_string	language_02	Read sentence vs consonant strings																		1																														1	1				1																		1																														
+simple-consonant_string	language_02	Read simple sentence vs consonant strings																		1																															1				1																		1																														
+complex-consonant_string	language_02	Read complex sentence vs consonant strings																		1																														1	1				1																		1																														
+sentence-pseudo	language_02	Read sentence vs pseudo-words																		1																														1	1				1																		1																														
+probe	language_02	Word probe																																																													1	1																																							
+complex-simple	language_03	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																														1	1				1																		1																														
+sentence-jabberwocky	language_03	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																														1	1				1																		1																														
+sentence-word	language_03	Read sentence vs words	read words	read sentence																1																														1	1				1																		1																														
+word-consonant_string	language_03	Read words vs consonant strings	consonant strings	read words																1																																			1																		1																														
+jabberworcky-pseudo	language_03	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																																1																						1																														
+word-pseudo	language_03	Read words vs pseudo-words	read pseudo words	read words																1																																			1																		1																														
+pseudo-consonant_string	language_03	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																						1																														
+consonant_string	language_03	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																																	1																			1																														
+complex	language_03	Read sentence with complex  syntax vs fixation																		1																														1	1				1																		1																														
+simple	language_03	Read sentence with  simple syntax vs fixation																		1																															1				1																		1																														
+jabberwocky	language_03	Read jabberwocky vs fixation																	1																																1																						1																														
+word_list	language_03	Read words vs fixation																		1																																			1																		1																														
+pseudoword_list	language_03	Read pseudo-words vs fixation																	1																																																						1																														
+sentence-consonant_string	language_03	Read sentence vs consonant strings																		1																														1	1				1																		1																														
+simple-consonant_string	language_03	Read simple sentence vs consonant strings																		1																															1				1																		1																														
+complex-consonant_string	language_03	Read complex sentence vs consonant strings																		1																														1	1				1																		1																														
+sentence-pseudo	language_03	Read sentence vs pseudo-words																		1																														1	1				1																		1																														
+probe	language_03	Word probe																																																													1	1																																							
+complex-simple	language_04	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																														1	1				1																		1																														
+sentence-jabberwocky	language_04	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																														1	1				1																		1																														
+sentence-word	language_04	Read sentence vs words	read words	read sentence																1																														1	1				1																		1																														
+word-consonant_string	language_04	Read words vs consonant strings	consonant strings	read words																1																																			1																		1																														
+jabberworcky-pseudo	language_04	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																																1																						1																														
+word-pseudo	language_04	Read words vs pseudo-words	read pseudo words	read words																1																																			1																		1																														
+pseudo-consonant_string	language_04	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																						1																														
+consonant_string	language_04	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																																	1																			1																														
+complex	language_04	Read sentence with complex  syntax vs fixation																		1																														1	1				1																		1																														
+simple	language_04	Read sentence with  simple syntax vs fixation																		1																															1				1																		1																														
+jabberwocky	language_04	Read jabberwocky vs fixation																	1																																1																						1																														
+word_list	language_04	Read words vs fixation																		1																																			1																		1																														
+pseudoword_list	language_04	Read pseudo-words vs fixation																	1																																																						1																														
+sentence-consonant_string	language_04	Read sentence vs consonant strings																		1																														1	1				1																		1																														
+simple-consonant_string	language_04	Read simple sentence vs consonant strings																		1																															1				1																		1																														
+complex-consonant_string	language_04	Read complex sentence vs consonant strings																		1																														1	1				1																		1																														
+sentence-pseudo	language_04	Read sentence vs pseudo-words																		1																														1	1				1																		1																														
+probe	language_04	Word probe																																																													1	1																																							
+complex-simple	language_05	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																														1	1				1																		1																														
+sentence-jabberwocky	language_05	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																														1	1				1																		1																														
+sentence-word	language_05	Read sentence vs words	read words	read sentence																1																														1	1				1																		1																														
+word-consonant_string	language_05	Read words vs consonant strings	consonant strings	read words																1																																			1																		1																														
+jabberworcky-pseudo	language_05	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																																1																						1																														
+word-pseudo	language_05	Read words vs pseudo-words	read pseudo words	read words																1																																			1																		1																														
+pseudo-consonant_string	language_05	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																						1																														
+consonant_string	language_05	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																																	1																			1																														
+complex	language_05	Read sentence with complex  syntax vs fixation																		1																														1	1				1																		1																														
+simple	language_05	Read sentence with  simple syntax vs fixation																		1																															1				1																		1																														
+jabberwocky	language_05	Read jabberwocky vs fixation																	1																																1																						1																														
+word_list	language_05	Read words vs fixation																		1																																			1																		1																														
+pseudoword_list	language_05	Read pseudo-words vs fixation																	1																																																						1																														
+sentence-consonant_string	language_05	Read sentence vs consonant strings																		1																														1	1				1																		1																														
+simple-consonant_string	language_05	Read simple sentence vs consonant strings																		1																															1				1																		1																														
+complex-consonant_string	language_05	Read complex sentence vs consonant strings																		1																														1	1				1																		1																														
+sentence-pseudo	language_05	Read sentence vs pseudo-words																		1																														1	1				1																		1																														
+probe	language_05	Word probe																																																													1	1																																							
+complex-simple	language_00	Read sentence with complex vs simple syntax	simple sentence	complex sentence																1																														1	1				1																		1																														
+sentence-jabberwocky	language_00	Read sentence vs jabberwocky	read jabberwocky	read sentence																1																														1	1				1																		1																														
+sentence-word	language_00	Read sentence vs words	read words	read sentence																1																														1	1				1																		1																														
+word-consonant_string	language_00	Read words vs consonant strings	consonant strings	read words																1																																			1																		1																														
+jabberworcky-pseudo	language_00	Read jabberwocky vs pseudo words	read pseudo words	read jabberwocky															1																																1																						1																														
+word-pseudo	language_00	Read words vs pseudo-words	read pseudo words	read words																1																																			1																		1																														
+pseudo-consonant_string	language_00	Read pseudo words vs consonant strings	consonant strings	read pseudo words															1																																																						1																														
+consonant_string	language_00	Read and encode consonant strings vs fixation	fixation	consonant strings																	1																																	1																			1																														
+complex	language_00	Read sentence with complex  syntax vs fixation																		1																														1	1				1																		1																														
+simple	language_00	Read sentence with  simple syntax vs fixation																		1																															1				1																		1																														
+jabberwocky	language_00	Read jabberwocky vs fixation																	1																																1																						1																														
+word_list	language_00	Read words vs fixation																		1																																			1																		1																														
+pseudoword_list	language_00	Read pseudo-words vs fixation																	1																																																						1																														
+sentence-consonant_string	language_00	Read sentence vs consonant strings																		1																														1	1				1																		1																														
+simple-consonant_string	language_00	Read simple sentence vs consonant strings																		1																															1				1																		1																														
+complex-consonant_string	language_00	Read complex sentence vs consonant strings																		1																														1	1				1																		1																														
+sentence-pseudo	language_00	Read sentence vs pseudo-words																		1																														1	1				1																		1																														
+probe	language_00	Word probe																																																													1	1																																							
+average_reference	mtt_sn	Updating ones position in space and time																																		1		1											1																																										1												
+cue_time	mtt_sn	Time cue of an event																																		1													1																																														1								
+cue_space	mtt_sn	Spatial cue of an event																																		1													1																											1	1																										
+cue_time-space	mtt_sn	time vs spatial cue about event																																																																																												1									
+cue_space-time	mtt_sn	spatial vs time cue about event																																																																											1																										
+time_event	mtt_sn	present vs. past or future  event	future or past event 	present event																																1		1																																																							1			1							
+event_time-space	mtt_sn	event in time vs event in space 																																																																																													1								
+event_space-time	mtt_sn	event in space vs event in time 																																																																										1		1	1																								
+past-future_event	mtt_sn	past vs. future events	event in future	event in past																																																																																													1						
+far-close_time_event	mtt_sn	events far vs. close in time	event close in time	event far in time																																																																																														1					
+north-south_events	mtt_sn	north vs. south position of event	event in south	event in north																																																																																																			
+south_north_event	mtt_sn	events occurring in north or south vs. here	event occurring here	event in north or south																																																																																																			
+far-close_space_event	mtt_sn	events occurring far vs. close in space	spatially close event	spatially far event																																																																																																			
+average_event	mtt_sn	Figuring out the space/time of an event	fixation	relative event																																1		1											1																																																						
+average_reference	mtt_we	Updating ones position in space and time																																		1		1											1															1																											1												
+cue_time	mtt_we	Time cue of an event																																		1													1																																														1								
+cue_space	mtt_we	Spatial cue of an event																																		1													1																											1	1																										
+cue_time-space	mtt_we	time vs spatial cue about event																																																																																												1									
+cue_space-time	mtt_we	spatial vs time cue about event																																																																											1																										
+time_event	mtt_we	present vs. past or future  event	future or past event 	present event																																1		1																																																							1			1							
+event_time-space	mtt_we	event in time vs event in space 																																																																																													1								
+event_space-time	mtt_we	event in space vs event in time 																																																																										1		1	1																								
+past-future_event	mtt_we	past vs. future events	event in future	event in past																																																																																													1						
+far-close_time_event	mtt_we	events far vs. close in time	event close in time	event far in time																																																																																														1					
+east-west_events	mtt_we	west vs. east position of event	event in east	event in west																																																																																																			
+west_east_event	mtt_we	events occurring in west or east vs. here	event occurring here	event in west or east																																																																																																			
+far-close_space_event	mtt_we	events occurring far vs. close in space	spatially close event	spatially far event																																																																																																			
+average_event	mtt_we	Figuring out the space/time of an event																																		1		1											1															1																																							
+preference_constant	preference	object perception and evaluation	fixation	visual evaluation																					1	1	1																																																																												
+preference_linear	preference	linear effect of preference	no preference	visual preference																																																																															1	1																			
+preference_quadratic	preference	quandratic effect of preference	no confidence 	confidence in preference																																																																																			1																
+face-others	preference	evaluation of faces vs. other categories	other categories	face evaluation												1													1				1																																																																						
+house-others	preference	evaluation of houses vs. other categories	other categories	house evaluation											1																																																																																								
+food-others	preference	evaluation of food vs. other categories	other categories	food evaluation																																																																																	1																		
+painting-others	preference	evaluation of paintings vs. other categories	other categories	painting evaluation		1	1																																																																																																
+photo	tom_localizer	Manipulation of fact judgments	fixation	fact judgments																																												1					1																1																			1															
+belief	tom_localizer	Manipulation of belief judgments	fixation	belief judgments																																												1					1																1																			1														1	
+belief-photo	tom_localizer	belief vs factual judgments	fact judgments	belief manipulation																																																																																																		1	
+physical_pain	pain_localizer	reading physical pain story	fixation	physical pain story																																																	1																1																														1	1			
+emotional_pain	pain_localizer	reading emotional pain story	fixation	emotional pain story																																																	1																1																														1		1	1	
+emotional-physical_pain	pain_localizer	emotional-physical pain story	physical pain story	emotional pain story																																																																																																	1	1	
+mov_pain	movie_localizer	attending to movie with physically painful events	fixation	physical pain movie					1																																																																																										1	1			
+mov_mental	movie_localizer	attending to movie with mentally painful events	fixation	mental pain movie					1																																																																																										1		1	1	
+mov_mental-pain	movie_localizer	mentally-physically painful movie	physical pain movie	mental pain movie																																																																																																	1	1	
+vstm_response_constant	vstm	vstm constant items response	fixation	vstm constant		1		1				1																																																									1																																		
+vstm_response_linear	vstm	vstm linear items response	fixation	vstm linear						1																																																																																													
+vstm_response_quadratic	vstm	vstm quadratic items response	fixation	vstm quadratic							1																																																																																												
+enum_response_constant	enum	enumeration constant items response	fixation	enumeration constant								1																																																									1																																		
+enum_response_linear	enum	enumeration linear items response	fixation	enumeration linear																															1																																																																				
+enum_response_quadratic	enum	enumeration quadratic items response	fixation	enumeration quadratic																															1																																																																				
+self-other_with_response	self	self-reference effect	reference to other	reference to self																																																																																																			1
+hit-correct_rejection	self	successfully recognize whether an adjective was presented before or not	memory 	recognition																																																																																					1	1		1											
+old_self-old_other_with_response	self	difference between recognizing an adjective referring to oneself vs another	old reference to another	old reference to self																																																																																								1											1
+talk-no_talk	bang	speech vs non-speech sections in movie watching	no speech	speech																																								1	1	1	1																																																								
+lyon-lec2	unattend																																																																																																						
+lyon-lec2	attend-unattend																																																																																																						
+lyon-audi	tear	listen to tears																																		1	1			1	1		1																																																												
+lyon-audi	suomi	listen to unknown language																																		1	1			1	1		1	1		1																																																									
+lyon-audi	yawn	listen to yawning																																		1	1			1	1		1																																																												
+lyon-audi	human	listen to human sounds																																		1	1			1	1		1																																																												
+lyon-audi	silence	listen to silence																																			1																																																																		
+lyon-audi	music	listen to music																																		1	1			1			1																																																												
+lyon-audi	reverse	listen to reversed speech																																		1	1			1	1		1	1																																																											
+lyon-audi	speech	listen to speech																																		1	1			1	1	1	1	1	1	1	1																																																								
+lyon-audi	alphabet	listen to letters																																		1	1			1	1		1	1	1																																																										
+lyon-audi	cough	listen to coughing																																		1	1			1	1		1																																																												
+lyon-audi	envir	listen to environment sounds																																		1	1			1			1																																																												
+lyon-audi	laugh	listen to laugh																																		1	1			1	1		1																																																												
+lyon-audi	animals	listen to animals																																		1	1			1			1																																																												

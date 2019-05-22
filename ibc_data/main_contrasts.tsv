@@ -83,7 +83,7 @@ far-close_space_event	mtt_we	events occurring far vs. close in space	spatially c
 average_event	mtt_we	Figuring out the space/time of an event																							
 preference	preference_constant	object perception and evaluation	fixation	visual evaluation																					
 preference	preference_linear	linear effect of preference	no preference	visual preference																					
-preference	preference_quadratic	quandratic effect of preference	no confidence 	confidence in preference																					
+preference	preference_quadratic	quadratic effect of preference	no confidence 	confidence in preference																					
 preference	face-others	evaluation of faces vs. other categories	other categories	face evaluation																					
 preference	house-others	evaluation of houses vs. other categories	other categories	house evaluation																					
 preference	food-others	evaluation of food vs. other categories	other categories	food evaluation																					
