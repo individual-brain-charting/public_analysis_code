@@ -62,10 +62,6 @@ time_event	mtt_sn	present vs. past or future  event	future or past event 	presen
 event_time-space	mtt_sn	event in time vs event in space 																							
 event_space-time	mtt_sn	event in space vs event in time 																							
 past-future_event	mtt_sn	past vs. future events	event in future	event in past																					
-far-close_time_event	mtt_sn	events far vs. close in time	event close in time	event far in time																					
-north-south_events	mtt_sn	north vs. south position of event	event in south	event in north																					
-south_north_event	mtt_sn	events occurring in north or south vs. here	event occurring here	event in north or south																					
-far-close_space_event	mtt_sn	events occurring far vs. close in space	spatially close event	spatially far event																					
 average_event	mtt_sn	Figuring out the space/time of an event	fixation	relative event																					
 average_reference	mtt_we	Updating ones position in space and time																							
 cue_time	mtt_we	Time cue of an event																							
@@ -76,10 +72,6 @@ time_event	mtt_we	present vs. past or future  event	future or past event 	presen
 event_time-space	mtt_we	event in time vs event in space 																							
 event_space-time	mtt_we	event in space vs event in time 																							
 past-future_event	mtt_we	past vs. future events	event in future	event in past																					
-far-close_time_event	mtt_we	events far vs. close in time	event close in time	event far in time																					
-east-west_events	mtt_we	west vs. east position of event	event in east	event in west																					
-west_east_event	mtt_we	events occurring in west or east vs. here	event occurring here	event in west or east																					
-far-close_space_event	mtt_we	events occurring far vs. close in space	spatially close event	spatially far event																					
 average_event	mtt_we	Figuring out the space/time of an event																							
 preference	preference_constant	object perception and evaluation	fixation	visual evaluation																					
 preference	preference_linear	linear effect of preference	no preference	visual preference																					
