@@ -240,12 +240,12 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'discount':
         df = df[df.trial_type.isin(['stim'])]
         df1 = df.copy()
-        df1['amplitude'] = df1['large_amount']
+        df1['modulation'] = df1['large_amount']
         df1.drop('later_delay', 1, inplace=True)
         df1.drop('large_amount', 1, inplace=True)
         df1.replace('stim', 'amount', inplace=True)
         df2 = df.copy()
-        df2['amplitude'] = df2['later_delay']
+        df2['modulation'] = df2['later_delay']
         df2.drop('large_amount', 1, inplace=True)
         df2.drop('later_delay', 1, inplace=True)
         df2.replace('stim', 'delay', inplace=True)
