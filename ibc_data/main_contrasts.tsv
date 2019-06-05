@@ -62,7 +62,9 @@ time_event	mtt_sn	present vs. past or future  event	future or past event 	presen
 event_time-space	mtt_sn	event in time vs event in space 																							
 event_space-time	mtt_sn	event in space vs event in time 																							
 past-future_event	mtt_sn	past vs. future events	event in future	event in past																					
-average_event	mtt_sn	Figuring out the space/time of an event	fixation	relative event																					
+average_event	mtt_sn	Figuring out the position/time of an event	fixation	event in time or space																					
+event_time	mtt_sn	Figuring out the time of an event	fixation	event in time																					
+event_space	mtt_sn	Figuring out the position of an event	fixation	event in space																					
 average_reference	mtt_we	Updating ones position in space and time																							
 cue_time	mtt_we	Time cue of an event																							
 cue_space	mtt_we	Spatial cue of an event																							
@@ -73,6 +75,8 @@ event_time-space	mtt_we	event in time vs event in space
 event_space-time	mtt_we	event in space vs event in time 																							
 past-future_event	mtt_we	past vs. future events	event in future	event in past																					
 average_event	mtt_we	Figuring out the space/time of an event																							
+event_time	mtt_we	Figuring out the time of an event	fixation	event in time																					
+event_space	mtt_we	Figuring out the position of an event	fixation	event in space																					
 preference	preference_constant	object perception and evaluation	fixation	visual evaluation																					
 preference	preference_linear	linear effect of preference	no preference	visual preference																					
 preference	preference_quadratic	quadratic effect of preference	no confidence 	confidence in preference																					
