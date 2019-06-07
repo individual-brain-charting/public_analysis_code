@@ -210,7 +210,7 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
 
     do_topup = True
-    protocol = 'stanford2'
+    protocol = 'stanford3'
     subject_session = sorted(get_subject_session(protocol))[-1:]
 
     if do_topup:
