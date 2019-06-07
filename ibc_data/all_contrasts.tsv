@@ -273,8 +273,8 @@ vstm	vstm_response_constant	vstm constant items response	fixation	vstm constant	
 vstm	vstm_response_linear	vstm linear items response	fixation	vstm linear						1																																																																																													
 vstm	vstm_response_quadratic	vstm quadratic items response	fixation	vstm quadratic							1																																																																																												
 enum	enum_response_constant	enumeration constant items response	fixation	enumeration constant								1																																																									1																																		
-enum	enum_response_linear	enumeration linear items response	fixation	enumeration linear																															1																																																																				
-enum	enum_response_quadratic	enumeration quadratic items response	fixation	enumeration quadratic																															1																																																																				
+enum	enum_response_linear	enumeration linear items response	fixation	enumeration linear						1																									1																																																																				
+enum	enum_response_quadratic	enumeration quadratic items response	fixation	enumeration quadratic						1																									1																																																																				
 self	self-other_with_response	self-reference effect	reference to other	reference to self																																																																																																			1
 self	hit-correct_rejection	successfully recognize whether an adjective was presented before or not	memory 	recognition																																																																																					1	1		1											
 self	old_self-old_other_with_response	difference between recognizing an adjective referring to oneself vs another	old reference to another	old reference to self																																																																																								1											1
