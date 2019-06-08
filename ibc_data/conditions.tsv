@@ -59,9 +59,9 @@ word_list	rsvp_language
 pseudoword_list	rsvp_language		
 consonant_string	rsvp_language		
 probe	rsvp_language		
-phase_ring	retinotopy	Eccentricity maps	radial position
-phase_wedge	retinotopy	Polar angle map	angular position
-retinotopicity	retinotopy	Sensitivity to retinotopy	retinal position
+			
+			
+			
 painting_constant	preference		
 painting_linear	preference		
 painting_quadratic	preference		
@@ -126,6 +126,9 @@ old_other_hit	self
 old_self_hit	self		
 other_relevance_with_response	self		
 self_relevance_with_response	self		
+phase_ring	retinotopy	Eccentricity maps	radial position
+phase_wedge	retinotopy	Polar angle map	angular position
+retinotopicity	retinotopy	Sensitivity to retinotopy	retinal position
 high_salience_left	lyon_mcse		
 low_salience_left	lyon_mcse		
 high_salience_right	lyon_mcse		
