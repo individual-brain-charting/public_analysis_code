@@ -53,28 +53,20 @@ rsvp_language	consonant_string	consonant strings' encoding vs. fixation	fixation
 retinotopy	phase_ring	eccentricity maps	central cross	radial position																					
 retinotopy	phase_wedge	polar angle map	central cross	angular position																					
 retinotopy	retinotopicity	sensitivity to retinotopy	central cross	retinal position																					
-average_reference	mtt_sn	Updating ones position in space and time																							
-cue_time	mtt_sn	Time cue of an event																							
-cue_space	mtt_sn	Spatial cue of an event																							
-cue_time-space	mtt_sn	time vs spatial cue about event																							
-cue_space-time	mtt_sn	spatial vs time cue about event																							
-time_event	mtt_sn	present vs. past or future  event	future or past event 	present event																					
-event_time-space	mtt_sn	event in time vs event in space 																							
-event_space-time	mtt_sn	event in space vs event in time 																							
-past-future_event	mtt_sn	past vs. future events	event in future	event in past																					
+average_reference	mtt_sn	Updating ones position in space and time	fixation	time/space position																					
+cue_time	mtt_sn	Time cue of an event	fixation	time cue																					
+cue_space	mtt_sn	Spatial cue of an event	fixation	spatial cue																					
+cue_time-space	mtt_sn	time vs spatial cue about event	spatial cue	time cue																					
+event_time-space	mtt_sn	event in time vs event in space 	event in space	event in time																					
 average_event	mtt_sn	Figuring out the position/time of an event	fixation	event in time or space																					
 event_time	mtt_sn	Figuring out the time of an event	fixation	event in time																					
 event_space	mtt_sn	Figuring out the position of an event	fixation	event in space																					
-average_reference	mtt_we	Updating ones position in space and time																							
-cue_time	mtt_we	Time cue of an event																							
-cue_space	mtt_we	Spatial cue of an event																							
-cue_time-space	mtt_we	time vs spatial cue about event																							
-cue_space-time	mtt_we	spatial vs time cue about event																							
-time_event	mtt_we	present vs. past or future  event	future or past event 	present event																					
-event_time-space	mtt_we	event in time vs event in space 																							
-event_space-time	mtt_we	event in space vs event in time 																							
-past-future_event	mtt_we	past vs. future events	event in future	event in past																					
-average_event	mtt_we	Figuring out the space/time of an event																							
+average_reference	mtt_we	Updating ones position in space and time	fixation	time/space position																					
+cue_time	mtt_we	Time cue of an event	fixation	time cue																					
+cue_space	mtt_we	Spatial cue of an event	fixation	spatial cue																					
+cue_time-space	mtt_we	time vs spatial cue about event	spatial cue	time cue																					
+event_time-space	mtt_we	event in time vs event in space 	event in space	event in time																					
+average_event	mtt_we	Figuring out the space/time of an event	fixation	event in time or space																					
 event_time	mtt_we	Figuring out the time of an event	fixation	event in time																					
 event_space	mtt_we	Figuring out the position of an event	fixation	event in space																					
 preference	preference_constant	object perception and evaluation	fixation	visual evaluation																					
@@ -99,33 +91,42 @@ vstm	vstm_response_quadratic	vstm quadratic items response	fixation	vstm quadrat
 self	self-other_with_response	self-reference effect	reference to other	reference to self																					
 self	hit-correct_rejection	successfully recognize whether an adjective was presented before or not	memory 	recognition																					
 bang	talk-no_talk	speech vs non-speech sections in movie watching	no speech	speech																					
-lyon-lec2	unattend																								
-lyon-lec2	attend-unattend																								
-lyon-audi	tear	listen to tears																							
-lyon-audi	suomi	listen to unknown language																							
-lyon-audi	yawn	listen to yawning																							
-lyon-audi	human	listen to human sounds																							
-lyon-audi	silence	listen to silence																							
-lyon-audi	music	listen to music																							
-lyon-audi	reverse	listen to reversed speech																							
-lyon-audi	speech	listen to speech																							
-lyon-audi	alphabet	listen to letters																							
-lyon-audi	cough	listen to coughing																							
-lyon-audi	envir	listen to environment sounds																							
-lyon-audi	laugh	listen to laugh																							
-lyon-audi	animals	listen to animals																							
-lyon-visu	scrambled-average	view a scrambled image																							
-lyon-visu	visage-average	view a face image																					'visage-average',	'house-average',	'animal-average',
-lyon-visu	characters-average	view a characters																					'characters-average',	'pseudoword-average',	
-lyon-visu	scene-average	view a scene																							
-lyon-visu	house-average	view a house																							
-lyon-visu	animal-average	view an animal																							
-lyon-visu	pseudoword-average	view a pseudoword																							
-lyon-visu	tool-average	view a tool																							
-lyon-lec1	random_string	read a random string																							
-lyon-lec1	word-pseudoword	read a word vs a pseudo word																					'word-random_string'		'pseudoword-random_string'
-lyon-lec1	word-random_string	read a word ws a random string																							
-lyon-lec1	pseudoword-random_string	read a pseudoword vs a random string																							
+lyon-lec2	unattend	response to unattended text	fixation	non-attended text																					
+lyon-lec2	unattend-attend	response to unattended vs attended text	attended text	non-attended text																					
+lyon-lec3	attend	response to attended text	fixation	attended text																					
+lyon-audi	tear	listen to tears	silence	tear sound																					
+lyon-audi	suomi	listen to unknown language	silence	unknown language																					
+lyon-audi	yawn	listen to yawning	silence	yawning																					
+lyon-audi	human	listen to human sounds	silence	human sounds																					
+lyon-audi	silence	listen to silence	silence	silence																					
+lyon-audi	music	listen to music	silence	music																					
+lyon-audi	reverse	listen to reversed speech	silence	reversed speech																					
+lyon-audi	speech	listen to speech	silence	speech																					
+lyon-audi	alphabet	listen to letters	silence	letters sounds																					
+lyon-audi	cough	listen to coughing	silence	coughing																					
+lyon-audi	envir	listen to environment sounds	silence	environment sounds																					
+lyon-audi	laugh	listen to laugh	silence	laugh																					
+lyon-audi	animals	listen to animals	silence	animals																					
+lyon-visu	scrambled-average	view a scrambled image	other image	scrambled image																					
+lyon-visu	visage-average	view a face image	other image	face image																			'visage-average',	'house-average',	'animal-average',
+lyon-visu	characters-average	view a characters	other image	characters image																			'characters-average',	'pseudoword-average',	
+lyon-visu	scene-average	view a scene	other image	scene image																					
+lyon-visu	house-average	view a house	other image	house image																					
+lyon-visu	animal-average	view an animal	other image	animal image																					
+lyon-visu	pseudoword-average	view a pseudoword	other image	pseudoword image																					
+lyon-visu	tool-average	view a tool	other image	tool image																					
+lyon-visu	scrambled	view a scrambled image	fixation	scrambled image																					
+lyon-visu	visage	view a face image	fixation	face image																					
+lyon-visu	characters	view a characters	fixation	characters image																					
+lyon-visu	scene	view a scene	fixation	scene image																					
+lyon-visu	house	view a house	fixation	house image																					
+lyon-visu	animal	view an animal	fixation	animal image																					
+lyon-visu	pseudoword	view a pseudoword	fixation	pseudoword image																					
+lyon-visu	tool-average	view a tool	fixation	tool image																					
+lyon-lec1	random_string	read a random string	fixation	random string																					
+lyon-lec1	word-pseudoword	read a word vs a pseudo word	pseudo-word	word																			'word-random_string'		'pseudoword-random_string'
+lyon-lec1	word-random_string	read a word ws a random string	random string	word																					
+lyon-lec1	pseudoword-random_string	read a pseudoword vs a random string	random string	pseudo-word																					
 lyon-mveb	response																								
 lyon-mveb	2_letters_different-same																								
 lyon-mveb	4_letters_different-same																								
@@ -136,15 +137,15 @@ lyon-mvis	2_dots-2_dots_control
 lyon-mvis	4_dots-4_dots_control																								
 lyon-mvis	6_dots-6_dots_control																								
 lyon-mvis	6_dots-2_dots																								
-lyon-moto	instructions																								
-lyon-moto	fixation-avg																								
-lyon-moto	finger_right-avg																								
-lyon-moto	finger_left-avg																								
-lyon-moto	foot_left-avg																								
-lyon-moto	foot_right-avg																								
-lyon-moto	hand_left-avg																								
-lyon-moto	hand_right-avg																								
-lyon-moto	saccade-avg																								
-lyon-moto	tongue-avg	move tongue vs. other body parts	any motion	tongue																					
-lyon-mcse	low-high_salience	looking for a low salience symbol																							
-lyon-mcse	salience_left-right	lookinf for a symbold in left vs right visual field																							
+lyon-moto	instructions	read intructions																							
+lyon-moto	fixation-avg	fixation																							
+lyon-moto	finger_right-avg	right finger tapping vs other	any motion	right finger																					
+lyon-moto	finger_left-avg	left finger tapping vs other	any motion	left finger																					
+lyon-moto	foot_left-avg	move left foot vs others	any motion	left foot																					
+lyon-moto	foot_right-avg	move right foot vs others	any motion	right foot																					
+lyon-moto	hand_left-avg	move left hand vs others	any motion	left hand																					
+lyon-moto	hand_right-avg	move right hand vs others	any motion	right hand																					
+lyon-moto	saccade-avg	saccade vs others	any motion	saccade																					
+lyon-moto	tongue-avg	move tongue vs. others	any motion	tongue																					
+lyon-mcse	low-high_salience	looking for a low salience symbol	high salience	low salience																					
+lyon-mcse	salience_left-right	looking for a symbold in left vs right visual field	right visual field	left visual field																					
