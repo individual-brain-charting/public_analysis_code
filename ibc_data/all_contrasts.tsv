@@ -279,18 +279,61 @@ self	self-other_with_response	self-reference effect	reference to other	reference
 self	hit-correct_rejection	successfully recognize whether an adjective was presented before or not	memory 	recognition																																																																																					1	1		1												
 self	old_self-old_other_with_response	difference between recognizing an adjective referring to oneself vs another	old reference to another	old reference to self																																																																																								1											1	
 bang	talk-no_talk	speech vs non-speech sections in movie watching	no speech	speech																																								1	1	1	1																																																									
-unattend	lyon-lec2																																													1	1						1		1																		1																															1
-attend-unattend	lyon-lec2																																													1	1						1		1																																																	
-tear	lyon-audi	listen to tears																																		1	1			1	1		1																																																													
-suomi	lyon-audi	listen to unknown language																																		1	1			1	1		1	1		1																																																										
-yawn	lyon-audi	listen to yawning																																		1	1			1	1		1																																																													
-human	lyon-audi	listen to human sounds																																		1	1			1	1		1																																																													
-silence	lyon-audi	listen to silence																																			1																																																																			
-music	lyon-audi	listen to music																																		1	1			1			1																																																													
-reverse	lyon-audi	listen to reversed speech																																		1	1			1	1		1	1																																																												
-speech	lyon-audi	listen to speech																																		1	1			1	1	1	1	1	1	1	1																																																									
-alphabet	lyon-audi	listen to letters																																		1	1			1	1		1	1	1																																																											
-cough	lyon-audi	listen to coughing																																		1	1			1	1		1																																																													
-envir	lyon-audi	listen to environment sounds																																		1	1			1			1																																																													
-laugh	lyon-audi	listen to laugh																																		1	1			1	1		1																																																													
-animals	lyon-audi	listen to animals																																		1	1			1			1																																																													
+lyon-lec2	unattend	response to unattended text	fixation	non-attended text																																										1	1						1		1																		1																															1
+lyon-lec2	attend-unattend	response to unattended vs attended text	attended text	non-attended text																																										1	1						1		1																																																	
+lyon-lec2	attend	response to attended text	fixation	attended text																																																																																																				
+lyon-audi	tear	listen to tears	silence	tear sound																																1	1			1	1		1																																																													
+lyon-audi	suomi	listen to unknown language	silence	unknown language																																1	1			1	1		1	1		1																																																										
+lyon-audi	yawn	listen to yawning	silence	yawning																																1	1			1	1		1																																																													
+lyon-audi	human	listen to human sounds	silence	human sounds																																1	1			1	1		1																																																													
+lyon-audi	silence	listen to silence	silence	silence																																	1																																																																			
+lyon-audi	music	listen to music	silence	music																																1	1			1			1																																																													
+lyon-audi	reverse	listen to reversed speech	silence	reversed speech																																1	1			1	1		1	1																																																												
+lyon-audi	speech	listen to speech	silence	speech																																1	1			1	1	1	1	1	1	1	1																																																									
+lyon-audi	alphabet	listen to letters	silence	letters sounds																																1	1			1	1		1	1	1																																																											
+lyon-audi	cough	listen to coughing	silence	coughing																																1	1			1	1		1																																																													
+lyon-audi	envir	listen to environment sounds	silence	environment sounds																																1	1			1			1																																																													
+lyon-audi	laugh	listen to laugh	silence	laugh																																1	1			1	1		1																																																													
+lyon-audi	animals	listen to animals	silence	animals																																1	1			1			1																																																													
+lyon-visu	scrambled-average	view a scrambled image	other image	scrambled image																																																																																																				
+lyon-visu	visage-average	view a face image	other image	face image																																																																																																				
+lyon-visu	characters-average	view a characters	other image	characters image																																																																																																				
+lyon-visu	scene-average	view a scene	other image	scene image																																																																																																				
+lyon-visu	house-average	view a house	other image	house image																																																																																																				
+lyon-visu	animal-average	view an animal	other image	animal image																																																																																																				
+lyon-visu	pseudoword-average	view a pseudoword	other image	pseudoword image																																																																																																				
+lyon-visu	tool-average	view a tool	other image	tool image																																																																																																				
+lyon-visu	scrambled	view a scrambled image	fixation	scrambled image																																																																																																				
+lyon-visu	visage	view a face image	fixation	face image																																																																																																				
+lyon-visu	characters	view a characters	fixation	characters image																																																																																																				
+lyon-visu	scene	view a scene	fixation	scene image																																																																																																				
+lyon-visu	house	view a house	fixation	house image																																																																																																				
+lyon-visu	animal	view an animal	fixation	animal image																																																																																																				
+lyon-visu	pseudoword	view a pseudoword	fixation	pseudoword image																																																																																																				
+lyon-visu	tool-average	view a tool	fixation	tool image																																																																																																				
+lyon-lec1	random_string	read a random string	fixation	random string																																																																																																				
+lyon-lec1	word-pseudoword	read a word vs a pseudo word	pseudo-word	word																																																																																																				
+lyon-lec1	word-random_string	read a word ws a random string	random string	word																																																																																																				
+lyon-lec1	pseudoword-random_string	read a pseudoword vs a random string	random string	pseudo-word																																																																																																				
+lyon-mveb	response																																																																																																							
+lyon-mveb	2_letters_different-same																																																																																																							
+lyon-mveb	4_letters_different-same																																																																																																							
+lyon-mveb	6_letters_different-same																																																																																																							
+lyon-mveb	6_letters_different-2_letters_different																																																																																																							
+lyon-mvis	response																																																																																																							
+lyon-mvis	2_dots-2_dots_control																																																																																																							
+lyon-mvis	4_dots-4_dots_control																																																																																																							
+lyon-mvis	6_dots-6_dots_control																																																																																																							
+lyon-mvis	6_dots-2_dots																																																																																																							
+lyon-moto	instructions	read intructions																																																																																																						
+lyon-moto	fixation-avg	fixation																																																																																																						
+lyon-moto	finger_right-avg	right finger tapping vs other	any motion	right finger																																																																																																				
+lyon-moto	finger_left-avg	left finger tapping vs other	any motion	left finger																																																																																																				
+lyon-moto	foot_left-avg	move left foot vs others	any motion	left foot																																																																																																				
+lyon-moto	foot_right-avg	move right foot vs others	any motion	right foot																																																																																																				
+lyon-moto	hand_left-avg	move left hand vs others	any motion	left hand																																																																																																				
+lyon-moto	hand_right-avg	move right hand vs others	any motion	right hand																																																																																																				
+lyon-moto	saccade-avg	saccade vs others	any motion	saccade																																																																																																				
+lyon-moto	tongue-avg	move tongue vs. others	any motion	tongue																																																																																																				
+lyon-mcse	low-high_salience	looking for a low salience symbol	high salience	low salience																																																																																																				
+lyon-mcse	salience_left-right	looking for a symbold in left vs right visual field	right visual field	left visual field																																																																																																				
