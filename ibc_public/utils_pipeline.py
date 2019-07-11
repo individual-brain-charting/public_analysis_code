@@ -405,7 +405,11 @@ def _session_id_to_task_id(session_ids):
             task_ids[i] = task_id[: -3]
 
     for i, task_id in enumerate(task_ids):
-        if task_id[:4] != 'lyon':  # fixme
+        if task_id.endswith(run_mark):
+            task_ids[i] = task_id[:-7]
+
+    for i, task_id in enumerate(task_ids):
+        if task_id[:4] not in ['lyon', 'biol']:  # fixme
             for x in range(0, 10):
                 task_id = task_id.replace('_' + str(x), '')
                 task_id = task_id.replace(str(x), '')

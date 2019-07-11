@@ -223,7 +223,8 @@ def post_process(df, paradigm_id):
     if paradigm_id in ['ward-aliport', 'ward-and-aliport']:
         df = df[df.trial_type.isin([
             'PA_with_intermediate', 'PA_without_intermediate',
-            'UA_with_intermeidate', 'UA_without_intermeidate'
+            'UA_with_intermeidate', 'UA_without_intermeidate',
+            'UA_with_intermediate', 'UA_without_intermediate'  # fix event files
         ])]
         df.replace('PA_with_intermediate', 'ambiguous_intermediate',
                    inplace=True)
@@ -232,6 +233,10 @@ def post_process(df, paradigm_id):
         df.replace('UA_with_intermeidate', 'unambiguous_intermediate',
                    inplace=True)
         df.replace('UA_without_intermeidate', 'unambiguous_direct',
+                   inplace=True)
+        df.replace('UA_with_intermediate', 'unambiguous_intermediate',
+                   inplace=True)
+        df.replace('UA_without_intermediate', 'unambiguous_direct',
                    inplace=True)
     if paradigm_id == 'two-by-two':
         df = df[df.trial_type.isin([
@@ -280,6 +285,19 @@ def post_process(df, paradigm_id):
         df.replace('probe_BX', 'incorrect_cue_correct_probe', inplace=True)
         df.replace('probe_AY', 'correct_cue_incorrect_probe', inplace=True)
         df.replace('probe_BY', 'incorrect_cue_incorrect_probe', inplace=True)
+    if paradigm_id == 'biological-motion1':
+        df = df[df.trial_type.isin(['global_upright', 'global_inverted',
+                                   'natural_upright', 'natural_inverted'])]
+    if paradigm_id == 'biological-motion1':
+        df = df[df.trial_type.isin(['global_upright', 'global_inverted',
+                                    'natural_upright', 'natural_inverted'])]
+        df.onset /= 1000
+        df.duration /= 1000
+    if paradigm_id == 'biological-motion2':
+        df = df[df.trial_type.isin(['modified_upright', 'modified_inverted',
+                                    'natural_upright', 'natural_inverted'])]
+        df.onset /= 1000
+        df.duration /= 1000
     return df
 
 

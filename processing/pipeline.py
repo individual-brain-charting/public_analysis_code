@@ -208,10 +208,9 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
-
     do_topup = True
-    protocol = 'stanford3'
-    subject_session = sorted(get_subject_session(protocol))[-1:]
+    protocol = 'audio1'
+    subject_session = sorted(get_subject_session(protocol))
 
     if do_topup:
         acq = None

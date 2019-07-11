@@ -98,6 +98,10 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return columbia_cards(design_matrix_columns)
     elif paradigm_id == 'dot-patterns':
         return dot_patterns(design_matrix_columns)
+    elif paradigm_id == 'biological-motion1':
+        return biological_motion1(design_matrix_columns)
+    elif paradigm_id == 'biological-motion2':
+        return biological_motion2(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -146,6 +150,54 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     if con != []:
         contrast['derivatives'] = np.array(con)
     return contrast
+
+
+def biological_motion1(design_matrix_columns):
+    """ Contrasts for biological motion 1 protocol"""
+    contrast_names = ['global_upright', 'global_inverted',
+                      'natural_upright', 'natural_inverted',
+                      'global_upright - natural_upright',
+                      'global_upright - global_inverted',
+                      'natural_upright - natural_inverted',
+                      ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:4]])
+    contrasts['global_upright - natural_upright'] =\
+        contrasts['global_upright'] - contrasts['natural_upright']
+    contrasts['global_upright - global_inverted'] = \
+        contrasts['global_upright'] - contrasts['global_inverted']
+    contrasts['natural_upright - natural_inverted'] =\
+        contrasts['natural_upright'] - contrasts['natural_inverted']
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def biological_motion2(design_matrix_columns):
+    """ Contrasts for biological motion 1 protocol"""
+    contrast_names = ['modified_upright', 'modified_inverted',
+                      'natural_upright', 'natural_inverted',
+                      'modified_upright - natural_upright',
+                      'modified_upright - modified_inverted',
+                      'natural_upright - natural_inverted',
+                      ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:4]])
+    contrasts['modified_upright - natural_upright'] =\
+        contrasts['modified_upright'] - contrasts['natural_upright']
+    contrasts['modified_upright - modified_inverted'] = \
+        contrasts['modified_upright'] - contrasts['modified_inverted']
+    contrasts['natural_upright - natural_inverted'] =\
+        contrasts['natural_upright'] - contrasts['natural_inverted']
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def dot_patterns(design_matrix_columns):
