@@ -93,7 +93,7 @@ self	hit-correct_rejection	successfully recognize whether an adjective was prese
 bang	talk-no_talk	speech vs non-speech sections in movie watching	no speech	speech																					
 lyon-lec2	unattend	response to unattended text	fixation	non-attended text																					
 lyon-lec2	unattend-attend	response to unattended vs attended text	attended text	non-attended text																					
-lyon-lec3	attend	response to attended text	fixation	attended text																					
+lyon-lec2	attend	response to attended text	fixation	attended text																					
 lyon-audi	tear	listen to tears	silence	tear sound																					
 lyon-audi	suomi	listen to unknown language	silence	unknown language																					
 lyon-audi	yawn	listen to yawning	silence	yawning																					
