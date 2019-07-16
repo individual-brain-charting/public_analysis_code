@@ -42,7 +42,24 @@ for i in range(len(CONTRASTS)):
 
 
 def get_subject_session(protocols: list) -> list:
-    """ utility to get all (subject, session) for a given protocol"""
+    """
+    Utility to get all (subject, session) for a given protocol or set
+    of protocols
+
+    Parameters
+    ----------
+
+    protocols: list
+               List whose elements are the names of the protocols the user
+               wants to retrieve
+
+    Returns
+    -------
+
+    subject_session: list of tuples
+                     Each element correspondes to a (subject, session) pair
+                     for the requested protocols
+    """
     import pandas as pd
     df = pd.read_csv(os.path.join(
         _package_directory, '../ibc_data', 'sessions.csv'), index_col=0)
