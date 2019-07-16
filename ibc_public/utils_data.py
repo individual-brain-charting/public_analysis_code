@@ -41,7 +41,7 @@ for i in range(len(CONTRASTS)):
                                      CONTRASTS['right label'][i]]
 
 
-def get_subject_session(*protocols):
+def get_subject_session(protocols: list) -> list:
     """ utility to get all (subject, session) for a given protocol"""
     import pandas as pd
     df = pd.read_csv(os.path.join(
