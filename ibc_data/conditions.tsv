@@ -59,9 +59,6 @@ word_list	rsvp_language
 pseudoword_list	rsvp_language		
 consonant_string	rsvp_language		
 probe	rsvp_language		
-			
-			
-			
 painting_constant	preference		
 painting_linear	preference		
 painting_quadratic	preference		
