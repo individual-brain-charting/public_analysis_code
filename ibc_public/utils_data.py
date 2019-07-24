@@ -41,7 +41,7 @@ for i in range(len(CONTRASTS)):
                                      CONTRASTS['right label'][i]]
 
 
-def get_subject_session(protocols: list) -> list:
+def get_subject_session(protocols):
     """
     Utility to get all (subject, session) for a given protocol or set
     of protocols
