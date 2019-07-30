@@ -41,17 +41,35 @@ for i in range(len(CONTRASTS)):
                                      CONTRASTS['right label'][i]]
 
 
-def get_subject_session(protocol):
-    """ utility to get all (subject, session) for a given protocol"""
+def get_subject_session(protocols):
+    """
+    Utility to get all (subject, session) for a given protocol or set
+    of protocols
+
+    Parameters
+    ----------
+
+    protocols: list
+               List whose elements are the names of the protocols the user
+               wants to retrieve
+
+    Returns
+    -------
+
+    subject_session: list of tuples
+                     Each element correspondes to a (subject, session) pair
+                     for the requested protocols
+    """
     import pandas as pd
     df = pd.read_csv(os.path.join(
         _package_directory, '../ibc_data', 'sessions.csv'), index_col=0)
     subject_session = []
-    for session in df.columns:
-        if (df[session] == protocol).any():
-            subjects = df[session][df[session] == protocol].keys()
-            for subject in subjects:
-                subject_session.append((subject,  session))
+    for protocol in protocols:
+        for session in df.columns:
+            if (df[session] == protocol).any():
+                subjects = df[session][df[session] == protocol].keys()
+                for subject in subjects:
+                    subject_session.append((subject,  session))
     return subject_session
 
 
