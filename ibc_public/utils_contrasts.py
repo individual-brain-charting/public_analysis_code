@@ -681,18 +681,38 @@ def self_localizer(design_matrix_columns):
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {
-        'instructions': con['instructions'],  # cue
-        'new_fa': con['new_fa'],  # false alarms
-        'old_other_hit': con['old_other_hit'],  #
-        'old_self_hit': con['old_self_hit'],
-        'other_relevance_with_response': con['other_relevance_with_response'],
-        'self_relevance_with_response': con['self_relevance_with_response'],
-        'self-other_hit': con['old_self_hit'] - con['old_other_hit'],
-        'self-other_with_response':
-            con['self_relevance_with_response']
-            - con['other_relevance_with_response'],
-    }
+    if 'old_other_hit' not in con.keys():
+        # irregular case that occurs once in sub01/ses-24
+        # both 'old_other_hit' and 'old_self_hit' are missing
+        contrasts = {
+            'instructions': con['instructions'],  # cue
+            'new_fa': con['new_fa'],  # false alarms
+            'old_other_hit': con['old_other_miss'],  #
+            'old_self_hit': con['old_self_miss'],
+            'other_relevance_with_response':\
+            con['other_relevance_with_response'],
+            'self_relevance_with_response':\
+            con['self_relevance_with_response'],
+            'self-other_hit': con['old_self_miss'] - con['old_other_miss'],
+            'self-other_with_response':
+                con['self_relevance_with_response']
+                - con['other_relevance_with_response'],
+        }
+    else:
+        contrasts = {
+            'instructions': con['instructions'],  # cue
+            'new_fa': con['new_fa'],  # false alarms
+            'old_other_hit': con['old_other_hit'],  #
+            'old_self_hit': con['old_self_hit'],
+            'other_relevance_with_response':\
+            con['other_relevance_with_response'],
+            'self_relevance_with_response':\
+            con['self_relevance_with_response'],
+            'self-other_hit': con['old_self_hit'] - con['old_other_hit'],
+            'self-other_with_response':
+                con['self_relevance_with_response']
+                - con['other_relevance_with_response'],
+        }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)

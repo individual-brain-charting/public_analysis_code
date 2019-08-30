@@ -384,14 +384,32 @@ def copy_db(df, write_dir, filename='result_db.csv'):
     return df1
 
 
-def make_surf_db(main_dir=DERIVATIVES, conditions=False, subject_list=SUBJECTS):
+def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
+                subject_list=SUBJECTS, task_list=False):
     """ Create a database for surface data (gifti files)
 
-    main_dir: string,
+    derivatives: string,
               directory where the studd will be found
 
     conditions: Bool, optional,
-                Whether to map conditions or contrasts
+                Whether to map conditions or contrastsderivatives: string, optional
+        path toward a valid BIDS derivatives directory
+
+    conditions: pandas DataFrame, optional,
+        dataframe describing the conditions under considerations
+
+    subject_list: list, optional,
+        list of subjects to be included in the analysis
+
+    task_list: list_optional,
+        list of tasks to be returned
+
+    Returns
+    -------
+    db: pandas DataFrame,
+        "database" yielding informations (path,
+        subject, modality, contrast, session, task, acquisition, hemisphere)
+        on the gifti files under consideration
     """
     imgs = []
     sides = []
@@ -401,16 +419,8 @@ def make_surf_db(main_dir=DERIVATIVES, conditions=False, subject_list=SUBJECTS):
     tasks = []
 
     # fixed-effects activation images
-    if conditions is True:
-        con_df = CONDITIONS
-        contrast_name = con_df.condition
-    elif conditions == 'all':
-        ALL = pd.read_csv('all_contrasts.tsv', sep='\t')
-        con_df = ALL
-        contrast_name = con_df.index
-    else:
-        con_df = CONTRASTS
-        contrast_name = con_df.contrast
+    con_df = conditions
+    contrast_name = con_df.contrast
 
     for subject in subject_list:
         for i in range(len(con_df)):
@@ -431,7 +441,7 @@ def make_surf_db(main_dir=DERIVATIVES, conditions=False, subject_list=SUBJECTS):
                     contrast = 'language_probe'
             for side in ['lh', 'rh']:
                 wc = os.path.join(
-                    main_dir, subject, '*/res_surf_%s_ffx/stat_surf/%s_%s.gii'
+                    derivatives, subject, '*/res_surf_%s_ffx/stat_surf/%s_%s.gii'
                     % (task, contrast, side))
                 imgs_ = glob.glob(wc)
                 imgs_.sort()
