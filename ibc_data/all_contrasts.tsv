@@ -232,20 +232,20 @@ language_00	complex-consonant_string	Read complex sentence vs consonant strings	
 language_00	sentence-pseudo	Read sentence vs pseudo-words																		1																														1	1				1																		1																																					
 language_00	probe	Word probe																																																													1	1																																														
 language_00	jabberwocky-consonant_string	Read jabberwocky vs consonant strings	read jabberwocky	consonant strings															1																																1																						1																																					
-mtt_sn	average_reference	Updating ones position in space and time																																		1		1											1																																										1																			
-mtt_sn	cue_time	Time cue of an event																																		1													1																																														1															
-mtt_sn	cue_space	Spatial cue of an event																																		1													1																											1	1																																	
-mtt_sn	cue_time-space	time vs spatial cue about event																																																																																												1																
-mtt_sn	cue_space-time	spatial vs time cue about event																																																																											1																																	
-mtt_sn	time_event	present vs. past or future  event	future or past event 	present event																																1		1																																																							1			1														
-mtt_sn	event_time-space	event in time vs event in space 																																																																																													1															
-mtt_sn	event_space-time	event in space vs event in time 																																																																										1		1	1																															
-mtt_sn	past-future_event	past vs. future events	event in future	event in past																																																																																													1													
-mtt_sn	far-close_time_event	events far vs. close in time	event close in time	event far in time																																																																																														1												
-mtt_sn	north-south_events	north vs. south position of event	event in south	event in north																																																																																																										
-mtt_sn	south_north_event	events occurring in north or south vs. here	event occurring here	event in north or south																																																																																																										
-mtt_sn	far-close_space_event	events occurring far vs. close in space	spatially close event	spatially far event																																																																																																										
-mtt_sn	average_event	Figuring out the space/time of an event	fixation	relative event																																1		1											1																																																													
+mtt_ns	average_reference	Updating ones position in space and time																																		1		1											1																																										1																			
+mtt_ns	cue_time	Time cue of an event																																		1													1																																														1															
+mtt_ns	cue_space	Spatial cue of an event																																		1													1																											1	1																																	
+mtt_ns	cue_time-space	time vs spatial cue about event																																																																																												1																
+mtt_ns	cue_space-time	spatial vs time cue about event																																																																											1																																	
+mtt_ns	time_event	present vs. past or future  event	future or past event 	present event																																1		1																																																							1			1														
+mtt_ns	event_time-space	event in time vs event in space 																																																																																													1															
+mtt_ns	event_space-time	event in space vs event in time 																																																																										1		1	1																															
+mtt_ns	past-future_event	past vs. future events	event in future	event in past																																																																																													1													
+mtt_ns	far-close_time_event	events far vs. close in time	event close in time	event far in time																																																																																														1												
+mtt_ns	north-south_events	north vs. south position of event	event in south	event in north																																																																																																										
+mtt_ns	south_north_event	events occurring in north or south vs. here	event occurring here	event in north or south																																																																																																										
+mtt_ns	far-close_space_event	events occurring far vs. close in space	spatially close event	spatially far event																																																																																																										
+mtt_ns	average_event	Figuring out the space/time of an event	fixation	relative event																																1		1											1																																																													
 mtt_we	average_reference	Updating ones position in space and time																																		1		1											1															1																											1																			
 mtt_we	cue_time	Time cue of an event																																		1													1																																														1															
 mtt_we	cue_space	Spatial cue of an event																																		1													1																											1	1																																	

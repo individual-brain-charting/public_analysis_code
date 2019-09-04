@@ -48,14 +48,11 @@ def get_subject_session(protocols):
 
     Parameters
     ----------
-
-    protocols: list
-               List whose elements are the names of the protocols the user
-               wants to retrieve
+    protocols: string or list,
+               name(s) of the protocols the user wants to retrieve
 
     Returns
     -------
-
     subject_session: list of tuples
                      Each element correspondes to a (subject, session) pair
                      for the requested protocols
@@ -64,7 +61,14 @@ def get_subject_session(protocols):
     df = pd.read_csv(os.path.join(
         _package_directory, '../ibc_data', 'sessions.csv'), index_col=0)
     subject_session = []
-    for protocol in protocols:
+
+    # corerce to list
+    if isinstance(protocols, str):
+        protocols_ = [protocols]
+    else:
+        protocols_ = protocols
+        
+    for protocol in protocols_:
         for session in df.columns:
             if (df[session] == protocol).any():
                 subjects = df[session][df[session] == protocol].keys()
@@ -209,6 +213,9 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if task == 'mtt_we':
                     task = 'IslandWE'
                     task_name = 'mtt_we'
+                if task == 'vstm':
+                    task = 'VSTM'
+                    task_name = 'vstm'
 
                 wildcard = os.path.join(
                     derivatives, '%s/*/res_stats_%s*_%s/stat_maps/%s.nii.gz' %

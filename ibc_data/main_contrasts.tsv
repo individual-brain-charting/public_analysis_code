@@ -53,22 +53,22 @@ rsvp_language	consonant_string	consonant strings' encoding vs. fixation	fixation
 retinotopy	phase_ring	eccentricity maps	central cross	radial position																					
 retinotopy	phase_wedge	polar angle map	central cross	angular position																					
 retinotopy	retinotopicity	sensitivity to retinotopy	central cross	retinal position																					
-average_reference	mtt_sn	Updating ones position in space and time	fixation	time/space position																					
-cue_time	mtt_sn	Time cue of an event	fixation	time cue																					
-cue_space	mtt_sn	Spatial cue of an event	fixation	spatial cue																					
-cue_time-space	mtt_sn	time vs spatial cue about event	spatial cue	time cue																					
-event_time-space	mtt_sn	event in time vs event in space 	event in space	event in time																					
-average_event	mtt_sn	Figuring out the position/time of an event	fixation	event in time or space																					
-event_time	mtt_sn	Figuring out the time of an event	fixation	event in time																					
-event_space	mtt_sn	Figuring out the position of an event	fixation	event in space																					
-average_reference	mtt_we	Updating ones position in space and time	fixation	time/space position																					
-cue_time	mtt_we	Time cue of an event	fixation	time cue																					
-cue_space	mtt_we	Spatial cue of an event	fixation	spatial cue																					
-cue_time-space	mtt_we	time vs spatial cue about event	spatial cue	time cue																					
-event_time-space	mtt_we	event in time vs event in space 	event in space	event in time																					
-average_event	mtt_we	Figuring out the space/time of an event	fixation	event in time or space																					
-event_time	mtt_we	Figuring out the time of an event	fixation	event in time																					
-event_space	mtt_we	Figuring out the position of an event	fixation	event in space																					
+mtt_ns	average_reference	Updating ones position in space and time	fixation	time/space position																					
+mtt_ns	cue_time	Time cue of an event	fixation	time cue																					
+mtt_ns	cue_space	Spatial cue of an event	fixation	spatial cue																					
+mtt_ns	cue_time-space	time vs spatial cue about event	spatial cue	time cue																					
+mtt_ns	event_time-space	event in time vs event in space 	event in space	event in time																					
+mtt_ns	average_event	Figuring out the position/time of an event	fixation	event in time or space																					
+mtt_ns	event_time	Figuring out the time of an event	fixation	event in time																					
+mtt_ns	event_space	Figuring out the position of an event	fixation	event in space																					
+mtt_we	average_reference	Updating ones position in space and time	fixation	time/space position																					
+mtt_we	cue_time	Time cue of an event	fixation	time cue																					
+mtt_we	cue_space	Spatial cue of an event	fixation	spatial cue																					
+mtt_we	cue_time-space	time vs spatial cue about event	spatial cue	time cue																					
+mtt_we	event_time-space	event in time vs event in space 	event in space	event in time																					
+mtt_we	average_event	Figuring out the space/time of an event	fixation	event in time or space																					
+mtt_we	event_time	Figuring out the time of an event	fixation	event in time																					
+mtt_we	event_space	Figuring out the position of an event	fixation	event in space																					
 preference	preference_constant	object perception and evaluation	fixation	visual evaluation																					
 preference	preference_linear	linear effect of preference	no preference	visual preference																					
 preference	preference_quadratic	quadratic effect of preference	no confidence 	confidence in preference																					
