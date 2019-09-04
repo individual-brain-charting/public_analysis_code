@@ -17,6 +17,7 @@ from joblib import Memory, Parallel, delayed
 from ibc_public.utils_pipeline import (
     fixed_effects_analysis, first_level, fsl_topup)
 from ibc_public.utils_data import get_subject_session
+from script_resample_normalized_data import resample_func_and_anat
 
 
 def clean_anatomical_images(main_dir):
@@ -210,14 +211,15 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
     do_topup = True
     """
-    protocol = 'self'
+    protocol = 'lyon2'
     subject_session = sorted(get_subject_session([protocol]))
-    subject_session = [('sub-04', 'ses-21'), ('sub-14', 'ses-21'),
-                       ('sub-13', 'ses-20')]
+    subject_session = [('sub-01', 'ses-23'), ('sub-09', 'ses-21'),
+                       ('sub-15', 'ses-19')]
     """
-    protocol = 'stanford2'
+    protocol = 'stanford3'
     subject_session = sorted(get_subject_session([protocol]))
-    subject_session = [('sub-04', 'ses-25'), ('sub-11', 'ses-26')]
+    subject_session = subject_session[:2]
+
     if do_topup:
         acq = None
         if protocol in ['rs']:
@@ -228,7 +230,7 @@ if __name__ == '__main__':
 
     subject_data = []
     jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-    subject_data_ = Parallel(n_jobs=1)(
+    subject_data_ = Parallel(n_jobs=3)(
         delayed(run_subject_preproc)(jobfile, subject, session)
         for subject, session in subject_session)
     subject_data = subject_data + subject_data_[0]
@@ -248,6 +250,9 @@ if __name__ == '__main__':
     json_file = open(json_file_name, "w")
     json.dump(list_subject_update, json_file)
     json_file.flush()
+
+    # resampling toward pre-defined shape
+    resample_func_and_anat()
 
     # Load the dump data
     list_subjects_update = json.load(open(json_file_name))

@@ -52,7 +52,7 @@ def generate_glm_input(jobfile):
             'session_id': session_ids * 2,
             'TR': subject.TR,
             'drift_model': subject.drift_model,
-            'hfcut': subject.hfcut,
+            'hfcut': 1. / 128,
             'time_units': subject.time_units,
             'hrf_model': subject.hrf_model,
             'onset': onsets * 2,
@@ -88,10 +88,10 @@ def run_subject_surface_glm(jobfile, subject, session, protocol):
 
 
 if __name__ == '__main__':
-    for protocol in ['rsvp-language']:
+    for protocol in ['lyon1', 'lyon2']:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = sorted(get_subject_session(protocol))
-        Parallel(n_jobs=4)(
+        subject_session = sorted(get_subject_session([protocol]))[-1:]
+        Parallel(n_jobs=2)(
             delayed(run_subject_surface_glm)(
                 jobfile, subject, session, protocol)
             for (subject, session) in subject_session)

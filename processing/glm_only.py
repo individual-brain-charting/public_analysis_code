@@ -75,7 +75,7 @@ def generate_glm_input(jobfile, smooth=None, lowres=False):
             'session_id': subject.session_id,
             'TR': subject.TR,
             'drift_model': subject.drift_model,
-            'hfcut': subject.hfcut,
+            'hfcut': 1. / 128,
             'time_units': subject.time_units,
             'hrf_model': subject.hrf_model,
             'anat': anat,
@@ -126,7 +126,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
-    protocols = ['self']
+    protocols = ['lyon2']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session([protocol])
