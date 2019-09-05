@@ -27,7 +27,7 @@ def get_labels(*contrasts: str, contrast_col=CONTRAST_COL):
 
 
 def add_labels(contrast: str, *labels: str, contrast_col=CONTRAST_COL,
-               path=ALL_CONTRASTS):
+               output_file=ALL_CONTRASTS):
     """Adds all the passed labels to the selected contrast"""
     df = pd.read_csv(ALL_CONTRASTS, sep='\t')
     con_index = df[df[contrast_col] == contrast].index
@@ -37,4 +37,4 @@ def add_labels(contrast: str, *labels: str, contrast_col=CONTRAST_COL,
         else:
             print(f"There is no label with the name {label}")
 
-    df.to_csv(path, sep='\t', index=False)
+    df.to_csv(output_file, sep='\t', index=False)
