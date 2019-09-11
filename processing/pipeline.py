@@ -209,16 +209,17 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
+    """
+    do_topup = False
+    protocol = 'preferences'
+    subject_session = sorted(get_subject_session([protocol]))
+    subject_session = [('sub-15', 'ses-06')]
+    """
     do_topup = True
-    """
-    protocol = 'lyon2'
+    protocol = 'enumeration'
     subject_session = sorted(get_subject_session([protocol]))
-    subject_session = [('sub-01', 'ses-23'), ('sub-09', 'ses-21'),
-                       ('sub-15', 'ses-19')]
-    """
-    protocol = 'stanford3'
-    subject_session = sorted(get_subject_session([protocol]))
-    subject_session = subject_session[:2]
+    subject_session = [('sub-13', 'ses-17')]
+
 
     if do_topup:
         acq = None
@@ -230,7 +231,7 @@ if __name__ == '__main__':
 
     subject_data = []
     jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-    subject_data_ = Parallel(n_jobs=3)(
+    subject_data_ = Parallel(n_jobs=1)(
         delayed(run_subject_preproc)(jobfile, subject, session)
         for subject, session in subject_session)
     subject_data = subject_data + subject_data_[0]

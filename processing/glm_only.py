@@ -119,14 +119,14 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
                             additional_regressors=RETINO_REG,
                             smooth=smooth, mask_img=mask_img)
             else:
-                first_level(subject, compcorr=True, smooth=smooth,
-                            mask_img=mask_img)
+                # first_level(subject, compcorr=True, smooth=smooth,
+                # mask_img=mask_img)
                 fixed_effects_analysis(subject, mask_img=mask_img)
 
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
-    protocols = ['lyon2']
+    protocols = ['rsvp-language']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session([protocol])

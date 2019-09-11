@@ -317,14 +317,14 @@ def _unique_frequencies(frequencies):
     import numpy as np
     frequencies_ = np.array(frequencies)
     unique_terms = np.unique(frequencies_.T[0])
-    frequencies = [
+    frequencies = dict([
         (term,
          np.mean(frequencies_[frequencies_[:, 0] == term, 1].astype(np.float)))
-        for term in unique_terms]
+        for term in unique_terms])
     return frequencies
 
 
-def horizontal_fingerprint(coef, seed, roi_name, labels_bottom, labels_top,
+def horizontal_fingerprint(coef, roi_name, labels_bottom, labels_top,
                            output_file, wc=True, nonneg=False):
     """Create a fingerprint figure, optionally with a word cloud"""
     import matplotlib.pyplot as plt
@@ -344,9 +344,7 @@ def horizontal_fingerprint(coef, seed, roi_name, labels_bottom, labels_top,
         plt.text(nc, ymax, labels_top[nc], rotation=75,
                  ha='left', va='bottom', color='w')
     #
-    x, y, z = seed
-    plt.text(n_contrasts / 3, 1.7 * ymax - .7 * ymin,
-             ' %s (%d, %d, %d)' % (roi_name, x, y, z),
+    plt.text(n_contrasts / 3, 1.7 * ymax - .7 * ymin, roi_name,
              color=[1, .5, 0], fontsize=18, weight='bold',
              bbox=dict(facecolor='k', alpha=0.5))
     plt.axis('tight')

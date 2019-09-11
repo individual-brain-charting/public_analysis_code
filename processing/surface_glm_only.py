@@ -88,10 +88,10 @@ def run_subject_surface_glm(jobfile, subject, session, protocol):
 
 
 if __name__ == '__main__':
-    for protocol in ['lyon1', 'lyon2']:
+    for protocol in ['tom', 'clips4', 'mtt1', 'mtt2', 'preferences']:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = sorted(get_subject_session([protocol]))[-1:]
-        Parallel(n_jobs=2)(
+        subject_session = sorted(get_subject_session([protocol]))
+        Parallel(n_jobs=5)(
             delayed(run_subject_surface_glm)(
                 jobfile, subject, session, protocol)
             for (subject, session) in subject_session)

@@ -46,7 +46,7 @@ rsvp_language	complex-simple	complex- vs. simple-syntax sentence reading	simple 
 rsvp_language	sentence-jabberwocky	reading sentence vs. jabberwocky	read jabberwocky	read sentence																					
 rsvp_language	sentence-word	reading sentence vs. words	read words	read sentence																					
 rsvp_language	word-consonant_string	reading words vs. consonant strings	consonant strings	read words																					
-rsvp_language	jabberworcky-pseudo	reading jabberwocky vs. pseudowords	read pseudowords	read jabberwocky																					
+rsvp_language	jabberwocky-pseudo	reading jabberwocky vs. pseudowords	read pseudowords	read jabberwocky																					
 rsvp_language	word-pseudo	reading words vs. pseudowords	read pseudowords	read words																					
 rsvp_language	pseudo-consonant_string	reading pseudowords vs. consonant strings	consonant strings	read pseudowords																					
 rsvp_language	consonant_string	consonant strings' encoding vs. fixation	fixation	consonant strings																					
