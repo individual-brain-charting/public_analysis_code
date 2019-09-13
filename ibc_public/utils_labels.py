@@ -19,7 +19,8 @@ def get_labels(contrasts, contrast_col=CONTRAST_COL):
         con = df[df[contrast_col] == contrast]
 
         if len(con.index) == 0:
-            print(f"There is no contrast with the name {contrast}")
+            err = f"There is no contrast with the name {contrast}"
+            raise ValueError(err)
         else:
             labels = df.columns[con.isin([1.0]).any()]
             print(f"The labels for {contrast} are: "
