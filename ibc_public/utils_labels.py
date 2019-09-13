@@ -51,7 +51,27 @@ def get_labels(contrasts, contrast_col=CONTRAST_COL):
 
 def add_labels(contrast, labels, contrast_col=CONTRAST_COL,
                output_file=ALL_CONTRASTS):
-    """Adds all the passed labels to the selected contrast"""
+    """
+    Adds all the passed labels to the selected contrast
+
+    Paramenters
+    -----------
+
+    contrast: str
+              name of the contrast that will get the labels
+
+    labels: list of str
+            labels that the user wants to add. The labels must exist as
+            columns in the file
+
+    contrast_col: str
+              string used to locate the column of the labels file that
+              stores contrast names
+
+    output_file: str or path object
+                 path to csv file where the new label database is to be saved
+                 with the changed
+    """
     df = pd.read_csv(ALL_CONTRASTS, sep='\t')
     con_index = df[df[contrast_col] == contrast].index
     for label in labels:
