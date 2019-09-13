@@ -11,7 +11,7 @@ ALL_CONTRASTS = os.path.join(_package_directory, '..', 'ibc_data',
 CONTRAST_COL = 'contrast'
 
 
-def get_labels(*contrasts: str, contrast_col=CONTRAST_COL):
+def get_labels(contrasts, contrast_col=CONTRAST_COL):
     """Returns the list of labels for each passed contrast name"""
     df = pd.read_csv(ALL_CONTRASTS, sep='\t')
 
@@ -26,7 +26,7 @@ def get_labels(*contrasts: str, contrast_col=CONTRAST_COL):
                   f"{[label for label in labels]}")
 
 
-def add_labels(contrast: str, *labels: str, contrast_col=CONTRAST_COL,
+def add_labels(contrast, labels, contrast_col=CONTRAST_COL,
                output_file=ALL_CONTRASTS):
     """Adds all the passed labels to the selected contrast"""
     df = pd.read_csv(ALL_CONTRASTS, sep='\t')
