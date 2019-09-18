@@ -52,7 +52,7 @@ def get_labels(contrasts='all', contrast_col=CONTRAST_COL):
     for index, con in con_slice.iterrows():
 
         labels = con.loc[con == 1.0].index
-        con_name = f"{con.contrast} ({con.task})"
+        con_name = f"({con.task}) {con.contrast}"
         contrast_dict[con_name] = [label for label in labels]
 
     return contrast_dict
@@ -90,3 +90,25 @@ def add_labels(contrast, labels, contrast_col=CONTRAST_COL,
             print(f"There is no label with the name {label}")
 
     df.to_csv(output_file, sep='\t', index=False)
+
+
+def sparse_labels(output_dir=os.path.dirname(ALL_CONTRASTS), save=True):
+    """
+    Transform the all_contrasts.csv file into a more readable, sparse file.
+    The new file will contain the name of each task, each contrast and only
+    the names of the labels that are related to them in each row.
+
+    Parameters
+    ----------
+
+    output_dir: str, default ibc_data dir path
+                Path for saving the new file. Defaults to the same directory
+                where all_contrasts.csv is located
+
+    save: bool, default True
+    """
+
+    labels_dict = get_labels()
+
+
+
