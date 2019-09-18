@@ -14,28 +14,31 @@ ALL_CONTRASTS = os.path.join(_package_directory, '..', 'ibc_data',
 CONTRAST_COL = 'contrast'
 
 
-def get_labels(contrasts, contrast_col=CONTRAST_COL):
+def get_labels(contrasts='all', contrast_col=CONTRAST_COL):
     """
     Returns the list of labels for each passed contrast name
 
     Parameters
     ----------
 
-    contrasts: list of str
-               each element of the list is a contrast name in the document
+    contrasts: list of str, default 'all'
+               Each element of the list is a contrast name in the document.
+               The default argument will select all present contrasts
 
     contrast_col: str
-                  string used to locate the column of the labels file that
+                  String used to locate the column of the labels file that
                   stores contrast names
 
     Returns
     -------
 
     contrast_dict: dict
-                   dictionary containing the contrasts provided by the user
+                   Dictionary containing the contrasts provided by the user
                    as keys, and their corresponding labels as values
     """
     df = pd.read_csv(ALL_CONTRASTS, sep='\t')
+    if contrasts == 'all':
+        contrasts = df[CONTRAST_COL].values
 
     contrast_dict = {}
 
@@ -64,18 +67,18 @@ def add_labels(contrast, labels, contrast_col=CONTRAST_COL,
     -----------
 
     contrast: str
-              name of the contrast that will get the labels
+              Name of the contrast that will get the labels
 
     labels: list of str
-            labels that the user wants to add. The labels must exist as
+            Labels that the user wants to add. The labels must exist as
             columns in the file
 
     contrast_col: str
-              string used to locate the column of the labels file that
+              String used to locate the column of the labels file that
               stores contrast names
 
     output_file: str or path object
-                 path to csv file where the new label database is to be saved
+                 Path to csv file where the new label database is to be saved
                  with the changed
     """
     df = pd.read_csv(ALL_CONTRASTS, sep='\t')
