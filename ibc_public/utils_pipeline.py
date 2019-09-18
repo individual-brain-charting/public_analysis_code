@@ -329,7 +329,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         # create the design matrix
         design_matrix = make_first_level_design_matrix(
             frametimes, paradigm, hrf_model=hrf_model, drift_model=drift_model,
-            period_cut=hfcut, add_regs=add_regs,
+            high_pass=hfcut, add_regs=add_regs,
             add_reg_names=add_reg_names)
         _, dmtx, names = check_design_matrix(design_matrix)
 
