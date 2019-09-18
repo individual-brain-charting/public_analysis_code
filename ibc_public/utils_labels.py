@@ -1,5 +1,8 @@
 import json
 import sys
+import warnings
+
+import numpy as np
 import pandas as pd
 
 import os
@@ -36,15 +39,18 @@ def get_labels(contrasts, contrast_col=CONTRAST_COL):
 
     contrast_dict = {}
 
-    for contrast in contrasts:
-        con = df[df[contrast_col] == contrast]
+    con_slice = df[df[CONTRAST_COL].isin(contrasts)]
+    not_found = np.setdiff1d(contrasts, con_slice[CONTRAST_COL])
 
-        if len(con.index) == 0:
-            err = f"There is no contrast with the name {contrast}"
-            raise ValueError(err)
-        else:
-            labels = df.columns[con.isin([1.0]).any()]
-            contrast_dict[contrast] = [label for label in labels]
+    if not_found.size != 0:
+        warnings.warn(f"The following contrast names were not found: "
+                      f"{not_found}")
+
+    for index, con in con_slice.iterrows():
+
+        labels = con.loc[con == 1.0].index
+        con_name = f"{con.contrast} ({con.task})"
+        contrast_dict[con_name] = [label for label in labels]
 
     return contrast_dict
 
