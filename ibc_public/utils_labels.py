@@ -92,6 +92,16 @@ def add_labels(contrast, labels, contrast_col=CONTRAST_COL,
     df.to_csv(output_file, sep='\t', index=False)
 
 
+def _flatten_contrast(contrast):
+    """Helper function to change a labels_dict entry into a flattened list"""
+
+    trans = str.maketrans("", "", "()")
+    flat_contrast = contrast[0].translate(trans).split(" ")
+    flat_contrast.extend(contrast[1])
+
+    return flat_contrast
+
+
 def sparse_labels(output_dir=os.path.dirname(ALL_CONTRASTS), save=True):
     """
     Transform the all_contrasts.csv file into a more readable, sparse file.
@@ -106,9 +116,23 @@ def sparse_labels(output_dir=os.path.dirname(ALL_CONTRASTS), save=True):
                 where all_contrasts.csv is located
 
     save: bool, default True
+
+    Returns
+    -------
+
+    sparse_df: pd.DataFrame
+                   New dataframe with only the task name, contrast name and
+                   names of labels in each row
     """
 
     labels_dict = get_labels()
+    sparse_list = list(map(_flatten_contrast, labels_dict.items()))
 
+    col_names = ['Task', 'Contrast']
+    col_names.extend([f"Label{i + 1}" for i in range(10)])
+
+    sparse_df = pd.DataFrame(sparse_list, columns=col_names)
+
+    return sparse_df
 
 
