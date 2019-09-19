@@ -11,10 +11,9 @@ _package_directory = os.path.dirname(os.path.abspath(__file__))
 
 ALL_CONTRASTS = os.path.join(_package_directory, '..', 'ibc_data',
                              'all_contrasts.tsv')
-CONTRAST_COL = 'contrast'
 
 
-def get_labels(contrasts='all', contrast_col=CONTRAST_COL):
+def get_labels(contrasts='all'):
     """
     Returns the list of labels for each passed contrast name
 
@@ -25,10 +24,6 @@ def get_labels(contrasts='all', contrast_col=CONTRAST_COL):
                Each element of the list is a contrast name in the document.
                The default argument will select all present contrasts
 
-    contrast_col: str
-                  String used to locate the column of the labels file that
-                  stores contrast names
-
     Returns
     -------
 
@@ -38,12 +33,12 @@ def get_labels(contrasts='all', contrast_col=CONTRAST_COL):
     """
     df = pd.read_csv(ALL_CONTRASTS, sep='\t')
     if contrasts == 'all':
-        contrasts = df[CONTRAST_COL].values
+        contrasts = df['contrast'].values
 
     contrast_dict = {}
 
-    con_slice = df[df[CONTRAST_COL].isin(contrasts)]
-    not_found = np.setdiff1d(contrasts, con_slice[CONTRAST_COL])
+    con_slice = df[df['contrast'].isin(contrasts)]
+    not_found = np.setdiff1d(contrasts, con_slice['contrast'])
 
     if not_found.size != 0:
         warnings.warn(f"The following contrast names were not found: "
@@ -58,8 +53,7 @@ def get_labels(contrasts='all', contrast_col=CONTRAST_COL):
     return contrast_dict
 
 
-def add_labels(contrast, labels, contrast_col=CONTRAST_COL,
-               output_file=ALL_CONTRASTS):
+def add_labels(contrast, labels, output_file=ALL_CONTRASTS):
     """
     Adds all the passed labels to the selected contrast
 
@@ -73,16 +67,12 @@ def add_labels(contrast, labels, contrast_col=CONTRAST_COL,
             Labels that the user wants to add. The labels must exist as
             columns in the file
 
-    contrast_col: str
-              String used to locate the column of the labels file that
-              stores contrast names
-
     output_file: str or path object
                  Path to csv file where the new label database is to be saved
                  with the changed
     """
     df = pd.read_csv(ALL_CONTRASTS, sep='\t')
-    con_index = df[df[contrast_col] == contrast].index
+    con_index = df[df['contrast'] == contrast].index
     for label in labels:
         if label in df.columns:
             df.at[con_index, label] = 1.0
