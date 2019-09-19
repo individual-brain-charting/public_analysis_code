@@ -53,6 +53,32 @@ def get_labels(contrasts='all'):
     return contrast_dict
 
 
+def _binary_question(question):
+    """
+    Asks a yes/no question to the user and returns True or False depending
+    on the answer
+
+    Parameters
+    ----------
+
+    question: str
+              String prompted to the user
+
+    Returns
+    -------
+
+    response: bool
+              Response given by the user
+    """
+
+    while True:
+        reply = input(question+' (y/n): ').lower().strip()
+        if reply[:1] == 'y':
+            return True
+        if reply[:1] == 'n':
+            return False
+
+
 def add_labels(contrast, labels, output_file=ALL_CONTRASTS):
     """
     Adds all the passed labels to the selected contrast
@@ -78,6 +104,14 @@ def add_labels(contrast, labels, output_file=ALL_CONTRASTS):
             df.at[con_index, label] = 1.0
         else:
             print(f"There is no label with the name {label}")
+            response = _binary_question(f"Do you want to add {label}? [y/n]: ")
+
+            if response:
+                df.at[con_index, label] = 1.0
+                df.fillna(0.0, inplace=True)
+                print(f"Added {label}\n")
+            else:
+                print("No label added\n")
 
     df.to_csv(output_file, sep='\t', index=False)
 
