@@ -78,7 +78,7 @@ def run_subject_surface_glm(jobfile, subject, session, protocol):
         if len(subject['session_id']) > 0:
             print(len(subject['session_id']))
         if len(subject['session_id']) > 0:
-            if protocol == 'clips4':
+            if protocol == 'retino':
                 first_level(subject, compcorr=True,
                             additional_regressors=RETINO_REG,
                             smooth=None, surface=True)
@@ -88,10 +88,11 @@ def run_subject_surface_glm(jobfile, subject, session, protocol):
 
 
 if __name__ == '__main__':
-    for protocol in ['tom', 'clips4', 'mtt1', 'mtt2', 'preferences']:
+    for protocol in ['retino']: # , 'tom', 'mtt1', 'mtt2', 'preferences'
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = sorted(get_subject_session([protocol]))
-        Parallel(n_jobs=5)(
+        acquisition = 'clips4' # protocol
+        subject_session = sorted(get_subject_session(acquisition))
+        Parallel(n_jobs=1)(
             delayed(run_subject_surface_glm)(
                 jobfile, subject, session, protocol)
             for (subject, session) in subject_session)

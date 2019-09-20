@@ -127,17 +127,17 @@ lyon-lec1	random_string	read a random string	fixation	random string
 lyon-lec1	word-pseudoword	read a word vs a pseudo word	pseudo-word	word																			'word-random_string'		'pseudoword-random_string'
 lyon-lec1	word-random_string	read a word ws a random string	random string	word																					
 lyon-lec1	pseudoword-random_string	read a pseudoword vs a random string	random string	pseudo-word																					
-lyon-mveb	response																								
-lyon-mveb	2_letters_different-same																								
-lyon-mveb	4_letters_different-same																								
-lyon-mveb	6_letters_different-same																								
-lyon-mveb	6_letters_different-2_letters_different																								
-lyon-mvis	response																								
-lyon-mvis	2_dots-2_dots_control																								
-lyon-mvis	4_dots-4_dots_control																								
-lyon-mvis	6_dots-6_dots_control																								
-lyon-mvis	6_dots-2_dots																								
-lyon-moto	instructions	read intructions																							
+lyon-mveb	response	button press response																							
+lyon-mveb	2_letters_different-same	2 letters different - 2 letters same																							
+lyon-mveb	4_letters_different-same	4 letters different - 4 letters same																							
+lyon-mveb	6_letters_different-same	6 letters different - 6 letters same																							
+lyon-mveb	6_letters_different-2_letters_different	6 letters different - 2 letters different																							
+lyon-mvis	response	button press response																							
+lyon-mvis	2_dots-2_dots_control	2 dots - 2 dots control																							
+lyon-mvis	4_dots-4_dots_control	4 dots - 4 dots control																							
+lyon-mvis	6_dots-6_dots_control	6 dots - 6 dots control																							
+lyon-mvis	6_dots-2_dots	6 dots - 2 dots																							
+lyon-moto	instructions	read instructions																							
 lyon-moto	fixation-avg	fixation																							
 lyon-moto	finger_right-avg	right finger tapping vs other	any motion	right finger																					
 lyon-moto	finger_left-avg	left finger tapping vs other	any motion	left finger																					

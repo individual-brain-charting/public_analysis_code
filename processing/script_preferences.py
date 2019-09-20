@@ -7,6 +7,7 @@ from ibc_public.utils_pipeline import fixed_effects_img
 from pipeline import get_subject_session
 from nilearn.plotting import plot_stat_map
 from nilearn.image import math_img
+from nistats.utils import  _basestring
 
 
 # where to work and write
@@ -29,15 +30,15 @@ mask_img = os.path.join(
 def compute_contrast(con_imgs, var_imgs, mask_img):
     import nibabel as nib
     import numpy as np
-    if isinstance(mask_img, basestring):
+    if isinstance(mask_img, _basestring):
         mask_img = nib.load(mask_img)
 
     mask = mask_img.get_data().astype(np.bool)
     con, var = [], []
     for (con_img, var_img) in zip(con_imgs, var_imgs):
-        if isinstance(con_img, basestring):
+        if isinstance(con_img, _basestring):
             con_img = nib.load(con_img)
-        if isinstance(var_img, basestring):
+        if isinstance(var_img, _basestring):
             var_img = nib.load(var_img)
         con.append(con_img.get_data()[mask])
         var.append(var_img.get_data()[mask])
@@ -49,7 +50,7 @@ def compute_contrast(con_imgs, var_imgs, mask_img):
     for array in [fixed_con, fixed_var, stat]:
         vol = mask.astype(np.float)
         vol[mask] = array.ravel()
-        outputs.append(nib.Nifti1Image(vol, mask_img.get_affine()))
+        outputs.append(nib.Nifti1Image(vol, mask_img.affine))
     return outputs
 
 

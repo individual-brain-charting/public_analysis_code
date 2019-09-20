@@ -223,6 +223,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     (subject, task, acq, contrast))
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
+                    if subject == 'sub-15' and task == 'preference':
+                        pass
                     continue
                 imgs_.sort()
                 # some renaming
@@ -343,7 +345,7 @@ def horizontal_fingerprint(coef, roi_name, labels_bottom, labels_top,
     plt.xticks(np.linspace(1., n_contrasts + .8, num=n_contrasts + 1),
                labels_bottom, rotation=75, ha='right', fontsize=10, color='w')
 
-    ymax = .02 + coef.max() + .01 * (coef.max() - coef.min())
+    ymax = .03 + coef.max() + .01 * (coef.max() - coef.min())
     ymin = coef.min() - .01
     for nc in range(n_contrasts):
         plt.text(nc, ymax, labels_top[nc], rotation=75,
