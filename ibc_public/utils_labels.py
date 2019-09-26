@@ -19,14 +19,12 @@ def get_labels(contrasts='all'):
 
     Parameters
     ----------
-
     contrasts: list of str, default 'all'
                Each element of the list is a contrast name in the document.
                The default argument will select all present contrasts
 
     Returns
     -------
-
     contrast_dict: dict
                    Dictionary containing the contrasts provided by the user
                    as keys, and their corresponding labels as values
@@ -59,7 +57,6 @@ def add_labels(contrast, labels, output_file=ALL_CONTRASTS):
 
     Paramenters
     -----------
-
     contrast: str
               Name of the contrast that will get the labels
 
@@ -103,7 +100,6 @@ def sparse_labels(output_dir=os.path.dirname(ALL_CONTRASTS), save=True):
 
     Parameters
     ----------
-
     output_dir: str, default ibc_data dir path
                 Path for saving the new file. Defaults to the same directory
                 where all_contrasts.csv is located
@@ -112,7 +108,6 @@ def sparse_labels(output_dir=os.path.dirname(ALL_CONTRASTS), save=True):
 
     Returns
     -------
-
     sparse_df: pd.DataFrame
                    New dataframe with only the task name, contrast name and
                    names of labels in each row
