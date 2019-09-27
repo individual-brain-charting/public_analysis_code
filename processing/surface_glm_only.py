@@ -88,9 +88,9 @@ def run_subject_surface_glm(jobfile, subject, session, protocol):
 
 
 if __name__ == '__main__':
-    for protocol in ['retino']: # , 'tom', 'mtt1', 'mtt2', 'preferences'
+    for protocol in ['preferences']:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        acquisition = 'clips4' # protocol
+        acquisition = protocol  # 'clips4' #
         subject_session = sorted(get_subject_session(acquisition))
         Parallel(n_jobs=1)(
             delayed(run_subject_surface_glm)(

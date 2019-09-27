@@ -408,7 +408,7 @@ def stop_signal(design_matrix_columns):
 
 
 def stroop(design_matrix_columns):
-    """Contrasts for the lyon lec2 protocol"""
+    """Contrasts for the stanford stroop protocol"""
     contrast_names = ['congruent', 'incongruent', 'congruent-incongruent',
                       'incongruent-congruent']
     if design_matrix_columns is None:
@@ -538,7 +538,7 @@ def audio(design_matrix_columns):
 
 
 def lyon_mveb(design_matrix_columns):
-    """ Contrasts for Lyon motor localizer"""
+    """ Contrasts for Lyon mveb localizer"""
     contrast_names = [
         'response', '2_letters_different-same',
         '4_letters_different-same', '6_letters_different-same',
@@ -563,7 +563,7 @@ def lyon_mveb(design_matrix_columns):
 
 
 def lyon_mvis(design_matrix_columns):
-    """ Contrasts for Lyon motor localizer"""
+    """ Contrasts for Lyon mvis localizer"""
     contrast_names = ['response',
                       '2_dots-2_dots_control', '4_dots-4_dots_control',
                       '6_dots-6_dots_control', '6_dots-2_dots', 'dots-control']

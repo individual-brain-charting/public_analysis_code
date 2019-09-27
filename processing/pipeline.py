@@ -75,6 +75,7 @@ def clean_subject(subject):
     subject['func'] = funcs
     subject['realignment_parameters'] = rps
     subject['session_id'] = session_ids
+    subject['hfcut'] = 1. / 128
     return subject
 
 
@@ -209,10 +210,10 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
-    do_topup = False
+    do_topup = True
     protocol = 'preferences'
     subject_session = sorted(get_subject_session([protocol]))
-    subject_session = [('sub-15', 'ses-06')]
+    subject_session = [('sub-05', 'ses-15')]
 
     if do_topup:
         acq = None
