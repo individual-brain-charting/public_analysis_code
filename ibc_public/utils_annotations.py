@@ -136,13 +136,17 @@ ref_columns = cs.columns[5:]
 
 rewrite = True
 
+"""
 # create a compact table
 if rewrite:
     compact_table = make_compact_table(
         cs, os.path.join(write_dir, 'all_contrasts_sparse.tsv'))
 else:
     compact_table = make_compact_table(cs)
-    
+"""
+sparse_contrasts = os.path.join(write_dir, 'all_contrasts_sparse.tsv')
+compact_table = pd.read_csv(sparse_contrasts, sep='\t')
+
 # create a sparse table
 if rewrite:
     sparse_table = expand_table(
