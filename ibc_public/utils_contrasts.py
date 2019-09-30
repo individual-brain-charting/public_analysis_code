@@ -540,14 +540,17 @@ def audio(design_matrix_columns):
 def lyon_mveb(design_matrix_columns):
     """ Contrasts for Lyon motor localizer"""
     contrast_names = [
-        'response', '2_letters_different-same',
+        'response', '2_letters_different', '2_letters_same',
+        '4_letters_different', '4_letters_same',
+        '6_letters_different', '6_letters_same',
+        '2_letters_different-same',
         '4_letters_different-same', '6_letters_different-same',
         '6_letters_different-2_letters_different']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     #
-    contrasts = {'response': con['response']}
+    contrasts = {[(key, con[key]) for key in contrast_names[:7]]}
     contrasts['2_letters_different-same'] = con['2_letters_different'] -\
         con['2_letters_same']
     contrasts['4_letters_different-same'] = con['4_letters_different'] -\
