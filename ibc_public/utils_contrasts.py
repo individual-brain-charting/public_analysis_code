@@ -448,7 +448,7 @@ def lyon_lec2(design_matrix_columns):
 def lyon_audi(design_matrix_columns):
     """Contrasts for the lyon audi protocol"""
     contrast_names = ['tear', 'suomi', 'yawn', 'human', 'silence', 'music',
-                      'reverse', 'speech', 'alphabet', 'cough', 'envir',
+                      'reverse', 'speech', 'alphabet', 'cough', 'environment',
                       'laugh', 'animals']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
