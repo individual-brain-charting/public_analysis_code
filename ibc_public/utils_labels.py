@@ -39,13 +39,13 @@ def get_labels(contrasts='all'):
     not_found = np.setdiff1d(contrasts, con_slice['contrast'])
 
     if not_found.size != 0:
-        warnings.warn(f"The following contrast names were not found: "
-                      f"{not_found}")
+        warnings.warn("The following contrast names were not "
+                      "found: {}".format(not_found))
 
     for index, con in con_slice.iterrows():
 
         labels = con.loc[con == 1.0].index
-        con_name = f"({con.task}) {con.contrast}"
+        con_name = "({}) {}".format(con.task, con.contrast)
         contrast_dict[con_name] = [label for label in labels]
 
     return contrast_dict
@@ -74,10 +74,10 @@ def add_labels(contrast, labels, output_file=ALL_CONTRASTS):
         if label in df.columns:
             df.at[con_index, label] = 1.0
         else:
-            print(f"No label with the name {label} could be found")
+            print("No label with the name {} could be found".format(label))
             df.at[con_index, label] = 1.0
             df.fillna(0.0, inplace=True)
-            print(f"Added {label}\n")
+            print("Added {}\n".format(label))
 
     df.to_csv(output_file, sep='\t', index=False)
 
@@ -117,7 +117,7 @@ def sparse_labels(output_dir=os.path.dirname(ALL_CONTRASTS), save=True):
     sparse_list = list(map(_flatten_contrast, labels_dict.items()))
 
     col_names = ['Task', 'Contrast']
-    col_names.extend([f"Label{i + 1}" for i in range(10)])
+    col_names.extend(["Label{}".format(i + 1 for i in range(10))])
 
     sparse_df = pd.DataFrame(sparse_list, columns=col_names)
 
