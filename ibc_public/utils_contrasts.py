@@ -447,13 +447,20 @@ def lyon_lec2(design_matrix_columns):
 
 def lyon_audi(design_matrix_columns):
     """Contrasts for the lyon audi protocol"""
-    contrast_names = ['tear', 'suomi', 'yawn', 'human', 'silence', 'music',
+    contrast_names = ['tear', 'suomi', 'yawn', 'human', 'music',
                       'reverse', 'speech', 'alphabet', 'cough', 'envir',
-                      'laugh', 'animals']
+                      'laugh', 'animals',  'silence', 'tear-silence',
+                      'suomi-silence',
+                      'yawn-silence', 'human-silence', 'music-silence',
+                      'reverse-silence', 'speech-silence', 'alphabet-silence',
+                      'cough-silence', 'environment-silence',
+                      'laugh-silence', 'animals-silence']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names])
+    contrasts = dict([(name, con[name]) for name in contrast_names[:13]])
+    for name in contrast_names[:12]:
+        contrasts[name + '-silence'] = con[name] - con['silence']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
