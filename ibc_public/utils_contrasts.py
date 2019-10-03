@@ -448,7 +448,7 @@ def lyon_lec2(design_matrix_columns):
 def lyon_audi(design_matrix_columns):
     """Contrasts for the lyon audi protocol"""
     contrast_names = ['tear', 'suomi', 'yawn', 'human', 'music',
-                      'reverse', 'speech', 'alphabet', 'cough', 'envir',
+                      'reverse', 'speech', 'alphabet', 'cough', 'environment',
                       'laugh', 'animals',  'silence', 'tear-silence',
                       'suomi-silence',
                       'yawn-silence', 'human-silence', 'music-silence',
@@ -557,7 +557,7 @@ def lyon_mveb(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     #
-    contrasts = {[(key, con[key]) for key in contrast_names[:7]]}
+    contrasts = dict([(key, con[key]) for key in contrast_names[:7]])
     contrasts['2_letters_different-same'] = con['2_letters_different'] -\
         con['2_letters_same']
     contrasts['4_letters_different-same'] = con['4_letters_different'] -\

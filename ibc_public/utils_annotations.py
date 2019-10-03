@@ -57,6 +57,20 @@ def make_compact_table(cs, output_file=None):
     return output_df
 
 
+def _clean_tag(tag):
+    """ """
+    bad_chars = [']', '[', "'"]
+    tag = tag.replace("'", "")
+    tag = tag.replace('"', '')
+    tag = tag.replace(',', '')
+    for bc in bad_chars:
+        tag = tag.strip(bc)
+    tag_ = [] 
+    for t in tag.split(' '):
+        tag_.append(t)
+    return tag_
+
+
 def expand_table(compact_table, output_file=None, tag_columns=None):
     """ Converse operation of make_compact_table
 
@@ -82,8 +96,13 @@ def expand_table(compact_table, output_file=None, tag_columns=None):
     # define the tags to be associated with each contrast
     if tag_columns is None:
         tag_list = list(compact_table.tags.values)
-        tag_columns = np.unique([t for tag in tag_list for t in tag])
-
+        all_tags = []
+        for tag in tag_list:
+            for t in _clean_tag(tag):
+                if len(t):
+                    all_tags.append(t)
+        tag_columns = np.unique(all_tags)
+        
     # create dictionary
     output = {'contrast': compact_table.contrast.values,
               'task':compact_table.task.values,
@@ -102,7 +121,7 @@ def expand_table(compact_table, output_file=None, tag_columns=None):
 
     # fill with ones where it makes sense
     for index, con in compact_table.iterrows():
-        tags = con['tags']
+        tags = _clean_tag(con['tags'])
         for tag in tags:
             output_df.at[index, output_df.columns == tag] = 1
 
@@ -150,7 +169,6 @@ compact_table = pd.read_csv(sparse_contrasts, sep='\t')
 # create a sparse table
 if rewrite:
     sparse_table = expand_table(
-        compact_table, os.path.join(write_dir, 'all_contrasts.tsv'),
-        tag_columns=ref_columns)
+        compact_table, os.path.join(write_dir, 'all_contrasts.tsv'))
 else:
     sparse_table = expand_table(compact_table, tag_columns=ref_columns)
