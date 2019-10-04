@@ -94,27 +94,27 @@ bang	talk-no_talk	speech vs non-speech sections in movie watching	no speech	spee
 lyon-lec2	unattend	response to unattended text	fixation	non-attended text																					
 lyon-lec2	unattend-attend	response to unattended vs attended text	attended text	non-attended text																					
 lyon-lec2	attend	response to attended text	fixation	attended text																					
-lyon-audi	tear	listen to tears	silence	tear sound																					
-lyon-audi	suomi	listen to unknown language	silence	unknown language																					
-lyon-audi	yawn	listen to yawning	silence	yawning																					
-lyon-audi	human	listen to human sounds	silence	human sounds																					
+lyon-audi	tear-silence	listen to tears	silence	tear sound																					
+lyon-audi	suomi-silence	listen to unknown language	silence	unknown language																					
+lyon-audi	yawn-silence	listen to yawning	silence	yawning																					
+lyon-audi	human-silence	listen to human sounds	silence	human sounds																					
 lyon-audi	silence	listen to silence	silence	silence																					
-lyon-audi	music	listen to music	silence	music																					
-lyon-audi	reverse	listen to reversed speech	silence	reversed speech																					
-lyon-audi	speech	listen to speech	silence	speech																					
-lyon-audi	alphabet	listen to letters	silence	letters sounds																					
-lyon-audi	cough	listen to coughing	silence	coughing																					
-lyon-audi	envir	listen to environment sounds	silence	environment sounds																					
-lyon-audi	laugh	listen to laugh	silence	laugh																					
-lyon-audi	animals	listen to animals	silence	animals																					
-lyon-visu	scrambled-average	view a scrambled image	other image	scrambled image																					
-lyon-visu	visage-average	view a face image	other image	face image																			'visage-average',	'house-average',	'animal-average',
-lyon-visu	characters-average	view a characters	other image	characters image																			'characters-average',	'pseudoword-average',	
-lyon-visu	scene-average	view a scene	other image	scene image																					
-lyon-visu	house-average	view a house	other image	house image																					
-lyon-visu	animal-average	view an animal	other image	animal image																					
-lyon-visu	pseudoword-average	view a pseudoword	other image	pseudoword image																					
-lyon-visu	tool-average	view a tool	other image	tool image																					
+lyon-audi	music-silence	listen to music	silence	music																					
+lyon-audi	reverse-silence	listen to reversed speech	silence	reversed speech																					
+lyon-audi	speech-silence	listen to speech	silence	speech																					
+lyon-audi	alphabet-silence	listen to letters	silence	letters sounds																					
+lyon-audi	cough-silence	listen to coughing	silence	coughing																					
+lyon-audi	environment-silence	listen to environment sounds	silence	environment sounds																					
+lyon-audi	laugh-silence	listen to laugh	silence	laugh																					
+lyon-audi	animals-silence	listen to animals	silence	animals																					
+lyon-visu	scrambled	view a scrambled image	other image	scrambled image																					
+lyon-visu	face-scrambled	view a face image	other image	face image																			'visage-average',	'house-average',	'animal-average',
+lyon-visu	characters-scrambled	view a characters	other image	characters image																			'characters-average',	'pseudoword-average',	
+lyon-visu	scene-scrambled	view a scene	other image	scene image																					
+lyon-visu	house-scrambled	view a house	other image	house image																					
+lyon-visu	animal-scrambled	view an animal	other image	animal image																					
+lyon-visu	pseudoword-scrambled	view a pseudoword	other image	pseudoword image																					
+lyon-visu	tool-scrambled	view a tool	other image	tool image																					
 lyon-visu	scrambled	view a scrambled image	fixation	scrambled image																					
 lyon-visu	visage	view a face image	fixation	face image																					
 lyon-visu	characters	view a characters	fixation	characters image																					
