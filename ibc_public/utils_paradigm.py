@@ -61,7 +61,7 @@ def post_process(df, paradigm_id):
 
     if paradigm_id == 'lyon-visu':
         df = df.replace('visage', 'face')
-    if paradigm_id == 'lyon-audio':
+    if paradigm_id == 'lyon-audi':
         df = df.replace('envir', 'environment')
 
     if paradigm_id in relevant_conditions.keys():
