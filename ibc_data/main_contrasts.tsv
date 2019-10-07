@@ -46,7 +46,7 @@ rsvp_language	complex-simple	complex- vs. simple-syntax sentence reading	simple 
 rsvp_language	sentence-jabberwocky	reading sentence vs. jabberwocky	read jabberwocky	read sentence																					
 rsvp_language	sentence-word	reading sentence vs. words	read words	read sentence																					
 rsvp_language	word-consonant_string	reading words vs. consonant strings	consonant strings	read words																					
-rsvp_language	jabberworcky-pseudo	reading jabberwocky vs. pseudowords	read pseudowords	read jabberwocky																					
+rsvp_language	jabberwocky-pseudo	reading jabberwocky vs. pseudowords	read pseudowords	read jabberwocky																					
 rsvp_language	word-pseudo	reading words vs. pseudowords	read pseudowords	read words																					
 rsvp_language	pseudo-consonant_string	reading pseudowords vs. consonant strings	consonant strings	read pseudowords																					
 rsvp_language	consonant_string	consonant strings' encoding vs. fixation	fixation	consonant strings																					
@@ -116,36 +116,36 @@ lyon-visu	animal-scrambled	view an animal	other image	animal image
 lyon-visu	pseudoword-scrambled	view a pseudoword	other image	pseudoword image																					
 lyon-visu	tool-scrambled	view a tool	other image	tool image																					
 lyon-visu	scrambled	view a scrambled image	fixation	scrambled image																					
-lyon-visu	visage	view a face image	fixation	face image																					
-lyon-visu	characters	view a characters	fixation	characters image																					
-lyon-visu	scene	view a scene	fixation	scene image																					
-lyon-visu	house	view a house	fixation	house image																					
-lyon-visu	animal	view an animal	fixation	animal image																					
-lyon-visu	pseudoword	view a pseudoword	fixation	pseudoword image																					
-lyon-visu	tool-average	view a tool	fixation	tool image																					
+lyon-visu	face-scrambled	view a face image	scrambled image	face image																					
+lyon-visu	characters-scrambled	view a characters	scrambled image	characters image																					
+lyon-visu	scene-scrambled	view a scene	scrambled image	scene image																					
+lyon-visu	house-scrambled	view a house	scrambled image	house image																					
+lyon-visu	animal-scrambled	view an animal	scrambled image	animal image																					
+lyon-visu	pseudoword	view a pseudoword	scrambled image	pseudoword image																					
+lyon-visu	tool-average	view a tool	scrambled image	tool image																					
 lyon-lec1	random_string	read a random string	fixation	random string																					
 lyon-lec1	word-pseudoword	read a word vs a pseudo word	pseudo-word	word																			'word-random_string'		'pseudoword-random_string'
 lyon-lec1	word-random_string	read a word ws a random string	random string	word																					
 lyon-lec1	pseudoword-random_string	read a pseudoword vs a random string	random string	pseudo-word																					
-lyon-mveb	response																								
-lyon-mveb	2_letters_different-same																								
-lyon-mveb	4_letters_different-same																								
-lyon-mveb	6_letters_different-same																								
-lyon-mveb	6_letters_different-2_letters_different																								
-lyon-mvis	response																								
-lyon-mvis	2_dots-2_dots_control																								
-lyon-mvis	4_dots-4_dots_control																								
-lyon-mvis	6_dots-6_dots_control																								
-lyon-mvis	6_dots-2_dots																								
-lyon-moto	instructions	read intructions																							
-lyon-moto	fixation-avg	fixation																							
-lyon-moto	finger_right-avg	right finger tapping vs other	any motion	right finger																					
-lyon-moto	finger_left-avg	left finger tapping vs other	any motion	left finger																					
-lyon-moto	foot_left-avg	move left foot vs others	any motion	left foot																					
-lyon-moto	foot_right-avg	move right foot vs others	any motion	right foot																					
-lyon-moto	hand_left-avg	move left hand vs others	any motion	left hand																					
-lyon-moto	hand_right-avg	move right hand vs others	any motion	right hand																					
-lyon-moto	saccade-avg	saccade vs others	any motion	saccade																					
-lyon-moto	tongue-avg	move tongue vs. others	any motion	tongue																					
+lyon-mveb	response	button press response																							
+lyon-mveb	2_letters_different-same	2 letters different - 2 letters same																							
+lyon-mveb	4_letters_different-same	4 letters different - 4 letters same																							
+lyon-mveb	6_letters_different-same	6 letters different - 6 letters same																							
+lyon-mveb	6_letters_different-2_letters_different	6 letters different - 2 letters different																							
+lyon-mvis	response	button press response																							
+lyon-mvis	2_dots-2_dots_control	2 dots - 2 dots control																							
+lyon-mvis	4_dots-4_dots_control	4 dots - 4 dots control																							
+lyon-mvis	6_dots-6_dots_control	6 dots - 6 dots control																							
+lyon-mvis	6_dots-2_dots	6 dots - 2 dots																							
+lyon-moto	instructions	read instructions																							
+lyon-moto	fixation	fixation	idle	fixation																					
+lyon-moto	finger_right-fixation	right finger tapping vs fixation	fixation	right finger																					
+lyon-moto	finger_left-fixation	left finger tapping vs fixation	fixation	left finger																					
+lyon-moto	foot_left-fixation	move left foot vs fixation	fixation	left foot																					
+lyon-moto	foot_right-fixation	move right foot vs fixation	fixation	right foot																					
+lyon-moto	hand_left-fixation	move left hand vs fixation	fixation	left hand																					
+lyon-moto	hand_right-fixation	move right hand vs fixation	fixation	right hand																					
+lyon-moto	saccade-fixation	saccade vs fixation	fixation	saccade																					
+lyon-moto	tongue-fixation	move tongue vs. fixation	fixation	tongue																					
 lyon-mcse	low-high_salience	looking for a low salience symbol	high salience	low salience																					
 lyon-mcse	salience_left-right	looking for a symbold in left vs right visual field	right visual field	left visual field																					

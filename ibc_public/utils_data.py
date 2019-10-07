@@ -8,6 +8,7 @@ import glob
 import os
 import pandas as pd
 import shutil
+import numpy as np
 
 main_parent_dir = '/neurospin/ibc'
 alt_parent_dir = '/storage/store/data/ibc'
@@ -222,6 +223,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     (subject, task, acq, contrast))
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
+                    if subject == 'sub-15' and task == 'preference':
+                        pass
                     continue
                 imgs_.sort()
                 # some renaming
@@ -314,39 +317,41 @@ def summarize_db(df, plot=True):
 
 
 def _unique_frequencies(frequencies):
-    import numpy as np
     frequencies_ = np.array(frequencies)
     unique_terms = np.unique(frequencies_.T[0])
-    frequencies = [
+    frequencies = dict([
         (term,
          np.mean(frequencies_[frequencies_[:, 0] == term, 1].astype(np.float)))
-        for term in unique_terms]
+        for term in unique_terms])
     return frequencies
 
 
-def horizontal_fingerprint(coef, seed, roi_name, labels_bottom, labels_top,
+def _highest_frequency(frequencies):
+    values = np.array([x for x in frequencies.values()])
+    keys = np.array([x for x in frequencies.keys()])
+    return keys[np.argmax(values)]
+
+
+def horizontal_fingerprint(coef, roi_name, labels_bottom, labels_top,
                            output_file, wc=True, nonneg=False):
     """Create a fingerprint figure, optionally with a word cloud"""
     import matplotlib.pyplot as plt
     import wordcloud as wc
-    import numpy as np
     n_contrasts = coef.size
     plt.figure(figsize=(12, 5), facecolor='k')
     plt.axes([.03, .32, .6, .34])
     colors = plt.cm.hsv(np.linspace(0, 255 / n_contrasts, 255))
     plt.bar(range(n_contrasts), coef, color=colors, ecolor='k')
     plt.xticks(np.linspace(1., n_contrasts + .8, num=n_contrasts + 1),
-               labels_bottom, rotation=75, ha='right', fontsize=12, color='w')
+               labels_bottom, rotation=75, ha='right', fontsize=10, color='w')
 
-    ymax = coef.max() + .01 * (coef.max() - coef.min())
+    ymax = .03 + coef.max() + .01 * (coef.max() - coef.min())
     ymin = coef.min() - .01
     for nc in range(n_contrasts):
         plt.text(nc, ymax, labels_top[nc], rotation=75,
                  ha='left', va='bottom', color='w')
     #
-    x, y, z = seed
-    plt.text(n_contrasts / 3, 1.7 * ymax - .7 * ymin,
-             ' %s (%d, %d, %d)' % (roi_name, x, y, z),
+    plt.text(n_contrasts / 3, 1.7 * ymax - .7 * ymin, roi_name,
              color=[1, .5, 0], fontsize=18, weight='bold',
              bbox=dict(facecolor='k', alpha=0.5))
     plt.axis('tight')
@@ -357,8 +362,9 @@ def horizontal_fingerprint(coef, seed, roi_name, labels_bottom, labels_top,
             frequencies += [(labels_bottom[i], np.exp(-coef[i]))
                             for i in range(n_contrasts)]
     frequencies = _unique_frequencies(frequencies)
+    print(_highest_frequency(frequencies))
     wordcloud = wc.WordCloud().generate_from_frequencies(frequencies)
-    plt.axes([.65, .1, .33, .7])
+    plt.axes([.66, .1, .33, .7])
     plt.imshow(wordcloud)
     plt.axis('tight')
     plt.axis("off")

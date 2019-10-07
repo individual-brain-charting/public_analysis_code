@@ -408,7 +408,7 @@ def stop_signal(design_matrix_columns):
 
 
 def stroop(design_matrix_columns):
-    """Contrasts for the lyon lec2 protocol"""
+    """Contrasts for the stanford stroop protocol"""
     contrast_names = ['congruent', 'incongruent', 'congruent-incongruent',
                       'incongruent-congruent']
     if design_matrix_columns is None:
@@ -455,6 +455,7 @@ def lyon_audi(design_matrix_columns):
                       'reverse-silence', 'speech-silence', 'alphabet-silence',
                       'cough-silence', 'environment-silence',
                       'laugh-silence', 'animals-silence']
+
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -545,7 +546,7 @@ def audio(design_matrix_columns):
 
 
 def lyon_mveb(design_matrix_columns):
-    """ Contrasts for Lyon motor localizer"""
+    """ Contrasts for Lyon mveb localizer"""
     contrast_names = [
         'response', '2_letters_different', '2_letters_same',
         '4_letters_different', '4_letters_same',
@@ -573,7 +574,7 @@ def lyon_mveb(design_matrix_columns):
 
 
 def lyon_mvis(design_matrix_columns):
-    """ Contrasts for Lyon motor localizer"""
+    """ Contrasts for Lyon mvis localizer"""
     contrast_names = ['response',
                       '2_dots-2_dots_control', '4_dots-4_dots_control',
                       '6_dots-6_dots_control', '6_dots-2_dots', 'dots-control']

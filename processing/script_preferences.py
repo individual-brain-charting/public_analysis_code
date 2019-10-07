@@ -3,16 +3,19 @@ This script adds a fixed-level analysis to the preference protocol
 Author: Bertrand Thirion, 2018
 """
 import os
-from ibc_public.utils_pipeline import fixed_effects_img
+import nibabel as nib
+import numpy as np
+from ibc_public.utils_pipeline import fixed_effects_img, fixed_effects_surf
 from pipeline import get_subject_session
 from nilearn.plotting import plot_stat_map
 from nilearn.image import math_img
+from nistats.utils import  _basestring
 
 
 # where to work and write
 SMOOTH_DERIVATIVES = '/neurospin/ibc/smooth_derivatives'
+DERIVATIVES = '/neurospin/ibc/derivatives'
 THREE_MM = '/neurospin/ibc/3mm'
-workdir = SMOOTH_DERIVATIVES
 
 # misc info on preference protocol
 subject_session = get_subject_session('preferences')
@@ -27,17 +30,15 @@ mask_img = os.path.join(
 
 
 def compute_contrast(con_imgs, var_imgs, mask_img):
-    import nibabel as nib
-    import numpy as np
-    if isinstance(mask_img, basestring):
+    if isinstance(mask_img, _basestring):
         mask_img = nib.load(mask_img)
 
     mask = mask_img.get_data().astype(np.bool)
     con, var = [], []
     for (con_img, var_img) in zip(con_imgs, var_imgs):
-        if isinstance(con_img, basestring):
+        if isinstance(con_img, _basestring):
             con_img = nib.load(con_img)
-        if isinstance(var_img, basestring):
+        if isinstance(var_img, _basestring):
             var_img = nib.load(var_img)
         con.append(con_img.get_data()[mask])
         var.append(var_img.get_data()[mask])
@@ -49,7 +50,7 @@ def compute_contrast(con_imgs, var_imgs, mask_img):
     for array in [fixed_con, fixed_var, stat]:
         vol = mask.astype(np.float)
         vol[mask] = array.ravel()
-        outputs.append(nib.Nifti1Image(vol, mask_img.get_affine()))
+        outputs.append(nib.Nifti1Image(vol, mask_img.affine))
     return outputs
 
 
@@ -71,6 +72,35 @@ def elementary_contrasts(con_imgs, var_imgs, mask_img):
     return(outputs)
 
 
+def elementary_contrasts_surf(con_imgs, var_imgs):
+    """ """
+    from nibabel.gifti import GiftiDataArray, GiftiImage
+    outputs = []
+    n_contrasts = 4
+    for i in range(n_contrasts):
+        con = nib.load(con_imgs[i])
+        var = nib.load(var_imgs[i])
+        effects = [con - nib.load(con_imgs[j])
+                   for j in range(n_contrasts) if j != i]
+        variance = [var + nib.load(var_imgs[j])
+                    for j in range(n_contrasts) if j != i]
+
+        fixed_con = np.array(effects).sum(0)
+        fixed_var = np.array(variance).sum(0)
+        stat = fixed_con / np.sqrt(fixed_var)
+        output = []
+        intents = ['NIFTI_INTENT_ESTIMATE', 'NIFTI_INTENT_ESTIMATE', 't test']
+        arrays = [fixed_con, fixed_var, stat]
+        for array, intent in zip(arrays, intents):
+            gii = GiftiImage(
+                darrays=[GiftiDataArray().from_array(array, intent)])
+            output.append(gii)
+        outputs.append(output)
+    return(outputs)
+
+"""
+# in-volume computation
+workdir = SMOOTH_DERIVATIVES
 for (subject, session) in subject_session:
     print(subject, session)
     anat = os.path.join(workdir, subject, 'ses-00', 'anat',
@@ -111,7 +141,7 @@ for (subject, session) in subject_session:
 
     # Compare categories
     contrast = 'constant'
-    effects =  [os.path.join(
+    effects = [os.path.join(
         workdir, subject, session,
         'res_stats_preference_%s_ffx' % category_, 'effect_size_maps',
         '%s_%s.nii.gz' % (category, contrast))
@@ -136,3 +166,61 @@ for (subject, session) in subject_session:
         output_file = os.path.join(stat_dir, '%s-others.png' % category)
         plot_stat_map(fixed_stat, bg_img=anat, dim=0,
                       output_file=output_file, threshold=4.0)
+"""
+
+# on-surface computation
+workdir = DERIVATIVES
+for (subject, session) in subject_session:
+    print(subject, session)
+    write_dir = os.path.join(workdir, subject, session,
+                             'res_surf_preference_ffx')
+    effect_dir = os.path.join(write_dir, 'effect_surf')
+    variance_dir = os.path.join(write_dir, 'variance_surf')
+    stat_dir = os.path.join(write_dir, 'z_surf')
+    dirs = [write_dir, effect_dir, variance_dir, stat_dir]
+    for dir_ in dirs:
+        if not os.path.exists(dir_):
+            os.mkdir(dir_)
+    for contrast in contrasts:
+        effects = [os.path.join(
+            workdir, subject, session,
+            'res_surf_preference_%s_ffx' % category_, 'effect_surf',
+            '%s_%s_lh.gii' % (category, contrast))
+                    for category, category_ in zip(categories, categories_)]
+        variance = [os.path.join(
+            workdir, subject, session,
+            'res_surf_preference_%s_ffx' % category_, 'variance_surf',
+            '%s_%s_lh.gii' % (category, contrast))
+                    for category, category_ in zip(categories, categories_)]
+        fixed_effect, fixed_variance, fixed_stat = fixed_effects_surf(
+            effects, variance)
+
+        fixed_effect.to_filename(
+            os.path.join(effect_dir, 'preference_%s_lh.gii' % contrast))
+        fixed_variance.to_filename(
+            os.path.join(variance_dir, 'preference_%s_lh.gii' % contrast))
+        fixed_stat.to_filename(
+            os.path.join(stat_dir, 'preference_%s_lh.gii' % contrast))
+
+    # Compare categories
+    contrast = 'constant'
+    effects = [os.path.join(
+        workdir, subject, session,
+        'res_surf_preference_%s_ffx' % category_, 'effect_surf',
+        '%s_%s_lh.gii' % (category, contrast))
+                for category, category_ in zip(categories, categories_)]
+    variance = [os.path.join(
+        workdir, subject, session,
+        'res_surf_preference_%s_ffx' % category_, 'variance_surf',
+        '%s_%s_lg.gii' % (category, contrast))
+                for category, category_ in zip(categories, categories_)]
+    outputs = elementary_contrasts_surf(effects, variance)
+
+    for output, category in zip(outputs, categories):
+        fixed_effect, fixed_variance, fixed_stat = output
+        fixed_effect.to_filename(
+            os.path.join(effect_dir, '%s-others_lh.gii' % category))
+        fixed_variance.to_filename(
+            os.path.join(variance_dir, '%s-others_lh.gii' % category))
+        fixed_stat.to_filename(
+            os.path.join(stat_dir, '%s-others_lh.gii' % category))
