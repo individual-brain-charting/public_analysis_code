@@ -342,15 +342,15 @@ lyon-lec1	pseudoword-random_string	read a pseudoword vs a random string	random s
 lyon-lec1	word	read a word 	fixation	word																																1	1														1					1	1										1																																								1				
 lyon-lec1	pseudoword	read a pseudo word	fixation	pseudo-word																																1															1					1	1										1																																												
 lyon-mveb	response	respond by button pressing	wait	respond																																																				1	1																																																						
-lyon-mveb	2_letters_different-same																																																																														1												1																	1			1
-lyon-mveb	4_letters_different-same																																																																														1												1																	1			1
-lyon-mveb	6_letters_different-same																																																																														1		1										1																	1			1
-lyon-mveb	6_letters_different-2_letters_different																																																																																1																														
-lyon-mvis	response																																																							1	1																																																						
-lyon-mvis	2_dots-2_dots_control																																																																										1																1																	1			1
-lyon-mvis	4_dots-4_dots_control																																																																										1																1																	1			1
-lyon-mvis	6_dots-6_dots_control																																																																										1																1																	1			1
-lyon-mvis	6_dots-2_dots																																																																																1																														
+lyon-mveb	2_letters_different-same	2 letters different or identical																																																																													1												1																	1			1
+lyon-mveb	4_letters_different-same	4 letters different or identical																																																																													1												1																	1			1
+lyon-mveb	6_letters_different-same	6 letters different or identical																																																																													1		1										1																	1			1
+lyon-mveb	6_letters_different-2_letters_different	6 letters different or 2 letters different																																																																															1																														
+lyon-mvis	response	press a button																																																						1	1																																																						
+lyon-mvis	2_dots-2_dots_control	identical position of 2 dots																																																																									1																1																	1			1
+lyon-mvis	4_dots-4_dots_control	identical position of 4 dots																																																																									1																1																	1			1
+lyon-mvis	6_dots-6_dots_control	identical position of 6 dots																																																																									1																1																	1			1
+lyon-mvis	6_dots-2_dots	identical position of 6 dots vs 2 dots																																																																															1																														
 lyon-moto	instructions	read intructions																																																	1																																																												
 lyon-moto	fixation	fixation												1																																																																																																	
 lyon-moto	finger_right-fixation	right finger tapping vs no movement	any motion	right finger																																																				1				1																																																			
