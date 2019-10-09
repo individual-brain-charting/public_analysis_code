@@ -1,151 +1,157 @@
-task	contrast	pretty name	left label	right label																					
-archi_standard	left-right_button_press	left vs. right hand button press	right hand	left hand																					
-archi_standard	reading-listening	sentence reading vs. sentence listening	sentence listening	sentence reading																					
-archi_standard	motor-cognitive	button presses vs. sentence/computation	cognitive tasks	button presses																					
-archi_standard	reading-checkerboard	sentence reading vs. checkerboard	checkerboard	sentence reading																					
-archi_standard	computation-sentences	mental subtraction vs. sentence reading	sentence reading	mental subtraction																					
-archi_standard	horizontal-vertical	horizontal vs. vertical checkerboard	vertical checkerboard	horizontal checkerboard																					
-archi_spatial	saccades	saccades vs. fixation	fixation	saccades																					
-archi_spatial	hand-side	left or right hand vs. hand palm or back	hand palm or back	left or right hand																					
-archi_spatial	grasp-orientation	object grasping vs. image orientation judgment	orientation judgment	object grasping																					
-archi_spatial	rotation_side	hand palm or back vs. fixation	fixation	hand palm or back																					
-archi_spatial	object_orientation	image orientation judgment vs. fixation	fixation	orientation judgment																					
-archi_social	triangle_mental-random	social-interaction motion vs. random motion	random motion	social-interaction motion																					
-archi_social	false_belief-mechanistic_audio	false-belief tale vs. mechanistic tale	mechanistic tale	false-belief tale																					
-archi_social	triangle_random	random motion vs. fixation	fixation	random motion																					
-archi_social	mechanistic_audio	listening to a mechanistic tale vs. baseline	baseline	mechanistic tale																					
-archi_social	mechanistic_video	reading a mechanistic story vs. baseline	baseline	mechanistic story																					
-archi_social	non_speech_sound	listen to natural sound vs. baseline	silence	natural sound																					
-archi_social	false_belief-mechanistic_video	false-belief story vs. mechanistic story	mechanistic story	false-belief story																					
-archi_social	speech-non_speech	listen to voice sound vs. natural sound	natural sound	voice sound																					
-archi_emotional	expression_gender-control	assess gender from eyes' expression vs. visual pattern	visual pattern	gender assessment																					
-archi_emotional	expression_intention-gender	assess intention vs. gender from eyes' expression	gender assessment	expression intention																					
-archi_emotional	face_gender-control	assess gender of face vs. visual pattern	visual pattern	gender assessment																					
-archi_emotional	face_trusty-gender	assess face trustfulness vs. gender of face	gender assessment	face trusty																					
-hcp_language	story-math	listening to story vs. mental additions	math	story																					
-hcp_language	math	mental additions vs. fixation	fixation	mental addition																					
-hcp_social	mental-random	social-interaction motion vs. random motion	random motion	social-interaction motion																					
-hcp_social	random	random motion vs. fixation	fixation	random motion																					
-hcp_gambling	punishment-reward	negative vs. positive gambling outcome	reward	punishement																					
-hcp_gambling	reward	positive gambling outcome vs. fixation	fixation	reward																					
-hcp_motor	left_hand-avg	move left hand vs. right hand, feet and tongue	any motion	left hand																					
-hcp_motor	right_hand-avg	move right hand vs. left hand, feet and tongue	any motion	right hand																					
-hcp_motor	left_foot-avg	move left foot vs. right foot, hands and tongue	any motion	left foot																					
-hcp_motor	right_foot-avg	move right foot vs. left foot, hands and tongue	any motion	right foot																					
-hcp_motor	tongue-avg	move tongue vs. hands and feet	any motion	tongue																					
-hcp_emotion	shape	shape comparison vs. fixation	fixation cross	shape outline																					
-hcp_emotion	face-shape	emotional face comparison vs. shape comparison	shape outline	face image																					
-hcp_relational	relational-match	relational comparison vs. visual feature matching	visual matching	relational processing																					
-hcp_relational	match	visual feature matching vs. fixation	fixation	visual matching																					
-hcp_wm	2back-0back	2-back vs. 0-back	0-back	2-back																					
-hcp_wm	body-avg	body image n-back vs. face, place, tool  n-back	any image	body image																					
-hcp_wm	face-avg	face image n-back vs. body, place, tool  n-back	any image	face image																					
-hcp_wm	place-avg	place image n-back vs. face, body, tool  n-back	any image	place image																					
-hcp_wm	tools-avg	tool image  n-back vs. face, place, body  n-back	any image	tool image																					
-rsvp_language	complex-simple	complex- vs. simple-syntax sentence reading	simple sentence	complex sentence																					
-rsvp_language	sentence-jabberwocky	reading sentence vs. jabberwocky	read jabberwocky	read sentence																					
-rsvp_language	sentence-word	reading sentence vs. words	read words	read sentence																					
-rsvp_language	word-consonant_string	reading words vs. consonant strings	consonant strings	read words																					
-rsvp_language	jabberwocky-pseudo	reading jabberwocky vs. pseudowords	read pseudowords	read jabberwocky																					
-rsvp_language	word-pseudo	reading words vs. pseudowords	read pseudowords	read words																					
-rsvp_language	pseudo-consonant_string	reading pseudowords vs. consonant strings	consonant strings	read pseudowords																					
-rsvp_language	consonant_string	consonant strings' encoding vs. fixation	fixation	consonant strings																					
-retinotopy	phase_ring	eccentricity maps	central cross	radial position																					
-retinotopy	phase_wedge	polar angle map	central cross	angular position																					
-retinotopy	retinotopicity	sensitivity to retinotopy	central cross	retinal position																					
-mtt_ns	average_reference	Updating ones position in space and time	fixation	time/space position																					
-mtt_ns	cue_time	Time cue of an event	fixation	time cue																					
-mtt_ns	cue_space	Spatial cue of an event	fixation	spatial cue																					
-mtt_ns	cue_time-space	time vs spatial cue about event	spatial cue	time cue																					
-mtt_ns	event_time-space	event in time vs event in space 	event in space	event in time																					
-mtt_ns	average_event	Figuring out the position/time of an event	fixation	event in time or space																					
-mtt_ns	event_time	Figuring out the time of an event	fixation	event in time																					
-mtt_ns	event_space	Figuring out the position of an event	fixation	event in space																					
-mtt_we	average_reference	Updating ones position in space and time	fixation	time/space position																					
-mtt_we	cue_time	Time cue of an event	fixation	time cue																					
-mtt_we	cue_space	Spatial cue of an event	fixation	spatial cue																					
-mtt_we	cue_time-space	time vs spatial cue about event	spatial cue	time cue																					
-mtt_we	event_time-space	event in time vs event in space 	event in space	event in time																					
-mtt_we	average_event	Figuring out the space/time of an event	fixation	event in time or space																					
-mtt_we	event_time	Figuring out the time of an event	fixation	event in time																					
-mtt_we	event_space	Figuring out the position of an event	fixation	event in space																					
-preference	preference_constant	object perception and evaluation	fixation	visual evaluation																					
-preference	preference_linear	linear effect of preference	no preference	visual preference																					
-preference	preference_quadratic	quadratic effect of preference	no confidence 	confidence in preference																					
-preference	face-others	evaluation of faces vs. other categories	other categories	face evaluation																					
-preference	house-others	evaluation of houses vs. other categories	other categories	house evaluation																					
-preference	food-others	evaluation of food vs. other categories	other categories	food evaluation																					
-preference	painting-others	evaluation of paintings vs. other categories	other categories	painting evaluation																					
-tom_localizer	photo	Manipulation of fact judgments	fixation	fact judgments																					
-tom_localizer	belief-photo	belief vs factual judgments	fact judgments	belief manipulation																					
-movie_localizer	mov_pain	attending to  movie with physically painful  events	fixation	physical pain movie																					
-movie_localizer	mov_mental-pain	mentally-physically painful movie	physical pain movie	mental pain movie																					
-pain_localizer	physical_pain	reading to physical pain story	fixation	physical pain story																					
-pain_localizer	emotional-physical_pain	emotional-physical pain story	physical pain story	emotional pain story																					
-enum	enum_response_linear	enumeration linear  items response	fixation	enumeration linear																					
-enum	enum_response_constant	enumeration constant  items response	fixation	enumeration constant																					
-enum	enum_response_quadratic	enumeration quadratic  items response	fixation	enumeration quadratic																					
-vstm	vstm_response_linear	vstm linear items response	fixation	vstm linear																					
-vstm	vstm_response_constant	vstm constant items response	fixation	vstm constant																					
-vstm	vstm_response_quadratic	vstm quadratic items response	fixation	vstm quadratic																					
-self	self-other_with_response	self-reference effect	reference to other	reference to self																					
-self	hit-correct_rejection	successfully recognize whether an adjective was presented before or not	memory 	recognition																					
-bang	talk-no_talk	speech vs non-speech sections in movie watching	no speech	speech																					
-lyon-lec2	unattend	response to unattended text	fixation	non-attended text																					
-lyon-lec2	unattend-attend	response to unattended vs attended text	attended text	non-attended text																					
-lyon-lec2	attend	response to attended text	fixation	attended text																					
-lyon-audi	tear-silence	listen to tears	silence	tear sound																					
-lyon-audi	suomi-silence	listen to unknown language	silence	unknown language																					
-lyon-audi	yawn-silence	listen to yawning	silence	yawning																					
-lyon-audi	human-silence	listen to human sounds	silence	human sounds																					
-lyon-audi	silence	listen to silence	silence	silence																					
-lyon-audi	music-silence	listen to music	silence	music																					
-lyon-audi	reverse-silence	listen to reversed speech	silence	reversed speech																					
-lyon-audi	speech-silence	listen to speech	silence	speech																					
-lyon-audi	alphabet-silence	listen to letters	silence	letters sounds																					
-lyon-audi	cough-silence	listen to coughing	silence	coughing																					
-lyon-audi	environment-silence	listen to environment sounds	silence	environment sounds																					
-lyon-audi	laugh-silence	listen to laugh	silence	laugh																					
-lyon-audi	animals-silence	listen to animals	silence	animals																					
-lyon-visu	scrambled	view a scrambled image	other image	scrambled image																					
-lyon-visu	face-scrambled	view a face image	other image	face image																			'visage-average',	'house-average',	'animal-average',
-lyon-visu	characters-scrambled	view a characters	other image	characters image																			'characters-average',	'pseudoword-average',	
-lyon-visu	scene-scrambled	view a scene	other image	scene image																					
-lyon-visu	house-scrambled	view a house	other image	house image																					
-lyon-visu	animal-scrambled	view an animal	other image	animal image																					
-lyon-visu	pseudoword-scrambled	view a pseudoword	other image	pseudoword image																					
-lyon-visu	tool-scrambled	view a tool	other image	tool image																					
-lyon-visu	scrambled	view a scrambled image	fixation	scrambled image																					
-lyon-visu	face-scrambled	view a face image	scrambled image	face image																					
-lyon-visu	characters-scrambled	view a characters	scrambled image	characters image																					
-lyon-visu	scene-scrambled	view a scene	scrambled image	scene image																					
-lyon-visu	house-scrambled	view a house	scrambled image	house image																					
-lyon-visu	animal-scrambled	view an animal	scrambled image	animal image																					
-lyon-visu	pseudoword	view a pseudoword	scrambled image	pseudoword image																					
-lyon-visu	tool-average	view a tool	scrambled image	tool image																					
-lyon-lec1	random_string	read a random string	fixation	random string																					
-lyon-lec1	word-pseudoword	read a word vs a pseudo word	pseudo-word	word																			'word-random_string'		'pseudoword-random_string'
-lyon-lec1	word-random_string	read a word ws a random string	random string	word																					
-lyon-lec1	pseudoword-random_string	read a pseudoword vs a random string	random string	pseudo-word																					
-lyon-mveb	response	button press response																							
-lyon-mveb	2_letters_different-same	2 letters different - 2 letters same																							
-lyon-mveb	4_letters_different-same	4 letters different - 4 letters same																							
-lyon-mveb	6_letters_different-same	6 letters different - 6 letters same																							
-lyon-mveb	6_letters_different-2_letters_different	6 letters different - 2 letters different																							
-lyon-mvis	response	button press response																							
-lyon-mvis	2_dots-2_dots_control	2 dots - 2 dots control																							
-lyon-mvis	4_dots-4_dots_control	4 dots - 4 dots control																							
-lyon-mvis	6_dots-6_dots_control	6 dots - 6 dots control																							
-lyon-mvis	6_dots-2_dots	6 dots - 2 dots																							
-lyon-moto	instructions	read instructions																							
-lyon-moto	fixation	fixation	idle	fixation																					
-lyon-moto	finger_right-fixation	right finger tapping vs fixation	fixation	right finger																					
-lyon-moto	finger_left-fixation	left finger tapping vs fixation	fixation	left finger																					
-lyon-moto	foot_left-fixation	move left foot vs fixation	fixation	left foot																					
-lyon-moto	foot_right-fixation	move right foot vs fixation	fixation	right foot																					
-lyon-moto	hand_left-fixation	move left hand vs fixation	fixation	left hand																					
-lyon-moto	hand_right-fixation	move right hand vs fixation	fixation	right hand																					
-lyon-moto	saccade-fixation	saccade vs fixation	fixation	saccade																					
-lyon-moto	tongue-fixation	move tongue vs. fixation	fixation	tongue																					
-lyon-mcse	low-high_salience	looking for a low salience symbol	high salience	low salience																					
-lyon-mcse	salience_left-right	looking for a symbold in left vs right visual field	right visual field	left visual field																					
+task	contrast	pretty name	left label	right label
+archi_standard	left-right_button_press	left vs. right hand button press	right hand	left hand
+archi_standard	reading-listening	sentence reading vs. sentence listening	sentence listening	sentence reading
+archi_standard	motor-cognitive	button presses vs. sentence/computation	cognitive tasks	button presses
+archi_standard	reading-checkerboard	sentence reading vs. checkerboard	checkerboard	sentence reading
+archi_standard	computation-sentences	mental subtraction vs. sentence reading	sentence reading	mental subtraction
+archi_standard	horizontal-vertical	horizontal vs. vertical checkerboard	vertical checkerboard	horizontal checkerboard
+archi_spatial	saccades	saccades vs. fixation	fixation	saccades
+archi_spatial	hand-side	left or right hand vs. hand palm or back	hand palm or back	left or right hand
+archi_spatial	grasp-orientation	object grasping vs. image orientation judgment	orientation judgment	object grasping
+archi_spatial	rotation_side	hand palm or back vs. fixation	fixation	hand palm or back
+archi_spatial	object_orientation	image orientation judgment vs. fixation	fixation	orientation judgment
+archi_social	triangle_mental-random	social-interaction motion vs. random motion	random motion	social-interaction motion
+archi_social	false_belief-mechanistic_audio	false-belief tale vs. mechanistic tale	mechanistic tale	false-belief tale
+archi_social	triangle_random	random motion vs. fixation	fixation	random motion
+archi_social	mechanistic_audio	listening to a mechanistic tale vs. baseline	baseline	mechanistic tale
+archi_social	mechanistic_video	reading a mechanistic story vs. baseline	baseline	mechanistic story
+archi_social	non_speech_sound	listen to natural sound vs. baseline	silence	natural sound
+archi_social	false_belief-mechanistic_video	false-belief story vs. mechanistic story	mechanistic story	false-belief story
+archi_social	speech-non_speech	listen to voice sound vs. natural sound	natural sound	voice sound
+archi_emotional	expression_gender-control	assess gender from eyes' expression vs. visual pattern	visual pattern	gender assessment
+archi_emotional	expression_intention-gender	assess intention vs. gender from eyes' expression	gender assessment	expression intention
+archi_emotional	face_gender-control	assess gender of face vs. visual pattern	visual pattern	gender assessment
+archi_emotional	face_trusty-gender	assess face trustfulness vs. gender of face	gender assessment	face trusty
+hcp_language	story-math	listening to story vs. mental additions	math	story
+hcp_language	math	mental additions vs. fixation	fixation	mental addition
+hcp_social	mental-random	social-interaction motion vs. random motion	random motion	social-interaction motion
+hcp_social	random	random motion vs. fixation	fixation	random motion
+hcp_gambling	punishment-reward	negative vs. positive gambling outcome	reward	punishement
+hcp_gambling	reward	positive gambling outcome vs. fixation	fixation	reward
+hcp_motor	left_hand-avg	move left hand vs. right hand, feet and tongue	any motion	left hand
+hcp_motor	right_hand-avg	move right hand vs. left hand, feet and tongue	any motion	right hand
+hcp_motor	left_foot-avg	move left foot vs. right foot, hands and tongue	any motion	left foot
+hcp_motor	right_foot-avg	move right foot vs. left foot, hands and tongue	any motion	right foot
+hcp_motor	tongue-avg	move tongue vs. hands and feet	any motion	tongue
+hcp_emotion	shape	shape comparison vs. fixation	fixation cross	shape outline
+hcp_emotion	face-shape	emotional face comparison vs. shape comparison	shape outline	face image
+hcp_relational	relational-match	relational comparison vs. visual feature matching	visual matching	relational processing
+hcp_relational	match	visual feature matching vs. fixation	fixation	visual matching
+hcp_wm	2back-0back	2-back vs. 0-back	0-back	2-back
+hcp_wm	body-avg	body image n-back vs. face, place, tool  n-back	any image	body image
+hcp_wm	face-avg	face image n-back vs. body, place, tool  n-back	any image	face image
+hcp_wm	place-avg	place image n-back vs. face, body, tool  n-back	any image	place image
+hcp_wm	tools-avg	tool image  n-back vs. face, place, body  n-back	any image	tool image
+rsvp_language	complex-simple	complex- vs. simple-syntax sentence reading	simple sentence	complex sentence
+rsvp_language	sentence-jabberwocky	reading sentence vs. jabberwocky	read jabberwocky	read sentence
+rsvp_language	sentence-word	reading sentence vs. words	read words	read sentence
+rsvp_language	word-consonant_string	reading words vs. consonant strings	consonant strings	read words
+rsvp_language	jabberwocky-pseudo	reading jabberwocky vs. pseudowords	read pseudowords	read jabberwocky
+rsvp_language	word-pseudo	reading words vs. pseudowords	read pseudowords	read words
+rsvp_language	pseudo-consonant_string	reading pseudowords vs. consonant strings	consonant strings	read pseudowords
+rsvp_language	consonant_string	consonant strings' encoding vs. fixation	fixation	consonant strings
+retinotopy	phase_ring	eccentricity maps	central cross	radial position
+retinotopy	phase_wedge	polar angle map	central cross	angular position
+retinotopy	retinotopicity	sensitivity to retinotopy	central cross	retinal position
+mtt_ns	average_reference	Updating ones position in space and time	fixation	time/space position
+mtt_ns	cue_time	Time cue of an event	fixation	time cue
+mtt_ns	cue_space	Spatial cue of an event	fixation	spatial cue
+mtt_ns	cue_time-space	time vs spatial cue about event	spatial cue	time cue
+mtt_ns	event_time-space	event in time vs event in space 	event in space	event in time
+mtt_ns	average_event	Figuring out the position/time of an event	fixation	event in time or space
+mtt_ns	event_time	Figuring out the time of an event	fixation	event in time
+mtt_ns	event_space	Figuring out the position of an event	fixation	event in space
+mtt_we	average_reference	Updating ones position in space and time	fixation	time/space position
+mtt_we	cue_time	Time cue of an event	fixation	time cue
+mtt_we	cue_space	Spatial cue of an event	fixation	spatial cue
+mtt_we	cue_time-space	time vs spatial cue about event	spatial cue	time cue
+mtt_we	event_time-space	event in time vs event in space 	event in space	event in time
+mtt_we	average_event	Figuring out the space/time of an event	fixation	event in time or space
+mtt_we	event_time	Figuring out the time of an event	fixation	event in time
+mtt_we	event_space	Figuring out the position of an event	fixation	event in space
+preference	preference_constant	object perception and evaluation	fixation	visual evaluation
+preference	preference_linear	linear effect of preference	no preference	visual preference
+preference	preference_quadratic	quadratic effect of preference	no confidence 	confidence in preference
+preference	face-others	evaluation of faces vs. other categories	other categories	face evaluation
+preference	house-others	evaluation of houses vs. other categories	other categories	house evaluation
+preference	food-others	evaluation of food vs. other categories	other categories	food evaluation
+preference	painting-others	evaluation of paintings vs. other categories	other categories	painting evaluation
+tom_localizer	photo	Manipulation of fact judgments	fixation	fact judgments
+tom_localizer	belief-photo	belief vs factual judgments	fact judgments	belief manipulation
+movie_localizer	mov_pain	attending to  movie with physically painful  events	fixation	physical pain movie
+movie_localizer	mov_mental-pain	mentally-physically painful movie	physical pain movie	mental pain movie
+pain_localizer	physical_pain	reading to physical pain story	fixation	physical pain story
+pain_localizer	emotional-physical_pain	emotional-physical pain story	physical pain story	emotional pain story
+enum	enum_response_linear	enumeration linear  items response	fixation	enumeration linear
+enum	enum_response_constant	enumeration constant  items response	fixation	enumeration constant
+enum	enum_response_quadratic	enumeration quadratic  items response	fixation	enumeration quadratic
+vstm	vstm_response_linear	vstm linear items response	fixation	vstm linear
+vstm	vstm_response_constant	vstm constant items response	fixation	vstm constant
+vstm	vstm_response_quadratic	vstm quadratic items response	fixation	vstm quadratic
+self	self-other_with_response	self-reference effect	reference to other	reference to self
+self	hit-correct_rejection	successfully recognize whether an adjective was presented before or not	memory 	recognition
+bang	talk-no_talk	speech vs non-speech sections in movie watching	no speech	speech
+lyon-lec2	unattend	response to unattended text	fixation	non-attended text
+lyon-lec2	unattend-attend	response to unattended vs attended text	attended text	non-attended text
+lyon-lec2	attend	response to attended text	fixation	attended text
+lyon-audi	tear-silence	listen to tears	silence	tear sound
+lyon-audi	suomi-silence	listen to unknown language	silence	unknown language
+lyon-audi	yawn-silence	listen to yawning	silence	yawning
+lyon-audi	human-silence	listen to human sounds	silence	human sounds
+lyon-audi	silence	listen to silence	silence	silence
+lyon-audi	music-silence	listen to music	silence	music
+lyon-audi	reverse-silence	listen to reversed speech	silence	reversed speech
+lyon-audi	speech-silence	listen to speech	silence	speech
+lyon-audi	alphabet-silence	listen to letters	silence	letters sounds
+lyon-audi	cough-silence	listen to coughing	silence	coughing
+lyon-audi	environment-silence	listen to environment sounds	silence	environment sounds
+lyon-audi	laugh-silence	listen to laugh	silence	laugh
+lyon-audi	animals-silence	listen to animals	silence	animals
+lyon-visu	scrambled	view a scrambled image	other image	scrambled image
+lyon-visu	face-scrambled	view a face image	other image	face image
+lyon-visu	characters-scrambled	view a characters	other image	characters image
+lyon-visu	scene-scrambled	view a scene	other image	scene image
+lyon-visu	house-scrambled	view a house	other image	house image
+lyon-visu	animal-scrambled	view an animal	other image	animal image
+lyon-visu	pseudoword-scrambled	view a pseudoword	other image	pseudoword image
+lyon-visu	tool-scrambled	view a tool	other image	tool image
+lyon-lec1	random_string	read a random string	fixation	random string
+lyon-lec1	word-pseudoword	read a word vs a pseudo word	pseudo-word	word
+lyon-lec1	word-random_string	read a word ws a random string	random string	word
+lyon-lec1	pseudoword-random_string	read a pseudoword vs a random string	random string	pseudo-word
+lyon-mveb	response	button press response		
+lyon-mveb	2_letters_different-same	2 letters different - 2 letters same		
+lyon-mveb	4_letters_different-same	4 letters different - 4 letters same		
+lyon-mveb	6_letters_different-same	6 letters different - 6 letters same		
+lyon-mveb	6_letters_different-2_letters_different	6 letters different - 2 letters different		
+lyon-mvis	response	button press response		
+lyon-mvis	2_dots-2_dots_control	2 dots - 2 dots control		
+lyon-mvis	4_dots-4_dots_control	4 dots - 4 dots control		
+lyon-mvis	6_dots-6_dots_control	6 dots - 6 dots control		
+lyon-mvis	6_dots-2_dots	6 dots - 2 dots		
+lyon-moto	instructions	read instructions		
+lyon-moto	fixation	fixation	idle	fixation
+lyon-moto	finger_right-fixation	right finger tapping vs fixation	fixation	right finger
+lyon-moto	finger_left-fixation	left finger tapping vs fixation	fixation	left finger
+lyon-moto	foot_left-fixation	move left foot vs fixation	fixation	left foot
+lyon-moto	foot_right-fixation	move right foot vs fixation	fixation	right foot
+lyon-moto	hand_left-fixation	move left hand vs fixation	fixation	left hand
+lyon-moto	hand_right-fixation	move right hand vs fixation	fixation	right hand
+lyon-moto	saccade-fixation	saccade vs fixation	fixation	saccade
+lyon-moto	tongue-fixation	move tongue vs. fixation	fixation	tongue
+lyon-mcse	low-high_salience	looking for a low salience symbol	high salience	low salience
+lyon-mcse	salience_left-right	looking for a symbold in left vs right visual field	right visual field	left visual field
+audio1	animal-others			
+audio1	music-others			
+audio1	nature-others			
+audio1	speech-others			
+audio1	tool-others			
+audio1	voice-others			
+audio1	mean-silence			
+audio2	animal-others			
+audio2	music-others			
+audio2	nature-others			
+audio2	speech-others			
+audio2	tool-others			
+audio2	voice-others			
+audio2	mean-silence			
