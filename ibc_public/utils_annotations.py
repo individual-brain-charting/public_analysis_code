@@ -142,19 +142,20 @@ def expand_table(compact_table, output_file=None, tag_columns=None):
 _package_directory = os.path.dirname(
     os.path.abspath(ibc_public.__file__))
 all_contrasts = os.path.join(
-    _package_directory, '../ibc_data', 'all_contrasts_sparse.tsv')
+    _package_directory, '../ibc_data', 'all_contrasts.tsv')
 
 # get the corresponding directory
 write_dir = os.path.dirname(all_contrasts)
 
-# read the file as a dataframe
+# read the sparse table as a dataframe
+sparse_contrasts = os.path.join(
+    _package_directory, '../ibc_data', 'all_contrasts_sparse.tsv')
 cs = pd.read_csv(all_contrasts, sep='\t')
 
 # take the tag names (useful to preserve ordering)
 ref_columns = cs.columns[5:]
 
 rewrite = True
-
 """
 # create a compact table
 if rewrite:
@@ -163,8 +164,8 @@ if rewrite:
 else:
     compact_table = make_compact_table(cs)
 """
-sparse_contrasts = os.path.join(write_dir, 'all_contrasts.tsv')
-compact_table = pd.read_csv(sparse_contrasts, sep='\t')
+compact_contrasts = os.path.join(write_dir, 'all_contrasts.tsv')
+compact_table = pd.read_csv(compact_contrasts, sep='\t')
 
 # create a sparse table
 if rewrite:
