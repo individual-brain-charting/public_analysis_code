@@ -9,6 +9,7 @@ import os
 import pandas as pd
 import shutil
 import numpy as np
+from utils_annotations import expand_table
 
 main_parent_dir = '/neurospin/ibc'
 alt_parent_dir = '/storage/store/data/ibc'
@@ -30,8 +31,10 @@ CONDITIONS = pd.read_csv(os.path.join(
     _package_directory, '..', 'ibc_data', 'conditions.tsv'), sep='\t')
 CONTRASTS = pd.read_csv(os.path.join(
     _package_directory, '..', 'ibc_data', 'main_contrasts.tsv'), sep='\t')
-ALL_CONTRASTS = pd.read_csv(os.path.join(
-    _package_directory, '..', 'ibc_data', 'all_contrasts.tsv'), sep='\t')
+ALL_CONTRASTS = expand_table(pd.read_csv(os.path.join(
+    _package_directory, '..', 'ibc_data', 'all_contrasts.tsv'),
+                                         sep='\t'))
+
 
 # Note that LABELS and BETTER NAMES ARE RELATIVE TO CONTRASTS
 LABELS = {}

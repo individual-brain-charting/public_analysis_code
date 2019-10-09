@@ -4,7 +4,7 @@ This small module is used to go back and forth
 import os
 import pandas as pd
 import numpy as np
-import ibc_public.utils_data
+import ibc_public
 
 
 def make_compact_table(cs, output_file=None):
@@ -138,11 +138,11 @@ def expand_table(compact_table, output_file=None, tag_columns=None):
     return output_df
 
 
-# get the pass of the al_contrasts file
+# get the pass of the all_contrasts file
 _package_directory = os.path.dirname(
-    os.path.abspath(ibc_public.utils_data.__file__))
+    os.path.abspath(ibc_public.__file__))
 all_contrasts = os.path.join(
-    _package_directory, '../ibc_data', 'all_contrasts.tsv')
+    _package_directory, '../ibc_data', 'all_contrasts_sparse.tsv')
 
 # get the corresponding directory
 write_dir = os.path.dirname(all_contrasts)
@@ -159,16 +159,16 @@ rewrite = True
 # create a compact table
 if rewrite:
     compact_table = make_compact_table(
-        cs, os.path.join(write_dir, 'all_contrasts_sparse.tsv'))
+        cs, os.path.join(write_dir, 'all_contrasts.tsv'))
 else:
     compact_table = make_compact_table(cs)
 """
-sparse_contrasts = os.path.join(write_dir, 'all_contrasts_sparse.tsv')
+sparse_contrasts = os.path.join(write_dir, 'all_contrasts.tsv')
 compact_table = pd.read_csv(sparse_contrasts, sep='\t')
 
 # create a sparse table
 if rewrite:
     sparse_table = expand_table(
-        compact_table, os.path.join(write_dir, 'all_contrasts.tsv'))
+        compact_table, os.path.join(write_dir, 'all_contrasts_sparse.tsv'))
 else:
-    sparse_table = expand_table(compact_table, tag_columns=ref_columns)
+    sparse_table = expand_table(compact_table)
