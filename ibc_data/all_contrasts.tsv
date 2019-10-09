@@ -78,27 +78,27 @@ hcp_motor	left_foot	Move left foot 	no motion	left foot	['response_execution', '
 hcp_motor	right_foot	Move right foot 	no motion	right foot	['response_execution', 'right_toe_response_execution']
 hcp_motor	tongue	Move tongue	no motion	tongue	['response_execution', 'tongue_response_execution']
 hcp_motor	cue	Motion cue of motion	fixation	visual task cue	['response_selection', 'working_memory']
-hcp_emotion	shape	Shape comparison	fixation cross	shape outline	['visual_form_recognition', 'feature_comparison', 'response_selection', 'response_execution']
+hcp_emotion	shape	Shape comparison	fixation	shape outline	['visual_form_recognition', 'feature_comparison', 'response_selection', 'response_execution']
 hcp_emotion	face-shape	Emotional face comparison vs shape comparison	shape outline	face image	['feature_comparison', 'emotional_face_recognition', 'response_selection', 'response_execution']
-hcp_emotion	face	Emotional face comparison			['feature_comparison', 'emotional_face_recognition', 'response_selection', 'response_execution']
-hcp_emotion	shape-face	Shape comparison vs emotional face comparison			['visual_form_recognition', 'feature_comparison', 'response_selection', 'response_execution']
+hcp_emotion	face	Emotional face comparison	fixation	face image	['feature_comparison', 'emotional_face_recognition', 'response_selection', 'response_execution']
+hcp_emotion	shape-face	Shape comparison vs emotional face comparison	fixation	shape outline	['visual_form_recognition', 'feature_comparison', 'response_selection', 'response_execution']
 hcp_relational	relational-match	Relational comparison vs matching	visual matching	relational processing	['visual_form_recognition', 'visual_pattern_recognition', 'feature_comparison', 'response_selection', 'response_execution', 'relational_comparison']
 hcp_relational	match	Visual feature matching vs fixation	fixation	visual matching	['visual_form_recognition', 'visual_pattern_recognition', 'feature_comparison', 'response_selection', 'response_execution']
-hcp_relational	relational	Relational comparison vs fixation			['visual_form_recognition', 'visual_pattern_recognition', 'feature_comparison', 'response_selection', 'response_execution', 'relational_comparison']
+hcp_relational	relational	Relational comparison vs fixation	fixation	relational processing	['visual_form_recognition', 'visual_pattern_recognition', 'feature_comparison', 'response_selection', 'response_execution', 'relational_comparison']
 hcp_wm	2back-0back	2-back vs 0-back	0-back	2-back	['tool_maintenance', 'body_maintenance', 'place_maintenance', 'face_maintenance', 'response_selection', 'response_execution', 'updating', 'working_memory']
 hcp_wm	body-avg	Body image versus face, place, tool image	any image	body image	['visual_body_recognition', 'body_maintenance']
 hcp_wm	face-avg	Face image versus body, place, tool image	any image	face image	['visual_face_recognition', 'face_maintenance']
 hcp_wm	place-avg	Place image versus face, body, tool image	any image	place image	['visual_place_recognition', 'place_maintenance']
 hcp_wm	tools-avg	Tool image versus face, place, body image	any image	tool image	['visual_tool_recognition', 'tool_maintenance']
-hcp_wm	0back-2back	0-back vs 2-back			['response_selection', 'response_execution', 'updating']
-hcp_wm	0back_body	Body image 0-back task  vs fixation			['visual_body_recognition', 'body_maintenance', 'response_execution', 'working_memory']
-hcp_wm	2back_body	Body image 2-back task vs fixation			['visual_body_recognition', 'body_maintenance', 'response_execution', 'updating', 'working_memory']
-hcp_wm	0back_face	Face image 0-back task vs fixation			['visual_face_recognition', 'face_maintenance', 'response_execution', 'working_memory']
-hcp_wm	2back_face	Face image 2-back task vs fixation			['visual_face_recognition', 'face_maintenance', 'response_execution', 'updating', 'working_memory']
-hcp_wm	0back_tools	Tool image 0-back task vs fixation			['visual_tool_recognition', 'tool_maintenance', 'response_execution', 'working_memory']
-hcp_wm	2back_tools	Tool image 2-back task vs fixation			['visual_tool_recognition', 'tool_maintenance', 'response_execution', 'updating', 'working_memory']
-hcp_wm	0back_place	Place image 0-back task vs fixation			['visual_place_recognition', 'place_maintenance', 'response_execution', 'working_memory']
-hcp_wm	2back_place	Place image 2-back task vs fixation			['visual_place_recognition', 'place_maintenance', 'response_execution', 'updating', 'working_memory']
+hcp_wm	0back-2back	0-back vs 2-back	2-back	0-back	['response_selection', 'response_execution', 'updating']
+hcp_wm	0back_body	Body image 0-back task  vs fixation	fixation	0-back body image	['visual_body_recognition', 'body_maintenance', 'response_execution', 'working_memory']
+hcp_wm	2back_body	Body image 2-back task vs fixation	fixation	2-back body image	['visual_body_recognition', 'body_maintenance', 'response_execution', 'updating', 'working_memory']
+hcp_wm	0back_face	Face image 0-back task vs fixation	fixation	0-back face image	['visual_face_recognition', 'face_maintenance', 'response_execution', 'working_memory']
+hcp_wm	2back_face	Face image 2-back task vs fixation	fixation	2-back face image	['visual_face_recognition', 'face_maintenance', 'response_execution', 'updating', 'working_memory']
+hcp_wm	0back_tools	Tool image 0-back task vs fixation	fixation	0-back tool image	['visual_tool_recognition', 'tool_maintenance', 'response_execution', 'working_memory']
+hcp_wm	2back_tools	Tool image 2-back task vs fixation	fixation	2-back tool image	['visual_tool_recognition', 'tool_maintenance', 'response_execution', 'updating', 'working_memory']
+hcp_wm	0back_place	Place image 0-back task vs fixation	fixation	0-back place image	['visual_place_recognition', 'place_maintenance', 'response_execution', 'working_memory']
+hcp_wm	2back_place	Place image 2-back task vs fixation	fixation	2-back place image	['visual_place_recognition', 'place_maintenance', 'response_execution', 'updating', 'working_memory']
 rsvp_language	complex-simple	Read sentence with complex vs simple syntax	simple sentence	complex sentence	['visual_word_recognition', 'syntactic_parsing', 'sentence_processing', 'word_maintenance', 'working_memory']
 rsvp_language	sentence-jabberwocky	Read sentence vs jabberwocky	read jabberwocky	read sentence	['visual_word_recognition', 'syntactic_parsing', 'sentence_processing', 'word_maintenance', 'working_memory']
 rsvp_language	sentence-word	Read sentence vs words	read words	read sentence	['visual_word_recognition', 'syntactic_parsing', 'sentence_processing', 'word_maintenance', 'working_memory']
@@ -364,7 +364,7 @@ lyon-moto	hand_right-fixation	move right hand vs no movement	any motion	right ha
 lyon-moto	saccade-fixation	saccade vs no movement	any motion	saccade	['response_execution', 'saccadic_eye_movement']
 lyon-moto	tongue-fixation	move tongue vs. no movement	any motion	tongue	['response_execution', 'tongue_response_execution']
 lyon-mcse	low-high_salience	looking for a low salience symbol	high salience	low salience	['visual_search', 'salience']
-lyon-mcse	salience_left-right	looking for a symbold in left vs right visual field	right visual field	left visual field	['visual_search', 'salience']
+lyon-mcse	salience_left-right	looking for a symbol in left vs right visual field	right visual field	left visual field	['visual_search', 'salience']
 audio1	animal-others			'	['']
 audio1	music-others				['']
 audio1	nature-others				['']
@@ -372,10 +372,42 @@ audio1	speech-others				['']
 audio1	tool-others				['']
 audio1	voice-others				['']
 audio1	mean-silence				['']
-audio2	animal-others				['']
+audio1	animal-silence				['']
+audio1	music-silence				['']
+audio1	nature-silence				['']
+audio1	speech-silence				['']
+audio1	tool-silence				['']
+audio1	voice-silence				['']
+audio2	animal-silence				['']
 audio2	music-others				['']
 audio2	nature-others				['']
 audio2	speech-others				['']
 audio2	tool-others				['']
 audio2	voice-others				['']
 audio2	mean-silence				['']
+audio1	animal-silence				
+audio1	music-silence				
+audio1	nature-silence				
+audio1	speech-silence				
+audio1	tool-silence				
+audio1	voice-silence				
+attention	spatial_cue-double_cue				
+attention	spatial_cue				
+attention	incongruent-congruent				
+attention	double_incongruent-double_congruent				
+attention	double_congruent				
+attention	double_incongruent				
+attention	double_cue				
+attention	spatial_incongruent-spatial_congruent				
+attention	spatial_incongruent				
+attention	spatial_congruent				
+stop-signal	go				
+stop-signal	stop				
+stop-signal	stop-go				
+two-by-two	task_stay_cue_stay				
+two-by-two	task_switch_cue_switch				
+two-by-two	task_switch_cue_stay				
+two-by-two	task_stay_cue_switch				
+two-by-two	task_switch-stay				
+two-by-two	cue_switch-stay				
+	cue_switch-stay				

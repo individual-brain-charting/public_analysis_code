@@ -351,8 +351,9 @@ def attention(design_matrix_columns):
         'spatial_cue': con['spatialcue'],
         'double_cue': con['doublecue'],
         'incongruent-congruent': con['spatial_incongruent'] -
-            con['spatial_congruent'] + con['double_incongruent'] -
-            con['double_congruent'],
+                                 con['spatial_congruent'] +
+                                 con['double_incongruent'] -
+                                 con['double_congruent'],
         'spatial_incongruent-spatial_congruent': con['spatial_incongruent'] -
             con['spatial_congruent'],
         'double_incongruent-double_congruent': con['double_incongruent'] -
@@ -524,7 +525,9 @@ def audio(design_matrix_columns):
     """Contrasts for the audio protocol"""
     contrast_names = [
         'animal-others', 'music-others', 'nature-others',
-        'speech-others', 'tool-others', 'voice-others', 'mean-silence'
+        'speech-others', 'tool-others', 'voice-others', 'mean-silence',
+        'animal-silence', 'music-silence', 'nature-silence',
+        'speech-silence', 'tool-silence', 'voice-silence',
         ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
@@ -538,7 +541,14 @@ def audio(design_matrix_columns):
         'nature-others': con['nature'] - others,
         'speech-others': con['speech'] - others,
         'tool-others': con['tool'] - others,
-        'voice-others': con['voice'] - others}
+        'voice-others': con['voice'] - others,
+        'animal-silence': con['animal'] - con['silence'],
+        'music-silence': con['music'] - con['silence'],
+        'nature-silence': con['nature'] - con['silence'],
+        'speech-silence': con['speech'] - con['silence'],
+        'tool-silence': con['tool'] - con['silence'],
+        'voice-silence': con['voice'] - con['silence'],
+        }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)

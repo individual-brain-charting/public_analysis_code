@@ -155,3 +155,15 @@ audio2	speech-others
 audio2	tool-others			
 audio2	voice-others			
 audio2	mean-silence			
+audio1	Animal-silence			
+audio1	music-silence			
+audio1	nature-silence			
+audio1	speech-silence			
+audio1	tool-silence			
+audio1	voice-silence			
+audio2	animal-silence			
+audio2	music-silence			
+audio2	nature-silence			
+audio2	speech-silence			
+audio2	tool-silence			
+audio2	voice-silence			

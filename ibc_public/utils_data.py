@@ -9,7 +9,7 @@ import os
 import pandas as pd
 import shutil
 import numpy as np
-from utils_annotations import expand_table
+from ibc_public.utils_annotations import expand_table
 
 main_parent_dir = '/neurospin/ibc'
 alt_parent_dir = '/storage/store/data/ibc'
