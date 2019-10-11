@@ -140,7 +140,7 @@ lyon-moto	hand_right-fixation	move right hand vs fixation	fixation	right hand
 lyon-moto	saccade-fixation	saccade vs fixation	fixation	saccade
 lyon-moto	tongue-fixation	move tongue vs. fixation	fixation	tongue
 lyon-mcse	low-high_salience	looking for a low salience symbol	high salience	low salience
-lyon-mcse	salience_left-right	looking for a symbold in left vs right visual field	right visual field	left visual field
+lyon-mcse	salience_left-right	looking for a symbol in left vs right visual field	right visual field	left visual field
 audio1	animal-others			
 audio1	music-others			
 audio1	nature-others			
