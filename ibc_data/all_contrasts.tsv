@@ -323,20 +323,13 @@ lyon-audi	environment-silence	listen to environment sounds	silence	environment s
 lyon-audi	laugh-silence	listen to laugh	silence	laugh	['auditory_perception', 'sounds_perception', 'voice_perception', 'listening']
 lyon-audi	animals-silence	listen to animals	silence	animals	['auditory_perception', 'sounds_perception', 'listening']
 lyon-visu	scrambled	view a scrambled image	fixation	scrambled image	['visual_perception']
-lyon-visu	face-scrambled	view a face image	other image	face image	['face_perception']
-lyon-visu	characters-scrambled	view a characters	other image	characters image	['visual_form_recognition', 'visual_word_recognition', 'reading']
-lyon-visu	scene-scrambled	view a scene	other image	scene image	['visual_place_recognition', 'object_categorization', 'object_recognition']
-lyon-visu	house-scrambled	view a house	other image	house image	['visual_place_recognition', 'object_categorization', 'object_recognition']
-lyon-visu	animal-scrambled	view an animal	other image	animal image	['object_recognition']
-lyon-visu	pseudoword-scrambled	view a pseudoword	other image	pseudoword image	['visual_form_recognition', 'visual_pseudo_word_recognition', 'reading']
-lyon-visu	tool-scrambled	view a tool	other image	tool image	['visual_tool_recognition', 'object_categorization', 'object_recognition']
-lyon-visu	face	view a face image	fixation	face image	['face_perception', 'visual_perception']
-lyon-visu	characters	view characters	fixation	characters image	['visual_form_recognition', 'reading', 'visual_perception']
-lyon-visu	scene	view a scene	fixation	scene image	['visual_place_recognition', 'object_recognition', 'visual_perception']
-lyon-visu	house	view a house	fixation	house image	['visual_place_recognition', 'object_recognition', 'visual_perception']
-lyon-visu	animal	view an animal	fixation	animal image	['object_recognition', 'visual_perception']
-lyon-visu	pseudoword	view a pseudoword	fixation	pseudoword image	['visual_form_recognition', 'visual_pseudo_word_recognition', 'reading', 'visual_perception']
-lyon-visu	tool	view a tool	fixation	tool image	['visual_tool_recognition', 'object_categorization', 'object_recognition', 'visual_perception']
+lyon-visu	face-scrambled	view a face image	scrambled image	face image	['face_perception']
+lyon-visu	characters-scrambled	view a characters	scrambled image	characters image	['visual_form_recognition', 'visual_word_recognition', 'reading']
+lyon-visu	scene-scrambled	view a scene	scrambled image	scene image	['visual_place_recognition',  'object_recognition']
+lyon-visu	house-scrambled	view a house	scrambled image	house image	['visual_place_recognition',  'object_recognition']
+lyon-visu	animal-scrambled	view an animal	scrambled image	animal image	['object_recognition']
+lyon-visu	pseudoword-scrambled	view a pseudoword	scrambled image	pseudoword image	['visual_form_recognition', 'visual_pseudo_word_recognition', 'reading']
+lyon-visu	tool-scrambled	view a tool	scrambled image	tool image	['visual_tool_recognition', 'object_recognition']
 lyon-lec1	random_string	read a random string	fixation	random string	['visual_string_recognition', 'reading', 'response_selection', 'response_execution]
 lyon-lec1	word-pseudoword	read a word vs a pseudo word	pseudo-word	word	['language_comprehension', 'semantic_processing']
 lyon-lec1	word-random_string	read a word ws a random string	random string	word	['visual_word_recognition', 'language_processing', 'language_comprehension', 'semantic_processing']
@@ -365,49 +358,48 @@ lyon-moto	saccade-fixation	saccade vs no movement	any motion	saccade	['response_
 lyon-moto	tongue-fixation	move tongue vs. no movement	any motion	tongue	['response_execution', 'tongue_response_execution']
 lyon-mcse	low-high_salience	looking for a low salience symbol	high salience	low salience	['visual_search', 'salience']
 lyon-mcse	salience_left-right	looking for a symbol in left vs right visual field	right visual field	left visual field	['visual_search', 'salience']
-audio1	animal-others			'	['']
-audio1	music-others				['']
-audio1	nature-others				['']
-audio1	speech-others				['']
-audio1	tool-others				['']
-audio1	voice-others				['']
-audio1	mean-silence				['']
-audio1	animal-silence				['']
-audio1	music-silence				['']
-audio1	nature-silence				['']
-audio1	speech-silence				['']
-audio1	tool-silence				['']
-audio1	voice-silence				['']
-audio2	animal-silence				['']
-audio2	music-others				['']
-audio2	nature-others				['']
-audio2	speech-others				['']
-audio2	tool-others				['']
-audio2	voice-others				['']
-audio2	mean-silence				['']
-audio1	animal-silence				
-audio1	music-silence				
-audio1	nature-silence				
-audio1	speech-silence				
-audio1	tool-silence				
-audio1	voice-silence				
-attention	spatial_cue-double_cue				
-attention	spatial_cue				
-attention	incongruent-congruent				
-attention	double_incongruent-double_congruent				
-attention	double_congruent				
-attention	double_incongruent				
-attention	double_cue				
-attention	spatial_incongruent-spatial_congruent				
-attention	spatial_incongruent				
-attention	spatial_congruent				
-stop-signal	go				
-stop-signal	stop				
-stop-signal	stop-go				
-two-by-two	task_stay_cue_stay				
-two-by-two	task_switch_cue_switch				
-two-by-two	task_switch_cue_stay				
-two-by-two	task_stay_cue_switch				
-two-by-two	task_switch-stay				
-two-by-two	cue_switch-stay				
-	cue_switch-stay				
+audio1	animal-others				[' ']
+audio1	music-others				[' ']
+audio1	nature-others				[' ']
+audio1	speech-others				[' ']
+audio1	tool-others				[' ']
+audio1	voice-others				[' ']
+audio1	mean-silence				[' ']
+audio1	animal-silence				[' ']
+audio1	music-silence				[' ']
+audio1	nature-silence				[' ']
+audio1	speech-silence				[' ']
+audio1	tool-silence				[' ']
+audio1	voice-silence				[' ']
+audio2	animal-silence				[' ']
+audio2	music-others				[' ']
+audio2	nature-others				[' ']
+audio2	speech-others				[' ']
+audio2	tool-others				[' ']
+audio2	voice-others				[' ']
+audio2	mean-silence				[' ']
+audio1	animal-silence				[' ']
+audio1	music-silence				[' ']
+audio1	nature-silence				[' ']
+audio1	speech-silence				[' ']
+audio1	tool-silence				[' ']
+audio1	voice-silence				[' ']
+attention	spatial_cue-double_cue				[' ']
+attention	spatial_cue				[' ']
+attention	incongruent-congruent				[' ']
+attention	double_incongruent-double_congruent				[' ']
+attention	double_congruent				[' ']
+attention	double_incongruent				[' ']
+attention	double_cue				[' ']
+attention	spatial_incongruent-spatial_congruent				[' ']
+attention	spatial_incongruent				[' ']
+attention	spatial_congruent				[' ']
+stop-signal	go				[' ']
+stop-signal	stop				[' ']
+stop-signal	stop-go				[' ']
+two-by-two	task_stay_cue_stay				[' ']
+two-by-two	task_switch_cue_switch				[' ']
+two-by-two	task_switch_cue_stay				[' ']
+two-by-two	task_stay_cue_switch				[' ']
+two-by-two	task_switch-stay				[' ']
+two-by-two	cue_switch-stay				[' ']
