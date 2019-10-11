@@ -524,6 +524,8 @@ def lyon_lec1(design_matrix_columns):
 def audio(design_matrix_columns):
     """Contrasts for the audio protocol"""
     contrast_names = [
+        'animal', 'music', 'nature',
+        'speech', 'tool', 'voice',
         'animal-others', 'music-others', 'nature-others',
         'speech-others', 'tool-others', 'voice-others', 'mean-silence',
         'animal-silence', 'music-silence', 'nature-silence',
@@ -535,6 +537,12 @@ def audio(design_matrix_columns):
     others = (con['animal'] + con['music'] + con['nature'] +
               con['speech'] + con['tool'] + con['voice']) * 1. / 5
     contrasts = {
+        'animal': con['animal'],
+        'music': con['music'],
+        'nature': con['nature'],
+        'speech': con['speech'],
+        'tool': con['tool'],
+        'voice': con['voice'],
         'mean-silence': others - con['silence'],
         'animal-others': con['animal'] - others,
         'music-others': con['music'] - others,

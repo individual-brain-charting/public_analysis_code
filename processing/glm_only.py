@@ -119,8 +119,8 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
                             additional_regressors=RETINO_REG,
                             smooth=smooth, mask_img=mask_img)
             else:
-                #first_level(subject, compcorr=True, smooth=smooth,
-                #            mask_img=mask_img)
+                first_level(subject, compcorr=True, smooth=smooth,
+                            mask_img=mask_img)
                 fixed_effects_analysis(subject, mask_img=mask_img)
 
 
