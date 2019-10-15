@@ -155,7 +155,15 @@ audio2	speech
 audio2	tool			
 audio2	voice			
 audio2	mean-silence			
-preference_faces	face_constant	object perception and evaluation	fixation	visual evaluation
-preference_houses	house_constant	object perception and evaluation	fixation	visual evaluation
-preference_paintings	painting_constant	object perception and evaluation	fixation	visual evaluation
-preference_food	food_constant	object perception and evaluation	fixation	visual evaluation
+preference_face	face_constant	evaluation of faces	fixation	face evaluation
+preference_face	face_linear	linear effect of face preference	fixation	face preference
+preference_face	face_quadratic	quadratic effect of face preference	fixation	confidence in face preference
+preference_house	house_constant	evaluation of houses	fixation	house evaluation
+preference_house	house_linear	linear effect of houses preference	fixation	house preference
+preference_house	house_quadratic	quadratic effect of houses preference	fixation	confidence in house preference
+preference_food	food_constant	evaluation of food	fixation	food evaluation
+preference_food	food_linear	linear effect of food preference	fixation	food preference
+preference_food	food_quadratic	quadratic effect of food preference	fixation	confidence in food preference
+preference_painting	painting_constant	evaluation of paintings	fixation	painting evaluation
+preference_painting	painting_linear	linear effect of paintings preference	fixation	painting preference
+preference_painting	painting_quadratic	quadratic effect of paintings preference	fixation	confidence in painting preference
