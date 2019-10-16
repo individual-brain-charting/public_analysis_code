@@ -211,9 +211,9 @@ if __name__ == '__main__':
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
     do_topup = True
-    protocol = 'lpp1'
+    protocol = 'lpp2'
     subject_session = sorted(get_subject_session([protocol]))
-    subject_session = [('sub-05', 'ses-27'), ('sub-09', 'ses-28'),]
+    subject_session = [('sub-04', 'ses-28'), ('sub-05', 'ses-28'),]
     if do_topup:
         acq = None
         if protocol in ['rs']:

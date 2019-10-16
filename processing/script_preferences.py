@@ -78,11 +78,11 @@ def elementary_contrasts_surf(con_imgs, var_imgs):
     outputs = []
     n_contrasts = 4
     for i in range(n_contrasts):
-        con = nib.load(con_imgs[i])
-        var = nib.load(var_imgs[i])
-        effects = [con - nib.load(con_imgs[j])
+        con = nib.load(con_imgs[i]).darrays[0].data
+        var = nib.load(var_imgs[i]).darrays[0].data
+        effects = [con - nib.load(con_imgs[j]).darrays[0].data
                    for j in range(n_contrasts) if j != i]
-        variance = [var + nib.load(var_imgs[j])
+        variance = [var + nib.load(var_imgs[j]).darrays[0].data
                     for j in range(n_contrasts) if j != i]
 
         fixed_con = np.array(effects).sum(0)
@@ -212,7 +212,7 @@ for (subject, session) in subject_session:
     variance = [os.path.join(
         workdir, subject, session,
         'res_surf_preference_%s_ffx' % category_, 'variance_surf',
-        '%s_%s_lg.gii' % (category, contrast))
+        '%s_%s_lh.gii' % (category, contrast))
                 for category, category_ in zip(categories, categories_)]
     outputs = elementary_contrasts_surf(effects, variance)
 
