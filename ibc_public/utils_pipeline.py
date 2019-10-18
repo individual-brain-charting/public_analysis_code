@@ -264,7 +264,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             subject_dic['session_id'], subject_dic['func'],
             subject_dic['onset'], subject_dic['realignment_parameters']):
 
-        paradigm_id = _session_id_to_task_id([session_id])[0]
+        task_id = _session_id_to_task_id([session_id])[0]
 
         if surface:
             from nibabel.gifti import read
@@ -277,7 +277,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         motion = np.loadtxt(motion_path)
         # define the time stamps for different images
         frametimes = np.linspace(0, (n_scans - 1) * tr, n_scans)
-        if paradigm_id == 'audio':
+        if task_id == 'audio':
             mask = np.array([1, 0, 1, 1, 0, 1, 1, 0, 1, 1])
             n_cycles = 28
             cycle_duration = 20
@@ -309,7 +309,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             warnings.warn('non-existant onset file. proceeding without it')
             paradigm = None
         else:
-            paradigm = make_paradigm(onset, paradigm_id)
+            paradigm = make_paradigm(onset, task_id)
 
         # handle manually supplied regressors
         add_reg_names = []
@@ -334,7 +334,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         _, dmtx, names = check_design_matrix(design_matrix)
 
         # create the relevant contrasts
-        contrasts = make_contrasts(paradigm_id, names)
+        contrasts = make_contrasts(task_id, names)
 
         if surface:
             subject_session_output_dir = os.path.join(
@@ -414,6 +414,13 @@ def _session_id_to_task_id(session_ids):
                 task_id = task_id.replace('_' + str(x), '')
                 task_id = task_id.replace(str(x), '')
             task_ids[i] = task_id
+
+    # customization for wedge and ring stimuli
+    for i, task_id in enumerate(task_ids):
+        if 'wedge' in task_id:
+            task_ids[i] = 'wedge'
+        if 'ring' in task_id:
+            task_ids[i] = 'ring'
     return task_ids
 
 
@@ -457,10 +464,8 @@ def fixed_effects_analysis(subject_dic, surface=False, mask_img=None):
     from nilearn.plotting import plot_stat_map
 
     session_ids = subject_dic['session_id']
-    print(session_ids)
     task_ids = _session_id_to_task_id(session_ids)
     paradigms = np.unique(task_ids)
-    print(task_ids, paradigms)
     if mask_img is None:
         mask_img = os.path.join(subject_dic['output_dir'], "mask.nii.gz")
 

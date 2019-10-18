@@ -63,6 +63,8 @@ def post_process(df, paradigm_id):
         df = df.replace('visage', 'face')
     if paradigm_id == 'lyon-audi':
         df = df.replace('envir', 'environment')
+    if paradigm_id == '':
+        pass
 
     if paradigm_id in relevant_conditions.keys():
         relevant_items = relevant_conditions[paradigm_id]
@@ -155,6 +157,23 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'VSTM':
         for i in range(1, 7):
             df = df.replace('memorization_num_%d' % i, 'response_num_%d' % i)
+
+    if paradigm_id == 'self':
+        df = df.replace('self_relevance_with_response', 'encode_self')
+        df = df.replace('other_relevance_with_response', 'encode_other')
+        df = df.replace('self_relevance_with_no_response',
+                        'encode_self_no_response')
+        df = df.replace('other_relevance_with_no_response',
+                        'encode_other_no_reponse')
+        df = df.replace('old_self_hit', 'recognition_self_hit')
+        df = df.replace('old_self_miss', 'recognition_self_miss')
+        df = df.replace('old_other_hit', 'recognition_other_hit')
+        df = df.replace('old_other_miss', 'recognition_other_miss')
+        df = df.replace('new_fa', 'false_alarm')
+        df = df.replace('new_cr', 'correct_rejection')
+        df = df.replace('old_self_no_response', 'recognition_self_no_response')
+        df = df.replace('old_other_no_response',
+            'recognition_other_no_response')
 
     instructions = ['Ins_bouche', 'Ins_index', 'Ins_jambe',
                     'Ins_main', 'Ins_repos', 'Ins_yeux', ]
@@ -305,8 +324,8 @@ def post_process(df, paradigm_id):
 
 def make_paradigm(onset_file, paradigm_id=None):
     """ Temporary fix """
-    if paradigm_id in ['wedge_clock', 'wedge_anti', 'cont_ring', 'exp_ring']:
-        return None
+    # if paradigm_id in ['wedge_clock', 'wedge_anti', 'cont_ring', 'exp_ring']:
+    #     return None
     df = read_csv(onset_file, index_col=None, sep='\t')
     if 'onset' not in df.keys() and 'Onsets' in df.keys():
         df['onset'] = df['Onsets']

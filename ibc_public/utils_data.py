@@ -229,8 +229,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     (subject, task, acq, contrast))
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
-                    if contrast == 'house_constant':
-                        continue
+                    continue
                 imgs_.sort()
                 # some renaming
                 contrast_id = contrast

@@ -163,3 +163,14 @@ preference_food	food_quadratic	quadratic effect of food preference	fixation	conf
 preference_painting	painting_constant	evaluation of paintings	fixation	painting evaluation
 preference_painting	painting_linear	linear effect of paintings preference	fixation	painting preference
 preference_painting	painting_quadratic	quadratic effect of paintings preference	fixation	confidence in painting preference
+wedge	lower_meridian			
+wedge	upper_meridian			
+wedge	lower_right			
+wedge	upper_left			
+wedge	right_meridian			
+wedge	left_meridian			
+wedge	upper_right			
+wedge	lower_left			
+ring	foveal			
+ring	middle			
+ring	peripheral			

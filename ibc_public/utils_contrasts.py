@@ -34,9 +34,13 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return rsvp_language(design_matrix_columns)
     elif paradigm_id == 'colour':
         return colour(design_matrix_columns)
-    elif paradigm_id in ['cont_ring', 'exp_ring', 'wedge_clock',
-                         'wedge_anti']:
-        return retino(design_matrix_columns)
+    # elif paradigm_id in ['cont_ring', 'exp_ring', 'wedge_clock',
+    #                     'wedge_anti']:
+    #    return retino(design_matrix_columns)
+    elif paradigm_id in ['wedge', 'wedge_anti', 'wedge_clock']:
+        return wedge(design_matrix_columns)
+    elif paradigm_id in ['ring', 'cont_ring', 'exp_ring']:
+        return ring(design_matrix_columns)
     elif paradigm_id[:10] == 'preference':
         domain = paradigm_id[11:]
         if domain[-1] == 's':
@@ -150,6 +154,35 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     if con != []:
         contrast['derivatives'] = np.array(con)
     return contrast
+
+
+def wedge(design_matrix_columns):
+    """ Contarsts for wedge stim"""
+    contrast_names = [
+        'lower_meridian', 'lower_right', 'right_meridian', 'upper_right',
+        'upper_meridian', 'upper_left', 'left_meridian', 'lower_left',
+    ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names])
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def ring(design_matrix_columns):
+    """ Contrasts for ring stim"""
+    contrast_names = ['foveal', 'middle', 'peripheral']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names])
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def biological_motion1(design_matrix_columns):
@@ -703,32 +736,68 @@ def bang(design_matrix_columns):
 def self_localizer(design_matrix_columns):
     """ Contrasts for self experiment"""
     contrast_names = [
-        'instructions', 'new_fa', 'old_other_hit', 'old_self_hit',
-        'other_relevance_with_response', 'self_relevance_with_response',
-        'self-other_hit', 'self-other_with_response',
+        'encode_self-other', 'encode_other', 'encode_self',
+        'instructions', 'false_alarm', 'correct_rejection',
+        'recognition_hit', 'recognition_hit-correct_rejection',
+        'recognition_self-other', 'recognition_self_hit',
+        'recognition_other_hit'
     ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
+
+    try:
+        recognition_hit = con['recognition_other_hit'] +\
+            con['recognition_self_hit']
+    except KeyError:
+        if 'recognition_self_hit' in con.keys():
+            recognition_hit = con['recognition_self_hit']
+        else:
+            recognition_hit = con['recognition_other_hit']
+    try:
+        correct_rejection = con['correct_rejection']
+    except KeyError:
+        correct_rejection = con['false_alarm']  #
+    try:
+        recognition_self_hit = con['recognition_self_hit']
+    except KeyError:
+        recognition_self_hit = con['recognition_self_miss']
+    try:
+        recognition_self = con['recognition_self_hit'] +\
+            con['recognition_self_miss']
+    except KeyError:
+        if 'recognition_self_miss' in con.keys():
+            recognition_self = con['recognition_self_miss']
+        else:
+            recognition_self = con['recognition_self_hit']
+    try:
+        recognition_other = con['recognition_other_hit'] +\
+            con['recognition_other_miss']
+    except KeyError:
+        if 'recognition_other_hit' in con.keys():
+            recognition_other = con['recognition_other_hit']
+        else:
+            recognition_other = con['recognition_other_miss']
+    try:
+        recognition_other_hit = con['recognition_other_hit']
+    except KeyError:
+        recognition_other_hit = con['recognition_other_miss']
+
     contrasts = {
-        'instructions': con['instructions'],  # cue
-        'new_fa': con['new_fa'],  # false alarms
-        'old_other_hit': con['old_other_miss'],  #
-        'old_self_hit': con['old_self_miss'],
-        'other_relevance_with_response':\
-        con['other_relevance_with_response'],
-        'self_relevance_with_response':\
-        con['self_relevance_with_response'],
-        'self-other_hit': con['old_self_miss'] - con['old_other_miss'],
-        'self-other_with_response':
-            con['self_relevance_with_response']
-            - con['other_relevance_with_response'],
-            }
-    if 'old_other_hit' in con.keys():
-        contrasts['old_other_hit'] = con['old_other_hit']
-        contrasts['old_self_hit'] = con['old_self_hit']
-        contrasts['self-other_hit'] =\
-            con['old_self_hit'] - con['old_other_hit']
+        'encode_self-other': con['encode_self'] - con['encode_other'],
+        'encode_other': con['encode_other'],
+        'encode_self': con['encode_self'],
+        'instructions': con['instructions'],
+        'false_alarm': con['false_alarm'],
+        'recognition_hit': recognition_hit,
+        'recognition_self_hit': recognition_self_hit,
+        'recognition_hit-correct_rejection':
+            recognition_hit - correct_rejection,
+        'correct_rejection': correct_rejection,
+        'recognition_self-other': recognition_self - recognition_other,
+        'recognition_other_hit': recognition_other_hit,
+        }
+
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
