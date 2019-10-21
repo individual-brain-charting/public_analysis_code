@@ -296,12 +296,20 @@ vstm	vstm_response_quadratic	vstm quadratic items response	fixation	vstm quadrat
 enum	enum_response_constant	enumeration constant items response	fixation	enumeration constant	['shape_recognition', 'response_selection', 'response_execution', 'numerosity']
 enum	enum_response_linear	enumeration linear items response	fixation	enumeration linear	['visual_working_memory', 'numerosity']
 enum	enum_response_quadratic	enumeration quadratic items response	fixation	enumeration quadratic	['visual_buffer', 'numerosity']
-self	self-other_with_response	self-reference effect	reference to other	reference to self	['self-reference_effect']
-self	other_relevance_with_response	reference to other	fixation	reference to other	['judgment', 'reading', 'word recognition', 'response_selection', 'response_execution']
-self	self_relevance_with_response	reference to self	fixation	reference to self	['judgment', 'reading', 'word recognition', 'response_selection', 'response_execution, 'self-reference_effect']
-self	hit-correct_rejection	successfully recognize whether an adjective was presented before or not	memory 	recognition	['recognition', 'recall ', 'episodic_memory']
-self	old_self-old_other_with_response	difference between recognizing an adjective referring to oneself vs another	old reference to another	old reference to self	['episodic_memory', 'self-reference_effect']
+self	encode_self-other	self-reference effect	reference to other	reference to self	['self-reference_effect']
+self	encode_self		fixation	reference to self	['judgment', 'reading', 'word recognition', 'response_selection', 'response_execution']
+self	encode_other		fixation	reference to other	['judgment', 'reading', 'word recognition', 'response_selection', 'response_execution, 'self-reference_effect']
+self	recognition_hit-correct_rejection	successfully recognize whether an adjective was presented before or not	memory 	recognition	['recognition', 'recall ', 'episodic_memory']
+self	correct_rejection				['episodic_memory', 'self-reference_effect']
+self	false_alarm				' '
+self	instructions				' '
+self	recognition_self_hit				' '
+self	recognition_hit				' '
+self	recognition_self-other				' '
+self	recognition_other_hit				' '
 bang	talk-no_talk	speech vs non-speech sections in movie watching	no speech	speech	['speech_perception', 'speech_processing', 'language_processing', 'language_comprehension']
+bang	talk				['speech perception',  'speech processing', ' language comprehension', ' language processing',  'action perception', ' audiovisual perception', ' auditory scene analysis',  'social cognition']
+bang	no_talk				['action perception',  'audiovisual perception', 'auditory scene analysis', 'social cognition']
 lyon-lec2	unattend	response to unattended text	fixation	non-attended text	['reading', 'inhibition']
 lyon-lec2	attend-unattend	response to unattended vs attended text	attended text	non-attended text	['language_processing', 'language_comprehension', 'reading', 'word_maintenance', 'working_memory']
 lyon-lec2	attend	response to attended text	fixation	attended text	['language_processing', 'language_comprehension', 'reading', 'word_maintenance', 'working_memory']

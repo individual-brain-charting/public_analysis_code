@@ -752,8 +752,10 @@ def self_localizer(design_matrix_columns):
     except KeyError:
         if 'recognition_self_hit' in con.keys():
             recognition_hit = con['recognition_self_hit']
-        else:
+        elif 'recognition_other_hit' in con.keys():
             recognition_hit = con['recognition_other_hit']
+        else:
+            recognition_hit = con['recognition_other_no_response']
     try:
         correct_rejection = con['correct_rejection']
     except KeyError:

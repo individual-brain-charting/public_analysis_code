@@ -84,8 +84,17 @@ enum	enum_response_quadratic	enumeration quadratic  items response	fixation	enum
 vstm	vstm_response_linear	vstm linear items response	fixation	vstm linear
 vstm	vstm_response_constant	vstm constant items response	fixation	vstm constant
 vstm	vstm_response_quadratic	vstm quadratic items response	fixation	vstm quadratic
-self	self-other_with_response	self-reference effect	reference to other	reference to self
-self	hit-correct_rejection	successfully recognize whether an adjective was presented before or not	memory 	recognition
+self	encode_self-other	self-reference effect	reference to other	reference to self
+self	encode_self		fixation	reference to self
+self	encode_other		fixation	reference to other
+self	recognition_hit-correct_rejection	successfully recognize whether an adjective was presented before or not	memory 	recognition
+self	correct_rejection			
+self	false_alarm			
+self	instructions			
+self	recognition_self_hit			
+self	recognition_hit			
+self	recognition_self-other			
+self	recognition_other_hit			
 bang	talk-no_talk	speech vs non-speech sections in movie watching	no speech	speech
 lyon-lec2	unattend	response to unattended text	fixation	non-attended text
 lyon-lec2	unattend-attend	response to unattended vs attended text	attended text	non-attended text

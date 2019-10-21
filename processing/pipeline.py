@@ -169,7 +169,7 @@ def apply_topup(main_dir, cache_dir, subject_sess=None, acq=None):
     """ Call topup on the datasets """
     mem = Memory(cache_dir)
     if subject_sess is None:
-        subject_sess = [('sub-%02d, ses-%02d' % (i, j)) for i in range(0, 25)
+        subject_sess = [('sub-%02d, ses-%02d' % (i, j)) for i in range(0, 30)
                         for j in range(0, 15)]
     Parallel(n_jobs=4)(
         delayed(run_topup)(mem, main_dir, subject_ses[0], subject_ses[1],
