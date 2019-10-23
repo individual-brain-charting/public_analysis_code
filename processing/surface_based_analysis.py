@@ -121,10 +121,32 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
                 '--trgsurfval %s --hemi rh --nsmooth-out 5' %
                 (subject, right_fmri_tex, right_fsaverage_fmri_tex)))
 
+            # resample to fsaverage5
+            left_fsaverage_fmri_tex = os.path.join(
+                fs_dir, basename + '_fsaverage5_lh.gii')
+            right_fsaverage_fmri_tex = os.path.join(
+                fs_dir, basename + '_fsaverage5_rh.gii')
 
-subject_sessions = sorted(get_subject_session(['preferences']))
+            print(os.system(
+                '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
+                '--srcsurfval %s --trgsurfval %s --trgsubject ico '
+                '--trgicoorder 5 --hemi lh --nsmooth-out 5' %
+                (subject, left_fmri_tex, left_fsaverage_fmri_tex)))
+            print(os.system(
+                '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
+                '--srcsurfval %s --trgsubject ico --trgicoorder 5 '
+                '--trgsurfval %s --hemi rh --nsmooth-out 5' %
+                (subject, right_fmri_tex, right_fsaverage_fmri_tex)))
 
-Parallel(n_jobs=1)(
+
+protocols = ['archi', 'screening', 'rsvp-language', 'hcp1', 'hcp2']
+protocols = ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
+protocols = ['lyon1', 'lyon2', 'audio1', 'audio2', 'stanford1',
+             'stanford2', 'stanford3']
+
+subject_sessions = sorted(get_subject_session(protocols))
+
+Parallel(n_jobs=4)(
     delayed(project_volume)(work_dir, subject_session[0], [subject_session[1]],
                             do_bbr=True)
     for subject_session in subject_sessions)

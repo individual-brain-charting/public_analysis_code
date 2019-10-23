@@ -183,7 +183,7 @@ def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
     from nistats.first_level_model import run_glm
     from nistats.contrasts import compute_contrast
     Y = np.array([darrays.data for darrays in read(fmri_path).darrays])
-    labels, res = run_glm(Y, dmtx)
+    labels, res = run_glm(Y, dmtx.values)
     # Estimate the contrasts
     print('Computing contrasts...')
     side = fmri_path[-6:-4]
@@ -337,8 +337,14 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         contrasts = make_contrasts(task_id, names)
 
         if surface:
-            subject_session_output_dir = os.path.join(
-                subject_dic['output_dir'], 'res_surf_%s' % session_id)
+            if 'fsaverage5' in fmri_path:
+                # this is low-resolution data
+                subject_session_output_dir = os.path.join(
+                    subject_dic['output_dir'],
+                    'res_fsaverage5_%s' % session_id)
+            else:
+                subject_session_output_dir = os.path.join(
+                    subject_dic['output_dir'], 'res_surf_%s' % session_id)
         else:
             subject_session_output_dir = os.path.join(
                 subject_dic['output_dir'], 'res_stats_%s' % session_id)
@@ -425,7 +431,7 @@ def _session_id_to_task_id(session_ids):
 
 
 def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
-                        side=False):
+                        side=False, lowres=False):
     """ data fetcher for summary statistics"""
     effect_size_maps = []
     effect_variance_maps = []
@@ -444,7 +450,11 @@ def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
                              '%s.nii.gz' % contrast))
     else:
         for session_id in sessions:
-            sess_dir = os.path.join(output_dir, 'res_surf_%s' % session_id)
+            if lowres:
+                sess_dir = os.path.join(
+                    output_dir, 'res_fsaverage5_%s' % session_id)
+            else:
+                sess_dir = os.path.join(output_dir, 'res_surf_%s' % session_id)
             if not os.path.exists(sess_dir):
                 warnings.warn('Missing session dir, skipping')
                 data_available = False
@@ -458,7 +468,8 @@ def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
     return effect_size_maps, effect_variance_maps, data_available
 
 
-def fixed_effects_analysis(subject_dic, surface=False, mask_img=None):
+def fixed_effects_analysis(subject_dic, surface=False, mask_img=None,
+                           lowres=False):
     """ Combine the AP and PA images """
     from nibabel import load, save
     from nilearn.plotting import plot_stat_map
@@ -479,10 +490,14 @@ def fixed_effects_analysis(subject_dic, surface=False, mask_img=None):
         contrasts = make_contrasts(paradigm).keys()
         # create write_dir
         if surface:
-            write_dir = os.path.join(subject_dic['output_dir'],
-                                     'res_surf_%s_ffx' % paradigm)
+            if lowres:
+                write_dir = os.path.join(subject_dic['output_dir'],
+                                         'res_fsaverage5_%s_ffx' % paradigm)
+            else:
+                write_dir = os.path.join(subject_dic['output_dir'],
+                                         'res_surf_%s_ffx' % paradigm)
             dirs = [os.path.join(write_dir, stat) for stat in [
-                'effect_surf', 'variance_surf', 'stat_surf']]
+                    'effect_surf', 'variance_surf', 'stat_surf']]
         else:
             write_dir = os.path.join(subject_dic['output_dir'],
                                      'res_stats_%s_ffx' % paradigm)

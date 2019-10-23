@@ -21,7 +21,7 @@ RETINO_REG = dict([(session_id, 'sin_cos_regressors.csv')
 IBC = 'neurospin/ibc'
 
 
-def generate_glm_input(jobfile):
+def generate_glm_input(jobfile, lowres=False):
     """ retrun a list of dictionaries that represent the data available
     for GLM analysis"""
     list_subjects, params = _generate_preproc_pipeline(jobfile)
@@ -31,10 +31,16 @@ def generate_glm_input(jobfile):
         reports_output_dir = os.path.join(output_dir, 'reports')
         basenames = ['wr' + os.path.basename(func_)[:-3]
                      for func_ in subject.func]
-        gii_basenames = ['r' + os.path.basename(func_).split('.')[0] +
-                         '_fsaverage_lh.gii' for func_ in subject.func]
-        gii_basenames += ['r' + os.path.basename(func_).split('.')[0] +
-                          '_fsaverage_rh.gii' for func_ in subject.func]
+        if lowres:
+            gii_basenames = ['r' + os.path.basename(func_).split('.')[0] +
+                             '_fsaverage5_lh.gii' for func_ in subject.func]
+            gii_basenames += ['r' + os.path.basename(func_).split('.')[0] +
+                              '_fsaverage5_rh.gii' for func_ in subject.func]
+        else:
+            gii_basenames = ['r' + os.path.basename(func_).split('.')[0] +
+                             '_fsaverage_lh.gii' for func_ in subject.func]
+            gii_basenames += ['r' + os.path.basename(func_).split('.')[0] +
+                              '_fsaverage_rh.gii' for func_ in subject.func]
         func = [os.path.join(output_dir, 'freesurfer', basename)
                 for basename in gii_basenames]
         realignment_parameters = [
@@ -66,12 +72,12 @@ def generate_glm_input(jobfile):
     return output
 
 
-def run_subject_surface_glm(jobfile, subject, session, protocol):
+def run_subject_surface_glm(jobfile, subject, session, protocol, lowres=False):
     """ Create jobfile and run it """
     output_name = os.path.join(
         '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
     _adapt_jobfile(jobfile, subject, output_name, session)
-    list_subjects_update = generate_glm_input(output_name)
+    list_subjects_update = generate_glm_input(output_name, lowres)
     clean_anatomical_images(IBC)
     for subject in list_subjects_update:
         clean_subject(subject)
@@ -84,15 +90,16 @@ def run_subject_surface_glm(jobfile, subject, session, protocol):
                             smooth=None, surface=True)
             else:
                 first_level(subject, compcorr=True, smooth=None, surface=True)
-                fixed_effects_analysis(subject, surface=True)
+                fixed_effects_analysis(subject, surface=True, lowres=True)
 
 
 if __name__ == '__main__':
-    for protocol in ['preferences']:
+    for protocol in ['archi', 'screening', 'rsvp-language', 'hcp1', 'hcp2']:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol  # 'clips4' #
+        lowres = True
         subject_session = sorted(get_subject_session(acquisition))
         Parallel(n_jobs=1)(
             delayed(run_subject_surface_glm)(
-                jobfile, subject, session, protocol)
+                jobfile, subject, session, protocol, lowres=lowres)
             for (subject, session) in subject_session)

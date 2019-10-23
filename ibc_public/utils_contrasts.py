@@ -462,8 +462,7 @@ def stroop(design_matrix_columns):
 
 def lyon_lec2(design_matrix_columns):
     """Contrasts for the lyon lec2 protocol"""
-    contrast_names = ['attend', 'unattend', 'attend-unattend',
-                      'unattend-attend']
+    contrast_names = ['attend', 'unattend', 'attend-unattend']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -471,7 +470,6 @@ def lyon_lec2(design_matrix_columns):
         'attend': con['attend'],
         'unattend': con['unattend'],
         'attend-unattend': con['attend'] - con['unattend'],
-        'unattend-attend': con['unattend'] - con['attend'],
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
@@ -718,15 +716,14 @@ def lyon_mcse(design_matrix_columns):
 
 def bang(design_matrix_columns):
     """ Contrasts for bang experiment"""
-    contrast_names = ['talk', 'no_talk', 'talk-no_talk', 'no_talk-talk']
+    contrast_names = ['talk', 'no_talk', 'talk-no_talk']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {
         'talk': con['talk'],
         'no_talk': con['no_talk'],
-        'talk-no_talk': con['talk'] - con['no_talk'],
-        'no_talk-talk': con['no_talk'] - con['talk'], }
+        'talk-no_talk': con['talk'] - con['no_talk'],}
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -872,15 +869,13 @@ def enum(design_matrix_columns):
 
 def movie_localizer(design_matrix_columns):
     """ Contrast for pain task, TOM protocol"""
-    contrast_names = ['mov_pain', 'mov_mental', 'mov_mental-pain',
-                      'mov_pain-mental']
+    contrast_names = ['movie_pain', 'movie_mental', 'movie_mental-pain',]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {'mov_pain': con['pain'],
-                 'mov_mental': con['mental'],
-                 'mov_mental-pain': con['mental'] - con['pain'],
-                 'mov_pain-mental': con['pain'] - con['mental'],
+    contrasts = {'movie_pain': con['pain'],
+                 'movie_mental': con['mental'],
+                 'movie_mental-pain': con['mental'] - con['pain'],
                  }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
@@ -891,7 +886,7 @@ def movie_localizer(design_matrix_columns):
 def pain_localizer(design_matrix_columns):
     """ Contrast for pain task, TOM protocol"""
     contrast_names = ['physical_pain', 'emotional_pain',
-                      'emotional-physical_pain', 'physical-emotional_pain']
+                      'emotional-physical_pain']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -899,8 +894,6 @@ def pain_localizer(design_matrix_columns):
                  'physical_pain': con['physical_pain'],
                  'emotional-physical_pain':
                  con['emotional_pain'] - con['physical_pain'],
-                 'physical-emotional_pain':
-                 con['physical_pain'] - con['emotional_pain'],
                  }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
@@ -910,13 +903,12 @@ def pain_localizer(design_matrix_columns):
 
 def tom_localizer(design_matrix_columns):
     """ Contrast for tom task, TOM protocol"""
-    contrast_names = ['belief', 'photo', 'belief-photo', 'photo-belief']
+    contrast_names = ['belief', 'photo', 'belief-photo']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {'photo': con['photo'],
                  'belief': con['belief'],
-                 'photo-belief': con['photo'] - con['belief'],
                  'belief-photo': con['belief'] - con['photo'],
                  }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
