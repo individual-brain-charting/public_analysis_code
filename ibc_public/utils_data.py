@@ -402,7 +402,7 @@ def copy_db(df, write_dir, filename='result_db.csv'):
 
 
 def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
-                subject_list=SUBJECTS, task_list=False):
+                 subject_list=SUBJECTS, task_list=False, lowres=False):
     """ Create a database for surface data (gifti files)
 
     derivatives: string,
@@ -456,10 +456,13 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
             # some renaming
             if ((contrast == 'probe') & (task_name == 'rsvp_language')):
                     contrast = 'language_probe'
+            dir_ = 'res_surf_%s_ffx' % task
+            if lowres:
+                dir_ = 'res_fsaverage5_%s_ffx' % task
             for side in ['lh', 'rh']:
                 wc = os.path.join(
-                    derivatives, subject, '*/res_surf_%s_ffx/stat_surf/%s_%s.gii'
-                    % (task, contrast, side))
+                    derivatives, subject, '*', dir_, 'stat_surf',
+                    '%s_%s.gii' % (contrast, side))
                 imgs_ = glob.glob(wc)
                 imgs_.sort()
                 for img in imgs_:

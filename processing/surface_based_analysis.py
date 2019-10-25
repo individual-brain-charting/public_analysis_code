@@ -143,10 +143,10 @@ protocols = ['archi', 'screening', 'rsvp-language', 'hcp1', 'hcp2']
 protocols = ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
 protocols = ['lyon1', 'lyon2', 'audio1', 'audio2', 'stanford1',
              'stanford2', 'stanford3']
-
+protocols = ['clips1', 'clips2', 'clips3', 'clips4']
 subject_sessions = sorted(get_subject_session(protocols))
 
-Parallel(n_jobs=4)(
+Parallel(n_jobs=2)(
     delayed(project_volume)(work_dir, subject_session[0], [subject_session[1]],
                             do_bbr=True)
     for subject_session in subject_sessions)

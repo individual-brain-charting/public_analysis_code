@@ -519,7 +519,7 @@ def fixed_effects_analysis(subject_dic, surface=False, mask_img=None,
                             subject_dic['output_dir'],
                             np.unique(session_paradigm),
                             contrast,
-                            data_available=True, side=side)
+                            data_available=True, side=side, lowres=lowres)
                     if not data_available:
                         raise ValueError('Missing texture stats files for '
                                          'fixed effects computations')
