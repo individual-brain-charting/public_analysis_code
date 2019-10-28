@@ -6,7 +6,7 @@ on IBC datasets
 
 """
 
-
+import argparse
 import os
 import json
 import glob
@@ -18,6 +18,12 @@ from ibc_public.utils_pipeline import (
     fixed_effects_analysis, first_level, fsl_topup)
 from ibc_public.utils_data import get_subject_session
 from script_resample_normalized_data import resample_func_and_anat
+
+parser = argparse.ArgumentParser(description='Parameters for the logfiles')
+parser.add_argument('-s', '--session', metavar='SessionLabel', type=str,
+                    help="Session label, should be compliand with the "
+                         "ini files names.")
+args = parser.parse_args()
 
 
 def clean_anatomical_images(main_dir):
@@ -211,7 +217,7 @@ if __name__ == '__main__':
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
     do_topup = True
-    protocol = 'lpp1'
+    protocol = args.session
     subject_session = sorted(get_subject_session([protocol]))
     if do_topup:
         acq = None
