@@ -308,8 +308,8 @@ self	correct_rejection	identification of a new adjective	fixation	memory	['memor
 self	recognition_hit-correct_rejection	recognition of an adjective previously displayed	memory 	recognition	['recognition', 'episodic_memory']
 self	false_alarm		fixation		' '
 bang	talk-no_talk	speech vs non-speech sections in movie watching	no speech	speech	['speech_perception', 'speech_processing', 'language_processing', 'language_comprehension']
-bang	talk				['speech perception',  'speech processing', ' language comprehension', ' language processing',  'action perception', ' audiovisual perception', ' auditory scene analysis',  'social cognition']
-bang	no_talk				['action perception',  'audiovisual perception', 'auditory scene analysis', 'social cognition']
+bang	talk	speech sections in movie watching	fixation	speech	['speech perception',  'speech processing', ' language comprehension', ' language processing',  'action perception', ' audiovisual perception', ' auditory scene analysis',  'social cognition']
+bang	no_talk	Non-speech section in movie watching	fixation	no speech	['action perception',  'audiovisual perception', 'auditory scene analysis', 'social cognition']
 lyon-lec2	unattend	response to unattended text	fixation	non-attended text	['reading', 'inhibition']
 lyon-lec2	attend-unattend	response to unattended vs attended text	attended text	non-attended text	['language_processing', 'language_comprehension', 'reading', 'word_maintenance', 'working_memory']
 lyon-lec2	attend	response to attended text	fixation	attended text	['language_processing', 'language_comprehension', 'reading', 'word_maintenance', 'working_memory']
