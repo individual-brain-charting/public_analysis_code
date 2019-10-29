@@ -297,16 +297,16 @@ enum	enum_response_constant	enumeration constant items response	fixation	enumera
 enum	enum_response_linear	enumeration linear items response	fixation	enumeration linear	['visual_working_memory', 'numerosity']
 enum	enum_response_quadratic	enumeration quadratic items response	fixation	enumeration quadratic	['visual_buffer', 'numerosity']
 self	encode_self-other	self-reference effect	reference to other	reference to self	['self-reference_effect']
-self	encode_self		fixation	reference to self	['judgment', 'reading', 'word recognition', 'response_selection', 'response_execution']
-self	encode_other		fixation	reference to other	['judgment', 'reading', 'word recognition', 'response_selection', 'response_execution, 'self-reference_effect']
-self	recognition_hit-correct_rejection	successfully recognize whether an adjective was presented before or not	memory 	recognition	['recognition', 'recall ', 'episodic_memory']
-self	correct_rejection				['episodic_memory', 'self-reference_effect']
-self	false_alarm				' '
-self	instructions				' '
-self	recognition_self_hit				' '
-self	recognition_hit				' '
-self	recognition_self-other				' '
-self	recognition_other_hit				' '
+self	encode_self	encoding of adjectives processed with self-reference	fixation	reference to self	['judgment', 'reading', 'word recognition', 'response_selection', 'response_execution', ‘self-reference_effect’]
+self	encode_other	encoding of adjectives processed with other-reference	fixation	reference to other	['judgment', 'reading', 'word recognition', 'response_selection', 'response_execution’]
+self	recognition_hit-correct_rejection	recognition of an adjective presented before	memory 	recognition	['recognition', 'memory_retrieval', 'episodic_memory']
+self	correct_rejection	identification of an adjective presented before	fixation	memory	[‘memory’, ‘response_selection’, ‘response_execution’]
+self	false_alarm		fixation		' '
+self	instructions	read instruction in form of a question	fixation	instruction	['reading']
+self	recognition_self_hit	memory retrieval of adjectives with self-reference	fixation	self-reference memory retrieval	['recognition', ‘memory_retrieval’]
+self	recognition_hit	memory retrieval of adjectives previously displayed	fixation	memory retrieval	[‘recognition’, ‘memory_retrieval’, ‘response_selection’, ‘response_execution’]
+self	recognition_self-other	memory retrieval of encoded information with self-reference	other-reference memory retrieval	self-reference memory retrieval	['self-reference_effect', ‘episodic_memory’]
+self	recognition_other_hit	memory retrieval of adjectives with other-reference	fixation	other-reference memory retrieval	' '
 bang	talk-no_talk	speech vs non-speech sections in movie watching	no speech	speech	['speech_perception', 'speech_processing', 'language_processing', 'language_comprehension']
 bang	talk				['speech perception',  'speech processing', ' language comprehension', ' language processing',  'action perception', ' audiovisual perception', ' auditory scene analysis',  'social cognition']
 bang	no_talk				['action perception',  'audiovisual perception', 'auditory scene analysis', 'social cognition']
@@ -406,7 +406,7 @@ audio2	speech-others				[' ']
 audio2	tool-others				[' ']
 audio2	voice-others				[' ']
 audio2	mean-silence	listening to sounds vs silence	silence	sound	['auditory_perception', 'sounds_perception', 'listening']
-<<<<<<< HEAD
+<<<<<<< HEAD					
 audio2	animal	listen to animals vs silence	silence	animal sound	['auditory_perception', 'sounds_perception', 'listening']
 audio2	music	listen to music vs silence	silence	music	['auditory_perception', 'sounds_perception', 'listening', 'music_perception']
 audio2	nature	listen to nature vs silence	silence	nature sound	['auditory_perception', 'sounds_perception', 'listening']
