@@ -23,6 +23,8 @@ hcp2,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
 rsvp_language,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
 ,bold_fmri,rsvp_language,10:54,PA(x3) + AP(x3)
 mtt1,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,resting_state,15:00,PA
+,bold_fmri,resting_state,15:00,AP
 ,bold_fmri,mtt_we,13:53,PA(x2) + AP
 mtt2,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
 ,bold_fmri,mtt_sn,13:53,PA(x2) + AP
