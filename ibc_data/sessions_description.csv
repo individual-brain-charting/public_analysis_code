@@ -1,0 +1,70 @@
+session,modality,task,duration,repetitions
+screening,t1-weighted,-,07:46,1
+,t2-weighted,-,04:43,1
+,t2_flair,-,05:17,1
+,dw_mri,-,05:16,1
+,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,archi_standard,05:46,PA+AP
+,bold_fmri,archi_spatial,08:58,PA+AP
+archi,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,archi_standard,05:46,PA+AP
+,bold_fmri,archi_spatial,08:58,PA+AP
+,bold_fmri,archi_social,09:18,PA+AP
+,bold_fmri,archi_emotional,07:54,PA+AP
+hcp1,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,hcp_emotion,05:12,PA+AP
+,bold_fmri,hcp_gambling,06:50,PA+AP
+,bold_fmri,hcp_motor,06:44,PA+AP
+,bold_fmri,hcp_language,08:12,PA+AP
+hcp2,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,hcp_relational,10:56,PA+AP
+,bold_fmri,hcp_social,07:06,PA+AP
+,bold_fmri,hcp_wm,10:40,PA+AP
+rsvp_language,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,rsvp_language,10:54,PA(x3) + AP(x3)
+mtt1,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,resting_state,15:00,PA
+,bold_fmri,resting_state,15:00,AP
+,bold_fmri,mtt_we,13:53,PA(x2) + AP
+mtt2,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,mtt_sn,13:53,PA(x2) + AP
+preference,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,food,09:05,PA+AP
+,bold_fmri,painting,09:05,PA+AP
+,bold_fmri,face,09:05,PA+AP
+,bold_fmri,house,09:05,PA+AP
+tom,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,tom_localizer,07:02,PA+AP
+,bold_fmri,ep_localizer,06:02,PA+AP
+,bold_fmri,mov_localizer,06:46,PA+AP
+enumeration,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,vstm,09:29,PA(x2) + AP(x2)
+,bold_fmri,enumeration,17:09,PA+AP
+self,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,self,12:00,PA(x2) + AP
+,bold_fmri,self-long,15:58,AP
+,bold_fmri,bang,08:06,PA
+clips_1-3,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,training_set,11:30,PA(x2) + AP
+,bold_fmri,test_set,11:30,PA + AP(x2)
+clips_4,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,training_set,11:30,PA(x2) + AP
+,bold_fmri,retinotopy_wedge_clock,06:10,PA(x2) + AP(x2)
+,bold_fmri,retinotopy_wedge_anti_clock,06:10,PA(x2) + AP(x2)
+,bold_fmri,retinotopy_ring_expanding,06:10,PA
+,bold_fmri,retinotopy_ring_contracting,06:10,AP
+raiders_1,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,chapter_1,13:13,PA
+,bold_fmri,chapter_2,10:38,PA
+,bold_fmri,chapter_3,11:13,PA
+,bold_fmri,chapter_4,13:22,AP
+,bold_fmri,chapter_5,12:18,AP
+,bold_fmri,chapter_6,12:17,AP
+raiders_2,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
+,bold_fmri,chapter_7,12:24,PA
+,bold_fmri,chapter_8,12:31,PA
+,bold_fmri,chapter_9,10:07,AP
+,bold_fmri,chapter_10,07:46,AP
+,bold_fmri,chapter_1,13:13,AP
+,bold_fmri,chapter_2,10:38,AP
+,bold_fmri,chapter_3,11:13,AP
