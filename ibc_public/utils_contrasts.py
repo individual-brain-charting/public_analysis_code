@@ -106,6 +106,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return biological_motion1(design_matrix_columns)
     elif paradigm_id == 'biological-motion2':
         return biological_motion2(design_matrix_columns)
+    elif paradigm_id == 'math-language':
+        return math_language(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -156,8 +158,22 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     return contrast
 
 
+def math_language(design_matrix_columns):
+    """ Contrasts for math-language taskl"""
+    contrast_names = ['colorlessg', 'control', 'arithfact', 'tom', 'geofact',
+                      'general', 'arithprin']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names])
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
 def wedge(design_matrix_columns):
-    """ Contarsts for wedge stim"""
+    """ Contrasts for wedge stim"""
     contrast_names = [
         'lower_meridian', 'lower_right', 'right_meridian', 'upper_right',
         'upper_meridian', 'upper_left', 'left_meridian', 'lower_left',
@@ -681,8 +697,8 @@ def lyon_mcse(design_matrix_columns):
     """ Contrasts for Lyon MCSE localizer"""
     contrast_names = [
         'high_salience_left', 'high_salience_right',
-        'low_salience_left', 'low_salience_right', 'high-low_salience',
-        'low-high_salience', 'salience_left-right', 'salience_right-left',
+        'low_salience_left', 'low_salience_right',
+        'low-high_salience', 'salience_left-right',
         'low+high_salience',]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])

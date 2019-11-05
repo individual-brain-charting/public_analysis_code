@@ -319,6 +319,10 @@ def post_process(df, paradigm_id):
                                     'natural_upright', 'natural_inverted'])]
         df.onset /= 1000
         df.duration /= 1000
+    if paradigm_id == 'math-language':
+        trial_types = ['colorlessg', 'control', 'arithfact', 'tom', 'geofact',
+                       'general', 'arithprin']
+        df = df[df.trial_type.isin(trial_types)]
     return df
 
 
