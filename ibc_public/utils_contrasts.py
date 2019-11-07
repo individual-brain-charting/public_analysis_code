@@ -160,12 +160,23 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
 
 def math_language(design_matrix_columns):
     """ Contrasts for math-language taskl"""
-    contrast_names = ['colorlessg', 'control', 'arithfact', 'tom', 'geofact',
-                      'general', 'arithprin']
+    contrast_names = ['colorlessg', 'control', 'arithfact', 'tom', 'geomfact',
+                      'general', 'arithprin', 'context', 'math-others',
+                      'geometry-arithmetics', 'tom_and_context-general',
+                      'tom-general']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = dict([(name, con[name]) for name in contrast_names])
+    contrasts['math-others'] =\
+        contrasts['arithprin'] + contrasts['arithfact'] +\
+        contrasts['geomfact'] - contrasts['tom'] - contrasts['general'] -\
+        contrasts['context']
+    contrasts['geometry-arithmetics'] = contrasts['geomfact'] - .5 * (
+        contrasts['arithprin'] + contrasts['arithfact'])
+    contrasts['tom_and_context-general'] = contrasts['tom'] +\
+        contrasts['context'] - 2 * contrasts['general']
+    contrasts['tom-general'] = contrasts['tom'] - contrasts['general']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)

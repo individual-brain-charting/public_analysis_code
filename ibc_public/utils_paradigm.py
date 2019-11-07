@@ -320,8 +320,8 @@ def post_process(df, paradigm_id):
         df.onset /= 1000
         df.duration /= 1000
     if paradigm_id == 'math-language':
-        trial_types = ['colorlessg', 'control', 'arithfact', 'tom', 'geofact',
-                       'general', 'arithprin']
+        trial_types = ['colorlessg', 'control', 'arithfact', 'tom', 'geomfact',
+                       'general', 'arithprin', 'context']
         df = df[df.trial_type.isin(trial_types)]
     return df
 
