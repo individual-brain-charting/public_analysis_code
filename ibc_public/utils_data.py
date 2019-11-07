@@ -31,9 +31,11 @@ CONDITIONS = pd.read_csv(os.path.join(
     _package_directory, '..', 'ibc_data', 'conditions.tsv'), sep='\t')
 CONTRASTS = pd.read_csv(os.path.join(
     _package_directory, '..', 'ibc_data', 'main_contrasts.tsv'), sep='\t')
-ALL_CONTRASTS = expand_table(pd.read_csv(os.path.join(
-    _package_directory, '..', 'ibc_data', 'all_contrasts.tsv'),
-                                         sep='\t'))
+#  ALL_CONTRASTS = expand_table(pd.read_csv(os.path.join(
+#    _package_directory, '..', 'ibc_data', 'all_contrasts.tsv'),
+#                                         sep='\t'))
+ALL_CONTRASTS = os.path.join(
+    _package_directory, '..', 'ibc_data', 'all_contrasts.tsv')
 
 
 # Note that LABELS and BETTER NAMES ARE RELATIVE TO CONTRASTS
@@ -71,7 +73,7 @@ def get_subject_session(protocols):
         protocols_ = [protocols]
     else:
         protocols_ = protocols
-        
+
     for protocol in protocols_:
         for session in df.columns:
             if (df[session] == protocol).any():
@@ -223,7 +225,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if task in ['audio1', 'audio2'] and acq == 'ffx':
                     task_name = task
                     task = 'audio'
-                    
+
                 wildcard = os.path.join(
                     derivatives, '%s/*/res_stats_%s*_%s/stat_maps/%s.nii.gz' %
                     (subject, task, acq, contrast))
