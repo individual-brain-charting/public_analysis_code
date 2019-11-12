@@ -143,7 +143,7 @@ protocols = ['archi', 'screening', 'rsvp-language', 'hcp1', 'hcp2']
 protocols = ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
 protocols = ['lyon1', 'lyon2', 'audio1', 'audio2', 'stanford1',
              'stanford2', 'stanford3']
-protocols = ['clips1', 'clips2', 'clips3', 'clips4']
+protocols = ['clips1', 'clips2', 'clips3']
 subject_sessions = sorted(get_subject_session(protocols))
 
 Parallel(n_jobs=2)(

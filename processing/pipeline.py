@@ -5,8 +5,6 @@ on IBC datasets
 :Author: DOHMATOB Elvis Dopgima, DENGHIEN Isabelle, THIRION Bertrand
 
 """
-
-
 import os
 import json
 import glob
@@ -75,7 +73,7 @@ def clean_subject(subject):
     subject['func'] = funcs
     subject['realignment_parameters'] = rps
     subject['session_id'] = session_ids
-    subject['hfcut'] = 1. / 128
+    subject['high_pass'] = 1. / 128
     return subject
 
 
@@ -211,8 +209,9 @@ if __name__ == '__main__':
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
     do_topup = True
-    protocol = 'lpp1'
+    protocol = 'biological_motion'
     subject_session = sorted(get_subject_session([protocol]))
+    # subject_session = [('sub-04', 'ses-28'), ('sub-05', 'ses-28'),]
     if do_topup:
         acq = None
         if protocol in ['rs']:

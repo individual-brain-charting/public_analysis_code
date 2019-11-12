@@ -272,7 +272,7 @@ def dot_patterns(design_matrix_columns):
         'incorrect_cue_incorrect_probe-incorrect_cue_correct_probe',
         'correct_cue_incorrect_probe-incorrect_cue_correct_probe',
         'incorrect_cue_incorrect_probe-correct_cue_incorrect_probe',
-        'incorrect_cue-correct_cue',
+        'correct_cue-incorrect_cue',
         'incorrect_probe-correct_probe'
     ]
     if design_matrix_columns is None:
@@ -296,11 +296,11 @@ def dot_patterns(design_matrix_columns):
         'incorrect_cue_incorrect_probe-correct_cue_incorrect_probe':
             con['incorrect_cue_incorrect_probe'] -
             con['correct_cue_incorrect_probe'],
-        'incorrect_cue-correct_cue':
-            - con['correct_cue_correct_probe']
-            - con['correct_cue_incorrect_probe']
-            + con['incorrect_cue_correct_probe']
-            + con['incorrect_cue_incorrect_probe'],
+        'correct_cue-incorrect_cue':
+            con['correct_cue_correct_probe']
+            + con['correct_cue_incorrect_probe']
+            - con['incorrect_cue_correct_probe']
+            - con['incorrect_cue_incorrect_probe'],
         'incorrect_probe-correct_probe':
             - con['correct_cue_correct_probe']
             + con['correct_cue_incorrect_probe']
@@ -370,8 +370,8 @@ def two_by_two(design_matrix_columns):
     """ Contrasts for Stanford's two-bytwo task protocol"""
     contrast_names = [
         'task_stay_cue_stay', 'task_switch_cue_switch',
-        'task_switch_cue_stay', 'task_stay_cue_switch', 'task_switch-stay',
-        'cue_switch-stay']
+        'task_switch_cue_stay', 'task_stay_cue_switch',
+        'task_switch-stay', 'task_repetition']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -381,11 +381,10 @@ def two_by_two(design_matrix_columns):
         'task_switch_cue_stay': con['taskswitch_cuestay'],
         'task_stay_cue_switch': con['taskstay_cueswitch'],
         'task_switch-stay':
-            con['taskswitch_cueswitch'] - con['taskstay_cueswitch'] +
-            con['taskswitch_cuestay'] - con['taskstay_cuestay'],
-        'cue_switch-stay':
-            con['taskswitch_cueswitch'] + con['taskstay_cueswitch'] -
-            con['taskswitch_cuestay'] - con['taskstay_cuestay'],
+            con['taskswitch_cueswitch'] + con['taskswitch_cuestay'] -
+            2 * con['taskstay_cueswitch'],
+        'cue_switch':
+            con['taskstay_cueswitch'] - con['taskstay_cuestay'],
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
@@ -479,7 +478,6 @@ def stroop(design_matrix_columns):
         'congruent': con['congruent'],
         'incongruent': con['incongruent'],
         'incongruent-congruent': con['incongruent'] - con['congruent'],
-        'congruent-incongruent': con['congruent'] - con['incongruent'],
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
