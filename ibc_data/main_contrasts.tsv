@@ -1,267 +1,267 @@
-task	contrast	right label	left label	pretty name
-archi_standard	left-right_button_press	left hand	right hand	left vs. right hand button press
-archi_standard	reading-listening	sentence reading	sentence listening	sentence reading vs. sentence listening
-archi_standard	motor-cognitive	button presses	cognitive tasks	button presses vs. sentence/computation
-archi_standard	reading-checkerboard	sentence reading	checkerboard	sentence reading vs. checkerboard
-archi_standard	computation-sentences	mental subtraction	sentence reading	mental subtraction vs. sentence reading
-archi_standard	horizontal-vertical	horizontal checkerboard	vertical checkerboard	horizontal vs. vertical checkerboard
-archi_spatial	saccades	saccades	fixation	saccades vs. fixation
-archi_spatial	hand-side	left or right hand	hand palm or back	left or right hand vs. hand palm or back
-archi_spatial	grasp-orientation	object grasping	orientation judgment	object grasping vs. image orientation judgment
-archi_spatial	rotation_side	hand palm or back	fixation	hand palm or back vs. fixation
-archi_spatial	object_orientation	orientation judgment	fixation	image orientation judgment vs. fixation
-archi_social	triangle_mental-random	social-interaction motion	random motion	social-interaction motion vs. random motion
-archi_social	false_belief-mechanistic_audio	false-belief tale	mechanistic tale	false-belief tale vs. mechanistic tale
-archi_social	triangle_random	random motion	fixation	random motion vs. fixation
-archi_social	mechanistic_audio	mechanistic tale	baseline	listening to a mechanistic tale vs. baseline
-archi_social	mechanistic_video	mechanistic story	baseline	reading a mechanistic story vs. baseline
-archi_social	non_speech_sound	natural sound	silence	listen to natural sound vs. baseline
-archi_social	false_belief-mechanistic_video	false-belief story	mechanistic story	false-belief story vs. mechanistic story
-archi_social	speech-non_speech	voice sound	natural sound	listen to voice sound vs. natural sound
-archi_emotional	expression_gender-control	gender assessment	visual pattern	assess gender from eyes' expression vs. visual pattern
-archi_emotional	expression_intention-gender	expression intention	gender assessment	assess intention vs. gender from eyes' expression
-archi_emotional	face_gender-control	gender assessment	visual pattern	assess gender of face vs. visual pattern
-archi_emotional	face_trusty-gender	face trusty	gender assessment	assess face trustfulness vs. gender of face
-hcp_language	story-math	story	math	listening to story vs. mental additions
-hcp_language	math	mental addition	fixation	mental additions vs. fixation
-hcp_social	mental-random	social-interaction motion	random motion	social-interaction motion vs. random motion
-hcp_social	random	random motion	fixation	random motion vs. fixation
-hcp_gambling	punishment-reward	punishement	reward	negative vs. positive gambling outcome
-hcp_gambling	reward	reward	fixation	positive gambling outcome vs. fixation
-hcp_motor	left_hand-avg	left hand	any motion	move left hand vs. right hand, feet and tongue
-hcp_motor	right_hand-avg	right hand	any motion	move right hand vs. left hand, feet and tongue
-hcp_motor	left_foot-avg	left foot	any motion	move left foot vs. right foot, hands and tongue
-hcp_motor	right_foot-avg	right foot	any motion	move right foot vs. left foot, hands and tongue
-hcp_motor	tongue-avg	tongue	any motion	move tongue vs. hands and feet
-hcp_emotion	shape	shape outline	fixation cross	shape comparison vs. fixation
-hcp_emotion	face-shape	face image	shape outline	emotional face comparison vs. shape comparison
-hcp_relational	relational-match	relational processing	visual matching	relational comparison vs. visual feature matching
-hcp_relational	match	visual matching	fixation	visual feature matching vs. fixation
-hcp_wm	2back-0back	2-back	0-back	2-back vs. 0-back
-hcp_wm	body-avg	body image	any image	body image n-back vs. face, place, tool  n-back
-hcp_wm	face-avg	face image	any image	face image n-back vs. body, place, tool  n-back
-hcp_wm	place-avg	place image	any image	place image n-back vs. face, body, tool  n-back
-hcp_wm	tools-avg	tool image	any image	tool image  n-back vs. face, place, body  n-back
-rsvp_language	complex-simple	complex sentence	simple sentence	complex- vs. simple-syntax sentence reading
-rsvp_language	sentence-jabberwocky	read sentence	read jabberwocky	reading sentence vs. jabberwocky
-rsvp_language	sentence-word	read sentence	read words	reading sentence vs. words
-rsvp_language	word-consonant_string	read words	consonant strings	reading words vs. consonant strings
-rsvp_language	jabberwocky-pseudo	read jabberwocky	read pseudowords	reading jabberwocky vs. pseudowords
-rsvp_language	word-pseudo	read words	read pseudowords	reading words vs. pseudowords
-rsvp_language	pseudo-consonant_string	read pseudowords	consonant strings	reading pseudowords vs. consonant strings
-rsvp_language	consonant_string	consonant strings	fixation	consonant strings' encoding vs. fixation
-retinotopy	phase_ring	radial position	central cross	eccentricity maps
-retinotopy	phase_wedge	angular position	central cross	polar angle map
-retinotopy	retinotopicity	retinal position	central cross	sensitivity to retinotopy
-mtt_we	west_reference-fixation	we_west_reference	fixation	updating one’s position in west
-mtt_we	we_center_reference-fixation	we_center_reference	fixation	updating one’s position in center in west-east island
-mtt_we	east_reference-fixation	we_east_reference	fixation	updating one’s position in east
-mtt_we	west-other_reference	we_west_reference	we_center_reference + we_east_reference	updating one’s position in west vs non-west
-mtt_we	we_center-other_reference	we_center_reference	we_west_reference + we_east_reference	updating one’s position in center vs non-center in west-east island
-mtt_we	east-other_reference	we_east_reference	we_west_reference + we_center_reference	updating one’s position in east vs non-center
-mtt_we	we_past_reference-fixation	we_past_reference	fixation	updating one’s position in past in west-east island
-mtt_we	we_present_reference-fixation	we_present_reference	fixation	updating one’s position in present in west-east island
-mtt_we	we_future_reference-fixation	we_future_reference	fixation	updating one’s position in future in west-east island
-mtt_we	we_past-other_reference	we_past_reference	we_future_reference + we_present_reference	updating one’s position in past vs. another time in west-east island
-mtt_we	we_present-other_reference	we_present_reference	we_future_reference + we_past_reference	updating one’s position in present vs another time in west-east island
-mtt_we	we_future-other_reference	we_future_reference	we_present_reference + we_past_reference	updating one’s position in future vs another time in west-east island
-mtt_we	we_all_reference_average_event	we_west_reference_close_event + we_center_reference_close_event + we_east_reference_close_event + we_west_reference_far_event + we_center_reference_far_event + we_east_reference_far_event + we_past_reference_close_event + we_present_reference_close_event + we_future_reference_close_event + we_past_reference_far_event + we_present_reference_far_event + we_future_reference_far_event 	fixation	figuring out the space or time of an event in west-east island
-mtt_we	we_all_reference_space_event	we_west_reference_close_event + we_center_reference_close_event + we_east_reference_close_event + we_west_reference_far_event + we_center_reference_far_event + we_east_reference_far_event 	fixation	figuring out the position of an event in west-east island
-mtt_we	we_all_reference_time_event	we_past_reference_close_event + we_present_reference_close_event + we_future_reference_close_event + we_past_reference_far_event + we_present_reference_far_event + we_future_reference_far_event 	fixation	figuring out the time of an event in west-east island
-mtt_we	we_all_reference_space-time_event	we_west_reference_close_event + we_center_reference_close_event + we_east_reference_close_event + we_west_reference_far_event + we_center_reference_far_event + we_east_reference_far_event 	we_past_reference_close_event + we_present_reference_close_event + we_future_reference_close_event + we_past_reference_far_event + we_present_reference_far_event + we_future_reference_far_event 	event in space vs event in time in west-east island
-mtt_we	we_all_reference_time-space_event	we_past_reference_close_event + we_present_reference_close_event + we_future_reference_close_event + we_past_reference_far_event + we_present_reference_far_event + we_future_reference_far_event 	we_west_reference_close_event + we_center_reference_close_event + we_east_reference_close_event + we_west_reference_far_event + we_center_reference_far_event + we_east_reference_far_event 	event in time vs event in space in west-east island
-mtt_we	we_all_reference_close_space-far_space_event	we_west_reference_close_event + we_center_reference_close_event + we_east_reference_close_event	we_west_reference_far_event + we_center_reference_far_event + we_east_reference_far_event 	events occurring far vs. close in space in west-east island
-mtt_we	we_all_reference_far_space-close_space_event	we_west_reference_far_event + we_center_reference_far_event + we_east_reference_far_event 	we_west_reference_close_event + we_center_reference_close_event + we_east_reference_close_event	events occurring close vs. far in space in west-east island
-mtt_we	we_all_reference_close_time-far_time_event	we_past_reference_close_event + we_present_reference_close_event + we_future_reference_close_event	we_past_reference_far_event + we_present_reference_far_event + we_future_reference_far_event 	events close vs. far in time in west-east island
-mtt_we	we_all_reference_far_time-close_time_event	we_past_reference_far_event + we_present_reference_far_event + we_future_reference_far_event 	we_past_reference_close_event + we_present_reference_close_event + we_future_reference_close_event	events far vs. close in time in west-east island
-mtt_we	west-other_reference_event	we_west_reference_close_event + we_west_reference_far_event	we_center_reference_close_event + we_center_reference_far_event + we_east_reference_close_event + we_east_reference_far_event	events evaluated from a west vs. non-west reference 
-mtt_we	we_center-other_reference_event	we_center_reference_close_event + we_center_reference_far_event	we_west_reference_close_event + we_west_reference_far_event + we_east_reference_close_event + we_east_reference_far_event	events evaluated from a center vs. non-center reference in west-east island
-mtt_we	east-other_reference_event	we_east_reference_close_event + we_east_reference_far_event	we_west_reference_close_event + we_west_reference_far_event + we_center_reference_close_event + we_center_reference_far_event	events evaluated from a east vs. non-east reference
-mtt_we	we_past-other_reference_event	we_past_reference_close_event + we_past_reference_far_event	we_present_reference_close_event + we_present_reference_far_event + we_future_reference_close_event + we_future_reference_far_event	events evaluated from a past vs. non-past reference in west-east island
-mtt_we	we_present-other_reference_event	we_present_reference_close_event + we_present_reference_far_event	we_past_reference_close_event + we_past_reference_far_event + we_future_reference_close_event + we_future_reference_far_event	events evaluated from a present vs. non-present reference in west-east island
-mtt_we	we_future-other_reference_event	we_future_reference_close_event + we_future_reference_far_event	we_past_reference_close_event + we_past_reference_far_event + we_present_reference_close_event + we_present_reference_far_event	events evaluated from a future vs. non-future reference in west-east island
-mtt_we	we_average_reference	we_all_reference	fixation	updating ones position in space and time in west-east island
-mtt_we	we_average_event	we_westside_close_event + we_westside_far_event + we_eastside_close_event + we_eastside_far_event + we_before_close_event + we_before_far_event + we_after_close_event + we_after_far_event	fixation	figuring out the space or time of an event in west-east island
-mtt_we	we_space_event	we_westside_close_event + we_westside_far_event + we_eastside_close_event + we_eastside_far_event	fixation	figuring out the position of an event in west-east island
-mtt_we	we_time_event	we_before_close_event + we_before_far_event + we_after_close_event + we_after_far_event	fixation	figuring out the time of an event in west-east island
-mtt_we	we_space-time_event	we_westside_close_event + we_westside_far_event + we_eastside_close_event + we_eastside_far_event	we_before_close_event + we_before_far_event + we_after_close_event + we_after_far_event	event in space vs event in time in west-east island
-mtt_we	we_time-space_event	we_before_close_event + we_before_far_event + we_after_close_event + we_after_far_event	we_westside_close_event + we_westside_far_event + we_eastside_close_event + we_eastside_far_event	event in time vs event in space in west-east island
-mtt_we	we_close_space-far_space_event	we_westside_close_event + we_eastside_close_event	we_westside_far_event + we_eastside_far_event	events occurring far vs. close in space in west-east island
-mtt_we	we_far_space-close_space_event	we_westside_far_event + we_eastside_far_event	we_westside_close_event + we_eastside_close_event	events occurring close vs. far in space in west-east island
-mtt_we	we_close_time-far_time_event	we_before_close_event + we_after_close_event	we_before_far_event + we_after_far_event	events close vs. far in time in west-east island
-mtt_we	we_far_time-close_time_event	we_before_far_event + we_after_far_event	we_before_close_event + we_after_close_event	events far vs. close in time in west-east island
-mtt_we	westside-eastside_event	we_westside_close_event + we_westside_far_event	we_eastside_close_event + we_eastside_far_event	events occuring westside vs. eastside
-mtt_we	eastside-westside_event	we_eastside_close_event + we_eastside_far_event	we_westside_close_event + we_westside_far_event	events occuring eastsife vs. westside
-mtt_we	before-after_event	we_before_close_event + we_before_far_event	we_after_close_event + we_after_far_event	events occuring before vs. after in west-east island
-mtt_we	after-before_event	we_after_close_event + we_after_far_event	we_before_close_event + we_before_far_event	events occuring after vs. before in west-east island
-mtt_we	westside-eastside_close_event	we_westside_close_event	we_eastside_close_event 	events occuring close in space westside vs. eastside
-mtt_we	eastside-westside_close_event	we_eastside_close_event 	we_westside_close_event	events occuring close in space eastsife vs. westside
-mtt_we	before-after_close_event	we_before_close_event 	we_after_close_event	events occuring close in time before vs. after in west-east island
-mtt_we	after-before_close_event	we_after_close_event 	we_before_close_event	events occuring close in time after vs. before in west-east island
-mtt_we	westside-eastside_far_event	we_westside_far_event	we_eastside_far_event	events occuring far in space westside vs. eastside
-mtt_we	eastside-westside_far_event	we_eastside_far_event	we_westside_far_event	events occuring far in space eastside vs. westside
-mtt_we	before-after_far_event	we_before_far_event	we_after_far_event	events occuring far in time before vs. after in west-east island
-mtt_we	after-before_far_event	we_after_far_event	we_before_far_event	events occuring far in time after vs. before in west-east island
-mtt_sn	south_reference-fixation	sn_south_reference	fixation	updating one’s position in south
-mtt_sn	sn_center_reference-fixation	sn_center_reference	fixation	updating one’s position in center in south-north island
-mtt_sn	north_reference-fixation	sn_north_reference	fixation	updating one’s position in north
-mtt_sn	south-other_reference	sn_south_reference	sn_center_reference + sn_north_reference	updating one’s position in south vs non-south
-mtt_sn	sn_center-other_reference	sn_center_reference	sn_south_reference + sn_north_reference	updating one’s position in center vs non-center in south-north island
-mtt_sn	north-other_reference	sn_north_reference	sn_south_reference + sn_center_reference	updating one’s position in north vs non-center
-mtt_sn	sn_past_reference-fixation	sn_past_reference	fixation	updating one’s position in past in south-north island
-mtt_sn	sn_present_reference-fixation	sn_present_reference	fixation	updating one’s position in present in south-north island
-mtt_sn	sn_future_reference-fixation	sn_future_reference	fixation	updating one’s position in future in south-north island
-mtt_sn	sn_past-other_reference	sn_past_reference	sn_future_reference + sn_present_reference	updating one’s position in past vs. another time in south-north island
-mtt_sn	sn_present-other_reference	sn_present_reference	sn_future_reference + sn_past_reference	updating one’s position in present vs another time in south-north island
-mtt_sn	sn_future-other_reference	sn_future_reference	sn_present_reference + sn_past_reference	updating one’s position in future vs another time in south-north island
-mtt_sn	sn_all_reference_average_event	sn_south_reference_close_event + sn_center_reference_close_event + sn_north_reference_close_event + sn_south_reference_far_event + sn_center_reference_far_event + sn_north_reference_far_event + sn_past_reference_close_event + sn_present_reference_close_event + sn_future_reference_close_event + sn_past_reference_far_event + sn_present_reference_far_event + sn_future_reference_far_event 	fixation	figuring out the space or time of an event in south-north island
-mtt_sn	sn_all_reference_space_event	sn_south_reference_close_event + sn_center_reference_close_event + sn_north_reference_close_event + sn_south_reference_far_event + sn_center_reference_far_event + sn_north_reference_far_event 	fixation	figuring out the position of an event in south-north island
-mtt_sn	sn_all_reference_time_event	sn_past_reference_close_event + sn_present_reference_close_event + sn_future_reference_close_event + sn_past_reference_far_event + sn_present_reference_far_event + sn_future_reference_far_event 	fixation	figuring out the time of an event in south-north island
-mtt_sn	sn_all_reference_space-time_event	sn_south_reference_close_event + sn_center_reference_close_event + sn_north_reference_close_event + sn_south_reference_far_event + sn_center_reference_far_event + sn_north_reference_far_event 	sn_past_reference_close_event + sn_present_reference_close_event + sn_future_reference_close_event + sn_past_reference_far_event + sn_present_reference_far_event + sn_future_reference_far_event 	event in space vs event in time in south-north island
-mtt_sn	sn_all_reference_time-space_event	sn_past_reference_close_event + sn_present_reference_close_event + sn_future_reference_close_event + sn_past_reference_far_event + sn_present_reference_far_event + sn_future_reference_far_event 	sn_south_reference_close_event + sn_center_reference_close_event + sn_north_reference_close_event + sn_south_reference_far_event + sn_center_reference_far_event + sn_north_reference_far_event 	event in time vs event in space in south-north island
-mtt_sn	sn_all_reference_close_space-far_space_event	sn_south_reference_close_event + sn_center_reference_close_event + sn_north_reference_close_event	sn_south_reference_far_event + sn_center_reference_far_event + sn_north_reference_far_event 	events occurring far vs. close in space in south-north island
-mtt_sn	sn_all_reference_far_space-close_space_event	sn_south_reference_far_event + sn_center_reference_far_event + sn_north_reference_far_event 	sn_south_reference_close_event + sn_center_reference_close_event + sn_north_reference_close_event	events occurring close vs. far in space in south-north island
-mtt_sn	sn_all_reference_close_time-far_time_event	sn_past_reference_close_event + sn_present_reference_close_event + sn_future_reference_close_event	sn_past_reference_far_event + sn_present_reference_far_event + sn_future_reference_far_event 	events close vs. far in time in south-north island
-mtt_sn	sn_all_reference_far_time-close_time_event	sn_past_reference_far_event + sn_present_reference_far_event + sn_future_reference_far_event 	sn_past_reference_close_event + sn_present_reference_close_event + sn_future_reference_close_event	events far vs. close in time in south-north island
-mtt_sn	south-other_reference_event	sn_south_reference_close_event + sn_south_reference_far_event	sn_center_reference_close_event + sn_center_reference_far_event + sn_north_reference_close_event + sn_north_reference_far_event	events evaluated from a south vs. non-south reference 
-mtt_sn	sn_center-other_reference_event	sn_center_reference_close_event + sn_center_reference_far_event	sn_south_reference_close_event + sn_south_reference_far_event + sn_north_reference_close_event + sn_north_reference_far_event	events evaluated from a center vs. non-center reference in south-north island
-mtt_sn	north-other_reference_event	sn_north_reference_close_event + sn_north_reference_far_event	sn_south_reference_close_event + sn_south_reference_far_event + sn_center_reference_close_event + sn_center_reference_far_event	events evaluated from a north vs. non-north refernce
-mtt_sn	sn_past-other_reference_event	sn_past_reference_close_event + sn_past_reference_far_event	sn_present_reference_close_event + sn_present_reference_far_event + sn_future_reference_close_event + sn_future_reference_far_event	events evaluated from a past vs. non-past refernce in south-north island
-mtt_sn	sn_present-other_reference_event	sn_present_reference_close_event + sn_present_reference_far_event	sn_past_reference_close_event + sn_past_reference_far_event + sn_future_reference_close_event + sn_future_reference_far_event	events evaluated from a present vs. non-present reference in south-north island
-mtt_sn	sn_future-other_reference_event	sn_future_reference_close_event + sn_future_reference_far_event	sn_past_reference_close_event + sn_past_reference_far_event + sn_present_reference_close_event + sn_present_reference_far_event	events evaluated from a future vs. non-future reference in south-north island
-mtt_sn	sn_average_reference	sn_all_reference	fixation	updating ones position in space and time in south-north island
-mtt_sn	sn_average_event	sn_southside_close_event + sn_southside_far_event + sn_northside_close_event + sn_northside_far_event + sn_before_close_event + sn_before_far_event + sn_after_close_event + sn_after_far_event	fixation	figuring out the space or time of an event in south-north island
-mtt_sn	sn_space_event	sn_southside_close_event + sn_southside_far_event + sn_northside_close_event + sn_northside_far_event	fixation	figuring out the position of an event in south-north island
-mtt_sn	sn_time_event	sn_before_close_event + sn_before_far_event + sn_after_close_event + sn_after_far_event	fixation	figuring out the time of an event in south-north island
-mtt_sn	sn_space-time_event	sn_southside_close_event + sn_southside_far_event + sn_northside_close_event + sn_northside_far_event	sn_before_close_event + sn_before_far_event + sn_after_close_event + sn_after_far_event	event in space vs event in time in south-north island
-mtt_sn	sn_time-space_event	sn_before_close_event + sn_before_far_event + sn_after_close_event + sn_after_far_event	sn_southside_close_event + sn_southside_far_event + sn_northside_close_event + sn_northside_far_event	event in time vs event in space in south-north island
-mtt_sn	sn_close_space-far_space_event	sn_southside_close_event + sn_northside_close_event	sn_southside_far_event + sn_northside_far_event	events occurring far vs. close in space in south-north island
-mtt_sn	sn_far_space-close_space_event	sn_southside_far_event + sn_northside_far_event	sn_southside_close_event + sn_northside_close_event	events occurring close vs. far in space in south-north island
-mtt_sn	sn_close_time-far_time_event	sn_before_close_event + sn_after_close_event	sn_before_far_event + sn_after_far_event	events close vs. far in time in south-north island
-mtt_sn	sn_far_time-close_time_event	sn_before_far_event + sn_after_far_event	sn_before_close_event + sn_after_close_event	events far vs. close in time in south-north island
-mtt_sn	southside-northside_event	sn_southside_close_event + sn_southside_far_event	sn_northside_close_event + sn_northside_far_event	events occuring southside vs. northside
-mtt_sn	northside-southside_event	sn_northside_close_event + sn_northside_far_event	sn_southside_close_event + sn_southside_far_event	events occuring northsife vs. southside
-mtt_sn	before-after_event	sn_before_close_event + sn_before_far_event	sn_after_close_event + sn_after_far_event	events occuring before vs. after in south-north island
-mtt_sn	after-before_event	sn_after_close_event + sn_after_far_event	sn_before_close_event + sn_before_far_event	events occuring after vs. before in south-north island
-mtt_sn	southside-northside_close_event	sn_southside_close_event	sn_northside_close_event 	events occuring close in space southside vs. northside
-mtt_sn	northside-southside_close_event	sn_northside_close_event 	sn_southside_close_event	events occuring close in space eastsife vs. southside
-mtt_sn	before-after_close_event	sn_before_close_event 	sn_after_close_event	events occuring close in time before vs. after in south-north island
-mtt_sn	after-before_close_event	sn_after_close_event 	sn_before_close_event	events occuring close in time after vs. before in south-north island
-mtt_sn	southside-northside_far_event	sn_southside_far_event	sn_northside_far_event	events occuring far in space southside vs. northside
-mtt_sn	northside-southside_far_event	sn_northside_far_event	sn_southside_far_event	events occuring far in space northside vs. southside
-mtt_sn	before-after_far_event	sn_before_far_event	sn_after_far_event	events occuring far in time before vs. after in south-north island
-mtt_sn	after-before_far_event	sn_after_far_event	sn_before_far_event	events occuring far in time after vs. before in south-north island
-preference	preference_constant	visual evaluation	fixation	object perception and evaluation
-preference	preference_linear	visual preference	no preference	linear effect of preference
-preference	preference_quadratic	confidence in preference	no confidence 	quadratic effect of preference
-preference	food-others	food evaluation	other categories	evaluation of food vs. other categories
-preference	painting-others	painting evaluation	other categories	evaluation of paintings vs. other categories
-preference	face-others	face evaluation	other categories	evaluation of faces vs. other categories
-preference	house-others	house evaluation	other categories	evaluation of houses vs. other categories
-tom_localizer	photo	fact judgments	fixation	Manipulation of fact judgments
-tom_localizer	belief-photo	belief manipulation	fact judgments	belief vs factual judgments
-movie_localizer	mov_pain	physical-pain movie	fixation	attending to  movie with physically painful  events
-movie_localizer	mov_mental-pain	mental-pain movie	physical-pain movie	mentally-physically painful movie
-pain_localizer	physical_pain	physical-pain story	fixation	reading to physical pain story
-pain_localizer	emotional-physical_pain	emotional-pain story	physical-pain story	emotional-physical pain story
-vstm	vstm_response_constant	vstm response to constant numerosity	fixation	visual orientation
-vstm	vstm_response_linear	vstm response to numerosity	fixation	linear effect of numerosity in visual orientation
-vstm	vstm_response_quadratic	vstm response to numerosity interaction	fixation	quadratic effect of numerosity in visual orientation
-enum	enum_response_constant	enumeration response to constant numerosity	fixation	enumeration
-enum	enum_response_linear	enumeration response to numerosity	fixation	linear effect of numerosity in enumeration
-enum	enum_response_quadratic	enumeration response to numerosity interaction	fixation	quadratic effect of numerosity in enumeration
-self	encode_other	other-reference encoding	fixation	encoding of adjectives processed with other-reference
-self	encode_self-other	self-reference encoding	other-reference encoding	self-reference effect
-self	recognition_other_hit	other-reference recognition	fixation	recognition of adjectives previously displayed with other-reference
-self	recognition_self-other	self-reference recognition	other-reference recognition	memory retrieval of encoded information with self-reference
-self	correct_rejection	memory	fixation	identification of a new adjective
-self	recognition_hit-correct_rejection	recognition	memory 	recognition of an adjective previously displayed
-bang	talk-no_talk	speech	no speech	speech vs non-speech sections in movie watching
-bang	no_talk	no speech	fixation	non-speech section in movie watching
-lyon-lec2	unattend	non-attended text	fixation	response to unattended text
-lyon-lec2	unattend-attend	non-attended text	attended text	response to unattended vs attended text
-lyon-lec2	attend	attended text	fixation	response to attended text
-lyon-audi	tear-silence	tear sound	silence	listen to tears
-lyon-audi	suomi-silence	unknown language	silence	listen to unknown language
-lyon-audi	yawn-silence	yawning	silence	listen to yawning
-lyon-audi	human-silence	human sounds	silence	listen to human sounds
-lyon-audi	silence	silence	silence	listen to silence
-lyon-audi	music-silence	music	silence	listen to music
-lyon-audi	reverse-silence	reversed speech	silence	listen to reversed speech
-lyon-audi	speech-silence	speech	silence	listen to speech
-lyon-audi	alphabet-silence	letters sounds	silence	listen to letters
-lyon-audi	cough-silence	coughing	silence	listen to coughing
-lyon-audi	environment-silence	environment sounds	silence	listen to environment sounds
-lyon-audi	laugh-silence	laugh	silence	listen to laugh
-lyon-audi	animals-silence	animals	silence	listen to animals
-lyon-visu	scrambled	scrambled image	other image	view a scrambled image
-lyon-visu	face-scrambled	face image	other image	view a face image
-lyon-visu	characters-scrambled	characters image	other image	view a characters
-lyon-visu	scene-scrambled	scene image	other image	view a scene
-lyon-visu	house-scrambled	house image	other image	view a house
-lyon-visu	animal-scrambled	animal image	other image	view an animal
-lyon-visu	pseudoword-scrambled	pseudoword image	other image	view a pseudoword
-lyon-visu	tool-scrambled	tool image	other image	view a tool
-lyon-lec1	random_string	random string	fixation	read a random string
-lyon-lec1	word-pseudoword	word	pseudo-word	read a word vs a pseudo word
-lyon-lec1	word-random_string	word	random string	read a word ws a random string
-lyon-lec1	pseudoword-random_string	pseudo-word	random string	read a pseudoword vs a random string
-lyon-mveb	response			button press response
-lyon-mveb	2_letters_different-same			2 letters different - 2 letters same
-lyon-mveb	4_letters_different-same			4 letters different - 4 letters same
-lyon-mveb	6_letters_different-same			6 letters different - 6 letters same
-lyon-mveb	6_letters_different-2_letters_different			6 letters different - 2 letters different
-lyon-mvis	response			button press response
-lyon-mvis	2_dots-2_dots_control			2 dots - 2 dots control
-lyon-mvis	4_dots-4_dots_control			4 dots - 4 dots control
-lyon-mvis	6_dots-6_dots_control			6 dots - 6 dots control
-lyon-mvis	6_dots-2_dots			6 dots - 2 dots
-lyon-moto	instructions			read instructions
-lyon-moto	fixation	fixation	idle	fixation
-lyon-moto	finger_right-fixation	right finger	fixation	right finger tapping vs fixation
-lyon-moto	finger_left-fixation	left finger	fixation	left finger tapping vs fixation
-lyon-moto	foot_left-fixation	left foot	fixation	move left foot vs fixation
-lyon-moto	foot_right-fixation	right foot	fixation	move right foot vs fixation
-lyon-moto	hand_left-fixation	left hand	fixation	move left hand vs fixation
-lyon-moto	hand_right-fixation	right hand	fixation	move right hand vs fixation
-lyon-moto	saccade-fixation	saccade	fixation	saccade vs fixation
-lyon-moto	tongue-fixation	tongue	fixation	move tongue vs. fixation
-lyon-mcse	low-high_salience	low salience	high salience	looking for a low salience symbol
-lyon-mcse	salience_left-right	left visual field	right visual field	looking for a symbol in left vs right visual field
-audio1	animal			
-audio1	music			
-audio1	nature			
-audio1	speech			
-audio1	tool			
-audio1	voice			
-audio1	mean-silence			
-audio2	animal			
-audio2	music			
-audio2	nature			
-audio2	speech			
-audio2	tool			
-audio2	voice			
-audio2	mean-silence			
-preference_face	face_constant	face evaluation	fixation	evaluation of faces
-preference_face	face_linear	face preference	fixation	linear effect of face preference
-preference_face	face_quadratic	confidence in face preference	fixation	quadratic effect of face preference
-preference_house	house_constant	house evaluation	fixation	evaluation of houses
-preference_house	house_linear	house preference	fixation	linear effect of houses preference
-preference_house	house_quadratic	confidence in house preference	fixation	quadratic effect of houses preference
-preference_food	food_constant	food evaluation	fixation	evaluation of food
-preference_food	food_linear	food preference	fixation	linear effect of food preference
-preference_food	food_quadratic	confidence in food preference	fixation	quadratic effect of food preference
-preference_painting	painting_constant	painting evaluation	fixation	evaluation of paintings
-preference_painting	painting_linear	painting preference	fixation	linear effect of paintings preference
-preference_painting	painting_quadratic	confidence in painting preference	fixation	quadratic effect of paintings preference
-wedge	lower_meridian			
-wedge	upper_meridian			
-wedge	lower_right			
-wedge	upper_left			
-wedge	right_meridian			
-wedge	left_meridian			
-wedge	upper_right			
-wedge	lower_left			
-ring	foveal			
-ring	middle			
-ring	peripheral			
+task	contrast
+archi_standard	left-right_button_press
+archi_standard	reading-listening
+archi_standard	motor-cognitive
+archi_standard	reading-checkerboard
+archi_standard	computation-sentences
+archi_standard	horizontal-vertical
+archi_spatial	saccades
+archi_spatial	hand-side
+archi_spatial	grasp-orientation
+archi_spatial	rotation_side
+archi_spatial	object_orientation
+archi_social	triangle_mental-random
+archi_social	false_belief-mechanistic_audio
+archi_social	triangle_random
+archi_social	mechanistic_audio
+archi_social	mechanistic_video
+archi_social	non_speech_sound
+archi_social	false_belief-mechanistic_video
+archi_social	speech-non_speech
+archi_emotional	expression_gender-control
+archi_emotional	expression_intention-gender
+archi_emotional	face_gender-control
+archi_emotional	face_trusty-gender
+hcp_language	story-math
+hcp_language	math
+hcp_social	mental-random
+hcp_social	random
+hcp_gambling	punishment-reward
+hcp_gambling	reward
+hcp_motor	left_hand-avg
+hcp_motor	right_hand-avg
+hcp_motor	left_foot-avg
+hcp_motor	right_foot-avg
+hcp_motor	tongue-avg
+hcp_emotion	shape
+hcp_emotion	face-shape
+hcp_relational	relational-match
+hcp_relational	match
+hcp_wm	2back-0back
+hcp_wm	body-avg
+hcp_wm	face-avg
+hcp_wm	place-avg
+hcp_wm	tools-avg
+rsvp_language	complex-simple
+rsvp_language	sentence-jabberwocky
+rsvp_language	sentence-word
+rsvp_language	word-consonant_string
+rsvp_language	jabberwocky-pseudo
+rsvp_language	word-pseudo
+rsvp_language	pseudo-consonant_string
+rsvp_language	consonant_string
+retinotopy	phase_ring
+retinotopy	phase_wedge
+retinotopy	retinotopicity
+mtt_we	west_reference-fixation
+mtt_we	we_center_reference-fixation
+mtt_we	east_reference-fixation
+mtt_we	west-other_reference
+mtt_we	we_center-other_reference
+mtt_we	east-other_reference
+mtt_we	we_past_reference-fixation
+mtt_we	we_present_reference-fixation
+mtt_we	we_future_reference-fixation
+mtt_we	we_past-other_reference
+mtt_we	we_present-other_reference
+mtt_we	we_future-other_reference
+mtt_we	we_all_reference_average_event
+mtt_we	we_all_reference_space_event
+mtt_we	we_all_reference_time_event
+mtt_we	we_all_reference_space-time_event
+mtt_we	we_all_reference_time-space_event
+mtt_we	we_all_reference_close_space-far_space_event
+mtt_we	we_all_reference_far_space-close_space_event
+mtt_we	we_all_reference_close_time-far_time_event
+mtt_we	we_all_reference_far_time-close_time_event
+mtt_we	west-other_reference_event
+mtt_we	we_center-other_reference_event
+mtt_we	east-other_reference_event
+mtt_we	we_past-other_reference_event
+mtt_we	we_present-other_reference_event
+mtt_we	we_future-other_reference_event
+mtt_we	we_average_reference
+mtt_we	we_average_event
+mtt_we	we_space_event
+mtt_we	we_time_event
+mtt_we	we_space-time_event
+mtt_we	we_time-space_event
+mtt_we	we_close_space-far_space_event
+mtt_we	we_far_space-close_space_event
+mtt_we	we_close_time-far_time_event
+mtt_we	we_far_time-close_time_event
+mtt_we	westside-eastside_event
+mtt_we	eastside-westside_event
+mtt_we	before-after_event
+mtt_we	after-before_event
+mtt_we	westside-eastside_close_event
+mtt_we	eastside-westside_close_event
+mtt_we	before-after_close_event
+mtt_we	after-before_close_event
+mtt_we	westside-eastside_far_event
+mtt_we	eastside-westside_far_event
+mtt_we	before-after_far_event
+mtt_we	after-before_far_event
+mtt_sn	south_reference-fixation
+mtt_sn	sn_center_reference-fixation
+mtt_sn	north_reference-fixation
+mtt_sn	south-other_reference
+mtt_sn	sn_center-other_reference
+mtt_sn	north-other_reference
+mtt_sn	sn_past_reference-fixation
+mtt_sn	sn_present_reference-fixation
+mtt_sn	sn_future_reference-fixation
+mtt_sn	sn_past-other_reference
+mtt_sn	sn_present-other_reference
+mtt_sn	sn_future-other_reference
+mtt_sn	sn_all_reference_average_event
+mtt_sn	sn_all_reference_space_event
+mtt_sn	sn_all_reference_time_event
+mtt_sn	sn_all_reference_space-time_event
+mtt_sn	sn_all_reference_time-space_event
+mtt_sn	sn_all_reference_close_space-far_space_event
+mtt_sn	sn_all_reference_far_space-close_space_event
+mtt_sn	sn_all_reference_close_time-far_time_event
+mtt_sn	sn_all_reference_far_time-close_time_event
+mtt_sn	south-other_reference_event
+mtt_sn	sn_center-other_reference_event
+mtt_sn	north-other_reference_event
+mtt_sn	sn_past-other_reference_event
+mtt_sn	sn_present-other_reference_event
+mtt_sn	sn_future-other_reference_event
+mtt_sn	sn_average_reference
+mtt_sn	sn_average_event
+mtt_sn	sn_space_event
+mtt_sn	sn_time_event
+mtt_sn	sn_space-time_event
+mtt_sn	sn_time-space_event
+mtt_sn	sn_close_space-far_space_event
+mtt_sn	sn_far_space-close_space_event
+mtt_sn	sn_close_time-far_time_event
+mtt_sn	sn_far_time-close_time_event
+mtt_sn	southside-northside_event
+mtt_sn	northside-southside_event
+mtt_sn	before-after_event
+mtt_sn	after-before_event
+mtt_sn	southside-northside_close_event
+mtt_sn	northside-southside_close_event
+mtt_sn	before-after_close_event
+mtt_sn	after-before_close_event
+mtt_sn	southside-northside_far_event
+mtt_sn	northside-southside_far_event
+mtt_sn	before-after_far_event
+mtt_sn	after-before_far_event
+preference	preference_constant
+preference	preference_linear
+preference	preference_quadratic
+preference	food-others
+preference	painting-others
+preference	face-others
+preference	house-others
+tom_localizer	photo
+tom_localizer	belief-photo
+movie_localizer	mov_pain
+movie_localizer	mov_mental-pain
+pain_localizer	physical_pain
+pain_localizer	emotional-physical_pain
+vstm	vstm_response_constant
+vstm	vstm_response_linear
+vstm	vstm_response_quadratic
+enum	enum_response_constant
+enum	enum_response_linear
+enum	enum_response_quadratic
+self	encode_other
+self	encode_self-other
+self	recognition_other_hit
+self	recognition_self-other
+self	correct_rejection
+self	recognition_hit-correct_rejection
+bang	talk-no_talk
+bang	no_talk
+lyon-lec2	unattend
+lyon-lec2	unattend-attend
+lyon-lec2	attend
+lyon-audi	tear-silence
+lyon-audi	suomi-silence
+lyon-audi	yawn-silence
+lyon-audi	human-silence
+lyon-audi	silence
+lyon-audi	music-silence
+lyon-audi	reverse-silence
+lyon-audi	speech-silence
+lyon-audi	alphabet-silence
+lyon-audi	cough-silence
+lyon-audi	environment-silence
+lyon-audi	laugh-silence
+lyon-audi	animals-silence
+lyon-visu	scrambled
+lyon-visu	face-scrambled
+lyon-visu	characters-scrambled
+lyon-visu	scene-scrambled
+lyon-visu	house-scrambled
+lyon-visu	animal-scrambled
+lyon-visu	pseudoword-scrambled
+lyon-visu	tool-scrambled
+lyon-lec1	random_string
+lyon-lec1	word-pseudoword
+lyon-lec1	word-random_string
+lyon-lec1	pseudoword-random_string
+lyon-mveb	response
+lyon-mveb	2_letters_different-same
+lyon-mveb	4_letters_different-same
+lyon-mveb	6_letters_different-same
+lyon-mveb	6_letters_different-2_letters_different
+lyon-mvis	response
+lyon-mvis	2_dots-2_dots_control
+lyon-mvis	4_dots-4_dots_control
+lyon-mvis	6_dots-6_dots_control
+lyon-mvis	6_dots-2_dots
+lyon-moto	instructions
+lyon-moto	fixation
+lyon-moto	finger_right-fixation
+lyon-moto	finger_left-fixation
+lyon-moto	foot_left-fixation
+lyon-moto	foot_right-fixation
+lyon-moto	hand_left-fixation
+lyon-moto	hand_right-fixation
+lyon-moto	saccade-fixation
+lyon-moto	tongue-fixation
+lyon-mcse	low-high_salience
+lyon-mcse	salience_left-right
+audio1	animal
+audio1	music
+audio1	nature
+audio1	speech
+audio1	tool
+audio1	voice
+audio1	mean-silence
+audio2	animal
+audio2	music
+audio2	nature
+audio2	speech
+audio2	tool
+audio2	voice
+audio2	mean-silence
+preference_face	face_constant
+preference_face	face_linear
+preference_face	face_quadratic
+preference_house	house_constant
+preference_house	house_linear
+preference_house	house_quadratic
+preference_food	food_constant
+preference_food	food_linear
+preference_food	food_quadratic
+preference_painting	painting_constant
+preference_painting	painting_linear
+preference_painting	painting_quadratic
+wedge	lower_meridian
+wedge	upper_meridian
+wedge	lower_right
+wedge	upper_left
+wedge	right_meridian
+wedge	left_meridian
+wedge	upper_right
+wedge	lower_left
+ring	foveal
+ring	middle
+ring	peripheral
