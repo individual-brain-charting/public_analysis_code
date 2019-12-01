@@ -80,7 +80,6 @@ mtt_we	east-other_reference_event
 mtt_we	we_past-other_reference_event
 mtt_we	we_present-other_reference_event
 mtt_we	we_future-other_reference_event
-mtt_we	we_all_reference_response-fixation
 mtt_we	we_all_event_reference
 mtt_we	westside-eastside_event
 mtt_we	eastside-westside_event
@@ -121,7 +120,6 @@ mtt_sn	north-other_reference_event
 mtt_sn	sn_past-other_reference_event
 mtt_sn	sn_present-other_reference_event
 mtt_sn	sn_future-other_reference_event
-mtt_sn	sn_all_reference_response-fixation
 mtt_sn	sn_all_event_reference
 mtt_sn	southside-northside_event
 mtt_sn	northside-southside_event
