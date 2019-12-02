@@ -969,8 +969,77 @@ def _beta_contrasts(design_matrix_columns):
     return con_
 
 
-def mtt_ew(design_matrix_columns):
-    """ Contrast for MTT north-south experiment"""
+['we_eastside_far_event', 'we_all_time_cue', 'we_before_far_event', 'we_westside_far_event', 'we_all_reference', 'we_eastside_close_event', 'we_after_far_event', 'we_westside_close_event', 'we_all_event_response', 'we_before_close_event', 'we_all_space_cue', 'we_after_close_event']
+
+
+def mtt_ew_relative(design_matrix_columns):
+    """Contrast for MTT east-west experiment, relative setting"""
+    con = _beta_contrasts(design_matrix_columns)
+    
+    contrasts = {
+        'we_average_reference': con['we_all_reference'],
+        'we_all_space_cue': con['we_all_space_cue'],
+        'we_all_time_cue': con['we_all_time_cue'],
+        'we_all_space-time_cue': con['we_all_space_cue'] - con['we_all_time_cue'],
+        'we_all_time-space_cue': con['we_all_time_cue'] - con['we_all_space_cue'], 
+	'we_average_event': con['we_westside_close_event']
+        + con['we_westside_far_event']
+        + con['we_eastside_close_event']
+        + con['we_eastside_far_event']
+        + con['we_before_close_event']
+        + con['we_before_far_event']
+        + con['we_after_close_event']
+        + con['we_after_far_event'],
+        'we_space_event':
+        con['we_westside_close_event']
+        + con['we_westside_far_event']
+        + con['we_eastside_close_event']
+        + con['we_eastside_far_event'],
+        'we_time_event':
+        con['we_before_close_event']
+        + con['we_before_far_event']
+        + con['we_after_close_event']
+        + con['we_after_far_event'],
+        'we_close-far_space_event':
+        con['we_westside_close_event']
+        + con['we_eastside_close_event']
+        - con['we_westside_far_event']
+        - con['we_eastside_far_event'],
+        'we_far-close_space_event':
+        con['we_westside_far_event']
+        + con['we_eastside_far_event']
+        - con['we_westside_close_event']
+        - con['we_eastside_close_event'],
+        'we_close-far_time_event':
+        con['we_before_close_event'] + con['we_after_close_event']
+        - con['we_before_far_event'] - con['we_after_far_event'],
+        'we_far-close_time_event':
+        con['we_before_far_event'] + con['we_after_far_event']
+        - con['we_before_close_event'] - con['we_after_close_event'],
+        
+        we_space-time_event	we_westside_close_event + we_westside_far_event + we_eastside_close_event + we_eastside_far_event
+        we_time-space_event	we_before_close_event + we_before_far_event + we_after_close_event + we_after_far_event
+
+        
+westside-eastside_event	we_westside_close_event + we_westside_far_event
+eastside-westside_event	we_eastside_close_event + we_eastside_far_event
+before-after_event	we_before_close_event + we_before_far_event
+after-before_event	we_after_close_event + we_after_far_event
+westside-eastside_close_event	we_westside_close_event
+eastside-westside_close_event	we_eastside_close_event 
+before-after_close_event	we_before_close_event 
+after-before_close_event	we_after_close_event 
+westside-eastside_far_event	we_westside_far_event
+eastside-westside_far_event	we_eastside_far_event
+before-after_far_event	we_before_far_event
+after-before_far_event	we_after_far_event
+	
+we_all_event_response-fixation	we_all_event_response
+
+
+
+def mtt_ew_(design_matrix_columns):
+    """ Contrast for MTT east-west experiment"""
     if design_matrix_columns is None:
         return {'time_reference': [],
                 'west_east_reference': [],
