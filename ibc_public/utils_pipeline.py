@@ -153,7 +153,7 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
 
     # GLM analysis
     print('Fitting a GLM (this takes time)...')
-    fmri_glm = FirstLevelModel(mask=mask_img, t_r=tr, slice_time_ref=.5,
+    fmri_glm = FirstLevelModel(mask_img=mask_img, t_r=tr, slice_time_ref=.5,
                                smoothing_fwhm=smoothing_fwhm).fit(
         fmri_4d, design_matrices=dmtx)
 
