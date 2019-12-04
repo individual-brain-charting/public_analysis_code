@@ -49,7 +49,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
     elif paradigm_id in ['IslandWE', 'IslandWE1', 'IslandWE2', 'IslandWE3']:
         return mtt_ew_relative(design_matrix_columns)
     elif paradigm_id in ['IslandNS', 'IslandNS1', 'IslandNS2', 'IslandNS3']:
-        return mtt_ns(design_matrix_columns)
+        return mtt_ns_relative(design_matrix_columns)
     elif paradigm_id == 'pain_localizer':
         return pain_localizer(design_matrix_columns)
     elif paradigm_id == 'movie_localizer':
@@ -155,7 +155,7 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
 
     if con != []:
         contrast['derivatives'] = np.array(con)
-    return contrast
+    return contrast3mm
 
 
 def math_language(design_matrix_columns):
@@ -1004,7 +1004,7 @@ def mtt_ew_relative(design_matrix_columns):
     ]
     if design_matrix_columns is None:
         return dict([(key, []) for key in contrast_list])
-    
+
     con = _beta_contrasts(design_matrix_columns)
     contrasts = {
         'we_average_reference': con['we_all_reference'],
@@ -1037,16 +1037,16 @@ def mtt_ew_relative(design_matrix_columns):
     contrasts['we_all_time-space_cue'] = - contrasts['we_all_space-time_cue']
     contrasts['we_average_event'] = contrasts['we_space_event'] + contrasts['we_time_event']
     contrasts['we_space-time_event'] = contrasts['we_space_event'] - contrasts['we_time_event']
-    contrasts['we_time-space_event'] = - contrasts['we_space-time_event'] 
+    contrasts['we_time-space_event'] = - contrasts['we_space-time_event']
     contrasts['we_far-close_space_event'] = - contrasts['we_close-far_space_event']
     contrasts['we_far-close_time_event'] = - contrasts['we_close-far_time_event']
     contrasts['westside-eastside_event'] = contrasts['westside-eastside_close_event'] + contrasts['westside-eastside_far_event']
     contrasts['eastside-westside_event'] = - contrasts['westside-eastside_event']
     contrasts['before-after_event'] = contrasts['before-after_close_event'] + contrasts['before-after_far_event']
     contrasts['after-before_event'] = - contrasts['before-after_event']
-    contrasts['eastside-westside_close_event'] = - contrasts['westside-eastside_close_event'] 	
+    contrasts['eastside-westside_close_event'] = - contrasts['westside-eastside_close_event']
     contrasts['after-before_close_event'] = - contrasts['before-after_close_event']
-    contrasts['eastside-westside_far_event'] = - contrasts['westside-eastside_far_event'] 	
+    contrasts['eastside-westside_far_event'] = - contrasts['westside-eastside_far_event']
     contrasts['after-before_far_event'] = - contrasts['before-after_far_event']
     return contrasts
 
@@ -1083,7 +1083,7 @@ def mtt_ns_relative(design_matrix_columns):
     ]
     if design_matrix_columns is None:
         return dict([(key, []) for key in contrast_list])
-    
+
     con = _beta_contrasts(design_matrix_columns)
     contrasts = {
         'sn_average_reference': con['sn_all_reference'],
@@ -1116,16 +1116,16 @@ def mtt_ns_relative(design_matrix_columns):
     contrasts['sn_all_time-space_cue'] = - contrasts['sn_all_space-time_cue']
     contrasts['sn_average_event'] = contrasts['sn_space_event'] + contrasts['sn_time_event']
     contrasts['sn_space-time_event'] = contrasts['sn_space_event'] - contrasts['sn_time_event']
-    contrasts['sn_time-space_event'] = - contrasts['sn_space-time_event'] 
+    contrasts['sn_time-space_event'] = - contrasts['sn_space-time_event']
     contrasts['sn_far-close_space_event'] = - contrasts['sn_close-far_space_event']
     contrasts['sn_far-close_time_event'] = - contrasts['sn_close-far_time_event']
     contrasts['northside-southside_event'] = contrasts['northside-southside_close_event'] + contrasts['northside-southside_far_event']
     contrasts['southside-northside_event'] = - contrasts['northside-southside_event']
     contrasts['before-after_event'] = contrasts['before-after_close_event'] + contrasts['before-after_far_event']
     contrasts['after-before_event'] = - contrasts['before-after_event']
-    contrasts['southside-northside_close_event'] = - contrasts['northside-southside_close_event'] 	
+    contrasts['southside-northside_close_event'] = - contrasts['northside-southside_close_event']
     contrasts['after-before_close_event'] = - contrasts['before-after_close_event']
-    contrasts['southside-northside_far_event'] = - contrasts['northside-southside_far_event'] 	
+    contrasts['southside-northside_far_event'] = - contrasts['northside-southside_far_event']
     contrasts['after-before_far_event'] = - contrasts['before-after_far_event']
     return contrasts
 
