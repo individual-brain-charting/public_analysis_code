@@ -41,10 +41,15 @@ ALL_CONTRASTS = os.path.join(
 # Note that LABELS and BETTER NAMES ARE RELATIVE TO CONTRASTS
 LABELS = {}
 BETTER_NAMES = {}
+all_contrasts = pd.read_csv(ALL_CONTRASTS, sep='\t')
 for i in range(len(CONTRASTS)):
-    BETTER_NAMES[CONTRASTS.contrast[i]] = CONTRASTS['pretty name'][i]
-    LABELS[CONTRASTS.contrast[i]] = [CONTRASTS['left label'][i],
-                                     CONTRASTS['right label'][i]]
+    task = CONTRASTS.task[i]
+    contrast = CONTRASTS.contrast[i]
+    target = all_contrasts[all_contrasts.task == task]\
+             [all_contrasts.contrast == contrast]
+    BETTER_NAMES[contrast] = target['pretty name']
+    LABELS[contrast] = [target['negative label'],
+                        target['positive label']]
 
 
 def get_subject_session(protocols):

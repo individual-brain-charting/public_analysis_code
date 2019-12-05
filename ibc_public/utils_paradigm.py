@@ -97,6 +97,7 @@ def post_process(df, paradigm_id):
         df3.trial_type = '%s_quadratic' % domain
         df = df.replace(domain, '%s_linear' % domain)
         df = concat([df, df2, df3], axis=0, ignore_index=True)
+
     responses_we = ['response_we_east_present_space_close',
                     'response_we_west_present_space_far',
                     'response_we_center_past_space_far',
@@ -119,10 +120,6 @@ def post_process(df, paradigm_id):
                     'response_we_center_future_space_far',
                     'response_we_center_future_space_close',
                     'response_we_west_present_time_far']
-
-    if paradigm_id == 'IslandWE':
-        for response in responses_we:
-            df = df.replace(response, 'response')
 
     responses_sn = ['response_sn_north_present_space_far',
                     'response_sn_south_present_time_close',
@@ -147,9 +144,15 @@ def post_process(df, paradigm_id):
                     'response_sn_center_future_time_far',
                     'response_sn_center_future_time_far']
 
+    ###
     if paradigm_id == 'IslandNS':
         for response in responses_sn:
             df = df.replace(response, 'response')
+
+    if paradigm_id == 'IslandWE':
+        for response in responses_we:
+            df = df.replace(response, 'response')
+    ###
 
     if paradigm_id == 'enum':
         for i in range(1, 9):
