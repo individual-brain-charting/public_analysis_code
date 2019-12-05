@@ -155,7 +155,7 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
 
     if con != []:
         contrast['derivatives'] = np.array(con)
-    return contrast3mm
+    return contrast
 
 
 def math_language(design_matrix_columns):
@@ -1010,7 +1010,7 @@ def mtt_ew_relative(design_matrix_columns):
         'we_average_reference': con['we_all_reference'],
         'we_all_space_cue': con['we_all_space_cue'],
         'we_all_time_cue': con['we_all_time_cue'],
-        'we_all_space-time_cue': con['we_all_space_cue'] - con['we_all_time_cue'],
+
         'we_space_event':
         con['we_westside_close_event']
         + con['we_westside_far_event']
@@ -1029,25 +1029,43 @@ def mtt_ew_relative(design_matrix_columns):
         'we_close-far_time_event':
         con['we_before_close_event'] + con['we_after_close_event']
         - con['we_before_far_event'] - con['we_after_far_event'],
-        'westside-eastside_close_event': con['we_westside_close_event'] - con['we_eastside_close_event'],
-        'before-after_close_event': con['we_before_close_event'] - con['we_after_close_event'],
-        'westside-eastside_far_event':	con['we_westside_far_event'] -  con['we_eastside_far_event'],
-        'before-after_far_event': con['we_before_far_event'] - con['we_after_far_event'],
+        'westside-eastside_close_event': (con['we_westside_close_event']
+                                          - con['we_eastside_close_event']),
+        'before-after_close_event': (con['we_before_close_event']
+                                     - con['we_after_close_event']),
+        'westside-eastside_far_event': (con['we_westside_far_event']
+                                        - con['we_eastside_far_event']),
+        'before-after_far_event': (con['we_before_far_event']
+                                   - con['we_after_far_event']),
         }
+    contrasts['we_all_space-time_cue'] =\
+        contrasts['we_all_space_cue'] - contrasts['we_all_time_cue']
     contrasts['we_all_time-space_cue'] = - contrasts['we_all_space-time_cue']
-    contrasts['we_average_event'] = contrasts['we_space_event'] + contrasts['we_time_event']
-    contrasts['we_space-time_event'] = contrasts['we_space_event'] - contrasts['we_time_event']
+    contrasts['we_average_event'] =\
+        contrasts['we_space_event'] + contrasts['we_time_event']
+    contrasts['we_space-time_event'] =\
+        contrasts['we_space_event'] - contrasts['we_time_event']
     contrasts['we_time-space_event'] = - contrasts['we_space-time_event']
-    contrasts['we_far-close_space_event'] = - contrasts['we_close-far_space_event']
-    contrasts['we_far-close_time_event'] = - contrasts['we_close-far_time_event']
-    contrasts['westside-eastside_event'] = contrasts['westside-eastside_close_event'] + contrasts['westside-eastside_far_event']
-    contrasts['eastside-westside_event'] = - contrasts['westside-eastside_event']
-    contrasts['before-after_event'] = contrasts['before-after_close_event'] + contrasts['before-after_far_event']
+    contrasts['we_far-close_space_event'] =\
+        - contrasts['we_close-far_space_event']
+    contrasts['we_far-close_time_event'] =\
+        - contrasts['we_close-far_time_event']
+    contrasts['westside-eastside_event'] =\
+        contrasts['westside-eastside_close_event'] +\
+        contrasts['westside-eastside_far_event']
+    contrasts['eastside-westside_event'] =\
+        - contrasts['westside-eastside_event']
+    contrasts['before-after_event'] = contrasts['before-after_close_event'] +\
+        contrasts['before-after_far_event']
     contrasts['after-before_event'] = - contrasts['before-after_event']
-    contrasts['eastside-westside_close_event'] = - contrasts['westside-eastside_close_event']
-    contrasts['after-before_close_event'] = - contrasts['before-after_close_event']
-    contrasts['eastside-westside_far_event'] = - contrasts['westside-eastside_far_event']
-    contrasts['after-before_far_event'] = - contrasts['before-after_far_event']
+    contrasts['eastside-westside_close_event'] =\
+        - contrasts['westside-eastside_close_event']
+    contrasts['after-before_close_event'] =\
+        - contrasts['before-after_close_event']
+    contrasts['eastside-westside_far_event'] =\
+        - contrasts['westside-eastside_far_event']
+    contrasts['after-before_far_event'] =\
+        - contrasts['before-after_far_event']
     return contrasts
 
 
