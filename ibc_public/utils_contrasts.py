@@ -969,7 +969,92 @@ def _beta_contrasts(design_matrix_columns):
     return con_
 
 
-# ['we_eastside_far_event', 'we_all_time_cue', 'we_before_far_event', 'we_westside_far_event', 'we_all_reference', 'we_eastside_close_event', 'we_after_far_event', 'we_westside_close_event', 'we_all_event_response', 'we_before_close_event', 'we_all_space_cue', 'we_after_close_event']
+def mtt_ew_absolute(design_matrix_columns):
+    """Contrast for MTT east-west experiment, absolute setting"""
+    contrast_list = []
+    if design_matrix_columns is None:
+        return dict([(key, []) for key in contrast_list])
+    con = _beta_contrasts(design_matrix_columns)
+    space_reference = con['we_west_reference'] + con['we_center_reference']\
+        + con['we_east_reference']
+    time_reference = con['we_past_reference'] + con['we_present_reference'] -\
+        con['future_reference']
+    close_space_event = (con['we_west_reference_close_event'] +
+                         con['we_center_reference_close_event'] +
+                         con['we_east_reference_close_event'])
+    far_space_event = (con['we_west_reference_far_event'] +
+                       con['we_center_reference_far_event'] +
+                       con['we_east_reference_far_event'])
+    close_time_event = (con['we_past_reference_close_event'] +
+                        con['we_present_reference_close_event'] +
+                        con['we_future_reference_close_event'])
+    far_time_event = (con['we_past_reference_far_event'] +
+                      con['we_present_reference_far_event'] +
+                      con['we_future_reference_far_event'])
+    space_event = close_space_event + far_space_event
+    time_event = close_time_event + far_time_event
+    all_space_events = np.sum([con[key] or key in [
+        'we_center_reference_close_event', 'we_center_reference_far_event',
+        'we_east_reference_close_event', 'we_east_reference_far_event',
+        'we_west_reference_close_event', 'we_west_reference_far_event']])
+    all_time_events = np.sum([con[key] or key in [
+        'we_present_reference_close_event', 'we_present_reference_far_event',
+        'we_future_reference_close_event', 'we_future_reference_far_event',
+        'we_past_reference_close_event', 'we_past_reference_far_event']])
+    contrasts = {
+        'west_reference': con['we_west_reference'],
+        'we_center_reference': con['we_center_reference'],
+        'east_reference': con['we_east_reference'],
+        'west-other_reference': 3 * con['we_west_reference'] - space_reference,
+        'we_center-other_reference':\
+            3 * con['we_center_reference'] - space_reference,
+        'east-other_reference': 3 * con['we_east_reference'] - space_reference,
+        'we_past_reference-fixation': con['we_past_reference'],
+        'we_present_reference-fixation': con['we_present_reference'],
+        'we_future_reference-fixation': con['future_reference'],
+        'we_past-other_reference': con['we_past_reference'] - time_reference,
+        'we_present-other_reference': con['we_present_reference'] -
+                                      time_reference,
+        'we_future-other_reference': con['future_reference'] - time_reference,
+        #
+        'we_all_reference_space_cue': 'we_all_reference_space_cue',
+        'we_all_reference_time_cue': 'we_all_reference_time_cue',
+        #
+        'we_all_reference_average_event': time_event + space_event,
+        'we_all_reference_space_event': space_event,
+        'we_all_reference_time_event': time_event,
+        'we_all_reference_space-time_event': space_event - time_event,
+        'we_all_reference_time-space_event': time_event - space_event,
+        'we_all_reference_close-far_space_event': close_space_event -\
+                                                  far_space_event,
+        'we_all_reference_far-close_space_event': far_space_event -\
+                                                  close_space_event
+        'we_all_reference_close-far_time_event': close_time_event -
+                                                 far_time_event
+        'we_all_reference_far-close_time_event': far_time_event -
+                                                 close_time_event
+        #
+        'west-other_reference_event': 3 * con['we_west_reference_close_event'] +
+        3 * con['we_west_reference_far_event'] - all_space_events
+        'we_center-other_reference_event': 3 * con['we_center_reference_close_event'] +
+        3 * con['we_center_reference_far_event'] - all_space_events
+        'east-other_reference_event': 3 * con['we_east_reference_close_event'] +
+        3 * con['we_east_reference_far_event'] - all_space_events
+        'we_past-other_reference_event': 3 * con['we_past_reference_close_event'] +
+        3 * con['we_past_reference_far_event'] - all_time_events
+        'we_present-other_reference_event': 3 * con['we_present_reference_close_event'] +
+        3 * con['we_present_reference_far_event'] - all_time_events
+        'we_future-other_reference_event': 3 * con['we_future_reference_close_event'] +
+        3 * con['we_future_reference_far_event'] - all_time_events
+        #
+        'we_all_reference_response-fixation': con['we_all_reference_response']
+    }
+    contrasts['we_all_reference_space-time_cue'] =\
+        contrasts['we_all_reference_space_cue']\
+        - contrasts['we_all_reference_time_cue']
+    contrasts['we_all_reference_time-space_cue'] =\
+        - contrasts['we_all_reference_space-time_cue']
+    return contrasts
 
 
 def mtt_ew_relative(design_matrix_columns):
@@ -1037,7 +1122,7 @@ def mtt_ew_relative(design_matrix_columns):
                                         - con['we_eastside_far_event']),
         'before-after_far_event': (con['we_before_far_event']
                                    - con['we_after_far_event']),
-        'all_event_reponse': 'all_event_response',
+        'we_all_event_response': 'we_all_event_response',
         }
     contrasts['we_all_space-time_cue'] =\
         contrasts['we_all_space_cue'] - contrasts['we_all_time_cue']
@@ -1099,7 +1184,7 @@ def mtt_ns_relative(design_matrix_columns):
         'southside-northside_far_event',
         'before-after_far_event',
         'after-before_far_event',
-        'all_event_reponse',
+        'sn_all_event_response'
     ]
     if design_matrix_columns is None:
         return dict([(key, []) for key in contrast_list])
@@ -1135,7 +1220,7 @@ def mtt_ns_relative(design_matrix_columns):
             con['sn_northside_far_event'] - con['sn_southside_far_event'],
         'before-after_far_event':
             con['sn_before_far_event'] - con['sn_after_far_event'],
-        'all_event_reponse': 'all_event_response',
+        'sn_all_event_response': 'sn_all_event_response',
         }
     contrasts['sn_all_space-time_cue'] =\
         contrasts['sn_all_space_cue'] - contrasts['sn_all_time_cue']
