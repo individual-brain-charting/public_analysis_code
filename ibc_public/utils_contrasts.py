@@ -1028,24 +1028,24 @@ def mtt_ew_absolute(design_matrix_columns):
         'we_all_reference_close-far_space_event': close_space_event -\
                                                   far_space_event,
         'we_all_reference_far-close_space_event': far_space_event -\
-                                                  close_space_event
+                                                  close_space_event,
         'we_all_reference_close-far_time_event': close_time_event -
-                                                 far_time_event
+                                                 far_time_event,
         'we_all_reference_far-close_time_event': far_time_event -
-                                                 close_time_event
+                                                 close_time_event,
         #
         'west-other_reference_event': 3 * con['we_west_reference_close_event'] +
-        3 * con['we_west_reference_far_event'] - all_space_events
+        3 * con['we_west_reference_far_event'] - all_space_events,
         'we_center-other_reference_event': 3 * con['we_center_reference_close_event'] +
-        3 * con['we_center_reference_far_event'] - all_space_events
+        3 * con['we_center_reference_far_event'] - all_space_events,
         'east-other_reference_event': 3 * con['we_east_reference_close_event'] +
-        3 * con['we_east_reference_far_event'] - all_space_events
+        3 * con['we_east_reference_far_event'] - all_space_events,
         'we_past-other_reference_event': 3 * con['we_past_reference_close_event'] +
-        3 * con['we_past_reference_far_event'] - all_time_events
+        3 * con['we_past_reference_far_event'] - all_time_events,
         'we_present-other_reference_event': 3 * con['we_present_reference_close_event'] +
-        3 * con['we_present_reference_far_event'] - all_time_events
+        3 * con['we_present_reference_far_event'] - all_time_events,
         'we_future-other_reference_event': 3 * con['we_future_reference_close_event'] +
-        3 * con['we_future_reference_far_event'] - all_time_events
+        3 * con['we_future_reference_far_event'] - all_time_events,
         #
         'we_all_reference_response-fixation': con['we_all_reference_response']
     }
