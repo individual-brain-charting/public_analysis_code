@@ -473,10 +473,10 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 imgs_ = glob.glob(wc)
                 imgs_.sort()
                 for img in imgs_:
-                    session = img.split('/')[5]
+                    session = img.split('/')[-4]
                     imgs.append(img)
                     sessions.append(session)
-                    subjects.append(img.split('/')[4])
+                    subjects.append(img.split('/')[-5])
                     contrasts.append(contrast)
                     tasks.append(task_name)
                     sides.append(side)

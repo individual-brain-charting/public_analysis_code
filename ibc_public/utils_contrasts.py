@@ -1027,6 +1027,7 @@ def mtt_ew_relative(design_matrix_columns):
     contrasts['eastside-westside_event'] =\
         - contrasts['westside-eastside_event']
     contrasts['after-before_event'] = - contrasts['before-after_event']
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
 
 
@@ -1086,6 +1087,7 @@ def mtt_ns_relative(design_matrix_columns):
     contrasts['southside-northside_event'] =\
         - contrasts['northside-southside_event']
     contrasts['after-before_event'] = - contrasts['before-after_event']
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
 
 
