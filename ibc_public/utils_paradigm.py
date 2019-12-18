@@ -145,11 +145,11 @@ def post_process(df, paradigm_id):
                     'response_sn_center_future_time_far']
 
     ###
-    if paradigm_id == 'IslandNS':
+    if paradigm_id == 'MTTNS':
         for response in responses_sn:
             df = df.replace(response, 'response')
 
-    if paradigm_id == 'IslandWE':
+    if paradigm_id == 'MTTWE':
         for response in responses_we:
             df = df.replace(response, 'response')
     ###

@@ -46,10 +46,10 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         if domain[-1] == 's':
             domain = domain[: -1]
         return preferences(design_matrix_columns, domain)
-    elif paradigm_id in ['IslandWE', 'IslandWE1', 'IslandWE2', 'IslandWE3']:
+    elif paradigm_id in ['MTTWE', 'MTTWE1', 'MTTWE2', 'MTTWE3']:
         return mtt_ew_relative(design_matrix_columns)
         #return mtt_ew_absolute(design_matrix_columns)
-    elif paradigm_id in ['IslandNS', 'IslandNS1', 'IslandNS2', 'IslandNS3']:
+    elif paradigm_id in ['MTTNS', 'MTTNS1', 'MTTNS2', 'MTTNS3']:
         return mtt_ns_relative(design_matrix_columns)
         #return mtt_ns_absolute(design_matrix_columns)
     elif paradigm_id == 'pain_localizer':

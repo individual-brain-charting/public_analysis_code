@@ -219,10 +219,10 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     task = 'language'
                     task_name = 'rsvp_language'
                 if task == 'mtt_sn':
-                    task = 'IslandNS'
+                    task = 'MTTNS'
                     task_name = 'mtt_sn'
                 if task == 'mtt_we':
-                    task = 'IslandWE'
+                    task = 'MTTWE'
                     task_name = 'mtt_we'
                 if task == 'vstm':
                     task = 'VSTM'
@@ -455,10 +455,10 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 task = 'language'
                 task_name = 'rsvp_language'
             if task == 'mtt_ns':
-                task = 'IslandNS'
+                task = 'MTTNS'
                 task_name = 'mtt_ns'
             if task == 'mtt_we':
-                task = 'IslandWE'
+                task = 'MTTWE'
                 task_name = 'mtt_we'
             # some renaming
             if ((contrast == 'probe') & (task_name == 'rsvp_language')):
