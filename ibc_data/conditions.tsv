@@ -193,8 +193,8 @@ tom_localizer	belief
 tom_localizer	photo
 pain_localizer	physical_pain
 pain_localizer	emotional_pain
-movie_localizer	mov_pain
-movie_localizer	mov_mental
+movie_localizer	movie_pain
+movie_localizer	movie_mental
 vstm	vstm_memorization_linear
 vstm	vstm_memorization_constant
 vstm	vstm_memorization_quadratic

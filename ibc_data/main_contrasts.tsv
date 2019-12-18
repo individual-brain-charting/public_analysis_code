@@ -55,8 +55,8 @@ preference	preference_linear
 preference	preference_quadratic
 tom_localizer	photo
 tom_localizer	belief-photo
-movie_localizer	mov_pain
-movie_localizer	mov_mental-pain
+movie_localizer	movie_pain
+movie_localizer	movie_mental-pain
 pain_localizer	physical_pain
 pain_localizer	emotional-physical_pain
 vstm	vstm_response_constant
