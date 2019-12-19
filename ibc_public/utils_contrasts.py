@@ -845,9 +845,9 @@ def colour(design_matrix_columns):
 def vstm(design_matrix_columns):
     """ contrasts for vstm task, Knops protocol"""
     contrast_names = [
-       'vstm_response_linear',
-       'vstm_response_constant',
-       'vstm_response_quadratic']
+       'vstm_linear',
+       'vstm_constant',
+       'vstm_quadratic']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     constant = np.ones(6)
@@ -857,9 +857,9 @@ def vstm(design_matrix_columns):
     response = np.array([con['response_num_%d' % i]
                         for i in range(1, 7)])
     contrasts = {
-        'vstm_response_constant': np.dot(constant, response),
-        'vstm_response_linear': np.dot(linear, response),
-        'vstm_response_quadratic': np.dot(quadratic, response),
+        'vstm_constant': np.dot(constant, response),
+        'vstm_linear': np.dot(linear, response),
+        'vstm_quadratic': np.dot(quadratic, response),
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
@@ -870,9 +870,9 @@ def vstm(design_matrix_columns):
 def enum(design_matrix_columns):
     """ contrasts for vstm task, Knops protocol"""
     contrast_names = [
-        'enum_response_linear',
-        'enum_response_constant',
-        'enum_response_quadratic']
+        'enum_linear',
+        'enum_constant',
+        'enum_quadratic']
 
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
@@ -884,9 +884,9 @@ def enum(design_matrix_columns):
     response = np.array([con['response_num_%d' % i]
                          for i in range(1, 9)])
     contrasts = {
-        'enum_response_constant': np.dot(constant, response),
-        'enum_response_linear': np.dot(linear, response),
-        'enum_response_quadratic': np.dot(quadratic, response),
+        'enum_constant': np.dot(constant, response),
+        'enum_linear': np.dot(linear, response),
+        'enum_quadratic': np.dot(quadratic, response),
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
