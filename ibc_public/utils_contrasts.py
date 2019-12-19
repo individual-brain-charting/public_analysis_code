@@ -46,10 +46,10 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         if domain[-1] == 's':
             domain = domain[: -1]
         return preferences(design_matrix_columns, domain)
-    elif paradigm_id in ['MTTWE', 'MTTWE1', 'MTTWE2', 'MTTWE3']:
+    elif paradigm_id  == 'MTTWE':
         return mtt_ew_relative(design_matrix_columns)
         #return mtt_ew_absolute(design_matrix_columns)
-    elif paradigm_id in ['MTTNS', 'MTTNS1', 'MTTNS2', 'MTTNS3']:
+    elif paradigm_id == 'MTTNS':
         return mtt_ns_relative(design_matrix_columns)
         #return mtt_ns_absolute(design_matrix_columns)
     elif paradigm_id == 'pain_localizer':
@@ -60,8 +60,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return tom_localizer(design_matrix_columns)
     elif paradigm_id == 'VSTM':
         return vstm(design_matrix_columns)
-    elif paradigm_id == 'enum':
-        return enum(design_matrix_columns)
+    elif paradigm_id == '':
+        return (design_matrix_columns)
     elif paradigm_id == 'clips_trn':
         return dict([])
     elif paradigm_id == 'self':
@@ -867,12 +867,12 @@ def vstm(design_matrix_columns):
     return contrasts
 
 
-def enum(design_matrix_columns):
+def (design_matrix_columns):
     """ contrasts for vstm task, Knops protocol"""
     contrast_names = [
-        'enum_linear',
-        'enum_constant',
-        'enum_quadratic']
+        'enumeration_linear',
+        'enumeration_constant',
+        'enumeration_quadratic']
 
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
@@ -884,9 +884,9 @@ def enum(design_matrix_columns):
     response = np.array([con['response_num_%d' % i]
                          for i in range(1, 9)])
     contrasts = {
-        'enum_constant': np.dot(constant, response),
-        'enum_linear': np.dot(linear, response),
-        'enum_quadratic': np.dot(quadratic, response),
+        'enumeration_constant': np.dot(constant, response),
+        'enumeration_linear': np.dot(linear, response),
+        'enumeration_quadratic': np.dot(quadratic, response),
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
