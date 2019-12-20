@@ -60,8 +60,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return tom_localizer(design_matrix_columns)
     elif paradigm_id == 'VSTM':
         return vstm(design_matrix_columns)
-    elif paradigm_id == '':
-        return (design_matrix_columns)
+    elif paradigm_id == 'enumeration':
+        return enumeration(design_matrix_columns)
     elif paradigm_id == 'clips_trn':
         return dict([])
     elif paradigm_id == 'self':
@@ -867,7 +867,7 @@ def vstm(design_matrix_columns):
     return contrasts
 
 
-def (design_matrix_columns):
+def enumeration(design_matrix_columns):
     """ contrasts for vstm task, Knops protocol"""
     contrast_names = [
         'enumeration_linear',

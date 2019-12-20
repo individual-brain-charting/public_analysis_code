@@ -154,7 +154,7 @@ def post_process(df, paradigm_id):
             df = df.replace(response, 'response')
     ###
 
-    if paradigm_id == 'enum':
+    if paradigm_id == 'enumeration':
         for i in range(1, 9):
             df = df.replace('memorization_num_%d' % i, 'response_num_%d' % i)
     if paradigm_id == 'VSTM':
