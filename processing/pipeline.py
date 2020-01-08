@@ -211,7 +211,8 @@ if __name__ == '__main__':
     do_topup = True
     protocol = 'enumeration'
     subject_session = sorted(get_subject_session([protocol]))
-    subject_session = [('sub-07', 'ses-18')]
+    subject_session = [('sub-06', 'ses-17'), ('sub-11', 'ses-19'),
+                       ('sub-12', 'ses-19')]
     if do_topup:
         acq = None
         if protocol in ['rs']:
