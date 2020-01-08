@@ -227,9 +227,6 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if task == 'vstm':
                     task = 'VSTM'
                     task_name = 'vstm'
-                if task in ['audio1', 'audio2'] and acq == 'ffx':
-                    task_name = task
-                    task = 'audio'
 
                 wildcard = os.path.join(
                     derivatives, '%s/*/res_stats_%s*_%s/stat_maps/%s.nii.gz' %

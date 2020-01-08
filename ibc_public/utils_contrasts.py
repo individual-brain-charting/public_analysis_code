@@ -593,7 +593,7 @@ def audio(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     others = (con['animal'] + con['music'] + con['nature'] +
-              con['speech'] + con['tool'] + con['voice']) * 1. / 5
+              con['speech'] + con['tool'] + con['voice']) / 5
     contrasts = {
         'animal': con['animal'],
         'music': con['music'],
