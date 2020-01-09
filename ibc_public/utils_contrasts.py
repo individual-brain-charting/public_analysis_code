@@ -52,12 +52,12 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
     elif paradigm_id == 'MTTNS':
         return mtt_ns_relative(design_matrix_columns)
         #return mtt_ns_absolute(design_matrix_columns)
-    elif paradigm_id == 'pain_localizer':
-        return pain_localizer(design_matrix_columns)
-    elif paradigm_id == 'movie_localizer':
-        return movie_localizer(design_matrix_columns)
-    elif paradigm_id == 'tom_localizer':
-        return tom_localizer(design_matrix_columns)
+    elif paradigm_id == 'emotional_pain':
+        return emotional_pain(design_matrix_columns)
+    elif paradigm_id == 'pain_movie':
+        return pain_movie(design_matrix_columns)
+    elif paradigm_id == 'theory_of_mind':
+        return theory_of_mind(design_matrix_columns)
     elif paradigm_id == 'VSTM':
         return vstm(design_matrix_columns)
     elif paradigm_id == 'enumeration':
@@ -894,7 +894,7 @@ def enumeration(design_matrix_columns):
     return contrasts
 
 
-def movie_localizer(design_matrix_columns):
+def pain_movie(design_matrix_columns):
     """ Contrast for pain task, TOM protocol"""
     contrast_names = ['movie_pain', 'movie_mental', 'movie_mental-pain',]
     if design_matrix_columns is None:
@@ -910,7 +910,7 @@ def movie_localizer(design_matrix_columns):
     return contrasts
 
 
-def pain_localizer(design_matrix_columns):
+def emotional_pain(design_matrix_columns):
     """ Contrast for pain task, TOM protocol"""
     contrast_names = ['physical_pain', 'emotional_pain',
                       'emotional-physical_pain']
@@ -928,7 +928,7 @@ def pain_localizer(design_matrix_columns):
     return contrasts
 
 
-def tom_localizer(design_matrix_columns):
+def theory_of_mind(design_matrix_columns):
     """ Contrast for tom task, TOM protocol"""
     contrast_names = ['belief', 'photo', 'belief-photo']
     if design_matrix_columns is None:

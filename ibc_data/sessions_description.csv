@@ -34,9 +34,9 @@ preference,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
 ,bold_fmri,face,08:16,PA+AP
 ,bold_fmri,house,08:16,PA+AP
 tom,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
-,bold_fmri,tom_localizer,06:12,PA+AP
-,bold_fmri,ep_localizer,05:12,PA+AP
-,bold_fmri,movie_localizer,05:56,PA+AP
+,bold_fmri,theory_of_mind,06:12,PA+AP
+,bold_fmri,emotional_pain,05:12,PA+AP
+,bold_fmri,pain_movie,05:56,PA+AP
 enumeration,2d_spin-echo,-,00:31,PA(x2) + AP(x2)
 ,bold_fmri,vstm,08:40,PA(x2) + AP(x2)
 ,bold_fmri,enumeration,16:20,PA+AP
