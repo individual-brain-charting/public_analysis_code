@@ -333,7 +333,7 @@ discount	amount	smaller reward	greater reward	effect of reward gain	['incentive 
 selective-stop-signal	go	response	fixation	respond with the correct finger depending on the image displayed	['visual_perception', 'proactive_control', 'response_selection', 'response_execution']
 selective-stop-signal	stop	response stop	fixation	stop the response if the stop signal appears	['visual_perception', 'proactive_control', 'response_inhibition', 'response_selection', 'response_execution']
 selective-stop-signal	ignore	ignore stop signal	fixation	respond anyway even if the stop signal appears	['visual_perception', 'proactive_control', 'response_conflict', 'response_selection', 'response_execution']
-selective-stop-signal	effect of resolution of conflictive responses	['response_conflict']	response stop	ignore stop signal	effect of resolution of conflictive responses
+selective-stop-signal	effect_of_resolution_of_conflictive_responses	response_conflict	response stop	ignore stop signal	effect of resolution of conflictive responses
 selective-stop-signal	stop-go	response stop	response	effect of inhibiting the motor response	['response_inhibition']
 stroop	congruent	automatic response	fixation	word and word color are the same	['visual_perception', 'proactive_control', 'response_selection', 'response_execution']
 stroop	incongruent	conflictive response	fixation	word and color are not the same	['visual_perception', 'proactive_control', 'response_selection', 'response_execution', 'conflict_detection']
