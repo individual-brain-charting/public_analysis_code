@@ -59,9 +59,9 @@ def post_process(df, paradigm_id):
         df = df.replace('left_hand_cue', 'cue')
         df = df.replace('tongue_cue', 'cue')
 
-    if paradigm_id == 'lyon-visu':
+    if paradigm_id == 'lyon_visu':
         df = df.replace('visage', 'face')
-    if paradigm_id == 'lyon-audi':
+    if paradigm_id == 'lyon_audi':
         df = df.replace('envir', 'environment')
     if paradigm_id == '':
         pass
@@ -180,7 +180,7 @@ def post_process(df, paradigm_id):
 
     instructions = ['Ins_bouche', 'Ins_index', 'Ins_jambe',
                     'Ins_main', 'Ins_repos', 'Ins_yeux', ]
-    if paradigm_id == 'lyon-moto':
+    if paradigm_id == 'lyon_moto':
         for instruction in instructions:
             df = df.replace(instruction, 'instructions')
         df = df.replace('sacaade_right', 'saccade_right')
@@ -188,34 +188,34 @@ def post_process(df, paradigm_id):
         # df = df.replace('Bfix', 'fixation')
         df = df[df.trial_type != 'Bfix']
 
-    if paradigm_id == 'lyon-mcse':
+    if paradigm_id == 'lyon_mcse':
         df = df[df.trial_type != 'Bfix']
 
-    if paradigm_id == 'lyon-lec1':
+    if paradigm_id == 'lyon_lec1':
         df = df[df.trial_type != 'Bfix']
         df = df[df.trial_type != 'start_random_string']
         df = df[df.trial_type != 'start_pseudoword']
         df = df[df.trial_type != 'start_word']
 
-    if paradigm_id == 'lyon-lec2':
+    if paradigm_id == 'lyon_lec2':
         df = df[df.trial_type != 'Bfix']
         df = df[df.trial_type != 'Suite']
 
-    if paradigm_id == 'lyon-visu':
+    if paradigm_id == 'lyon_visu':
         df = df[df.trial_type != 'Bfix']
 
-    if paradigm_id == 'lyon-audi':
+    if paradigm_id == 'lyon_audi':
         df = df[df.trial_type != 'Bfix']
         df = df[df.trial_type != 'start_sound']
         df = df[df.trial_type != 'cut']
         df = df[df.trial_type != '1']
 
-    if paradigm_id == 'lyon-mvis':
+    if paradigm_id == 'lyon_mvis':
         df = df[df.trial_type != 'grid']
         df = df[df.trial_type != 'Bfix']
         df = df[df.trial_type != 'maintenance']
 
-    if paradigm_id == 'lyon-mveb':
+    if paradigm_id == 'lyon_mveb':
         df = df[df.trial_type != 'cross']
         df = df[df.trial_type != 'blank2']
 
@@ -242,9 +242,9 @@ def post_process(df, paradigm_id):
         df = df[df.trial_type.isin([
             'spatial_incongruent', 'double_congruent', 'spatial_congruent',
             'double_incongruent', 'spatialcue', 'doublecue'])]
-    if paradigm_id == 'stop-signal':
+    if paradigm_id == 'stop_signal':
         df = df[df.trial_type.isin(['go', 'stop'])]
-    if paradigm_id in ['ward-aliport', 'ward-and-aliport']:
+    if paradigm_id in ['ward-aliport', 'ward_and_aliport']:
         df = df[df.trial_type.isin([
             'PA_with_intermediate', 'PA_without_intermediate',
             'UA_with_intermeidate', 'UA_without_intermeidate',
@@ -262,7 +262,7 @@ def post_process(df, paradigm_id):
                    inplace=True)
         df.replace('UA_without_intermediate', 'unambiguous_direct',
                    inplace=True)
-    if paradigm_id == 'two-by-two':
+    if paradigm_id == 'two_by_two':
         df = df[df.trial_type.isin([
             'taskstay_cuestay', 'taskswitch_cueswitch', 'taskswitch_cuestay',
             'taskstay_cueswitch'])]
@@ -279,11 +279,11 @@ def post_process(df, paradigm_id):
         df2.drop('later_delay', 1, inplace=True)
         df2.replace('stim', 'delay', inplace=True)
         df = concat([df1, df2], axis=0, ignore_index=True)
-    if paradigm_id == 'selective-stop-signal':
+    if paradigm_id == 'selective_stop_signal':
         df = df[df.trial_type.isin(['go', 'ignore', 'stop'])]
     if paradigm_id == 'stroop':
         df = df[df.trial_type.isin(['congruent', 'incongruent'])]
-    if paradigm_id == 'columbia-cards':
+    if paradigm_id == 'columbia_cards':
         df = df[df.trial_type.isin(['card_flip'])]
         df1 = df.copy()
         df1.replace('card_flip', 'gain', inplace=True)
@@ -298,7 +298,7 @@ def post_process(df, paradigm_id):
         df.drop('loss_amount', 1, inplace=True)
         df.drop('num_loss_cards', 1, inplace=True)
         df.drop('gain_amount', 1, inplace=True)
-    if paradigm_id == 'dot-patterns':
+    if paradigm_id == 'dot_patterns':
         df.replace('cue_AX', 'cue', inplace=True)
         df.replace('cue_BX', 'cue', inplace=True)
         df.replace('cue_AY', 'cue', inplace=True)
@@ -309,15 +309,13 @@ def post_process(df, paradigm_id):
         df.replace('probe_BX', 'incorrect_cue_correct_probe', inplace=True)
         df.replace('probe_AY', 'correct_cue_incorrect_probe', inplace=True)
         df.replace('probe_BY', 'incorrect_cue_incorrect_probe', inplace=True)
-    if paradigm_id == 'biological-motion1':
-        df = df[df.trial_type.isin(['global_upright', 'global_inverted',
-                                   'natural_upright', 'natural_inverted'])]
-    if paradigm_id == 'biological-motion1':
+    
+    if paradigm_id == 'biological_motion1':
         df = df[df.trial_type.isin(['global_upright', 'global_inverted',
                                     'natural_upright', 'natural_inverted'])]
         df.onset /= 1000
         df.duration /= 1000
-    if paradigm_id == 'biological-motion2':
+    if paradigm_id == 'biological_motion2':
         df = df[df.trial_type.isin(['modified_upright', 'modified_inverted',
                                     'natural_upright', 'natural_inverted'])]
         df.onset /= 1000

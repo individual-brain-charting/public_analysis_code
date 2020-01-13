@@ -66,21 +66,21 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return dict([])
     elif paradigm_id == 'self':
         return self_localizer(design_matrix_columns)
-    elif paradigm_id == 'lyon-moto':
+    elif paradigm_id == 'lyon_moto':
         return lyon_moto(design_matrix_columns)
-    elif paradigm_id == 'lyon-mcse':
+    elif paradigm_id == 'lyon_mcse':
         return lyon_mcse(design_matrix_columns)
-    elif paradigm_id == 'lyon-mveb':
+    elif paradigm_id == 'lyon_mveb':
         return lyon_mveb(design_matrix_columns)
-    elif paradigm_id == 'lyon-mvis':
+    elif paradigm_id == 'lyon_mvis':
         return lyon_mvis(design_matrix_columns)
-    elif paradigm_id == 'lyon-lec1':
+    elif paradigm_id == 'lyon_lec1':
         return lyon_lec1(design_matrix_columns)
-    elif paradigm_id == 'lyon-lec2':
+    elif paradigm_id == 'lyon_lec2':
         return lyon_lec2(design_matrix_columns)
-    elif paradigm_id == 'lyon-audi':
+    elif paradigm_id == 'lyon_audi':
         return lyon_audi(design_matrix_columns)
-    elif paradigm_id == 'lyon-visu':
+    elif paradigm_id == 'lyon_visu':
         return lyon_visu(design_matrix_columns)
     elif paradigm_id == 'audio':
         return audio(design_matrix_columns)
@@ -88,7 +88,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return bang(design_matrix_columns)
     elif paradigm_id == 'selective_stop_signal':
         return selective_stop_signal(design_matrix_columns)
-    elif paradigm_id == 'stop-signal':
+    elif paradigm_id == 'stop_signal':
         return stop_signal(design_matrix_columns)
     elif paradigm_id == 'stroop':
         return stroop(design_matrix_columns)
@@ -96,17 +96,17 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return discount(design_matrix_columns)
     elif paradigm_id == 'attention':
         return attention(design_matrix_columns)
-    elif paradigm_id in ['ward-aliport', 'ward-and-aliport']:
+    elif paradigm_id in ['ward-aliport', 'ward_and_aliport']:
         return towertask(design_matrix_columns)
-    elif paradigm_id == 'two-by-two':
+    elif paradigm_id == 'two_by_two':
         return two_by_two(design_matrix_columns)
-    elif paradigm_id == 'columbia-cards':
+    elif paradigm_id == 'columbia_cards':
         return columbia_cards(design_matrix_columns)
-    elif paradigm_id == 'dot-patterns':
+    elif paradigm_id == 'dot_patterns':
         return dot_patterns(design_matrix_columns)
-    elif paradigm_id == 'biological-motion1':
+    elif paradigm_id == 'biological_motion1':
         return biological_motion1(design_matrix_columns)
-    elif paradigm_id == 'biological-motion2':
+    elif paradigm_id == 'biological_motion2':
         return biological_motion2(design_matrix_columns)
     elif paradigm_id == 'math-language':
         return math_language(design_matrix_columns)
