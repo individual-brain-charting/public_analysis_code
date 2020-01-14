@@ -19,5 +19,5 @@
 	* column named as *task* - id of the task
 	* column named as *contrast* - id of the contrast referring to the elementary condition
 	
-## Main *versus* all contrasts
+## Main *versus* All contrasts
 __main_contrasts.tsv__ contains only the contrasts depicting the most relevant effects-of-interest, whereas __all_contrasts.tsv__ contains all possible contrasts that can be extracted from the task paradigm. Note that reverse contrasts are not listed in 'main_contrasts.tsv' as well as contrasts formed by elementary conditions. Yet, if a main contrast is composed by an active condition and a control condition, we also include in 'main_contrasts.tsv' the contrast formed by the control condition *vs.* baseline.
