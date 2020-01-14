@@ -192,7 +192,7 @@ self	recognition_other_hit	other-reference recognition	fixation	recognition of a
 self	recognition_self-other	self-reference recognition	other-reference recognition	memory retrieval of encoded information with self-reference	['self-reference_effect']
 self	correct_rejection	memory	fixation	identification of a new adjective	['memory, reading', 'response_selection', 'response_execution']
 self	recognition_hit-correct_rejection	recognition	memory 	recognition of an adjective previously displayed	['recognition', 'episodic_memory']
-self	false_alarm	recognition	fixation	erroneous response	['response_selection', 'response_execution']
+self	false_alarm	no recognition	fixation	erroneous response	['response_selection', 'response_execution']
 bang	talk-no_talk	speech	no speech	speech vs non-speech sections in movie watching	['speech_perception', 'speech_processing', 'language_processing', 'language_comprehension']
 bang	talk	speech	fixation	speech sections in movie watching	['speech perception',  'speech processing', ' language comprehension', ' language processing',  'action perception', ' audiovisual perception', ' auditory scene analysis',  'social cognition']
 bang	no_talk	no speech	fixation	non-speech section in movie watching	['action perception',  'audiovisual perception', 'auditory scene analysis', 'social cognition']
