@@ -66,6 +66,7 @@ mtt_we	we_westside_event
 mtt_we	we_eastside_event
 mtt_we	we_before_event
 mtt_we	we_after_event
+mtt_we	we_all_event_response
 mtt_sn	sn_all_reference
 mtt_sn	sn_all_space_cue
 mtt_sn	sn_all_time_cue
@@ -73,6 +74,7 @@ mtt_sn	sn_southside_event
 mtt_sn	sn_northside_event
 mtt_sn	sn_before_event
 mtt_sn	sn_after_event
+mtt_sn	sn_all_event_response
 preference_food	food_constant
 preference_food	food_linear
 preference_food	food_quadratic
