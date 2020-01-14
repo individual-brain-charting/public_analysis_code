@@ -124,10 +124,9 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
     # T1 images
     for sbj in subject_list:
-        t1_path = 'sub-*/ses-00/anat/w%s_ses-00_T1w.nii.gz' % sbj
+        t1_path = 'sub-*/ses-*/anat/w%s_ses-00_T1w.nii.gz' % sbj
         t1_abs_path = os.path.join(DERIVATIVES, t1_path)
         t1_imgs_ = glob.glob(os.path.join(t1_abs_path))
-        print(t1_abs_path, t1_imgs_)
         for img in t1_imgs_:
             session = img.split('/')[-3]
             subject = img.split('/')[-4]
@@ -140,10 +139,9 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
             acquisitions.append('')
 
     for sbj in subject_list:
-        t1bet_path = 'sub-*/ses-00/anat/w%s_ses-00_T1w_bet.nii.gz' % sbj
+        t1bet_path = 'sub-*/ses-*/anat/w%s_ses-00_T1w_bet.nii.gz' % sbj
         t1bet_abs_path = os.path.join(DERIVATIVES, t1bet_path)
         t1bet_imgs_ = glob.glob(os.path.join(t1bet_abs_path))
-        print(t1bet_abs_path, t1bet_imgs_)
         for img in t1bet_imgs_:
             session = img.split('/')[-3]
             subject = img.split('/')[-4]
@@ -159,9 +157,6 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         ht1_path = 'sub-*/ses-*/anat/w%s*_acq-highres_T1w_bet.nii.gz' % sbj
         ht1_abs_path = os.path.join(DERIVATIVES, ht1_path)
         ht1_imgs_ = glob.glob(os.path.join(ht1_abs_path))
-        print(ht1_abs_path, ht1_imgs_)
-        # imgs_ = sorted(glob.glob(os.path.join(
-        #     DERIVATIVES, 'sub-*/ses-*/anat/w%s_acq-highres_T1w_bet.nii.gz' % sbj)))
         for img in ht1_imgs_:
             session = img.split('/')[-3]
             subject = img.split('/')[-4]
@@ -174,45 +169,51 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
             acquisitions.append('')
 
     # gm images
-    imgs_ = sorted(glob.glob(os.path.join(
-        derivatives, '../derivatives', 'sub-*/ses-*/anat/mwc1su*_T1w.nii.gz')))
-    for img in imgs_:
-        session = img.split('/')[-3]
-        subject = img.split('/')[-4]
-        paths.append(img)
-        sessions.append(session)
-        subjects.append(subject)
-        modalities.append('T1')
-        contrasts.append('gm')
-        tasks.append('')
-        acquisitions.append('')
+    for sbj in subject_list:
+        mwc1_path = 'sub-*/ses-*/anat/mwc1%s_ses-00_T1w.nii.gz' % sbj
+        mwc1_abs_path = os.path.join(DERIVATIVES, mwc1_path)
+        mwc1_imgs_ = glob.glob(os.path.join(mwc1_abs_path))
+        for img in mwc1_imgs_:
+            session = img.split('/')[-3]
+            subject = img.split('/')[-4]
+            paths.append(img)
+            sessions.append(session)
+            subjects.append(subject)
+            modalities.append('T1')
+            contrasts.append('gm')
+            tasks.append('')
+            acquisitions.append('')
 
-    imgs_ = sorted(glob.glob(os.path.join(
-        derivatives, '../derivatives', 'sub-*/ses-*/anat/mwc1su*_T1w.nii.gz')))
-    for img in imgs_:
-        session = img.split('/')[-3]
-        subject = img.split('/')[-4]
-        paths.append(img)
-        sessions.append(session)
-        subjects.append(subject)
-        modalities.append('T1')
-        contrasts.append('highres_gm')
-        tasks.append('')
-        acquisitions.append('')
+    for sbj in subject_list:
+        hmwc1_path = 'sub-*/ses-*/anat/mwc1%s*_acq-highres_T1w.nii.gz' % sbj
+        hmwc1_abs_path = os.path.join(DERIVATIVES, hmwc1_path)
+        hmwc1_imgs_ = glob.glob(os.path.join(hmwc1_abs_path))
+        for img in hmwc1_imgs_:
+            session = img.split('/')[-3]
+            subject = img.split('/')[-4]
+            paths.append(img)
+            sessions.append(session)
+            subjects.append(subject)
+            modalities.append('T1')
+            contrasts.append('highres_gm')
+            tasks.append('')
+            acquisitions.append('')
 
     # wm image
-    imgs_ = sorted(glob.glob(os.path.join(
-        derivatives, 'sub-*/ses-*/anat/mwc2sub*_T1w.nii.gz')))
-    for img in imgs_:
-        session = img.split('/')[-3]
-        subject = img.split('/')[-4]
-        paths.append(img)
-        sessions.append(session)
-        subjects.append(subject)
-        modalities.append('T1')
-        contrasts.append('wm')
-        tasks.append('')
-        acquisitions.append('')
+    for sbj in subject_list:
+        mwc2_path = 'sub-*/ses-*/anat/mwc2%s_ses-00_T1w.nii.gz' % sbj
+        mwc2_abs_path = os.path.join(DERIVATIVES, mwc2_path)
+        mwc2_imgs_ = glob.glob(os.path.join(mwc2_abs_path))
+        for img in mwc2_imgs_:
+            session = img.split('/')[-3]
+            subject = img.split('/')[-4]
+            paths.append(img)
+            sessions.append(session)
+            subjects.append(subject)
+            modalities.append('T1')
+            contrasts.append('wm')
+            tasks.append('')
+            acquisitions.append('')
 
     # fixed-effects activation images
     con_df = conditions
