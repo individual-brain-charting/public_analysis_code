@@ -123,44 +123,55 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     acquisitions = []
 
     # T1 images
-    imgs_ = sorted(glob.glob(os.path.join(
-        DERIVATIVES, 'sub-*/ses-*/anat/wsub*_T1w.nii.gz')))
-    for img in imgs_:
-        session = img.split('/')[-3]
-        subject = img.split('/')[-4]
-        paths.append(img)
-        sessions.append(session)
-        subjects.append(subject)
-        modalities.append('T1')
-        contrasts.append('t1')
-        tasks.append('')
-        acquisitions.append('')
+    for sbj in subject_list:
+        t1_path = 'sub-*/ses-00/anat/w%s_ses-00_T1w.nii.gz' % sbj
+        t1_abs_path = os.path.join(DERIVATIVES, t1_path)
+        t1_imgs_ = glob.glob(os.path.join(t1_abs_path))
+        print(t1_abs_path, t1_imgs_)
+        for img in t1_imgs_:
+            session = img.split('/')[-3]
+            subject = img.split('/')[-4]
+            paths.append(img)
+            sessions.append(session)
+            subjects.append(subject)
+            modalities.append('T1')
+            contrasts.append('t1')
+            tasks.append('')
+            acquisitions.append('')
 
-    imgs_ = sorted(glob.glob(os.path.join(
-        DERIVATIVES, 'sub-*/ses-*/anat/wsub*_T1w_bet.nii.gz')))
-    for img in imgs_:
-        session = img.split('/')[-3]
-        subject = img.split('/')[-4]
-        paths.append(img)
-        sessions.append(session)
-        subjects.append(subject)
-        modalities.append('T1')
-        contrasts.append('t1_bet')
-        tasks.append('')
-        acquisitions.append('')
+    for sbj in subject_list:
+        t1bet_path = 'sub-*/ses-00/anat/w%s_ses-00_T1w_bet.nii.gz' % sbj
+        t1bet_abs_path = os.path.join(DERIVATIVES, t1bet_path)
+        t1bet_imgs_ = glob.glob(os.path.join(t1bet_abs_path))
+        print(t1bet_abs_path, t1bet_imgs_)
+        for img in t1bet_imgs_:
+            session = img.split('/')[-3]
+            subject = img.split('/')[-4]
+            paths.append(img)
+            sessions.append(session)
+            subjects.append(subject)
+            modalities.append('T1')
+            contrasts.append('t1_bet')
+            tasks.append('')
+            acquisitions.append('')
 
-    imgs_ = sorted(glob.glob(os.path.join(
-        DERIVATIVES, 'sub-*/ses-*/anat/wsub*_acq-highres_T1w_bet.nii.gz')))
-    for img in imgs_:
-        session = img.split('/')[-3]
-        subject = img.split('/')[-4]
-        paths.append(img)
-        sessions.append(session)
-        subjects.append(subject)
-        modalities.append('T1')
-        contrasts.append('highres_t1_bet')
-        tasks.append('')
-        acquisitions.append('')
+    for sbj in subject_list:
+        ht1_path = 'sub-*/ses-*/anat/w%s*_acq-highres_T1w_bet.nii.gz' % sbj
+        ht1_abs_path = os.path.join(DERIVATIVES, ht1_path)
+        ht1_imgs_ = glob.glob(os.path.join(ht1_abs_path))
+        print(ht1_abs_path, ht1_imgs_)
+        # imgs_ = sorted(glob.glob(os.path.join(
+        #     DERIVATIVES, 'sub-*/ses-*/anat/w%s_acq-highres_T1w_bet.nii.gz' % sbj)))
+        for img in ht1_imgs_:
+            session = img.split('/')[-3]
+            subject = img.split('/')[-4]
+            paths.append(img)
+            sessions.append(session)
+            subjects.append(subject)
+            modalities.append('T1')
+            contrasts.append('highres_t1_bet')
+            tasks.append('')
+            acquisitions.append('')
 
     # gm images
     imgs_ = sorted(glob.glob(os.path.join(
@@ -206,14 +217,11 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     # fixed-effects activation images
     con_df = conditions
     contrast_name = con_df.contrast
-
     for acq in ['ap', 'pa', 'ffx']:
         for subject in subject_list:
             for i in range(len(con_df)):
                 contrast = contrast_name[i]
                 task = con_df.task[i]
-                if task_list and (task not in task_list):
-                    continue
                 task_name = task
                 if task == 'rsvp_language':
                     task = 'language'
@@ -227,9 +235,11 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if task == 'vstm':
                     task = 'VSTM'
                     task_name = 'vstm'
+                if task_list and (task not in task_list):
+                    continue
 
                 wildcard = os.path.join(
-                    derivatives, '%s/*/res_stats_%s*_%s/stat_maps/%s.nii.gz' %
+                    derivatives, '%s/*/res_stats_%s*_%s*/stat_maps/%s.nii.gz' %
                     (subject, task, acq, contrast))
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
