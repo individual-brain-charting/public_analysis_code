@@ -96,7 +96,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return discount(design_matrix_columns)
     elif paradigm_id == 'attention':
         return attention(design_matrix_columns)
-    elif paradigm_id in ['ward-aliport', 'ward_and_aliport']:
+    elif paradigm_id == 'ward_and_aliport':
         return towertask(design_matrix_columns)
     elif paradigm_id == 'two_by_two':
         return two_by_two(design_matrix_columns)
@@ -108,7 +108,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return biological_motion1(design_matrix_columns)
     elif paradigm_id == 'biological_motion2':
         return biological_motion2(design_matrix_columns)
-    elif paradigm_id == 'math-language':
+    elif paradigm_id == 'math_language':
         return math_language(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
