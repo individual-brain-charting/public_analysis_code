@@ -31,18 +31,25 @@ CONDITIONS = pd.read_csv(os.path.join(
     _package_directory, '..', 'ibc_data', 'conditions.tsv'), sep='\t')
 CONTRASTS = pd.read_csv(os.path.join(
     _package_directory, '..', 'ibc_data', 'main_contrasts.tsv'), sep='\t')
-ALL_CONTRASTS = expand_table(pd.read_csv(os.path.join(
-    _package_directory, '..', 'ibc_data', 'all_contrasts.tsv'),
-                                         sep='\t'))
+#  ALL_CONTRASTS = expand_table(pd.read_csv(os.path.join(
+#    _package_directory, '..', 'ibc_data', 'all_contrasts.tsv'),
+#                                         sep='\t'))
+ALL_CONTRASTS = os.path.join(
+    _package_directory, '..', 'ibc_data', 'all_contrasts.tsv')
 
 
 # Note that LABELS and BETTER NAMES ARE RELATIVE TO CONTRASTS
 LABELS = {}
 BETTER_NAMES = {}
+all_contrasts = pd.read_csv(ALL_CONTRASTS, sep='\t')
 for i in range(len(CONTRASTS)):
-    BETTER_NAMES[CONTRASTS.contrast[i]] = CONTRASTS['pretty name'][i]
-    LABELS[CONTRASTS.contrast[i]] = [CONTRASTS['left label'][i],
-                                     CONTRASTS['right label'][i]]
+    task = CONTRASTS.task[i]
+    contrast = CONTRASTS.contrast[i]
+    target = all_contrasts[all_contrasts.task == task]\
+             [all_contrasts.contrast == contrast]
+    BETTER_NAMES[contrast] = target['pretty name']
+    LABELS[contrast] = [target['negative label'],
+                        target['positive label']]
 
 
 def get_subject_session(protocols):
@@ -71,7 +78,7 @@ def get_subject_session(protocols):
         protocols_ = [protocols]
     else:
         protocols_ = protocols
-        
+
     for protocol in protocols_:
         for session in df.columns:
             if (df[session] == protocol).any():
@@ -116,116 +123,124 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     acquisitions = []
 
     # T1 images
-    imgs_ = sorted(glob.glob(os.path.join(
-        DERIVATIVES, 'sub-*/ses-*/anat/wsub*_T1w.nii.gz')))
-    for img in imgs_:
-        session = img.split('/')[-3]
-        subject = img.split('/')[-4]
-        paths.append(img)
-        sessions.append(session)
-        subjects.append(subject)
-        modalities.append('T1')
-        contrasts.append('t1')
-        tasks.append('')
-        acquisitions.append('')
+    for sbj in subject_list:
+        t1_path = 'sub-*/ses-*/anat/w%s_ses-00_T1w.nii.gz' % sbj
+        t1_abs_path = os.path.join(DERIVATIVES, t1_path)
+        t1_imgs_ = glob.glob(os.path.join(t1_abs_path))
+        for img in t1_imgs_:
+            session = img.split('/')[-3]
+            subject = img.split('/')[-4]
+            paths.append(img)
+            sessions.append(session)
+            subjects.append(subject)
+            modalities.append('T1')
+            contrasts.append('t1')
+            tasks.append('')
+            acquisitions.append('')
 
-    imgs_ = sorted(glob.glob(os.path.join(
-        DERIVATIVES, 'sub-*/ses-*/anat/wsub*_T1w_bet.nii.gz')))
-    for img in imgs_:
-        session = img.split('/')[-3]
-        subject = img.split('/')[-4]
-        paths.append(img)
-        sessions.append(session)
-        subjects.append(subject)
-        modalities.append('T1')
-        contrasts.append('t1_bet')
-        tasks.append('')
-        acquisitions.append('')
+    for sbj in subject_list:
+        t1bet_path = 'sub-*/ses-*/anat/w%s_ses-00_T1w_bet.nii.gz' % sbj
+        t1bet_abs_path = os.path.join(DERIVATIVES, t1bet_path)
+        t1bet_imgs_ = glob.glob(os.path.join(t1bet_abs_path))
+        for img in t1bet_imgs_:
+            session = img.split('/')[-3]
+            subject = img.split('/')[-4]
+            paths.append(img)
+            sessions.append(session)
+            subjects.append(subject)
+            modalities.append('T1')
+            contrasts.append('t1_bet')
+            tasks.append('')
+            acquisitions.append('')
 
-    imgs_ = sorted(glob.glob(os.path.join(
-        DERIVATIVES, 'sub-*/ses-*/anat/wsub*_acq-highres_T1w_bet.nii.gz')))
-    for img in imgs_:
-        session = img.split('/')[-3]
-        subject = img.split('/')[-4]
-        paths.append(img)
-        sessions.append(session)
-        subjects.append(subject)
-        modalities.append('T1')
-        contrasts.append('highres_t1_bet')
-        tasks.append('')
-        acquisitions.append('')
+    for sbj in subject_list:
+        ht1_path = 'sub-*/ses-*/anat/w%s*_acq-highres_T1w_bet.nii.gz' % sbj
+        ht1_abs_path = os.path.join(DERIVATIVES, ht1_path)
+        ht1_imgs_ = glob.glob(os.path.join(ht1_abs_path))
+        for img in ht1_imgs_:
+            session = img.split('/')[-3]
+            subject = img.split('/')[-4]
+            paths.append(img)
+            sessions.append(session)
+            subjects.append(subject)
+            modalities.append('T1')
+            contrasts.append('highres_t1_bet')
+            tasks.append('')
+            acquisitions.append('')
 
     # gm images
-    imgs_ = sorted(glob.glob(os.path.join(
-        derivatives, '../derivatives', 'sub-*/ses-*/anat/mwc1su*_T1w.nii.gz')))
-    for img in imgs_:
-        session = img.split('/')[-3]
-        subject = img.split('/')[-4]
-        paths.append(img)
-        sessions.append(session)
-        subjects.append(subject)
-        modalities.append('T1')
-        contrasts.append('gm')
-        tasks.append('')
-        acquisitions.append('')
+    for sbj in subject_list:
+        mwc1_path = 'sub-*/ses-*/anat/mwc1%s_ses-00_T1w.nii.gz' % sbj
+        mwc1_abs_path = os.path.join(DERIVATIVES, mwc1_path)
+        mwc1_imgs_ = glob.glob(os.path.join(mwc1_abs_path))
+        for img in mwc1_imgs_:
+            session = img.split('/')[-3]
+            subject = img.split('/')[-4]
+            paths.append(img)
+            sessions.append(session)
+            subjects.append(subject)
+            modalities.append('T1')
+            contrasts.append('gm')
+            tasks.append('')
+            acquisitions.append('')
 
-    imgs_ = sorted(glob.glob(os.path.join(
-        derivatives, '../derivatives', 'sub-*/ses-*/anat/mwc1su*_T1w.nii.gz')))
-    for img in imgs_:
-        session = img.split('/')[-3]
-        subject = img.split('/')[-4]
-        paths.append(img)
-        sessions.append(session)
-        subjects.append(subject)
-        modalities.append('T1')
-        contrasts.append('highres_gm')
-        tasks.append('')
-        acquisitions.append('')
+    for sbj in subject_list:
+        hmwc1_path = 'sub-*/ses-*/anat/mwc1%s*_acq-highres_T1w.nii.gz' % sbj
+        hmwc1_abs_path = os.path.join(DERIVATIVES, hmwc1_path)
+        hmwc1_imgs_ = glob.glob(os.path.join(hmwc1_abs_path))
+        for img in hmwc1_imgs_:
+            session = img.split('/')[-3]
+            subject = img.split('/')[-4]
+            paths.append(img)
+            sessions.append(session)
+            subjects.append(subject)
+            modalities.append('T1')
+            contrasts.append('highres_gm')
+            tasks.append('')
+            acquisitions.append('')
 
     # wm image
-    imgs_ = sorted(glob.glob(os.path.join(
-        derivatives, 'sub-*/ses-*/anat/mwc2sub*_T1w.nii.gz')))
-    for img in imgs_:
-        session = img.split('/')[-3]
-        subject = img.split('/')[-4]
-        paths.append(img)
-        sessions.append(session)
-        subjects.append(subject)
-        modalities.append('T1')
-        contrasts.append('wm')
-        tasks.append('')
-        acquisitions.append('')
+    for sbj in subject_list:
+        mwc2_path = 'sub-*/ses-*/anat/mwc2%s_ses-00_T1w.nii.gz' % sbj
+        mwc2_abs_path = os.path.join(DERIVATIVES, mwc2_path)
+        mwc2_imgs_ = glob.glob(os.path.join(mwc2_abs_path))
+        for img in mwc2_imgs_:
+            session = img.split('/')[-3]
+            subject = img.split('/')[-4]
+            paths.append(img)
+            sessions.append(session)
+            subjects.append(subject)
+            modalities.append('T1')
+            contrasts.append('wm')
+            tasks.append('')
+            acquisitions.append('')
 
     # fixed-effects activation images
     con_df = conditions
     contrast_name = con_df.contrast
-
     for acq in ['ap', 'pa', 'ffx']:
         for subject in subject_list:
             for i in range(len(con_df)):
                 contrast = contrast_name[i]
                 task = con_df.task[i]
-                if task_list and (task not in task_list):
-                    continue
                 task_name = task
                 if task == 'rsvp_language':
                     task = 'language'
                     task_name = 'rsvp_language'
-                if task == 'mtt_ns':
-                    task = 'IslandNS'
-                    task_name = 'mtt_ns'
+                if task == 'mtt_sn':
+                    task = 'MTTNS'
+                    task_name = 'mtt_sn'
                 if task == 'mtt_we':
-                    task = 'IslandWE'
+                    task = 'MTTWE'
                     task_name = 'mtt_we'
                 if task == 'vstm':
                     task = 'VSTM'
                     task_name = 'vstm'
-                if task in ['audio1', 'audio2'] and acq == 'ffx':
-                    task_name = task
-                    task = 'audio'
-                    
+                if task_list and (task not in task_list):
+                    continue
+
                 wildcard = os.path.join(
-                    derivatives, '%s/*/res_stats_%s*_%s/stat_maps/%s.nii.gz' %
+                    derivatives, '%s/*/res_stats_%s*_%s*/stat_maps/%s.nii.gz' %
                     (subject, task, acq, contrast))
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
@@ -448,10 +463,10 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 task = 'language'
                 task_name = 'rsvp_language'
             if task == 'mtt_ns':
-                task = 'IslandNS'
+                task = 'MTTNS'
                 task_name = 'mtt_ns'
             if task == 'mtt_we':
-                task = 'IslandWE'
+                task = 'MTTWE'
                 task_name = 'mtt_we'
             # some renaming
             if ((contrast == 'probe') & (task_name == 'rsvp_language')):
@@ -466,10 +481,10 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 imgs_ = glob.glob(wc)
                 imgs_.sort()
                 for img in imgs_:
-                    session = img.split('/')[5]
+                    session = img.split('/')[-4]
                     imgs.append(img)
                     sessions.append(session)
-                    subjects.append(img.split('/')[4])
+                    subjects.append(img.split('/')[-5])
                     contrasts.append(contrast)
                     tasks.append(task_name)
                     sides.append(side)

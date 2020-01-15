@@ -21,6 +21,9 @@ from pypreprocess.reporting.glm_reporter import generate_subject_stats_report
 
 from ibc_public.utils_contrasts import make_contrasts
 from ibc_public.utils_paradigm import make_paradigm
+from nistats.reporting import make_glm_report
+
+
 
 
 def _make_topup_param_file(field_maps, acq_params_file):
@@ -150,7 +153,7 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
 
     # GLM analysis
     print('Fitting a GLM (this takes time)...')
-    fmri_glm = FirstLevelModel(mask=mask_img, t_r=tr, slice_time_ref=.5,
+    fmri_glm = FirstLevelModel(mask_img=mask_img, t_r=tr, slice_time_ref=.5,
                                smoothing_fwhm=smoothing_fwhm).fit(
         fmri_4d, design_matrices=dmtx)
 
@@ -174,7 +177,7 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
             # collect zmaps for contrasts we're interested in
             if map_type == 'z_score':
                 z_maps[contrast_id] = map_path
-    return z_maps
+    return z_maps, fmri_glm
 
 
 def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
@@ -249,7 +252,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
     # experimental paradigm meta-params
     motion_names = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz']
     hrf_model = subject_dic['hrf_model']
-    hfcut = subject_dic['hfcut']
+    high_pass = subject_dic['high_pass']
     drift_model = subject_dic['drift_model']
     tr = subject_dic['TR']
 
@@ -329,7 +332,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         # create the design matrix
         design_matrix = make_first_level_design_matrix(
             frametimes, paradigm, hrf_model=hrf_model, drift_model=drift_model,
-            high_pass=hfcut, add_regs=add_regs,
+            high_pass=high_pass, add_regs=add_regs,
             add_reg_names=add_reg_names)
         _, dmtx, names = check_design_matrix(design_matrix)
 
@@ -359,7 +362,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
                 design_matrix, contrasts, fmri_path,
                 subject_session_output_dir)
         else:
-            z_maps = run_glm(
+            z_maps, fmri_glm = run_glm(
                 design_matrix, contrasts, fmri_path, mask_img, subject_dic,
                 subject_session_output_dir, tr=tr, smoothing_fwhm=smooth)
 
@@ -367,28 +370,16 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             anat_img = nib.load(subject_dic['anat'])
             stats_report_filename = os.path.join(
                 subject_session_output_dir, 'report_stats.html')
-
-            generate_subject_stats_report(
-                stats_report_filename,
-                contrasts,
-                z_maps,
-                mask_img,
-                threshold=3.,
-                cluster_th=15,
-                anat=anat_img,
-                anat_affine=anat_img.affine,
-                design_matrices=[design_matrix],
-                subject_id=subject_dic['subject_id'],
-                start_time=start_time,
-                title="GLM for subject %s" % session_id,
-                # additional ``kwargs`` for more informative report
-                TR=tr,
-                n_scans=n_scans,
-                hfcut=hfcut,
-                frametimes=frametimes,
-                drift_model=drift_model,
-                hrf_model=hrf_model,
-            )
+            """
+            report = make_glm_report(fmri_glm,
+                                     contrasts,
+                                     threshold=3.0,
+                                     bg_img=anat_img,
+                                     cluster_threshold=15,
+                                     title="GLM for subject %s" % session_id,
+                                     )
+            report.save_as_html(stats_report_filename)
+            """
     if not surface:
         ProgressReport().finish_dir(subject_session_output_dir)
         print("Statistic report written to %s\r\n" % stats_report_filename)

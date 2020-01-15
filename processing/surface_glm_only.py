@@ -58,7 +58,7 @@ def generate_glm_input(jobfile, lowres=False):
             'session_id': session_ids * 2,
             'TR': subject.TR,
             'drift_model': subject.drift_model,
-            'hfcut': 1. / 128,
+            'high_pass': 1. / 128,
             'time_units': subject.time_units,
             'hrf_model': subject.hrf_model,
             'onset': onsets * 2,
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol  # 'clips4' #
-        lowres = True
+        lowres = False
         subject_session = sorted(get_subject_session(acquisition))
         Parallel(n_jobs=4)(
             delayed(run_subject_surface_glm)(

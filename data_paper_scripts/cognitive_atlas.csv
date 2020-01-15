@@ -1,0 +1,61 @@
+Tasks	Contrasts	visual form recognition	feature comparison	response selection	response execution	emotional face recognition	animacy perception	animacy decision	motion detection	working memory	left finger response execution	left toe response execution	tongue response execution	right finger response execution	right toe response execution	updating	visual tool recognition	tool maintenance	body maintenance	visual body recognition	place maintenance	visual place recognition	face maintenance	visual face recognition	auditory sentence recognition	story comprehension	auditory arithmetic processing	visual arithmetic processing	reward processing	punishment processing	relational comparison	visual pattern recognition	visual pseudo word recognition	visual word recognition	word maintenance	sentence processing	syntactic parsing	string maintenance	visual string recognition	vertical checkerboard	horizontal checkerboard	Visual tracking	grasping	Hand chirality recognition	Hand side recognition	sounds perception	voice perception	theory of mind	emotion expression identification	gender discrimination	facial trustworthiness recognition
+HCP emotion	shape	1	1	1	1																																														
+HCP emotion	face		1	1	1	1																																													
+HCP social	random			1	1				1																																										
+HCP social	mental			1	1		1	1	1																																										
+HCP motor	cue			1						1																																									
+HCP motor	tongue				1								1																																						
+HCP motor	left_foot				1							1																																							
+HCP motor	right_foot				1										1																																				
+HCP motor	left_hand				1						1																																								
+HCP motor	right_hand				1									1																																					
+HCP  WM	2back_body				1					1						1			1	1																															
+HCP  WM	2back_face				1					1						1							1	1																											
+HCP  WM	2back_place				1					1						1					1	1																													
+HCP  WM	2back_tools				1					1						1	1	1																																	
+HCP  WM	0back_body				1					1									1	1																															
+HCP  WM	0back_face				1					1													1	1																											
+HCP  WM	0back_place				1					1											1	1																													
+HCP  WM	0back_tools				1					1							1	1																																	
+HCP language	story			1	1																				1	1																									
+HCP language	math			1	1																						1																								
+HCP  Gambling	punishment			1	1																									1																					
+HCP  Gambling	reward			1	1																								1																						
+HCP relational	match	1	1	1	1																											1																			
+HCP relational	relational	1	1	1	1																										1	1																			
+RSVP language	complex									1																								1	1	1	1														
+RSVP language	simple									1																								1	1	1															
+RSVP language	word_list									1																								1	1																
+RSVP language	jabberwocky									1																							1			1															
+RSVP language	pseudoword_list									1																							1																		
+RSVP language	consonant_string									1																												1	1												
+RSVP language	language_probe			1	1																																														
+Archi standard	horizontal_checkerboard																																								1										
+Archi standard	vertical_checkerboard																																							1											
+Archi standard	audio_left_button_press			1	1						1														1																										
+Archi standard	video_left_button_press			1	1						1																																								
+Archi standard	audio_right_button_press			1	1									1											1																										
+Archi standard	video_right_button_press			1	1									1																																					
+Archi standard	audio_computation																										1																								
+Archi standard	video_computation																											1								1															
+Archi standard	audio_sentence																								1																										
+Archi standard	video_sentence																																	1		1															
+Archi spatial	saccades																																									1									
+Archi spatial	object_orientation			1	1									1			1																																		
+Archi spatial	object_grasp			1	1									1			1																										1								
+Archi spatial	rotation_hand			1																1																								1							
+Archi spatial	rotation_side			1																1																									1						
+Archi social	triangle_mental						1	1	1																																										
+Archi social	triangle_random								1																																										
+Archi social	speech_sound																																														1				
+Archi social	non_speech_sound																																													1					
+Archi social	mechanistic_audio																								1	1																									
+Archi social	mechanistic_video																																	1		1															
+Archi social	false_belief_audio																								1	1																						1			
+Archi social	false_belief_video																																	1		1												1			
+Archi emotional	expression_gender																																																1	1	
+Archi emotional	expression_intention																																																1		1
+Archi emotional	expression_control																																																1		
+Archi emotional	face_gender																							1																										1	
+Archi emotional	face_trusty																							1																											1
+Archi emotional	face_control																							1																											
