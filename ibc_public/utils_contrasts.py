@@ -1080,7 +1080,7 @@ def mtt_sn_relative(design_matrix_columns):
         contrasts['sn_all_space_cue'] - contrasts['sn_all_time_cue']
     contrasts['sn_all_time-space_cue'] = - contrasts['sn_all_space-time_cue']
     contrasts['sn_space_event'] =\
-        contrasts['sn_southside_event'] + contrasts['we_northside_event']
+        contrasts['sn_southside_event'] + contrasts['sn_northside_event']
     contrasts['sn_time_event'] =\
         contrasts['sn_before_event'] + contrasts['sn_after_event']
     contrasts['sn_average_event'] =\
