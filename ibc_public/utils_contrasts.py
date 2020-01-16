@@ -999,7 +999,7 @@ def mtt_we_relative(design_matrix_columns):
         'we_all_space_cue': con['we_all_space_cue'],
         'we_all_time_cue': con['we_all_time_cue'],
         'we_westside_event':
-            con['we_westside_close_event'
+            con['we_westside_close_event']
             + con['we_westside_far_event'],
         'we_eastside_event':
             con['we_eastside_close_event']
@@ -1063,7 +1063,7 @@ def mtt_sn_relative(design_matrix_columns):
         'sn_all_space_cue': con['sn_all_space_cue'],
         'sn_all_time_cue': con['sn_all_time_cue'],
         'sn_southside_event':
-            con['sn_southside_close_event'
+            con['sn_southside_close_event']
             + con['sn_southside_far_event'],
         'sn_northside_event':
             con['sn_northside_close_event']
