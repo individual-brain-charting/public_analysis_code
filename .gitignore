@@ -1,3 +1,4 @@
 ibc_public.egg-info/
 ibc_public/__pycache__/
+*.pyc
 

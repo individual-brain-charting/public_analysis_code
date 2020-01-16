@@ -1,7 +1,7 @@
 """
 Common utilities to all scripts
 
-Author: Bertrand Thirion, 2016-2018
+Author: Bertrand Thirion, Ana Luisa Pinho 2016-2020
 """
 
 import glob
