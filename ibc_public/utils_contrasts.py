@@ -1,6 +1,6 @@
-""" This modules specifies contrasts for the archi and HCP protocols
+""" This modules specifies contrasts for the IBC tasks
 
-Author: Bertrand Thirion, 2014--2015
+Author: Bertrand Thirion, Ana Luisa Pinho 2014--2020
 """
 
 import numpy as np
@@ -47,10 +47,10 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
             domain = domain[: -1]
         return preferences(design_matrix_columns, domain)
     elif paradigm_id  == 'MTTWE':
-        return mtt_ew_relative(design_matrix_columns)
+        return mtt_we_relative(design_matrix_columns)
         #return mtt_ew_absolute(design_matrix_columns)
     elif paradigm_id == 'MTTNS':
-        return mtt_ns_relative(design_matrix_columns)
+        return mtt_sn_relative(design_matrix_columns)
         #return mtt_ns_absolute(design_matrix_columns)
     elif paradigm_id == 'emotional_pain':
         return emotional_pain(design_matrix_columns)
@@ -971,8 +971,8 @@ def _beta_contrasts(design_matrix_columns):
     return con_
 
 
-def mtt_ew_relative(design_matrix_columns):
-    """Contrast for MTT east-west experiment, relative setting"""
+def mtt_we_relative(design_matrix_columns):
+    """Contrast for MTT west-east task, relative setting"""
     contrast_list = [
         'we_average_reference',
         'we_all_space_cue',
@@ -986,8 +986,8 @@ def mtt_ew_relative(design_matrix_columns):
         'we_time-space_event',
         'westside-eastside_event',
         'eastside-westside_event',
-        'before-after_event',
-        'after-before_event',
+        'we_before-after_event',
+        'we_after-before_event',
         'we_all_event_response',
     ]
     if design_matrix_columns is None:
@@ -998,41 +998,45 @@ def mtt_ew_relative(design_matrix_columns):
         'we_average_reference': con['we_all_reference'],
         'we_all_space_cue': con['we_all_space_cue'],
         'we_all_time_cue': con['we_all_time_cue'],
-        'we_space_event':
-            con['we_westside_close_event']
-            + con['we_westside_far_event']
-            + con['we_eastside_close_event']
+        'we_westside_event':
+            con['we_westside_close_event'
+            + con['we_westside_far_event'],
+        'we_eastside_event':
+            con['we_eastside_close_event']
             + con['we_eastside_far_event'],
-        'we_time_event':
+        'we_before_event':
             con['we_before_close_event']
-            + con['we_before_far_event']
-            + con['we_after_close_event']
+            + con['we_before_far_event'],
+        'we_after_event':
+            con['we_after_close_event']
             + con['we_after_far_event'],
-        'westside-eastside_event' :\
-            con['we_westside_close_event'] - con['we_eastside_close_event'] +\
-            con['we_westside_far_event'] - con['we_eastside_far_event'],
-        'we_all_event_response': 'we_all_event_response',
-        'before-after_event': \
-            con['we_before_close_event'] - con['we_after_close_event'] +\
-            con['we_before_far_event'] - con['we_after_far_event']
-        }
+        'we_all_event_response': 'we_all_event_response'}
+
     contrasts['we_all_space-time_cue'] =\
         contrasts['we_all_space_cue'] - contrasts['we_all_time_cue']
     contrasts['we_all_time-space_cue'] = - contrasts['we_all_space-time_cue']
+    contrasts['we_space_event'] =\
+        contrasts['we_westside_event'] + contrasts['we_eastside_event']
+    contrasts['we_time_event'] =\
+        contrasts['we_before_event'] + contrasts['we_after_event']
     contrasts['we_average_event'] =\
         contrasts['we_space_event'] + contrasts['we_time_event']
     contrasts['we_space-time_event'] =\
         contrasts['we_space_event'] - contrasts['we_time_event']
     contrasts['we_time-space_event'] = - contrasts['we_space-time_event']
+    contrasts['westside-eastside_event'] =\
+        contrasts['we_westside_event'] - contrasts['we_eastside_event']
     contrasts['eastside-westside_event'] =\
         - contrasts['westside-eastside_event']
-    contrasts['after-before_event'] = - contrasts['before-after_event']
+    contrasts['we_before-after_event'] =\
+        contrasts['we_before_event'] - contrasts['we_after_event']
+    contrasts['we_after-before_event'] = - contrasts['we_before-after_event']
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
 
 
-def mtt_ns_relative(design_matrix_columns):
-    """Contrast for MTT north-south experiment, relative setting"""
+def mtt_sn_relative(design_matrix_columns):
+    """Contrast for MTT south-north task, relative setting"""
     contrast_list = [
         'sn_average_reference',
         'sn_all_space_cue',
@@ -1046,8 +1050,8 @@ def mtt_ns_relative(design_matrix_columns):
         'sn_time-space_event',
         'northside-southside_event',
         'southside-northside_event',
-        'before-after_event',
-        'after-before_event',
+        'sn_before-after_event',
+        'sn_after-before_event',
         'sn_all_event_response'
     ]
     if design_matrix_columns is None:
@@ -1058,35 +1062,39 @@ def mtt_ns_relative(design_matrix_columns):
         'sn_average_reference': con['sn_all_reference'],
         'sn_all_space_cue': con['sn_all_space_cue'],
         'sn_all_time_cue': con['sn_all_time_cue'],
-        'sn_space_event':
-            con['sn_northside_close_event']
-            + con['sn_northside_far_event']
-            + con['sn_southside_close_event']
+        'sn_southside_event':
+            con['sn_southside_close_event'
             + con['sn_southside_far_event'],
-        'sn_time_event':
+        'sn_northside_event':
+            con['sn_northside_close_event']
+            + con['sn_northside_far_event'],
+        'sn_before_event':
             con['sn_before_close_event']
-            + con['sn_before_far_event']
-            + con['sn_after_close_event']
+            + con['sn_before_far_event'],
+        'sn_after_event':
+            con['sn_after_close_event']
             + con['sn_after_far_event'],
-        'before-after_event':\
-            con['sn_before_close_event'] - con['sn_after_close_event'] +\
-            con['sn_before_far_event'] - con['sn_after_far_event'],
-        'sn_all_event_response': 'sn_all_event_response',
-        'northside-southside_event':\
-            con['sn_northside_close_event'] - con['sn_southside_close_event']\
-            + con['sn_northside_far_event'] - con['sn_southside_far_event'],
-        }
+        'sn_all_event_response': 'sn_all_event_response'}
+
     contrasts['sn_all_space-time_cue'] =\
         contrasts['sn_all_space_cue'] - contrasts['sn_all_time_cue']
     contrasts['sn_all_time-space_cue'] = - contrasts['sn_all_space-time_cue']
+    contrasts['sn_space_event'] =\
+        contrasts['sn_southside_event'] + contrasts['we_northside_event']
+    contrasts['sn_time_event'] =\
+        contrasts['sn_before_event'] + contrasts['sn_after_event']
     contrasts['sn_average_event'] =\
         contrasts['sn_space_event'] + contrasts['sn_time_event']
     contrasts['sn_space-time_event'] =\
         contrasts['sn_space_event'] - contrasts['sn_time_event']
     contrasts['sn_time-space_event'] = - contrasts['sn_space-time_event']
     contrasts['southside-northside_event'] =\
-        - contrasts['northside-southside_event']
-    contrasts['after-before_event'] = - contrasts['before-after_event']
+        contrasts['sn_southside_event'] - contrasts['sn_northside_event']
+    contrasts['northside-southside_event'] =\
+        - contrasts['southside-northside_event']
+    contrasts['sn_before-after_event'] =\
+        contrasts['sn_before_event'] - contrasts['sn_after_event']
+    contrasts['sn_after-before_event'] = - contrasts['sn_before-after_event']
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
 
