@@ -977,6 +977,11 @@ def mtt_we_relative(design_matrix_columns):
         'we_average_reference',
         'we_all_space_cue',
         'we_all_time_cue',
+        'we_westside_event',
+        'we_eastside_event',
+        'we_before_event',
+        'we_after_event',
+        'we_all_event_response',
         'we_all_space-time_cue',
         'we_all_time-space_cue',
         'we_average_event',
@@ -987,8 +992,7 @@ def mtt_we_relative(design_matrix_columns):
         'westside-eastside_event',
         'eastside-westside_event',
         'we_before-after_event',
-        'we_after-before_event',
-        'we_all_event_response',
+        'we_after-before_event'
     ]
     if design_matrix_columns is None:
         return dict([(key, []) for key in contrast_list])
@@ -1041,6 +1045,11 @@ def mtt_sn_relative(design_matrix_columns):
         'sn_average_reference',
         'sn_all_space_cue',
         'sn_all_time_cue',
+        'sn_southside_event',
+        'sn_northside_event',
+        'sn_before_event',
+        'sn_after_event',
+        'sn_all_event_response',
         'sn_all_space-time_cue',
         'sn_all_time-space_cue',
         'sn_average_event',
@@ -1051,8 +1060,7 @@ def mtt_sn_relative(design_matrix_columns):
         'northside-southside_event',
         'southside-northside_event',
         'sn_before-after_event',
-        'sn_after-before_event',
-        'sn_all_event_response'
+        'sn_after-before_event'
     ]
     if design_matrix_columns is None:
         return dict([(key, []) for key in contrast_list])
