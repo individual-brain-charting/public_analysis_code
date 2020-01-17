@@ -133,9 +133,9 @@ if __name__ == '__main__':
     protocols = ['mtt2']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        # subject_session = get_subject_session(protocol)
-        subject_session = [('sub-07', 'ses-12')]
-        Parallel(n_jobs=3)(
+        subject_session = get_subject_session(protocol)
+        # subject_session = [('sub-07', 'ses-12')]
+        Parallel(n_jobs=4)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
             for (subject, session) in subject_session)
