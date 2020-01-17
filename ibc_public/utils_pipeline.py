@@ -370,7 +370,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             anat_img = nib.load(subject_dic['anat'])
             stats_report_filename = os.path.join(
                 subject_session_output_dir, 'report_stats.html')
-            """
+
             report = make_glm_report(fmri_glm,
                                      contrasts,
                                      threshold=3.0,
@@ -379,7 +379,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
                                      title="GLM for subject %s" % session_id,
                                      )
             report.save_as_html(stats_report_filename)
-            """
+
     if not surface:
         ProgressReport().finish_dir(subject_session_output_dir)
         print("Statistic report written to %s\r\n" % stats_report_filename)
