@@ -309,7 +309,7 @@ def post_process(df, paradigm_id):
         df.replace('probe_BX', 'incorrect_cue_correct_probe', inplace=True)
         df.replace('probe_AY', 'correct_cue_incorrect_probe', inplace=True)
         df.replace('probe_BY', 'incorrect_cue_incorrect_probe', inplace=True)
-    
+
     if paradigm_id == 'biological_motion1':
         df = df[df.trial_type.isin(['global_upright', 'global_inverted',
                                     'natural_upright', 'natural_inverted'])]
@@ -323,6 +323,9 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'math-language':
         trial_types = ['colorlessg', 'control', 'arithfact', 'tom', 'geomfact',
                        'general', 'arithprin', 'context']
+        df = df[df.trial_type.isin(trial_types)]
+    if paradigm_id == 'spatial_navigation':
+        trial_types = ['experimental', 'pointing_phase', 'fixation', 'control']
         df = df[df.trial_type.isin(trial_types)]
     return df
 

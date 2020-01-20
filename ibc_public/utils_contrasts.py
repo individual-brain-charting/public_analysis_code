@@ -110,6 +110,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return biological_motion2(design_matrix_columns)
     elif paradigm_id == 'math_language':
         return math_language(design_matrix_columns)
+    elif paradigm_id == 'spatial_navigation':
+        return spatial_navigation(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -161,7 +163,7 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
 
 
 def math_language(design_matrix_columns):
-    """ Contrasts for math-language taskl"""
+    """ Contrasts for math-language task"""
     contrast_names = ['colorlessg', 'control', 'arithfact', 'tom', 'geomfact',
                       'general', 'arithprin', 'context', 'math-others',
                       'geometry-arithmetics', 'tom_and_context-general',
@@ -179,6 +181,22 @@ def math_language(design_matrix_columns):
     contrasts['tom_and_context-general'] = contrasts['tom'] +\
         contrasts['context'] - 2 * contrasts['general']
     contrasts['tom-general'] = contrasts['tom'] - contrasts['general']
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def spatial_navigation(design_matrix_columns):
+    """ Contrasts for spatial navigation task"""
+    contrast_names = ['experimental', 'pointing', 'control']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names])
+    contrasts = {'experimental': con['experimental'],
+                 'pointing': con['pointing_phase'],
+                 'control': con['control']}
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
