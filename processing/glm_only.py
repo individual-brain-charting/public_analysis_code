@@ -1,7 +1,9 @@
 """
-:Synopsis: script for GLM and stats on IBC datasets
+Synopsis: script for GLM and stats on IBC datasets
 
-:Author: THIRION Bertrand
+Author: THIRION Bertrand, PINHO Ana Luisa 2020
+
+Compatibility: Python 3.5
 
 """
 
@@ -144,7 +146,7 @@ if __name__ == '__main__':
     smooth = 5
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        Parallel(n_jobs=4)(
+        Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
@@ -152,7 +154,7 @@ if __name__ == '__main__':
     smooth = None
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        Parallel(n_jobs=4)(
+        Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth)
             for (subject, session) in subject_session)
