@@ -325,7 +325,7 @@ def post_process(df, paradigm_id):
                        'general', 'arithprin', 'context']
         df = df[df.trial_type.isin(trial_types)]
     if paradigm_id == 'spatial_navigation':
-        trial_types = ['experimental', 'pointing_phase', 'fixation', 'control']
+        trial_types = ['experimental', 'pointing_phase', 'control']
         df = df[df.trial_type.isin(trial_types)]
     return df
 

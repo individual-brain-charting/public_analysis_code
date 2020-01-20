@@ -123,8 +123,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     acquisitions = []
 
     # T1 images
-    for sbj in subject_list:
-        t1_path = 'sub-*/ses-*/anat/w%s_ses-00_T1w.nii.gz' % sbj
+    for subject in subject_list:
+        t1_path = 'sub-*/ses-*/anat/w%s_ses-00_T1w.nii.gz' % subject
         t1_abs_path = os.path.join(DERIVATIVES, t1_path)
         t1_imgs_ = glob.glob(os.path.join(t1_abs_path))
         for img in t1_imgs_:
@@ -138,8 +138,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
             tasks.append('')
             acquisitions.append('')
 
-    for sbj in subject_list:
-        t1bet_path = 'sub-*/ses-*/anat/w%s_ses-00_T1w_bet.nii.gz' % sbj
+    for subject in subject_list:
+        t1bet_path = 'sub-*/ses-*/anat/w%s_ses-00_T1w_bet.nii.gz' % subject
         t1bet_abs_path = os.path.join(DERIVATIVES, t1bet_path)
         t1bet_imgs_ = glob.glob(os.path.join(t1bet_abs_path))
         for img in t1bet_imgs_:
@@ -153,8 +153,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
             tasks.append('')
             acquisitions.append('')
 
-    for sbj in subject_list:
-        ht1_path = 'sub-*/ses-*/anat/w%s*_acq-highres_T1w_bet.nii.gz' % sbj
+    for subject in subject_list:
+        ht1_path = 'sub-*/ses-*/anat/w%s*_acq-highres_T1w_bet.nii.gz' % subject
         ht1_abs_path = os.path.join(DERIVATIVES, ht1_path)
         ht1_imgs_ = glob.glob(os.path.join(ht1_abs_path))
         for img in ht1_imgs_:
@@ -169,8 +169,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
             acquisitions.append('')
 
     # gm images
-    for sbj in subject_list:
-        mwc1_path = 'sub-*/ses-*/anat/mwc1%s_ses-00_T1w.nii.gz' % sbj
+    for subject in subject_list:
+        mwc1_path = 'sub-*/ses-*/anat/mwc1%s_ses-00_T1w.nii.gz' % subject
         mwc1_abs_path = os.path.join(DERIVATIVES, mwc1_path)
         mwc1_imgs_ = glob.glob(os.path.join(mwc1_abs_path))
         for img in mwc1_imgs_:
@@ -184,8 +184,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
             tasks.append('')
             acquisitions.append('')
 
-    for sbj in subject_list:
-        hmwc1_path = 'sub-*/ses-*/anat/mwc1%s*_acq-highres_T1w.nii.gz' % sbj
+    for subject in subject_list:
+        hmwc1_path = 'sub-*/ses-*/anat/mwc1%s*_acq-highres_T1w.nii.gz' % subject
         hmwc1_abs_path = os.path.join(DERIVATIVES, hmwc1_path)
         hmwc1_imgs_ = glob.glob(os.path.join(hmwc1_abs_path))
         for img in hmwc1_imgs_:
@@ -200,8 +200,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
             acquisitions.append('')
 
     # wm image
-    for sbj in subject_list:
-        mwc2_path = 'sub-*/ses-*/anat/mwc2%s_ses-00_T1w.nii.gz' % sbj
+    for subject in subject_list:
+        mwc2_path = 'sub-*/ses-*/anat/mwc2%s_ses-00_T1w.nii.gz' % subject
         mwc2_abs_path = os.path.join(DERIVATIVES, mwc2_path)
         mwc2_imgs_ = glob.glob(os.path.join(mwc2_abs_path))
         for img in mwc2_imgs_:
@@ -223,6 +223,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
             for i in range(len(con_df)):
                 contrast = contrast_name[i]
                 task = con_df.task[i]
+                if task_list and (task not in task_list):
+                    continue
                 task_name = task
                 if task == 'rsvp_language':
                     task = 'language'
@@ -236,9 +238,6 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if task == 'vstm':
                     task = 'VSTM'
                     task_name = 'vstm'
-                if task_list and (task not in task_list):
-                    continue
-
                 wildcard = os.path.join(
                     derivatives, '%s/*/res_stats_%s*_%s*/stat_maps/%s.nii.gz' %
                     (subject, task, acq, contrast))
@@ -248,8 +247,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 imgs_.sort()
                 # some renaming
                 contrast_id = contrast
-                if (contrast_id == 'probe') and\
-                   (task_name == 'rsvp_language'):
+                if (contrast_id == 'probe') and (task_name == 'rsvp_language'):
                     contrast_id = 'language_probe'
 
                 for img in imgs_:

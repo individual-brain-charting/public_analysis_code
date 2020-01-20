@@ -189,14 +189,15 @@ def math_language(design_matrix_columns):
 
 def spatial_navigation(design_matrix_columns):
     """ Contrasts for spatial navigation task"""
-    contrast_names = ['experimental', 'pointing', 'control']
+    contrast_names = ['experimental', 'pointing', 'control', 'encoding']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names])
     contrasts = {'experimental': con['experimental'],
                  'pointing': con['pointing_phase'],
-                 'control': con['control']}
+                 'control': con['control'],
+                 'encoding': con['encoding_phase']}
+
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
