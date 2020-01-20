@@ -1,170 +1,170 @@
-task,contrast
-archi_standard,audio_left_button_press
-archi_standard,audio_right_button_press
-archi_standard,video_left_button_press
-archi_standard,video_right_button_press
-archi_standard,horizontal_checkerboard
-archi_standard,vertical_checkerboard
-archi_standard,audio_sentence
-archi_standard,video_sentence
-archi_standard,audio_computation
-archi_standard,video_computation
-archi_spatial,saccades
-archi_spatial,rotation_hand
-archi_spatial,rotation_side
-archi_spatial,object_grasp
-archi_spatial,object_orientation
-archi_social,mechanistic_audio
-archi_social,mechanistic_video
-archi_social,triangle_mental
-archi_social,triangle_random
-archi_social,false_belief_audio
-archi_social,false_belief_video
-archi_social,speech_sound
-archi_social,non_speech_sound
-archi_emotional,face_gender
-archi_emotional,face_control
-archi_emotional,face_trusty
-archi_emotional,expression_intention
-archi_emotional,expression_gender
-archi_emotional,expression_control
-hcp_language,story
-hcp_language,math
-hcp_social,mental
-hcp_social,random
-hcp_gambling,punishment
-hcp_gambling,reward
-hcp_motor,left_hand
-hcp_motor,right_hand
-hcp_motor,left_foot
-hcp_motor,right_foot
-hcp_motor,tongue
-hcp_motor,cue
-hcp_emotion,shape
-hcp_emotion,face
-hcp_relational,relational
-hcp_relational,match
-hcp_wm,0back_body
-hcp_wm,2back_body
-hcp_wm,0back_face
-hcp_wm,2back_face
-hcp_wm,0back_tools
-hcp_wm,2back_tools
-hcp_wm,0back_place
-hcp_wm,2back_place
-rsvp_language,complex
-rsvp_language,simple
-rsvp_language,jabberwocky
-rsvp_language,word_list
-rsvp_language,pseudoword_list
-rsvp_language,consonant_string
-rsvp_language,probe
-mtt_we,we_average_reference
-mtt_we,we_all_space_cue
-mtt_we,we_all_time_cue
-mtt_we,we_westside_event
-mtt_we,we_eastside_event
-mtt_we,we_before_event
-mtt_we,we_after_event
-mtt_we,we_all_event_response
-mtt_sn,sn_average_reference
-mtt_sn,sn_all_space_cue
-mtt_sn,sn_all_time_cue
-mtt_sn,sn_southside_event
-mtt_sn,sn_northside_event
-mtt_sn,sn_before_event
-mtt_sn,sn_after_event
-mtt_sn,sn_all_event_response
-preference_food,food_constant
-preference_food,food_linear
-preference_food,food_quadratic
-preference_paintings,painting_constant
-preference_paintings,painting_linear
-preference_paintings,painting_quadratic
-preference_faces,face_constant
-preference_faces,face_linear
-preference_faces,face_quadratic
-preference_houses,house_constant
-preference_houses,house_linear
-preference_houses,house_quadratic
-theory_of_mind,belief
-theory_of_mind,photo
-emotional_pain,physical_pain
-emotional_pain,emotional_pain
-pain_movie,movie_pain
-pain_movie,movie_mental
-vstm,vstm_linear
-vstm,vstm_constant
-vstm,vstm_quadratic
-enumeration,enumeration_linear
-enumeration,enumeration_constant
-enumeration,enumeration_quadratic
-self,instructions
-self,encode_self
-self,encode_other
-self,recognition_self_hit
-self,recognition_other_hit
-self,correct_rejection
-self,false_alarm
-bang,talk
-bang,no_talk
-retinotopy,phase_ring
-retinotopy,phase_wedge
-retinotopy,retinotopicity
-lyon_mcse,high_salience_left
-lyon_mcse,low_salience_left
-lyon_mcse,high_salience_right
-lyon_mcse,low_salience_right
-lyon_moto,foot_left
-lyon_moto,foot_right
-lyon_moto,finger_right
-lyon_moto,finger_left
-lyon_moto,saccade_left
-lyon_moto,saccade_right
-lyon_moto,hand_left
-lyon_moto,hand_right
-lyon_moto,fixation_right
-lyon_moto,tongue_right
-lyon_moto,fixation_left
-lyon_moto,tongue_left
-lyon_mvis,response
-lyon_mvis,2_dots
-lyon_mvis,2_dots_control
-lyon_mvis,4_dots
-lyon_mvis,4_dots_control
-lyon_mvis,6_dots
-lyon_mvis,6_dots_control
-lyon_mveb,response
-lyon_mveb,2_letters_different
-lyon_mveb,2_letters_same
-lyon_mveb,4_letters_different
-lyon_mveb,4_letters_same
-lyon_mveb,6_letters_different
-lyon_mveb,6_letters_same
-lyon_lec1,pseudoword
-lyon_lec1,word
-lyon_lec1,random_string
-lyon_lec2,attend
-lyon_lec2,unattend
-lyon_audi,tear
-lyon_audi,suomi
-lyon_audi,yawn
-lyon_audi,human
-lyon_audi,silence
-lyon_audi,music
-lyon_audi,'reverse
-lyon_audi,speech
-lyon_audi,alphabet
-lyon_audi,cough
-lyon_audi,envir
-lyon_audi,laugh
-lyon_audi,animals
-lyon_visu,scrambled
-lyon_visu,scene
-lyon_visu,tool
-lyon_visu,visage
-lyon_visu,target_fruit
-lyon_visu,house
-lyon_visu,animal
-lyon_visu,characters
-lyon_visu,pseudoword
+task	contrast
+archi_standard	audio_left_button_press
+archi_standard	audio_right_button_press
+archi_standard	video_left_button_press
+archi_standard	video_right_button_press
+archi_standard	horizontal_checkerboard
+archi_standard	vertical_checkerboard
+archi_standard	audio_sentence
+archi_standard	video_sentence
+archi_standard	audio_computation
+archi_standard	video_computation
+archi_spatial	saccades
+archi_spatial	rotation_hand
+archi_spatial	rotation_side
+archi_spatial	object_grasp
+archi_spatial	object_orientation
+archi_social	mechanistic_audio
+archi_social	mechanistic_video
+archi_social	triangle_mental
+archi_social	triangle_random
+archi_social	false_belief_audio
+archi_social	false_belief_video
+archi_social	speech_sound
+archi_social	non_speech_sound
+archi_emotional	face_gender
+archi_emotional	face_control
+archi_emotional	face_trusty
+archi_emotional	expression_intention
+archi_emotional	expression_gender
+archi_emotional	expression_control
+hcp_language	story
+hcp_language	math
+hcp_social	mental
+hcp_social	random
+hcp_gambling	punishment
+hcp_gambling	reward
+hcp_motor	left_hand
+hcp_motor	right_hand
+hcp_motor	left_foot
+hcp_motor	right_foot
+hcp_motor	tongue
+hcp_motor	cue
+hcp_emotion	shape
+hcp_emotion	face
+hcp_relational	relational
+hcp_relational	match
+hcp_wm	0back_body
+hcp_wm	2back_body
+hcp_wm	0back_face
+hcp_wm	2back_face
+hcp_wm	0back_tools
+hcp_wm	2back_tools
+hcp_wm	0back_place
+hcp_wm	2back_place
+rsvp_language	complex
+rsvp_language	simple
+rsvp_language	jabberwocky
+rsvp_language	word_list
+rsvp_language	pseudoword_list
+rsvp_language	consonant_string
+rsvp_language	probe
+mtt_we	we_average_reference
+mtt_we	we_all_space_cue
+mtt_we	we_all_time_cue
+mtt_we	we_westside_event
+mtt_we	we_eastside_event
+mtt_we	we_before_event
+mtt_we	we_after_event
+mtt_we	we_all_event_response
+mtt_sn	sn_average_reference
+mtt_sn	sn_all_space_cue
+mtt_sn	sn_all_time_cue
+mtt_sn	sn_southside_event
+mtt_sn	sn_northside_event
+mtt_sn	sn_before_event
+mtt_sn	sn_after_event
+mtt_sn	sn_all_event_response
+preference_food	food_constant
+preference_food	food_linear
+preference_food	food_quadratic
+preference_paintings	painting_constant
+preference_paintings	painting_linear
+preference_paintings	painting_quadratic
+preference_faces	face_constant
+preference_faces	face_linear
+preference_faces	face_quadratic
+preference_houses	house_constant
+preference_houses	house_linear
+preference_houses	house_quadratic
+theory_of_mind	belief
+theory_of_mind	photo
+emotional_pain	physical_pain
+emotional_pain	emotional_pain
+pain_movie	movie_pain
+pain_movie	movie_mental
+vstm	vstm_linear
+vstm	vstm_constant
+vstm	vstm_quadratic
+enumeration	enumeration_linear
+enumeration	enumeration_constant
+enumeration	enumeration_quadratic
+self	instructions
+self	encode_self
+self	encode_other
+self	recognition_self_hit
+self	recognition_other_hit
+self	correct_rejection
+self	false_alarm
+bang	talk
+bang	no_talk
+retinotopy	phase_ring
+retinotopy	phase_wedge
+retinotopy	retinotopicity
+lyon_mcse	high_salience_left
+lyon_mcse	low_salience_left
+lyon_mcse	high_salience_right
+lyon_mcse	low_salience_right
+lyon_moto	foot_left
+lyon_moto	foot_right
+lyon_moto	finger_right
+lyon_moto	finger_left
+lyon_moto	saccade_left
+lyon_moto	saccade_right
+lyon_moto	hand_left
+lyon_moto	hand_right
+lyon_moto	fixation_right
+lyon_moto	tongue_right
+lyon_moto	fixation_left
+lyon_moto	tongue_left
+lyon_mvis	response
+lyon_mvis	2_dots
+lyon_mvis	2_dots_control
+lyon_mvis	4_dots
+lyon_mvis	4_dots_control
+lyon_mvis	6_dots
+lyon_mvis	6_dots_control
+lyon_mveb	response
+lyon_mveb	2_letters_different
+lyon_mveb	2_letters_same
+lyon_mveb	4_letters_different
+lyon_mveb	4_letters_same
+lyon_mveb	6_letters_different
+lyon_mveb	6_letters_same
+lyon_lec1	pseudoword
+lyon_lec1	word
+lyon_lec1	random_string
+lyon_lec2	attend
+lyon_lec2	unattend
+lyon_audi	tear
+lyon_audi	suomi
+lyon_audi	yawn
+lyon_audi	human
+lyon_audi	silence
+lyon_audi	music
+lyon_audi	'reverse
+lyon_audi	speech
+lyon_audi	alphabet
+lyon_audi	cough
+lyon_audi	envir
+lyon_audi	laugh
+lyon_audi	animals
+lyon_visu	scrambled
+lyon_visu	scene
+lyon_visu	tool
+lyon_visu	visage
+lyon_visu	target_fruit
+lyon_visu	house
+lyon_visu	animal
+lyon_visu	characters
+lyon_visu	pseudoword
