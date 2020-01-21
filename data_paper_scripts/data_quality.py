@@ -90,7 +90,7 @@ def data_parser(derivatives=DERIVATIVES):
                 session = part
             elif part[:5] == 'task-':
                 task = part[5:]
-            elif part[:4] == 'acq-':
+            elif part[:4] == 'dir-':
                 acquisition = part[4:]
 
         if task in ['NspLanguage%02d' % i for i in range(6)]:
@@ -119,7 +119,7 @@ def data_parser(derivatives=DERIVATIVES):
                 session = part
             elif part[:5] == 'task-':
                 task = part[5:]
-            elif part[:4] == 'acq-':
+            elif part[:4] == 'dir-':
                 acquisition = part[4:]
 
         if task in ['NspLanguage%02d' % i for i in range(6)]:
