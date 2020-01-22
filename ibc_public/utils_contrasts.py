@@ -430,10 +430,9 @@ def attention(design_matrix_columns):
         'spatial_cue-double_cue': con['spatialcue'] - con['doublecue'],
         'spatial_cue': con['spatialcue'],
         'double_cue': con['doublecue'],
-        'incongruent-congruent': con['spatial_incongruent'] -
-                                 con['spatial_congruent'] +
-                                 con['double_incongruent'] -
-                                 con['double_congruent'],
+        'incongruent-congruent':
+            con['spatial_incongruent'] - con['spatial_congruent'] +
+            con['double_incongruent'] - con['double_congruent'],
         'spatial_incongruent-spatial_congruent':
             con['spatial_incongruent'] - con['spatial_congruent'],
         'double_incongruent-double_congruent':
@@ -453,7 +452,7 @@ def selective_stop_signal(design_matrix_columns):
     """ Contrasts for Stanford's selective_stop_signal protocol"""
     contrast_names = ['go_critical', 'go_noncritical', 'stop', 'ignore',
                       'go_critical-stop', 'go_noncritical-ignore',
-                      'stop-ignore', 'stop-ignore']
+                      'stop-ignore', 'ignore-stop']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -492,8 +491,7 @@ def stop_signal(design_matrix_columns):
 
 def stroop(design_matrix_columns):
     """Contrasts for the stanford stroop protocol"""
-    contrast_names = ['congruent', 'incongruent', 'congruent-incongruent',
-                      'incongruent-congruent']
+    contrast_names = ['congruent', 'incongruent', 'incongruent-congruent']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)

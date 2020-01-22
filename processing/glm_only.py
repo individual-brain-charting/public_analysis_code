@@ -105,6 +105,8 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
     """ Create jobfile and run it """
     if protocol == 'preferences' and subject in ['sub-11']:
         jobfile = 'ini_files/IBC_preproc_preferences_sub-11.ini'
+    elif protocol == 'stanford3' and subject in ['sub-15']:
+        jobfile = 'ini_files/IBC_preproc_stanford3_sub-15.ini'
     output_name = os.path.join(
         '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
     _adapt_jobfile(jobfile, subject, output_name, session)
@@ -132,7 +134,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
-    protocols = ['stanford3']
+    protocols = ['stanford2']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)

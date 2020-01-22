@@ -280,8 +280,11 @@ def post_process(df, paradigm_id):
         df2.replace('stim', 'delay', inplace=True)
         df = concat([df1, df2], axis=0, ignore_index=True)
     if paradigm_id == 'selective_stop_signal':
-        df = df[df.trial_type.isin(['go_critical','go_noncritical', 'ignore',
-                                    'stop'])]
+        df = df[df.trial_type.isin(['go_critical', 'go_noncritical',
+                                    'ignore_noncritical',
+                                    'stop_critical'])]
+        df = df.replace('ignore_noncritical', 'ignore')
+        df = df.replace('stop_critical', 'stop')
     if paradigm_id == 'stroop':
         df = df[df.trial_type.isin(['congruent', 'incongruent'])]
     if paradigm_id == 'columbia_cards':
