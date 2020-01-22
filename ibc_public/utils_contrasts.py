@@ -434,10 +434,10 @@ def attention(design_matrix_columns):
                                  con['spatial_congruent'] +
                                  con['double_incongruent'] -
                                  con['double_congruent'],
-        'spatial_incongruent-spatial_congruent': con['spatial_incongruent'] -
-            con['spatial_congruent'],
-        'double_incongruent-double_congruent': con['double_incongruent'] -
-            con['double_congruent'],
+        'spatial_incongruent-spatial_congruent':
+            con['spatial_incongruent'] - con['spatial_congruent'],
+        'double_incongruent-double_congruent':
+            con['double_incongruent'] - con['double_congruent'],
         'spatial_incongruent': con['spatial_incongruent'],
         'double_congruent': con['double_congruent'],
         'spatial_congruent': con['spatial_congruent'],
@@ -451,19 +451,21 @@ def attention(design_matrix_columns):
 
 def selective_stop_signal(design_matrix_columns):
     """ Contrasts for Stanford's selective_stop_signal protocol"""
-    contrast_names = ['go', 'stop', 'ignore',
-                      'stop-go', 'ignore-stop', 'stop-ignore', 'ignore-go']
+    contrast_names = ['go_critical', 'go_noncritical', 'stop', 'ignore',
+                      'go_critical-stop', 'go_noncritical-ignore',
+                      'stop-ignore', 'stop-ignore']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {
-        'go': con['go'],
+        'go_critical': con['go_critical'],
+        'go_noncritical': con['go_noncritical'],
         'stop': con['stop'],
         'ignore': con['ignore'],
-        'stop-go': con['stop'] - con['go'],
+        'go_critical-stop': con['go_critical'] - con['stop'],
+        'go_noncritical-ignore': con['go_noncritical'] - con['ignore'],
         'ignore-stop': con['ignore'] - con['stop'],
-        'stop-ignore': con['stop'] - con['ignore'],
-        'ignore-go': con['ignore'] - con['go'],
+        'stop-ignore': con['stop'] - con['ignore']
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
