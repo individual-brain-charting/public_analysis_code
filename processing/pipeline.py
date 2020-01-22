@@ -138,26 +138,26 @@ def run_topup(mem, data_dir, subject, ses, acq=None):
         field_maps = [
             glob.glob(
                 os.path.join(data_dir, 'sourcedata', subject, ses,
-                             'fmap/*acq-mb3_dir-1_epi.nii.gz'))[-1],
+                             'fmap/*acq-mb3_dir-ap_epi.nii.gz'))[-1],
             glob.glob(
                 os.path.join(data_dir, 'sourcedata', subject, ses,
-                             'fmap/*acq-mb3_dir-0_epi.nii.gz'))[-1]]
+                             'fmap/*acq-mb3_dir-pa_epi.nii.gz'))[-1]]
     elif acq == 'mb6':
         field_maps = [
             glob.glob(
                 os.path.join(data_dir, 'sourcedata', subject, ses,
-                             'fmap/*acq-mb6_dir-1_epi.nii.gz'))[-1],
+                             'fmap/*acq-mb6_dir-ap_epi.nii.gz'))[-1],
             glob.glob(
                 os.path.join(data_dir, 'sourcedata', subject, ses,
-                             'fmap/*acq-mb6_dir-0_epi.nii.gz'))[-1]]
+                             'fmap/*acq-mb6_dir-pa_epi.nii.gz'))[-1]]
     elif acq is None:
         field_maps = [
             glob.glob(
                 os.path.join(data_dir, 'sourcedata', subject, ses,
-                             'fmap/*dir-1_epi.nii.gz'))[-1],
+                             'fmap/*dir-ap_epi.nii.gz'))[-1],
             glob.glob(
                 os.path.join(data_dir, 'sourcedata', subject, ses,
-                             'fmap/*dir-0_epi.nii.gz'))[-1]]
+                             'fmap/*dir-pa_epi.nii.gz'))[-1]]
     else:
         raise ValueError('Unknown acq %s' % acq)
     return fsl_topup(field_maps, functional_data, mem, write_dir)

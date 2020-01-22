@@ -189,9 +189,9 @@ def run_dmri_pipeline(subject_session, do_topup=True, do_edc=True):
     if len(dc_imgs) < len(input_imgs):
         se_maps = [
             os.path.join(source_dir, subject, session, 'fmap',
-                         '%s_%s_dir-1_epi.nii.gz' % (subject, session)),
+                         '%s_%s_dir-ap_epi.nii.gz' % (subject, session)),
             os.path.join(source_dir, subject, session, 'fmap',
-                         '%s_%s_dir-0_epi.nii.gz' % (subject, session))]
+                         '%s_%s_dir-pa_epi.nii.gz' % (subject, session))]
 
         if do_topup:
             fsl_topup(se_maps, input_imgs, mem, write_dir, 'dwi')
