@@ -129,10 +129,10 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         t1_imgs_ = glob.glob(os.path.join(t1_abs_path))
         for img in t1_imgs_:
             session = img.split('/')[-3]
-            subject = img.split('/')[-4]
+            subject_id = img.split('/')[-4]
             paths.append(img)
             sessions.append(session)
-            subjects.append(subject)
+            subjects.append(subject_id)
             modalities.append('T1')
             contrasts.append('t1')
             tasks.append('')
@@ -144,10 +144,10 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         t1bet_imgs_ = glob.glob(os.path.join(t1bet_abs_path))
         for img in t1bet_imgs_:
             session = img.split('/')[-3]
-            subject = img.split('/')[-4]
+            subject_id = img.split('/')[-4]
             paths.append(img)
             sessions.append(session)
-            subjects.append(subject)
+            subjects.append(subject_id)
             modalities.append('T1')
             contrasts.append('t1_bet')
             tasks.append('')
@@ -159,10 +159,10 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         ht1_imgs_ = glob.glob(os.path.join(ht1_abs_path))
         for img in ht1_imgs_:
             session = img.split('/')[-3]
-            subject = img.split('/')[-4]
+            subject_id = img.split('/')[-4]
             paths.append(img)
             sessions.append(session)
-            subjects.append(subject)
+            subjects.append(subject_id)
             modalities.append('T1')
             contrasts.append('highres_t1_bet')
             tasks.append('')
@@ -175,10 +175,10 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         mwc1_imgs_ = glob.glob(os.path.join(mwc1_abs_path))
         for img in mwc1_imgs_:
             session = img.split('/')[-3]
-            subject = img.split('/')[-4]
+            subject_id = img.split('/')[-4]
             paths.append(img)
             sessions.append(session)
-            subjects.append(subject)
+            subjects.append(subject_id)
             modalities.append('T1')
             contrasts.append('gm')
             tasks.append('')
@@ -190,10 +190,10 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         hmwc1_imgs_ = glob.glob(os.path.join(hmwc1_abs_path))
         for img in hmwc1_imgs_:
             session = img.split('/')[-3]
-            subject = img.split('/')[-4]
+            subject_id = img.split('/')[-4]
             paths.append(img)
             sessions.append(session)
-            subjects.append(subject)
+            subjects.append(subject_id)
             modalities.append('T1')
             contrasts.append('highres_gm')
             tasks.append('')
@@ -206,10 +206,10 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
         mwc2_imgs_ = glob.glob(os.path.join(mwc2_abs_path))
         for img in mwc2_imgs_:
             session = img.split('/')[-3]
-            subject = img.split('/')[-4]
+            subject_id = img.split('/')[-4]
             paths.append(img)
             sessions.append(session)
-            subjects.append(subject)
+            subjects.append(subject_id)
             modalities.append('T1')
             contrasts.append('wm')
             tasks.append('')
