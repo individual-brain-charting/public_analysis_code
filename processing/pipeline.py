@@ -82,7 +82,7 @@ def prepare_derivatives(main_dir):
     source_dir = os.path.join(main_dir, 'sourcedata')
     output_dir = os.path.join(main_dir, 'derivatives')
     subjects = ['sub-%02d' % i for i in range(0, 16)]
-    sess = ['ses-%02d' % j for j in range(0, 30)]
+    sess = ['ses-%02d' % j for j in range(0, 50)]
     modalities = ['anat', 'fmap', 'func', 'dwi']
     dirs = ([output_dir] +
             [os.path.join(output_dir, subject) for subject in subjects
@@ -167,7 +167,7 @@ def apply_topup(main_dir, cache_dir, subject_sess=None, acq=None):
     """ Call topup on the datasets """
     mem = Memory(cache_dir)
     if subject_sess is None:
-        subject_sess = [('sub-%02d, ses-%02d' % (i, j)) for i in range(0, 30)
+        subject_sess = [('sub-%02d, ses-%02d' % (i, j)) for i in range(0, 50)
                         for j in range(0, 15)]
     Parallel(n_jobs=4)(
         delayed(run_topup)(mem, main_dir, subject_ses[0], subject_ses[1],
@@ -208,10 +208,10 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
-    do_topup = False
-    protocol = 'stanford2'
+    do_topup = True
+    protocol = 'biological_motion'
     subject_session = sorted(get_subject_session([protocol]))
-    subject_session = [('sub-15', 'ses-24')]
+    subject_session = [('sub-11', 'ses-30')]
     if do_topup:
         acq = None
         if protocol in ['rs']:
@@ -219,7 +219,7 @@ if __name__ == '__main__':
         elif protocol in ['mtt1', 'mtt2']:
             acq = 'mb3'
         apply_topup(main_dir, cache_dir, subject_session, acq=acq)
-
+    stop
     subject_data = []
     jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
     subject_data_ = Parallel(n_jobs=1)(

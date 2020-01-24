@@ -46,12 +46,10 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         if domain[-1] == 's':
             domain = domain[: -1]
         return preferences(design_matrix_columns, domain)
-    elif paradigm_id  == 'MTTWE':
+    elif paradigm_id == 'MTTWE':
         return mtt_we_relative(design_matrix_columns)
-        #return mtt_ew_absolute(design_matrix_columns)
     elif paradigm_id == 'MTTNS':
         return mtt_sn_relative(design_matrix_columns)
-        #return mtt_ns_absolute(design_matrix_columns)
     elif paradigm_id == 'emotional_pain':
         return emotional_pain(design_matrix_columns)
     elif paradigm_id == 'pain_movie':

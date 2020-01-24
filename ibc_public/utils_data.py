@@ -460,9 +460,9 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
             if task == 'rsvp_language':
                 task = 'language'
                 task_name = 'rsvp_language'
-            if task == 'mtt_ns':
+            if task == 'mtt_sn':
                 task = 'MTTNS'
-                task_name = 'mtt_ns'
+                task_name = 'mtt_sn'
             if task == 'mtt_we':
                 task = 'MTTWE'
                 task_name = 'mtt_we'
