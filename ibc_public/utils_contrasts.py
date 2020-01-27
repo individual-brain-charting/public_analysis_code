@@ -602,7 +602,8 @@ def audio(design_matrix_columns):
         'animal', 'music', 'nature',
         'speech', 'tool', 'voice',
         'animal-others', 'music-others', 'nature-others',
-        'speech-others', 'tool-others', 'voice-others', 'mean-silence',
+        'speech-others', 'tool-others', 'voice-others',
+        'mean-silence',
         'animal-silence', 'music-silence', 'nature-silence',
         'speech-silence', 'tool-silence', 'voice-silence',
         ]

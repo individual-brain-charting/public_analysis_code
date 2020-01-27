@@ -209,9 +209,13 @@ if __name__ == '__main__':
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
     do_topup = True
-    protocol = 'biological_motion'
+    # protocol = 'biological_motion'
+    protocol = 'audio2'
     subject_session = sorted(get_subject_session([protocol]))
-    subject_session = [('sub-11', 'ses-30')]
+    #subject_session = [('sub-12', 'ses-30'),
+    #                       ('sub-13', 'ses-29'),
+    #                   ('sub-14', 'ses-29')]
+    subject_session = [('sub-15', 'ses-22'),]
     if do_topup:
         acq = None
         if protocol in ['rs']:
@@ -219,7 +223,7 @@ if __name__ == '__main__':
         elif protocol in ['mtt1', 'mtt2']:
             acq = 'mb3'
         apply_topup(main_dir, cache_dir, subject_session, acq=acq)
-    stop
+
     subject_data = []
     jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
     subject_data_ = Parallel(n_jobs=1)(

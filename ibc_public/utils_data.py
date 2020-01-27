@@ -477,6 +477,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     derivatives, subject, '*', dir_, 'stat_surf',
                     '%s_%s.gii' % (contrast, side))
                 imgs_ = glob.glob(wc)
+                
                 imgs_.sort()
                 for img in imgs_:
                     session = img.split('/')[-4]
