@@ -247,8 +247,6 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 imgs_.sort()
                 # some renaming
                 contrast_id = contrast
-                if (contrast_id == 'probe') and (task_name == 'rsvp_language'):
-                    contrast_id = 'language_probe'
 
                 for img in imgs_:
                     session = img.split('/')[-4]
