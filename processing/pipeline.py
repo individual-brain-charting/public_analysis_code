@@ -208,14 +208,14 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
-    do_topup = True
+    do_topup = False
     # protocol = 'biological_motion'
-    protocol = 'audio2'
+    protocol = 'raiders2'
     subject_session = sorted(get_subject_session([protocol]))
-    #subject_session = [('sub-12', 'ses-30'),
+    #  subject_session = [('sub-12', 'ses-30'),
     #                       ('sub-13', 'ses-29'),
     #                   ('sub-14', 'ses-29')]
-    subject_session = [('sub-15', 'ses-22'),]
+    subject_session = [('sub-15', 'ses-17')]
     if do_topup:
         acq = None
         if protocol in ['rs']:

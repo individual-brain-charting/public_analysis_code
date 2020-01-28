@@ -78,10 +78,10 @@ def resample_3mm_func_data(n_jobs=2):
         if not os.path.exists(target))
 
 
-def resample_func_and_anat():
-    resample_func_data()
-    resample_anat_data()
-    resample_3mm_func_data()
+def resample_func_and_anat(n_jobs=4):
+    resample_func_data(n_jobs=n_jobs)
+    resample_anat_data(n_jobs=n_jobs)
+    resample_3mm_func_data(n_jobs=n_jobs)
 
 
 if __name__ == '__main__':

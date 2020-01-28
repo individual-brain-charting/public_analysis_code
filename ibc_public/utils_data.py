@@ -224,6 +224,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 contrast = contrast_name[i]
                 task = con_df.task[i]
                 task_name = task
+                if task_list and (task not in task_list):
+                    continue
                 if task == 'rsvp_language':
                     task = 'language'
                     task_name = 'rsvp_language'
@@ -236,14 +238,12 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if task == 'vstm':
                     task = 'VSTM'
                     task_name = 'vstm'
-                if task_list and (task not in task_list):
-                    continue
                 wildcard = os.path.join(
                     derivatives, '%s/*/res_stats_%s*_%s*/stat_maps/%s.nii.gz' %
                     (subject, task, acq, contrast))
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
-                    continue
+                    print('Missing %s' % wildcard)
                 imgs_.sort()
                 # some renaming
                 contrast_id = contrast
@@ -449,7 +449,6 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
     # fixed-effects activation images
     con_df = conditions
     contrast_name = con_df.contrast
-
     for subject in subject_list:
         for i in range(len(con_df)):
             contrast = contrast_name[i]
@@ -475,7 +474,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     derivatives, subject, '*', dir_, 'stat_surf',
                     '%s_%s.gii' % (contrast, side))
                 imgs_ = glob.glob(wc)
-                
+                    
                 imgs_.sort()
                 for img in imgs_:
                     session = img.split('/')[-4]
