@@ -317,13 +317,13 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'biological_motion1':
         df = df[df.trial_type.isin(['global_upright', 'global_inverted',
                                     'natural_upright', 'natural_inverted'])]
-        df.onset /= 1000
-        df.duration /= 1000
+        #df.onset /= 1000
+        #df.duration /= 1000
     if paradigm_id == 'biological_motion2':
         df = df[df.trial_type.isin(['modified_upright', 'modified_inverted',
                                     'natural_upright', 'natural_inverted'])]
-        df.onset /= 1000
-        df.duration /= 1000
+        #df.onset /= 1000
+        #df.duration /= 1000
     if paradigm_id == 'math-language':
         trial_types = ['colorlessg', 'control', 'arithfact', 'tom', 'geomfact',
                        'general', 'arithprin', 'context']
