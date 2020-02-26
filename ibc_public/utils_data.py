@@ -2,6 +2,9 @@
 Common utilities to all scripts
 
 Author: Bertrand Thirion, Ana Luisa Pinho 2016-2020
+
+Compatibility: Python 3.5
+
 """
 
 import glob
@@ -348,12 +351,12 @@ def _highest_frequency(frequencies):
 
 
 def horizontal_fingerprint(coef, roi_name, labels_bottom, labels_top,
-                           output_file, wc=True, nonneg=False):
+                           output_file, wc=True, nonneg=False, dpi=300):
     """Create a fingerprint figure, optionally with a word cloud"""
     import matplotlib.pyplot as plt
     import wordcloud as wc
     n_contrasts = coef.size
-    plt.figure(figsize=(12, 5), facecolor='k')
+    plt.figure(figsize=(12, 5.25), facecolor='k')
     plt.axes([.03, .32, .6, .34])
     colors = plt.cm.hsv(np.linspace(0, 255 / n_contrasts, 255))
     plt.bar(range(n_contrasts), coef, color=colors, ecolor='k')
@@ -366,7 +369,7 @@ def horizontal_fingerprint(coef, roi_name, labels_bottom, labels_top,
         plt.text(nc, ymax, labels_top[nc], rotation=75,
                  ha='left', va='bottom', color='w')
     #
-    plt.text(n_contrasts / 3, 1.7 * ymax - .7 * ymin, roi_name,
+    plt.text(n_contrasts + 10, 1.8 * ymax - .7 * ymin, roi_name,
              color=[1, .5, 0], fontsize=18, weight='bold',
              bbox=dict(facecolor='k', alpha=0.5))
     plt.axis('tight')
@@ -383,7 +386,7 @@ def horizontal_fingerprint(coef, roi_name, labels_bottom, labels_top,
     plt.imshow(wordcloud)
     plt.axis('tight')
     plt.axis("off")
-    plt.savefig(output_file, facecolor='k')
+    plt.savefig(output_file, facecolor='k', dpi=dpi)
 
 
 def copy_db(df, write_dir, filename='result_db.csv'):

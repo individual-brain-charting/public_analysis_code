@@ -1,6 +1,6 @@
 task	contrast	positive label	negative label	pretty name	tags
 archi_standard	left-right_button_press	left hand	right hand	Left vs right hand button press	['response_selection', 'response_execution', 'left_finger_response_execution']
-archi_standard	reading-listening	listen to sentence	read sentence	Listening to sentence vs reading a sentence	['visual_word_recognition', 'sentence_processing']
+archi_standard	reading-listening	read sentence	listen to sentence	Reading sentence vs listening to sentence	['visual_word_recognition', 'sentence_processing']
 archi_standard	motor-cognitive	button presses	cognitive tasks	Button presses vs narrative/computation	['response_selection', 'response_execution', 'right_finger_response_execution']
 archi_standard	reading-checkerboard	read sentence	checkerboard	Read sentence vs checkerboard	['visual_word_recognition', 'sentence_processing']
 archi_standard	computation-sentences	mental subtraction	sentence	Mental subtraction vs sentence reading	['visual_arithmetic_processing', 'sentence_processing']
