@@ -259,7 +259,7 @@ def biological_motion2(design_matrix_columns):
     """ Contrasts for biological motion 1 protocol"""
     contrast_names = ['modified_upright', 'modified_inverted',
                       'natural_upright', 'natural_inverted',
-                      'modified_upright - natural_upright',
+                      'natural_upright - modified_upright',
                       'modified_upright - modified_inverted',
                       'natural_upright - natural_inverted',
                       ]
@@ -267,8 +267,8 @@ def biological_motion2(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = dict([(name, con[name]) for name in contrast_names[:4]])
-    contrasts['modified_upright - natural_upright'] =\
-        contrasts['modified_upright'] - contrasts['natural_upright']
+    contrasts['natural_upright - modified_upright'] =\
+        contrasts['natural_upright'] - contrasts['modified_upright']
     contrasts['modified_upright - modified_inverted'] = \
         contrasts['modified_upright'] - contrasts['modified_inverted']
     contrasts['natural_upright - natural_inverted'] =\
