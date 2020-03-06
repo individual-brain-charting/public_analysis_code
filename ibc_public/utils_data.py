@@ -227,8 +227,6 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 contrast = contrast_name[i]
                 task = con_df.task[i]
                 task_name = task
-                if task_list and (task not in task_list):
-                    continue
                 if task == 'rsvp_language':
                     task = 'language'
                     task_name = 'rsvp_language'
@@ -241,6 +239,9 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if task == 'vstm':
                     task = 'VSTM'
                     task_name = 'vstm'
+                # DON NOT DISPLACE THE FOLLOWING 'IF' STATEMENT
+                if task_list and (task not in task_list):
+                    continue
                 wildcard = os.path.join(
                     derivatives, '%s/*/res_stats_%s*_%s*/stat_maps/%s.nii.gz' %
                     (subject, task, acq, contrast))
