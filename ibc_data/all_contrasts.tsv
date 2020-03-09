@@ -136,7 +136,7 @@ mtt_we	we_before_event	past events in we island	fixation	events occuring before 
 mtt_we	we_after_event	future events in we island	fixation	events occuring after vs. fixation in west-east island	['auditory_perception', 'temporal_categorization', 'future_time', 'temporal_distance', 'west_cardinal-direction_judgment', 'east_cardinal-direction_judgment']
 mtt_we	we_before-after_event	past events in we island	future events in we island	events occuring before vs. after in west-east island	['past_time']
 mtt_we	we_after-before_event	future events in we island	past events in we island	events occuring after vs. before in west-east island	['future_time']
-mtt_we	we_all_event_response	responses to events in we island	fixation	motor responses performed after all event condition in the west-east island	['response_selection', 'response_execution']
+mtt_we	we_all_event_response	responses to events in we island	fixation	motor responses performed after every event condition in the west-east island	['response_selection', 'response_execution']
 mtt_sn	sn_average_reference	all references in sn island	fixation	updating ones position in space and time in south-north island	['auditory_perception', 'memory_retrieval', 'spatial_localization', 'cardinal-direction_judgment', 'temporal_cognition']
 mtt_sn	sn_all_space_cue	space cue on all references in sn island	fixation	spatial cue of the next event in south-north island	['auditory_perception', 'semantic_categorization', 'cardinal_orientation']
 mtt_sn	sn_all_time_cue	time cue on all references in sn island	fixation	time cue of the next event in south-north island	['auditory_perception', 'semantic_categorization', 'time_orientation']
