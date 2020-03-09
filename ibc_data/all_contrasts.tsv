@@ -177,7 +177,7 @@ preference_houses	house_linear	house preference	fixation	linear effect of houses
 preference_houses	house_quadratic	confidence in house preference	fixation	quadratic effect of houses preference	['visual_place_recognition', 'confidence_judgment']
 theory_of_mind	photo	fact judgments	fixation	Manipulation of fact judgments	['semantic_processing', 'reading', 'response_execution', 'response_selection', 'reasoning']
 theory_of_mind	belief	belief judgments	fixation	Manipulation of belief judgments	['semantic_processing', 'reading', 'response_execution', 'response_selection', 'reasoning', 'theory-of-mind']
-theory_of_mind	belief-photo	belief manipulation	fact judgments	belief vs. factual judgments	['theory-of-mind']
+theory_of_mind	belief-photo	belief judgments	fact judgments	belief vs. factual judgments	['theory-of-mind']
 emotional_pain	physical_pain	physical-pain story	fixation	reading physical pain story	['reading', 'response_execution', 'response_selection', 'empathy', 'imagined_physical_pain']
 emotional_pain	emotional_pain	emotional-pain story	fixation	reading emotional pain story	['reading', 'response_execution', 'response_selection', 'empathy', 'imagined_emotional_pain', 'theory-of-mind']
 emotional_pain	emotional-physical_pain	emotional-pain story	physical-pain story	emotional vs. physical pain story	['imagined_emotional_pain', 'theory-of-mind']
