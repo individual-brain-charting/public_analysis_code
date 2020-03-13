@@ -187,14 +187,28 @@ def math_language(design_matrix_columns):
 
 def spatial_navigation(design_matrix_columns):
     """ Contrasts for spatial navigation task"""
-    contrast_names = ['experimental', 'pointing', 'control', 'encoding']
+    contrast_names = [
+        'experimental-intersection', 'experimental-control', 'encoding_phase',
+        'intersection', 'retrieval', 'control', 'pointing_control',
+        'experimental', 'pointing_experimental', 'navigation']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {'experimental': con['experimental'],
-                 'pointing': con['pointing_phase'],
+
+    contrasts = {'encoding_phase': con['encoding_phase'],
+                 'navigation': con['navigation'],
+                 'experimental': con['experimental'],
+                 'pointing_experimental': con['pointing_experimental'],
                  'control': con['control'],
-                 'encoding': con['encoding_phase']}
+                 'pointing_control': con['pointing_control'],
+                 'intersection': con['intersection'],
+                 'experimental-control': con['experimental'] - con['control'],
+                 'retrieval':
+                     con['experimental'] + con['pointing_experimental'] -
+                     con['control'] - con['pointing_control'],
+                 'experimental-intersection':
+                     con['experimental'] - con['intersection']
+                 }
 
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
@@ -390,7 +404,7 @@ def two_by_two(design_matrix_columns):
     contrast_names = [
         'task_stay_cue_stay', 'task_switch_cue_switch',
         'task_switch_cue_stay', 'task_stay_cue_switch',
-        'task_switch-stay', 'task_repetition']
+        'task_switch-stay', 'cue_switch']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
