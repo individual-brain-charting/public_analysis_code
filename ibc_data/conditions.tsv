@@ -219,22 +219,3 @@ ward_and_aliport	ambiguous_intermediate
 ward_and_aliport	unambiguous_direct
 ward_and_aliport	ambiguous_direct
 ward_and_aliport	unambiguous_intermediate
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-biological_motion1	global_upright
-biological_motion1	global_inverted
-biological_motion1	natural_upright
-biological_motion1	natural_inverted
-biological_motion2	modified_upright
-biological_motion2	modified_inverted
-biological_motion2	natural_upright
-biological_motion2	natural_inverted
