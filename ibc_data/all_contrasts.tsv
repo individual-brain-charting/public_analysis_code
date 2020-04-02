@@ -298,7 +298,7 @@ audio	speech-others	speech	other sounds	listen to speech vs other sounds	['sound
 audio	tool-others	tool sound	other sounds	listen to tool vs other sounds	['sounds_perception', 'listening']
 audio	voice-others	voice	other sounds	listen to voice vs other sounds 	['auditory_attention', 'sounds_perception', 'voice_perception', 'listening']
 audio	mean-silence	sound	silence	listening to sounds vs silence	['auditory_perception', 'sounds_perception', 'listening']
-audio	animal-slience	animal sound	silence	listen to animals vs silence	['auditory_perception', 'sounds_perception', 'listening']
+audio	animal-silence	animal sound	silence	listen to animals vs silence	['auditory_perception', 'sounds_perception', 'listening']
 audio	music-silence	music	silence	listen to music vs silence	['auditory_perception', 'sounds_perception', 'listening', 'music_perception']
 audio	nature-silence	nature sound	silence	listen to nature vs silence	['auditory_perception', 'sounds_perception', 'listening']
 audio	speech-silence	speech	silence	listen to speech vs silence	['auditory_perception', 'sounds_perception', 'voice_perception', 'listening', 'speech_perception', 'language_processing']
