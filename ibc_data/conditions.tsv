@@ -108,3 +108,11 @@ self	correct_rejection
 self	false_alarm
 bang	talk
 bang	no_talk
+wedge	lower_meridian
+wedge	upper_meridian
+wedge	lower_right
+wedge	upper_left
+wedge	right_meridian
+wedge	left_meridian
+wedge	upper_right
+wedge	lower_left
