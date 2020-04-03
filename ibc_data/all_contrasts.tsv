@@ -185,7 +185,7 @@ pain_movie	movie_pain	physical-pain movie	fixation	movie with physically painful
 pain_movie	movie_mental	mental movie	fixation	movie with events about changes in beliefs, desires and emotions	['visual_attention', 'empathy', 'imagined_emotional_pain', 'theory-of-mind']
 pain_movie	movie_mental-pain	mental movie	physical-pain movie	mental events vs. physically painful events	['imagined_emotional_pain', 'theory-of-mind']
 vstm	vstm_constant	vstm response to constant numerosity	fixation	visual orientation	['visual_orientation', 'visual_form_discrimination', 'shape_recognition', 'short-term_memory', 'response_selection', 'response_execution']
-vstm	vstm_linear	vstm response to numerosity	fixation	linear effect of numerosity in visual orientation	['visual_working_memory','numerosity']
+vstm	vstm_linear	vstm response to numerosity	fixation	linear effect of numerosity in visual orientation	['visual_working_memory', 'numerosity']
 vstm	vstm_quadratic	vstm response to numerosity interaction	fixation	quadratic effect of numerosity in visual orientation	['visual_buffer', 'numerosity']
 enumeration	enumeration_constant	enumeration response to constant numerosity	fixation	enumeration	['enumeration', 'numerosity', 'shape_recognition', 'response_selection', 'response_execution']
 enumeration	enumeration_linear	enumeration response to numerosity	fixation	linear effect of numerosity in enumeration	['visual_working_memory', 'numerosity']
