@@ -169,13 +169,11 @@ lyon_mcse	high_salience_left
 lyon_mcse	high_salience_right
 lyon_mcse	low_salience_left
 lyon_mcse	low_salience_right
-lyon_mcse	low+high_salience
 audio	mean-silence
-audio	animal-slience
+audio	animal-silence
 audio	music-silence
 audio	nature-silence
 audio	speech-silence
-audio	saccade-fixation
 audio	voice-silence
 attention	double_congruent
 attention	double_incongruent

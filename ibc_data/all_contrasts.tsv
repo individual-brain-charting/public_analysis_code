@@ -302,7 +302,6 @@ audio	animal-silence	animal sound	silence	listen to animals vs silence	['auditor
 audio	music-silence	music	silence	listen to music vs silence	['auditory_perception', 'sounds_perception', 'listening', 'music_perception']
 audio	nature-silence	nature sound	silence	listen to nature vs silence	['auditory_perception', 'sounds_perception', 'listening']
 audio	speech-silence	speech	silence	listen to speech vs silence	['auditory_perception', 'sounds_perception', 'voice_perception', 'listening', 'speech_perception', 'language_processing']
-audio	saccade-fixation	tool sound	silence	listen to tool vs silence	['auditory_perception', 'sounds_perception', 'listening']
 audio	voice-silence	voice	silence	listen to voice vs sounds 	['auditory_perception', 'auditory_attention', 'sounds_perception', 'voice_perception', 'listening']
 attention	spatial_cue-double_cue	no cue	visual cue	cued vs uncued probe	['attentional_focusing',  'saccadic_eye_movement']
 attention	spatial_cue	spatial cue	fixation	cued probe	['spatial_attention', 'attentional_focusing', 'saccadic_eye_movement']
