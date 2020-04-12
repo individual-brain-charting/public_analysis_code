@@ -741,8 +741,9 @@ def lyon_mcse(design_matrix_columns):
     contrast_names = [
         'high_salience_left', 'high_salience_right',
         'low_salience_left', 'low_salience_right',
-        'low-high_salience', 'salience_left-right',
-        'low+high_salience',]
+        'high-low_salience', 'low-high_salience',
+        'salience_left-right', 'salience_right-left',
+        'low+high_salience']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
