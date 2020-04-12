@@ -188,7 +188,8 @@ two_by_two	task_switch_cue_stay
 two_by_two	task_stay_cue_switch
 discount	delay
 discount	amount
-selective_stop_signal	go
+selective_stop_signal	go_critical
+selective_stop_signal	go_noncritical
 selective_stop_signal	stop
 selective_stop_signal	ignore
 stroop	congruent
