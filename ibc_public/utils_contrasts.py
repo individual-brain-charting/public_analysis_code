@@ -656,7 +656,7 @@ def audio(design_matrix_columns):
 def lyon_mveb(design_matrix_columns):
     """ Contrasts for Lyon mveb localizer"""
     contrast_names = [
-        'response', '2_letters_different', '2_letters_same',
+        'letter_occurrence_response', '2_letters_different', '2_letters_same',
         '4_letters_different', '4_letters_same',
         '6_letters_different', '6_letters_same',
         '2_letters_different-same',
@@ -683,7 +683,7 @@ def lyon_mveb(design_matrix_columns):
 
 def lyon_mvis(design_matrix_columns):
     """ Contrasts for Lyon mvis localizer"""
-    contrast_names = ['response',
+    contrast_names = ['dot_displacement_response',
                       '2_dots-2_dots_control', '4_dots-4_dots_control',
                       '6_dots-6_dots_control', '6_dots-2_dots', 'dots-control']
     if design_matrix_columns is None:
