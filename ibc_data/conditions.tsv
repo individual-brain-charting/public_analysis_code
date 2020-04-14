@@ -145,14 +145,14 @@ lyon_visu	tool-scrambled
 lyon_lec1	random_string
 lyon_lec1	word
 lyon_lec1	pseudoword
-lyon_mveb	response
+lyon_mveb	letter_occurrence_response
 lyon_mveb	2_letters_different
 lyon_mveb	4_letters_different
 lyon_mveb	6_letters_different
 lyon_mveb	2_letters_same
 lyon_mveb	4_letters_same
 lyon_mveb	6_letters_same
-lyon_mvis	response
+lyon_mvis	dot_displacement_response
 lyon_mvis	2_dots-2_dots_control
 lyon_mvis	4_dots-4_dots_control
 lyon_mvis	6_dots-6_dots_control
