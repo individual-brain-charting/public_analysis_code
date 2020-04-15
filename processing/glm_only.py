@@ -104,8 +104,8 @@ def generate_glm_input(jobfile, smooth=None, lowres=False):
 def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
                     lowres=False):
     """ Create jobfile and run it """
-    if protocol == 'preferences' and subject in ['sub-11']:
-        jobfile = 'ini_files/IBC_preproc_preferences_sub-11.ini'
+    if protocol == 'preference' and subject in ['sub-11']:
+        jobfile = 'ini_files/IBC_preproc_preference_sub-11.ini'
     elif protocol == 'stanford3' and subject in ['sub-15']:
         jobfile = 'ini_files/IBC_preproc_stanford3_sub-15.ini'
     output_name = os.path.join(
