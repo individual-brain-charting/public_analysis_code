@@ -115,7 +115,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
 
 
 def _elementary_contrasts(design_matrix_columns):
-    """Returns a doictionary of contrasts for all columns
+    """Returns a dictionary of contrasts for all columns
         of the design matrix"""
     con = {}
     n_columns = len(design_matrix_columns)
@@ -666,7 +666,8 @@ def lyon_mveb(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     #
-    contrasts = dict([(key, con[key]) for key in contrast_names[:7]])
+    contrasts = dict([(key, con[key]) for key in contrast_names[1:7]])
+    contrasts['letter_occurrence_response'] = con['response']
     contrasts['2_letters_different-same'] = con['2_letters_different'] -\
         con['2_letters_same']
     contrasts['4_letters_different-same'] = con['4_letters_different'] -\
@@ -690,7 +691,7 @@ def lyon_mvis(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     # contrasts = dict([(cname, con[cname]) for cname in contrast_names[:-4]])
-    contrasts = {'response': con['response']}
+    contrasts = {'dot_displacement_response': con['response']}
     contrasts['2_dots-2_dots_control'] = con['2_dots'] - con['2_dots_control']
     contrasts['4_dots-4_dots_control'] = con['4_dots'] - con['4_dots_control']
     contrasts['6_dots-6_dots_control'] = con['6_dots'] - con['6_dots_control']
