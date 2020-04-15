@@ -236,12 +236,13 @@ two_by_two	task_switch-stay
 two_by_two	cue_switch-stay
 discount	delay
 discount	amount
-selective_stop_signal	go
+selective_stop_signal	go_critical
+selective_stop_signal	go_noncritical
 selective_stop_signal	stop
 selective_stop_signal	ignore
+selective_stop_signal	go_critical-stop
+selective_stop_signal	go_noncritical-ignore
 selective_stop_signal	ignore-stop
-selective_stop_signal	stop-go
-selective_stop_signal	ignore-go
 selective_stop_signal	stop-ignore
 stroop	congruent
 stroop	incongruent
