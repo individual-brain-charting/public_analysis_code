@@ -10,7 +10,7 @@ archi_standard	vertical_checkerboard	vertical checkerboard	fixation	watch vertic
 archi_standard	horizontal-vertical	horizontal checkerboard	vertical checkerboard	horizontal vs. vertical checkerboard	horizontal_checkerboard
 archi_standard	vertical-horizontal	vertical checkerboard	horizontal checkerboard	vertical vs. horizontal checkerboard	vertical_checkerboard
 archi_standard	video_sentence	read sentence	fixation	read narrative sentence	visual_word_recognition, visual_sentence_comprehension, visual_attention
-archi_standard	audio_sentence	listen to sentence	fixation	listen to narrative sentence	auditory_word_recognition, auditory_sentence_comprehension, auditory_attention
+archi_standard	audio_sentence	listen to sentence	fixation	listen to narrative sentence	auditory_word_recognition, auditory_sentence_comprehension
 archi_standard	video_computation	read then calculate	fixation	mental subtraction upon video instruction	visual_arithmetic_processing, visual_sentence_comprehension
 archi_standard	audio_computation	listen then calculate	fixation	mental subtraction upon audio instruction	auditory_arithmetic_processing, auditory_sentence_comprehension
 archi_standard	sentences	read or listen	fixation	read or listen to sentences	visual_word_recognition, auditory_word_recognition, visual_sentence_comprehension, auditory_sentence_comprehension
@@ -202,8 +202,8 @@ self	correct_rejection	memory	fixation	identification of a new adjective	memory,
 self	recognition_hit-correct_rejection	recognition	memory 	recognition of an adjective previously displayed	recognition, episodic_memory
 self	false_alarm	no recognition	fixation	erroneous response	response_selection, response_execution
 bang	talk-no_talk	speech	no speech	speech vs. non-speech sections in movie watching	speech_perception, speech_processing, language_processing, language_comprehension
-bang	talk	speech	fixation	speech sections in movie watching	speech_perception,  speech_processing,  language_comprehension,  language_processing,  action_perception,  audiovisual_perception,  auditory_scene_analysis,  social_cognition
-bang	no_talk	no speech	fixation	non-speech section in movie watching	action_perception,  audiovisual_perception, auditory_scene_analysis, social_cognition
+bang	talk	speech	fixation	speech sections in movie watching	speech_perception,  speech_processing,  language_comprehension,  language_processing,  audiovisual_perception
+bang	no_talk	no speech	fixation	non-speech section in movie watching	action_perception,  audiovisual_perception
 wedge	lower_meridian	lower_meridian	fixation	visual representation in the lower half-plane of the visual field delimited by its horizontal meridian	lower-left_vision, lower-right_vision, visual_color_discrimination
 wedge	upper_meridian	upper_meridian	fixation	visual representation in the upper half-plane of the visual field delimited by its horizontal meridian	upper-left_vision, upper-right_vision, visual_color_discrimination
 wedge	lower_right	lower_right	fixation	visual representation in the lower-right quadrant of the visual field delimited by its vertical and horizontal meridians	lower-right_vision, visual_color_discrimination
@@ -218,31 +218,31 @@ ring	peripheral	peripheral	fixation	visual representation in the far-periphery o
 lyon_lec2	attend	attended text	fixation	response to attended text	language_processing, language_comprehension, reading, word_maintenance, working_memory
 lyon_lec2	unattend	non-attended text	fixation	response to unattended text	reading, inhibition
 lyon_lec2	attend-unattend	attended text	non-attended text	response to attended vs. unattended text	language_processing, language_comprehension, word_maintenance, working_memory
-lyon_audi	tear	tear sound	silence	listen to tears	auditory_perception, auditory_attention, sound_perception, voice_perception, listening
-lyon_audi	suomi	unknown language	silence	listen to unknown language	auditory_perception, auditory_attention, sound_perception, voice_perception, listening, speech_perception, language_processing
-lyon_audi	yawn	yawning	silence	listen to yawning	auditory_perception, auditory_attention, sound_perception, voice_perception, listening
-lyon_audi	human	human sounds	silence	listen to human sounds	auditory_perception, auditory_attention, sound_perception, voice_perception, listening
+lyon_audi	tear	tear sound	silence	listen to tears	auditory_perception, auditory_attention, sound_perception, voice_perception
+lyon_audi	suomi	unknown language	silence	listen to unknown language	auditory_perception, auditory_attention, sound_perception, voice_perception, speech_perception, language_processing
+lyon_audi	yawn	yawning	silence	listen to yawning	auditory_perception, auditory_attention, sound_perception, voice_perception
+lyon_audi	human	human sounds	silence	listen to human sounds	auditory_perception, auditory_attention, sound_perception, voice_perception
 lyon_audi	silence	silence	silence	listen to silence	auditory_attention
-lyon_audi	music	music	silence	listen to music	auditory_perception, auditory_attention, sound_perception, listening
-lyon_audi	reverse	reversed speech	silence	listen to reversed speech	auditory_perception, auditory_attention, sound_perception, voice_perception, listening, speech_perception, language_processing
-lyon_audi	speech	speech	silence	listen to speech	auditory_perception, auditory_attention, sound_perception, voice_perception, auditory_sentence_recognition, listening, speech_perception, speech_processing, language_processing, language_comprehension, semantic_processing
-lyon_audi	alphabet	letters sounds	silence	listen to letters	auditory_perception, auditory_attention, sound_perception, voice_perception, listening, speech_perception, speech_processing, language_processing, language_comprehension
-lyon_audi	cough	coughing	silence	listen to coughing	auditory_perception, auditory_attention, sound_perception, voice_perception, listening
-lyon_audi	environment	environment sounds	silence	listen to environment sounds	auditory_perception, auditory_attention, sound_perception, listening
-lyon_audi	laugh	laugh	silence	listen to laugh	auditory_perception, auditory_attention, sound_perception, voice_perception, listening
-lyon_audi	animals	animals	silence	listen to animals	auditory_perception, auditory_attention, sound_perception, listening
-lyon_audi	tear-silence	tear sound	silence	listen to tears	auditory_perception, sound_perception, voice_perception, listening
-lyon_audi	suomi-silence	unknown language	silence	listen to unknown language	auditory_perception, sound_perception, voice_perception, listening, speech_perception, language_processing
-lyon_audi	yawn-silence	yawning	silence	listen to yawning	auditory_perception, sound_perception, voice_perception, listening
-lyon_audi	human-silence	human sounds	silence	listen to human sounds	auditory_perception, sound_perception, voice_perception, listening
-lyon_audi	music-silence	music	silence	listen to music	auditory_perception, sound_perception, listening, music_perception
-lyon_audi	reverse-silence	reversed speech	silence	listen to reversed speech	auditory_perception, sound_perception, voice_perception, listening, speech_perception, language_processing
-lyon_audi	speech-silence	speech	silence	listen to speech	auditory_perception, sound_perception, voice_perception, auditory_sentence_recognition, listening, speech_perception, speech_processing, language_processing, language_comprehension, semantic_processing
-lyon_audi	alphabet-silence	letters sounds	silence	listen to letters	auditory_perception, sound_perception, voice_perception, listening, speech_perception, speech_processing, language_processing, language_comprehension
-lyon_audi	cough-silence	coughing	silence	listen to coughing	auditory_perception, auditory_attention, sound_perception, voice_perception, listening
-lyon_audi	environment-silence	environment sounds	silence	listen to environment sounds	auditory_perception, sound_perception, listening
-lyon_audi	laugh-silence	laugh	silence	listen to laugh	auditory_perception, sound_perception, voice_perception, listening
-lyon_audi	animals-silence	animals	silence	listen to animals	auditory_perception, sound_perception, listening
+lyon_audi	music	music	silence	listen to music	auditory_perception, auditory_attention, sound_perception
+lyon_audi	reverse	reversed speech	silence	listen to reversed speech	auditory_perception, auditory_attention, sound_perception, voice_perception, speech_perception, language_processing
+lyon_audi	speech	speech	silence	listen to speech	auditory_perception, auditory_attention, sound_perception, voice_perception, auditory_sentence_recognition, speech_perception, speech_processing, language_processing, language_comprehension, semantic_processing
+lyon_audi	alphabet	letters sounds	silence	listen to letters	auditory_perception, auditory_attention, sound_perception, voice_perception, speech_perception, speech_processing, language_processing, language_comprehension
+lyon_audi	cough	coughing	silence	listen to coughing	auditory_perception, auditory_attention, sound_perception, voice_perception
+lyon_audi	environment	environment sounds	silence	listen to environment sounds	auditory_perception, auditory_attention, sound_perception
+lyon_audi	laugh	laugh	silence	listen to laugh	auditory_perception, auditory_attention, sound_perception, voice_perception
+lyon_audi	animals	animals	silence	listen to animals	auditory_perception, auditory_attention, sound_perception
+lyon_audi	tear-silence	tear sound	silence	listen to tears	auditory_perception, sound_perception, voice_perception
+lyon_audi	suomi-silence	unknown language	silence	listen to unknown language	auditory_perception, sound_perception, voice_perception, speech_perception, language_processing
+lyon_audi	yawn-silence	yawning	silence	listen to yawning	auditory_perception, sound_perception, voice_perception
+lyon_audi	human-silence	human sounds	silence	listen to human sounds	auditory_perception, sound_perception, voice_perception
+lyon_audi	music-silence	music	silence	listen to music	auditory_perception, sound_perception, music_perception
+lyon_audi	reverse-silence	reversed speech	silence	listen to reversed speech	auditory_perception, sound_perception, voice_perception, speech_perception, language_processing
+lyon_audi	speech-silence	speech	silence	listen to speech	auditory_perception, sound_perception, voice_perception, auditory_sentence_recognition, speech_perception, speech_processing, language_processing, language_comprehension, semantic_processing
+lyon_audi	alphabet-silence	letters sounds	silence	listen to letters	auditory_perception, sound_perception, voice_perception, speech_perception, speech_processing, language_processing, language_comprehension
+lyon_audi	cough-silence	coughing	silence	listen to coughing	auditory_perception, auditory_attention, sound_perception, voice_perception
+lyon_audi	environment-silence	environment sounds	silence	listen to environment sounds	auditory_perception, sound_perception
+lyon_audi	laugh-silence	laugh	silence	listen to laugh	auditory_perception, sound_perception, voice_perception
+lyon_audi	animals-silence	animals	silence	listen to animals	auditory_perception, sound_perception
 lyon_visu	scrambled	scrambled image	fixation	view a scrambled image	visual_perception, visual_representation
 lyon_visu	face-scrambled	face image	scrambled image	view a face image	face_perception
 lyon_visu	characters-scrambled	characters image	scrambled image	view a characters	visual_word_recognition, reading
@@ -291,18 +291,18 @@ lyon_mcse	low_salience_right	low salience right	fixation	looking for a low-salie
 lyon_mcse	salience_left-right	left visual field	right visual field	looking for a symbol in left vs. right visual field	response_selection, response_execution, visual_search, visual_localization, upper-left_vision, lower-left_vision
 lyon_mcse	low+high_salience	visual search	fixation	looking for a symbol	response_selection, response_execution, visual_search, visual_localization
 lyon_mcse	low-high_salience	low salience	high salience	looking for a low-salient symbol	response_selection, response_execution, visual_search, task_difficulty
-audio	animal-others	animal sound	other sounds	listen to animals vs. other sounds	 sound_perception, listening
-audio	music-other	music	other sounds	listen to music vs. other sounds	sound_perception, listening, music_perception
-audio	nature-others	nature sound	other sounds	listen to nature vs. other sounds	sound_perception, listening
-audio	speech-others	speech	other sounds	listen to speech vs. other sounds	sound_perception, voice_perception, listening, speech_perception, language_processing
-audio	tool-others	tool sound	other sounds	listen to tool vs. other sounds	sound_perception, listening
-audio	voice-others	voice	other sounds	listen to voice vs. other sounds 	auditory_attention, sound_perception, voice_perception, listening
-audio	mean-silence	sound	silence	listening to sounds vs. silence	auditory_perception, sound_perception, listening
-audio	animal-silence	animal sound	silence	listen to animals vs. silence	auditory_perception, sound_perception, listening
-audio	music-silence	music	silence	listen to music vs. silence	auditory_perception, sound_perception, listening, music_perception
-audio	nature-silence	nature sound	silence	listen to nature vs. silence	auditory_perception, sound_perception, listening
-audio	speech-silence	speech	silence	listen to speech vs. silence	auditory_perception, sound_perception, voice_perception, listening, speech_perception, language_processing
-audio	voice-silence	voice	silence	listen to voice vs. sounds 	auditory_perception, auditory_attention, sound_perception, voice_perception, listening
+audio	animal-others	animal sound	other sounds	listen to animals vs. other sounds	 sound_perception
+audio	music-other	music	other sounds	listen to music vs. other sounds	sound_perception, music_perception
+audio	nature-others	nature sound	other sounds	listen to nature vs. other sounds	sound_perception
+audio	speech-others	speech	other sounds	listen to speech vs. other sounds	sound_perception, voice_perception, speech_perception, language_processing
+audio	tool-others	tool sound	other sounds	listen to tool vs. other sounds	sound_perception
+audio	voice-others	voice	other sounds	listen to voice vs. other sounds 	auditory_attention, sound_perception, voice_perception
+audio	mean-silence	sound	silence	listening to sounds vs. silence	auditory_perception, sound_perception
+audio	animal-silence	animal sound	silence	listen to animals vs. silence	auditory_perception, sound_perception
+audio	music-silence	music	silence	listen to music vs. silence	auditory_perception, sound_perception, music_perception
+audio	nature-silence	nature sound	silence	listen to nature vs. silence	auditory_perception, sound_perception
+audio	speech-silence	speech	silence	listen to speech vs. silence	auditory_perception, sound_perception, voice_perception, speech_perception, language_processing
+audio	voice-silence	voice	silence	listen to voice vs. sounds 	auditory_perception, auditory_attention, sound_perception, voice_perception
 attention	spatial_cue-double_cue	no cue	visual cue	cued vs. uncued probe	attentional_focusing,  saccadic_eye_movement
 attention	spatial_cue	spatial cue	fixation	cued probe	spatial_attention, attentional_focusing, saccadic_eye_movement
 attention	incongruent-congruent	ignore distractors	no distractors	ignore distractors vs. no distractors	selective_attention
