@@ -105,17 +105,17 @@ rsvp_language	word-consonant_string	read words	consonant strings	read words vs. 
 rsvp_language	pseudoword_list	read pseudowords	fixation	read pseudowords vs. fixation	visual_pseudoword_recognition, working_memory
 rsvp_language	pseudo-consonant_string	read pseudowords	consonant strings	read pseudowords vs. consonant strings	visual_pseudoword_recognition
 rsvp_language	word-pseudo	read words	read pseudowords	read words vs. pseudowords	visual_word_recognition, word_maintenance
-rsvp_language	simple	simple sentence	fixation	read sentence with simple syntax vs. fixation	visual_word_recognition, sentence_comprehension, word_maintenance, working_memory
-rsvp_language	simple-consonant_string	simple sentence	consonant strings	read simple sentence vs. consonant strings	visual_word_recognition, sentence_comprehension, word_maintenance
-rsvp_language	complex	complex sentence	fixation	read sentence with complex syntax vs. fixation	visual_word_recognition, syntactic_parsing, sentence_comprehension, word_maintenance, working_memory
-rsvp_language	complex-consonant_string	complex sentence	consonant strings	read complex sentence vs. consonant strings	visual_word_recognition, syntactic_parsing, sentence_comprehension, word_maintenance
+rsvp_language	simple	simple sentence	fixation	read sentence with simple syntax vs. fixation	visual_word_recognition, visual_sentence_comprehension, word_maintenance, working_memory
+rsvp_language	simple-consonant_string	simple sentence	consonant strings	read simple sentence vs. consonant strings	visual_word_recognition, visual_sentence_comprehension, word_maintenance
+rsvp_language	complex	complex sentence	fixation	read sentence with complex syntax vs. fixation	visual_word_recognition, syntactic_parsing, visual_sentence_comprehension, word_maintenance, working_memory
+rsvp_language	complex-consonant_string	complex sentence	consonant strings	read complex sentence vs. consonant strings	visual_word_recognition, syntactic_parsing, visual_sentence_comprehension, word_maintenance
 rsvp_language	complex-simple	complex sentence	simple sentence	read sentence with complex vs. simple syntax	syntactic_parsing
-rsvp_language	sentence-consonant_string	read sentence	consonant strings	read sentence vs. consonant strings	visual_word_recognition, syntactic_parsing, sentence_comprehension, word_maintenance, combinatorial_semantics
-rsvp_language	sentence-word	read sentence	read words	read sentence vs. words	syntactic_parsing, sentence_comprehension, word_maintenance, combinatorial_semantics
-rsvp_language	sentence-pseudo	read sentence	read pseudowords	read sentence vs. pseudowords	visual_word_recognition, syntactic_parsing, sentence_comprehension, word_maintenance
-rsvp_language	jabberwocky	read jabberwocky	fixation	read jabberwocky vs. fixation	visual_pseudoword_recognition, sentence_comprehension, working_memory
-rsvp_language	jabberwocky-consonant_string	consonant strings	read jabberwocky	read jabberwocky vs. consonant strings	visual_pseudoword_recognition, sentence_comprehension
-rsvp_language	jabberwocky-pseudo	read jabberwocky	read pseudowords	read jabberwocky vs. pseudowords	sentence_comprehension
+rsvp_language	sentence-consonant_string	read sentence	consonant strings	read sentence vs. consonant strings	visual_word_recognition, syntactic_parsing, visual_sentence_comprehension, word_maintenance, combinatorial_semantics
+rsvp_language	sentence-word	read sentence	read words	read sentence vs. words	syntactic_parsing, visual_sentence_comprehension, word_maintenance, combinatorial_semantics
+rsvp_language	sentence-pseudo	read sentence	read pseudowords	read sentence vs. pseudowords	visual_word_recognition, syntactic_parsing, visual_sentence_comprehension, word_maintenance
+rsvp_language	jabberwocky	read jabberwocky	fixation	read jabberwocky vs. fixation	visual_pseudoword_recognition, visual_sentence_comprehension, working_memory
+rsvp_language	jabberwocky-consonant_string	consonant strings	read jabberwocky	read jabberwocky vs. consonant strings	visual_pseudoword_recognition, visual_sentence_comprehension
+rsvp_language	jabberwocky-pseudo	read jabberwocky	read pseudowords	read jabberwocky vs. pseudowords	visual_sentence_comprehension
 rsvp_language	sentence-jabberwocky	read sentence	read jabberwocky	read sentence vs. jabberwocky	visual_word_recognition, syntactic_parsing, word_maintenance, combinatorial_semantics
 rsvp_language	probe	probe	fixation	word probe	response_selection, response_execution, recognition
 mtt_we	we_average_reference	all references in we island	fixation	updating ones position in space and time in west-east island	auditory_perception, memory_retrieval, spatial_localization, cardinal-direction_judgment, temporal_cognition
@@ -164,14 +164,14 @@ preference	painting-others	painting evaluation	other categories	evaluation of pa
 preference	face-others	face evaluation	other categories	evaluation of faces vs. other categories	visual_face_recognition, face_perception, facial_attractiveness_recognition
 preference	house-others	house evaluation	other categories	evaluation of houses vs. other categories	visual_place_recognition, visual_scene_perception
 preference_food	food_constant	food evaluation	fixation	evaluation of food	food_cue_reactivity, judgment
-preference_food	food_linear	food preference	fixation	linear effect of food preference	food_cue_reactivity, reward_valuation, incentive_salience
-preference_food	food_quadratic	confidence in food preference	fixation	quadratic effect of food preference	food_cue_reactivity, confidence_judgment
+preference_food	food_linear	food preference	fixation	linear effect of food preference	reward_valuation, incentive_salience
+preference_food	food_quadratic	confidence in food preference	fixation	quadratic effect of food preference	confidence_judgment
 preference_paintings	painting_constant	painting evaluation	fixation	evaluation of paintings	visual_form_discrimination, visual_color_discrimination, judgment
 preference_paintings	painting_linear	painting preference	fixation	linear effect of paintings preference	visual_form_discrimination, visual_color_discrimination, reward_valuation, incentive_salience
 preference_paintings	painting_quadratic	confidence in painting preference	fixation	quadratic effect of paintings preference	visual_form_discrimination, visual_color_discrimination, confidence_judgment
-preference_faces	face_constant	face evaluation	fixation	evaluation of faces	visual_face_recognition, face_perception, facial_attractiveness_recognition, judgment
-preference_faces	face_linear	face preference	fixation	linear effect of face preference	visual_face_recognition, face_perception, facial_attractiveness_recognition, reward_valuation, incentive_salience
-preference_faces	face_quadratic	confidence in face preference	fixation	quadratic effect of face preference	visual_face_recognition, face_perception, facial_attractiveness_recognition, confidence_judgment
+preference_faces	face_constant	face evaluation	fixation	evaluation of faces	visual_face_recognition, face_perception, judgment
+preference_faces	face_linear	face preference	fixation	linear effect of face preference	facial_attractiveness_recognition, reward_valuation, incentive_salience
+preference_faces	face_quadratic	confidence in face preference	fixation	quadratic effect of face preference	facial_attractiveness_recognition, confidence_judgment
 preference_houses	house_constant	house evaluation	fixation	evaluation of houses	visual_place_recognition, judgment
 preference_houses	house_linear	house preference	fixation	linear effect of houses preference	visual_place_recognition, reward_valuation, incentive_salience
 preference_houses	house_quadratic	confidence in house preference	fixation	quadratic effect of houses preference	visual_place_recognition, confidence_judgment
@@ -213,8 +213,8 @@ wedge	left_meridian	left_meridian	fixation	visual representation in the left hal
 wedge	upper_right	upper_right	fixation	visual representation in the upper-right quadrant of the visual field delimited by its vertical and horizontal meridians	upper-right_vision, visual_color_discrimination
 wedge	lower_left	lower_left	fixation	visual representation in the lower-left quadrant of the visual field delimited by its vertical and horizontal meridians	lower-left_vision, visual_color_discrimination
 ring	foveal	foveal	fixation	visual representation in the fovea	foveal_vision, visual_color_discrimination
-ring	middle	middle	fixation	visual representation in the mid-periphery of the visual field	mid-peripheral_vision, visual_color_discrimination
-ring	peripheral	peripheral	fixation	visual representation in the far-periphery of the visual field	far-peripheral_vision, visual_color_discrimination
+ring	middle	middle	fixation	visual representation in the mid-periphery of the visual field	mid_peripheral_vision, visual_color_discrimination
+ring	peripheral	peripheral	fixation	visual representation in the far-periphery of the visual field	far_peripheral_vision, visual_color_discrimination
 lyon_lec2	attend	attended text	fixation	response to attended text	language_processing, language_comprehension, reading, word_maintenance, working_memory
 lyon_lec2	unattend	non-attended text	fixation	response to unattended text	reading, inhibition
 lyon_lec2	attend-unattend	attended text	non-attended text	response to attended vs. unattended text	language_processing, language_comprehension, word_maintenance, working_memory
