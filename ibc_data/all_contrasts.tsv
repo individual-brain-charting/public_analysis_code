@@ -38,15 +38,15 @@ archi_social	mechanistic_video	mechanistic story	fixation	reading a mechanistic 
 archi_social	mechanistic_audio	mechanistic tale	fixation	listening to a mechanistic tale	auditory_sentence_recognition, narrative_comprehension
 archi_social	false_belief-mechanistic_video	false-belief story	mechanistic story	false-belief story vs. mechanistic story	visual_imagery, theory_of_mind
 archi_social	false_belief-mechanistic_audio	false-belief tale	mechanistic tale	false-belief tale vs. mechanistic tale	auditory_imagery, theory_of_mind
-archi_social	false_belief-mechanistic	false-belief plot	mechanistic plot	false-belief story or tale vs. mechanistic story or tale	mental_imagery, theory_of_mind
+archi_social	false_belief-mechanistic	false-belief plot	mechanistic plot	false-belief story or tale vs. mechanistic story or tale	df_conditions
 archi_social	speech_sound	voice sound	silence	listen to voice sound	voice_perception, auditory_perception
 archi_social	non_speech_sound	natural sound	silence	listen to natural sound	sound_perception, auditory_perception
 archi_social	speech-non_speech	voice sound	natural sound	listen to voice sound vs. natural sound	voice_perception
-archi_emotional	face_gender	face gender	fixation	guess the gender from face image	visual_face_recognition, gender_discrimination, visual_pattern_recognition
+archi_emotional	face_gender	face gender	fixation	guess the gender from face image	face_perception, gender_discrimination, visual_pattern_recognition
 archi_emotional	face_control	scrambled image	fixation	look at scrambled image	visual_orientation
-archi_emotional	face_gender-control	face gender	scrambled image	guess the gender from face image	visual_face_recognition, gender_discrimination, visual_pattern_recognition
-archi_emotional	face_trusty	face trusty	fixation	assess face trustfulness	visual_face_recognition, facial_trustworthiness_recognition, visual_pattern_recognition
-archi_emotional	face_trusty-control	face trusty	scrambled image	assess face trustfulness vs. view scrambled image	visual_face_recognition, facial_trustworthiness_recognition, visual_pattern_recognition
+archi_emotional	face_gender-control	face gender	scrambled image	guess the gender from face image	face_perception, gender_discrimination, visual_pattern_recognition
+archi_emotional	face_trusty	face trusty	fixation	assess face trustfulness	face_perception, facial_trustworthiness_recognition, visual_pattern_recognition
+archi_emotional	face_trusty-control	face trusty	scrambled image	assess face trustfulness vs. view scrambled image	face_perception, facial_trustworthiness_recognition, visual_pattern_recognition
 archi_emotional	face_trusty-gender	face trusty	face gender	assess face trustfulness vs. gender	facial_trustworthiness_recognition
 archi_emotional	expression_gender	expression gender	fixation	guess gender from eyes image	gender_discrimination, visual_pattern_recognition
 archi_emotional	expression_intention	expression intention	fixation	guess intention from eyes image	emotional_expression, visual_pattern_recognition
@@ -54,7 +54,7 @@ archi_emotional	expression_control	scrambled image	fixation	look at scrambled ey
 archi_emotional	expression_gender-control	expression gender	scrambled image	guess the gender from eyes image vs. view scrambled image	gender_discrimination
 archi_emotional	expression_intention-control	expression intention	scrambled image	guess intention from eyes image vs. view scrambled image	emotional_expression
 archi_emotional	expression_intention-gender	expression intention	expression gender	guess intention vs. gender from eyes image	emotional_expression
-archi_emotional	trusty_and_intention-control	face trusty /expression intention	scrambled image	assess face trustfulness or guess expression intention vs. scrambled image	emotional_expression, facial_trustworthiness_recognition, visual_face_recognition
+archi_emotional	trusty_and_intention-control	face trusty /expression intention	scrambled image	assess face trustfulness or guess expression intention vs. scrambled image	emotional_expression, facial_trustworthiness_recognition, face_perception
 archi_emotional	trusty_and_intention-gender	face trusty /expression intention	face/expression gender	assess face trustfulness or guess expression intention vs. guess the gender	emotional_expression, facial_trustworthiness_recognition
 hcp_emotion	shape	shape outline	fixation	shape comparison	visual_form_recognition, feature_comparison, response_selection, response_execution
 hcp_emotion	face	face image	fixation	emotional face comparison	feature_comparison, emotional_face_recognition, response_selection, response_execution
@@ -161,7 +161,7 @@ preference	preference_linear	visual preference	no preference	linear effect of pr
 preference	preference_quadratic	confidence in preference	no confidence 	quadratic effect of preference	confidence_judgment
 preference	food-others	food evaluation	other categories	evaluation of food vs. other categories	food_cue_reactivity
 preference	painting-others	painting evaluation	other categories	evaluation of paintings vs. other categories	visual_form_discrimination, visual_color_discrimination
-preference	face-others	face evaluation	other categories	evaluation of faces vs. other categories	visual_face_recognition, face_perception, facial_attractiveness_recognition
+preference	face-others	face evaluation	other categories	evaluation of faces vs. other categories	face_perception, facial_attractiveness_recognition
 preference	house-others	house evaluation	other categories	evaluation of houses vs. other categories	visual_place_recognition, visual_scene_perception
 preference_food	food_constant	food evaluation	fixation	evaluation of food	food_cue_reactivity, judgment
 preference_food	food_linear	food preference	fixation	linear effect of food preference	reward_valuation, incentive_salience
@@ -169,7 +169,7 @@ preference_food	food_quadratic	confidence in food preference	fixation	quadratic 
 preference_paintings	painting_constant	painting evaluation	fixation	evaluation of paintings	visual_form_discrimination, visual_color_discrimination, judgment
 preference_paintings	painting_linear	painting preference	fixation	linear effect of paintings preference	reward_valuation, incentive_salience
 preference_paintings	painting_quadratic	confidence in painting preference	fixation	quadratic effect of paintings preference	confidence_judgment
-preference_faces	face_constant	face evaluation	fixation	evaluation of faces	visual_face_recognition, face_perception, judgment
+preference_faces	face_constant	face evaluation	fixation	evaluation of faces	face_perception, judgment
 preference_faces	face_linear	face preference	fixation	linear effect of face preference	facial_attractiveness_recognition, reward_valuation, incentive_salience
 preference_faces	face_quadratic	confidence in face preference	fixation	quadratic effect of face preference	facial_attractiveness_recognition, confidence_judgment
 preference_houses	house_constant	house evaluation	fixation	evaluation of houses	visual_place_recognition, judgment
@@ -187,7 +187,7 @@ pain_movie	movie_mental-pain	mental movie	physical-pain movie	mental events vs. 
 vstm	vstm_constant	vstm response to constant numerosity	fixation	visual orientation	visual_orientation, visual_form_discrimination, shape_recognition, short_term_memory, response_selection, response_execution
 vstm	vstm_linear	vstm response to numerosity	fixation	linear effect of numerosity in visual orientation	visual_working_memory, numerosity
 vstm	vstm_quadratic	vstm response to numerosity interaction	fixation	quadratic effect of numerosity in visual orientation	visual_buffer
-enumeration	enumeration_constant	enumeration response to constant numerosity	fixation	enumeration	enumeration, numerosity, shape_recognition, response_selection, response_execution
+enumeration	enumeration_constant	enumeration response to constant numerosity	fixation	enumeration	enumeration, shape_recognition, response_selection, response_execution
 enumeration	enumeration_linear	enumeration response to numerosity	fixation	linear effect of numerosity in enumeration	visual_working_memory, numerosity
 enumeration	enumeration_quadratic	enumeration response to numerosity interaction	fixation	quadratic effect of numerosity in enumeration	visual_buffer
 self	instructions	instruction	fixation	read instruction in form of a question	reading
@@ -201,8 +201,8 @@ self	recognition_self-other	self-reference recognition	other-reference recogniti
 self	correct_rejection	memory	fixation	identification of a new adjective	memory, reading, response_selection, response_execution
 self	recognition_hit-correct_rejection	recognition	memory 	recognition of an adjective previously displayed	recognition, episodic_memory
 self	false_alarm	no recognition	fixation	erroneous response	response_selection, response_execution
-bang	talk-no_talk	speech	no speech	speech vs. non-speech sections in movie watching	speech_perception, speech_processing, language_processing, language_comprehension
-bang	talk	speech	fixation	speech sections in movie watching	speech_perception,  speech_processing,  language_comprehension,  language_processing,  audiovisual_perception
+bang	talk-no_talk	speech	no speech	speech vs. non-speech sections in movie watching	speech_perception, speech_processing
+bang	talk	speech	fixation	speech sections in movie watching	speech_perception,  speech_processing, audiovisual_perception
 bang	no_talk	no speech	fixation	non-speech section in movie watching	action_perception,  audiovisual_perception
 wedge	lower_meridian	lower_meridian	fixation	visual representation in the lower half-plane of the visual field delimited by its horizontal meridian	lower-left_vision, lower-right_vision, visual_color_discrimination
 wedge	upper_meridian	upper_meridian	fixation	visual representation in the upper half-plane of the visual field delimited by its horizontal meridian	upper-left_vision, upper-right_vision, visual_color_discrimination
@@ -215,9 +215,9 @@ wedge	lower_left	lower_left	fixation	visual representation in the lower-left qua
 ring	foveal	foveal	fixation	visual representation in the fovea	foveal_vision, visual_color_discrimination
 ring	middle	middle	fixation	visual representation in the mid-periphery of the visual field	mid_peripheral_vision, visual_color_discrimination
 ring	peripheral	peripheral	fixation	visual representation in the far-periphery of the visual field	far_peripheral_vision, visual_color_discrimination
-lyon_lec2	attend	attended text	fixation	response to attended text	language_processing, language_comprehension, reading, word_maintenance, working_memory
+lyon_lec2	attend	attended text	fixation	response to attended text	visual_sentence_comprehension, reading, word_maintenance, working_memory
 lyon_lec2	unattend	non-attended text	fixation	response to unattended text	reading, inhibition
-lyon_lec2	attend-unattend	attended text	non-attended text	response to attended vs. unattended text	language_processing, language_comprehension, word_maintenance, working_memory
+lyon_lec2	attend-unattend	attended text	non-attended text	response to attended vs. unattended text	visual_sentence_comprehension, word_maintenance, working_memory
 lyon_audi	tear	tear sound	silence	listen to tears	auditory_perception, auditory_attention, sound_perception, voice_perception
 lyon_audi	suomi	unknown language	silence	listen to unknown language	auditory_perception, auditory_attention, sound_perception, voice_perception, speech_perception, language_processing
 lyon_audi	yawn	yawning	silence	listen to yawning	auditory_perception, auditory_attention, sound_perception, voice_perception
