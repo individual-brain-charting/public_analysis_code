@@ -1,8 +1,8 @@
 task	contrast	positive label	negative label	pretty name	tags
-archi_standard	video_left_button_press	video left button press	fixation	left hand button presses upon video instructions	visual_sentence_comprehension, response_selection, response_execution, left_finger_response_execution
-archi_standard	video_right_button_press	video right button press	fixation	right hand button presses upon video instructions	visual_sentence_comprehension, response_selection, response_execution, right_finger_response_execution
-archi_standard	audio_left_button_press	audio left button press	fixation	left hand button presses upon audio instructions	auditory_sentence_comprehension, response_selection, response_execution, left_finger_response_execution
-archi_standard	audio_right_button_press	audio right button press	fixation	right hand button presses upon audio instructions	auditory_sentence_comprehension, response_selection, response_execution, right_finger_response_execution
+archi_standard	video_left_button_press	video left button press	fixation	left hand button presses upon video instructions	visual_sentence_comprehension, response_selection, left_finger_response_execution
+archi_standard	video_right_button_press	video right button press	fixation	right hand button presses upon video instructions	visual_sentence_comprehension, response_selection, right_finger_response_execution
+archi_standard	audio_left_button_press	audio left button press	fixation	left hand button presses upon audio instructions	auditory_sentence_comprehension, response_selection, left_finger_response_execution
+archi_standard	audio_right_button_press	audio right button press	fixation	right hand button presses upon audio instructions	auditory_sentence_comprehension, response_selection, right_finger_response_execution
 archi_standard	left-right_button_press	left hand	right hand	left vs. right hand button press	left_finger_response_execution
 archi_standard	right-left_button_press	right hand	left hand	right vs. left hand button press	right_finger_response_execution
 archi_standard	horizontal_checkerboard	horizontal checkerboard	fixation	watch horizontal checkerboard	horizontal_checkerboard, visual_orientation
@@ -21,13 +21,13 @@ archi_standard	reading-listening	read sentence	listen to sentence	reading senten
 archi_standard	listening-reading	listen to sentence	read sentence	listening to sentence vs. reading a sentence	auditory_word_recognition, auditory_sentence_comprehension
 archi_standard	reading-checkerboard	read sentence	checkerboard	read sentence vs. checkerboard	visual_word_recognition, visual_sentence_comprehension, semantic_processing
 archi_standard	cognitive-motor	read and calculate	move hands	narrative/computation vs. button presses	auditory_sentence_comprehension, auditory_arithmetic_processing, visual_arithmetic_processing, visual_sentence_comprehension, visual_word_recognition, auditory_word_recognition
-archi_standard	motor-cognitive	button presses	cognitive tasks	button presses vs. narrative/computation	response_selection, response_execution, right_finger_response_execution
+archi_standard	motor-cognitive	button presses	cognitive tasks	button presses vs. narrative/computation	response_selection, right_finger_response_execution
 archi_spatial	saccades	saccade	fixation	saccade vs. fixation	visual_tracking, saccadic_eye_movement
 archi_spatial	rotation_hand	guess which hand	fixation	left or right hand	visual_body_recognition, response_selection, hand_chirality_recognition
 archi_spatial	rotation_side	hand palm or back	fixation	hand palm or back vs. fixation	visual_body_recognition, response_selection, hand_side_recognition
 archi_spatial	hand-side	guess which hand	hand palm or back	left or right hand vs. hand palm or back	hand_chirality_recognition
-archi_spatial	object_grasp	object grasping	fixation	object grasping	visual_tool_recognition, response_selection, response_execution, right_finger_response_execution, grasping
-archi_spatial	object_orientation	mimic orientation	fixation	image orientation reporting	visual_tool_recognition, response_selection, response_execution, right_finger_response_execution, visual_orientation
+archi_spatial	object_grasp	object grasping	fixation	object grasping	visual_tool_recognition, response_selection, right_finger_response_execution, grasping
+archi_spatial	object_orientation	mimic orientation	fixation	image orientation reporting	visual_tool_recognition, response_selection, right_finger_response_execution, visual_orientation
 archi_spatial	grasp-orientation	object grasping	mimic orientation	object grasping vs. orientation reporting	grasping
 archi_social	triangle_mental	mental motion	fixation	mental motion of triangle	animacy_perception, animacy_decision, motion_detection, mentalization
 archi_social	triangle_random	random motion	fixation	randomly drifting triangle	motion_detection
@@ -69,11 +69,11 @@ hcp_motor	right_hand-avg	right hand	any motion	move right hand vs. left hand, fe
 hcp_motor	left_foot-avg	left foot	any motion	move left foot vs. right foot, hands and tongue	left_toe_response_execution
 hcp_motor	right_foot-avg	right foot	any motion	move right foot vs. left foot, hands and tongue	right_toe_response_execution
 hcp_motor	tongue-avg	tongue	any motion	move tongue vs. hands and feet	tongue_response_execution
-hcp_motor	left_hand	left hand	no motion	move left hand	response_execution, left_hand_response_execution
-hcp_motor	right_hand	right hand	no motion	move right hand 	response_execution, right_hand_response_execution
-hcp_motor	left_foot	left foot	no motion	move left foot 	response_execution, left_toe_response_execution
-hcp_motor	right_foot	right foot	no motion	move right foot 	response_execution, right_toe_response_execution
-hcp_motor	tongue	tongue	no motion	move tongue	response_execution, tongue_response_execution
+hcp_motor	left_hand	left hand	no motion	move left hand	left_hand_response_execution
+hcp_motor	right_hand	right hand	no motion	move right hand 	right_hand_response_execution
+hcp_motor	left_foot	left foot	no motion	move left foot 	left_toe_response_execution
+hcp_motor	right_foot	right foot	no motion	move right foot 	right_toe_response_execution
+hcp_motor	tongue	tongue	no motion	move tongue	tongue_response_execution
 hcp_motor	cue	visual task cue	fixation	motion cue of motion	response_selection, working_memory
 hcp_language	story	tale	fixation	listening to tale	auditory_sentence_recognition, narrative_comprehension, response_selection, response_execution
 hcp_language	math	mental addition	fixation	mental additions	auditory_arithmetic_processing, response_selection, response_execution
@@ -167,14 +167,14 @@ preference_food	food_constant	food evaluation	fixation	evaluation of food	food_c
 preference_food	food_linear	food preference	fixation	linear effect of food preference	reward_valuation, incentive_salience
 preference_food	food_quadratic	confidence in food preference	fixation	quadratic effect of food preference	confidence_judgment
 preference_paintings	painting_constant	painting evaluation	fixation	evaluation of paintings	visual_form_discrimination, visual_color_discrimination, judgment
-preference_paintings	painting_linear	painting preference	fixation	linear effect of paintings preference	visual_form_discrimination, visual_color_discrimination, reward_valuation, incentive_salience
-preference_paintings	painting_quadratic	confidence in painting preference	fixation	quadratic effect of paintings preference	visual_form_discrimination, visual_color_discrimination, confidence_judgment
+preference_paintings	painting_linear	painting preference	fixation	linear effect of paintings preference	reward_valuation, incentive_salience
+preference_paintings	painting_quadratic	confidence in painting preference	fixation	quadratic effect of paintings preference	confidence_judgment
 preference_faces	face_constant	face evaluation	fixation	evaluation of faces	visual_face_recognition, face_perception, judgment
 preference_faces	face_linear	face preference	fixation	linear effect of face preference	facial_attractiveness_recognition, reward_valuation, incentive_salience
 preference_faces	face_quadratic	confidence in face preference	fixation	quadratic effect of face preference	facial_attractiveness_recognition, confidence_judgment
 preference_houses	house_constant	house evaluation	fixation	evaluation of houses	visual_place_recognition, judgment
-preference_houses	house_linear	house preference	fixation	linear effect of houses preference	visual_place_recognition, reward_valuation, incentive_salience
-preference_houses	house_quadratic	confidence in house preference	fixation	quadratic effect of houses preference	visual_place_recognition, confidence_judgment
+preference_houses	house_linear	house preference	fixation	linear effect of houses preference	reward_valuation, incentive_salience
+preference_houses	house_quadratic	confidence in house preference	fixation	quadratic effect of houses preference	confidence_judgment
 theory_of_mind	photo	fact judgments	fixation	manipulation of fact judgments	semantic_processing, response_execution, response_selection, narrative_comprehension
 theory_of_mind	belief	belief judgments	fixation	manipulation of belief judgments	semantic_processing, response_execution, response_selection, narrative_comprehension, theory-of-mind
 theory_of_mind	belief-photo	belief judgments	fact judgments	belief vs. factual judgments	theory-of-mind
@@ -186,18 +186,18 @@ pain_movie	movie_mental	mental movie	fixation	movie with events about changes in
 pain_movie	movie_mental-pain	mental movie	physical-pain movie	mental events vs. physically painful events	imagined_emotional_pain, mentalization, theory-of-mind
 vstm	vstm_constant	vstm response to constant numerosity	fixation	visual orientation	visual_orientation, visual_form_discrimination, shape_recognition, short-term_memory, response_selection, response_execution
 vstm	vstm_linear	vstm response to numerosity	fixation	linear effect of numerosity in visual orientation	visual_working_memory, numerosity
-vstm	vstm_quadratic	vstm response to numerosity interaction	fixation	quadratic effect of numerosity in visual orientation	visual_buffer, numerosity
+vstm	vstm_quadratic	vstm response to numerosity interaction	fixation	quadratic effect of numerosity in visual orientation	visual_buffer
 enumeration	enumeration_constant	enumeration response to constant numerosity	fixation	enumeration	enumeration, numerosity, shape_recognition, response_selection, response_execution
 enumeration	enumeration_linear	enumeration response to numerosity	fixation	linear effect of numerosity in enumeration	visual_working_memory, numerosity
-enumeration	enumeration_quadratic	enumeration response to numerosity interaction	fixation	quadratic effect of numerosity in enumeration	visual_buffer, numerosity
+enumeration	enumeration_quadratic	enumeration response to numerosity interaction	fixation	quadratic effect of numerosity in enumeration	visual_buffer
 self	instructions	instruction	fixation	read instruction in form of a question	reading
-self	encode_self	self-reference encoding	fixation	encoding of adjectives processed with self-reference	judgment, reading, response_selection, response_execution, self-reference_effect
-self	encode_other	other-reference encoding	fixation	encoding of adjectives processed with other-reference	judgment, reading, response_selection, response_execution
-self	encode_self-other	self-reference encoding	other-reference encoding	self-reference effect	self-reference_effect
+self	encode_self	self-reference encoding	fixation	encoding of adjectives processed with self-reference	judgment, reading, response_selection, response_execution, self_reference_effect
+self	encode_other	Other-reference encoding	fixation	encoding of adjectives processed with other-reference	judgment, reading, response_selection, response_execution
+self	encode_self-other	self-reference encoding	Other-reference encoding	self-reference effect	self_reference_effect
 self	recognition_hit	memory retrieval	fixation	recognition of adjectives previously displayed	recognition, episodic_memory, reading, response_selection, response_execution
-self	recognition_self_hit	self-reference recognition	fixation	recognition of adjectives previously displayed with self-reference	recognition, reading, response_selection, response_execution, self-reference_effect
-self	recognition_other_hit	other-reference recognition	fixation	recognition of adjectives previously displayed with other-reference	recognition, reading, response_selection, response_execution, other-reference_effect
-self	recognition_self-other	self-reference recognition	other-reference recognition	memory retrieval of encoded information with self-reference	self-reference_effect
+self	recognition_self_hit	self-reference recognition	fixation	recognition of adjectives previously displayed with self-reference	recognition, reading, response_selection, response_execution, self_reference_effect
+self	recognition_other_hit	other-reference recognition	fixation	recognition of adjectives previously displayed with other-reference	recognition, reading, response_selection, response_execution, other_reference_effect
+self	recognition_self-other	self-reference recognition	other-reference recognition	memory retrieval of encoded information with self-reference	self_reference_effect
 self	correct_rejection	memory	fixation	identification of a new adjective	memory, reading, response_selection, response_execution
 self	recognition_hit-correct_rejection	recognition	memory 	recognition of an adjective previously displayed	recognition, episodic_memory
 self	false_alarm	no recognition	fixation	erroneous response	response_selection, response_execution
@@ -276,14 +276,14 @@ lyon_mvis	6_dots-6_dots_control	maintain 6 positions	maintain 1 position	maintai
 lyon_mvis	6_dots-2_dots	maintain 6 positions	maintain 2 positions	maintain position of six dots vs. two	visual_working_memory, numerosity, task_difficulty
 lyon_moto	instructions	reading instructions	fixation	read instructions	reading
 lyon_moto	fixation	fixation left + fixation write	baseline	fixation	central_fixation
-lyon_moto	finger_right-fixation	right finger	any motion	right finger tapping vs. any movement	response_selection, response_execution, right_finger_response_execution
-lyon_moto	finger_left-fixation	left finger	any motion	left finger tapping vs. any movement	response_selection, response_execution, left_finger_response_execution
-lyon_moto	foot_left-fixation	left foot	any motion	move left foot vs. any movement	response_selection, response_execution, left_toe_response_execution
-lyon_moto	foot_right-fixation	right foot	any motion	move right foot vs. any movement	response_selection, response_execution, right_toe_response_execution
-lyon_moto	hand_left-fixation	left hand	any motion	move left hand vs. any movement	response_selection, response_execution, left_hand_response_execution
-lyon_moto	hand_right-fixation	right hand	any motion	move right hand vs. any movement	response_selection, response_execution, right_hand_response_execution
-lyon_moto	saccade-fixation	saccade	any motion	saccade vs. any movement	response_selection, response_execution, saccadic_eye_movement
-lyon_moto	tongue-fixation	tongue	any motion	move tongue vs. any movement	response_selection, response_execution, tongue_response_execution
+lyon_moto	finger_right-fixation	right finger	any motion	right finger tapping vs. any movement	response_selection, right_finger_response_execution
+lyon_moto	finger_left-fixation	left finger	any motion	left finger tapping vs. any movement	response_selection, left_finger_response_execution
+lyon_moto	foot_left-fixation	left foot	any motion	move left foot vs. any movement	response_selection, left_toe_response_execution
+lyon_moto	foot_right-fixation	right foot	any motion	move right foot vs. any movement	response_selection, right_toe_response_execution
+lyon_moto	hand_left-fixation	left hand	any motion	move left hand vs. any movement	response_selection, left_hand_response_execution
+lyon_moto	hand_right-fixation	right hand	any motion	move right hand vs. any movement	response_selection, right_hand_response_execution
+lyon_moto	saccade-fixation	saccade	any motion	saccade vs. any movement	response_selection, saccadic_eye_movement
+lyon_moto	tongue-fixation	tongue	any motion	move tongue vs. any movement	response_selection, tongue_response_execution
 lyon_mcse	high_salience_left	high salience left	fixation	looking for a salient symbol in left visual field	response_selection, response_execution, visual_search, salience, upper-left_vision, lower-left_vision
 lyon_mcse	high_salience_right	high salience right	fixation	looking for a salient symbol in right visual field	response_selection, response_execution, visual_search, salience, upper-right_vision, lower-right_vision
 lyon_mcse	low_salience_left	low salience left	fixation	looking for a low-salient symbol in left visual field	response_selection, response_execution, visual_search, task_difficulty, upper-left_vision, lower-left_vision
