@@ -156,24 +156,24 @@ mtt_sn	sn_after_event	future events in sn island	fixation	events occuring after 
 mtt_sn	sn_before-after_event	past events in sn island	future events in sn island	events occuring before vs. after in south-north island	past_time
 mtt_sn	sn_after-before_event	future events in sn island	past events in sn island	events occuring after vs. before in south-north island	future_time
 mtt_sn	sn_all_event_response	responses to events in sn island	fixation	motor responses performed after all event condition in the south-north island	response_selection, response_execution
-preference	preference_constant	visual evaluation	fixation	object perception and evaluation	object_categorization, object_recognition, object_detection, judgment
-preference	preference_linear	visual preference	no preference	linear effect of preference	reward_valuation, incentive_salience
+preference	preference_constant	visual evaluation	fixation	object perception and evaluation	object_categorization, object_recognition, object_detection, judgment, response_selection, response_execution
+preference	preference_linear	visual preference	no preference	linear effect of preference	reward_valuation
 preference	preference_quadratic	confidence in preference	no confidence 	quadratic effect of preference	confidence_judgment
 preference	food-others	food evaluation	other categories	evaluation of food vs. other categories	food_cue_reactivity
 preference	painting-others	painting evaluation	other categories	evaluation of paintings vs. other categories	visual_form_discrimination, visual_color_discrimination
 preference	face-others	face evaluation	other categories	evaluation of faces vs. other categories	face_perception, facial_attractiveness_recognition
 preference	house-others	house evaluation	other categories	evaluation of houses vs. other categories	visual_place_recognition, visual_scene_perception
-preference_food	food_constant	food evaluation	fixation	evaluation of food	food_cue_reactivity, judgment
-preference_food	food_linear	food preference	fixation	linear effect of food preference	reward_valuation, incentive_salience
+preference_food	food_constant	food evaluation	fixation	evaluation of food	food_cue_reactivity, judgment, response_selection, response_execution
+preference_food	food_linear	food preference	fixation	linear effect of food preference	reward_valuation
 preference_food	food_quadratic	confidence in food preference	fixation	quadratic effect of food preference	confidence_judgment
-preference_paintings	painting_constant	painting evaluation	fixation	evaluation of paintings	visual_form_discrimination, visual_color_discrimination, judgment
-preference_paintings	painting_linear	painting preference	fixation	linear effect of paintings preference	reward_valuation, incentive_salience
+preference_paintings	painting_constant	painting evaluation	fixation	evaluation of paintings	visual_form_discrimination, visual_color_discrimination, judgment, response_selection, response_execution
+preference_paintings	painting_linear	painting preference	fixation	linear effect of paintings preference	reward_valuation
 preference_paintings	painting_quadratic	confidence in painting preference	fixation	quadratic effect of paintings preference	confidence_judgment
-preference_faces	face_constant	face evaluation	fixation	evaluation of faces	face_perception, judgment
-preference_faces	face_linear	face preference	fixation	linear effect of face preference	facial_attractiveness_recognition, reward_valuation, incentive_salience
-preference_faces	face_quadratic	confidence in face preference	fixation	quadratic effect of face preference	facial_attractiveness_recognition, confidence_judgment
-preference_houses	house_constant	house evaluation	fixation	evaluation of houses	visual_place_recognition, judgment
-preference_houses	house_linear	house preference	fixation	linear effect of houses preference	reward_valuation, incentive_salience
+preference_faces	face_constant	face evaluation	fixation	evaluation of faces	face_perception, judgment, response_selection, response_execution
+preference_faces	face_linear	face preference	fixation	linear effect of face preference	reward_valuation
+preference_faces	face_quadratic	confidence in face preference	fixation	quadratic effect of face preference	confidence_judgment
+preference_houses	house_constant	house evaluation	fixation	evaluation of houses	visual_place_recognition, judgment, response_selection, response_execution
+preference_houses	house_linear	house preference	fixation	linear effect of houses preference	reward_valuation
 preference_houses	house_quadratic	confidence in house preference	fixation	quadratic effect of houses preference	confidence_judgment
 theory_of_mind	photo	fact judgments	fixation	manipulation of fact judgments	semantic_processing, response_execution, response_selection, narrative_comprehension
 theory_of_mind	belief	belief judgments	fixation	manipulation of belief judgments	semantic_processing, response_execution, response_selection, narrative_comprehension, theory_of_mind
