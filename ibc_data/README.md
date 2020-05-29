@@ -14,7 +14,7 @@
 	* column named as *description* - description of the contrast
 	* column named as *tags* - list of cognitive components describing functional activity of the contrast
 
-* __conditions.tsv__ contains the list of contrasts formed by the elementary conditions *vs.* baseline. It is organized as follows:  
+* __conditions.tsv__ contains the list of all independent (or elementary) contrasts. They are formed by the elementary conditions *vs.* baseline. It is organized as follows:  
 
 	* column named as *task* - id of the task
 	* column named as *contrast* - id of the contrast referring to the elementary condition
