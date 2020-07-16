@@ -1,0 +1,1 @@
+This folder contains the scripts featuring the analysis pipeline undertaken for Pinho et al. (2018). Individual Brain Charting, a high-resolution fMRI dataset for cognitive mapping. Scientific Data, 5 , 180105.
