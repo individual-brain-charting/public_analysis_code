@@ -55,7 +55,7 @@ task_list = ['mtt_we', 'mtt_sn',
              'theory_of_mind', 'emotional_pain', 'pain_movie',
              'vstm', 'enumeration',
              'self', 'bang']
-output_fname = 'coverage_delta.pdf'
+output_fname = 'coverage_delta.png'
 
 
 # ### Fmap of single task ###
@@ -181,7 +181,6 @@ if __name__ == '__main__':
         plotting.plot_stat_map(masker.inverse_transform(z), bg_img=anat, threshold=5.)
 
     z = stouffer(X)
-    plotting.plot_stat_map(masker.inverse_transform(z), threshold=5.,
-                           display_mode='x', cut_coords=5,
-                           output_file=os.path.join(cache, output_fname))
-    # plotting.show()
+    brain_covg = plotting.plot_stat_map(masker.inverse_transform(z),
+                                        threshold=5., display_mode='x', cut_coords=5)
+    brain_covg.savefig(os.path.join(cache, output_fname), dpi=1200)

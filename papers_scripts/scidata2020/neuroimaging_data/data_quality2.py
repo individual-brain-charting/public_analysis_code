@@ -290,7 +290,7 @@ def motion_histogram(db):
     plt.plot([xlist[i, left], xlist[i, right]], [-0.018, -.018], color='w')
     plt.axis('tight')
     plt.subplots_adjust(bottom=.12, left=.14)
-    plt.savefig(os.path.join(cache, 'rp_%s.pdf' % sufix))
+    plt.savefig(os.path.join(cache, 'rp_%s.png' % sufix), dpi=600)
     # plt.show()
 
 if __name__ == '__main__':
@@ -304,7 +304,6 @@ if __name__ == '__main__':
     tsnr_map.to_filename(os.path.join(cache, 'average_tsnr_%s.nii.gz' % sufix))
     # Load pre-computed .nii.gz files
     # tsnr_map = os.path.join(cache, 'average_tsnr_%s.nii.gz' % sufix)
-    plotting.plot_epi(tsnr_map, vmax=70, colorbar=True,
-                      output_file=os.path.join(cache,
-                                               'average_tsnr_%s.pdf' % sufix))
+    tsnr_plot = plotting.plot_epi(tsnr_map, vmax=70, colorbar=True)
+    tsnr_plot.savefig(os.path.join(cache, 'average_tsnr_%s.png' % sufix), dpi=600)
     motion_histogram(db)
