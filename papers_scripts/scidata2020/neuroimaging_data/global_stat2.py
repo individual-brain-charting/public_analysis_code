@@ -252,7 +252,7 @@ def condition_similarity(db, masker):
     cbar.ax.set_yticklabels(['-1', '0', '1'])
     plt.subplots_adjust(left=.3, top=.99, right=.99, bottom=.275)
     plt.savefig(os.path.join(cache, 'condition_similarity_within' + '_' +
-                             suffix + '.pdf'))
+                             suffix + '.png'), dpi=1200)
 
     # # plot cross-subject correlation
     # correlation_ = np.zeros((n_conditions, n_conditions))
@@ -346,7 +346,7 @@ def condition_similarity(db, masker):
     cbar.ax.set_yticklabels(['-1', '0', '1'])
     plt.subplots_adjust(left=.3, top=.99, right=.99, bottom=.275)
     plt.savefig(os.path.join(cache, 'condition_similarity_cognitive' + '_' +
-                             suffix + '.pdf'))
+                             suffix + '.png'), dpi=1200)
     # plt.show()
     x = np.triu(correlation, 1)
     y = np.triu(ccorrelation, 1)
@@ -498,25 +498,27 @@ if __name__ == '__main__':
 
     # ## Plots
     _, threshold_ = map_threshold(subject_map, alpha=.05, height_control='fdr')
-    plotting.plot_stat_map(subject_map, cut_coords=[10, -50, 10],
-                           threshold=threshold_, vmax=37,
-                           title='Subject effect', draw_cross = False,
-                           output_file=os.path.join(cache, 'subject_effect' +
-                                                    '_' + suffix + '.pdf'))
+    sub_effect = plotting.plot_stat_map(subject_map, cut_coords=[10, -50, 10],
+                                        threshold=threshold_, vmax=37,
+                                        title='Subject effect',
+                                        draw_cross = False)
+    sub_effect.savefig(os.path.join(
+        cache, 'subject_effect' + '_' + suffix + '.png'), dpi=1200)
     #
     _, threshold_ = map_threshold(contrast_map, alpha=.05, height_control='fdr')
-    plotting.plot_stat_map(contrast_map, cut_coords=[10, -50, 10],
-                           threshold=threshold_,
-                           title='Condition effect', draw_cross = False,
-                           output_file=os.path.join(cache, 'condition_effect' +
-                                                    '_' + suffix + '.pdf'))
+    cond_effect = plotting.plot_stat_map(contrast_map, cut_coords=[10, -50, 10],
+                                         threshold=threshold_,
+                                         title='Condition effect',
+                                         draw_cross = False)
+    cond_effect.savefig(os.path.join(
+        cache, 'condition_effect' + '_' + suffix + '.png'), dpi=1200)
     #
     _, threshold_ = map_threshold(acq_map, alpha=.05, height_control='fdr')
-    plotting.plot_stat_map(acq_map,
+    phase_effect = plotting.plot_stat_map(acq_map,
                            threshold=threshold_, vmax=37,
-                           title='Phase-encoding effect', draw_cross = False,
-                           output_file=os.path.join(cache, 'acq_effect' +
-                                                    '_' + suffix + '.pdf'))
+                           title='Phase-encoding effect', draw_cross = False)
+    phase_effect.savefig(os.path.join(
+        cache, 'acq_effect' + '_' + suffix + '.png'), dpi=1200)
 
     ### Other analyses ### 
     # global_similarity(db, masker)
