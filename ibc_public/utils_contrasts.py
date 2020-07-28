@@ -1048,7 +1048,7 @@ def mtt_we_relative(design_matrix_columns):
         'we_after_event':
             con['we_after_close_event']
             + con['we_after_far_event'],
-        'we_all_event_response': 'we_all_event_response'}
+        'we_all_event_response': con['we_all_event_response']}
 
     contrasts['we_all_space-time_cue'] =\
         contrasts['we_all_space_cue'] - contrasts['we_all_time_cue']
@@ -1071,7 +1071,6 @@ def mtt_we_relative(design_matrix_columns):
     contrasts['we_after-before_event'] = - contrasts['we_before-after_event']
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
-
 
 def mtt_sn_relative(design_matrix_columns):
     """Contrast for MTT south-north task, relative setting"""
@@ -1116,7 +1115,7 @@ def mtt_sn_relative(design_matrix_columns):
         'sn_after_event':
             con['sn_after_close_event']
             + con['sn_after_far_event'],
-        'sn_all_event_response': 'sn_all_event_response'}
+        'sn_all_event_response': con['sn_all_event_response']}
 
     contrasts['sn_all_space-time_cue'] =\
         contrasts['sn_all_space_cue'] - contrasts['sn_all_time_cue']
