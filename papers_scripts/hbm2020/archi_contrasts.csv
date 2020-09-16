@@ -1,0 +1,24 @@
+archi name,IBC task,IBC name
+left-right,archi_standard,left-right_button_press
+video-audio,archi_standard,reading-listening
+motor-cognitive,archi_standard,motor-cognitive
+reading-visual,archi_standard,reading-checkerboard
+computation-sentences,archi_standard,computation-sentences
+H-V,archi_standard,horizontal-vertical
+saccade,archi_spatial,saccades
+hand-side,archi_spatial,hand-side
+grasp-orientation,archi_spatial,grasp-orientation
+rotation_side,archi_spatial,rotation_side
+object_orientation,archi_spatial,object_orientation
+intention-random,archi_social,triangle_mental-random
+false_belief-mechanistic_audio,archi_social,false_belief-mechanistic_audio
+triangle_random,archi_social,triangle_random
+mecanistic_audio,archi_social,mechanistic_audio
+mecanistic_video,archi_social,mechanistic_video
+non_speech,archi_social,non_speech_sound
+false_belief-mechanistic_video,archi_social,false_belief-mechanistic_video
+speech-non_speech,archi_social,speech-non_speech
+expression_sex-control,archi_emotional,expression_gender-control
+expression_intention-sex,archi_emotional,expression_intention-gender
+face_sex-control,archi_emotional,face_gender-control
+face_trusty-sex,archi_emotional,face_trusty-gender

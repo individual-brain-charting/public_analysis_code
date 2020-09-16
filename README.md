@@ -1,4 +1,4 @@
-# public analysis code for the IBC project
+# Public analysis code for the IBC project
 
 This Python package gives the pipeline used to process the MRI data obtained in
 the Individual Brain Charting Project. More info on the data can be found at

@@ -121,7 +121,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
 
 
 def _elementary_contrasts(design_matrix_columns):
-    """Returns a doictionary of contrasts for all columns
+    """Returns a dictionary of contrasts for all columns
         of the design matrix"""
     con = {}
     n_columns = len(design_matrix_columns)
@@ -784,7 +784,7 @@ def audio(design_matrix_columns):
 def lyon_mveb(design_matrix_columns):
     """ Contrasts for Lyon mveb localizer"""
     contrast_names = [
-        'response', '2_letters_different', '2_letters_same',
+        'letter_occurrence_response', '2_letters_different', '2_letters_same',
         '4_letters_different', '4_letters_same',
         '6_letters_different', '6_letters_same',
         '2_letters_different-same',
@@ -794,7 +794,8 @@ def lyon_mveb(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     #
-    contrasts = dict([(key, con[key]) for key in contrast_names[:7]])
+    contrasts = dict([(key, con[key]) for key in contrast_names[1:7]])
+    contrasts['letter_occurrence_response'] = con['response']
     contrasts['2_letters_different-same'] = con['2_letters_different'] -\
         con['2_letters_same']
     contrasts['4_letters_different-same'] = con['4_letters_different'] -\
@@ -811,14 +812,14 @@ def lyon_mveb(design_matrix_columns):
 
 def lyon_mvis(design_matrix_columns):
     """ Contrasts for Lyon mvis localizer"""
-    contrast_names = ['response',
+    contrast_names = ['dot_displacement_response',
                       '2_dots-2_dots_control', '4_dots-4_dots_control',
                       '6_dots-6_dots_control', '6_dots-2_dots', 'dots-control']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     # contrasts = dict([(cname, con[cname]) for cname in contrast_names[:-4]])
-    contrasts = {'response': con['response']}
+    contrasts = {'dot_displacement_response': con['response']}
     contrasts['2_dots-2_dots_control'] = con['2_dots'] - con['2_dots_control']
     contrasts['4_dots-4_dots_control'] = con['4_dots'] - con['4_dots_control']
     contrasts['6_dots-6_dots_control'] = con['6_dots'] - con['6_dots_control']
@@ -869,8 +870,9 @@ def lyon_mcse(design_matrix_columns):
     contrast_names = [
         'high_salience_left', 'high_salience_right',
         'low_salience_left', 'low_salience_right',
-        'low-high_salience', 'salience_left-right',
-        'low+high_salience',]
+        'high-low_salience', 'low-high_salience',
+        'salience_left-right', 'salience_right-left',
+        'low+high_salience']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -1174,7 +1176,7 @@ def mtt_we_relative(design_matrix_columns):
         'we_after_event':
             con['we_after_close_event']
             + con['we_after_far_event'],
-        'we_all_event_response': 'we_all_event_response'}
+        'we_all_event_response': con['we_all_event_response']}
 
     contrasts['we_all_space-time_cue'] =\
         contrasts['we_all_space_cue'] - contrasts['we_all_time_cue']
@@ -1197,7 +1199,6 @@ def mtt_we_relative(design_matrix_columns):
     contrasts['we_after-before_event'] = - contrasts['we_before-after_event']
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
-
 
 def mtt_sn_relative(design_matrix_columns):
     """Contrast for MTT south-north task, relative setting"""
@@ -1242,7 +1243,7 @@ def mtt_sn_relative(design_matrix_columns):
         'sn_after_event':
             con['sn_after_close_event']
             + con['sn_after_far_event'],
-        'sn_all_event_response': 'sn_all_event_response'}
+        'sn_all_event_response': con['sn_all_event_response']}
 
     contrasts['sn_all_space-time_cue'] =\
         contrasts['sn_all_space_cue'] - contrasts['sn_all_time_cue']
