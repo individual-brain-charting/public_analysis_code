@@ -106,10 +106,16 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return biological_motion1(design_matrix_columns)
     elif paradigm_id == 'biological_motion2':
         return biological_motion2(design_matrix_columns)
-    elif paradigm_id == 'math_language':
+    elif paradigm_id == 'mathlang':
         return math_language(design_matrix_columns)
     elif paradigm_id == 'spatial_navigation':
         return spatial_navigation(design_matrix_columns)
+    elif paradigm_id == 'EmoMem':
+        return emotional_memory(design_matrix_columns)
+    elif paradigm_id == 'EmoReco':
+        return emotion_recognition(design_matrix_columns)
+    elif paradigm_id == 'StopNogo':
+        return stop_nogo(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -162,23 +168,78 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
 
 def math_language(design_matrix_columns):
     """ Contrasts for math-language task"""
-    contrast_names = ['colorlessg', 'control', 'arithfact', 'tom', 'geomfact',
-                      'general', 'arithprin', 'context', 'math-others',
-                      'geometry-arithmetics', 'tom_and_context-general',
-                      'tom-general']
+    contrast_names = [
+        'colorlessg_auditory', 'colorlessg_visual',
+        'wordlist_auditory', 'wordlist_visual',
+        'arithmetic_fact_auditory', 'arithmetic_fact_visual',
+        'arithmetic_principle_auditory', 'arithmetic_principle_visual',
+        'theory_of_mind_auditory', 'theory_of_mind_visual',
+        'geometry_fact_auditory', 'geometry_fact_visual',
+        'general_auditory', 'general_visual',
+        'context_auditory', 'context_visual',
+        'visual-auditory', 'auditory-visual',
+        'colorlessg-wordlist',
+        'general-colorlessg',
+        'math-nonmath', 'nonmath-math',
+        'geometry-othermath',
+        'arithmetic_principle-othermath',
+        'arithmetic_fact-othermath',
+        'theory_of_mind-general', 'context-general', 'theory_of_mind-context',
+        'context-theory_of_mind',
+        'theory_of_mind_and_context-general']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names])
-    contrasts['math-others'] =\
-        contrasts['arithprin'] + contrasts['arithfact'] +\
-        contrasts['geomfact'] - contrasts['tom'] - contrasts['general'] -\
-        contrasts['context']
-    contrasts['geometry-arithmetics'] = contrasts['geomfact'] - .5 * (
-        contrasts['arithprin'] + contrasts['arithfact'])
-    contrasts['tom_and_context-general'] = contrasts['tom'] +\
-        contrasts['context'] - 2 * contrasts['general']
-    contrasts['tom-general'] = contrasts['tom'] - contrasts['general']
+    contrasts = dict([(name, con[name]) for name in contrast_names[:16]])
+    contrasts['auditory-visual'] =\
+        np.sum([con[name] for name in contrast_names[:16:2]], 0) -\
+        np.sum([con[name] for name in contrast_names[1:16:2]], 0)
+    contrasts['visual-auditory'] = - contrasts['auditory-visual']
+    contrasts['colorlessg-wordlist'] =\
+        con['colorlessg_auditory'] + con['colorlessg_visual'] - (
+        con['wordlist_auditory'] + con['wordlist_visual'])
+    contrasts['general-colorlessg'] =\
+        con['general_auditory'] + con['general_visual'] -\
+        (con['colorlessg_auditory'] + con['colorlessg_visual'])
+    contrasts['math-nonmath'] = (
+        con['arithmetic_fact_auditory'] + con['arithmetic_fact_visual'] +
+        con['arithmetic_principle_auditory'] +
+        con['arithmetic_principle_visual'] +
+        con['geometry_fact_auditory'] + con['geometry_fact_visual']) - (
+        con['theory_of_mind_auditory'] + con['theory_of_mind_visual'] +
+        con['context_auditory'] + con['context_visual'] +
+        con['general_auditory'] + con['general_visual'])
+    contrasts['nonmath-math'] = - contrasts['math-nonmath']
+    contrasts['geometry-othermath'] =\
+        con['geometry_fact_auditory'] + con['geometry_fact_visual'] - 0.5 * (
+        con['arithmetic_fact_auditory'] + con['arithmetic_fact_visual'] +
+        con['arithmetic_principle_auditory'] +
+        con['arithmetic_principle_visual'])
+    contrasts['arithmetic_principle-othermath'] =\
+        con['arithmetic_principle_auditory'] +\
+        con['arithmetic_principle_visual'] - 0.5 * (
+        con['arithmetic_fact_auditory'] + con['arithmetic_fact_visual'] +
+        con['geometry_fact_auditory'] + con['geometry_fact_visual'])
+    contrasts['arithmetic_fact-othermath'] =\
+        con['arithmetic_fact_auditory'] + con['arithmetic_fact_visual'] -\
+        0.5 * (
+        con['geometry_fact_auditory'] + con['geometry_fact_visual'] +
+        con['arithmetic_principle_auditory'] +
+        con['arithmetic_principle_visual'])
+    contrasts['theory_of_mind-general'] =\
+        con['theory_of_mind_auditory'] + con['theory_of_mind_visual'] - (
+        con['general_auditory'] + con['general_visual'])
+    contrasts['context-general'] =\
+        con['context_auditory'] + con['context_visual'] - (
+        con['general_auditory'] + con['general_visual'])
+    contrasts['theory_of_mind-context'] =\
+        con['theory_of_mind_auditory'] + con['theory_of_mind_visual'] - (
+        con['context_auditory'] + con['context_visual'])
+    contrasts['context-theory_of_mind'] = - contrasts['theory_of_mind-context']
+    contrasts['theory_of_mind_and_context-general'] = .5 * (
+        con['theory_of_mind_auditory'] + con['theory_of_mind_visual'] +
+        con['context_auditory'] + con['context_visual']) - (
+        con['general_auditory'] + con['general_visual'])
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -239,6 +300,61 @@ def ring(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = dict([(name, con[name]) for name in contrast_names])
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def emotional_memory(design_matrix_columns):
+    """ Contrasts for emotional memory protocol"""
+    contrast_names = ['neutral_image', 'negative_image', 'positive_image', 'object',
+                      'positive-neutral_image', 'negative-neutral_image']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:4]])
+    contrasts['positive-neutral_image'] = contrasts['positive_image'] - contrasts['neutral_image']
+    contrasts['negative-neutral_image'] = contrasts['negative_image'] - contrasts['neutral_image']
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def emotion_recognition(design_matrix_columns):
+    """ Contrasts for emotion recognition protocol"""
+    contrast_names = ['neutral', 'angry', 'angry-neutral']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'neutral': con['Neutral'],
+        'angry': con['Angry'],
+        'angry-neutral': con['Angry'] - con['Neutral'],}
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def stop_nogo(design_matrix_columns):
+    """ Contrasts for stop nogo protocol"""
+    contrast_names = ['go', 'nogo', 'successful_stop', 'unsuccessful_stop',
+                      'nogo-go', 'unsuccessful-successful_stop',
+                      'successful+nogo-unsuccessful']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'go': con['Go'],
+        'nogo': con['Nogo'],
+        'successful_stop': con['Successful_stop'],
+        'unsuccessful_stop': con['Unsuccessful_stop'],
+        'nogo-go': con['Nogo'] - con['Go'],
+        'unsuccessful-successful_stop': con['Unsuccessful_stop'] - con['Successful_stop'],
+        'successful+nogo-unsuccessful': con['Successful_stop'] + con['Nogo'] -  con['Unsuccessful_stop']
+    }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -375,24 +491,30 @@ def discount(design_matrix_columns):
 
 def towertask(design_matrix_columns):
     """ Contrasts for Stanford's Tower task protocol"""
-    contrast_names = ['ambiguous_intermediate', 'ambiguous_direct',
-                      'unambiguous_intermediate', 'unambiguous_direct',
-                      'intermediate-direct', 'ambiguous-unambiguous']
+    contrast_names = ['planning_ambiguous_intermediate',
+                      'planning_ambiguous_direct',
+                      'planning_unambiguous_intermediate',
+                      'planning_unambiguous_direct',
+                      'move_ambiguous_intermediate',
+                      'move_ambiguous_direct',
+                      'move_unambiguous_intermediate',
+                      'move_unambiguous_direct',
+                      'intermediate-direct',
+                      'ambiguous-unambiguous']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {
-        'ambiguous_intermediate': con['ambiguous_intermediate'],
-        'ambiguous_direct': con['ambiguous_direct'],
-        'unambiguous_intermediate': con['unambiguous_intermediate'],
-        'unambiguous_direct': con['unambiguous_direct'],
-        'intermediate-direct':
-            con['ambiguous_intermediate'] + con['unambiguous_intermediate'] -
-            (con['ambiguous_direct'] + con['unambiguous_direct']),
-        'ambiguous-unambiguous':
-            con['ambiguous_intermediate'] - con['unambiguous_intermediate'] +
-            con['ambiguous_direct'] - con['unambiguous_direct'],
-    }
+    contrasts = dict([(cn, con[cn]) for cn in contrast_names[:-2]])
+    contrasts['intermediate-direct'] =\
+        con['planning_ambiguous_intermediate']\
+        + con['planning_unambiguous_intermediate']\
+        - (con['planning_ambiguous_direct']
+           + con['planning_unambiguous_direct'])
+    contrasts['ambiguous-unambiguous'] =\
+        con['planning_ambiguous_intermediate']\
+        - con['planning_unambiguous_intermediate'] +\
+        con['planning_ambiguous_direct']\
+        - con['planning_unambiguous_direct']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -402,23 +524,29 @@ def towertask(design_matrix_columns):
 def two_by_two(design_matrix_columns):
     """ Contrasts for Stanford's two-bytwo task protocol"""
     contrast_names = [
-        'task_stay_cue_stay', 'task_switch_cue_switch',
-        'task_switch_cue_stay', 'task_stay_cue_switch',
-        'task_switch-stay', 'cue_switch']
+        'cue_taskstay_cuestay',
+        'cue_taskstay_cueswitch',
+        'cue_taskswitch_cuestay',
+        'cue_taskswitch_cueswitch',
+        'stim_taskstay_cuestay',
+        'stim_taskstay_cueswitch',
+        'stim_taskswitch_cuestay',
+        'stim_taskswitch_cueswitch',
+        'task_swtich-stay',
+        'cue_switch']
+    #  'task_stay_cue_stay', 'task_switch_cue_switch',
+    #  'task_switch_cue_stay', 'task_stay_cue_switch',
+    #  'task_switch-stay', 'cue_switch']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {
-        'task_stay_cue_stay': con['taskstay_cuestay'],
-        'task_switch_cue_switch': con['taskswitch_cueswitch'],
-        'task_switch_cue_stay': con['taskswitch_cuestay'],
-        'task_stay_cue_switch': con['taskstay_cueswitch'],
-        'task_switch-stay':
-            con['taskswitch_cueswitch'] + con['taskswitch_cuestay'] -
-            2 * con['taskstay_cueswitch'],
-        'cue_switch':
-            con['taskstay_cueswitch'] - con['taskstay_cuestay'],
-    }
+    contrasts = dict([(cn, con[cn]) for cn in contrast_names[:-2]])
+    contrasts['task_swtich-stay'] =\
+        con['cue_taskswitch_cueswitch'] + con['cue_taskswitch_cuestay']\
+        - con['cue_taskstay_cueswitch'] - con['cue_taskstay_cuestay']
+    contrasts['cue_switch'] = con['cue_taskstay_cueswitch']\
+        - con['cue_taskstay_cuestay']
+
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
