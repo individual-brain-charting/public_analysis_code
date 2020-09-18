@@ -96,7 +96,7 @@ def data_parser(derivatives=DERIVATIVES):
             acquisitions.append('')
 
     for sbj in SUBJECTS:
-        # gm images
+        # gray-matter images
         c1_relat_path = 'sub-*/ses-00/anat/mwc1%s_ses-00_T1w.nii.gz' % sbj
         c1_abs_path = os.path.join(derivatives, c1_relat_path)
         c1_imgs_ = glob.glob(os.path.join(c1_abs_path))
@@ -115,7 +115,7 @@ def data_parser(derivatives=DERIVATIVES):
             acquisitions.append('')
 
     for sbj in SUBJECTS:
-        # wm image
+        # white-matter images
         c2_relat_path = 'sub-*/ses-00/anat/mwc2%s_ses-00_T1w.nii.gz' % sbj
         c2_abs_path = os.path.join(derivatives, c2_relat_path)
         c2_imgs_ = glob.glob(os.path.join(c2_abs_path))
@@ -134,7 +134,7 @@ def data_parser(derivatives=DERIVATIVES):
             acquisitions.append('')
 
     for sbj in SUBJECTS:
-        # fixed-effects activation images
+        # preprocessed images
         for acq in ['ap', 'pa']:
             for task in TASKS:
                 bold_name = 'wrdc%s_ses*_task-%s_dir-%s*_bold.nii.gz' \
