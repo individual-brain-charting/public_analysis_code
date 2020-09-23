@@ -47,7 +47,7 @@ def data_parser(derivatives=DERIVATIVES):
         tasks.append('')
         acquisitions.append('')
         
-    # gm images
+    # gray-matter images
     imgs_ = sorted(glob.glob(os.path.join(
         derivatives, 'sub-*/ses-*/anat/mwcc1sub*_T1w.nii.gz')))
     for img in imgs_:
@@ -61,7 +61,7 @@ def data_parser(derivatives=DERIVATIVES):
         tasks.append('')
         acquisitions.append('')
         
-    # wm image
+    # white-matter image
     imgs_ = sorted(glob.glob(os.path.join(
         derivatives, 'sub-*/ses-*/anat/mwc2sub*_T1w.nii.gz')))
     for img in imgs_:
@@ -75,7 +75,7 @@ def data_parser(derivatives=DERIVATIVES):
         tasks.append('')
         acquisitions.append('')
     
-    # fixed-effects activation images
+    # preprocessed images
     bold = sorted(glob.glob(os.path.join(
         derivatives, 'sub-*/ses-*/func/wrdcsub*_ses*_task*_bold.nii.gz')))
 

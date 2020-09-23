@@ -246,26 +246,42 @@ def post_process(df, paradigm_id):
         df = df[df.trial_type.isin(['go', 'stop'])]
     if paradigm_id in ['ward-aliport', 'ward_and_aliport']:
         df = df[df.trial_type.isin([
-            'PA_with_intermediate', 'PA_without_intermediate',
-            'UA_with_intermeidate', 'UA_without_intermeidate',
-            'UA_with_intermediate', 'UA_without_intermediate'  # fix event files
-        ])]
-        df.replace('PA_with_intermediate', 'ambiguous_intermediate',
+            'planning_PA_with_intermediate',
+            'planning_PA_without_intermediate',
+            'planning_UA_with_intermediate',
+            'planning_UA_without_intermediate',
+            'move_PA_with_intermediate',
+            'move_PA_without_intermediate',
+            'move_UA_with_intermediate',
+            'move_UA_without_intermediate'])]
+
+        df.replace('planning_PA_with_intermediate',
+                   'planning_ambiguous_intermediate', inplace=True)
+        df.replace('planning_PA_without_intermediate',
+                   'planning_ambiguous_direct', inplace=True)
+        df.replace('planning_UA_with_intermediate',
+                   'planning_unambiguous_intermediate', inplace=True)
+        df.replace('planning_UA_without_intermediate',
+                   'planning_unambiguous_direct', inplace=True)
+        df.replace('move_PA_with_intermediate',
+                   'move_ambiguous_intermediate', inplace=True)
+        df.replace('move_PA_without_intermediate',
+                   'move_ambiguous_direct', inplace=True)
+        df.replace('move_UA_with_intermediate',
+                   'move_unambiguous_intermediate', inplace=True)
+        df.replace('move_UA_without_intermediate', 'move_unambiguous_direct',
                    inplace=True)
-        df.replace('PA_without_intermediate', 'ambiguous_direct',
-                   inplace=True)
-        df.replace('UA_with_intermeidate', 'unambiguous_intermediate',
-                   inplace=True)
-        df.replace('UA_without_intermeidate', 'unambiguous_direct',
-                   inplace=True)
-        df.replace('UA_with_intermediate', 'unambiguous_intermediate',
-                   inplace=True)
-        df.replace('UA_without_intermediate', 'unambiguous_direct',
-                   inplace=True)
+
     if paradigm_id == 'two_by_two':
         df = df[df.trial_type.isin([
-            'taskstay_cuestay', 'taskswitch_cueswitch', 'taskswitch_cuestay',
-            'taskstay_cueswitch'])]
+            'cue_taskstay_cuestay',
+            'cue_taskstay_cueswitch',
+            'cue_taskswitch_cuestay',
+            'cue_taskswitch_cueswitch',
+            'stim_taskstay_cuestay',
+            'stim_taskstay_cueswitch',
+            'stim_taskswitch_cuestay',
+            'stim_taskswitch_cueswitch'])]
     if paradigm_id == 'discount':
         df = df[df.trial_type.isin(['stim'])]
         df1 = df.copy()
@@ -317,16 +333,19 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'biological_motion1':
         df = df[df.trial_type.isin(['global_upright', 'global_inverted',
                                     'natural_upright', 'natural_inverted'])]
-        #df.onset /= 1000
-        #df.duration /= 1000
     if paradigm_id == 'biological_motion2':
         df = df[df.trial_type.isin(['modified_upright', 'modified_inverted',
                                     'natural_upright', 'natural_inverted'])]
-        #df.onset /= 1000
-        #df.duration /= 1000
-    if paradigm_id == 'math-language':
-        trial_types = ['colorlessg', 'control', 'arithfact', 'tom', 'geomfact',
-                       'general', 'arithprin', 'context']
+    if paradigm_id == 'mathlang':
+        trial_types = [
+            'colorlessg_auditory', 'colorlessg_visual',
+            'wordlist_auditory', 'wordlist_visual',
+            'arithmetic_fact_auditory', 'arithmetic_fact_visual',
+            'arithmetic_principle_auditory', 'arithmetic_principle_visual',
+            'theory_of_mind_auditory', 'theory_of_mind_visual',
+            'geometry_fact_visual', 'geometry_fact_auditory',
+            'general_visual', 'general_auditory',
+            'context_visual', 'context_auditory']
         df = df[df.trial_type.isin(trial_types)]
     if paradigm_id == 'spatial_navigation':
         for intersection_ in ['intersection_%d' % i for i in range(4)]:
@@ -335,6 +354,12 @@ def post_process(df, paradigm_id):
                        'pointing_experimental', 'control', 'pointing_control',
                        'intersection']
         df = df[df.trial_type.isin(trial_types)]
+    if paradigm_id == 'EmoMem':
+        pass
+    if paradigm_id == 'EmoReco':
+        pass
+    if paradigm_id == 'StopNogo':
+        pass
     return df
 
 
