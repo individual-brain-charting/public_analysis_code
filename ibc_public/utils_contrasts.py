@@ -116,6 +116,12 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return emotion_recognition(design_matrix_columns)
     elif paradigm_id == 'StopNogo':
         return stop_nogo(design_matrix_columns)
+    elif paradigm_id == 'Oddball':
+        return oddball(design_matrix_columns)
+    elif paradigm_id == 'VSTMC':
+        return vstmc(design_matrix_columns)
+    elif paradigm_id == 'FingerTapping':
+        return finger_tapping(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -338,6 +344,22 @@ def emotion_recognition(design_matrix_columns):
     return contrasts
 
 
+def oddball(design_matrix_columns):
+    """ Contrasts for oddball protocol"""
+    contrast_names = ['easy_oddball', 'hard_oddball', 'hard-easy_oddball']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'easy_oddball': con['CatEasy'],
+        'hard_oddball': con['CatHard'],
+        'hard-easy_oddball': con['CatHard'] - con['CatEasy'],}
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
 def stop_nogo(design_matrix_columns):
     """ Contrasts for stop nogo protocol"""
     contrast_names = ['go', 'nogo', 'successful_stop', 'unsuccessful_stop',
@@ -359,6 +381,55 @@ def stop_nogo(design_matrix_columns):
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
+
+
+def finger_tapping(design_matrix_columns):
+    """ Contrasts for oddball protocol"""
+    contrast_names = ['specified', 'chosen', 'null',
+                      'chosen-specified', 'specified-null', 'chosen-null']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'specified': con['Specified'],
+        'chosen': con['Chosen'],
+        'null': con['Null'],
+        'chosen-specified': con['Chosen'] - con['Specified'],
+        'specified-null': con['Specified'] - con['Null'],
+        'chosen-null': con['Chosen'] - con['Null']}
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def vstmc(design_matrix_columns):
+    """ Contrasts for vstmc protocol"""
+    contrast_names = ['stim_load1', 'stim_load2', 'stim_load3',
+                      'resp_load1', 'resp_load2', 'resp_load3',
+                      'stim', 'resp', 'stim_load3-load1',
+                      'resp_load3-load1'
+    ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'stim_load1': con['stim_load1'],
+        'stim_load2': con['stim_load2'],
+        'stim_load3': con['stim_load3'],
+        'resp_load1': con['resp_load1'],
+        'resp_load2': con['resp_load2'],
+        'resp_load3': con['resp_load3'],
+        'stim': con['stim_load1'] + con['stim_load2'] + con['stim_load3'],
+        'resp': con['resp_load1'] + con['resp_load2'] + con['resp_load3'],
+        'stim_load3-load1': con['stim_load3'] - con['stim_load1'],
+        'resp_load3-load1': con['resp_load3'] - con['resp_load1'], 
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
 
 
 def biological_motion1(design_matrix_columns):

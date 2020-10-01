@@ -208,11 +208,10 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
-    do_topup = False
-    protocol = 'navigation'
-    subject_session = sorted(get_subject_session([protocol]))
-    #subject_session = [('sub-05', 'ses-30'), ('sub-01', 'ses-25'),
-    #                   ('sub-14', 'ses-34')]
+    do_topup = True
+    protocol = 'BBT3'
+    subject_session = sorted(get_subject_session(['bbt3']))
+    # subject_session = [('sub-15', 'ses-29')]
     if do_topup:
         acq = None
         if protocol in ['rs']:
@@ -246,7 +245,7 @@ if __name__ == '__main__':
 
     # resampling toward pre-defined shape
     resample_func_and_anat()
-
+    """
     # Load the dump data
     list_subjects_update = json.load(open(json_file_name))
     for subject in list_subjects_update:
@@ -255,3 +254,4 @@ if __name__ == '__main__':
         if len(subject['session_id']) > 0:
             first_level(subject, compcorr=True)
             fixed_effects_analysis(subject)
+    """

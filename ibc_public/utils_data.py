@@ -397,14 +397,17 @@ def copy_db(df, write_dir, filename='result_db.csv'):
     df1 = df.copy()
     paths = []
     for i in df.index:
-        if df.iloc[i].task is not '':
-            fname = '%s_%s_%s_%s_%s.nii.gz' % (
-                df.iloc[i].modality, df.iloc[i].subject, df.iloc[i].session,
-                df.iloc[i].task, df.iloc[i].contrast)
-        else:
-            fname = '%s_%s_%s_%s.nii' % (
-                df.iloc[i].modality, df.iloc[i].subject, df.iloc[i].session,
-                df.iloc[i].contrast)
+        filename_, extension = os.path.splitext(df.iloc[i].path)
+        extension_ = os.path.splitext(filename_)[1]
+        extension = extension_ +  extension
+        fname = '%s_%s_%s_%s_%s%s' % (
+            df.iloc[i].modality, df.iloc[i].subject, df.iloc[i].session,
+            df.iloc[i].task, df.iloc[i].contrast, extension)
+        if extension == '.gii':
+            # this is surface data
+            fname = '%s_%s_%s_%s_%s_%s%s' % (
+            df.iloc[i].modality, df.iloc[i].subject, df.iloc[i].session,
+                df.iloc[i].task, df.iloc[i].contrast, df.iloc[i].side, extension)
         print(fname)
         new_path = os.path.join(write_dir, fname)
         shutil.copy(df.iloc[i].path, new_path)
@@ -449,6 +452,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
     sessions = []
     contrasts = []
     tasks = []
+    modalities = []
 
     # fixed-effects activation images
     con_df = conditions
@@ -488,6 +492,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     contrasts.append(contrast)
                     tasks.append(task_name)
                     sides.append(side)
+                    modalities.append('bold')
             if task == 'language_':
                 pass # stop
 
@@ -498,7 +503,8 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
         contrast=contrasts,
         session=sessions,
         task=tasks,
-        side=sides
+        side=sides,
+        modality=modalities
     )
 
     # create a FataFrame out of the dictionary and write it to disk

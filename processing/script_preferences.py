@@ -98,7 +98,7 @@ def elementary_contrasts_surf(con_imgs, var_imgs):
         outputs.append(output)
     return(outputs)
 
-"""
+
 # in-volume computation
 workdir = SMOOTH_DERIVATIVES
 for (subject, session) in subject_session:
@@ -166,7 +166,7 @@ for (subject, session) in subject_session:
         output_file = os.path.join(stat_dir, '%s-others.png' % category)
         plot_stat_map(fixed_stat, bg_img=anat, dim=0,
                       output_file=output_file, threshold=4.0)
-"""
+
 
 # on-surface computation
 workdir = DERIVATIVES
