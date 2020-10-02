@@ -12,8 +12,8 @@ def combine_phase(phase_pos, phase_neg, offset=0, hemo=None):
     if hemo is None:
         # estimate hemodynamic delay
         hemo = 0.5 * (phase_pos + phase_neg)
-        hemo += np.pi * (hemo < - np.pi / 4)
-        hemo += np.pi * (hemo < - np.pi / 4)
+        hemo += np.pi * (hemo < 0) # - np.pi / 4)
+        hemo += np.pi * (hemo < 0) # - np.pi / 4)
 
     # first phase estimate
     pr1 = phase_pos - hemo

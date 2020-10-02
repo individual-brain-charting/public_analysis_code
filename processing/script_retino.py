@@ -105,17 +105,21 @@ for subject_session in subjects_sessions:
             gii = GiftiImage(
                 darrays=[GiftiDataArray().from_array(fixed_effects, 't test')])
             gii.to_filename(pjoin(write_dir, 'retinotopicity_%s.gii' % hemi))
-
+            fixed_effects[np.isnan(fixed_effects)] = 0
+            mask = fixed_effects > THRESHOLD
+            
             # todo: plot on a surface
             output_file = pjoin(write_dir, 'retinotopicity_%s.png' % hemi)
             if hemi == 'lh':
                 plot_surf_stat_map(
-                    lh_white, fixed_effects, bg_map=sulc_left, output_file=output_file,
-                    hemi='left', view='medial', bg_on_data=True, darkness=1, alpha=1)
+                    lh_inflated, fixed_effects, bg_map=sulc_left, output_file=output_file,
+                    hemi='left', view='medial', bg_on_data=True, darkness=1, alpha=1,
+                    threshold=THRESHOLD)
             else:
                 plot_surf_stat_map(
-                    rh_white, fixed_effects, bg_map=sulc_right, output_file=output_file,
-                    hemi='right', view='medial', bg_on_data=True, darkness=1, alpha=1)
+                    rh_inflated, fixed_effects, bg_map=sulc_right, output_file=output_file,
+                    hemi='right', view='medial', bg_on_data=True, darkness=1, alpha=1,
+                    threshold=THRESHOLD)
             #
             cos_wedge_clock = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
@@ -123,21 +127,21 @@ for subject_session in subjects_sessions:
                     pjoin(work_dir, 'res_surf_wedge_clock_ap', 'z_surf', 'cos_%s.gii' % hemi))], 0)
             sin_wedge_clock = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_surf_wedge_clock_pa', 'z_surf', 'cos_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_surf_wedge_clock_ap', 'z_surf', 'cos_%s.gii' % hemi))], 0)
+                    pjoin(work_dir, 'res_surf_wedge_clock_pa', 'z_surf', 'sin_%s.gii' % hemi),
+                    pjoin(work_dir, 'res_surf_wedge_clock_ap', 'z_surf', 'sin_%s.gii' % hemi))], 0)
             cos_wedge_anti = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
                     pjoin(work_dir, 'res_surf_wedge_anti_pa', 'z_surf', 'cos_%s.gii' % hemi),
                     pjoin(work_dir, 'res_surf_wedge_anti_ap', 'z_surf', 'cos_%s.gii' % hemi))], 0)
             sin_wedge_anti = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_surf_wedge_anti_pa', 'z_surf', 'cos_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_surf_wedge_anti_ap', 'z_surf', 'cos_%s.gii' % hemi))], 0)
+                    pjoin(work_dir, 'res_surf_wedge_anti_pa', 'z_surf', 'sin_%s.gii' % hemi),
+                    pjoin(work_dir, 'res_surf_wedge_anti_ap', 'z_surf', 'sin_%s.gii' % hemi))], 0)
             retino_imgs = {
-                'cos_wedge_pos': cos_wedge_clock,
-                'sin_wedge_pos': sin_wedge_clock,
-                'sin_wedge_neg': cos_wedge_anti,
-                'cos_wedge_neg': sin_wedge_anti,
+                'cos_wedge_pos': cos_wedge_anti,
+                'sin_wedge_pos': sin_wedge_anti,
+                'sin_wedge_neg': sin_wedge_clock,
+                'cos_wedge_neg': cos_wedge_clock,
                 'cos_ring_pos': pjoin(
                     work_dir, 'res_surf_exp_ring_pa', 'z_surf', 'cos_%s.gii' % hemi),
                 'sin_ring_pos': pjoin(
@@ -146,47 +150,65 @@ for subject_session in subjects_sessions:
                     work_dir, 'res_surf_cont_ring_ap', 'z_surf', 'sin_%s.gii' % hemi),
                 'cos_ring_neg': pjoin(
                     work_dir, 'res_surf_cont_ring_ap', 'z_surf', 'cos_%s.gii' % hemi)
-        }
-        retino_coefs = {}
-        for key in retino_imgs.keys():
-            if isinstance(retino_imgs[key], np.ndarray):
-                retino_coefs[key] = retino_imgs[key]
-            else:
-                retino_coefs[key] = np.ravel([
-                    darrays.data for darrays in load(retino_imgs[key]).darrays])
+            }
+            retino_coefs = {}
+            for key in retino_imgs.keys():
+                if isinstance(retino_imgs[key], np.ndarray):
+                    retino_coefs[key] = retino_imgs[key]
+                else:
+                    retino_coefs[key] = np.ravel([
+                        darrays.data for darrays in load(retino_imgs[key]).darrays])
     
-        phase_wedge, phase_ring, phase_hemo = phase_maps(
-            retino_coefs, offset_ring=np.pi, offset_wedge=0., do_wedge=True, do_ring=True, 
-        )
-        GiftiImage(
-            darrays=[GiftiDataArray().from_array(phase_wedge, 'NIFTI_INTENT_ESTIMATE')]).\
-            to_filename(pjoin(write_dir, 'phase_wedge_%s.gii' % hemi))
-        GiftiImage(
-            darrays=[GiftiDataArray().from_array(phase_ring, 'NIFTI_INTENT_ESTIMATE')]).\
-            to_filename(pjoin(write_dir, 'phase_ring_%s.gii' % hemi))
-        GiftiImage(
-            darrays=[GiftiDataArray().from_array(phase_hemo, 'NIFTI_INTENT_ESTIMATE')]).\
-            to_filename(pjoin(write_dir, 'phase_hemo_%s.gii' % hemi))
+            phase_wedge, phase_ring, phase_hemo = phase_maps(
+                retino_coefs, offset_ring=np.pi, offset_wedge=0, do_wedge=True, do_ring=True, 
+            )
+            phase_wedge[mask == 0] = 0
+            phase_ring[mask == 0] = 0
+            phase_hemo[mask == 0] = 0
+            GiftiImage(
+                darrays=[GiftiDataArray().from_array(phase_wedge, 'NIFTI_INTENT_ESTIMATE')]).\
+                to_filename(pjoin(write_dir, 'phase_wedge_%s.gii' % hemi))
+            GiftiImage(
+                darrays=[GiftiDataArray().from_array(phase_ring, 'NIFTI_INTENT_ESTIMATE')]).\
+                to_filename(pjoin(write_dir, 'phase_ring_%s.gii' % hemi))
+            GiftiImage(
+                darrays=[GiftiDataArray().from_array(phase_hemo, 'NIFTI_INTENT_ESTIMATE')]).\
+                to_filename(pjoin(write_dir, 'phase_hemo_%s.gii' % hemi))
 
-        # make plots
-        output_file = pjoin(write_dir, 'phase_wedge_%s.png' % hemi)
-        if hemi == 'lh':
-            plot_surf_stat_map(
-                phase_wedge, fixed_effects, bg_map=sulc_left, output_file=output_file,
-                hemi='left', view='medial', bg_on_data=True, darkness=1, alpha=1)
-        else:
-            plot_surf_stat_map(
-                phase_wedge, fixed_effects, bg_map=sulc_right, output_file=output_file,
-                hemi='right', view='medial', bg_on_data=True, darkness=1, alpha=1)
-        output_file = pjoin(write_dir, 'phase_ring_%s.png' % hemi)
-        if hemi == 'lh':
-            plot_surf_stat_map(
-                phase_ring, fixed_effects, bg_map=sulc_left, output_file=output_file,
-                hemi='left', view='medial', bg_on_data=True, darkness=1, alpha=1)
-        else:
-            plot_surf_stat_map(
-                phase_ring, fixed_effects, bg_map=sulc_right, output_file=output_file,
-                hemi='right', view='medial', bg_on_data=True, darkness=1, alpha=1)
+            # make plots
+            output_file = pjoin(write_dir, 'phase_wedge_%s.png' % hemi)
+            if hemi == 'lh':
+                plot_surf_stat_map(
+                    lh_inflated, phase_wedge, bg_map=sulc_left, output_file=output_file,
+                    hemi='left', view='medial', bg_on_data=True, darkness=1, alpha=1, cmap='hsv',
+                    threshold=.01)
+            else:
+                plot_surf_stat_map(
+                    rh_inflated, phase_wedge, bg_map=sulc_right, output_file=output_file,
+                    hemi='right', view='medial', bg_on_data=True, darkness=1, alpha=1, cmap='hsv',
+                    threshold=.01)
+            if hemi == 'lh':
+                plot_surf_stat_map(
+                    lh_inflated, phase_wedge, bg_map=sulc_left, output_file=output_file,
+                    hemi='left', view='lateral', bg_on_data=True, darkness=1, alpha=1, cmap='hsv',
+                    threshold=.01)
+            else:
+                plot_surf_stat_map(
+                    rh_inflated, phase_wedge, bg_map=sulc_right, output_file=output_file,
+                    hemi='right', view='lateral', bg_on_data=True, darkness=1, alpha=1, cmap='hsv',
+                    threshold=.01)
+
+            output_file = pjoin(write_dir, 'phase_ring_%s.png' % hemi)
+            if hemi == 'lh':
+                plot_surf_stat_map(
+                    lh_inflated, phase_ring, bg_map=sulc_left, output_file=output_file,
+                    hemi='left', view='medial', bg_on_data=True, darkness=1, alpha=1,
+                    threshold=.01)
+            else:
+                plot_surf_stat_map(
+                    rh_inflated, phase_ring, bg_map=sulc_right, output_file=output_file,
+                    hemi='right', view='medial', bg_on_data=True, darkness=1, alpha=1,
+                    threshold=.01)
     else:
         z_maps = [pjoin(work_dir, acq, 'z_score_maps', 'effects_interest.nii.gz')
                   for acq in acqs]
@@ -221,10 +243,10 @@ for subject_session in subjects_sessions:
             pjoin(work_dir, 'res_stats_wedge_anti_ap', 'z_score_maps', 'sin.nii.gz')))
 
         retino_imgs = {
-            'cos_wedge_pos': cos_wedge_clock,
-            'sin_wedge_pos': sin_wedge_clock,
-            'sin_wedge_neg': cos_wedge_anti,
-            'cos_wedge_neg': sin_wedge_anti,
+            'cos_wedge_pos': cos_wedge_anti,
+            'sin_wedge_pos': sin_wedge_anti,
+            'sin_wedge_neg': sin_wedge_clock,
+            'cos_wedge_neg': cos_wedge_clock,
             'cos_ring_pos': pjoin(
                 work_dir, 'res_stats_exp_ring_pa', 'z_score_maps', 'cos.nii.gz'),
             'sin_ring_pos': pjoin(
@@ -250,12 +272,13 @@ for subject_session in subjects_sessions:
         phase_ring_img.to_filename(pjoin(write_dir, 'phase_ring.nii.gz'))
         phase_hemo_img.to_filename(pjoin(write_dir, 'phase_hemo.nii.gz'))
 
-        plot_stat_map(phase_wedge_img, title='polar angle',
-                      bg_img=anat, dim=0, output_file=pjoin(write_dir, 'phase_wedge.png'))
-        plot_stat_map(phase_ring_img, title='eccentricity',
-                      bg_img=anat, dim=0, output_file=pjoin(write_dir, 'phase_ring.png'))
-        plot_stat_map(phase_hemo_img, title='hemodynamics',
-                      bg_img=anat, dim=0, output_file=pjoin(write_dir, 'phase_hemo.png'))
+        plot_stat_map(phase_wedge_img, title='polar angle', cmap='hsv',
+                      bg_img=anat, dim=1, output_file=pjoin(write_dir, 'phase_wedge.png'))
+        plot_stat_map(phase_ring_img, title='eccentricity', cmap='hsv',
+                      bg_img=anat, dim=1, output_file=pjoin(write_dir, 'phase_ring.png'))
+        plot_stat_map(phase_hemo_img, title='hemodynamics', cmap='hsv',
+                      bg_img=anat, dim=1, output_file=pjoin(write_dir, 'phase_hemo.png'))
 
-    stop
-plt.show()
+    plt.show(block=False)
+
+
