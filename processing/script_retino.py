@@ -19,6 +19,8 @@ from nibabel import load, save
 from nibabel.gifti import GiftiDataArray, GiftiImage
 from ibc_public.utils_data import DERIVATIVES
 from nilearn.plotting import plot_surf_stat_map
+import cortex
+
 
 data_dir = DERIVATIVES
 do_surface = True
@@ -109,6 +111,7 @@ for subject_session in subjects_sessions:
             mask = fixed_effects > THRESHOLD
             
             # todo: plot on a surface
+            """
             output_file = pjoin(write_dir, 'retinotopicity_%s.png' % hemi)
             if hemi == 'lh':
                 plot_surf_stat_map(
@@ -120,6 +123,7 @@ for subject_session in subjects_sessions:
                     rh_inflated, fixed_effects, bg_map=sulc_right, output_file=output_file,
                     hemi='right', view='medial', bg_on_data=True, darkness=1, alpha=1,
                     threshold=THRESHOLD)
+            """
             #
             cos_wedge_clock = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
@@ -176,7 +180,9 @@ for subject_session in subjects_sessions:
                 to_filename(pjoin(write_dir, 'phase_hemo_%s.gii' % hemi))
 
             # make plots
+            """
             output_file = pjoin(write_dir, 'phase_wedge_%s.png' % hemi)
+            
             if hemi == 'lh':
                 plot_surf_stat_map(
                     lh_inflated, phase_wedge, bg_map=sulc_left, output_file=output_file,
@@ -209,6 +215,8 @@ for subject_session in subjects_sessions:
                     rh_inflated, phase_ring, bg_map=sulc_right, output_file=output_file,
                     hemi='right', view='medial', bg_on_data=True, darkness=1, alpha=1,
                     threshold=.01)
+            """
+            
     else:
         z_maps = [pjoin(work_dir, acq, 'z_score_maps', 'effects_interest.nii.gz')
                   for acq in acqs]
@@ -279,6 +287,28 @@ for subject_session in subjects_sessions:
         plot_stat_map(phase_hemo_img, title='hemodynamics', cmap='hsv',
                       bg_img=anat, dim=1, output_file=pjoin(write_dir, 'phase_hemo.png'))
 
-    plt.show(block=False)
+plt.show(block=False)
 
-
+for subject_session in subjects_sessions:
+    subject, session = subject_session.split('_')
+    write_dir = pjoin(DERIVATIVES, subject, session, 'res_surf_retinotopy_ffx', 'stat_maps')
+    lh = os.path.join(write_dir, 'phase_wedge_lh.gii')
+    rh = os.path.join(write_dir, 'phase_wedge_rh.gii')
+    x1 = np.ravel([darrays.data for darrays in load(lh).darrays])
+    x2 = np.ravel([darrays.data for darrays in load(rh).darrays])
+    x = np.hstack((x1, x2))
+    x[x == 0] = np.nan
+    vertex_data = cortex.Vertex(x, 'fsaverage')
+    fig = cortex.quickshow(vertex_data,
+                           with_colorbar=False,
+                           with_rois=False,
+                           with_labels=False,
+                           with_curvature=True,
+                           curvature_contrast=0.5,
+                           curvature_brightness=0.5,
+                           curvature_threshold=True,
+    )
+    fig.set_size_inches((8, 4.5))
+    fig.savefig(os.path.join(write_dir, 'phase_wedge.png'))
+    
+plt.show(block=False)
