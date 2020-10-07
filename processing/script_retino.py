@@ -292,23 +292,27 @@ plt.show(block=False)
 for subject_session in subjects_sessions:
     subject, session = subject_session.split('_')
     write_dir = pjoin(DERIVATIVES, subject, session, 'res_surf_retinotopy_ffx', 'stat_maps')
-    lh = os.path.join(write_dir, 'phase_wedge_lh.gii')
-    rh = os.path.join(write_dir, 'phase_wedge_rh.gii')
-    x1 = np.ravel([darrays.data for darrays in load(lh).darrays])
-    x2 = np.ravel([darrays.data for darrays in load(rh).darrays])
-    x = np.hstack((x1, x2))
-    x[x == 0] = np.nan
-    vertex_data = cortex.Vertex(x, 'fsaverage')
-    fig = cortex.quickshow(vertex_data,
-                           with_colorbar=False,
-                           with_rois=False,
-                           with_labels=False,
-                           with_curvature=True,
-                           curvature_contrast=0.5,
-                           curvature_brightness=0.5,
-                           curvature_threshold=True,
-    )
-    fig.set_size_inches((8, 4.5))
-    fig.savefig(os.path.join(write_dir, 'phase_wedge.png'))
+
+    for stat in ['phase_wedge', 'phase_ring']:
+        lh = os.path.join(write_dir, '%s_lh.gii' % stat)
+        rh = os.path.join(write_dir, '%s_rh.gii' % stat)
+        output_file = os.path.join(write_dir, '%s.png' % stat)
+    
+        x1 = np.ravel([darrays.data for darrays in load(lh).darrays])
+        x2 = np.ravel([darrays.data for darrays in load(rh).darrays])
+        x = np.hstack((x1, x2))
+        x[x == 0] = np.nan
+        vertex_data = cortex.Vertex(x, 'fsaverage')
+        fig = cortex.quickshow(vertex_data,
+                               with_colorbar=False,
+                               with_rois=False,
+                               with_labels=False,
+                               with_curvature=True,
+                               curvature_contrast=0.5,
+                               curvature_brightness=0.5,
+                               curvature_threshold=True,
+        )
+        fig.set_size_inches((8, 4.5))
+        fig.savefig(output_file)
     
 plt.show(block=False)
