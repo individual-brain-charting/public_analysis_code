@@ -15,7 +15,7 @@ import numpy as np
 from ibc_public.utils_annotations import expand_table
 
 main_parent_dir = '/neurospin/ibc'
-alt_parent_dir = '/storage/store/data/ibc'
+alt_parent_dir = '/storage/store2/data/ibc'
 
 if os.path.exists(main_parent_dir):
     ibc = main_parent_dir
