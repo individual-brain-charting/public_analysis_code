@@ -225,7 +225,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
             for task in task_list:
                 bold_name = 'wrdc%s_ses*_task-%s_dir-%s*_bold.nii.gz' \
                             % (sbj, task, acq)
-                bold_path = os.path.join(derivatives, 'sub-*/ses-*/func',
+                bold_path = os.path.join(DERIVATIVES, 'sub-*/ses-*/func',
                                          bold_name)
                 bold = glob.glob(bold_path)
                 if not bold:
@@ -262,7 +262,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
                 rps_name = 'rp_dc%s_ses*_task-%s_dir-%s*_bold.txt' \
                            % (sbj, task, acq)
-                rps_path = os.path.join(derivatives, 'sub-*/ses-*/func',
+                rps_path = os.path.join(DERIVATIVES, 'sub-*/ses-*/func',
                                         rps_name)
                 rps = glob.glob(rps_path)
                 if not rps:
