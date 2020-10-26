@@ -13,7 +13,7 @@ from pandas import read_csv
 from nilearn.masking import compute_multi_epi_mask
 from nilearn.image import high_variance_confounds
 
-from nistats.design_matrix import (make_first_level_design_matrix,
+from nilearn.glm.first_level.design_matrix import (make_first_level_design_matrix,
                                    check_design_matrix)
 
 from pypreprocess.reporting.base_reporter import ProgressReport
@@ -21,7 +21,7 @@ from pypreprocess.reporting.glm_reporter import generate_subject_stats_report
 
 from ibc_public.utils_contrasts import make_contrasts
 from ibc_public.utils_paradigm import make_paradigm
-from nistats.reporting import make_glm_report
+# from nistats.reporting import make_glm_report
 
 
 
@@ -367,18 +367,18 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
                 subject_session_output_dir, tr=tr, smoothing_fwhm=smooth)
 
             # do stats report
-            anat_img = nib.load(subject_dic['anat'])
-            stats_report_filename = os.path.join(
-                subject_session_output_dir, 'report_stats.html')
-
-            report = make_glm_report(fmri_glm,
-                                     contrasts,
-                                     threshold=3.0,
-                                     bg_img=anat_img,
-                                     cluster_threshold=15,
-                                     title="GLM for subject %s" % session_id,
-                                     )
-            report.save_as_html(stats_report_filename)
+            # anat_img = nib.load(subject_dic['anat'])
+            # stats_report_filename = os.path.join(
+            #     subject_session_output_dir, 'report_stats.html')
+            #
+            # report = make_glm_report(fmri_glm,
+            #                          contrasts,
+            #                          threshold=3.0,
+            #                          bg_img=anat_img,
+            #                          cluster_threshold=15,
+            #                          title="GLM for subject %s" % session_id,
+            #                          )
+            # report.save_as_html(stats_report_filename)
 
     if not surface:
         ProgressReport().finish_dir(subject_session_output_dir)
