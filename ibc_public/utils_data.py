@@ -50,9 +50,17 @@ for i in range(len(CONTRASTS)):
     contrast = CONTRASTS.contrast[i]
     target = all_contrasts[all_contrasts.task == task]\
              [all_contrasts.contrast == contrast]
-    BETTER_NAMES[contrast] = target['pretty name']
-    LABELS[contrast] = [target['negative label'],
-                        target['positive label']]
+    if len(target['pretty name'].values):
+        BETTER_NAMES[contrast] = target['pretty name'].values[0]
+    else:
+        BETTER_NAMES[contrast] = contrast
+    pos, neg = contrast, ''
+    if len(target['negative label'].values):
+        neg = target['negative label'].values[0]
+    if len(target['positive label'].values):
+        pos = target['positive label'].values[0]
+    LABELS[contrast] = [neg, pos]
+
 
 
 def get_subject_session(protocols):
@@ -251,7 +259,6 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 imgs_.sort()
                 # some renaming
                 contrast_id = contrast
-
                 for img in imgs_:
                     session = img.split('/')[-4]
                     paths.append(img)
@@ -484,6 +491,8 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 imgs_ = glob.glob(wc)
                     
                 imgs_.sort()
+                if len(imgs_) == 0:
+                    print(subject, contrast, task)
                 for img in imgs_:
                     session = img.split('/')[-4]
                     imgs.append(img)

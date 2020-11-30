@@ -591,15 +591,14 @@ def fixed_effects_img(con_imgs, var_imgs, mask_img):
              the fixed effects t-test computed within the mask
     """
     import nibabel as nib
-    from nilearn._utils.compat import _basestring
     con, var = [], []
-    if isinstance(mask_img, _basestring):
+    if isinstance(mask_img, str):
         mask_img = nib.load(mask_img)
     mask = mask_img.get_data().astype(np.bool)
     for (con_img, var_img) in zip(con_imgs, var_imgs):
-        if isinstance(con_img, _basestring):
+        if isinstance(con_img, str):
             con_img = nib.load(con_img)
-        if isinstance(var_img, _basestring):
+        if isinstance(var_img, str):
             var_img = nib.load(var_img)
         con.append(con_img.get_data()[mask])
         var.append(var_img.get_data()[mask])

@@ -18,7 +18,7 @@ DERIVATIVES = '/neurospin/ibc/derivatives'
 THREE_MM = '/neurospin/ibc/3mm'
 
 # misc info on preference protocol
-subject_session = get_subject_session('preferences')
+subject_session = get_subject_session('preference')
 categories = ['face', 'food', 'house', 'painting']
 categories_ = ['faces', 'food', 'houses', 'paintings']
 contrasts = ['constant', 'linear', 'quadratic']
@@ -100,10 +100,13 @@ def elementary_contrasts_surf(con_imgs, var_imgs):
 
 
 # in-volume computation
-workdir = SMOOTH_DERIVATIVES
+workdir = THREE_MM
+if workdir == THREE_MM:
+    mask_img = os.path.join(
+        _package_directory, '../ibc_data', 'gm_mask_3mm.nii.gz')
 for (subject, session) in subject_session:
     print(subject, session)
-    anat = os.path.join(workdir, subject, 'ses-00', 'anat',
+    anat = os.path.join(DERIVATIVES, subject, 'ses-00', 'anat',
                         'w%s_ses-00_T1w.nii.gz' % subject)
     write_dir = os.path.join(workdir, subject, session,
                              'res_stats_preference_ffx')

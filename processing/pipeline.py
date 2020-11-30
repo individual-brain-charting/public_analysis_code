@@ -169,7 +169,7 @@ def apply_topup(main_dir, cache_dir, subject_sess=None, acq=None):
     if subject_sess is None:
         subject_sess = [('sub-%02d, ses-%02d' % (i, j)) for i in range(0, 50)
                         for j in range(0, 15)]
-    Parallel(n_jobs=4)(
+    Parallel(n_jobs=1)(
         delayed(run_topup)(mem, main_dir, subject_ses[0], subject_ses[1],
                            acq=acq)
         for subject_ses in subject_sess)
@@ -208,10 +208,11 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
-    do_topup = True
-    protocol = 'BBT3'
-    subject_session = sorted(get_subject_session(['bbt3']))
-    # subject_session = [('sub-15', 'ses-29')]
+    do_topup = False
+    protocol = 'rs'
+    subject_session = sorted(get_subject_session([protocol]))
+    subject_session = [('sub-08', 'ses-12'), ('sub-08', 'ses-13'),
+                       ('sub-15', 'ses-14'), ('sub-15', 'ses-15')]
     if do_topup:
         acq = None
         if protocol in ['rs']:

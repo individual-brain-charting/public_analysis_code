@@ -135,11 +135,11 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
-    protocols = ['preference']
+    protocols = ['tom']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        subject_session = [('sub-08', 'ses-18')]
+        subject_session = [('sub-08', 'ses-19')]
         Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)

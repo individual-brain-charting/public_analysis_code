@@ -19,6 +19,10 @@ from nipype.caching import Memory
 from joblib import Parallel, delayed
 from nipype.interfaces.freesurfer import ReconAll, BBRegister
 from pipeline import get_subject_session
+import nibabel as nib
+import numpy as np
+from nilearn.image import smooth_img
+
 
 work_dir = '/neurospin/ibc/derivatives'
 subjects = ['sub-%02d' % i for i in [1, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]]
@@ -56,7 +60,6 @@ def recon_all(work_dir, subject, high_res=True):
 
 # Parallel(n_jobs=1)(delayed(recon_all)(work_dir, subject, True)
 #                        for subject in subjects)
-
 
 # Step 2: Perform the projection
 def project_volume(work_dir, subject, sessions, do_bbr=True):
@@ -96,13 +99,41 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
                                      '_bbreg_%s.dat' % subject)
             print(os.system(
                 '$FREESURFER_HOME/bin/mri_vol2surf --src %s --o %s '
-                '--out_type gii --srcreg %s --hemi lh --projfrac-avg 0 2 0.1'
+                '--out_type gii --srcreg %s --hemi lh --projfrac-avg 0 2 0.2'
                 % (fmri_session, left_fmri_tex, regheader)))
 
             print(os.system(
                 '$FREESURFER_HOME/bin/mri_vol2surf --src %s --o %s '
-                '--out_type gii --srcreg %s --hemi rh --projfrac-avg 0 2 0.1'
+                '--out_type gii --srcreg %s --hemi rh --projfrac-avg 0 2 0.2'
                 % (fmri_session, right_fmri_tex, regheader)))
+
+            # if there are NaN's in one of the file, redo the projection
+            # on the smoothed fMRI
+            Xl = nib.load(left_fmri_tex).darrays[0].data
+            Xr = nib.load(right_fmri_tex).darrays[0].data
+            filename = os.path.join(
+                '/neurospin/tmp/bthirion/',
+                's' + os.path.basename(fmri_session))
+            if np.isnan(Xl).any() or np.isnan(Xr).any():
+                smooth_img(fmri_session, 2).to_filename(filename)
+
+            if np.isnan(Xl).any():
+                print(os.system(
+                    '$FREESURFER_HOME/bin/mri_vol2surf --src %s --o %s '
+                    '--out_type gii --srcreg %s --hemi lh --projfrac-avg 0 2 0.2'
+                    % (filename, left_fmri_tex, regheader)))
+                Xl = nib.load(left_fmri_tex).darrays[0].data
+            if np.isnan(Xr).any():
+                print(os.system(
+                    '$FREESURFER_HOME/bin/mri_vol2surf --src %s --o %s '
+                    '--out_type gii --srcreg %s --hemi rh --projfrac-avg 0 2 0.2'
+                    % (filename, right_fmri_tex, regheader)))
+                Xr = nib.load(right_fmri_tex).darrays[0].data
+            if os.path.exists(filename):
+                os.remove(filename)
+
+            if np.isnan(Xl).any() or np.isnan(Xr).any():
+                stop  # Oops there remain Nans, this is bad files
 
             # resample to fsaverage
             left_fsaverage_fmri_tex = os.path.join(
@@ -121,6 +152,12 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
                 '--trgsurfval %s --hemi rh --nsmooth-out 5' %
                 (subject, right_fmri_tex, right_fsaverage_fmri_tex)))
 
+            # check possible Nans and if necessary redo the stuff
+            Xl = nib.load(left_fsaverage_fmri_tex).darrays[0].data
+            Xr = nib.load(right_fsaverage_fmri_tex).darrays[0].data
+            if np.isnan(Xl).any() or np.isnan(Xr).any():
+               stop  # Nans should not occur here
+
             # resample to fsaverage5
             left_fsaverage_fmri_tex = os.path.join(
                 fs_dir, basename + '_fsaverage5_lh.gii')
@@ -138,12 +175,19 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
                 '--trgsurfval %s --hemi rh --nsmooth-out 5' %
                 (subject, right_fmri_tex, right_fsaverage_fmri_tex)))
 
+            # check possible Nans and if necessary redo the stuff
+            Xl = nib.load(left_fsaverage_fmri_tex).darrays[0].data
+            Xr = nib.load(right_fsaverage_fmri_tex).darrays[0].data
+            if np.isnan(Xl).any() or np.isnan(Xr).any():
+               stop  # Nans should not occur here
+
 
 protocols = ['archi', 'screening', 'rsvp-language', 'hcp1', 'hcp2']
-protocols = ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
-protocols = ['clips1', 'clips2', 'clips3']
+# protocols = ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
 protocols = ['lyon1', 'lyon2', 'audio1', 'audio2', 'stanford1',
              'stanford2', 'stanford3']
+protocols = ['enumeration', 'clips1', 'clips2', 'clips3', 'raiders1',
+             'raiders2', 'bbt1', 'bbt2', 'bbt3']
 subject_sessions = sorted(get_subject_session(protocols))
 
 Parallel(n_jobs=4)(
