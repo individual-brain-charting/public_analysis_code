@@ -56,10 +56,10 @@ def resample_func_data(n_jobs=2):
 
 
 def resample_anat_data(n_jobs=2):
-    reference = os.path.join(DERIVATIVES, 'sub-01', 'ses-10', 'anat',
-                             'wsub-01_ses-10_acq-highres_T1w.nii.gz')  # FIXME
+    reference = os.path.join(DERIVATIVES, 'sub-01', 'ses-00', 'anat',
+                             'wsub-01_ses-00_T1w.nii.gz')  # FIXME
     imgs = glob.glob(os.path.join(DERIVATIVES, 'sub-*', 'ses-*', 'anat',
-                     'mwc*sub-*_ses-*_acq-highres_T1w.nii.gz'))
+                     'mwc*sub-*_ses-*_T1w.nii.gz'))
     reference_shape = nib.load(reference).shape
     Parallel(n_jobs=n_jobs)(
         delayed(_resample)(img, reference) for img in imgs
