@@ -228,7 +228,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
             acquisitions.append('')
 
     # preprocessed bold images and corresponding motion parameters
-    if derivatives == DERIVATIVES:
+    if derivatives in [DERIVATIVES, THREE_MM]:
         for sbj in subject_list:
             for acq in ['ap', 'pa']:
                 for task in task_list:
