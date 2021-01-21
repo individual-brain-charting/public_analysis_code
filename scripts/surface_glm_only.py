@@ -84,14 +84,16 @@ def run_subject_surface_glm(jobfile, subject, session, protocol, lowres=False):
         if len(subject['session_id']) > 0:
             print(len(subject['session_id']))
         if len(subject['session_id']) > 0:
-            #if protocol == 'retino':
-            #    first_level(subject, compcorr=True,
-            #                additional_regressors=RETINO_REG,
-            #                smooth=None, surface=True)
-            #else:
-            first_level(subject, compcorr=True, smooth=None, surface=True)
-            fixed_effects_analysis(subject, surface=True, lowres=lowres)
-
+            if protocol == 'retino':
+                subject['onset'] = [''] * len(subject['onset'])
+                first_level(subject, compcorr=True,
+                            additional_regressors=RETINO_REG,
+                            smooth=None, surface=True)
+                #first_level(subject, compcorr=True, smooth=None, surface=True)
+                #fixed_effects_analysis(subject, surface=True, lowres=lowres)
+            else:
+                first_level(subject, compcorr=True, smooth=None, surface=True)
+                fixed_effects_analysis(subject, surface=True, lowres=lowres)
 
 if __name__ == '__main__':
     protocols = ['preference_house', 'preference_face', 'preference_food',
@@ -99,14 +101,16 @@ if __name__ == '__main__':
                  'retino', ]
     protocols = ['enumeration', 'lyon1', 'lyon2', 'audio1', 'audio2',
                  'stanford1', 'stanford2', 'stanford3']
-
     protocols += ['archi', 'screening', 'rsvp-language', 'hcp1', 'hcp2']
+    protocols = ['retino']  #, 'rsvp-language', 'lyon1']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        acquisition = protocol  # 'clips4' #
-        lowres = True
+        acquisition = protocol
+        if protocol == 'retino':
+            acquisition = 'clips4'
+        lowres = False
         subject_session = sorted(get_subject_session(acquisition))
-        Parallel(n_jobs=4)(
+        Parallel(n_jobs=1)(
             delayed(run_subject_surface_glm)(
                 jobfile, subject, session, protocol, lowres=lowres)
             for (subject, session) in subject_session)

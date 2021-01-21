@@ -34,9 +34,9 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return rsvp_language(design_matrix_columns)
     elif paradigm_id == 'colour':
         return colour(design_matrix_columns)
-    # elif paradigm_id in ['cont_ring', 'exp_ring', 'wedge_clock',
-    #                     'wedge_anti']:
-    #    return retino(design_matrix_columns)
+    elif paradigm_id in ['cont_ring', 'exp_ring', 'wedge_clock', ###
+                         'wedge_anti', 'wedge', 'ring']:###
+        return retino(design_matrix_columns)###
     elif paradigm_id in ['wedge', 'wedge_anti', 'wedge_clock']:
         return wedge(design_matrix_columns)
     elif paradigm_id in ['ring', 'cont_ring', 'exp_ring']:

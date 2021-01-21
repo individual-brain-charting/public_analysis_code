@@ -275,7 +275,6 @@ lyon_mvis	4_dots-4_dots_control	maintain 4 positions	maintain 1 position	maintai
 lyon_mvis	6_dots-6_dots_control	maintain 6 positions	maintain 1 position	maintain position of six dots vs. one	['visual_attention', 'spatial_working_memory', 'numerosity', 'task_difficulty']
 lyon_mvis	6_dots-2_dots	maintain 6 positions	maintain 2 positions	maintain position of six dots vs. two	['visual_working_memory', 'numerosity', 'task_difficulty']
 lyon_moto	instructions	reading instructions	fixation	read instructions	['reading']
-lyon_moto	fixation	fixation left + fixation write	baseline	fixation	['central_fixation']
 lyon_moto	finger_right-fixation	right finger	any motion	right finger tapping vs. any movement	['response_selection', 'response_execution', 'right_finger_response_execution']
 lyon_moto	finger_left-fixation	left finger	any motion	left finger tapping vs. any movement	['response_selection', 'response_execution', 'left_finger_response_execution']
 lyon_moto	foot_left-fixation	left foot	any motion	move left foot vs. any movement	['response_selection', 'response_execution', 'left_toe_response_execution']

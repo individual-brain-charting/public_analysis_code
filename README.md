@@ -31,7 +31,7 @@ These script make it possible to preprocess the data
 
 ## Core scripts
 
-The core scripts are in the `processing` folder
+The core scripts are in the `scripts` folder
 
 - `pipeline.py` lunches the full analysis on fMRI data (pre-processing + GLM)
 - `glm_only.py` launches GLM analyses on the data

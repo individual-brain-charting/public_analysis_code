@@ -21,7 +21,7 @@ from pypreprocess.reporting.glm_reporter import generate_subject_stats_report
 
 from ibc_public.utils_contrasts import make_contrasts
 from ibc_public.utils_paradigm import make_paradigm
-# from nistats.reporting import make_glm_report
+
 
 
 
@@ -366,24 +366,25 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
                 design_matrix, contrasts, fmri_path, mask_img, subject_dic,
                 subject_session_output_dir, tr=tr, smoothing_fwhm=smooth)
 
+            """
             # do stats report
-            # anat_img = nib.load(subject_dic['anat'])
-            # stats_report_filename = os.path.join(
-            #     subject_session_output_dir, 'report_stats.html')
-            #
-            # report = make_glm_report(fmri_glm,
-            #                          contrasts,
-            #                          threshold=3.0,
-            #                          bg_img=anat_img,
-            #                          cluster_threshold=15,
-            #                          title="GLM for subject %s" % session_id,
-            #                          )
-            # report.save_as_html(stats_report_filename)
+            anat_img = nib.load(subject_dic['anat'])
+            stats_report_filename = os.path.join(
+                 subject_session_output_dir, 'report_stats.html')
+
+            report = make_glm_report(fmri_glm,
+                                     contrasts,
+                                     threshold=3.0,
+                                     bg_img=anat_img,
+                                     cluster_threshold=15,
+                                     title="GLM for subject %s" % session_id,
+                                     )
+            report.save_as_html(stats_report_filename)
 
     if not surface:
         ProgressReport().finish_dir(subject_session_output_dir)
         print("Statistic report written to %s\r\n" % stats_report_filename)
-
+    """
 
 def _session_id_to_task_id(session_ids):
     """ Converts a session_id to a task _id

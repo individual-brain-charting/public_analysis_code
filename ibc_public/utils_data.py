@@ -49,8 +49,8 @@ all_contrasts = pd.read_csv(ALL_CONTRASTS, sep='\t')
 for i in range(len(CONTRASTS)):
     task = CONTRASTS.task[i]
     contrast = CONTRASTS.contrast[i]
-    target = all_contrasts[all_contrasts.task == task]\
-             [all_contrasts.contrast == contrast]
+    target = all_contrasts[all_contrasts.task == task][
+        all_contrasts.contrast == contrast]
     if len(target['pretty name'].values):
         BETTER_NAMES[contrast] = target['pretty name'].values[0]
     else:
@@ -101,7 +101,7 @@ def get_subject_session(protocols):
 
 
 def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
-                subject_list=SUBJECTS, task_list=False):
+                subject_list=SUBJECTS, task_list=False, verbose=0):
     """Generate a dataframe that contains all the data corresponding
     to the archi, hcp and rsvp_language acquisitions
 
@@ -118,6 +118,9 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
     task_list: list_optional,
         list of tasks to be returned
+
+    verbose: Bool, optional,
+             verbosity mode
 
     Returns
     -------
@@ -328,12 +331,15 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if task == 'vstm':
                     task = 'VSTM'
                     task_name = 'vstm'
-                # DON NOT DISPLACE THE FOLLOWING 'IF' STATEMENT
+
                 if task_list and (task not in task_list):
+                    if verbose:
+                        print('%s found as task, not in task_list' % task)
                     continue
                 wildcard = os.path.join(
-                    derivatives, '%s/*/res_stats_%s*_%s*/stat_maps/%s.nii.gz' %
-                    (subject, task, acq, contrast))
+                    derivatives, subject, '*',
+                    'res_stats_%s*_%s*' % (task, acq),
+                    'stat_maps', '%s.nii.gz' % contrast)
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
                     print('Missing %s' % wildcard)
@@ -570,7 +576,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     derivatives, subject, '*', dir_, 'stat_surf',
                     '%s_%s.gii' % (contrast, side))
                 imgs_ = glob.glob(wc)
-                    
+
                 imgs_.sort()
                 if len(imgs_) == 0:
                     print(subject, contrast, task)

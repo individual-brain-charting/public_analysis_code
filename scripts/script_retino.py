@@ -43,7 +43,7 @@ if do_surface:
     acqs = ['res_surf_%s' % acq for acq in [
         'wedge_anti_pa', 'wedge_anti_ap', 'wedge_clock_ap', 'wedge_clock_pa',
         'exp_ring_pa', 'cont_ring_ap']]
-    
+
 THRESHOLD = 4.
 
 #######################################################################################
@@ -80,7 +80,7 @@ for subject_session in subjects_sessions:
     subject, session = subject_session.split('_')
     # subject, session = subject_session
     work_dir = pjoin(data_dir, subject, session)
-    # result directory 
+    # result directory
     ses_dir = pjoin(DERIVATIVES, subject, session)
     if not os.path.exists(ses_dir):
         os.mkdir(ses_dir)
@@ -99,7 +99,7 @@ for subject_session in subjects_sessions:
         for hemi in ['lh', 'rh']:
             z_maps = [pjoin(work_dir, acq, 'z_surf', 'effects_interest_%s.gii' % hemi)
                       for acq in acqs]
-         
+
             mean_z = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in z_maps], 0)
             n_maps = len(z_maps)
@@ -109,7 +109,7 @@ for subject_session in subjects_sessions:
             gii.to_filename(pjoin(write_dir, 'retinotopicity_%s.gii' % hemi))
             fixed_effects[np.isnan(fixed_effects)] = 0
             mask = fixed_effects > THRESHOLD
-            
+
             # todo: plot on a surface
             """
             output_file = pjoin(write_dir, 'retinotopicity_%s.png' % hemi)
@@ -162,9 +162,9 @@ for subject_session in subjects_sessions:
                 else:
                     retino_coefs[key] = np.ravel([
                         darrays.data for darrays in load(retino_imgs[key]).darrays])
-    
+
             phase_wedge, phase_ring, phase_hemo = phase_maps(
-                retino_coefs, offset_ring=np.pi, offset_wedge=0, do_wedge=True, do_ring=True, 
+                retino_coefs, offset_ring=np.pi, offset_wedge=0, do_wedge=True, do_ring=True,
             )
             phase_wedge[mask == 0] = 0
             phase_ring[mask == 0] = 0
@@ -182,7 +182,7 @@ for subject_session in subjects_sessions:
             # make plots
             """
             output_file = pjoin(write_dir, 'phase_wedge_%s.png' % hemi)
-            
+
             if hemi == 'lh':
                 plot_surf_stat_map(
                     lh_inflated, phase_wedge, bg_map=sulc_left, output_file=output_file,
@@ -216,7 +216,7 @@ for subject_session in subjects_sessions:
                     hemi='right', view='medial', bg_on_data=True, darkness=1, alpha=1,
                     threshold=.01)
             """
-            
+
     else:
         z_maps = [pjoin(work_dir, acq, 'z_score_maps', 'effects_interest.nii.gz')
                   for acq in acqs]
@@ -267,15 +267,15 @@ for subject_session in subjects_sessions:
         retino_coefs = {}
         for key in retino_imgs.keys():
             retino_coefs[key] = masker.transform(retino_imgs[key])
-    
+
         phase_wedge, phase_ring, phase_hemo = phase_maps(
-            retino_coefs, offset_ring=np.pi, offset_wedge=0., do_wedge=True, do_ring=True, 
+            retino_coefs, offset_ring=np.pi, offset_wedge=0., do_wedge=True, do_ring=True,
         )
 
         phase_wedge_img = masker.inverse_transform(phase_wedge)
         phase_ring_img = masker.inverse_transform(phase_ring)
         phase_hemo_img = masker.inverse_transform(phase_hemo)
-        
+
         phase_wedge_img.to_filename(pjoin(write_dir, 'phase_wedge.nii.gz'))
         phase_ring_img.to_filename(pjoin(write_dir, 'phase_ring.nii.gz'))
         phase_hemo_img.to_filename(pjoin(write_dir, 'phase_hemo.nii.gz'))
@@ -297,7 +297,7 @@ for subject_session in subjects_sessions:
         lh = os.path.join(write_dir, '%s_lh.gii' % stat)
         rh = os.path.join(write_dir, '%s_rh.gii' % stat)
         output_file = os.path.join(write_dir, '%s.png' % stat)
-    
+
         x1 = np.ravel([darrays.data for darrays in load(lh).darrays])
         x2 = np.ravel([darrays.data for darrays in load(rh).darrays])
         x = np.hstack((x1, x2))
@@ -314,5 +314,5 @@ for subject_session in subjects_sessions:
         )
         fig.set_size_inches((8, 4.5))
         fig.savefig(output_file)
-    
+
 plt.show(block=False)
