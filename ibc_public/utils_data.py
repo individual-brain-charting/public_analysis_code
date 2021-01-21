@@ -231,7 +231,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
             acquisitions.append('')
 
     # preprocessed bold images and corresponding motion parameters
-    if derivatives == DERIVATIVES:
+    if derivatives in [DERIVATIVES, THREE_MM]:
         for sbj in subject_list:
             for acq in ['ap', 'pa']:
                 for task in task_list:
@@ -274,7 +274,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
                     rps_name = 'rp_dc%s_ses*_task-%s_dir-%s*_bold.txt' \
                                % (sbj, task, acq)
-                    rps_path = os.path.join(derivatives, 'sub-*/ses-*/func',
+                    rps_path = os.path.join(DERIVATIVES, 'sub-*/ses-*/func',
                                             rps_name)
                     rps = glob.glob(rps_path)
                     if not rps:

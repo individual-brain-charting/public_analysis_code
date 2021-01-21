@@ -79,4 +79,5 @@ Licensed under simplified BSD.
 
 - Bertrand Thirion, 2015 - present
 - Ana Luísa Pinho, 2015 - present
-- Juan Jesús Torre, 2018 - present
+- Swetha Shankar, 2019 - present
+- Juan Jesús Torre, 2018 - 2020
