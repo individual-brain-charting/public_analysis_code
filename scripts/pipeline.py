@@ -209,9 +209,9 @@ if __name__ == '__main__':
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
     do_topup = True
-    protocol = 'camcan1'
+    protocol = 'bbt3'
     subject_session = sorted(get_subject_session([protocol]))
-    # subject_session = [('sub-06', 'ses-32'), ('sub-04', 'ses-32'), ('sub-12', 'ses-33')]
+    # subject_session = [('sub-04', 'ses-33'), ('sub-12', 'ses-34')]
     if do_topup:
         acq = None
         if protocol in ['rs']:
@@ -221,7 +221,7 @@ if __name__ == '__main__':
         apply_topup(main_dir, cache_dir, subject_session, acq=acq)
 
     subject_data = []
-    jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol # % 'BBT1' #
+    jobfile = 'ini_files/IBC_preproc_%s.ini' % 'BBT3'  # % protocol  #
     subject_data_ = Parallel(n_jobs=1)(
         delayed(run_subject_preproc)(jobfile, subject, session)
         for subject, session in subject_session)

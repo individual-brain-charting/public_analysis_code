@@ -330,14 +330,27 @@ def emotional_memory(design_matrix_columns):
 
 def emotion_recognition(design_matrix_columns):
     """ Contrasts for emotion recognition protocol"""
-    contrast_names = ['neutral', 'angry', 'angry-neutral']
+    contrast_names = [
+        'neutral_male', 'angry_male', 'neutral_female', 'angry_female',
+        'neutral', 'angry', 'angry-neutral', 'neutral-angry', 'male-female',
+        'female-male']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {
-        'neutral': con['Neutral'],
-        'angry': con['Angry'],
-        'angry-neutral': con['Angry'] - con['Neutral'],}
+        'neutral_male': con['neutral_male'],
+        'angry_male': con['angry_male'],
+        'neutral_female': con['neutral_female'],
+        'angry_female': con['angry_female'],
+        'neutral': con['neutral_male'] + con['neutral_female'],
+        'angry': con['angry_male'] + con['angry_female'],
+        }
+    contrasts['angry-neutral'] = contrasts['angry'] - contrasts['neutral']
+    contrasts['neutral-angry'] = - contrasts['angry-neutral']
+    contrasts['male-female'] = (
+        con['neutral_male'] + con['angry_male'] - con['neutral_female']
+        - con['angry_female'])
+    contrasts['female-male'] = - contrasts['male-female']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -369,13 +382,13 @@ def stop_nogo(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {
-        'go': con['Go'],
-        'nogo': con['Nogo'],
-        'successful_stop': con['Successful_stop'],
-        'unsuccessful_stop': con['Unsuccessful_stop'],
-        'nogo-go': con['Nogo'] - con['Go'],
-        'unsuccessful-successful_stop': con['Unsuccessful_stop'] - con['Successful_stop'],
-        'successful+nogo-unsuccessful': con['Successful_stop'] + con['Nogo'] -  con['Unsuccessful_stop']
+        'go': con['go'],
+        'nogo': con['nogo'],
+        'successful_stop': con['successful_stop'],
+        'unsuccessful_stop': con['unsuccessful_stop'],
+        'nogo-go': con['nogo'] - con['go'],
+        'unsuccessful-successful_stop': con['unsuccessful_stop'] - con['successful_stop'],
+        'successful+nogo-unsuccessful': con['successful_stop'] + con['nogo'] -  con['unsuccessful_stop']
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
@@ -423,7 +436,7 @@ def vstmc(design_matrix_columns):
         'stim': con['stim_load1'] + con['stim_load2'] + con['stim_load3'],
         'resp': con['resp_load1'] + con['resp_load2'] + con['resp_load3'],
         'stim_load3-load1': con['stim_load3'] - con['stim_load1'],
-        'resp_load3-load1': con['resp_load3'] - con['resp_load1'], 
+        'resp_load3-load1': con['resp_load3'] - con['resp_load1'],
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
