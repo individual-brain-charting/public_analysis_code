@@ -13,17 +13,16 @@ from pandas import read_csv
 from nilearn.masking import compute_multi_epi_mask
 from nilearn.image import high_variance_confounds
 
-from nilearn.glm.first_level.design_matrix import (make_first_level_design_matrix,
-                                   check_design_matrix)
+from nilearn.glm.first_level.design_matrix import (
+    make_first_level_design_matrix,
+    check_design_matrix)
 
 from pypreprocess.reporting.base_reporter import ProgressReport
 from pypreprocess.reporting.glm_reporter import generate_subject_stats_report
 
 from ibc_public.utils_contrasts import make_contrasts
 from ibc_public.utils_paradigm import make_paradigm
-
-
-
+from nilearn.reporting import make_glm_report
 
 
 def _make_topup_param_file(field_maps, acq_params_file):
@@ -148,7 +147,7 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
     mask_img : Nifti1Image
         the mask used for the fMRI data
     """
-    from nistats.first_level_model import FirstLevelModel
+    from nilearn.glm.first_level import FirstLevelModel
     fmri_4d = nib.load(fmri_data)
 
     # GLM analysis
@@ -183,8 +182,8 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
 def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
     """ """
     from nibabel.gifti import read, write, GiftiDataArray, GiftiImage
-    from nistats.first_level_model import run_glm
-    from nistats.contrasts import compute_contrast
+    from nilearn.glm.first_level import run_glm
+    from nilearn.glm import compute_contrast
     Y = np.array([darrays.data for darrays in read(fmri_path).darrays])
     labels, res = run_glm(Y, dmtx.values)
     # Estimate the contrasts
@@ -366,7 +365,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
                 design_matrix, contrasts, fmri_path, mask_img, subject_dic,
                 subject_session_output_dir, tr=tr, smoothing_fwhm=smooth)
 
-            """
+
             # do stats report
             anat_img = nib.load(subject_dic['anat'])
             stats_report_filename = os.path.join(
@@ -380,7 +379,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
                                      title="GLM for subject %s" % session_id,
                                      )
             report.save_as_html(stats_report_filename)
-
+    """
     if not surface:
         ProgressReport().finish_dir(subject_session_output_dir)
         print("Statistic report written to %s\r\n" % stats_report_filename)

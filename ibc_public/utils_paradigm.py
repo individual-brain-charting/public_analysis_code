@@ -360,6 +360,8 @@ def post_process(df, paradigm_id):
         pass
     if paradigm_id == 'StopNogo':
         pass
+    if paradigm_id == 'Catell':
+        pass
     return df
 
 
@@ -367,7 +369,8 @@ def make_paradigm(onset_file, paradigm_id=None):
     """ Temporary fix """
     # if paradigm_id in ['wedge_clock', 'wedge_anti', 'cont_ring', 'exp_ring']:
     #     return None
-    df = read_csv(onset_file, index_col=None, sep='\t')
+    df = read_csv(onset_file, index_col=None, sep='\t', na_values=['NaN'],
+                  keep_default_na=False)
     if 'onset' not in df.keys() and 'Onsets' in df.keys():
         df['onset'] = df['Onsets']
         df.drop('Onsets', 1, inplace=True)

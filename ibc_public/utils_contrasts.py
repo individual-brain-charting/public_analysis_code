@@ -116,7 +116,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return emotion_recognition(design_matrix_columns)
     elif paradigm_id == 'StopNogo':
         return stop_nogo(design_matrix_columns)
-    elif paradigm_id == 'Oddball':
+    elif paradigm_id == 'Catell':
         return oddball(design_matrix_columns)
     elif paradigm_id == 'VSTMC':
         return vstmc(design_matrix_columns)
@@ -359,14 +359,14 @@ def emotion_recognition(design_matrix_columns):
 
 def oddball(design_matrix_columns):
     """ Contrasts for oddball protocol"""
-    contrast_names = ['easy_oddball', 'hard_oddball', 'hard-easy_oddball']
+    contrast_names = ['easy', 'hard', 'hard-easy']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {
-        'easy_oddball': con['CatEasy'],
-        'hard_oddball': con['CatHard'],
-        'hard-easy_oddball': con['CatHard'] - con['CatEasy'],}
+        'easy': con['easy'],
+        'hard': con['hard'],
+        'hard-easy': con['hard'] - con['easy'],}
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -404,12 +404,12 @@ def finger_tapping(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {
-        'specified': con['Specified'],
-        'chosen': con['Chosen'],
-        'null': con['Null'],
-        'chosen-specified': con['Chosen'] - con['Specified'],
-        'specified-null': con['Specified'] - con['Null'],
-        'chosen-null': con['Chosen'] - con['Null']}
+        'specified': con['specified'],
+        'chosen': con['chosen'],
+        'null': con['null'],
+        'chosen-specified': con['chosen'] - con['specified'],
+        'specified-null': con['specified'] - con['null'],
+        'chosen-null': con['chosen'] - con['null']}
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
