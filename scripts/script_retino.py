@@ -288,7 +288,7 @@ for subject_session in subjects_sessions:
                       bg_img=anat, dim=1, output_file=pjoin(write_dir, 'phase_hemo.png'))
 
 
-plt.figure(figsize=(6, 20))
+plt.figure(figsize=(5.5, 20))
 for i, subject_session in enumerate(subjects_sessions):
     subject, session = subject_session.split('_')
     write_dir = pjoin(DERIVATIVES, subject, session, 'res_surf_retinotopy_ffx', 'stat_maps')
@@ -320,9 +320,9 @@ for i, subject_session in enumerate(subjects_sessions):
     ax = plt.axes([.46, .96 - i * 1. / 12, .08, .04])
     ax.text(.01, .2, subject)
     ax.axis('off')
-    print(i, subject, .96 - i * 1. / 12)
 
 plt.subplots_adjust(left=.01, right=.99, top=.99, bottom=.01, hspace=.01, wspace=.01)
 plt.show(block=False)
-output_file = pjoin(DERIVATIVES, group, 'retino')
+output_file = pjoin(DERIVATIVES, 'group', 'retino', 'retino.svg')
+
 fig.savefig(output_file)
