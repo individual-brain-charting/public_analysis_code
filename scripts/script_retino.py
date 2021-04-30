@@ -287,13 +287,13 @@ for subject_session in subjects_sessions:
         plot_stat_map(phase_hemo_img, title='hemodynamics', cmap='hsv',
                       bg_img=anat, dim=1, output_file=pjoin(write_dir, 'phase_hemo.png'))
 
-plt.show(block=False)
 
-for subject_session in subjects_sessions:
+plt.figure(figsize=(6, 20))
+for i, subject_session in enumerate(subjects_sessions):
     subject, session = subject_session.split('_')
     write_dir = pjoin(DERIVATIVES, subject, session, 'res_surf_retinotopy_ffx', 'stat_maps')
 
-    for stat in ['phase_wedge', 'phase_ring']:
+    for j, stat in enumerate(['phase_wedge', 'phase_ring']):
         lh = os.path.join(write_dir, '%s_lh.gii' % stat)
         rh = os.path.join(write_dir, '%s_rh.gii' % stat)
         output_file = os.path.join(write_dir, '%s.png' % stat)
@@ -303,6 +303,7 @@ for subject_session in subjects_sessions:
         x = np.hstack((x1, x2))
         x[x == 0] = np.nan
         vertex_data = cortex.Vertex(x, 'fsaverage')
+        ax = plt.subplot(12, 2, i * 2 + j + 1)
         fig = cortex.quickshow(vertex_data,
                                with_colorbar=False,
                                with_rois=False,
@@ -311,8 +312,17 @@ for subject_session in subjects_sessions:
                                curvature_contrast=0.5,
                                curvature_brightness=0.5,
                                curvature_threshold=True,
+                               fig = ax
         )
-        fig.set_size_inches((8, 4.5))
-        fig.savefig(output_file)
+        #fig.set_size_inches((8, 4.5))
+        #fig.savefig(output_file)
+    #
+    ax = plt.axes([.46, .96 - i * 1. / 12, .08, .04])
+    ax.text(.01, .2, subject)
+    ax.axis('off')
+    print(i, subject, .96 - i * 1. / 12)
 
+plt.subplots_adjust(left=.01, right=.99, top=.99, bottom=.01, hspace=.01, wspace=.01)
 plt.show(block=False)
+output_file = pjoin(DERIVATIVES, group, 'retino')
+fig.savefig(output_file)
