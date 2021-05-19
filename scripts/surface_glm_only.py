@@ -21,7 +21,7 @@ RETINO_REG = dict([(session_id, 'sin_cos_regressors.csv')
 IBC = 'neurospin/ibc'
 
 
-def generate_glm_input(jobfile, lowres=False):
+def generate_glm_input(jobfile, lowres=False, individual=False):
     """ retrun a list of dictionaries that represent the data available
     for GLM analysis"""
     list_subjects, params = _generate_preproc_pipeline(jobfile)
@@ -36,6 +36,11 @@ def generate_glm_input(jobfile, lowres=False):
                              '_fsaverage5_lh.gii' for func_ in subject.func]
             gii_basenames += ['r' + os.path.basename(func_).split('.')[0] +
                               '_fsaverage5_rh.gii' for func_ in subject.func]
+        elif individual:
+            gii_basenames = ['r' + os.path.basename(func_).split('.')[0] +
+                             '_lh.gii' for func_ in subject.func]
+            gii_basenames += ['r' + os.path.basename(func_).split('.')[0] +
+                              '_rh.gii' for func_ in subject.func]
         else:
             gii_basenames = ['r' + os.path.basename(func_).split('.')[0] +
                              '_fsaverage_lh.gii' for func_ in subject.func]
@@ -72,7 +77,7 @@ def generate_glm_input(jobfile, lowres=False):
     return output
 
 
-def run_subject_surface_glm(jobfile, subject, session, protocol, lowres=False):
+def run_subject_surface_glm(jobfile, subject, session, protocol, lowres=False, individual=False):
     """ Create jobfile and run it """
     output_name = os.path.join(
         '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
@@ -93,7 +98,7 @@ def run_subject_surface_glm(jobfile, subject, session, protocol, lowres=False):
                 #fixed_effects_analysis(subject, surface=True, lowres=lowres)
             else:
                 first_level(subject, compcorr=True, smooth=None, surface=True)
-                fixed_effects_analysis(subject, surface=True, lowres=lowres)
+                fixed_effects_analysis(subject, surface=True, lowres=lowres, individual=individual)
 
 if __name__ == '__main__':
     protocols = ['preference_house', 'preference_face', 'preference_food',
@@ -102,15 +107,16 @@ if __name__ == '__main__':
     protocols = ['enumeration', 'lyon1', 'lyon2', 'audio1', 'audio2',
                  'stanford1', 'stanford2', 'stanford3']
     protocols += ['archi', 'screening', 'rsvp-language', 'hcp1', 'hcp2']
-    protocols = ['retino']  #, 'rsvp-language', 'lyon1']
+    protocols = ['archi']  #, 'rsvp-language', 'lyon1']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol
         if protocol == 'retino':
             acquisition = 'clips4'
         lowres = False
+        individual = True
         subject_session = sorted(get_subject_session(acquisition))
         Parallel(n_jobs=1)(
             delayed(run_subject_surface_glm)(
-                jobfile, subject, session, protocol, lowres=lowres)
+                jobfile, subject, session, protocol, lowres=lowres, individual=individual)
             for (subject, session) in subject_session)
