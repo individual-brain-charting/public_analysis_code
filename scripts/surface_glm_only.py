@@ -21,7 +21,7 @@ RETINO_REG = dict([(session_id, 'sin_cos_regressors.csv')
 IBC = 'neurospin/ibc'
 
 
-def generate_glm_input(jobfile, lowres=False, individual=False):
+def generate_glm_input(jobfile, mesh=None):
     """ retrun a list of dictionaries that represent the data available
     for GLM analysis"""
     list_subjects, params = _generate_preproc_pipeline(jobfile)
@@ -31,17 +31,17 @@ def generate_glm_input(jobfile, lowres=False, individual=False):
         reports_output_dir = os.path.join(output_dir, 'reports')
         basenames = ['wr' + os.path.basename(func_)[:-3]
                      for func_ in subject.func]
-        if lowres:
+        if mesh == 'fsaverage5':
             gii_basenames = ['r' + os.path.basename(func_).split('.')[0] +
                              '_fsaverage5_lh.gii' for func_ in subject.func]
             gii_basenames += ['r' + os.path.basename(func_).split('.')[0] +
                               '_fsaverage5_rh.gii' for func_ in subject.func]
-        elif individual:
+        elif mesh == 'individual':
             gii_basenames = ['r' + os.path.basename(func_).split('.')[0] +
                              '_lh.gii' for func_ in subject.func]
             gii_basenames += ['r' + os.path.basename(func_).split('.')[0] +
                               '_rh.gii' for func_ in subject.func]
-        else:
+        elif mesh == 'fsaverage7':
             gii_basenames = ['r' + os.path.basename(func_).split('.')[0] +
                              '_fsaverage_lh.gii' for func_ in subject.func]
             gii_basenames += ['r' + os.path.basename(func_).split('.')[0] +
@@ -77,12 +77,12 @@ def generate_glm_input(jobfile, lowres=False, individual=False):
     return output
 
 
-def run_subject_surface_glm(jobfile, subject, session, protocol, lowres=False, individual=False):
+def run_subject_surface_glm(jobfile, subject, session, protocol, mesh=None):
     """ Create jobfile and run it """
     output_name = os.path.join(
         '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
     _adapt_jobfile(jobfile, subject, output_name, session)
-    list_subjects_update = generate_glm_input(output_name, lowres)
+    list_subjects_update = generate_glm_input(output_name, mesh)
     clean_anatomical_images(IBC)
     for subject in list_subjects_update:
         clean_subject(subject)
@@ -93,12 +93,12 @@ def run_subject_surface_glm(jobfile, subject, session, protocol, lowres=False, i
                 subject['onset'] = [''] * len(subject['onset'])
                 first_level(subject, compcorr=True,
                             additional_regressors=RETINO_REG,
-                            smooth=None, surface=True)
+                            smooth=None, mesh=mesh)
                 #first_level(subject, compcorr=True, smooth=None, surface=True)
-                #fixed_effects_analysis(subject, surface=True, lowres=lowres)
+                #fixed_effects_analysis(subject, surface=True, mesh=mesh)
             else:
-                first_level(subject, compcorr=True, smooth=None, surface=True)
-                fixed_effects_analysis(subject, surface=True, lowres=lowres, individual=individual)
+                first_level(subject, compcorr=True, smooth=None, mesh=mesh)
+                fixed_effects_analysis(subject, mesh=mesh)
 
 if __name__ == '__main__':
     protocols = ['preference_house', 'preference_face', 'preference_food',
@@ -113,10 +113,9 @@ if __name__ == '__main__':
         acquisition = protocol
         if protocol == 'retino':
             acquisition = 'clips4'
-        lowres = False
-        individual = True
+        mesh = 'individual'
         subject_session = sorted(get_subject_session(acquisition))
         Parallel(n_jobs=1)(
             delayed(run_subject_surface_glm)(
-                jobfile, subject, session, protocol, lowres=lowres, individual=individual)
+                jobfile, subject, session, protocol, mesh=mesh)
             for (subject, session) in subject_session)

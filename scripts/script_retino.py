@@ -288,7 +288,7 @@ for subject_session in subjects_sessions:
                       bg_img=anat, dim=1, output_file=pjoin(write_dir, 'phase_hemo.png'))
 
 
-plt.figure(figsize=(5.5, 20))
+plt.figure(figsize=(6, 20))
 for i, subject_session in enumerate(subjects_sessions):
     subject, session = subject_session.split('_')
     write_dir = pjoin(DERIVATIVES, subject, session, 'res_surf_retinotopy_ffx', 'stat_maps')
@@ -317,7 +317,7 @@ for i, subject_session in enumerate(subjects_sessions):
         #fig.set_size_inches((8, 4.5))
         #fig.savefig(output_file)
     #
-    ax = plt.axes([.46, .96 - i * 1. / 12, .08, .04])
+    ax = plt.axes([.46, .96 - i * 1. * .0815, .08, .04])
     ax.text(.01, .2, subject)
     ax.axis('off')
 

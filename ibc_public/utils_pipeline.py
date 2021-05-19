@@ -230,7 +230,7 @@ def masking(func, output_dir):
 
 
 def first_level(subject_dic, additional_regressors=None, compcorr=False,
-                smooth=None, surface=False, mask_img=None):
+                smooth=None, mesh=False, mask_img=None):
     """ Run the first-level analysis (GLM fitting + statistical maps)
     in a given subject
 
@@ -255,7 +255,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
     drift_model = subject_dic['drift_model']
     tr = subject_dic['TR']
 
-    if not surface and (mask_img is None):
+    if not mesh and (mask_img is None):
         mask_img = masking(subject_dic['func'], subject_dic['output_dir'])
 
     if additional_regressors is None:
@@ -268,7 +268,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
 
         task_id = _session_id_to_task_id([session_id])[0]
 
-        if surface:
+        if mesh is not False:
             from nibabel.gifti import read
             n_scans = np.array(
                 [darrays.data for darrays in read(fmri_path).darrays]).shape[0]
@@ -289,7 +289,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
                 np.repeat(np.arange(n_cycles) * cycle_duration, mask.sum())
             frametimes = frametimes[:-2]  # for some reason...
 
-        if surface:
+        if mesh is not False:
             compcorr = False  # XXX Fixme
 
         if compcorr:
@@ -338,15 +338,17 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         # create the relevant contrasts
         contrasts = make_contrasts(task_id, names)
 
-        if surface:
-            if 'fsaverage5' in fmri_path:
-                # this is low-resolution data
+        if mesh  == 'fsaverage5':
+            # this is low-resolution data
+            subject_session_output_dir = os.path.join(
+                subject_dic['output_dir'],
+                'res_fsaverage5_%s' % session_id)
+        elif mesh == 'fsaverage7':
                 subject_session_output_dir = os.path.join(
-                    subject_dic['output_dir'],
-                    'res_fsaverage5_%s' % session_id)
-            else:
-                subject_session_output_dir = os.path.join(
-                    subject_dic['output_dir'], 'res_surf_%s' % session_id)
+                    subject_dic['output_dir'], 'res_fsaverage7_%s' % session_id)
+        elif mesh == 'individual':
+            subject_session_output_dir = os.path.join(
+                    subject_dic['output_dir'], 'res_individual_%s' % session_id)
         else:
             subject_session_output_dir = os.path.join(
                 subject_dic['output_dir'], 'res_stats_%s' % session_id)
@@ -356,10 +358,9 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         np.savez(os.path.join(subject_session_output_dir, 'design_matrix.npz'),
                  design_matrix=design_matrix)
 
-        if surface:
+        if mesh is not False:
             run_surface_glm(
-                design_matrix, contrasts, fmri_path,
-                subject_session_output_dir)
+                design_matrix, contrasts, fmri_path, subject_session_output_dir)
         else:
             z_maps, fmri_glm = run_glm(
                 design_matrix, contrasts, fmri_path, mask_img, subject_dic,
@@ -379,11 +380,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
                                      title="GLM for subject %s" % session_id,
                                      )
             report.save_as_html(stats_report_filename)
-    """
-    if not surface:
-        ProgressReport().finish_dir(subject_session_output_dir)
-        print("Statistic report written to %s\r\n" % stats_report_filename)
-    """
+
 
 def _session_id_to_task_id(session_ids):
     """ Converts a session_id to a task _id
@@ -422,7 +419,7 @@ def _session_id_to_task_id(session_ids):
 
 
 def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
-                        side=False, lowres=False):
+                        side=False, mesh=None):
     """ data fetcher for summary statistics"""
     effect_size_maps = []
     effect_variance_maps = []
@@ -441,11 +438,14 @@ def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
                              '%s.nii.gz' % contrast))
     else:
         for session_id in sessions:
-            if lowres:
+            if mesh == 'fsaverage5':
                 sess_dir = os.path.join(
                     output_dir, 'res_fsaverage5_%s' % session_id)
-            else:
-                sess_dir = os.path.join(output_dir, 'res_surf_%s' % session_id)
+            elif mesh == 'individual':
+                sess_dir = os.path.join(
+                    output_dir, 'res_individual_%s' % session_id)
+            else:  # mesh = 'fsaverage7' 
+                sess_dir = os.path.join(output_dir, 'res_fsaverage7_%s' % session_id)
             if not os.path.exists(sess_dir):
                 warnings.warn('Missing session dir, skipping')
                 data_available = False
@@ -459,8 +459,8 @@ def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
     return effect_size_maps, effect_variance_maps, data_available
 
 
-def fixed_effects_analysis(subject_dic, surface=False, mask_img=None,
-                           lowres=False):
+def fixed_effects_analysis(subject_dic, mask_img=None,
+                           mesh=False):
     """ Combine the AP and PA images """
     from nibabel import load, save
     from nilearn.plotting import plot_stat_map
@@ -480,13 +480,16 @@ def fixed_effects_analysis(subject_dic, surface=False, mask_img=None,
         # define the relevant contrasts
         contrasts = make_contrasts(paradigm).keys()
         # create write_dir
-        if surface:
-            if lowres:
+        if mesh is not False:
+            if mesh == 'fsaverage5':
                 write_dir = os.path.join(subject_dic['output_dir'],
                                          'res_fsaverage5_%s_ffx' % paradigm)
+            elif mesh == 'individual':
+                write_dir = os.path.join(subject_dic['output_dir'],
+                                         'res_individual_%s_ffx' % paradigm)
             else:
                 write_dir = os.path.join(subject_dic['output_dir'],
-                                         'res_surf_%s_ffx' % paradigm)
+                                         'res_fsaverage7_%s_ffx' % paradigm)
             dirs = [os.path.join(write_dir, stat) for stat in [
                     'effect_surf', 'variance_surf', 'stat_surf']]
         else:
@@ -502,7 +505,7 @@ def fixed_effects_analysis(subject_dic, surface=False, mask_img=None,
         # iterate across contrasts
         for contrast in contrasts:
             print('fixed effects for contrast %s. ' % contrast)
-            if surface:
+            if mesh is not False:
                 from nibabel.gifti import write
                 for side in ['lh', 'rh']:
                     effect_size_maps, effect_variance_maps, data_available =\
@@ -510,7 +513,7 @@ def fixed_effects_analysis(subject_dic, surface=False, mask_img=None,
                             subject_dic['output_dir'],
                             np.unique(session_paradigm),
                             contrast,
-                            data_available=True, side=side, lowres=lowres)
+                            data_available=True, side=side, mesh=mesh)
                     if not data_available:
                         raise ValueError('Missing texture stats files for '
                                          'fixed effects computations')
