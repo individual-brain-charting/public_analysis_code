@@ -183,11 +183,13 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
 
 
 protocols = ['archi', 'screening', 'rsvp-language', 'hcp1', 'hcp2']
-# protocols = ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
+protocols = ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
 protocols = ['lyon1', 'lyon2', 'audio1', 'audio2', 'stanford1',
              'stanford2', 'stanford3']
 protocols = ['enumeration', 'clips1', 'clips2', 'clips3', 'raiders1',
              'raiders2', 'bbt1', 'bbt2', 'bbt3']
+protocols = ['self']
+
 subject_sessions = sorted(get_subject_session(protocols))
 
 Parallel(n_jobs=4)(
