@@ -568,7 +568,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
             # some renaming
             if ((contrast == 'probe') & (task_name == 'rsvp_language')):
                     contrast = 'language_probe'
-            dir_ = 'res_surf_%s_ffx' % task
+            dir_ = 'res_fsaverage7_%s_ffx' % task
             if lowres:
                 dir_ = 'res_fsaverage5_%s_ffx' % task
             for side in ['lh', 'rh']:

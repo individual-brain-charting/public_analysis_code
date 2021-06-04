@@ -17,8 +17,8 @@ from nilearn.glm.first_level.design_matrix import (
     make_first_level_design_matrix,
     check_design_matrix)
 
-from pypreprocess.reporting.base_reporter import ProgressReport
-from pypreprocess.reporting.glm_reporter import generate_subject_stats_report
+# from pypreprocess.reporting.base_reporter import ProgressReport
+# from pypreprocess.reporting.glm_reporter import generate_subject_stats_report
 
 from ibc_public.utils_contrasts import make_contrasts
 from ibc_public.utils_paradigm import make_paradigm
@@ -444,7 +444,7 @@ def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
             elif mesh == 'individual':
                 sess_dir = os.path.join(
                     output_dir, 'res_individual_%s' % session_id)
-            else:  # mesh = 'fsaverage7' 
+            else:  # mesh = 'fsaverage7'
                 sess_dir = os.path.join(output_dir, 'res_fsaverage7_%s' % session_id)
             if not os.path.exists(sess_dir):
                 warnings.warn('Missing session dir, skipping')

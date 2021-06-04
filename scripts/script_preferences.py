@@ -176,7 +176,7 @@ workdir = DERIVATIVES
 for (subject, session) in subject_session:
     print(subject, session)
     write_dir = os.path.join(workdir, subject, session,
-                             'res_surf_preference_ffx')
+                             'res_fsaverage7_preference_ffx')
     effect_dir = os.path.join(write_dir, 'effect_surf')
     variance_dir = os.path.join(write_dir, 'variance_surf')
     stat_dir = os.path.join(write_dir, 'z_surf')
@@ -187,12 +187,12 @@ for (subject, session) in subject_session:
     for contrast in contrasts:
         effects = [os.path.join(
             workdir, subject, session,
-            'res_surf_preference_%s_ffx' % category_, 'effect_surf',
+            'res_fsaverage7_preference_%s_ffx' % category_, 'effect_surf',
             '%s_%s_lh.gii' % (category, contrast))
                     for category, category_ in zip(categories, categories_)]
         variance = [os.path.join(
             workdir, subject, session,
-            'res_surf_preference_%s_ffx' % category_, 'variance_surf',
+            'res_fsaverage7_preference_%s_ffx' % category_, 'variance_surf',
             '%s_%s_lh.gii' % (category, contrast))
                     for category, category_ in zip(categories, categories_)]
         fixed_effect, fixed_variance, fixed_stat = fixed_effects_surf(
@@ -209,12 +209,12 @@ for (subject, session) in subject_session:
     contrast = 'constant'
     effects = [os.path.join(
         workdir, subject, session,
-        'res_surf_preference_%s_ffx' % category_, 'effect_surf',
+        'res_fsaverage7_preference_%s_ffx' % category_, 'effect_surf',
         '%s_%s_lh.gii' % (category, contrast))
                 for category, category_ in zip(categories, categories_)]
     variance = [os.path.join(
         workdir, subject, session,
-        'res_surf_preference_%s_ffx' % category_, 'variance_surf',
+        'res_fsaverage7_preference_%s_ffx' % category_, 'variance_surf',
         '%s_%s_lh.gii' % (category, contrast))
                 for category, category_ in zip(categories, categories_)]
     outputs = elementary_contrasts_surf(effects, variance)

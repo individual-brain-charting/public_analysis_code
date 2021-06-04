@@ -40,7 +40,7 @@ acqs = ['res_stats_%s' % acq for acq in [
     'wedge_anti_pa', 'wedge_anti_ap', 'wedge_clock_ap', 'wedge_clock_pa',
     'exp_ring_pa', 'cont_ring_ap']]
 if do_surface:
-    acqs = ['res_surf_%s' % acq for acq in [
+    acqs = ['res_fsaverage7_%s' % acq for acq in [
         'wedge_anti_pa', 'wedge_anti_ap', 'wedge_clock_ap', 'wedge_clock_pa',
         'exp_ring_pa', 'cont_ring_ap']]
 
@@ -86,7 +86,7 @@ for subject_session in subjects_sessions:
         os.mkdir(ses_dir)
     task_dir = pjoin(ses_dir, 'res_stats_retinotopy_ffx')
     if do_surface:
-        task_dir = pjoin(ses_dir, 'res_surf_retinotopy_ffx')
+        task_dir = pjoin(ses_dir, 'res_fsaverage7_retinotopy_ffx')
     if not os.path.exists(task_dir):
         os.mkdir(task_dir)
     write_dir = pjoin(task_dir, 'stat_maps')
@@ -127,33 +127,33 @@ for subject_session in subjects_sessions:
             #
             cos_wedge_clock = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_surf_wedge_clock_pa', 'z_surf', 'cos_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_surf_wedge_clock_ap', 'z_surf', 'cos_%s.gii' % hemi))], 0)
+                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_pa', 'z_surf', 'cos_%s.gii' % hemi),
+                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_ap', 'z_surf', 'cos_%s.gii' % hemi))], 0)
             sin_wedge_clock = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_surf_wedge_clock_pa', 'z_surf', 'sin_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_surf_wedge_clock_ap', 'z_surf', 'sin_%s.gii' % hemi))], 0)
+                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_pa', 'z_surf', 'sin_%s.gii' % hemi),
+                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_ap', 'z_surf', 'sin_%s.gii' % hemi))], 0)
             cos_wedge_anti = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_surf_wedge_anti_pa', 'z_surf', 'cos_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_surf_wedge_anti_ap', 'z_surf', 'cos_%s.gii' % hemi))], 0)
+                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_pa', 'z_surf', 'cos_%s.gii' % hemi),
+                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_ap', 'z_surf', 'cos_%s.gii' % hemi))], 0)
             sin_wedge_anti = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_surf_wedge_anti_pa', 'z_surf', 'sin_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_surf_wedge_anti_ap', 'z_surf', 'sin_%s.gii' % hemi))], 0)
+                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_pa', 'z_surf', 'sin_%s.gii' % hemi),
+                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_ap', 'z_surf', 'sin_%s.gii' % hemi))], 0)
             retino_imgs = {
                 'cos_wedge_pos': cos_wedge_anti,
                 'sin_wedge_pos': sin_wedge_anti,
                 'sin_wedge_neg': sin_wedge_clock,
                 'cos_wedge_neg': cos_wedge_clock,
                 'cos_ring_pos': pjoin(
-                    work_dir, 'res_surf_exp_ring_pa', 'z_surf', 'cos_%s.gii' % hemi),
+                    work_dir, 'res_fsaverage7_exp_ring_pa', 'z_surf', 'cos_%s.gii' % hemi),
                 'sin_ring_pos': pjoin(
-                    work_dir, 'res_surf_exp_ring_pa', 'z_surf', 'sin_%s.gii' % hemi),
+                    work_dir, 'res_fsaverage7_exp_ring_pa', 'z_surf', 'sin_%s.gii' % hemi),
                 'sin_ring_neg': pjoin(
-                    work_dir, 'res_surf_cont_ring_ap', 'z_surf', 'sin_%s.gii' % hemi),
+                    work_dir, 'res_fsaverage7_cont_ring_ap', 'z_surf', 'sin_%s.gii' % hemi),
                 'cos_ring_neg': pjoin(
-                    work_dir, 'res_surf_cont_ring_ap', 'z_surf', 'cos_%s.gii' % hemi)
+                    work_dir, 'res_fsaverage7_cont_ring_ap', 'z_surf', 'cos_%s.gii' % hemi)
             }
             retino_coefs = {}
             for key in retino_imgs.keys():
@@ -291,7 +291,7 @@ for subject_session in subjects_sessions:
 plt.figure(figsize=(6, 20))
 for i, subject_session in enumerate(subjects_sessions):
     subject, session = subject_session.split('_')
-    write_dir = pjoin(DERIVATIVES, subject, session, 'res_surf_retinotopy_ffx', 'stat_maps')
+    write_dir = pjoin(DERIVATIVES, subject, session, 'res_fsaverage7_retinotopy_ffx', 'stat_maps')
 
     for j, stat in enumerate(['phase_wedge', 'phase_ring']):
         lh = os.path.join(write_dir, '%s_lh.gii' % stat)
