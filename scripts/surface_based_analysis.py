@@ -187,7 +187,7 @@ protocols = ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
 protocols = ['lyon1', 'lyon2', 'audio1', 'audio2', 'stanford1',
              'stanford2', 'stanford3']
 protocols = ['enumeration', 'clips1', 'clips2', 'clips3', 'raiders1',
-             'raiders2', 'bbt1', 'bbt2', 'bbt3', 'self']
+             'raiders2', 'BBT1', 'BBT2', 'BBT3', 'self']
 protocols = ['mathlang']
 
 subject_sessions = sorted(get_subject_session(protocols))

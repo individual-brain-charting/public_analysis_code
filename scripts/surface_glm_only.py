@@ -94,11 +94,10 @@ def run_subject_surface_glm(jobfile, subject, session, protocol, mesh=None):
                 first_level(subject, compcorr=True,
                             additional_regressors=RETINO_REG,
                             smooth=None, mesh=mesh)
-                #first_level(subject, compcorr=True, smooth=None, surface=True)
-                #fixed_effects_analysis(subject, surface=True, mesh=mesh)
             else:
                 first_level(subject, compcorr=True, smooth=None, mesh=mesh)
                 fixed_effects_analysis(subject, mesh=mesh)
+
 
 if __name__ == '__main__':
     protocols = ['enumeration', 'lyon1', 'lyon2', 'audio1', 'audio2',
@@ -106,7 +105,7 @@ if __name__ == '__main__':
     protocols += ['screening', 'rsvp-language', 'hcp1', 'hcp2', 'archi']
     protocols = ['preference_house', 'preference_face', 'preference_food',
                  'preference_paintings', 'mtt1', 'mtt2', 'tom', 'self',
-                 'retino',]
+                 'retino']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol
