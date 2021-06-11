@@ -122,6 +122,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return vstmc(design_matrix_columns)
     elif paradigm_id == 'FingerTapping':
         return finger_tapping(design_matrix_columns)
+    elif paradigm_id == 'RewProc':
+        return reward_processing(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -171,6 +173,8 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
         contrast['derivatives'] = np.array(con)
     return contrast
 
+def reward_processing(design_matrix_columns):
+    """ Contrasts for reward processing experiment"""
 
 def math_language(design_matrix_columns):
     """ Contrasts for math-language task"""
