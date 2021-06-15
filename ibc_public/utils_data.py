@@ -514,7 +514,7 @@ def copy_db(df, write_dir, filename='result_db.csv'):
 
 
 def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
-                 subject_list=SUBJECTS, task_list=False, mesh=None):
+                 subject_list=SUBJECTS, task_list=False, mesh="fsaverage5"):
     """ Create a database for surface data (gifti files)
 
     derivatives: string,
@@ -533,9 +533,9 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
     task_list: list_optional,
         list of tasks to be returned
 
-    mesh: string or None, optional,
+    mesh: string, optional,
           should be one of ["fsaverage5", "fsaverage7", "individual"],
-          default behaviour will be that of "fsaverage5" if no
+          default behaviour will be that of "fsaverage5" if no value
           or incorrect value is given
 
     Returns
