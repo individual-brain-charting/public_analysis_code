@@ -20,6 +20,15 @@ Under the main working directory of this repository in your computer, run the fo
 pip install -e .
 ```
 
+## Example usage
+
+One can import the entire package with `import ibc_public` or use specific parts of the package:
+
+```python
+from ibc_public import utils_data
+utils_data.make_surf_db(derivatives="/path/to/ibc/derivatives", mesh="fsaverage5")
+```
+
 ## Details
 
 These script make it possible to preprocess the data
@@ -41,9 +50,9 @@ The core scripts are in the `scripts` folder
 - `anatomical mapping` (WIP) yields T1w, T2w and MWF surrogates from anatomical acquisitions.
 - `script_retino.py` yields some post-processing for retinotopic acquisitions (derivation of retinotopic representations from fMRI maps)
 
-## Dependences
+## Dependencies
 
-Dependences are :
+Dependencies are :
 * FSL (topup)
 * SPM12 for preprocessing
 * Freesurfer for surface-based analysis
