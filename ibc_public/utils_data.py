@@ -514,7 +514,7 @@ def copy_db(df, write_dir, filename='result_db.csv'):
 
 
 def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
-                 subject_list=SUBJECTS, task_list=False, lowres=False):
+                 subject_list=SUBJECTS, task_list=False, mesh=None):
     """ Create a database for surface data (gifti files)
 
     derivatives: string,
@@ -532,6 +532,11 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
     task_list: list_optional,
         list of tasks to be returned
+
+    mesh: string or None, optional,
+          should be one of ["fsaverage5", "fsaverage7", "individual"],
+          default behaviour will be that of "fsaverage5" if no
+          or incorrect value is given
 
     Returns
     -------
@@ -568,9 +573,18 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
             # some renaming
             if ((contrast == 'probe') & (task_name == 'rsvp_language')):
                     contrast = 'language_probe'
-            dir_ = 'res_fsaverage7_%s_ffx' % task
-            if lowres:
+
+            # set directory depending on mesh type
+            # (defaults to mesh == "fsaverage5" if no value
+            # or incorrect value is given)
+            dir_ = 'res_fsaverage5_%s_ffx' % task
+            if mesh == 'fsaverage5':
                 dir_ = 'res_fsaverage5_%s_ffx' % task
+            elif mesh == 'fsaverage7':
+                dir_ = 'res_fsaverage7_%s_ffx' % task
+            elif mesh == 'individual':
+                dir_ = 'res_individual_%s_ffx' % task
+
             for side in ['lh', 'rh']:
                 wc = os.path.join(
                     derivatives, subject, '*', dir_, 'stat_surf',
@@ -589,6 +603,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     tasks.append(task_name)
                     sides.append(side)
                     modalities.append('bold')
+
             if task == 'language_':
                 pass # stop
 
