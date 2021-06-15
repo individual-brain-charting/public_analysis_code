@@ -552,6 +552,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
     contrasts = []
     tasks = []
     modalities = []
+    meshes = []
 
     # fixed-effects activation images
     con_df = conditions
@@ -603,6 +604,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     tasks.append(task_name)
                     sides.append(side)
                     modalities.append('bold')
+                    meshes.append(mesh)
 
             if task == 'language_':
                 pass # stop
@@ -615,7 +617,8 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
         session=sessions,
         task=tasks,
         side=sides,
-        modality=modalities
+        modality=modalities,
+        mesh=meshes,
     )
 
     # create a FataFrame out of the dictionary and write it to disk
