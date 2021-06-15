@@ -554,6 +554,19 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
     modalities = []
     meshes = []
 
+    # Check that given mesh value is valid
+    available_meshes = [
+        "fsaverage5",
+        "fsaverage7",
+        "individual",
+    ]
+    if mesh not in available_meshes:
+        raise ValueError(
+            'Mesh value (%s) unknown ; should be one of %s'
+            % (mesh, available_meshes)
+        )
+
+
     # fixed-effects activation images
     con_df = conditions
     contrast_name = con_df.contrast
