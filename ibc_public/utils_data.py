@@ -610,8 +610,8 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 # Display warning when no image is found
                 if len(imgs_) == 0:
                     warnings.warn(
-                        'Missing image for %s, %s, %s'
-                        % (subject, contrast, task)
+                        'Missing image for %s, %s, %s, %s'
+                        % (subject, contrast, task, side)
                     )
 
                 for img in imgs_:
