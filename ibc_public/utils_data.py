@@ -584,9 +584,10 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
             if task == 'mtt_we':
                 task = 'MTTWE'
                 task_name = 'mtt_we'
-            # some renaming
+
+            # Rename contrast for a specific task
             if ((contrast == 'probe') & (task_name == 'rsvp_language')):
-                    contrast = 'language_probe'
+                contrast = 'language_probe'
 
             # set directory depending on mesh type
             # (defaults to mesh == "fsaverage5" if no value
