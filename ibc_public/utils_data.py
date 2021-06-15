@@ -606,8 +606,14 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 imgs_ = glob.glob(wc)
 
                 imgs_.sort()
+
+                # Display warning when no image is found
                 if len(imgs_) == 0:
-                    print(subject, contrast, task)
+                    warnings.warn(
+                        'Missing image for %s, %s, %s'
+                        % (subject, contrast, task)
+                    )
+
                 for img in imgs_:
                     session = img.split('/')[-4]
                     imgs.append(img)
