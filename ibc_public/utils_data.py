@@ -584,6 +584,9 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
             if task == 'mtt_we':
                 task = 'MTTWE'
                 task_name = 'mtt_we'
+            if task == 'math_language':
+                task = 'mathlang'
+                task_name = 'math_language'
 
             # Rename contrast for a specific task
             if ((contrast == 'probe') & (task_name == 'rsvp_language')):
