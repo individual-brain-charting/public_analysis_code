@@ -331,6 +331,9 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if task == 'vstm':
                     task = 'VSTM'
                     task_name = 'vstm'
+                if task == 'math_language':
+                    task = 'mathlang'
+                    task_name = 'math_language'
 
                 if task_list and (task not in task_list):
                     if verbose:
