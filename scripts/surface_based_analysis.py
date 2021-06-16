@@ -138,7 +138,6 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
             if np.isnan(Xl).any() or np.isnan(Xr).any():
                 raise ValueError('persistent NaNs in the data')
 
-            continue
             # resample to fsaverage
             left_fsaverage_fmri_tex = os.path.join(
                 fs_dir, basename + '_fsaverage_lh.gii')
