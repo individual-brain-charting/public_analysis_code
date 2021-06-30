@@ -124,6 +124,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return finger_tapping(design_matrix_columns)
     elif paradigm_id == 'RewProc':
         return reward_processing(design_matrix_columns)
+    elif paradigm_id == 'NARPS':
+        return narps(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -173,8 +175,86 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
         contrast['derivatives'] = np.array(con)
     return contrast
 
+
+def narps(design_matrix_columns):
+    """ Contrasts for reward processing experiment"""
+    contrast_names = ['gain', 'loss', 'weakly_accept', 'weakly_reject',
+                      'strongly_accept', 'strongly_reject',
+                      'reject-accept', 'accept-reject']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:6]])
+    contrasts['reject-accept'] = con['weakly_reject'] + con['strongly_reject']\
+        - con['weakly_accept'] - con['strongly_accept']
+    contrasts['accept-reject'] = - contrasts['reject-accept']
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
 def reward_processing(design_matrix_columns):
     """ Contrasts for reward processing experiment"""
+    contrast_names = [
+        'stim', 'out_-20', 'out_+20', 'out_-10', 'out_+10',
+        'green-purple', 'purple-green', 'left-right', 'right-left',
+        'switch', 'stay', 'switch-stay', 'stay-switch']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:5]])
+    contrasts['green-purple'] = con['green']
+    contrasts['purple-green'] = - con['green']
+    contrasts['left-right'] = con['left']
+    contrasts['right-left'] = - con['left']
+    contrasts['switch'] = con['switch']
+    contrasts['stay'] = con['stay']
+    contrasts['switch-stay'] = con['switch'] - con['stay']
+    contrasts['stay-switch'] = con['stay'] - con['switch']
+    """
+    contrast_names = [
+        'out_+10', 'out_+20', 'out_-10', 'out_-20', 'stim',
+        'resp_green-left_switch', 'resp_green-right_init',
+        'resp_green-right_stay', 'resp_green-right_switch',
+        'resp_purple-left_stay', 'resp_purple-left_switch',
+        'resp_purple-right_stay', 'resp_purple-right_switch',
+        'gain-loss', 'loss-gain', 'stay-switch', 'switch-stay',
+        # 'gain-loss_stay', 'loss-gain_stay',
+        # 'gain-loss_switch', 'loss-gain_switch',
+        'green-purple', 'purple-green',
+        'left-right', 'right-left']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:13]])
+    stay = con['resp_green-right_stay'] + con['resp_purple-left_stay']\
+        + con['resp_purple-right_stay']
+    switch = con['resp_green-left_switch'] + con['resp_green-right_switch']\
+        + con['resp_purple-left_switch'] + con['resp_purple-right_switch']
+    contrasts['stay-switch'] = stay - switch
+    contrasts['switch-stay'] = switch - stay
+    contrasts['gain-loss'] = con['out_+10'] + con['out_+20']\
+        - con['out_-10'] - con['out_-20']
+    contrasts['loss-gain'] = - contrasts['gain-loss']
+    green = con['resp_green-left_switch'] + con['resp_green-right_init']\
+        + con['resp_green-right_stay'] + con['resp_green-right_switch']
+    purple = con['resp_purple-left_stay'] + con['resp_purple-left_switch']\
+        + con['resp_purple-right_stay'] + con['resp_purple-right_switch']
+    left = con['resp_green-left_switch'] + con['resp_purple-left_stay']\
+        + con['resp_purple-left_switch']
+    right = con['resp_green-right_stay'] + con['resp_green-right_switch']\
+        + con['resp_purple-right_stay'] + con['resp_purple-right_switch']
+    contrasts['green-purple'] = green - purple
+    contrasts['purple-green'] = - contrasts['green-purple']
+    contrasts['left-right'] = left - right
+    contrasts['right-left'] = - contrasts['left-right']
+    """
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
 
 def math_language(design_matrix_columns):
     """ Contrasts for math-language task"""

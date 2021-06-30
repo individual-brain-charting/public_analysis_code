@@ -211,7 +211,7 @@ if __name__ == '__main__':
     do_topup = True
     protocol = 'fbirn'
     subject_session = sorted(get_subject_session([protocol]))
-    subject_session = [('sub-15', 'ses-33')]
+    subject_session = [('sub-05', 'ses-37')]
     if do_topup:
         acq = None
         if protocol in ['rs']:

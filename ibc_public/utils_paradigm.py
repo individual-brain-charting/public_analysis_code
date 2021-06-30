@@ -362,6 +362,44 @@ def post_process(df, paradigm_id):
         pass
     if paradigm_id == 'Catell':
         pass
+    if paradigm_id == 'RewProc':
+        df.drop(df[df.trial_type == 'prefix'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'postfix'].index, 0, inplace=True)
+        green = [tt for tt in df.trial_type.unique() if 'green' in tt]
+        left = [tt for tt in df.trial_type.unique() if 'left' in tt]
+        stay = [tt for tt in df.trial_type.unique() if 'stay' in tt]
+        switch = [tt for tt in df.trial_type.unique() if 'switch' in tt]
+        resp = [tt for tt in df.trial_type.unique() if 'resp' in tt]
+        df1 = df.copy()
+        df1 = df1[df.trial_type.isin(green)]
+        df1.trial_type = 'green'
+        df2 = df.copy()
+        df2 = df2[df.trial_type.isin(left)]
+        df2.trial_type = 'left'
+        df3 = df.copy()
+        df3 = df3[df.trial_type.isin(switch)]
+        df3.trial_type = 'switch'
+        df4 = df.copy()
+        df4 = df4[df.trial_type.isin(stay)]
+        df4.trial_type = 'stay'
+        df.drop(df[df.trial_type.isin(resp)].index, 0, inplace=True)
+        df = concat([df, df1, df2, df3, df4], axis=0, ignore_index=True)
+    if paradigm_id == 'NARPS':
+        df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
+        stim = [tt for tt in df.trial_type.unique() if 'stim' in tt]
+        resp = [tt for tt in df.trial_type.unique() if 'stim' not in tt]
+        df1 = df.copy()
+        df1 = df1[df.trial_type.isin(stim)]
+        df2 = df1.copy()
+        df1['modulation'] = [float(x.split('+')[1].split('_')[0])
+                             for x in df1.trial_type.values]
+        df2['modulation'] = [float(x.split('-')[1])
+                             for x in df2.trial_type.values]
+        df1.trial_type = 'gain'
+        df2.trial_type = 'loss'
+        df = df[df.trial_type.isin(resp)]
+        df['modulation'] = 1
+        df = concat([df, df1, df2], axis=0, ignore_index=True)
     return df
 
 

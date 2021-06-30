@@ -106,6 +106,7 @@ if __name__ == '__main__':
     protocols = ['preference_house', 'preference_face', 'preference_food',
                  'preference_paintings', 'mtt1', 'mtt2', 'tom', 'self',
                  'retino']
+    protocols = ['mathlang']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol
