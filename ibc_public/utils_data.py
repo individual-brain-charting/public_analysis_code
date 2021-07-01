@@ -50,8 +50,10 @@ all_contrasts = pd.read_csv(ALL_CONTRASTS, sep='\t')
 for i in range(len(CONTRASTS)):
     task = CONTRASTS.task[i]
     contrast = CONTRASTS.contrast[i]
-    target = all_contrasts[all_contrasts.task == task][
-        all_contrasts.contrast == contrast]
+    target = all_contrasts[
+        all_contrasts.task == task &
+        all_contrasts.contrast == contrast
+    ]
     if len(target['pretty name'].values):
         BETTER_NAMES[contrast] = target['pretty name'].values[0]
     else:
