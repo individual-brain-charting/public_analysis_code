@@ -124,8 +124,13 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return finger_tapping(design_matrix_columns)
     elif paradigm_id == 'RewProc':
         return reward_processing(design_matrix_columns)
+<<<<<<< HEAD
     elif paradigm_id == 'NARPS':
         return narps(design_matrix_columns)
+=======
+    elif paradigm_id == 'FaceBody':
+        return face_body(design_matrix_columns)
+>>>>>>> c3f74b3... added facebody contrast
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -176,6 +181,7 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     return contrast
 
 
+
 def narps(design_matrix_columns):
     """ Contrasts for reward processing experiment"""
     contrast_names = ['gain', 'loss', 'weakly_accept', 'weakly_reject',
@@ -189,6 +195,25 @@ def narps(design_matrix_columns):
         - con['weakly_accept'] - con['strongly_accept']
     contrasts['accept-reject'] = - contrasts['reject-accept']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def face_body(design_matrix_columns):
+    """ Contrasts for FaceBody task"""
+    contrast_names = ['bodies_body', 'bodies_limb',
+        'characters_number', 'characters_word',
+        'faces_adult', 'faces_child',
+        'objects_car', 'objects_instrument',
+        'places_corridor', 'places_house',
+        'bodies-others', 'characters-others', 'face-others',
+        'objects-others']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:0]])
+        assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts

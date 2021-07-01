@@ -208,10 +208,14 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
-    do_topup = True
+    do_topup = False
     protocol = 'fbirn'
     subject_session = sorted(get_subject_session([protocol]))
+<<<<<<< HEAD
     subject_session = [('sub-05', 'ses-37')]
+=======
+    # subject_session = [('sub-15', 'ses-33')]
+>>>>>>> c3f74b3... added facebody contrast
     if do_topup:
         acq = None
         if protocol in ['rs']:
