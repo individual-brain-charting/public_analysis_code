@@ -497,14 +497,17 @@ def copy_db(df, write_dir, filename='result_db.csv'):
         filename_, extension = os.path.splitext(df.iloc[i].path)
         extension_ = os.path.splitext(filename_)[1]
         extension = extension_ +  extension
-        fname = '%s_%s_%s_%s_%s%s' % (
+        fname = '%s_%s_%s_%s_%s_%s%s' % (
             df.iloc[i].modality, df.iloc[i].subject, df.iloc[i].session,
-            df.iloc[i].task, df.iloc[i].contrast, extension)
+            df.iloc[i].task, df.iloc[i].contrast, df.iloc[i].mesh, extension
+        )
         if extension == '.gii':
             # this is surface data
-            fname = '%s_%s_%s_%s_%s_%s%s' % (
+            fname = '%s_%s_%s_%s_%s_%s_%s%s' % (
             df.iloc[i].modality, df.iloc[i].subject, df.iloc[i].session,
-                df.iloc[i].task, df.iloc[i].contrast, df.iloc[i].side, extension)
+                df.iloc[i].task, df.iloc[i].contrast, df.iloc[i].side,
+                df.iloc[i].mesh, extension
+            )
         print(fname)
         new_path = os.path.join(write_dir, fname)
         shutil.copy(df.iloc[i].path, new_path)
