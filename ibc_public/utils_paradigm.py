@@ -176,7 +176,7 @@ def post_process(df, paradigm_id):
         df = df.replace('new_cr', 'correct_rejection')
         df = df.replace('old_self_no_response', 'recognition_self_no_response')
         df = df.replace('old_other_no_response',
-            'recognition_other_no_response')
+                        'recognition_other_no_response')
 
     instructions = ['Ins_bouche', 'Ins_index', 'Ins_jambe',
                     'Ins_main', 'Ins_repos', 'Ins_yeux', ]
@@ -400,6 +400,18 @@ def post_process(df, paradigm_id):
         df = df[df.trial_type.isin(resp)]
         df['modulation'] = 1
         df = concat([df, df1, df2], axis=0, ignore_index=True)
+    if paradigm_id == 'FaceBody':
+        df.drop(df[df.trial_type == 'Baseline'].index, 0, inplace=True)
+        df.replace('Bodies_body', 'bodies_body', inplace=True)
+        df.replace('Bodies_limb', 'bodies_limb', inplace=True)
+        df.replace('Characters_number', 'characters_number', inplace=True)
+        df.replace('Characters_word', 'characters_word', inplace=True)
+        df.replace('Faces_adult', 'faces_adult', inplace=True)
+        df.replace('Faces_child', 'faces_child', inplace=True)
+        df.replace('Objects_car', 'objects_car', inplace=True)
+        df.replace('Objects_instrument', 'objects_instrument', inplace=True)
+        df.replace('Places_corridor', 'places_corridor', inplace=True)
+        df.replace('Places_house', 'places_house', inplace=True)
     return df
 
 

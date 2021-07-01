@@ -124,13 +124,10 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return finger_tapping(design_matrix_columns)
     elif paradigm_id == 'RewProc':
         return reward_processing(design_matrix_columns)
-<<<<<<< HEAD
     elif paradigm_id == 'NARPS':
         return narps(design_matrix_columns)
-=======
     elif paradigm_id == 'FaceBody':
         return face_body(design_matrix_columns)
->>>>>>> c3f74b3... added facebody contrast
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -202,18 +199,30 @@ def narps(design_matrix_columns):
 
 def face_body(design_matrix_columns):
     """ Contrasts for FaceBody task"""
-    contrast_names = ['bodies_body', 'bodies_limb',
+    contrast_names = [
+        'bodies_body', 'bodies_limb',
         'characters_number', 'characters_word',
         'faces_adult', 'faces_child',
         'objects_car', 'objects_instrument',
         'places_corridor', 'places_house',
-        'bodies-others', 'characters-others', 'face-others',
-        'objects-others']
+        'bodies-others', 'characters-others', 'faces-others',
+        'objects-others', 'places-others']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names[:0]])
-        assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    contrasts = dict([(name, con[name]) for name in contrast_names[:10]])
+    mean_ = np.sum(list(contrasts.values()), 0)
+    bodies = con['bodies_body'] + con['bodies_limb']
+    characters = con['characters_number'] + con['characters_word']
+    faces = con['faces_adult'] + con['faces_child']
+    objects = con['objects_car'] + con['objects_instrument']
+    places = con['places_corridor'] + con['places_house']
+    contrasts['bodies-others'] = 5 * bodies - mean_
+    contrasts['characters-others'] = 5 * characters - mean_
+    contrasts['faces-others'] = 5 * faces - mean_
+    contrasts['objects-others'] = 5 * objects - mean_
+    contrasts['places-others'] = 5 * places - mean_
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts

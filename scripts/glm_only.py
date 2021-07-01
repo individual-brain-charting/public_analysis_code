@@ -135,12 +135,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
-<<<<<<< HEAD
-    protocols = ['mathlang']
-=======
     protocols = ['navigation']
->>>>>>> c3f74b3... added facebody contrast
-
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
