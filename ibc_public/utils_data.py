@@ -488,21 +488,28 @@ def horizontal_fingerprint(coef, roi_name, labels_bottom, labels_top,
 
 
 def copy_db(df, write_dir, filename='result_db.csv'):
-    # Create a copy of all the files to create a portable database
+    """Create a copy of all the files to create a portable database."""
+    # Create output folder if it doesn't already exist
     if not os.path.exists(write_dir):
         os.mkdir(write_dir)
+
     df1 = df.copy()
+
+    # Copy all files listed in df1 to output location
     paths = []
     for i in df.index:
         filename_, extension = os.path.splitext(df.iloc[i].path)
         extension_ = os.path.splitext(filename_)[1]
         extension = extension_ +  extension
+
+        # Derive filename depending on whether output is surface or volume
+        ## Volume data
         fname = '%s_%s_%s_%s_%s_%s%s' % (
             df.iloc[i].modality, df.iloc[i].subject, df.iloc[i].session,
             df.iloc[i].task, df.iloc[i].contrast, df.iloc[i].mesh, extension
         )
+        ## Surface data
         if extension == '.gii':
-            # this is surface data
             fname = '%s_%s_%s_%s_%s_%s_%s%s' % (
             df.iloc[i].modality, df.iloc[i].subject, df.iloc[i].session,
                 df.iloc[i].task, df.iloc[i].contrast, df.iloc[i].side,
@@ -512,10 +519,16 @@ def copy_db(df, write_dir, filename='result_db.csv'):
         new_path = os.path.join(write_dir, fname)
         shutil.copy(df.iloc[i].path, new_path)
         paths.append(fname)
+
+    # Update df1 paths with new paths
     df1.path = paths
+
     # TODO: add mask !
+
+    # Copy df to output location
     if filename is not None:
         df1.to_csv(os.path.join(write_dir, filename))
+
     return df1
 
 
