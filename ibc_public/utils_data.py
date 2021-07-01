@@ -14,6 +14,7 @@ import pandas as pd
 import shutil
 import numpy as np
 from ibc_public.utils_annotations import expand_table
+from tqdm import tqdm
 
 main_parent_dir = '/neurospin/ibc'
 alt_parent_dir = '/storage/store2/data/ibc'
@@ -497,7 +498,7 @@ def copy_db(df, write_dir, filename='result_db.csv'):
 
     # Copy all files listed in df1 to output location
     paths = []
-    for i in df.index:
+    for i in tqdm(df.index):
         filename_, extension = os.path.splitext(df.iloc[i].path)
         extension_ = os.path.splitext(filename_)[1]
         extension = extension_ +  extension
@@ -515,7 +516,7 @@ def copy_db(df, write_dir, filename='result_db.csv'):
                 df.iloc[i].task, df.iloc[i].contrast, df.iloc[i].side,
                 df.iloc[i].mesh, extension
             )
-        print(fname)
+
         new_path = os.path.join(write_dir, fname)
         shutil.copy(df.iloc[i].path, new_path)
         paths.append(fname)
