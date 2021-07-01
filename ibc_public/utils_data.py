@@ -592,7 +592,8 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
     # fixed-effects activation images
     con_df = conditions
     contrast_name = con_df.contrast
-    for subject in subject_list:
+    missing_images = []
+    for subject in tqdm(subject_list):
         for i in range(len(con_df)):
             contrast = contrast_name[i]
             task = con_df.task[i]
@@ -635,10 +636,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
                 # Display warning when no image is found
                 if len(imgs_) == 0:
-                    warnings.warn(
-                        'Missing image for %s, %s, %s, %s'
-                        % (subject, contrast, task, side)
-                    )
+                    missing_images.append([subject, contrast, task, side])
 
                 for img in imgs_:
                     session = img.split('/')[-4]
@@ -653,6 +651,8 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
             if task == 'language_':
                 pass # stop
+
+    print(f"{len(imgs)} images found, {len(missing_images)} were missing")
 
     # create a dictionary with all the information
     db_dict = dict(
