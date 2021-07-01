@@ -330,6 +330,9 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if task == 'vstm':
                     task = 'VSTM'
                     task_name = 'vstm'
+                if task == 'math_language':
+                    task = 'mathlang'
+                    task_name = 'math_language'
 
                 if task_list and (task not in task_list):
                     if verbose:
@@ -513,7 +516,7 @@ def copy_db(df, write_dir, filename='result_db.csv'):
 
 
 def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
-                 subject_list=SUBJECTS, task_list=False, lowres=False):
+                 subject_list=SUBJECTS, task_list=False, mesh="fsaverage5"):
     """ Create a database for surface data (gifti files)
 
     derivatives: string,
@@ -532,6 +535,11 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
     task_list: list_optional,
         list of tasks to be returned
 
+    mesh: string, optional,
+          should be one of ["fsaverage5", "fsaverage7", "individual"],
+          default behaviour will be that of "fsaverage5" if no value
+          or incorrect value is given
+
     Returns
     -------
     db: pandas DataFrame,
@@ -546,6 +554,20 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
     contrasts = []
     tasks = []
     modalities = []
+    meshes = []
+
+    # Check that given mesh value is valid
+    available_meshes = [
+        "fsaverage5",
+        "fsaverage7",
+        "individual",
+    ]
+    if mesh not in available_meshes:
+        raise ValueError(
+            'Mesh value (%s) unknown ; should be one of %s'
+            % (mesh, available_meshes)
+        )
+
 
     # fixed-effects activation images
     con_df = conditions
@@ -564,12 +586,25 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
             if task == 'mtt_we':
                 task = 'MTTWE'
                 task_name = 'mtt_we'
-            # some renaming
+            if task == 'math_language':
+                task = 'mathlang'
+                task_name = 'math_language'
+
+            # Rename contrast for a specific task
             if ((contrast == 'probe') & (task_name == 'rsvp_language')):
-                    contrast = 'language_probe'
-            dir_ = 'res_fsaverage7_%s_ffx' % task
-            if lowres:
+                contrast = 'language_probe'
+
+            # set directory depending on mesh type
+            # (defaults to mesh == "fsaverage5" if no value
+            # or incorrect value is given)
+            dir_ = 'res_fsaverage5_%s_ffx' % task
+            if mesh == 'fsaverage5':
                 dir_ = 'res_fsaverage5_%s_ffx' % task
+            elif mesh == 'fsaverage7':
+                dir_ = 'res_fsaverage7_%s_ffx' % task
+            elif mesh == 'individual':
+                dir_ = 'res_individual_%s_ffx' % task
+
             for side in ['lh', 'rh']:
                 wc = os.path.join(
                     derivatives, subject, '*', dir_, 'stat_surf',
@@ -577,8 +612,14 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 imgs_ = glob.glob(wc)
 
                 imgs_.sort()
+
+                # Display warning when no image is found
                 if len(imgs_) == 0:
-                    print(subject, contrast, task)
+                    warnings.warn(
+                        'Missing image for %s, %s, %s, %s'
+                        % (subject, contrast, task, side)
+                    )
+
                 for img in imgs_:
                     session = img.split('/')[-4]
                     imgs.append(img)
@@ -588,6 +629,8 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     tasks.append(task_name)
                     sides.append(side)
                     modalities.append('bold')
+                    meshes.append(mesh)
+
             if task == 'language_':
                 pass # stop
 
@@ -599,7 +642,8 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
         session=sessions,
         task=tasks,
         side=sides,
-        modality=modalities
+        modality=modalities,
+        mesh=meshes,
     )
 
     # create a FataFrame out of the dictionary and write it to disk
