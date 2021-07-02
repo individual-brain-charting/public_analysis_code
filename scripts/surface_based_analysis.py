@@ -100,12 +100,11 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
             print(os.system(
                 '$FREESURFER_HOME/bin/mri_vol2surf --src %s --o %s '
                 '--out_type gii --srcreg %s --hemi lh --projfrac-avg 0 2 0.2'
-                ' --nsmooth-out 5' % (fmri_session, left_fmri_tex, regheader)))
+                % (fmri_session, left_fmri_tex, regheader)))
 
             print(os.system(
                 '$FREESURFER_HOME/bin/mri_vol2surf --src %s --o %s '
-                '--out_type gii --srcreg %s --hemi rh --projfrac-avg 0 2 0.2 '
-                ' --nsmooth-out 5'
+                '--out_type gii --srcreg %s --hemi rh --projfrac-avg 0 2 0.2'
                 % (fmri_session, right_fmri_tex, regheader)))
 
             # if there are NaN's in one of the file, redo the projection
@@ -122,23 +121,23 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
                 print(os.system(
                     '$FREESURFER_HOME/bin/mri_vol2surf --src %s --o %s '
                     '--out_type gii --srcreg %s --hemi lh '
-                    '--projfrac-avg 0 2 0.2 --nsmooth-out 5'
+                    '--projfrac-avg 0 2 0.2'
                     % (filename, left_fmri_tex, regheader)))
                 Xl = nib.load(left_fmri_tex).darrays[0].data
             if np.isnan(Xr).any():
                 print(os.system(
                     '$FREESURFER_HOME/bin/mri_vol2surf --src %s --o %s '
-                    '--out_type gii --srcreg %s --hemi rh'
-                    '--projfrac-avg 0 2 0.2 --nsmooth-out 5'
+                    '--out_type gii --srcreg %s --hemi rh '
+                    '--projfrac-avg 0 2 0.2'
                     % (filename, right_fmri_tex, regheader)))
                 Xr = nib.load(right_fmri_tex).darrays[0].data
-            if os.path.exists(filename):
-                os.remove(filename)
 
             if np.isnan(Xl).any() or np.isnan(Xr).any():
                 raise ValueError('persistent NaNs in the data')
 
-            continue
+            if os.path.exists(filename):
+                os.remove(filename)
+
             # resample to fsaverage
             left_fsaverage_fmri_tex = os.path.join(
                 fs_dir, basename + '_fsaverage_lh.gii')
@@ -148,12 +147,12 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
             print(os.system(
                 '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
                 '--srcsurfval %s --trgsurfval %s --trgsubject ico '
-                '--trgicoorder 7 --hemi lh' %
+                '--trgicoorder 7 --hemi lh --nsmooth-out 5' %
                 (subject, left_fmri_tex, left_fsaverage_fmri_tex)))
             print(os.system(
                 '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
                 '--srcsurfval %s --trgsubject ico --trgicoorder 7 '
-                '--trgsurfval %s --hemi rh' %
+                '--trgsurfval %s --hemi rh --nsmooth-out 5' %
                 (subject, right_fmri_tex, right_fsaverage_fmri_tex)))
 
             # check possible Nans and if necessary redo the stuff
@@ -171,12 +170,12 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
             print(os.system(
                 '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
                 '--srcsurfval %s --trgsurfval %s --trgsubject ico '
-                '--trgicoorder 5 --hemi lh' %
+                '--trgicoorder 5 --hemi lh --nsmooth-out 2' %
                 (subject, left_fmri_tex, left_fsaverage_fmri_tex)))
             print(os.system(
                 '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
                 '--srcsurfval %s --trgsubject ico --trgicoorder 5 '
-                '--trgsurfval %s --hemi rh' %
+                '--trgsurfval %s --hemi rh --nsmooth-out 2' %
                 (subject, right_fmri_tex, right_fsaverage_fmri_tex)))
 
             # check possible Nans and if necessary redo the stuff
@@ -185,18 +184,30 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
             if np.isnan(Xl).any() or np.isnan(Xr).any():
                 raise ValueError('persistent NaNs in the data')
 
+            # finally smooth the textures on the individual anat
+            print(os.system(
+                '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
+                '--srcsurfval %s --trgsurfval %s --trgsubject %s '
+                '--hemi lh --nsmooth-out 5' %
+                (subject, left_fmri_tex, left_fmri_tex, subject)))
+            print(os.system(
+                '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
+                '--srcsurfval %s --trgsurfval %s --trgsubject %s'
+                ' --hemi rh --nsmooth-out 5' %
+                (subject, right_fmri_tex, right_fmri_tex, subject)))
 
-protocols = ['archi', 'screening', 'rsvp-language', 'hcp1', 'hcp2']
-protocols += ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
-protocols += ['lyon1', 'lyon2', 'audio1', 'audio2', 'stanford1',
-              'stanford2', 'stanford3']
+
+# protocols = ['archi', 'screening', 'rsvp-language',
+# protocols = ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
+
+protocols = ['hcp1', 'hcp2', 'lyon1', 'lyon2']
+protocols = ['audio1', 'audio2', 'stanford1', 'stanford2', 'stanford3']
 protocols += ['enumeration', 'clips1', 'clips2', 'clips3', 'raiders1',
               'raiders2', 'BBT1', 'BBT2', 'BBT3', 'self']
-protocols += ['mathlang']
+#protocols = ['mathlang']
 
 subject_sessions = sorted(get_subject_session(protocols))
-
-Parallel(n_jobs=4)(
+Parallel(n_jobs=6)(
     delayed(project_volume)(work_dir, subject_session[0], [subject_session[1]],
                             do_bbr=True)
     for subject_session in subject_sessions)
