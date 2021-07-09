@@ -197,14 +197,13 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
                 (subject, right_fmri_tex, right_fmri_tex, subject)))
 
 
-# protocols = ['archi', 'screening', 'rsvp-language',
-# protocols = ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
-
-protocols = ['hcp1', 'hcp2', 'lyon1', 'lyon2']
-protocols = ['audio1', 'audio2', 'stanford1', 'stanford2', 'stanford3']
-protocols += ['enumeration', 'clips1', 'clips2', 'clips3', 'raiders1',
-              'raiders2', 'BBT1', 'BBT2', 'BBT3', 'self']
-#protocols = ['mathlang']
+protocols = ['archi', 'screening', 'rsvp-language']
+protocols += ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
+protocols += ['hcp1', 'hcp2', 'lyon1', 'lyon2']
+# protocols = ['audio1', 'audio2', 'stanford1', 'stanford2', 'stanford3']
+# protocols += ['enumeration', 'clips1', 'clips2', 'clips3', 'raiders1',
+#              'raiders2', 'BBT1', 'BBT2', 'BBT3', 'self']
+# protocols = ['mathlang']
 
 subject_sessions = sorted(get_subject_session(protocols))
 Parallel(n_jobs=6)(

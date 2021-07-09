@@ -128,6 +128,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return narps(design_matrix_columns)
     elif paradigm_id == 'FaceBody':
         return face_body(design_matrix_columns)
+    elif paradigm_id == 'Scene':
+        return scenes(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -178,7 +180,6 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     return contrast
 
 
-
 def narps(design_matrix_columns):
     """ Contrasts for reward processing experiment"""
     contrast_names = ['gain', 'loss', 'weakly_accept', 'weakly_reject',
@@ -191,6 +192,38 @@ def narps(design_matrix_columns):
     contrasts['reject-accept'] = con['weakly_reject'] + con['strongly_reject']\
         - con['weakly_accept'] - con['strongly_accept']
     contrasts['accept-reject'] = - contrasts['reject-accept']
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def scenes(design_matrix_columns):
+    """Contrasts for scenes protocol"""
+    contrast_names = [
+        'dot_easy_left', 'dot_easy_right', 'dot_hard_left', 'dot_hard_right',
+        'scene_impossible_correct', 'scene_impossible_incorrect',
+        'scene_possible_correct', 'scene_possible_incorrect',
+        'scene_possible_correct-scene_impossible_correct',
+        'scene_correct-dot_correct',
+        'dot_left-right',
+        'dot_hard-easy'
+        ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:8]])
+    contrasts['scene_possible_correct-scene_impossible_correct'] =\
+        con['scene_possible_correct'] - con['scene_impossible_correct']
+    contrasts['scene_correct-dot_correct'] =\
+        con['scene_impossible_correct'] + con['scene_possible_correct'] -\
+        con['scene_impossible_incorrect'] - con['scene_possible_incorrect']
+    contrasts['dot_left-right'] =\
+        con['dot_easy_left'] + con['dot_hard_left'] -\
+        con['dot_easy_right'] - con['dot_hard_right']
+    contrasts['dot_hard-easy'] =\
+        -con['dot_easy_left'] + con['dot_hard_left'] -\
+        con['dot_easy_right'] + con['dot_hard_right']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)

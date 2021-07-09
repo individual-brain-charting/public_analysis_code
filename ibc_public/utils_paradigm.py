@@ -285,12 +285,12 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'discount':
         df = df[df.trial_type.isin(['stim'])]
         df1 = df.copy()
-        df1['modulation'] = df1['large_amount']
+        df1['modulation'] = df1['large_amount'].astype(float)
         df1.drop('later_delay', 1, inplace=True)
         df1.drop('large_amount', 1, inplace=True)
         df1.replace('stim', 'amount', inplace=True)
         df2 = df.copy()
-        df2['modulation'] = df2['later_delay']
+        df2['modulation'] = df2['later_delay'].astype(float)
         df2.drop('large_amount', 1, inplace=True)
         df2.drop('later_delay', 1, inplace=True)
         df2.replace('stim', 'delay', inplace=True)
@@ -412,6 +412,17 @@ def post_process(df, paradigm_id):
         df.replace('Objects_instrument', 'objects_instrument', inplace=True)
         df.replace('Places_corridor', 'places_corridor', inplace=True)
         df.replace('Places_house', 'places_house', inplace=True)
+    if paradigm_id == 'Scene':
+        df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'iti'].index, 0, inplace=True)
+        df.replace('dot_easy_left_correct', 'dot_easy_left', inplace=True)
+        df.replace('dot_easy_left_incorrect', 'dot_easy_left', inplace=True)
+        df.replace('dot_easy_right_correct', 'dot_easy_right', inplace=True)
+        df.replace('dot_easy_right_incorrect', 'dot_easy_right', inplace=True)
+        df.replace('dot_hard_left_correct', 'dot_hard_left', inplace=True)
+        df.replace('dot_hard_left_incorrect', 'dot_hard_left', inplace=True)
+        df.replace('dot_hard_right_correct', 'dot_hard_right', inplace=True)
+        df.replace('dot_hard_right_incorrect', 'dot_hard_right', inplace=True)
     return df
 
 
