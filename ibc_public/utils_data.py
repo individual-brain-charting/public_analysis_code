@@ -66,7 +66,6 @@ for i in range(len(CONTRASTS)):
     LABELS[contrast] = [neg, pos]
 
 
-
 def get_subject_session(protocols):
     """
     Utility to get all (subject, session) for a given protocol or set

@@ -100,18 +100,19 @@ def run_subject_surface_glm(jobfile, subject, session, protocol, mesh=None):
 
 
 if __name__ == '__main__':
-    protocols = ['enumeration', 'lyon1', 'lyon2', 'audio1', 'audio2',
-                 'stanford1', 'stanford2', 'stanford3']
+    protocols = ['enumeration', 'lyon1', 'lyon2', 'audio1', 'audio2', 'stanford1']
+    protocols += ['stanford2', 'stanford3']
     protocols += ['screening', 'rsvp-language', 'hcp1', 'hcp2', 'archi']
-    protocols = ['preference_house', 'preference_face', 'preference_food',
+    protocols += ['preference_house', 'preference_face', 'preference_food',
                  'preference_paintings', 'mtt1', 'mtt2', 'tom', 'self',
                  'retino']
+    protocols += ['mathlang']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol
         if protocol == 'retino':
             acquisition = 'clips4'
-        mesh = 'individual'
+        mesh = 'fsaverage7'
         subject_session = sorted(get_subject_session(acquisition))
         Parallel(n_jobs=6)(
             delayed(run_subject_surface_glm)(

@@ -124,6 +124,12 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return finger_tapping(design_matrix_columns)
     elif paradigm_id == 'RewProc':
         return reward_processing(design_matrix_columns)
+    elif paradigm_id == 'NARPS':
+        return narps(design_matrix_columns)
+    elif paradigm_id == 'FaceBody':
+        return face_body(design_matrix_columns)
+    elif paradigm_id == 'Scene':
+        return scenes(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -173,8 +179,149 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
         contrast['derivatives'] = np.array(con)
     return contrast
 
+
+def narps(design_matrix_columns):
+    """ Contrasts for reward processing experiment"""
+    contrast_names = ['gain', 'loss', 'weakly_accept', 'weakly_reject',
+                      'strongly_accept', 'strongly_reject',
+                      'reject-accept', 'accept-reject']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:6]])
+    contrasts['reject-accept'] = con['weakly_reject'] + con['strongly_reject']\
+        - con['weakly_accept'] - con['strongly_accept']
+    contrasts['accept-reject'] = - contrasts['reject-accept']
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def scenes(design_matrix_columns):
+    """Contrasts for scenes protocol"""
+    contrast_names = [
+        'dot_easy_left', 'dot_easy_right', 'dot_hard_left', 'dot_hard_right',
+        'scene_impossible_correct', 'scene_impossible_incorrect',
+        'scene_possible_correct', 'scene_possible_incorrect',
+        'scene_possible_correct-scene_impossible_correct',
+        'scene_correct-dot_correct',
+        'dot_left-right',
+        'dot_hard-easy'
+        ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:8]])
+    contrasts['scene_possible_correct-scene_impossible_correct'] =\
+        con['scene_possible_correct'] - con['scene_impossible_correct']
+    contrasts['scene_correct-dot_correct'] =\
+        con['scene_impossible_correct'] + con['scene_possible_correct'] -\
+        con['scene_impossible_incorrect'] - con['scene_possible_incorrect']
+    contrasts['dot_left-right'] =\
+        con['dot_easy_left'] + con['dot_hard_left'] -\
+        con['dot_easy_right'] - con['dot_hard_right']
+    contrasts['dot_hard-easy'] =\
+        -con['dot_easy_left'] + con['dot_hard_left'] -\
+        con['dot_easy_right'] + con['dot_hard_right']
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def face_body(design_matrix_columns):
+    """ Contrasts for FaceBody task"""
+    contrast_names = [
+        'bodies_body', 'bodies_limb',
+        'characters_number', 'characters_word',
+        'faces_adult', 'faces_child',
+        'objects_car', 'objects_instrument',
+        'places_corridor', 'places_house',
+        'bodies-others', 'characters-others', 'faces-others',
+        'objects-others', 'places-others']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:10]])
+    mean_ = np.sum(list(contrasts.values()), 0)
+    bodies = con['bodies_body'] + con['bodies_limb']
+    characters = con['characters_number'] + con['characters_word']
+    faces = con['faces_adult'] + con['faces_child']
+    objects = con['objects_car'] + con['objects_instrument']
+    places = con['places_corridor'] + con['places_house']
+    contrasts['bodies-others'] = 5 * bodies - mean_
+    contrasts['characters-others'] = 5 * characters - mean_
+    contrasts['faces-others'] = 5 * faces - mean_
+    contrasts['objects-others'] = 5 * objects - mean_
+    contrasts['places-others'] = 5 * places - mean_
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
 def reward_processing(design_matrix_columns):
     """ Contrasts for reward processing experiment"""
+    contrast_names = [
+        'stim', 'out_-20', 'out_+20', 'out_-10', 'out_+10',
+        'green-purple', 'purple-green', 'left-right', 'right-left',
+        'switch', 'stay', 'switch-stay', 'stay-switch']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:5]])
+    contrasts['green-purple'] = con['green']
+    contrasts['purple-green'] = - con['green']
+    contrasts['left-right'] = con['left']
+    contrasts['right-left'] = - con['left']
+    contrasts['switch'] = con['switch']
+    contrasts['stay'] = con['stay']
+    contrasts['switch-stay'] = con['switch'] - con['stay']
+    contrasts['stay-switch'] = con['stay'] - con['switch']
+    """
+    contrast_names = [
+        'out_+10', 'out_+20', 'out_-10', 'out_-20', 'stim',
+        'resp_green-left_switch', 'resp_green-right_init',
+        'resp_green-right_stay', 'resp_green-right_switch',
+        'resp_purple-left_stay', 'resp_purple-left_switch',
+        'resp_purple-right_stay', 'resp_purple-right_switch',
+        'gain-loss', 'loss-gain', 'stay-switch', 'switch-stay',
+        # 'gain-loss_stay', 'loss-gain_stay',
+        # 'gain-loss_switch', 'loss-gain_switch',
+        'green-purple', 'purple-green',
+        'left-right', 'right-left']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:13]])
+    stay = con['resp_green-right_stay'] + con['resp_purple-left_stay']\
+        + con['resp_purple-right_stay']
+    switch = con['resp_green-left_switch'] + con['resp_green-right_switch']\
+        + con['resp_purple-left_switch'] + con['resp_purple-right_switch']
+    contrasts['stay-switch'] = stay - switch
+    contrasts['switch-stay'] = switch - stay
+    contrasts['gain-loss'] = con['out_+10'] + con['out_+20']\
+        - con['out_-10'] - con['out_-20']
+    contrasts['loss-gain'] = - contrasts['gain-loss']
+    green = con['resp_green-left_switch'] + con['resp_green-right_init']\
+        + con['resp_green-right_stay'] + con['resp_green-right_switch']
+    purple = con['resp_purple-left_stay'] + con['resp_purple-left_switch']\
+        + con['resp_purple-right_stay'] + con['resp_purple-right_switch']
+    left = con['resp_green-left_switch'] + con['resp_purple-left_stay']\
+        + con['resp_purple-left_switch']
+    right = con['resp_green-right_stay'] + con['resp_green-right_switch']\
+        + con['resp_purple-right_stay'] + con['resp_purple-right_switch']
+    contrasts['green-purple'] = green - purple
+    contrasts['purple-green'] = - contrasts['green-purple']
+    contrasts['left-right'] = left - right
+    contrasts['right-left'] = - contrasts['left-right']
+    """
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
 
 def math_language(design_matrix_columns):
     """ Contrasts for math-language task"""

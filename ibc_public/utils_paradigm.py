@@ -176,7 +176,7 @@ def post_process(df, paradigm_id):
         df = df.replace('new_cr', 'correct_rejection')
         df = df.replace('old_self_no_response', 'recognition_self_no_response')
         df = df.replace('old_other_no_response',
-            'recognition_other_no_response')
+                        'recognition_other_no_response')
 
     instructions = ['Ins_bouche', 'Ins_index', 'Ins_jambe',
                     'Ins_main', 'Ins_repos', 'Ins_yeux', ]
@@ -285,12 +285,12 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'discount':
         df = df[df.trial_type.isin(['stim'])]
         df1 = df.copy()
-        df1['modulation'] = df1['large_amount']
+        df1['modulation'] = df1['large_amount'].astype(float)
         df1.drop('later_delay', 1, inplace=True)
         df1.drop('large_amount', 1, inplace=True)
         df1.replace('stim', 'amount', inplace=True)
         df2 = df.copy()
-        df2['modulation'] = df2['later_delay']
+        df2['modulation'] = df2['later_delay'].astype(float)
         df2.drop('large_amount', 1, inplace=True)
         df2.drop('later_delay', 1, inplace=True)
         df2.replace('stim', 'delay', inplace=True)
@@ -362,6 +362,67 @@ def post_process(df, paradigm_id):
         pass
     if paradigm_id == 'Catell':
         pass
+    if paradigm_id == 'RewProc':
+        df.drop(df[df.trial_type == 'prefix'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'postfix'].index, 0, inplace=True)
+        green = [tt for tt in df.trial_type.unique() if 'green' in tt]
+        left = [tt for tt in df.trial_type.unique() if 'left' in tt]
+        stay = [tt for tt in df.trial_type.unique() if 'stay' in tt]
+        switch = [tt for tt in df.trial_type.unique() if 'switch' in tt]
+        resp = [tt for tt in df.trial_type.unique() if 'resp' in tt]
+        df1 = df.copy()
+        df1 = df1[df.trial_type.isin(green)]
+        df1.trial_type = 'green'
+        df2 = df.copy()
+        df2 = df2[df.trial_type.isin(left)]
+        df2.trial_type = 'left'
+        df3 = df.copy()
+        df3 = df3[df.trial_type.isin(switch)]
+        df3.trial_type = 'switch'
+        df4 = df.copy()
+        df4 = df4[df.trial_type.isin(stay)]
+        df4.trial_type = 'stay'
+        df.drop(df[df.trial_type.isin(resp)].index, 0, inplace=True)
+        df = concat([df, df1, df2, df3, df4], axis=0, ignore_index=True)
+    if paradigm_id == 'NARPS':
+        df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
+        stim = [tt for tt in df.trial_type.unique() if 'stim' in tt]
+        resp = [tt for tt in df.trial_type.unique() if 'stim' not in tt]
+        df1 = df.copy()
+        df1 = df1[df.trial_type.isin(stim)]
+        df2 = df1.copy()
+        df1['modulation'] = [float(x.split('+')[1].split('_')[0])
+                             for x in df1.trial_type.values]
+        df2['modulation'] = [float(x.split('-')[1])
+                             for x in df2.trial_type.values]
+        df1.trial_type = 'gain'
+        df2.trial_type = 'loss'
+        df = df[df.trial_type.isin(resp)]
+        df['modulation'] = 1
+        df = concat([df, df1, df2], axis=0, ignore_index=True)
+    if paradigm_id == 'FaceBody':
+        df.drop(df[df.trial_type == 'Baseline'].index, 0, inplace=True)
+        df.replace('Bodies_body', 'bodies_body', inplace=True)
+        df.replace('Bodies_limb', 'bodies_limb', inplace=True)
+        df.replace('Characters_number', 'characters_number', inplace=True)
+        df.replace('Characters_word', 'characters_word', inplace=True)
+        df.replace('Faces_adult', 'faces_adult', inplace=True)
+        df.replace('Faces_child', 'faces_child', inplace=True)
+        df.replace('Objects_car', 'objects_car', inplace=True)
+        df.replace('Objects_instrument', 'objects_instrument', inplace=True)
+        df.replace('Places_corridor', 'places_corridor', inplace=True)
+        df.replace('Places_house', 'places_house', inplace=True)
+    if paradigm_id == 'Scene':
+        df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'iti'].index, 0, inplace=True)
+        df.replace('dot_easy_left_correct', 'dot_easy_left', inplace=True)
+        df.replace('dot_easy_left_incorrect', 'dot_easy_left', inplace=True)
+        df.replace('dot_easy_right_correct', 'dot_easy_right', inplace=True)
+        df.replace('dot_easy_right_incorrect', 'dot_easy_right', inplace=True)
+        df.replace('dot_hard_left_correct', 'dot_hard_left', inplace=True)
+        df.replace('dot_hard_left_incorrect', 'dot_hard_left', inplace=True)
+        df.replace('dot_hard_right_correct', 'dot_hard_right', inplace=True)
+        df.replace('dot_hard_right_incorrect', 'dot_hard_right', inplace=True)
     return df
 
 
