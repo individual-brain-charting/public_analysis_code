@@ -14,6 +14,7 @@ import pandas as pd
 import shutil
 import numpy as np
 from ibc_public.utils_annotations import expand_table
+from tqdm import tqdm
 
 main_parent_dir = '/neurospin/ibc'
 alt_parent_dir = '/storage/store2/data/ibc'
@@ -49,8 +50,10 @@ all_contrasts = pd.read_csv(ALL_CONTRASTS, sep='\t')
 for i in range(len(CONTRASTS)):
     task = CONTRASTS.task[i]
     contrast = CONTRASTS.contrast[i]
-    target = all_contrasts[all_contrasts.task == task][
-        all_contrasts.contrast == contrast]
+    target = all_contrasts[
+        (all_contrasts.task == task) &
+        (all_contrasts.contrast == contrast)
+    ]
     if len(target['pretty name'].values):
         BETTER_NAMES[contrast] = target['pretty name'].values[0]
     else:
@@ -487,31 +490,47 @@ def horizontal_fingerprint(coef, roi_name, labels_bottom, labels_top,
 
 
 def copy_db(df, write_dir, filename='result_db.csv'):
-    # Create a copy of all the files to create a portable database
+    """Create a copy of all the files to create a portable database."""
+    # Create output folder if it doesn't already exist
     if not os.path.exists(write_dir):
         os.mkdir(write_dir)
+
     df1 = df.copy()
+
+    # Copy all files listed in df1 to output location
     paths = []
-    for i in df.index:
+    for i in tqdm(df.index):
         filename_, extension = os.path.splitext(df.iloc[i].path)
         extension_ = os.path.splitext(filename_)[1]
         extension = extension_ +  extension
-        fname = '%s_%s_%s_%s_%s%s' % (
+
+        # Derive filename depending on whether output is surface or volume
+        ## Volume data
+        fname = '%s_%s_%s_%s_%s_%s%s' % (
             df.iloc[i].modality, df.iloc[i].subject, df.iloc[i].session,
-            df.iloc[i].task, df.iloc[i].contrast, extension)
+            df.iloc[i].task, df.iloc[i].contrast, df.iloc[i].mesh, extension
+        )
+        ## Surface data
         if extension == '.gii':
-            # this is surface data
-            fname = '%s_%s_%s_%s_%s_%s%s' % (
+            fname = '%s_%s_%s_%s_%s_%s_%s%s' % (
             df.iloc[i].modality, df.iloc[i].subject, df.iloc[i].session,
-                df.iloc[i].task, df.iloc[i].contrast, df.iloc[i].side, extension)
-        print(fname)
+                df.iloc[i].task, df.iloc[i].contrast, df.iloc[i].side,
+                df.iloc[i].mesh, extension
+            )
+
         new_path = os.path.join(write_dir, fname)
         shutil.copy(df.iloc[i].path, new_path)
         paths.append(fname)
+
+    # Update df1 paths with new paths
     df1.path = paths
+
     # TODO: add mask !
+
+    # Copy df to output location
     if filename is not None:
         df1.to_csv(os.path.join(write_dir, filename))
+
     return df1
 
 
@@ -572,7 +591,8 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
     # fixed-effects activation images
     con_df = conditions
     contrast_name = con_df.contrast
-    for subject in subject_list:
+    missing_images = []
+    for subject in tqdm(subject_list):
         for i in range(len(con_df)):
             contrast = contrast_name[i]
             task = con_df.task[i]
@@ -615,10 +635,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
                 # Display warning when no image is found
                 if len(imgs_) == 0:
-                    warnings.warn(
-                        'Missing image for %s, %s, %s, %s'
-                        % (subject, contrast, task, side)
-                    )
+                    missing_images.append([subject, contrast, task, side])
 
                 for img in imgs_:
                     session = img.split('/')[-4]
@@ -633,6 +650,8 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
             if task == 'language_':
                 pass # stop
+
+    print(f"{len(imgs)} images found, {len(missing_images)} were missing")
 
     # create a dictionary with all the information
     db_dict = dict(
