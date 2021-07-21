@@ -108,7 +108,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return biological_motion2(design_matrix_columns)
     elif paradigm_id == 'mathlang':
         return math_language(design_matrix_columns)
-    elif paradigm_id == 'spatial_navigation':
+    elif paradigm_id == 'navigation':
         return spatial_navigation(design_matrix_columns)
     elif paradigm_id == 'EmoMem':
         return emotional_memory(design_matrix_columns)

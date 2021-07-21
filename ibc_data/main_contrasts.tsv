@@ -1,4 +1,4 @@
-﻿task	contrast
+task	contrast
 archi_standard	left-right_button_press
 archi_standard	reading-listening
 archi_standard	motor-cognitive
@@ -127,18 +127,17 @@ lyon_lec1	random_string
 lyon_lec1	word-pseudoword
 lyon_lec1	word-random_string
 lyon_lec1	pseudoword-random_string
-lyon_mveb	response
+lyon_mveb	letter_occurrence_response
 lyon_mveb	2_letters_different-same
 lyon_mveb	4_letters_different-same
 lyon_mveb	6_letters_different-same
 lyon_mveb	6_letters_different-2_letters_different
-lyon_mvis	response
+lyon_mvis	dot_displacement_response
 lyon_mvis	2_dots-2_dots_control
 lyon_mvis	4_dots-4_dots_control
 lyon_mvis	6_dots-6_dots_control
 lyon_mvis	6_dots-2_dots
 lyon_moto	instructions
-lyon_moto	fixation
 lyon_moto	finger_right-fixation
 lyon_moto	finger_left-fixation
 lyon_moto	foot_left-fixation
@@ -206,7 +205,7 @@ dot_patterns	correct_cue_incorrect_probe-correct_cue_correct_probe
 dot_patterns	incorrect_cue_incorrect_probe-incorrect_cue_correct_probe
 dot_patterns	correct_cue_incorrect_probe-incorrect_cue_correct_probe
 dot_patterns	incorrect_cue_incorrect_probe-correct_cue_incorrect_probe
-dot_patterns	incorrect_cue-correct_cue
+dot_patterns	correct_cue-incorrect_cue
 dot_patterns	incorrect_probe-correct_probe
 ward_and_aliport	ambiguous_intermediate
 ward_and_aliport	unambiguous_direct
