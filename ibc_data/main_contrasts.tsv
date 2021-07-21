@@ -174,10 +174,10 @@ attention	spatial_congruent
 stop_signal	go
 stop_signal	stop
 stop_signal	stop-go
-two_by_two	task_stay_cue_stay
-two_by_two	task_switch_cue_switch
-two_by_two	task_switch_cue_stay
-two_by_two	task_stay_cue_switch
+two_by_two	cue_task_stay_cue_stay
+two_by_two	cue_task_switch_cue_switch
+two_by_two	cue_task_switch_cue_stay
+two_by_two	cue_task_stay_cue_switch
 two_by_two	task_switch-stay
 two_by_two	cue_switch-stay
 discount	delay
