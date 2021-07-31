@@ -48,8 +48,8 @@ LABELS = {}
 BETTER_NAMES = {}
 all_contrasts = pd.read_csv(ALL_CONTRASTS, sep='\t')
 for i in range(len(all_contrasts)):
-    task = all_contarsts.task[i]
-    contrast = all_contasts.contrast[i]
+    task = all_contrasts.task[i]
+    contrast = all_contrasts.contrast[i]
     target = all_contrasts[
         (all_contrasts.task == task) &
         (all_contrasts.contrast == contrast)
