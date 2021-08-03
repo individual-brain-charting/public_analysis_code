@@ -209,14 +209,11 @@ if __name__ == '__main__':
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
     do_topup = True
-    protocol = 'camcan1'
+    # protocol = 'audio1'
+    protocol = 'camcan2'
     subject_session = sorted(get_subject_session([protocol]))
-    subject_sessions = [('sub-04', 'ses-35'),
-                        ('sub-06', 'ses-35'),
-                        ('sub-12', 'ses-36'),
-                        ('sub-15', 'ses-35')]
+    subject_session = [('sub-09', 'ses-37')] # 
 
-    # subject_session = [('sub-15', 'ses-33')]
     if do_topup:
         acq = None
         if protocol in ['rs']:

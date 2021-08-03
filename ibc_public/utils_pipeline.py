@@ -108,7 +108,7 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
     if os.path.exists(topup_results_basename):
         os.system('rm -f %s' % topup_results_basename)
     topup_cmd = (
-        "fsl5.0-topup --imain=%s --datain=%s --config=b02b0.cnf "
+        "/i2bm/local/fsl/bin/topup --imain=%s --datain=%s --config=b02b0.cnf "
         "--out=%s" % (merged_zeroth_fieldmap_file, acq_params_file,
                       topup_results_basename))
     print("\r\nExecuting '%s' ..." % topup_cmd)
