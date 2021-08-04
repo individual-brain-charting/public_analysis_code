@@ -204,8 +204,10 @@ protocols += ['hcp1', 'hcp2', 'lyon1', 'lyon2']
 # protocols += ['enumeration', 'clips1', 'clips2', 'clips3', 'raiders1',
 #              'raiders2', 'BBT1', 'BBT2', 'BBT3', 'self']
 # protocols = ['mathlang']
+protocols = ['audio1', 'audio2']
 
 subject_sessions = sorted(get_subject_session(protocols))
+subject_sessions = [ss for ss in subject_sessions if ss[0] == 'sub-08']
 Parallel(n_jobs=6)(
     delayed(project_volume)(work_dir, subject_session[0], [subject_session[1]],
                             do_bbr=True)

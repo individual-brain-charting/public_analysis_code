@@ -78,14 +78,15 @@ def post_process(df, paradigm_id):
         if domain[-1] == 's':
             domain = domain[:-1]
         #
-        linear = df[df.trial_type == domain]['score']
+        linear = df[df.trial_type == domain]['score'].values.astype('float')
         mean = linear.mean()
         linear -= mean
-        df['modulation'] = linear
-        df = df.fillna(1)
+        df1 = df[df.trial_type == domain]
+        df1['modulation'] = linear
+        df1 = df1.fillna(1)
         # add a regressor with constant values
         df2 = df[df.trial_type == domain]
-        df2.modulation = np.ones_like(linear)
+        df2['modulation'] = np.ones_like(linear)
         df2.trial_type = '%s_constant' % domain
         # add quadratic regressor
         df3 = df[df.trial_type == domain]
@@ -93,11 +94,12 @@ def post_process(df, paradigm_id):
         quadratic -= quadratic.mean()
         quadratic -= (linear * np.dot(quadratic, linear) /
                       np.dot(linear, linear))
-        df3.modulation = quadratic
+        df3['modulation'] = quadratic
         df3.trial_type = '%s_quadratic' % domain
-        df = df.replace(domain, '%s_linear' % domain)
-        df = concat([df, df2, df3], axis=0, ignore_index=True)
-
+        df1 = df1.replace(domain, '%s_linear' % domain)
+        df = concat([df1, df2, df3], axis=0, ignore_index=True)
+        df.drop('score', axis=1)
+        
     responses_we = ['response_we_east_present_space_close',
                     'response_we_west_present_space_far',
                     'response_we_center_past_space_far',

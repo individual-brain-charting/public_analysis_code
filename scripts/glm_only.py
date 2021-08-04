@@ -25,8 +25,8 @@ RETINO_REG = dict(
                            'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']] +
     [(session_id, None) for session_id in
         ['clips_trn10', 'clips_trn11', 'clips_trn12']])
-# IBC = '/neurospin/ibc'
-IBC = '/storage/store2/data/ibc/'
+IBC = '/neurospin/ibc'
+# IBC = '/storage/store2/data/ibc/'
 
 
 def generate_glm_input(jobfile, smooth=None, lowres=False):

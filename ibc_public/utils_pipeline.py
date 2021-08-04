@@ -521,7 +521,7 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
                         effect_size_maps, effect_variance_maps)
                     write(ffx_effects, os.path.join(
                         write_dir, 'effect_surf/%s_%s.gii' % (contrast, side)))
-                    write(ffx_effects, os.path.join(
+                    write(ffx_variance, os.path.join(
                         write_dir, 'variance_surf/%s_%s.gii' %
                         (contrast, side)))
                     write(ffx_stat, os.path.join(

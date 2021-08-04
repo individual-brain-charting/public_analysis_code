@@ -597,6 +597,8 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
             contrast = contrast_name[i]
             task = con_df.task[i]
             task_name = task
+            if (task_list is not False) and (task not in task_list):
+                continue
             if task == 'rsvp_language':
                 task = 'language'
                 task_name = 'rsvp_language'
@@ -636,7 +638,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 # Display warning when no image is found
                 if len(imgs_) == 0:
                     missing_images.append([subject, contrast, task, side])
-
+                    
                 for img in imgs_:
                     session = img.split('/')[-4]
                     imgs.append(img)
