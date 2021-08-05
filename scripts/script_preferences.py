@@ -97,7 +97,7 @@ def elementary_contrasts_surf(con_imgs, var_imgs):
         outputs.append(output)
     return(outputs)
 
-"""
+
 # in-volume computation
 workdir = THREE_MM
 if workdir == THREE_MM:
@@ -168,11 +168,11 @@ for (subject, session) in subject_session:
         output_file = os.path.join(stat_dir, '%s-others.png' % category)
         plot_stat_map(fixed_stat, bg_img=anat, dim=0,
                       output_file=output_file, threshold=4.0)
-"""
+
 
 # on-surface computation
 workdir = DERIVATIVES
-for (subject, session) in subject_session[-2:]:
+for (subject, session) in subject_session:
     print(subject, session)
     for mesh in ['fsaverage5', 'fsaverage7', 'individual']:
         for hemi in ['lh', 'rh']:
@@ -198,7 +198,6 @@ for (subject, session) in subject_session[-2:]:
                             for category, category_ in zip(categories, categories_)]
                 fixed_effect, fixed_variance, fixed_stat = fixed_effects_surf(
                     effects, variance)
-                stop
                 fixed_effect.to_filename(
                     os.path.join(effect_dir, 'preference_%s_%s.gii' % (contrast, hemi)))
                 fixed_variance.to_filename(

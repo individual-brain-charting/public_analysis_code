@@ -71,9 +71,9 @@ emotional_pain	physical_pain
 emotional_pain	emotional-physical_pain
 pain_movie	movie_pain
 pain_movie	movie_mental-pain
-vstm	vstm_constant
-vstm	vstm_linear
-vstm	vstm_quadratic
+VSTM	vstm_constant
+VSTM	vstm_linear
+VSTM	vstm_quadratic
 enumeration	enumeration_constant
 enumeration	enumeration_linear
 enumeration	enumeration_quadratic
@@ -243,8 +243,8 @@ stop_nogo	nogo-go
 stop_nogo	unsuccessful-successful_stop
 stop_nogo	successful+nogo-unsuccessful
 oddball	hard-easy_oddball
-vstmc	stim_load3-load1
-vstmc	resp_load3-load1
+VSTMC	stim_load3-load1
+VSTMC	resp_load3-load1
 finger_tapping	chosen-specified
 finger_tapping	specified-null
 finger_tapping	chosen-null
