@@ -760,11 +760,11 @@ def two_by_two(design_matrix_columns):
     """ Contrasts for Stanford's two-bytwo task protocol"""
     contrast_names = [
         'cue_taskstay_cuestay',
-        'cue_taskstay_cueswitch'
+        'cue_taskstay_cueswitch',
         'cue_taskswitch_cuestay',
         'cue_taskswitch_cueswitch',
         'stim_taskstay_cuestay',
-        'stim_taskstay_cueswitch'
+        'stim_taskstay_cueswitch',
         'stim_taskswitch_cuestay',
         'stim_taskswitch_cueswitch',
         'task_switch-stay',

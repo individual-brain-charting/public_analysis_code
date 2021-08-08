@@ -25,8 +25,8 @@ RETINO_REG = dict(
                            'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']] +
     [(session_id, None) for session_id in
         ['clips_trn10', 'clips_trn11', 'clips_trn12']])
-IBC = '/neurospin/ibc'
-# IBC = '/storage/store2/data/ibc/'
+# IBC = '/neurospin/ibc'
+IBC = '/storage/store2/data/ibc/'
 
 
 def generate_glm_input(jobfile, smooth=None, lowres=False):
@@ -135,7 +135,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
-    protocols = ['camcan1', 'camcan2']
+    protocols = ['stanford1']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
@@ -143,6 +143,9 @@ if __name__ == '__main__':
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
             for (subject, session) in subject_session)
+        # for (subject, session) in subject_session:
+        #     run_subject_glm(jobfile, protocol, subject, session, lowres=True,
+        #                     smooth=5)
     smooth = 5
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
