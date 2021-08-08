@@ -760,26 +760,23 @@ def two_by_two(design_matrix_columns):
     """ Contrasts for Stanford's two-bytwo task protocol"""
     contrast_names = [
         'cue_taskstay_cuestay',
-        'cue_taskstay_cueswitch',
+        'cue_taskstay_cueswitch'
         'cue_taskswitch_cuestay',
         'cue_taskswitch_cueswitch',
         'stim_taskstay_cuestay',
-        'stim_taskstay_cueswitch',
+        'stim_taskstay_cueswitch'
         'stim_taskswitch_cuestay',
         'stim_taskswitch_cueswitch',
-        'task_swtich-stay',
-        'cue_switch']
-    #  'task_stay_cue_stay', 'task_switch_cue_switch',
-    #  'task_switch_cue_stay', 'task_stay_cue_switch',
-    #  'task_switch-stay', 'cue_switch']
+        'task_switch-stay',
+        'cue_switch-stay']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = dict([(cn, con[cn]) for cn in contrast_names[:-2]])
-    contrasts['task_swtich-stay'] =\
+    contrasts['task_switch-stay'] =\
         con['cue_taskswitch_cueswitch'] + con['cue_taskswitch_cuestay']\
         - con['cue_taskstay_cueswitch'] - con['cue_taskstay_cuestay']
-    contrasts['cue_switch'] = con['cue_taskstay_cueswitch']\
+    contrasts['cue_switch-stay'] = con['cue_taskstay_cueswitch']\
         - con['cue_taskstay_cuestay']
 
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
