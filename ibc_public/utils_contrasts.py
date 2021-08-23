@@ -757,7 +757,7 @@ def towertask(design_matrix_columns):
 
 
 def two_by_two(design_matrix_columns):
-    """ Contrasts for Stanford's two-bytwo task protocol"""
+    """ Contrasts for Stanford's two-by-two task protocol"""
     contrast_names = [
         'cue_taskstay_cuestay',
         'cue_taskstay_cueswitch',
