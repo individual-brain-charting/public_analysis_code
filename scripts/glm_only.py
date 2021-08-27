@@ -25,8 +25,8 @@ RETINO_REG = dict(
                            'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']] +
     [(session_id, None) for session_id in
         ['clips_trn10', 'clips_trn11', 'clips_trn12']])
-IBC = '/neurospin/ibc'
-# IBC = '/storage/store2/data/ibc/'
+# IBC = '/neurospin/ibc'
+IBC = '/storage/store2/data/ibc/'
 
 
 def generate_glm_input(jobfile, smooth=None, lowres=False):
@@ -139,16 +139,19 @@ if __name__ == '__main__':
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        subject_session = [ss for ss in subject_session if ss[0] == 'sub-08'] ######################
+        # subject_session = [ss for ss in subject_session if ss[0] == 'sub-08']
         Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
             for (subject, session) in subject_session)
+        # for (subject, session) in subject_session:
+        #     run_subject_glm(jobfile, protocol, subject, session, lowres=True,
+        #                     smooth=5)
     smooth = 5
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        subject_session = [ss for ss in subject_session if ss[0] == 'sub-08'] ######################
+        #subject_session = [ss for ss in subject_session if ss[0] == 'sub-08']
         Parallel(n_jobs=4)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
@@ -158,7 +161,7 @@ if __name__ == '__main__':
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        subject_session = [ss for ss in subject_session if ss[0] == 'sub-08'] ######################
+        #subject_session = [ss for ss in subject_session if ss[0] == 'sub-08']
         Parallel(n_jobs=4)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
