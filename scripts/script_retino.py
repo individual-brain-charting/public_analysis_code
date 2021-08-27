@@ -20,7 +20,7 @@ from nibabel.gifti import GiftiDataArray, GiftiImage
 from ibc_public.utils_data import DERIVATIVES
 from nilearn.plotting import plot_surf_stat_map
 import cortex
-
+from nilearn.glm import fdr_threshold
 
 data_dir = DERIVATIVES
 do_surface = True
@@ -45,6 +45,7 @@ if do_surface:
         'exp_ring_pa', 'cont_ring_ap']]
 
 THRESHOLD = 4.
+alpha = .05
 
 #######################################################################################
 # stuff for volume data
@@ -97,19 +98,23 @@ for subject_session in subjects_sessions:
     # quick and dirty approach: sum z maps
     if do_surface:
         for hemi in ['lh', 'rh']:
-            z_maps = [pjoin(work_dir, acq, 'z_surf', 'effects_interest_%s.gii' % hemi)
-                      for acq in acqs]
+            z_maps = [
+                pjoin(work_dir, acq, 'z_surf', 'effects_interest_%s.gii' % hemi)
+                for acq in acqs]
 
             mean_z = np.mean([np.ravel([
-                darrays.data for darrays in load(z_map).darrays]) for z_map in z_maps], 0)
+                darrays.data for darrays in load(z_map).darrays])
+                              for z_map in z_maps], 0)
             n_maps = len(z_maps)
             fixed_effects = mean_z * np.sqrt(n_maps)
             gii = GiftiImage(
                 darrays=[GiftiDataArray().from_array(fixed_effects, 't test')])
             gii.to_filename(pjoin(write_dir, 'retinotopicity_%s.gii' % hemi))
             fixed_effects[np.isnan(fixed_effects)] = 0
-            mask = fixed_effects > THRESHOLD
-
+            bh = fdr_threshold(fixed_effects, alpha)
+            print(bh)
+            mask = fixed_effects > bh
+            
             # todo: plot on a surface
             """
             output_file = pjoin(write_dir, 'retinotopicity_%s.png' % hemi)
@@ -127,20 +132,28 @@ for subject_session in subjects_sessions:
             #
             cos_wedge_clock = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_pa', 'z_surf', 'cos_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_ap', 'z_surf', 'cos_%s.gii' % hemi))], 0)
+                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_pa', 'z_surf',
+                          'cos_%s.gii' % hemi),
+                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_ap', 'z_surf',
+                          'cos_%s.gii' % hemi))], 0)
             sin_wedge_clock = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_pa', 'z_surf', 'sin_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_ap', 'z_surf', 'sin_%s.gii' % hemi))], 0)
+                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_pa', 'z_surf',
+                          'sin_%s.gii' % hemi),
+                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_ap', 'z_surf',
+                          'sin_%s.gii' % hemi))], 0)
             cos_wedge_anti = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_pa', 'z_surf', 'cos_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_ap', 'z_surf', 'cos_%s.gii' % hemi))], 0)
+                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_pa', 'z_surf',
+                          'cos_%s.gii' % hemi),
+                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_ap', 'z_surf',
+                          'cos_%s.gii' % hemi))], 0)
             sin_wedge_anti = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_pa', 'z_surf', 'sin_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_ap', 'z_surf', 'sin_%s.gii' % hemi))], 0)
+                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_pa', 'z_surf',
+                          'sin_%s.gii' % hemi),
+                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_ap', 'z_surf',
+                          'sin_%s.gii' % hemi))], 0)
             retino_imgs = {
                 'cos_wedge_pos': cos_wedge_anti,
                 'sin_wedge_pos': sin_wedge_anti,

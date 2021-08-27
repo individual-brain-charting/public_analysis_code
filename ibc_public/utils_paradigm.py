@@ -309,13 +309,13 @@ def post_process(df, paradigm_id):
         df = df[df.trial_type.isin(['card_flip'])]
         df1 = df.copy()
         df1.replace('card_flip', 'gain', inplace=True)
-        df1['modulation'] = df1['gain_amount']
+        df1['modulation'] = df1['gain_amount'].astype(float)
         df2 = df.copy()
         df2.replace('card_flip', 'loss', inplace=True)
-        df2['modulation'] = df2['loss_amount']
+        df2['modulation'] = df2['loss_amount'].astype(float)
         df3 = df.copy()
         df3.replace('card_flip', 'num_loss_cards', inplace=True)
-        df3['modulation'] = df3['num_loss_cards']
+        df3['modulation'] = df3['num_loss_cards'].astype(float)
         df = concat([df1, df2, df3], axis=0, ignore_index=True)
         df.drop('loss_amount', 1, inplace=True)
         df.drop('num_loss_cards', 1, inplace=True)
