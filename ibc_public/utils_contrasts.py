@@ -94,7 +94,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return discount(design_matrix_columns)
     elif paradigm_id == 'attention':
         return attention(design_matrix_columns)
-    elif paradigm_id == 'ward_and_aliport':
+    elif paradigm_id == 'ward_and_allport':
         return towertask(design_matrix_columns)
     elif paradigm_id == 'two_by_two':
         return two_by_two(design_matrix_columns)
