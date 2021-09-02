@@ -246,7 +246,7 @@ def post_process(df, paradigm_id):
             'double_incongruent', 'spatialcue', 'doublecue'])]
     if paradigm_id == 'stop_signal':
         df = df[df.trial_type.isin(['go', 'stop'])]
-    if paradigm_id in ['ward-aliport', 'ward_and_aliport']:
+    if paradigm_id in ['ward-allport', 'ward_and_allport']:
         df = df[df.trial_type.isin([
             'planning_PA_with_intermediate',
             'planning_PA_without_intermediate',
