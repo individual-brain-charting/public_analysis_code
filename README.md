@@ -7,11 +7,11 @@ and
 [IBC webpage](http://project.inria.fr/IBC/)
 .
 
-The raw data are available here:
-[OpenfMRI](http://openfmri.org/dataset/ds000244/)
+Latest collection of raw data is available on
+[OpenNeuro, data accession no.002685](https://openneuro.org/datasets/ds002685/versions/1.3.1).
 
-The result sof typical analysis are give here:
-[NeuroVault](http://neurovault.org/collections/2138)
+Latest collection of unthresholded statistical maps can be found on
+[NeuroVault, id collection=6618](https://identifiers.org/neurovault.collection:6618).
 
 ## Install
 Under the main working directory of this repository in your computer, run the following command in a command prompt:
@@ -90,3 +90,4 @@ Licensed under simplified BSD.
 - Ana Luísa Pinho, 2015 - present
 - Swetha Shankar, 2019 - present
 - Juan Jesús Torre, 2018 - 2020
+- Alexis Thual, 2020 - present
