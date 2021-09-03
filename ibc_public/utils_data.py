@@ -337,7 +337,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     task = 'mathlang'
                     task_name = 'math_language'
 
-                if task_list and (task not in task_list):
+                if (task_list is not None) and (task not in task_list):
                     if verbose:
                         print('%s found as task, not in task_list' % task)
                     continue
