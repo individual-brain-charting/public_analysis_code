@@ -340,6 +340,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if (task_list is not None) and (task not in task_list):
                     if verbose:
                         print('%s found as task, not in task_list' % task)
+                    if task == 'biological_motion':
+                        stop
                     continue
                 wildcard = os.path.join(
                     derivatives, subject, '*',
