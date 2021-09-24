@@ -130,6 +130,14 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return face_body(design_matrix_columns)
     elif paradigm_id == 'Scene':
         return scenes(design_matrix_columns)
+    elif paradigm_id == 'BreathHolding':
+        return breath_holding(design_matrix_columns)
+    elif paradigm_id == 'Checkerboard':
+        return checkerboard(design_matrix_columns)
+    elif paradigm_id == 'FingerTap':
+        return fingertap(design_matrix_columns)
+    elif paradigm_id == 'ItemRecognition':
+        return item_recognition(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -178,6 +186,64 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     if con != []:
         contrast['derivatives'] = np.array(con)
     return contrast
+
+
+def breath_holding(design_matrix_columns):
+    """ Contrasts for breath holding protocol"""
+    contrast_names = ['breathe', 'hold_breath', 'hold-breathe', 'breathe-hold']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:2]])
+    contrasts['hold-breathe'] = con['hold_breath'] - con['breathe']
+    contrasts['breathe-hold'] = - contrasts['hold-breathe']
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def checkerboard(design_matrix_columns):
+    """ Contrasts for breath holding protocol"""
+    contrast_names = ['checkerboard-fixation']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {'checkerboard-fixation': con['checkerboard'] - con['fixation']}
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def fingertap(design_matrix_columns):
+    """ Contrasts for breath holding protocol"""
+    contrast_names = ['fingertap-rest']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {'fingertap-rest': con['fingertap'] - con['rest']}
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def item_recognition(design_matrix_columns):
+    """ Contrasts for breath holding protocol"""
+    contrast_names = ['encode3-encode1', 'probe3_mem-probe1_mem', 'probe3_new-probe1_new']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {
+        'encode3-encode1': con['encode3'] - con['encode1'],
+        'probe3_mem-probe1_mem': con['probe3_mem'] - con['probe1_mem'],
+        'probe3_new-probe1_new': con['probe3_new'] - con['probe1_new']
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def narps(design_matrix_columns):
