@@ -236,6 +236,14 @@ math_language	theory_of_mind-general
 math_language	visual-auditory
 spatial_navigation	experimental-intersection
 spatial_navigation	experimental-control
+spatial_navigation	intersection
+spatial_navigation	experimental
+spatial_navigation	encoding_phase
+spatial_navigation	retrieval
+spatial_navigation	pointing_experimental
+spatial_navigation	control
+spatial_navigation	navigation
+spatial_navigation	pointing_control
 emotional_memory	positive-neutral_image
 emotional_memory	negative-neutral_image
 emotion_recognition	angry-neutral

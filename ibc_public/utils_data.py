@@ -537,7 +537,9 @@ def copy_db(df, write_dir, filename='result_db.csv'):
 
 
 def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
-                 subject_list=SUBJECTS, task_list=False, mesh="fsaverage5"):
+                 subject_list=SUBJECTS, task_list=False, mesh="fsaverage5",
+                 acquisition='ffx' 
+):
     """ Create a database for surface data (gifti files)
 
     derivatives: string,
@@ -560,6 +562,9 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
           should be one of ["fsaverage5", "fsaverage7", "individual"],
           default behaviour will be that of "fsaverage5" if no value
           or incorrect value is given
+
+    acquisition: one of ['ffx', 'ap', 'pa'], defaults to 'ffx'
+          the acquisition to be picked.
 
     Returns
     -------
@@ -621,20 +626,23 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
             # set directory depending on mesh type
             # (defaults to mesh == "fsaverage5" if no value
             # or incorrect value is given)
-            dir_ = 'res_fsaverage5_%s_ffx' % task
+            dir_ = 'res_fsaverage5_%s_%s' % (task, acquisition)
             if mesh == 'fsaverage5':
-                dir_ = 'res_fsaverage5_%s_ffx' % task
+                dir_ = 'res_fsaverage5_%s_%s' % (task, acquisition)
             elif mesh == 'fsaverage7':
-                dir_ = 'res_fsaverage7_%s_ffx' % task
+                dir_ = 'res_fsaverage7_%s_%s' % (task, acquisition)
             elif mesh == 'individual':
-                dir_ = 'res_individual_%s_ffx' % task
+                dir_ = 'res_individual_%s_%s' % (task, acquisition)
 
             for side in ['lh', 'rh']:
                 wc = os.path.join(
                     derivatives, subject, '*', dir_, 'stat_surf',
                     '%s_%s.gii' % (contrast, side))
+                if acquisition in ['ap', 'pa']:
+                    wc = os.path.join(
+                        derivatives, subject, '*', dir_, 'z_surf',
+                        '%s_%s.gii' % (contrast, side))
                 imgs_ = glob.glob(wc)
-
                 imgs_.sort()
 
                 # Display warning when no image is found

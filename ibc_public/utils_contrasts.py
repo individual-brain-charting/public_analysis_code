@@ -138,6 +138,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return fingertap(design_matrix_columns)
     elif paradigm_id == 'ItemRecognition':
         return item_recognition(design_matrix_columns)
+    elif paradigm_id == 'VisualSearch':
+        return search(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -186,6 +188,23 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     if con != []:
         contrast['derivatives'] = np.array(con)
     return contrast
+
+
+def search(design_matrix_columns):
+    """ Contrasts for search protocol"""
+    contrast_names = ['memory_array',
+                      'probe_item',
+                      'response',
+                      'sample_item',
+                      'search_array']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names])
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def breath_holding(design_matrix_columns):
@@ -471,28 +490,34 @@ def math_language(design_matrix_columns):
 
 def spatial_navigation(design_matrix_columns):
     """ Contrasts for spatial navigation task"""
+    #
     contrast_names = [
-        'experimental-intersection', 'experimental-control', 'encoding_phase',
-        'intersection', 'retrieval', 'control', 'pointing_control',
-        'experimental', 'pointing_experimental', 'navigation']
+        'experimental-intersection', 'experimental-control',
+        # 'encoding_phase',
+        'intersection',
+        'retrieval',
+        'control', 'pointing_control',
+        'experimental', 'pointing_experimental',
+        'navigation',
+    ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
 
-    contrasts = {'encoding_phase': con['encoding_phase'],
+    contrasts = {#'encoding_phase': con['encoding_phase'],
                  'navigation': con['navigation'],
                  'experimental': con['experimental'],
                  'pointing_experimental': con['pointing_experimental'],
                  'control': con['control'],
                  'pointing_control': con['pointing_control'],
-                 'intersection': con['intersection'],
+                 'intersection': con['intersection_1'] + con['intersection_2'] + con['intersection_3'],
                  'experimental-control': con['experimental'] - con['control'],
                  'retrieval':
                      con['experimental'] + con['pointing_experimental'] -
                      con['control'] - con['pointing_control'],
-                 'experimental-intersection':
-                     con['experimental'] - con['intersection']
-                 }
+    }
+    contrasts['experimental-intersection'] = (
+        contrasts['experimental'] - contrasts['intersection'] / 3)
 
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
