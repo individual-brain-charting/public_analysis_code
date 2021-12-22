@@ -340,8 +340,6 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if (task_list is not None) and (task not in task_list):
                     if verbose:
                         print('%s found as task, not in task_list' % task)
-                    if task == 'biological_motion':
-                        stop
                     continue
                 wildcard = os.path.join(
                     derivatives, subject, '*',
@@ -538,7 +536,7 @@ def copy_db(df, write_dir, filename='result_db.csv'):
 
 def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                  subject_list=SUBJECTS, task_list=False, mesh="fsaverage5",
-                 acquisition='ffx' 
+                 acquisition='ffx'
 ):
     """ Create a database for surface data (gifti files)
 
@@ -649,7 +647,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if len(imgs_) == 0:
                     missing_images.append([subject, contrast, task, side])
                     print(wc)
-                    
+
                 for img in imgs_:
                     session = img.split('/')[-4]
                     imgs.append(img)

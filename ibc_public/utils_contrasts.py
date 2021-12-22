@@ -694,6 +694,8 @@ def biological_motion1(design_matrix_columns):
                       'global_upright - natural_upright',
                       'global_upright - global_inverted',
                       'natural_upright - natural_inverted',
+                      'global-natural', 'natural-global',
+                      'inverted-upright'
                       ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
@@ -705,6 +707,13 @@ def biological_motion1(design_matrix_columns):
         contrasts['global_upright'] - contrasts['global_inverted']
     contrasts['natural_upright - natural_inverted'] =\
         contrasts['natural_upright'] - contrasts['natural_inverted']
+    contrasts['global-natural'] =\
+        con['global_upright'] + con['global_inverted'] -\
+        con['natural_upright'] - con['natural_inverted']
+    contrasts['natural-global'] = - contrasts['global-natural']
+    contrasts['inverted-upright'] =\
+        - con['global_upright'] + con['global_inverted'] -\
+        con['natural_upright'] + con['natural_inverted']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -718,6 +727,8 @@ def biological_motion2(design_matrix_columns):
                       'natural_upright - modified_upright',
                       'modified_upright - modified_inverted',
                       'natural_upright - natural_inverted',
+                      'modified-natural', 'natural-modified',
+                      'inverted-upright'
                       ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
@@ -729,6 +740,13 @@ def biological_motion2(design_matrix_columns):
         contrasts['modified_upright'] - contrasts['modified_inverted']
     contrasts['natural_upright - natural_inverted'] =\
         contrasts['natural_upright'] - contrasts['natural_inverted']
+    contrasts['modified-natural'] =\
+        con['modified_upright'] + con['modified_inverted'] -\
+        con['natural_upright'] - con['natural_inverted']
+    contrasts['natural-modified'] = - contrasts['modified-natural']
+    contrasts['inverted-upright'] =\
+        - con['modified_upright'] + con['modified_inverted'] -\
+        con['natural_upright'] + con['natural_inverted']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
