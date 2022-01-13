@@ -37,12 +37,12 @@ subjects_sessions = np.unique(subjects_sessions)
 
 # list all the acquisitions to take into account
 acqs = ['res_stats_%s' % acq for acq in [
-    'wedge_anti_pa', 'wedge_anti_ap', 'wedge_clock_ap', 'wedge_clock_pa',
-    'exp_ring_pa', 'cont_ring_ap']]
+    'WedgeAnti_pa', 'WedgeAnti_ap', 'WedgeClock_ap', 'WedgeClock_pa',
+    'ExpRing_pa', 'ContRing_ap']]
 if do_surface:
     acqs = ['res_fsaverage7_%s' % acq for acq in [
-        'wedge_anti_pa', 'wedge_anti_ap', 'wedge_clock_ap', 'wedge_clock_pa',
-        'exp_ring_pa', 'cont_ring_ap']]
+        'WedgeAnti_pa', 'WedgeAnti_ap', 'WedgeClock_ap', 'WedgeClock_pa',
+        'ExpRing_pa', 'ContRing_ap']]
 
 THRESHOLD = 4.
 alpha = .05
@@ -132,27 +132,27 @@ for subject_session in subjects_sessions:
             #
             cos_wedge_clock = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_pa', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeClock_pa', 'z_surf',
                           'cos_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_ap', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeClock_ap', 'z_surf',
                           'cos_%s.gii' % hemi))], 0)
             sin_wedge_clock = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_pa', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeClock_pa', 'z_surf',
                           'sin_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_fsaverage7_wedge_clock_ap', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeClock_ap', 'z_surf',
                           'sin_%s.gii' % hemi))], 0)
             cos_wedge_anti = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_pa', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeAnti_pa', 'z_surf',
                           'cos_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_ap', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeAnti_ap', 'z_surf',
                           'cos_%s.gii' % hemi))], 0)
             sin_wedge_anti = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_pa', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeAnti_pa', 'z_surf',
                           'sin_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_fsaverage7_wedge_anti_ap', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeAnti_ap', 'z_surf',
                           'sin_%s.gii' % hemi))], 0)
             retino_imgs = {
                 'cos_wedge_pos': cos_wedge_anti,
@@ -160,13 +160,13 @@ for subject_session in subjects_sessions:
                 'sin_wedge_neg': sin_wedge_clock,
                 'cos_wedge_neg': cos_wedge_clock,
                 'cos_ring_pos': pjoin(
-                    work_dir, 'res_fsaverage7_exp_ring_pa', 'z_surf', 'cos_%s.gii' % hemi),
+                    work_dir, 'res_fsaverage7_ExpRing_pa', 'z_surf', 'cos_%s.gii' % hemi),
                 'sin_ring_pos': pjoin(
-                    work_dir, 'res_fsaverage7_exp_ring_pa', 'z_surf', 'sin_%s.gii' % hemi),
+                    work_dir, 'res_fsaverage7_ExpRing_pa', 'z_surf', 'sin_%s.gii' % hemi),
                 'sin_ring_neg': pjoin(
-                    work_dir, 'res_fsaverage7_cont_ring_ap', 'z_surf', 'sin_%s.gii' % hemi),
+                    work_dir, 'res_fsaverage7_ContRing_ap', 'z_surf', 'sin_%s.gii' % hemi),
                 'cos_ring_neg': pjoin(
-                    work_dir, 'res_fsaverage7_cont_ring_ap', 'z_surf', 'cos_%s.gii' % hemi)
+                    work_dir, 'res_fsaverage7_ContRing_ap', 'z_surf', 'cos_%s.gii' % hemi)
             }
             retino_coefs = {}
             for key in retino_imgs.keys():
@@ -248,20 +248,20 @@ for subject_session in subjects_sessions:
 
         # take all images corresonding to sine regressors
         cos_wedge_clock = mean_img((
-            pjoin(work_dir, 'res_stats_wedge_clock_pa', 'z_score_maps', 'cos.nii.gz'),
-            pjoin(work_dir, 'res_stats_wedge_clock_ap', 'z_score_maps', 'cos.nii.gz')))
+            pjoin(work_dir, 'res_stats_WedgeClock_pa', 'z_score_maps', 'cos.nii.gz'),
+            pjoin(work_dir, 'res_stats_WedgeClock_ap', 'z_score_maps', 'cos.nii.gz')))
 
         sin_wedge_clock = mean_img((
-            pjoin(work_dir, 'res_stats_wedge_clock_pa', 'z_score_maps', 'sin.nii.gz'),
-            pjoin(work_dir, 'res_stats_wedge_clock_ap', 'z_score_maps', 'sin.nii.gz')))
+            pjoin(work_dir, 'res_stats_WedgeClock_pa', 'z_score_maps', 'sin.nii.gz'),
+            pjoin(work_dir, 'res_stats_WedgeClock_ap', 'z_score_maps', 'sin.nii.gz')))
 
         cos_wedge_anti = mean_img((
-            pjoin(work_dir, 'res_stats_wedge_anti_pa', 'z_score_maps', 'cos.nii.gz'),
-            pjoin(work_dir, 'res_stats_wedge_anti_ap', 'z_score_maps', 'cos.nii.gz')))
+            pjoin(work_dir, 'res_stats_WedgeAnti_pa', 'z_score_maps', 'cos.nii.gz'),
+            pjoin(work_dir, 'res_stats_WedgeAnti_ap', 'z_score_maps', 'cos.nii.gz')))
 
         sin_wedge_anti = mean_img((
-            pjoin(work_dir, 'res_stats_wedge_anti_pa', 'z_score_maps', 'sin.nii.gz'),
-            pjoin(work_dir, 'res_stats_wedge_anti_ap', 'z_score_maps', 'sin.nii.gz')))
+            pjoin(work_dir, 'res_stats_WedgeAnti_pa', 'z_score_maps', 'sin.nii.gz'),
+            pjoin(work_dir, 'res_stats_WedgeAnti_ap', 'z_score_maps', 'sin.nii.gz')))
 
         retino_imgs = {
             'cos_wedge_pos': cos_wedge_anti,
@@ -269,13 +269,13 @@ for subject_session in subjects_sessions:
             'sin_wedge_neg': sin_wedge_clock,
             'cos_wedge_neg': cos_wedge_clock,
             'cos_ring_pos': pjoin(
-                work_dir, 'res_stats_exp_ring_pa', 'z_score_maps', 'cos.nii.gz'),
+                work_dir, 'res_stats_ExpRing_pa', 'z_score_maps', 'cos.nii.gz'),
             'sin_ring_pos': pjoin(
-                work_dir, 'res_stats_exp_ring_pa', 'z_score_maps', 'sin.nii.gz'),
+                work_dir, 'res_stats_ExpRing_pa', 'z_score_maps', 'sin.nii.gz'),
             'sin_ring_neg': pjoin(
-                work_dir, 'res_stats_cont_ring_ap', 'z_score_maps', 'sin.nii.gz'),
+                work_dir, 'res_stats_ContRing_ap', 'z_score_maps', 'sin.nii.gz'),
             'cos_ring_neg': pjoin(
-                work_dir, 'res_stats_cont_ring_ap', 'z_score_maps', 'cos.nii.gz')
+                work_dir, 'res_stats_ContRing_ap', 'z_score_maps', 'cos.nii.gz')
         }
         retino_coefs = {}
         for key in retino_imgs.keys():

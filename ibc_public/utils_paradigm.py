@@ -59,9 +59,9 @@ def post_process(df, paradigm_id):
         df = df.replace('left_hand_cue', 'cue')
         df = df.replace('tongue_cue', 'cue')
 
-    if paradigm_id == 'lyon_visu':
+    if paradigm_id == 'Visu':
         df = df.replace('visage', 'face')
-    if paradigm_id == 'lyon_audi':
+    if paradigm_id == 'Audi':
         df = df.replace('envir', 'environment')
     if paradigm_id == '':
         pass
@@ -163,7 +163,7 @@ def post_process(df, paradigm_id):
         for i in range(1, 7):
             df = df.replace('memorization_num_%d' % i, 'response_num_%d' % i)
 
-    if paradigm_id == 'self':
+    if paradigm_id == 'Self':
         df = df.replace('self_relevance_with_response', 'encode_self')
         df = df.replace('other_relevance_with_response', 'encode_other')
         df = df.replace('self_relevance_with_no_response',
@@ -182,7 +182,7 @@ def post_process(df, paradigm_id):
 
     instructions = ['Ins_bouche', 'Ins_index', 'Ins_jambe',
                     'Ins_main', 'Ins_repos', 'Ins_yeux', ]
-    if paradigm_id == 'lyon_moto':
+    if paradigm_id == 'Moto':
         for instruction in instructions:
             df = df.replace(instruction, 'instructions')
         df = df.replace('sacaade_right', 'saccade_right')
@@ -190,38 +190,38 @@ def post_process(df, paradigm_id):
         # df = df.replace('Bfix', 'fixation')
         df = df[df.trial_type != 'Bfix']
 
-    if paradigm_id == 'lyon_mcse':
+    if paradigm_id == 'MCSE':
         df = df[df.trial_type != 'Bfix']
 
-    if paradigm_id == 'lyon_lec1':
+    if paradigm_id == 'Lec1':
         df = df[df.trial_type != 'Bfix']
         df = df[df.trial_type != 'start_random_string']
         df = df[df.trial_type != 'start_pseudoword']
         df = df[df.trial_type != 'start_word']
 
-    if paradigm_id == 'lyon_lec2':
+    if paradigm_id == 'Lec2':
         df = df[df.trial_type != 'Bfix']
         df = df[df.trial_type != 'Suite']
 
-    if paradigm_id == 'lyon_visu':
+    if paradigm_id == 'Visu':
         df = df[df.trial_type != 'Bfix']
 
-    if paradigm_id == 'lyon_audi':
+    if paradigm_id == 'Audi':
         df = df[df.trial_type != 'Bfix']
         df = df[df.trial_type != 'start_sound']
         df = df[df.trial_type != 'cut']
         df = df[df.trial_type != '1']
 
-    if paradigm_id == 'lyon_mvis':
+    if paradigm_id == 'MVIS':
         df = df[df.trial_type != 'grid']
         df = df[df.trial_type != 'Bfix']
         df = df[df.trial_type != 'maintenance']
 
-    if paradigm_id == 'lyon_mveb':
+    if paradigm_id == 'MVEB':
         df = df[df.trial_type != 'cross']
         df = df[df.trial_type != 'blank2']
 
-    if paradigm_id == 'audio':
+    if paradigm_id == 'Audio':
         voices = ['voice_%d' % i for i in range(60)]
         musics = ['music_%d' % i for i in range(60)]
         animals = ['animal_%d' % i for i in range(60)]
@@ -430,7 +430,7 @@ def post_process(df, paradigm_id):
 
 def make_paradigm(onset_file, paradigm_id=None):
     """ Temporary fix """
-    # if paradigm_id in ['wedge_clock', 'wedge_anti', 'cont_ring', 'exp_ring']:
+    # if paradigm_id in ['WedgeClock', 'WedgeAnti', 'ContRing', 'ExpRing']:
     #     return None
     df = read_csv(onset_file, index_col=None, sep='\t', na_values=['NaN'],
                   keep_default_na=False)

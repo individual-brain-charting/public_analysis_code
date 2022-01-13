@@ -21,10 +21,10 @@ SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
 
 RETINO_REG = dict(
     [(session_id, 'sin_cos_regressors.csv')
-        for session_id in ['wedge_anti_pa', 'wedge_clock_ap', 'cont_ring_ap',
-                           'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']] +
+        for session_id in ['WedgeAnti_pa', 'WedgeClock_ap', 'ContRing_ap',
+                           'WedgeAnti_ap', 'ExpRing_pa', 'WedgeClock_pa']] +
     [(session_id, None) for session_id in
-        ['clips_trn10', 'clips_trn11', 'clips_trn12']])
+        ['ClipsTrn10', 'ClipsTrn11', 'ClipsTrn12']])
 IBC = '/neurospin/ibc'
 # IBC = '/storage/store2/data/ibc/'
 

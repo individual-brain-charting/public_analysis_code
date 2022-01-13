@@ -18,8 +18,8 @@ THREE_MM = '/neurospin/ibc/3mm'
 
 # misc info on preference protocol
 subject_session = get_subject_session('preference')
-categories = ['face', 'food', 'house', 'painting']
-categories_ = ['faces', 'food', 'houses', 'paintings']
+categories = ['Faces', 'Food', 'Houses', 'Paintings']
+categories_ = categories
 contrasts = ['constant', 'linear', 'quadratic']
 
 # mask image
@@ -108,7 +108,7 @@ for (subject, session) in subject_session:
     anat = os.path.join(DERIVATIVES, subject, 'ses-00', 'anat',
                         'w%s_ses-00_T1w.nii.gz' % subject)
     write_dir = os.path.join(workdir, subject, session,
-                             'res_stats_preference_ffx')
+                             'res_stats_Preference_ffx')
     effect_dir = os.path.join(write_dir, 'effect_size_maps')
     variance_dir = os.path.join(write_dir, 'effect_variance_maps')
     stat_dir = os.path.join(write_dir, 'stat_maps')
@@ -119,25 +119,25 @@ for (subject, session) in subject_session:
     for contrast in contrasts:
         effects = [os.path.join(
             workdir, subject, session,
-            'res_stats_preference_%s_ffx' % category_, 'effect_size_maps',
+            'res_stats_Preference%s_ffx' % category_, 'effect_size_maps',
             '%s_%s.nii.gz' % (category, contrast))
                     for category, category_ in zip(categories, categories_)]
         variance = [os.path.join(
             workdir, subject, session,
-            'res_stats_preference_%s_ffx' % category_, 'effect_variance_maps',
+            'res_stats_Preference%s_ffx' % category_, 'effect_variance_maps',
             '%s_%s.nii.gz' % (category, contrast))
                     for category, category_ in zip(categories, categories_)]
         fixed_effect, fixed_variance, fixed_stat = fixed_effects_img(
             effects, variance, mask_img)
 
         fixed_effect.to_filename(
-            os.path.join(effect_dir, 'preference_%s.nii.gz' % contrast))
+            os.path.join(effect_dir, 'Preference%s.nii.gz' % contrast))
         fixed_variance.to_filename(
-            os.path.join(variance_dir, 'preference_%s.nii.gz' % contrast))
+            os.path.join(variance_dir, 'Preference%s.nii.gz' % contrast))
         fixed_stat.to_filename(
-            os.path.join(stat_dir, 'preference_%s.nii.gz' % contrast))
+            os.path.join(stat_dir, 'Preference%s.nii.gz' % contrast))
 
-        output_file = os.path.join(stat_dir, 'preference_%s.png' % contrast)
+        output_file = os.path.join(stat_dir, 'Preference%s.png' % contrast)
         plot_stat_map(fixed_stat, bg_img=anat, dim=0,
                       output_file=output_file, threshold=4.0)
 
@@ -145,12 +145,12 @@ for (subject, session) in subject_session:
     contrast = 'constant'
     effects = [os.path.join(
         workdir, subject, session,
-        'res_stats_preference_%s_ffx' % category_, 'effect_size_maps',
+        'res_stats_Preference%s_ffx' % category_, 'effect_size_maps',
         '%s_%s.nii.gz' % (category, contrast))
                 for category, category_ in zip(categories, categories_)]
     variance = [os.path.join(
         workdir, subject, session,
-        'res_stats_preference_%s_ffx' % category_, 'effect_variance_maps',
+        'res_stats_Preference%s_ffx' % category_, 'effect_variance_maps',
         '%s_%s.nii.gz' % (category, contrast))
                 for category, category_ in zip(categories, categories_)]
     outputs = elementary_contrasts(
@@ -177,7 +177,7 @@ for (subject, session) in subject_session:
     for mesh in ['fsaverage5', 'fsaverage7', 'individual']:
         for hemi in ['lh', 'rh']:
             write_dir = os.path.join(workdir, subject, session,
-                                     'res_%s_preference_ffx' % mesh)
+                                     'res_%s_Preference_ffx' % mesh)
             effect_dir = os.path.join(write_dir, 'effect_surf')
             variance_dir = os.path.join(write_dir, 'variance_surf')
             stat_dir = os.path.join(write_dir, 'stat_surf')
@@ -188,33 +188,33 @@ for (subject, session) in subject_session:
             for contrast in contrasts:
                 effects = [os.path.join(
                     workdir, subject, session,
-                    'res_%s_preference_%s_ffx' % (mesh, category_), 'effect_surf',
+                    'res_%s_Preference%s_ffx' % (mesh, category_), 'effect_surf',
                     '%s_%s_%s.gii' % (category, contrast, hemi))
                             for category, category_ in zip(categories, categories_)]
                 variance = [os.path.join(
                     workdir, subject, session,
-                    'res_%s_preference_%s_ffx' % (mesh, category_), 'variance_surf',
+                    'res_%s_Preference%s_ffx' % (mesh, category_), 'variance_surf',
                     '%s_%s_%s.gii' % (category, contrast, hemi))
                             for category, category_ in zip(categories, categories_)]
                 fixed_effect, fixed_variance, fixed_stat = fixed_effects_surf(
                     effects, variance)
                 fixed_effect.to_filename(
-                    os.path.join(effect_dir, 'preference_%s_%s.gii' % (contrast, hemi)))
+                    os.path.join(effect_dir, 'Preference%s_%s.gii' % (contrast, hemi)))
                 fixed_variance.to_filename(
-                    os.path.join(variance_dir, 'preference_%s_%s.gii' % (contrast, hemi)))
+                    os.path.join(variance_dir, 'Preference%s_%s.gii' % (contrast, hemi)))
                 fixed_stat.to_filename(
-                    os.path.join(stat_dir, 'preference_%s_%s.gii' % (contrast, hemi)))
+                    os.path.join(stat_dir, 'Preference%s_%s.gii' % (contrast, hemi)))
 
             # Compare categories
             contrast = 'constant'
             effects = [os.path.join(
                 workdir, subject, session,
-                'res_%s_preference_%s_ffx' % (mesh, category_), 'effect_surf',
+                'res_%s_Preference%s_ffx' % (mesh, category_), 'effect_surf',
                 '%s_%s_%s.gii' % (category, contrast, hemi))
                         for category, category_ in zip(categories, categories_)]
             variance = [os.path.join(
                 workdir, subject, session,
-                'res_%s_preference_%s_ffx' % (mesh, category_), 'variance_surf',
+                'res_%s_Preference%s_ffx' % (mesh, category_), 'variance_surf',
                 '%s_%s_%s.gii' % (category, contrast, hemi))
                         for category, category_ in zip(categories, categories_)]
             outputs = elementary_contrasts_surf(effects, variance)

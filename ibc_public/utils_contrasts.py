@@ -8,38 +8,38 @@ import numpy as np
 
 def make_contrasts(paradigm_id, design_matrix_columns=None):
     """ return the contrasts matching a string"""
-    if paradigm_id == 'archi_standard':
+    if paradigm_id == 'ArchiStandard':
         return archi_standard(design_matrix_columns)
-    elif paradigm_id == 'archi_social':
+    elif paradigm_id == 'ArchiSocial':
         return archi_social(design_matrix_columns)
-    elif paradigm_id == 'archi_spatial':
+    elif paradigm_id == 'ArchiSpatial':
         return archi_spatial(design_matrix_columns)
-    elif paradigm_id == 'archi_emotional':
+    elif paradigm_id == 'ArchiEmotional':
         return archi_emotional(design_matrix_columns)
-    elif paradigm_id == 'hcp_emotion':
+    elif paradigm_id == 'HcpEmotion':
         return hcp_emotion(design_matrix_columns)
-    elif paradigm_id == 'hcp_gambling':
+    elif paradigm_id == 'HcpGambling':
         return hcp_gambling(design_matrix_columns)
-    elif paradigm_id == 'hcp_language':
+    elif paradigm_id == 'HcpLanguage':
         return hcp_language(design_matrix_columns)
-    elif paradigm_id == 'hcp_motor':
+    elif paradigm_id == 'HcpMotor':
         return hcp_motor(design_matrix_columns)
-    elif paradigm_id == 'hcp_wm':
+    elif paradigm_id == 'HcpWm':
         return hcp_wm(design_matrix_columns)
-    elif paradigm_id == 'hcp_relational':
+    elif paradigm_id == 'HcpRelational':
         return hcp_relational(design_matrix_columns)
-    elif paradigm_id == 'hcp_social':
+    elif paradigm_id == 'HcpSocial':
         return hcp_social(design_matrix_columns)
-    elif paradigm_id == 'language':
+    elif paradigm_id == 'RSVPLanguage':
         return rsvp_language(design_matrix_columns)
     elif paradigm_id == 'colour':
         return colour(design_matrix_columns)
-    elif paradigm_id in ['cont_ring', 'exp_ring', 'wedge_clock', ###
-                         'wedge_anti', 'wedge', 'ring']:###
+    elif paradigm_id in ['ContRing', 'ExpRing', 'WedgeClock', ###
+                         'WedgeAnti', 'wedge', 'ring']:###
         return retino(design_matrix_columns)###
-    elif paradigm_id in ['wedge', 'wedge_anti', 'wedge_clock']:
+    elif paradigm_id in ['wedge', 'WedgeAnti', 'WedgeClock']:
         return wedge(design_matrix_columns)
-    elif paradigm_id in ['ring', 'cont_ring', 'exp_ring']:
+    elif paradigm_id in ['ring', 'ContRing', 'ExpRing']:
         return ring(design_matrix_columns)
     elif paradigm_id[:10] == 'preference':
         domain = paradigm_id[11:]
@@ -50,39 +50,39 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return mtt_we_relative(design_matrix_columns)
     elif paradigm_id == 'MTTNS':
         return mtt_sn_relative(design_matrix_columns)
-    elif paradigm_id == 'emotional_pain':
+    elif paradigm_id == 'EmotionalPain':
         return emotional_pain(design_matrix_columns)
-    elif paradigm_id == 'pain_movie':
+    elif paradigm_id == 'PainMovie':
         return pain_movie(design_matrix_columns)
-    elif paradigm_id == 'theory_of_mind':
+    elif paradigm_id == 'TheoryOfMind':
         return theory_of_mind(design_matrix_columns)
     elif paradigm_id == 'VSTM':
         return vstm(design_matrix_columns)
-    elif paradigm_id == 'enumeration':
+    elif paradigm_id == 'Enumeration':
         return enumeration(design_matrix_columns)
-    elif paradigm_id == 'clips_trn':
+    elif paradigm_id == 'ClipsTrn':
         return dict([])
-    elif paradigm_id == 'self':
+    elif paradigm_id == 'Self':
         return self_localizer(design_matrix_columns)
-    elif paradigm_id == 'lyon_moto':
+    elif paradigm_id == 'Moto':
         return lyon_moto(design_matrix_columns)
-    elif paradigm_id == 'lyon_mcse':
+    elif paradigm_id == 'MCSE':
         return lyon_mcse(design_matrix_columns)
-    elif paradigm_id == 'lyon_mveb':
+    elif paradigm_id == 'MVEB':
         return lyon_mveb(design_matrix_columns)
-    elif paradigm_id == 'lyon_mvis':
+    elif paradigm_id == 'MVIS':
         return lyon_mvis(design_matrix_columns)
-    elif paradigm_id == 'lyon_lec1':
+    elif paradigm_id == 'Lec1':
         return lyon_lec1(design_matrix_columns)
-    elif paradigm_id == 'lyon_lec2':
+    elif paradigm_id == 'Lec2':
         return lyon_lec2(design_matrix_columns)
-    elif paradigm_id == 'lyon_audi':
+    elif paradigm_id == 'Audi':
         return lyon_audi(design_matrix_columns)
-    elif paradigm_id == 'lyon_visu':
+    elif paradigm_id == 'Visu':
         return lyon_visu(design_matrix_columns)
-    elif paradigm_id == 'audio':
+    elif paradigm_id == 'Audio':
         return audio(design_matrix_columns)
-    elif paradigm_id == 'bang':
+    elif paradigm_id == 'Bang':
         return bang(design_matrix_columns)
     elif paradigm_id == 'selective_stop_signal':
         return selective_stop_signal(design_matrix_columns)

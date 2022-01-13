@@ -14,8 +14,8 @@ from pipeline import (clean_subject, clean_anatomical_images,
 
 
 SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
-retino_sessions = ['wedge_anti_pa', 'wedge_clock_ap', 'cont_ring_ap',
-                   'wedge_anti_ap', 'exp_ring_pa', 'wedge_clock_pa']
+retino_sessions = ['WedgeAnti_pa', 'WedgeClock_ap', 'ContRing_ap',
+                   'WedgeAnti_ap', 'ExpRing_pa', 'WedgeClock_pa']
 RETINO_REG = dict([(session_id, 'sin_cos_regressors.csv')
                    for session_id in retino_sessions])
 IBC = 'neurospin/ibc'
@@ -105,8 +105,7 @@ if __name__ == '__main__':
     """
     protocols += ['stanford2', 'stanford3']
     protocols += ['screening', 'rsvp-language', 'hcp1', 'hcp2', 'archi']
-    protocols += ['preference_house', 'preference_face', 'preference_food',
-                 'preference_paintings', 'mtt1', 'mtt2', 'tom', 'self',
+    protocols += ['preference', 'mtt1', 'mtt2', 'tom', 'self',
                  'retino']
     protocols += ['mathlang', 'enumeration', 'lyon1', 'lyon2']
     protocols = ['stanford1', 'stanford2, 'stanford3']
