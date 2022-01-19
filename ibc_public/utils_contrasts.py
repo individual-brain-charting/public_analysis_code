@@ -84,29 +84,29 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return audio(design_matrix_columns)
     elif paradigm_id == 'Bang':
         return bang(design_matrix_columns)
-    elif paradigm_id == 'selective_stop_signal':
+    elif paradigm_id == 'SelectiveStopSignal':
         return selective_stop_signal(design_matrix_columns)
-    elif paradigm_id == 'stop_signal':
+    elif paradigm_id == 'StopSignal':
         return stop_signal(design_matrix_columns)
-    elif paradigm_id == 'stroop':
+    elif paradigm_id == 'Stroop':
         return stroop(design_matrix_columns)
-    elif paradigm_id == 'discount':
+    elif paradigm_id == 'Discount':
         return discount(design_matrix_columns)
-    elif paradigm_id == 'attention':
+    elif paradigm_id == 'Attention':
         return attention(design_matrix_columns)
-    elif paradigm_id == 'ward_and_allport':
+    elif paradigm_id == 'WardAndAllport':
         return towertask(design_matrix_columns)
-    elif paradigm_id == 'two_by_two':
+    elif paradigm_id == 'TwoByTwo':
         return two_by_two(design_matrix_columns)
-    elif paradigm_id == 'columbia_cards':
+    elif paradigm_id == 'ColumbiaCards':
         return columbia_cards(design_matrix_columns)
-    elif paradigm_id == 'dot_patterns':
+    elif paradigm_id == 'DotPatterns':
         return dot_patterns(design_matrix_columns)
     elif paradigm_id == 'biological_motion1':
         return biological_motion1(design_matrix_columns)
     elif paradigm_id == 'biological_motion2':
         return biological_motion2(design_matrix_columns)
-    elif paradigm_id == 'mathlang':
+    elif paradigm_id == 'MathLanguage':
         return math_language(design_matrix_columns)
     elif paradigm_id == 'navigation':
         return spatial_navigation(design_matrix_columns)

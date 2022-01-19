@@ -240,11 +240,11 @@ def post_process(df, paradigm_id):
             df = df.replace(nature, 'nature')
         for tool in tools:
             df = df.replace(tool, 'tool')
-    if paradigm_id == 'attention':
+    if paradigm_id == 'Attention':
         df = df[df.trial_type.isin([
             'spatial_incongruent', 'double_congruent', 'spatial_congruent',
             'double_incongruent', 'spatialcue', 'doublecue'])]
-    if paradigm_id == 'stop_signal':
+    if paradigm_id == 'StopSignal':
         df = df[df.trial_type.isin(['go', 'stop'])]
     if paradigm_id in ['ward-allport', 'ward_and_allport']:
         df = df[df.trial_type.isin([
@@ -274,7 +274,7 @@ def post_process(df, paradigm_id):
         df.replace('move_UA_without_intermediate', 'move_unambiguous_direct',
                    inplace=True)
 
-    if paradigm_id == 'two_by_two':
+    if paradigm_id == 'TwoByTwo':
         df = df[df.trial_type.isin([
             'cue_taskstay_cuestay',
             'cue_taskstay_cueswitch',
@@ -284,7 +284,7 @@ def post_process(df, paradigm_id):
             'stim_taskstay_cueswitch',
             'stim_taskswitch_cuestay',
             'stim_taskswitch_cueswitch'])]
-    if paradigm_id == 'discount':
+    if paradigm_id == 'Discount':
         df = df[df.trial_type.isin(['stim'])]
         df1 = df.copy()
         df1['modulation'] = df1['large_amount'].astype(float)
@@ -303,9 +303,9 @@ def post_process(df, paradigm_id):
                                     'stop_critical'])]
         df = df.replace('ignore_noncritical', 'ignore')
         df = df.replace('stop_critical', 'stop')
-    if paradigm_id == 'stroop':
+    if paradigm_id == 'Stroop':
         df = df[df.trial_type.isin(['congruent', 'incongruent'])]
-    if paradigm_id == 'columbia_cards':
+    if paradigm_id == 'ColumbiaCards':
         df = df[df.trial_type.isin(['card_flip'])]
         df1 = df.copy()
         df1.replace('card_flip', 'gain', inplace=True)
@@ -320,7 +320,7 @@ def post_process(df, paradigm_id):
         df.drop('loss_amount', 1, inplace=True)
         df.drop('num_loss_cards', 1, inplace=True)
         df.drop('gain_amount', 1, inplace=True)
-    if paradigm_id == 'dot_patterns':
+    if paradigm_id == 'DotPatterns':
         df.replace('cue_AX', 'cue', inplace=True)
         df.replace('cue_BX', 'cue', inplace=True)
         df.replace('cue_AY', 'cue', inplace=True)
