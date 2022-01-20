@@ -108,7 +108,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return biological_motion2(design_matrix_columns)
     elif paradigm_id == 'MathLanguage':
         return math_language(design_matrix_columns)
-    elif paradigm_id == 'navigation':
+    elif paradigm_id == 'SpatialNavigation':
         return spatial_navigation(design_matrix_columns)
     elif paradigm_id == 'EmoMem':
         return emotional_memory(design_matrix_columns)
@@ -639,7 +639,7 @@ def stop_nogo(design_matrix_columns):
 
 
 def finger_tapping(design_matrix_columns):
-    """ Contrasts for oddball protocol"""
+    """ Contrasts for finger tapping protocol"""
     contrast_names = ['specified', 'chosen', 'null',
                       'chosen-specified', 'specified-null', 'chosen-null']
     if design_matrix_columns is None:

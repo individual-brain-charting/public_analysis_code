@@ -349,7 +349,7 @@ def post_process(df, paradigm_id):
             'general_visual', 'general_auditory',
             'context_visual', 'context_auditory']
         df = df[df.trial_type.isin(trial_types)]
-    if paradigm_id == 'spatial_navigation':
+    if paradigm_id == 'SpatialNavigation':
         for intersection_ in ['intersection_%d' % i for i in range(4)]:
             df.replace(intersection_, 'intersection', inplace=True)
         trial_types = ['encoding_phase', 'navigation', 'experimental',
