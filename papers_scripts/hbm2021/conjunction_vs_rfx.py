@@ -103,11 +103,11 @@ if not os.path.exists(write_dir):
 
 # Access to the data
 subject_list = SUBJECTS
-task_list = ['archi_standard', 'archi_spatial', 'archi_social',
-             'archi_emotional', 'hcp_language', 'hcp_social', 'hcp_gambling',
-             'hcp_motor', 'hcp_emotion', 'hcp_relational', 'hcp_wm',
-             'rsvp_language']
-
+task_list = ['ArchiEmotional', 'ArchiSocial', 'ArchiSpatial',
+             'ArchiStandard', 'HcpEmotion', 'HcpGambling',
+             'HcpLanguage', 'HcpMotor', 'HcpRelational',
+             'HcpSocial', 'HcpWm',
+             'RSVPLanguage']
 
 # Mask of the grey matter across subjects
 _package_directory = os.path.dirname(

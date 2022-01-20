@@ -57,12 +57,11 @@ participants = [1, 4, 5, 6, 7, 9, 11, 12, 13, 14, 15]
 # suffix = 'first+second_rel'
 
 # ####### Second Release ########
+task_list = ['preference', 'PreferenceFaces', 'PreferenceHouses',
+             'PreferenceFood', 'PreferencePaintings',
+             'MTTNS', 'MTTWE', 'TheoryOfMind',
+             'PainMovie', 'EmotionalPain', 'Enumeration', 'VSTM', 'Self'] 
 
-task_list = ['mtt_we', 'mtt_sn',
-             'preference',
-             'theory_of_mind', 'emotional_pain', 'pain_movie',
-             'vstm', 'enumeration',
-             'self', 'bang']
 suffix = 'second_rel'
 
 # ###############################
@@ -289,17 +288,17 @@ def condition_similarity(db, masker):
         all_tags.extend(df_all_contrasts[df_all_contrasts.task == \
                                          tk].tags.tolist())
     tgs_clean, tgs_flatten, unique_tgs = tags(all_tags)
-    if 'preference' in task_list:
+    if 'Preference' in task_list:
         """
         Accounts for contrasts and corresponding components of
         the joint-effects of all tasks together.
         """
         extra_contrasts = df_all_contrasts[df_all_contrasts.task == \
-                                           'preference'].contrast.tolist()
+                                           'Preference'].contrast.tolist()
         length_all_contrasts = len(contrasts_list) + len(extra_contrasts)
         print('The total number of contrasts is %s' % length_all_contrasts)
         extra_tgs = df_all_contrasts[df_all_contrasts.task == \
-                                     'preference'].tags.tolist()
+                                     'Preference'].tags.tolist()
         _, extra_tgs_flatten, _ = tags(extra_tgs)
         extra_all_tgs = tgs_flatten + extra_tgs_flatten
         extra_all_tgs_unique = np.unique(extra_all_tgs)

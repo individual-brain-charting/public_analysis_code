@@ -85,9 +85,9 @@ for subject_session in subjects_sessions:
     ses_dir = pjoin(DERIVATIVES, subject, session)
     if not os.path.exists(ses_dir):
         os.mkdir(ses_dir)
-    task_dir = pjoin(ses_dir, 'res_stats_retinotopy_ffx')
+    task_dir = pjoin(ses_dir, 'res_stats_Retinotopy_ffx')
     if do_surface:
-        task_dir = pjoin(ses_dir, 'res_fsaverage7_retinotopy_ffx')
+        task_dir = pjoin(ses_dir, 'res_fsaverage7_Retinotopy_ffx')
     if not os.path.exists(task_dir):
         os.mkdir(task_dir)
     write_dir = pjoin(task_dir, 'stat_maps')

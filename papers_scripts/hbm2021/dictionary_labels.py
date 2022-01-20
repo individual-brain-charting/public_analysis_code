@@ -63,10 +63,11 @@ contrasts = np.load(os.path.join('dictionary.npz'), allow_pickle=True)['contrast
 contrasts = [x if x != 'jabberworcky-pseudo' else 'jabberwocky-pseudo'
              for x in contrasts]
 
-task_list = ['archi_standard', 'archi_spatial', 'archi_social',
-             'archi_emotional', 'hcp_language', 'hcp_social', 'hcp_gambling',
-             'hcp_motor', 'hcp_emotion', 'hcp_relational', 'hcp_wm',
-             'rsvp_language']
+task_list = ['ArchiEmotional', 'ArchiSocial', 'ArchiSpatial',
+             'ArchiStandard', 'HcpEmotion', 'HcpGambling',
+             'HcpLanguage', 'HcpMotor', 'HcpRelational',
+             'HcpSocial', 'HcpWm',
+             'RSVPLanguage']
 
 # BIDS conversion of task names
 # Load dictionary file

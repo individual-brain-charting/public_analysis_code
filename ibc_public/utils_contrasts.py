@@ -35,13 +35,13 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
     elif paradigm_id == 'colour':
         return colour(design_matrix_columns)
     elif paradigm_id in ['ContRing', 'ExpRing', 'WedgeClock', ###
-                         'WedgeAnti', 'wedge', 'ring']:###
+                         'WedgeAnti', 'Wedge', 'Ring']:###
         return retino(design_matrix_columns)###
-    elif paradigm_id in ['wedge', 'WedgeAnti', 'WedgeClock']:
+    elif paradigm_id in ['Wedge', 'WedgeAnti', 'WedgeClock']:
         return wedge(design_matrix_columns)
-    elif paradigm_id in ['ring', 'ContRing', 'ExpRing']:
+    elif paradigm_id in ['Ring', 'ContRing', 'ExpRing']:
         return ring(design_matrix_columns)
-    elif paradigm_id[:10] == 'preference':
+    elif paradigm_id[:10] == 'Preference':
         domain = paradigm_id[11:]
         if domain[-1] == 's':
             domain = domain[: -1]

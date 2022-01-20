@@ -48,10 +48,11 @@ subjects = rs_fmri_db.subject.unique()
 n_subjects = len(subjects)
 
 # Access to the data
-task_list = ['archi_standard', 'archi_spatial', 'archi_social',
-             'archi_emotional', 'hcp_emotion', 'hcp_gambling', 'hcp_motor',
-             'hcp_language', 'hcp_relational', 'hcp_social', 'hcp_wm',
-             'rsvp_language', 'language']
+task_list = ['ArchiEmotional', 'ArchiSocial', 'ArchiSpatial',
+             'ArchiStandard', 'HcpEmotion', 'HcpGambling',
+             'HcpLanguage', 'HcpMotor', 'HcpRelational',
+             'HcpSocial', 'HcpWm',
+             'RSVPLanguage']
 db = data_parser(derivatives=DERIVATIVES, subject_list=subjects,
                  conditions=CONTRASTS, task_list=task_list)
 df = db[db.task.isin(task_list)]

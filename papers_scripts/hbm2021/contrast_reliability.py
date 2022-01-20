@@ -42,11 +42,11 @@ mem = Memory(cachedir=write_dir, verbose=0)
 
 # Access to the data
 subject_list = SUBJECTS
-
-task_list = ['archi_standard', 'archi_spatial', 'archi_social',
-             'archi_emotional', 'hcp_language', 'hcp_social', 'hcp_gambling',
-             'hcp_motor', 'hcp_emotion', 'hcp_relational', 'hcp_wm',
-             'rsvp_language']
+task_list = ['ArchiEmotional', 'ArchiSocial', 'ArchiSpatial',
+             'ArchiStandard', 'HcpEmotion', 'HcpGambling',
+             'HcpLanguage', 'HcpMotor', 'HcpRelational',
+             'HcpSocial', 'HcpWm',
+             'RSVPLanguage']
 
 # BIDS conversion of task names
 # Load dictionary file
@@ -96,33 +96,33 @@ for j, task in enumerate(task_list):
     correlations = []
     # Reorder contrasts and
     # remove those that are not part of the main text
-    if task == 'archi_standard':
+    if task == 'ArchiStandard':
         order = [2, 1, 3, 0, 5, 4]
         contrasts = [contrasts[c] for c in order]
         contrasts = contrasts[1:]
-    elif task == 'archi_spatial':
+    elif task == 'ArchiSpatial':
         order = [4, 3, 0, 1, 2]
         contrasts = [contrasts[c] for c in order]
         contrasts = contrasts[2:]
-    elif task == 'archi_social':
+    elif task == 'ArchiSocial':
         order = [5, 4, 3, 2, 0, 6, 1]
         contrasts = [contrasts[c] for c in order]
         contrasts = contrasts[4:]
-    elif task == 'archi_emotional':
+    elif task == 'ArchiEmotional':
         order = [2, 0, 1, 3]
         contrasts = [contrasts[c] for c in order]
         contrasts = contrasts[2:]
-    elif task == 'hcp_emotion':
+    elif task == 'HcpEmotion':
         contrasts = contrasts[1:]
-    elif task in ['hcp_gambling', 'hcp_language',
-                  'hcp_relational', 'hcp_social']:
+    elif task in ['HcpGambling', 'HcpLanguage',
+                  'HcpRelational', 'HcpSocial']:
         order = [1, 0]
         contrasts = [contrasts[c] for c in order]
         contrasts = contrasts[1:]
-    elif task in ['hcp_motor', 'hcp_wm']:
+    elif task in ['HcpMotor', 'HcpWm']:
         order = [4, 3, 2, 1, 0]
         contrasts = [contrasts[c] for c in order]
-    elif task == 'rsvp_language':
+    elif task == 'RSVPLanguage':
         order = [7, 4, 0, 6, 3, 5, 1, 2]
         contrasts = [contrasts[c] for c in order]
         contrasts = contrasts[3:]

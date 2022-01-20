@@ -190,11 +190,11 @@ rois_subset = [rois_list[x] for x in rois_subset_idx]
 print(rois_subset)
 
 # Access to the ffx z-maps of all participants
-task_list = ['archi_standard', 'archi_spatial', 'archi_social',
-             'archi_emotional',
-             'hcp_emotion', 'hcp_gambling', 'hcp_motor', 'hcp_language',
-             'hcp_relational', 'hcp_social', 'hcp_wm',
-             'rsvp_language']
+task_list = ['ArchiEmotional', 'ArchiSocial', 'ArchiSpatial',
+             'ArchiStandard', 'HcpEmotion', 'HcpGambling',
+             'HcpLanguage', 'HcpMotor', 'HcpRelational',
+             'HcpSocial', 'HcpWm',
+             'RSVPLanguage']
 
 # BIDS conversion of task names
 # Load dictionary file

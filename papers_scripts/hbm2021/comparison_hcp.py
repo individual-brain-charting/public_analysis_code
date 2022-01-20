@@ -136,10 +136,11 @@ if not os.path.exists(write_dir):
 # Access to the data
 subject_list = SUBJECTS
 
-task_list = ['hcp_language', 'hcp_social', 'hcp_gambling',
-             'hcp_motor', 'hcp_emotion', 'hcp_relational', 'hcp_wm',
-             'archi_standard', 'archi_spatial', 'archi_social',
-             'archi_emotional']
+task_list = ['ArchiEmotional', 'ArchiSocial', 'ArchiSpatial',
+             'ArchiStandard', 'HcpEmotion', 'HcpGambling',
+             'HcpLanguage', 'HcpMotor', 'HcpRelational',
+             'HcpSocial', 'HcpWm',
+             'RSVPLanguage']
 df = data_parser(derivatives=SMOOTH_DERIVATIVES, subject_list=SUBJECTS,
                  conditions=CONTRASTS, task_list=task_list)
 
@@ -157,25 +158,25 @@ names = []
 for j, task in enumerate(task_list):
     task_df = df[df.task == task][df.acquisition == 'ffx']
     contrasts = sorted(task_df.contrast.unique())
-    if task == 'archi_standard':
+    if task == 'ArchiStandard':
         contrasts = ['horizontal-vertical', 'computation-sentences',
                      'reading-listening', 'reading-checkerboard',
                      'left-right_button_press']
-    elif task == 'archi_spatial':
+    elif task == 'ArchiSpatial':
         contrasts = ['saccades', 'hand-side', 'grasp-orientation']
-    elif task == 'archi_social':
+    elif task == 'ArchiSocial':
         contrasts = ['triangle_mental-random',
                      'false_belief-mechanistic_video',
                      'false_belief-mechanistic_audio']
-    elif task == 'archi_emotional':
+    elif task == 'ArchiEmotional':
         contrasts = ['face_trusty-gender', 'expression_intention-gender']
     elif task in ['hcp_emotion', 'hcp_gambling', 'hcp_language',
                   'hcp_relational', 'hcp_social', 'hcp_motor', 'hcp_wm']:
         contrasts = [c for c in contrasts if c in df_hcp['IBC name'].unique()]
     
     image_dir = cache
-    if task in ['archi_standard', 'archi_spatial', 'archi_social',
-             'archi_emotional']:
+    if task in ['ArchiStandard', 'ArchiSpatial', 'ArchiSocial',
+             'ArchiEmotional']:
         image_dir = os.path.join(cache, 'archi')
     for contrast in contrasts:
         hcp_img = os.path.join(image_dir, 'mean_z_%s.nii.gz' % contrast)

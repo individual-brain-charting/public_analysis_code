@@ -21,10 +21,12 @@ import matplotlib.pyplot as plt
                              
 cache = '/neurospin/tmp/bthirion'
 mem = Memory(cachedir=cache, verbose=0)
-task_list = ['archi_standard', 'archi_spatial', 'archi_social',
-             'archi_emotional', 'hcp_language', 'hcp_social', 'hcp_gambling',
-             'hcp_motor', 'hcp_emotion', 'hcp_relational', 'hcp_wm',
-             'rsvp_language']
+task_list = ['ArchiEmotional', 'ArchiSocial', 'ArchiSpatial',
+             'ArchiStandard', 'HcpEmotion', 'HcpGambling',
+             'HcpLanguage', 'HcpMotor', 'HcpRelational',
+             'HcpSocial', 'HcpWm',
+             'RSVPLanguage']
+
 
 def break_string(input_string, length=40):
     """Insert '\n' in the input string after length characters"""
@@ -147,11 +149,11 @@ task_contrast = [('rsvp_language', 'sentence-jabberwocky'),
 plot_contrasts(db, task_contrast, masker, write_dir, cut=50, display_mode='x',
                name='standard')
 """
-task_contrast = [('archi_standard', 'left-right_button_press'),
-                 ('archi_standard', 'reading-listening'),
-                 ('archi_social', 'false_belief-mechanistic_audio'),
-                 ('archi_standard', 'computation-sentences'),
-                 ('archi_standard', 'horizontal-vertical')]
+task_contrast = [('ArchiStandard', 'left-right_button_press'),
+                 ('ArchiStandard', 'reading-listening'),
+                 ('ArchiSocial', 'false_belief-mechanistic_audio'),
+                 ('ArchiStandard', 'computation-sentences'),
+                 ('ArchiStandard', 'horizontal-vertical')]
                  
 
 plot_contrasts(db, task_contrast, masker, write_dir, cut=40, display_mode='x',

@@ -73,7 +73,7 @@ def post_process(df, paradigm_id):
             .sum(0).astype(np.bool)
         df = df[condition]
 
-    if paradigm_id[:10] == 'preference':
+    if paradigm_id[:10] == 'Preference':
         domain = paradigm_id[11:]
         if domain[-1] == 's':
             domain = domain[:-1]
@@ -297,7 +297,7 @@ def post_process(df, paradigm_id):
         df2.drop('later_delay', 1, inplace=True)
         df2.replace('stim', 'delay', inplace=True)
         df = concat([df1, df2], axis=0, ignore_index=True)
-    if paradigm_id == 'selective_stop_signal':
+    if paradigm_id == 'SelectiveStopSignal':
         df = df[df.trial_type.isin(['go_critical', 'go_noncritical',
                                     'ignore_noncritical',
                                     'stop_critical'])]

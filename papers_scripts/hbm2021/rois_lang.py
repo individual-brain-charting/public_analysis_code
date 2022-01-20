@@ -511,11 +511,11 @@ mem = Memory(cachedir=cache, verbose=0)
 # ########################### TASKS ###########################################
 
 # Access to the ffx z-maps of all participant
-task_list = ['archi_standard', 'archi_spatial', 'archi_social',
-             'archi_emotional',
-             'hcp_emotion', 'hcp_gambling', 'hcp_motor', 'hcp_language',
-             'hcp_relational', 'hcp_social', 'hcp_wm',
-             'rsvp_language']
+task_list = ['ArchiEmotional', 'ArchiSocial', 'ArchiSpatial',
+             'ArchiStandard', 'HcpEmotion', 'HcpGambling',
+             'HcpLanguage', 'HcpMotor', 'HcpRelational',
+             'HcpSocial', 'HcpWm',
+             'RSVPLanguage']
 
 # BIDS conversion of task names
 # Load dictionary file
