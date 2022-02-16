@@ -117,35 +117,35 @@ write_dir = 'output'
 if not os.path.exists(write_dir):
     os.mkdir(write_dir)
 """
-task_contrast = [('archi_social', 'false_belief-mechanistic_video'),
-                 ('archi_social', 'false_belief-mechanistic_audio'),
-                 ('archi_social', 'triangle_mental-random'),
+task_contrast = [('ArchiSocial', 'false_belief-mechanistic_video'),
+                 ('ArchiSocial', 'false_belief-mechanistic_audio'),
+                 ('ArchiSocial', 'triangle_mental-random'),
                  ('hcp_social', 'mental-random')]
 plot_contrasts(db, task_contrast, masker, write_dir, cut=-50, display_mode='x',
                name='social')
 
 #plot_contrasts(db, task_contrast, masker, write_dir, cut=20, display_mode='z')
-task_contrast = [('hcp_wm', 'body-avg'),
-                 ('hcp_wm', 'face-avg'),
-                 ('hcp_wm', 'place-avg'),
-                 ('hcp_wm', 'tools-avg'),
-                 ('hcp_emotion', 'shape'),
-                 ('hcp_emotion', 'face-shape'),
-                 ('rsvp_language', 'consonant_string')]
+task_contrast = [('HcpWm', 'body-avg'),
+                 ('HcpWm', 'face-avg'),
+                 ('HcpWm', 'place-avg'),
+                 ('HcpWm', 'tools-avg'),
+                 ('HcpEmotion', 'shape'),
+                 ('HcpEmotion', 'face-shape'),
+                 ('RSVPLanguage', 'consonant_string')]
 plot_contrasts(db, task_contrast, masker, write_dir, cut=-10, display_mode='z',
                name='visual')
-task_contrast = [('hcp_motor', 'left_hand-avg'),
-                 ('hcp_motor,', 'right_hand-avg'),
-                 ('hcp_motor', 'left_foot-avg'),
-                 ('hcp_motor', 'right_foot-avg'),
-                 ('hcp_motor',	'tongue-avg')]
+task_contrast = [('HcpMotor', 'left_hand-avg'),
+                 ('HcpMotor,', 'right_hand-avg'),
+                 ('HcpMotor', 'left_foot-avg'),
+                 ('HcpMotor', 'right_foot-avg'),
+                 ('HcpMotor',	'tongue-avg')]
 plot_contrasts(db, task_contrast, masker, write_dir, cut=-10, display_mode='y',
                name='motor')
-task_contrast = [('rsvp_language', 'sentence-jabberwocky'),
-                 ('rsvp_language', 'sentence-word'),
-                 ('rsvp_language', 'word-consonant_string'),
-                 ('rsvp_language', 'pseudo-consonant_string'),
-                 ('archi_social', 'mechanistic_video')]
+task_contrast = [('RSVPLanguage', 'sentence-jabberwocky'),
+                 ('RSVPLanguage', 'sentence-word'),
+                 ('RSVPLanguage', 'word-consonant_string'),
+                 ('RSVPLanguage', 'pseudo-consonant_string'),
+                 ('ArchiSocial', 'mechanistic_video')]
 plot_contrasts(db, task_contrast, masker, write_dir, cut=50, display_mode='x',
                name='standard')
 """

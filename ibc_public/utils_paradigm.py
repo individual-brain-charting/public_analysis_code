@@ -246,7 +246,7 @@ def post_process(df, paradigm_id):
             'double_incongruent', 'spatialcue', 'doublecue'])]
     if paradigm_id == 'StopSignal':
         df = df[df.trial_type.isin(['go', 'stop'])]
-    if paradigm_id in ['ward-allport', 'ward_and_allport']:
+    if paradigm_id in ['WardAndAllport']:
         df = df[df.trial_type.isin([
             'planning_PA_with_intermediate',
             'planning_PA_without_intermediate',
@@ -338,7 +338,7 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'biological_motion2':
         df = df[df.trial_type.isin(['modified_upright', 'modified_inverted',
                                     'natural_upright', 'natural_inverted'])]
-    if paradigm_id == 'mathlang':
+    if paradigm_id == 'MathLanguage':
         trial_types = [
             'colorlessg_auditory', 'colorlessg_visual',
             'wordlist_auditory', 'wordlist_visual',
@@ -425,6 +425,13 @@ def post_process(df, paradigm_id):
         df.replace('dot_hard_left_incorrect', 'dot_hard_left', inplace=True)
         df.replace('dot_hard_right_correct', 'dot_hard_right', inplace=True)
         df.replace('dot_hard_right_incorrect', 'dot_hard_right', inplace=True)
+    if paradigm_id == 'Color':
+        df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == '1-back'].index, 0, inplace=True)
+        df.loc[df.trial_type == 'y', 'duration'] = .5
+    if paradigm_id == 'Motion':
+        df.drop(df[df.trial_type == 'iti_fix'].index, 0, inplace=True)
+        df.loc[df.trial_type == 'y', 'duration'] = .5
     return df
 
 

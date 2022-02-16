@@ -101,7 +101,7 @@ def run_subject_surface_glm(jobfile, subject, session, protocol, mesh=None):
 
 if __name__ == '__main__':
     
-    protocols = ['stanford2', 'stanford3']
+    protocols = ['stanford3']
     """
     protocols += ['screening', 'rsvp-language', 'hcp1', 'hcp2', 'archi']
     protocols += ['preference', 'mtt1', 'mtt2', 'tom', 'self',

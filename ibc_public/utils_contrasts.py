@@ -32,8 +32,6 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return hcp_social(design_matrix_columns)
     elif paradigm_id == 'RSVPLanguage':
         return rsvp_language(design_matrix_columns)
-    elif paradigm_id == 'colour':
-        return colour(design_matrix_columns)
     elif paradigm_id in ['ContRing', 'ExpRing', 'WedgeClock', ###
                          'WedgeAnti', 'Wedge', 'Ring']:###
         return retino(design_matrix_columns)###
@@ -140,6 +138,10 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return item_recognition(design_matrix_columns)
     elif paradigm_id == 'VisualSearch':
         return search(design_matrix_columns)
+    elif paradigm_id == 'Color':
+        return color(design_matrix_columns)
+    elif paradigm_id == 'Motion':
+        return motion(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -188,6 +190,48 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     if con != []:
         contrast['derivatives'] = np.array(con)
     return contrast
+
+
+def color(design_matrix_columns):
+    """ Contrasts for color localizer """
+    contrast_names = ['chromatic', 'achromatic', 'chromatic-achromatic',
+                      'response']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {'chromatic': con['chromatic'],
+                 'achromatic': con['achromatic'],
+                 'chromatic-achromatic': con['chromatic'] - con['achromatic'],
+                 'response': con['y']
+                 }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def motion(design_matrix_columns):
+    """ Contrasts for color localizer """
+    contrast_names = ['incoherent', 'response', 'coherent_clock', 'stationary',
+                      'coherent_anti', 'coherent-incoherent', 'coherent-stationary',
+                      'incoherent-stationary', 'clock-anti']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {'incoherent': con['incoherent'],
+                 'stationary': con['stationary'],
+                 'coherent_clock': con['coherent_clock'],
+                 'coherent_anti': con['coherent_anti'],
+                 'response': con['y'],
+                 'coherent-incoherent': con['coherent_clock'] + con['coherent_anti'] - 2 * con['incoherent'],
+                 'coherent-stationary':con['coherent_clock'] + con['coherent_anti'] - 2 * con['stationary'],
+                 'incoherent-stationary': con['incoherent'] - con['stationary'],
+                 'clock-anti': con['coherent_clock'] - con['coherent_anti']
+                 }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def search(design_matrix_columns):
@@ -1330,18 +1374,6 @@ def self_localizer(design_matrix_columns):
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
-    return contrasts
-
-
-def colour(design_matrix_columns):
-    """ Contrasts for pain lcoalizer """
-    if design_matrix_columns is None:
-        return {'color': [], 'grey': [], 'color-grey': []}
-    con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {'color': con['color'],
-                 'grey': con['grey'],
-                 'color-grey': con['color'] - con['grey'],
-                 }
     return contrasts
 
 
