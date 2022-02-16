@@ -1,8 +1,16 @@
+"""
+Author: Himanshu Aggarwal (himanshu.aggarwal@inria.fr), 2021-22
+"""
+
 from ibc_public.utils_relaxo import (t1_pipeline, t2_pipeline)
 from joblib import Parallel, delayed
 
 
 def run_all_estimation(sub, sess, data_root_path):
+    """
+    Run t2 and t1 preproc and estimation pipelines, 
+    to return maps in subject-space and in MNI-152 space 
+    """
     # T2 estimation in subject space
     print('Running t2-est without spat. norm. for {}'.format(sub))
     t2_pipeline(sub_name=sub, sess_num=sess, do_plot=False, keep_tmp=False,
@@ -26,8 +34,10 @@ def run_all_estimation(sub, sess, data_root_path):
 
 if __name__ == "__main__":
 
+    # root location of sourcedata and derivatives
     DATA_ROOT = '/neurospin/ibc'
 
+    # relaxometry session numbers for each subject
     sub_sess = {'sub-01': 'ses-21', 'sub-04': 'ses-20', 'sub-05': 'ses-22',
     'sub-06': 'ses-20', 'sub-07': 'ses-20', 'sub-08': 'ses-35',
     'sub-09': 'ses-19', 'sub-11': 'ses-17', 'sub-12': 'ses-17',

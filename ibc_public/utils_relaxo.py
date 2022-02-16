@@ -28,6 +28,10 @@ from nilearn.image.image import new_img_like
 
 
 def closing(image, iterations):
+    """
+    Wrapper for scipy's binary_closing function to close
+    a NIFTI image with n iterations
+    """
     image_data = image.get_fdata()
     image_affine = image.affine
     closing_test = ndimage.binary_closing(image_data, iterations=iterations).astype(int)
@@ -37,6 +41,10 @@ def closing(image, iterations):
     return closing_test
 
 def to_T2space(t2_img, t1_img, output_dir):
+    """
+    Wrapper for pypreprocess's coregister function,
+    used here to coregister T1 image to T2 image 
+    """
     data = SubjectData()
     data.anat = t1_img
     data.func = [t2_img]
@@ -48,6 +56,10 @@ def to_T2space(t2_img, t1_img, output_dir):
     return coreged
 
 def to_MNI(image, data = SubjectData(), func=None):
+    """
+    Wrapper for pypreprocess's normalize function,
+    to transform images from subject space to MNI-152 space
+    """
     data.anat = image
     data.func = func
     data.output_dir = '.'
@@ -60,6 +72,10 @@ def to_MNI(image, data = SubjectData(), func=None):
     return normalized
 
 def segment(image, normalize):
+    """
+    Wrapper for pypreprocess's segment function,
+    to segment images into grey matter, white matter and csf
+    """
     data = SubjectData()
     data.anat = image
     segmented = _do_subject_segment(data, caching=False,
@@ -68,7 +84,11 @@ def segment(image, normalize):
 
 def plot_thresholded_qmap(img, coords, output_folder, brain=None, mask=None,
                         thresh=99, map="map", interactive=False):
-
+    """
+    Plot the final estimated t1 or t2-maps
+    and threshold voxel intensity at some percentile 
+    or an arbitrary intensity
+    """
     # flatten image data for calculating threshold
     img_arr = load(img).get_data().astype(float)
     img_arr_flat = img_arr.reshape((-1, img_arr.shape[-1])).flatten()
@@ -128,13 +148,18 @@ def plot_thresholded_qmap(img, coords, output_folder, brain=None, mask=None,
     normal_view.savefig(fig_name)
     normal_view.close()
 
-# only one of do_normalise_before and do_normalise_after should be True
-# both can be False
+
+
 def t2_pipeline(do_coreg=True, do_normalise_before=False,
                 do_segment=True, do_normalise_after=False, do_plot=True,
                 keep_tmp=True, sub_name='sub-11', sess_num='ses-17',
                 root_path='/neurospin/ibc'):
-
+    """
+    Preprocess qMRI t2 images and then run estimation to generate t2-maps,
+    more details in scripts/qmri_README.md,
+    only one of do_normalise_before and do_normalise_after should be True,
+    both can be False
+    """
     DATA_LOC = join(root_path, 'sourcedata', sub_name, sess_num)
     SAVE_TO = join(root_path, 'derivatives', sub_name, sess_num)
 
@@ -368,14 +393,18 @@ def t2_pipeline(do_coreg=True, do_normalise_before=False,
 
 
 
-# only one of do_normalise_before and do_normalise_after should be True
-# both can be False
+
 def t1_pipeline(do_normalise_before=False,
                 do_segment=True, do_normalise_after=False,
                 do_plot=True,  keep_tmp=True ,
                 sub_name='sub-11', sess_num='ses-17', 
                 root_path='/neurospin/ibc'):
-
+    """
+    Preprocess qMRI t1 images and then run estimation to generate t1-maps,
+    more details in scripts/qmri_README.md,
+    only one of do_normalise_before and do_normalise_after should be True,
+    both can be False
+    """
     DATA_LOC = join(root_path, 'sourcedata', sub_name, sess_num)
     SAVE_TO = join(root_path, 'derivatives', sub_name, sess_num)
 
