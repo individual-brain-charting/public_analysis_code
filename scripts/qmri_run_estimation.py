@@ -1,5 +1,4 @@
-from ibc_public.utils_relaxo import t1_pipeline
-from ibc_public.utils_relaxo import t2_pipeline
+from ibc_public.utils_relaxo import (t1_pipeline, t2_pipeline)
 from joblib import Parallel, delayed
 
 
