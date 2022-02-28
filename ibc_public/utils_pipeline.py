@@ -133,7 +133,8 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
 
 
 def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
-            subject_session_output_dir, tr, smoothing_fwhm=False):
+            subject_session_output_dir, tr, slice_time_ref,
+            smoothing_fwhm=False):
     """ Run the GLM on a given session and compute contrasts
 
     Parameters
@@ -152,7 +153,8 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
 
     # GLM analysis
     print('Fitting a GLM (this takes time)...')
-    fmri_glm = FirstLevelModel(mask_img=mask_img, t_r=tr, slice_time_ref=.5,
+    fmri_glm = FirstLevelModel(mask_img=mask_img, t_r=tr,
+                               slice_time_ref=slice_time_ref,
                                smoothing_fwhm=smoothing_fwhm).fit(
         fmri_4d, design_matrices=dmtx)
 
@@ -182,10 +184,10 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
 def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
     """ """
     from nibabel.gifti import read, write, GiftiDataArray, GiftiImage
-    from nilearn.glm.first_level import run_glm
+    from nilearn.glm.first_level import run_glm as run_glm_nl
     from nilearn.glm import compute_contrast
     Y = np.array([darrays.data for darrays in read(fmri_path).darrays])
-    labels, res = run_glm(Y, dmtx.values)
+    labels, res = run_glm_nl(Y, dmtx.values)
     # Estimate the contrasts
     print('Computing contrasts...')
     side = fmri_path[-6:-4]
@@ -254,7 +256,8 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
     high_pass = subject_dic['high_pass']
     drift_model = subject_dic['drift_model']
     tr = subject_dic['TR']
-
+    slice_time_ref = 1.
+    
     if not mesh and (mask_img is None):
         mask_img = masking(subject_dic['func'], subject_dic['output_dir'])
 
@@ -278,7 +281,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         # motion parameters
         motion = np.loadtxt(motion_path)
         # define the time stamps for different images
-        frametimes = np.linspace(0, (n_scans - 1) * tr, n_scans)
+        frametimes = np.linspace(slice_time_ref, (n_scans - 1 + slice_time_ref) * tr, n_scans)
         if task_id == 'audio':
             mask = np.array([1, 0, 1, 1, 0, 1, 1, 0, 1, 1])
             n_cycles = 28
@@ -364,8 +367,8 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         else:
             z_maps, fmri_glm = run_glm(
                 design_matrix, contrasts, fmri_path, mask_img, subject_dic,
-                subject_session_output_dir, tr=tr, smoothing_fwhm=smooth)
-
+                subject_session_output_dir, tr=tr, slice_time_ref=slice_time_ref,
+                smoothing_fwhm=smooth)
 
             # do stats report
             anat_img = nib.load(subject_dic['anat'])
