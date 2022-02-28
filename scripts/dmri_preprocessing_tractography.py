@@ -69,9 +69,9 @@ def make_acq_param_file(acq_params_file):
                     [0.0, -1.0, 0.0, 0.1]])
     np.savetxt(acq_params_file, acqp, fmt='%0.1f', delimiter=' ')
 
-def calc_topup(merged_b0_img, acq_params_file, hifi_file, topup_results_basename):
+def calc_topup(merged_b0_img, acq_params_file, topup_results_basename, iout_file):
     cmd = "topup --imain=%s --datain=%s --config=b02b0.cnf --out=%s --iout=%s" % (
-        merged_b0_img, acq_params_file, topup_results_basename, hifi_file)
+        merged_b0_img, acq_params_file, topup_results_basename, iout_file)
     print(cmd)
     os.system(cmd)
 
@@ -125,7 +125,7 @@ def convert_mif(in_file, out_file):
     print(cmd)
     os.system(cmd)
 
-def calc_basis_fn(eddy_mif, wm_out, gm_out, csf_out, bvecs, bvals, mask, voxels_out, algorithm='dhollander'):
+def calc_resp_fn(eddy_mif, wm_out, gm_out, csf_out, bvecs, bvals, mask, voxels_out, algorithm='dhollander'):
     cmd = 'dwi2response %s %s %s %s %s -fslgrad %s %s -mask %s -voxels %s' % (algorithm, eddy_mif, wm_out, gm_out, csf_out, bvecs, bvals, mask, voxels_out)
     print(cmd)
     os.system(cmd)
@@ -234,15 +234,15 @@ def run_dmri_preproc(subject_session):
 
     # Concatenate the bval and bvec files as well
     in_bvals = sorted(glob.glob(os.path.join(src_dwi_dir, '*run*dwi.bval')))
-    out_bvals = os.path.join(dest_dwi_dir, "bvals")
+    out_bvals = os.path.join(dest_dwi_dir, '%s_%s_dwi.bvals' % (subject, session))
     concat_bvals(in_bvals, out_bvals)
 
     in_bvecs = sorted(glob.glob(os.path.join(src_dwi_dir, '*run*dwi.bvec')))
-    out_bvecs = os.path.join(dest_dwi_dir, "bvecs")
+    out_bvecs = os.path.join(dest_dwi_dir, '%s_%s_dwi.bvecs' % (subject, session))
     concat_bvecs(in_bvecs, out_bvecs)
 
     # Denoise images using MP-PCA
-    out_dn = os.path.join(dest_dwi_dir, 'dn_%s_%s_dwi.nii.gz' % (subject, session))
+    out_dn = os.path.join(dest_dwi_dir, '%s_%s_desc-denoise_dwi.nii.gz' % (subject, session))
     denoise_dwi(out_concat, out_dn)
 
     # Remove Gibbs ringing artifacts
@@ -253,20 +253,20 @@ def run_dmri_preproc(subject_session):
 
     # Run FSL topup - it's a 2-step process
     # 1. Collect all the b=0 volumes in one file and use that as input to topup
-    b0_imgs = sorted(glob.glob('%s/dn_%s_%s_dwi.nii.gz' % (dest_dwi_dir, subject, session)))[0]
-    merged_b0_img = os.path.join(dest_dwi_dir, 'b0s_%s_%s_dwi.nii.gz' % (subject, session))
+    b0_imgs = sorted(glob.glob('%s/%s_%s_desc-denoise_dwi.nii.gz' % (dest_dwi_dir, subject, session)))[0]
+    merged_b0_img = os.path.join(dest_dwi_dir, '%s_%s_desc-collated-b0s_dwi.nii.gz' % (subject, session))
     vols = [0, 61, 122, 183]
     collate_b0s(b0_imgs, vols, merged_b0_img)
 
     # 2. Calculate distortion from the collated b0 images
-    acq_params_file = os.path.join(dest_dwi_dir, 'b0_acquisition_params.txt')
-    topup_results_basename = os.path.join(dest_dwi_dir, '%s_%s_topup-results' % (subject, session))
-    hifi_file = os.path.join(dest_dwi_dir, '%s_%s_hifi-b0' % (subject, session))
+    acq_params_file = os.path.join(dest_fmap_dir, '%s_%s_desc-b0_acq_param_dwi.txt' % (subject, session))
+    topup_results_basename = os.path.join(dest_fmap_dir, '%s_%s_desc-topup-results' % (subject, session))
+    iout_file = os.path.join(dest_dwi_dir, '%s_%s_desc-unwarped-nomotion-b0_dwi' % (subject, session))
     make_acq_param_file(acq_params_file)
-    calc_topup(merged_b0_img, acq_params_file, hifi_file, topup_results_basename)
+    calc_topup(merged_b0_img, acq_params_file, topup_results_basename, iout_file)
 
     # Create mask file for use with eddy
-    hifi_brain = os.path.join(dest_dwi_dir, '%s_%s_hifi-b0.nii.gz' % (subject, session))
+    topup_brain = os.path.join(dest_dwi_dir, '%s_%s_desc-unwarped-nomotion-b0_dwi.nii.gz' % (subject, session))
     if subject == 'sub-08':
         threshold = 0.8
         r = 105
@@ -280,29 +280,29 @@ def run_dmri_preproc(subject_session):
         threshold = 0.5
         r = None
 
-    calc_mask(hifi_file, hifi_brain, threshold, r)
+    calc_mask(iout_file, topup_brain, threshold, r)
 
     # Create a text file that contains, for each volume in the concatenated dwi images file,
     # the corresponding line of the acquisition parameters file.
     # The way the data has been concatenated, we have 2 AP runs followed by 2 PA runs,
     # each with 61 volumes. Thus, the text file will have 244 lines, the first 122 will
     # say "1" and the last 122 will say "2"
-    index_file = os.path.join(dest_dwi_dir, 'dwi_acqdir_index.txt')
+    index_file = os.path.join(dest_dwi_dir, '%s_%s_desc-acqdir-index_dwi.txt')
     nvols = 61
     make_acqdir_file(index_file, nvols)
 
     # Now run eddy to correct eddy current distortions
     mask_img = glob.glob('%s/%s_%s_hifi*mask.nii.gz' % (dest_dwi_dir, subject, session))[0]
     eddy_in = out_dn
-    eddy_out = os.path.join(dest_dwi_dir, 'eddy_dn_%s_%s_dwi.nii.gz' % (subject, session))
+    eddy_out = os.path.join(dest_dwi_dir, '%s_%s_desc-denoise-eddy-correct_dwi.nii.gz' % (subject, session))
     run_eddy(eddy_in, mask_img, acq_params_file, index_file, out_bvecs, out_bvals, topup_results_basename, eddy_out)
 
     # Once again extract the b0 volumes, this time from the eddy corrected images,
     # create a mean volume, and a mask of the mean volume
-    b0_imgs = glob.glob('%s/eddy_dn_%s_%s_dwi.nii.gz' % (dest_dwi_dir, subject, session))[0]
-    merged_b0_img = os.path.join(dest_dwi_dir, 'b0s_eddy_dn_%s_%s_dwi.nii.gz' % (subject, session))
+    b0_imgs = glob.glob('%s/%s_%s_desc-denoise-eddy-correct_dwi.nii.gz' % (dest_dwi_dir, subject, session))[0]
+    merged_b0_img = os.path.join(dest_dwi_dir, '%s_%s_desc-denoise-eddy-correct-b0_dwi.nii.gz' % (subject, session))
     collate_b0s(b0_imgs, vols, merged_b0_img)
-    b0_brain = os.path.join(dest_dwi_dir, 'b0_brain_eddy_dn_%s_%s_dwi' % (subject, session))
+    b0_brain = os.path.join(dest_dwi_dir, '%s_%s_desc-denoise-eddy-correct-b0_dwi' % (subject, session))
     calc_mask(merged_b0_img, b0_brain, threshold, r)
 
     # Bias field correction
@@ -313,27 +313,27 @@ def run_dmri_preproc(subject_session):
     ### Preprocessing is now complete, start the tractography part.
 
     # Convert DWI files to mif format
-    eddy_in = glob.glob('%s/eddy_dn_%s_%s_dwi.nii.gz' % (dest_dwi_dir, subject, session))[0]
-    eddy_mif = os.path.join(dest_dwi_dir, 'eddy_dn_%s_%s_dwi.mif' % (subject, session))
+    eddy_in = glob.glob('%s/%s_%s_desc-denoise-eddy-correct_dwi.nii.gz' % (dest_dwi_dir, subject, session))[0]
+    eddy_mif = os.path.join(dest_dwi_dir, '%s_%s_desc-denoise-eddy-correct_dwi.mif' % (subject, session))
     convert_mif(eddy_in, eddy_mif)
 
-    # Derive basis functions for the different tissue types from diffusion data using the Dhollander algorithm.
+    # Derive response functions for the different tissue types from diffusion data using the Dhollander algorithm.
     # The wm, gm and csf txt files contain the response functions for those tissue types.
     # These are all generated using the dwi2response function
     algorithm = 'dhollander'
-    bvecs = glob.glob('%s/bvecs' % dest_dwi_dir)[0]
-    bvals = glob.glob('%s/bvals' % dest_dwi_dir)[0]
-    mask = glob.glob('%s/b0s_eddy_dn_%s_%s_dwi_mask.nii.gz' % (dest_dwi_dir, subject, session))[0]
-    wm_out = os.path.join(dest_dwi_dir, 'wm_%s_%s_dwi.txt' % (subject, session))
-    gm_out = os.path.join(dest_dwi_dir, 'gm_%s_%s_dwi.txt' % (subject, session))
-    csf_out = os.path.join(dest_dwi_dir, 'csf_%s_%s_dwi.txt' % (subject, session))
-    voxels_out = os.path.join(dest_dwi_dir, 'voxels_%s_%s_dwi.mif' % (subject, session))
-    calc_basis_fn(eddy_mif, wm_out, gm_out, csf_out, bvecs, bvals, mask, voxels_out, algorithm)
+    bvecs = glob.glob('%s/%s_%s_dwi.bvecs' % (dest_dwi_dir, subject, session))[0]
+    bvals = glob.glob('%s/%s_%s_dwi.bvals' % (dest_dwi_dir, subject, session))[0]
+    mask = glob.glob('%s/%s_%s_desc-denoise-eddy-correct_dwi_mask.nii.gz' % (dest_dwi_dir, subject, session))[0]
+    wm_out = os.path.join(dest_dwi_dir, '%s_%s_desc-wm-resp-fn_dwi.txt' % (subject, session))
+    gm_out = os.path.join(dest_dwi_dir, '%s_%s_desc-gm-resp-fn_dwi.txt' % (subject, session))
+    csf_out = os.path.join(dest_dwi_dir, '%s_%s_desc-csf-resp-fn_dwi.txt' % (subject, session))
+    voxels_out = os.path.join(dest_dwi_dir, '%s_%s_desc-resp-fn-voxel-selection_dwi.mif' % (subject, session))
+    calc_resp_fn(eddy_mif, wm_out, gm_out, csf_out, bvecs, bvals, mask, voxels_out, algorithm)
     # Use mrview to visualize the voxels file to make sure voxels are in the correct tissue group.
     # Red markers should be in CSF, Green markers should be in gray matter, Blue markers should be in white matter
     # View the basis functions files using shview.
 
-    # Using the basis functions we can create the FODs, or fiber orientation densities. These are estimates of the amount of diffusion in the 3 orthogonal directions.
+    # Using the response functions we can create the FODs, or fiber orientation densities. These are estimates of the amount of diffusion in the 3 orthogonal directions.
     wm_fod = os.path.join(dest_dwi_dir, 'wm-fod_%s_%s_dwi.mif' % (subject, session))
     gm_fod = os.path.join(dest_dwi_dir, 'gm-fod_%s_%s_dwi.mif' % (subject, session))
     csf_fod = os.path.join(dest_dwi_dir, 'csf-fod_%s_%s_dwi.mif' % (subject, session))

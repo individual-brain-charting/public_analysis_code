@@ -3,4 +3,5 @@ ibc_public/__pycache__/
 *.pyc
 ibc_data/all_contrasts_sparse.tsv
 processing/pyscript.m
-
+scripts/cache_dir
+scripts/pyscript*.m
