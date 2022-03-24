@@ -142,6 +142,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return color(design_matrix_columns)
     elif paradigm_id == 'Motion':
         return motion(design_matrix_columns)
+    elif paradigm_id == 'OptimismBias':
+        return optimism_bias(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -210,6 +212,44 @@ def color(design_matrix_columns):
     return contrasts
 
 
+def optimism_bias(design_matrix_columns):
+    """ Contrasts for optimism bias protocol """
+    contrast_names = ['all_events', 'optimism_bias', 'future_vs_past',
+                      'positive_vs_negative', 'future_positive_vs_negative',
+                      'past_positive_vs_negative', 'interaction']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    all_ = ['past_positive', 'future_positive', 'past_negative', 'future_negative',
+            'inconclusive'] # 'future_neutral', 'past_neutral',
+    all_events = np.mean([con[c] for c in all_ ], 0)
+    future_negative_control = ['future_positive', 'past_positive', 'past_negative']
+    optimism_bias = con['future_negative'] - np.mean(
+        [con[c] for c in future_negative_control], 0)
+    future = ['future_negative', 'future_positive'] #  'future_neutral',
+    past = ['past_negative', 'past_positive'] # 'past_neutral',
+    positive = ['future_positive', 'past_positive']
+    negative = ['future_negative', 'past_negative']
+    positive_vs_negative = np.sum([con[c] for c in positive], 0) -\
+                           np.sum([con[c] for c in negative], 0)
+    future_vs_past = np.sum([con[c] for c in future], 0)\
+                     - np.sum([con[c] for c in past], 0)
+    interaction = con['future_positive'] + con['past_negative']\
+                  - con['future_negative'] - con['past_positive']
+    contrasts = {'all_events': all_events - con['fix'],
+                 'optimism_bias': optimism_bias,
+                 'future_vs_past': future_vs_past,
+                 'positive_vs_negative': positive_vs_negative,
+                 'future_positive_vs_negative': con['future_positive'] - con['future_negative'],
+                 'past_positive_vs_negative': con['past_positive'] - con['past_negative'],
+                 'interaction': interaction
+                 }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
 def motion(design_matrix_columns):
     """ Contrasts for color localizer """
     contrast_names = ['incoherent', 'response', 'coherent_clock', 'stationary',
@@ -223,8 +263,10 @@ def motion(design_matrix_columns):
                  'coherent_clock': con['coherent_clock'],
                  'coherent_anti': con['coherent_anti'],
                  'response': con['y'],
-                 'coherent-incoherent': con['coherent_clock'] + con['coherent_anti'] - 2 * con['incoherent'],
-                 'coherent-stationary':con['coherent_clock'] + con['coherent_anti'] - 2 * con['stationary'],
+                 'coherent-incoherent': con['coherent_clock'] + con['coherent_anti']\
+                 - 2 * con['incoherent'],
+                 'coherent-stationary': con['coherent_clock'] + con['coherent_anti']\
+                 - 2 * con['stationary'],
                  'incoherent-stationary': con['incoherent'] - con['stationary'],
                  'clock-anti': con['coherent_clock'] - con['coherent_anti']
                  }
@@ -236,11 +278,14 @@ def motion(design_matrix_columns):
 
 def search(design_matrix_columns):
     """ Contrasts for search protocol"""
-    contrast_names = ['memory_array',
-                      'probe_item',
-                      'response',
+    contrast_names = ['memory_array_four', 'memory_array_two',
+                      'probe_item_absent', 'probe_item_present',
+                      'response_hit', 'response_miss',
                       'sample_item',
-                      'search_array']
+                      'delay_vis', 'delay_wm',
+                      'search_array_four_absent', 'search_array_four_present',
+                      'search_array_two_absent', 'search_array_two_present'
+    ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -249,6 +294,12 @@ def search(design_matrix_columns):
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
+
+
+'delay_vis', 'delay_wm',
+'search_array_four_absent', 'search_array_four_present',
+'search_array_two_absent', 'search_array_two_present',
+# 'trial_onset', 'trial_onset_derivative'
 
 
 def breath_holding(design_matrix_columns):
@@ -294,14 +345,14 @@ def fingertap(design_matrix_columns):
 
 def item_recognition(design_matrix_columns):
     """ Contrasts for breath holding protocol"""
-    contrast_names = ['encode3-encode1', 'probe3_mem-probe1_mem', 'probe3_new-probe1_new']
+    contrast_names = ['encode5-encode1', 'probe5_mem-probe1_mem', 'probe5_new-probe1_new']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {
-        'encode3-encode1': con['encode3'] - con['encode1'],
-        'probe3_mem-probe1_mem': con['probe3_mem'] - con['probe1_mem'],
-        'probe3_new-probe1_new': con['probe3_new'] - con['probe1_new']
+        'encode5-encode1': con['encode5'] - con['encode1'],
+        'probe5_mem-probe1_mem': con['probe5_mem'] - con['probe1_mem'],
+        'probe5_new-probe1_new': con['probe5_new'] - con['probe1_new']
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
@@ -393,12 +444,16 @@ def face_body(design_matrix_columns):
 def reward_processing(design_matrix_columns):
     """ Contrasts for reward processing experiment"""
     contrast_names = [
-        'stim', 'out_-20', 'out_+20', 'out_-10', 'out_+10',
+        'stim', 'minus_20', 'plus_20', 'minus_10', 'plus_10',
         'green-purple', 'purple-green', 'left-right', 'right-left',
-        'switch', 'stay', 'switch-stay', 'stay-switch']
+        'switch', 'stay', 'switch-stay', 'stay-switch',
+        'gain', 'loss', 'gain-loss', 'loss-gain'
+    ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
+    gain = con['plus_20'] + con['plus_10']
+    loss = con['minus_20'] + con['minus_10']
     contrasts = dict([(name, con[name]) for name in contrast_names[:5]])
     contrasts['green-purple'] = con['green']
     contrasts['purple-green'] = - con['green']
@@ -408,6 +463,12 @@ def reward_processing(design_matrix_columns):
     contrasts['stay'] = con['stay']
     contrasts['switch-stay'] = con['switch'] - con['stay']
     contrasts['stay-switch'] = con['stay'] - con['switch']
+    contrasts['gain'] = gain
+    contrasts['loss'] = loss
+    contrasts['gain-loss'] = gain-loss
+    contrasts['loss-gain'] = loss-gain
+    for name in ['minus_20', 'plus_20', 'minus_10', 'plus_10']:
+        contrasts[name] = con[name]
     """
     contrast_names = [
         'out_+10', 'out_+20', 'out_-10', 'out_-20', 'stim',

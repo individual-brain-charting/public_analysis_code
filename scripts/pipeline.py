@@ -23,7 +23,7 @@ def clean_anatomical_images(main_dir):
     import nibabel as nib
     from numpy import isnan
     subjects = ['sub-%02d' % i for i in range(1, 16)]
-    sessions = ['ses-%02d' % i for i in range(1, 40)]
+    sessions = ['ses-%02d' % i for i in range(1, 50)]
     for subject in subjects:
         for session in sessions:
             anat_img = os.path.join(
@@ -118,7 +118,8 @@ def prepare_derivatives(main_dir):
                 output_dir, subject, parts[-3], 'anat', parts[-1])
             if not os.path.isfile(dst[:-3]):
                 shutil.copyfile(hr, dst)
-                os.system('gunzip %s' % dst)
+                if dst[-3:] == '.gz':
+                    os.system('gunzip %s' % dst)
 
 
 def run_topup(mem, data_dir, subject, ses, acq=None):
@@ -209,10 +210,11 @@ if __name__ == '__main__':
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
     do_topup = True
-    protocol = 'camcan1'
+    protocol = 'BBT2'
     subject_session = sorted(get_subject_session([protocol]))
-    subject_session = [('sub-08', 'ses-36')
-    ]
+    subject_session = [('sub-09', 'ses-33'), ('sub-11', 'ses-33'),
+                       ('sub-14', 'ses-31'), ('sub-15', 'ses-32'),]
+    subject_session = [('sub-08', 'ses-33')]
     if do_topup:
         acq = None
         if protocol in ['rs']:

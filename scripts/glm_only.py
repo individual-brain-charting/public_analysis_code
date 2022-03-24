@@ -117,7 +117,6 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
         mask_img = '../ibc_data/gm_mask_3mm.nii.gz'
     else:
         mask_img = '../ibc_data/gm_mask_1_5mm.nii.gz'
-
     for subject in list_subjects_update:
         subject['onset'] = [onset for onset in subject['onset']
                             if onset is not None]
@@ -135,11 +134,10 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
-    protocols = ['stanford1', 'stanford2']
+    protocols = ['reward']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        subject_session = [ss for ss in subject_session if ss[0] == 'sub-08']
         Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
@@ -151,7 +149,6 @@ if __name__ == '__main__':
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        subject_session = [ss for ss in subject_session if ss[0] == 'sub-08']
         Parallel(n_jobs=4)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
@@ -161,7 +158,6 @@ if __name__ == '__main__':
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        subject_session = [ss for ss in subject_session if ss[0] == 'sub-08']
         Parallel(n_jobs=4)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)

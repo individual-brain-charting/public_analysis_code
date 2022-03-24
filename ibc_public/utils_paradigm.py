@@ -367,6 +367,10 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'RewProc':
         df.drop(df[df.trial_type == 'prefix'].index, 0, inplace=True)
         df.drop(df[df.trial_type == 'postfix'].index, 0, inplace=True)
+        df.replace('out_+10', 'plus_10', inplace=True)
+        df.replace('out_+20', 'plus_20', inplace=True)
+        df.replace('out_-10', 'minus_10', inplace=True)
+        df.replace('out_-20', 'minus_20', inplace=True)
         green = [tt for tt in df.trial_type.unique() if 'green' in tt]
         left = [tt for tt in df.trial_type.unique() if 'left' in tt]
         stay = [tt for tt in df.trial_type.unique() if 'stay' in tt]
@@ -432,6 +436,9 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'Motion':
         df.drop(df[df.trial_type == 'iti_fix'].index, 0, inplace=True)
         df.loc[df.trial_type == 'y', 'duration'] = .5
+    if paradigm_id == 'OptimismBias':
+        #df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'start'].index, 0, inplace=True)
     return df
 
 

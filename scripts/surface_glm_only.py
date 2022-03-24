@@ -100,17 +100,17 @@ def run_subject_surface_glm(jobfile, subject, session, protocol, mesh=None):
 
 
 if __name__ == '__main__':
-    
-    protocols = ['stanford3']
     """
+    protocols = ['stanford3']
     protocols += ['screening', 'rsvp-language', 'hcp1', 'hcp2', 'archi']
     protocols += ['preference', 'mtt1', 'mtt2', 'tom', 'self',
                  'retino']
     protocols += ['mathlang', 'enumeration', 'lyon1', 'lyon2']
     protocols = ['stanford1', 'stanford2, 'stanford3']
     protocols = ['preference', 'audio1', 'audio2']
-    protocols = ['enumeration']
+    protocols = ['enumeration', 'biological_motion', 'reward']
     """
+    protocols = ['mathlang', 'navigation', 'search', 'scene', 'color']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol
