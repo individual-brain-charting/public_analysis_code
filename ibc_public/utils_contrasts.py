@@ -240,7 +240,8 @@ def optimism_bias(design_matrix_columns):
                  'optimism_bias': optimism_bias,
                  'future_vs_past': future_vs_past,
                  'positive_vs_negative': positive_vs_negative,
-                 'future_positive_vs_negative': con['future_positive'] - con['future_negative'],
+                 'future_positive_vs_negative': con['future_positive'] -\
+                     con['future_negative'],
                  'past_positive_vs_negative': con['past_positive'] - con['past_negative'],
                  'interaction': interaction
                  }
@@ -252,23 +253,34 @@ def optimism_bias(design_matrix_columns):
 
 def motion(design_matrix_columns):
     """ Contrasts for color localizer """
-    contrast_names = ['incoherent', 'response', 'coherent_clock', 'stationary',
-                      'coherent_anti', 'coherent-incoherent', 'coherent-stationary',
-                      'incoherent-stationary', 'clock-anti']
+    contrast_names = ['left_incoherent',  'left_coherent_clock', 'left_stationary',
+                      'left_coherent_anti',
+                      'right_incoherent',  'right_coherent_clock', 'right_stationary',
+                      'right_coherent_anti',
+                      'both_incoherent',  'both_coherent_clock', 'both_stationary',
+                      'both_coherent_anti',
+                      'incoherent',  'coherent_clock', 'stationary',
+                      'coherent_anti',
+                      'response','coherent-incoherent', 'coherent-stationary',
+                      'incoherent-stationary', 'clock-anti', 'left-right']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {'incoherent': con['incoherent'],
-                 'stationary': con['stationary'],
-                 'coherent_clock': con['coherent_clock'],
-                 'coherent_anti': con['coherent_anti'],
+    contrasts = dict([(name, con[name]) for name in contrast_names[:12]])
+    incoherent = con['left_incoherent'] + con['right_incoherent'] + con['both_incoherent']
+    stationary = con['left_stationary'] + con['right_stationary'] + con['both_stationary']
+    clock = (con['left_coherent_clock'] + con['right_coherent_clock']
+             + con['both_coherent_clock'])
+    anti = (con['left_coherent_anti'] + con['right_coherent_anti']
+            + con['both_coherent_anti'])
+    coherent = clock + anti
+    
+    contrasts = {
                  'response': con['y'],
-                 'coherent-incoherent': con['coherent_clock'] + con['coherent_anti']\
-                 - 2 * con['incoherent'],
-                 'coherent-stationary': con['coherent_clock'] + con['coherent_anti']\
-                 - 2 * con['stationary'],
-                 'incoherent-stationary': con['incoherent'] - con['stationary'],
-                 'clock-anti': con['coherent_clock'] - con['coherent_anti']
+                 'coherent-incoherent': coherent - incoherent,
+                 'coherent-stationary': coherent - stationary,
+                 'incoherent-stationary': incoherent-stationary,
+                 'clock-anti': clock - anti,
                  }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
@@ -294,12 +306,6 @@ def search(design_matrix_columns):
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
-
-
-'delay_vis', 'delay_wm',
-'search_array_four_absent', 'search_array_four_present',
-'search_array_two_absent', 'search_array_two_present',
-# 'trial_onset', 'trial_onset_derivative'
 
 
 def breath_holding(design_matrix_columns):
@@ -383,7 +389,7 @@ def scenes(design_matrix_columns):
     contrast_names = [
         'dot_easy_left', 'dot_easy_right', 'dot_hard_left', 'dot_hard_right',
         'scene_impossible_correct', 'scene_impossible_incorrect',
-        'scene_possible_correct', 'scene_possible_incorrect',
+        'scene_possible_correct', # 'scene_possible_incorrect',
         'scene_possible_correct-scene_impossible_correct',
         'scene_correct-dot_correct',
         'dot_left-right',
@@ -392,12 +398,18 @@ def scenes(design_matrix_columns):
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names[:8]])
+    if 'scene_possible_incorrect' in design_matrix_columns:
+        scene_correct_minus_dot_correct = (
+            con['scene_impossible_correct'] + con['scene_possible_correct'] -
+            con['scene_impossible_incorrect'] - con['scene_possible_incorrect'])
+    else:
+        scene_correct_minus_dot_correct = (
+            con['scene_impossible_correct'] + con['scene_possible_correct'] -
+            2 * con['scene_impossible_incorrect'])
+    contrasts = dict([(name, con[name]) for name in contrast_names[:7]])
     contrasts['scene_possible_correct-scene_impossible_correct'] =\
         con['scene_possible_correct'] - con['scene_impossible_correct']
-    contrasts['scene_correct-dot_correct'] =\
-        con['scene_impossible_correct'] + con['scene_possible_correct'] -\
-        con['scene_impossible_incorrect'] - con['scene_possible_incorrect']
+    contrasts['scene_correct-dot_correct'] = scene_correct_minus_dot_correct
     contrasts['dot_left-right'] =\
         con['dot_easy_left'] + con['dot_hard_left'] -\
         con['dot_easy_right'] - con['dot_hard_right']
@@ -615,7 +627,7 @@ def spatial_navigation(design_matrix_columns):
                  'pointing_experimental': con['pointing_experimental'],
                  'control': con['control'],
                  'pointing_control': con['pointing_control'],
-                 'intersection': con['intersection_1'] + con['intersection_2'] + con['intersection_3'],
+                 'intersection': con['intersection'],
                  'experimental-control': con['experimental'] - con['control'],
                  'retrieval':
                      con['experimental'] + con['pointing_experimental'] -
