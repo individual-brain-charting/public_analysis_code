@@ -6,6 +6,7 @@ Author: Himanshu Aggarwal (himanshu.aggarwal@inria.fr), 2021-22
 """
 
 import warnings
+
 warnings.filterwarnings("ignore")
 
 from os import (listdir, system, makedirs, sep)
@@ -26,6 +27,8 @@ from numpy import (nanpercentile, nanmin)
 from scipy import ndimage
 from nilearn.image.image import new_img_like
 
+from qmri.t2star.trunk.monoexp import monoexponential
+import json
 
 def closing(image, iterations):
     """
@@ -616,3 +619,107 @@ def t1_pipeline(do_normalise_before=False,
 
     time_elapsed = time.time() - start_time
     print('\n[INFO,  t={:.2f}s] created {} \n\n'.format(time_elapsed, final_recon_map))
+
+
+def t2star_pipeline(do_normalise_before=False,
+                    do_segment=False, do_normalise_after=False,
+                    do_plot=False, keep_tmp=False ,
+                    sub_name='sub-11', sess_num='ses-17', 
+                    root_path='/neurospin/ibc'):
+    """
+    Preprocess qMRI t2 star images and then run estimation to generate t2star-maps,
+    more details in scripts/qmri_README.md,
+    only one of do_normalise_before and do_normalise_after should be True,
+    both can be False
+    """
+
+    DATA_LOC = join(root_path, 'sourcedata', sub_name, sess_num)
+    SAVE_TO = join(root_path, 'derivatives', sub_name, sess_num)
+
+    if do_normalise_before or do_normalise_after:
+        space = "MNI152"
+    else:
+        space = "individual"
+
+    if not exists(SAVE_TO):
+        makedirs(SAVE_TO)
+
+    start_time = time.time()
+
+    start_time = time.time()
+
+    # data files
+    data_dir = DATA_LOC
+
+    niftis = []
+    jsons = []
+    for fi in listdir(join(data_dir, 'anat')):
+        comps = fi.split('_')
+        if comps[-1] == 'T2star.nii.gz':
+            niftis.append(join(data_dir, 'anat', fi))
+        elif comps[-1] == 'T2star.json':
+            jsons.append(join(data_dir, 'anat', fi))
+        else:
+            continue
+    niftis.sort()
+    jsons.sort()
+
+    # sorting and copying magnitude and phase images to tmp preproc dir
+    mag_niftis = []
+    phase_niftis = []
+    for json_, nifti in zip(jsons, niftis):
+        # preprocessing directory setup
+        time_elapsed = time.time() - start_time
+        print('[INFO,  t={:.2f}s] copying necessary files...'.format(time_elapsed))
+        cwd = SAVE_TO
+        preproc_dir = join(cwd, 'tmp_t2star', 'preproc')
+        if not exists(preproc_dir):
+            makedirs(preproc_dir)
+
+        # copy t2star related files
+        system('cp {} {}'.format(nifti, preproc_dir))
+        nifti = join(preproc_dir, nifti.split(sep)[-1])
+        system('gunzip -df {}'.format(nifti))
+        nifti = join(preproc_dir, nifti.split(sep)[-1].split('.')[0] + '.nii')
+
+        # Load json file as a dictionary
+        json_file = open(json_)
+        json_dict = json.load(json_file)
+
+        # separate phase and magnitude images
+        if 'PHASE' in json_dict['ImageType']:
+            phase_niftis.append(nifti)
+        else:
+            mag_niftis.append(nifti)
+
+    if len(mag_niftis) > 1:
+        return NotImplementedError
+    else:
+        mag_nifti = mag_niftis[0]
+        if do_normalise_before:
+            return NotImplementedError
+
+        # preprocessing step: segmenting largest flip angle image
+        if do_segment:
+            return NotImplementedError
+    
+    # TO IMPLEMENT: extract echo times from NIFTIs or json sidecars
+    # mag_header = dict(mag_image.header)
+    # phase_header = dict(phase_image.header)
+
+    # hard-coding echo times for now
+    TEs = [2.03, 5.84, 9.65, 13.46, 17.27, 21.08, 24.89, 28.7, 32.51, 36.32, 40.13, 43.94]
+
+
+    # estimation directory setup
+    time_elapsed = time.time() - start_time
+    print('[INFO,  t={:.2f}s] starting estimation...'.format(time_elapsed))
+
+
+    r2star_map, relative_uncertainty_map, aff, R2STARPath = monoexponential(mag_nifti, TEs, len(TEs))
+    
+    # doing the plots
+    if do_plot:
+        return NotImplementedError
+
+    return f"{sub_name}, {sess_num} T2-star estimation done"
