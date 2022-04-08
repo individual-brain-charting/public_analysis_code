@@ -203,11 +203,11 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
 #protocols = ['audio1', 'audio2', 'lpp1', 'lpp2']
 # protocols += ['enumeration', 'clips1', 'clips2', 'clips3', 'raiders1',
 #              'raiders2', 'BBT1', 'BBT2', 'BBT3', 'self']
-protocols = ['mathlang']
+#protocols = ['mathlang']
 # protocols = ['enumeration']
 #protocols = ['stanford1', 'stanford2', 'stanford3']
 # protocols = ['biological_motion', 'navigation' , 'camcan1', 'camcan2', 'fbirn', 'search', 'reward', 'scene', 'monkey_kingdom', 'color']
-
+protocols = ['BBT3']
 subject_sessions = sorted(get_subject_session(protocols))
 
 Parallel(n_jobs=6)(

@@ -252,36 +252,51 @@ def optimism_bias(design_matrix_columns):
 
 
 def motion(design_matrix_columns):
-    """ Contrasts for color localizer """
-    contrast_names = ['left_incoherent',  'left_coherent_clock', 'left_stationary',
-                      'left_coherent_anti',
-                      'right_incoherent',  'right_coherent_clock', 'right_stationary',
-                      'right_coherent_anti',
-                      'both_incoherent',  'both_coherent_clock', 'both_stationary',
-                      'both_coherent_anti',
-                      'incoherent',  'coherent_clock', 'stationary',
-                      'coherent_anti',
-                      'response','coherent-incoherent', 'coherent-stationary',
+    """ Contrasts for motion localizer """
+    contrast_names = [#'left_incoherent',  'left_coherent_clock', 'left_stationary',
+                      #'left_coherent_anti',
+                      #'right_incoherent',  'right_coherent_clock', 'right_stationary',
+                      #'right_coherent_anti',
+                      #'both_incoherent',  'both_coherent_clock', 'both_stationary',
+                      #'both_coherent_anti',
+                      'incoherent',  'coherent', 'stationary',
+                      'clock', 'anti', 'response',
+                      'coherent-incoherent', 'coherent-stationary',
                       'incoherent-stationary', 'clock-anti', 'left-right']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names[:12]])
     incoherent = con['left_incoherent'] + con['right_incoherent'] + con['both_incoherent']
     stationary = con['left_stationary'] + con['right_stationary'] + con['both_stationary']
     clock = (con['left_coherent_clock'] + con['right_coherent_clock']
              + con['both_coherent_clock'])
-    anti = (con['left_coherent_anti'] + con['right_coherent_anti']
-            + con['both_coherent_anti'])
+    if 'left_coherent_anti' in design_matrix_columns:
+        anti = (con['left_coherent_anti'] + con['right_coherent_anti']
+                + con['both_coherent_anti'])
+        left = con['left_incoherent'] + con['left_coherent_clock'] +\
+               con['left_stationary'] + con['left_coherent_anti']
+    else:
+        anti = 1.5 * (con['right_coherent_anti'] + con['both_coherent_anti'])
+        left = con['left_incoherent'] + con['left_coherent_clock'] +\
+               con['left_stationary']
+        
     coherent = clock + anti
+    right = con['right_incoherent'] + con['right_coherent_clock'] +\
+            con['right_stationary'] + con['right_coherent_anti']
     
-    contrasts = {
-                 'response': con['y'],
+    #
+    contrasts = {'incoherent': incoherent,
+                 'coherent': coherent,
+                 'clock': clock,
+                 'anti': anti,
+                 'stationary': stationary,
+                 'response':  con['y'],
                  'coherent-incoherent': coherent - incoherent,
                  'coherent-stationary': coherent - stationary,
                  'incoherent-stationary': incoherent-stationary,
                  'clock-anti': clock - anti,
-                 }
+                 'left-right': left - right}
+    #
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
