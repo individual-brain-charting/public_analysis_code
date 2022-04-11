@@ -626,7 +626,7 @@ def t2star_pipeline(do_normalise_before=False,
                     do_segment=True, do_normalise_after=False,
                     do_plot=False, keep_tmp=False ,
                     sub_name='sub-11', sess_num='ses-17', 
-                    root_path='/neurospin/ibc', echo_times='T2star_echo-times.json'):
+                    root_path='/neurospin/ibc', echo_times='qmri_T2star_echo-times.json'):
     """
     Preprocess qMRI t2 star images and then run estimation to generate t2star-maps,
     more details in scripts/qmri_README.md,
