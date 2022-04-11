@@ -22,13 +22,14 @@ from nilearn.image import (math_img, resample_to_img, mean_img)
 from nilearn import plotting as nilplot
 from matplotlib.pyplot import (hist, savefig, title, close)
 from matplotlib import cm
-from nibabel import load
+from nibabel import load, Nifti1Image, save
 from numpy import (nanpercentile, nanmin)
 from scipy import ndimage
 from nilearn.image.image import new_img_like
 
 from qmri.t2star.trunk.monoexp import monoexponential
 import json
+import numpy as np
 
 def closing(image, iterations):
     """
@@ -622,10 +623,10 @@ def t1_pipeline(do_normalise_before=False,
 
 
 def t2star_pipeline(do_normalise_before=False,
-                    do_segment=False, do_normalise_after=False,
+                    do_segment=True, do_normalise_after=False,
                     do_plot=False, keep_tmp=False ,
                     sub_name='sub-11', sess_num='ses-17', 
-                    root_path='/neurospin/ibc'):
+                    root_path='/neurospin/ibc', echo_times='T2star_echo-times.json'):
     """
     Preprocess qMRI t2 star images and then run estimation to generate t2star-maps,
     more details in scripts/qmri_README.md,
@@ -646,8 +647,6 @@ def t2star_pipeline(do_normalise_before=False,
 
     start_time = time.time()
 
-    start_time = time.time()
-
     # data files
     data_dir = DATA_LOC
 
@@ -664,18 +663,18 @@ def t2star_pipeline(do_normalise_before=False,
     niftis.sort()
     jsons.sort()
 
+    # preprocessing directory setup
+    time_elapsed = time.time() - start_time
+    print('[INFO,  t={:.2f}s] copying necessary files...'.format(time_elapsed))
+    cwd = SAVE_TO
+    preproc_dir = join(cwd, 'tmp_t2star', 'preproc')
+    if not exists(preproc_dir):
+        makedirs(preproc_dir)
+
     # sorting and copying magnitude and phase images to tmp preproc dir
     mag_niftis = []
     phase_niftis = []
     for json_, nifti in zip(jsons, niftis):
-        # preprocessing directory setup
-        time_elapsed = time.time() - start_time
-        print('[INFO,  t={:.2f}s] copying necessary files...'.format(time_elapsed))
-        cwd = SAVE_TO
-        preproc_dir = join(cwd, 'tmp_t2star', 'preproc')
-        if not exists(preproc_dir):
-            makedirs(preproc_dir)
-
         # copy t2star related files
         system('cp {} {}'.format(nifti, preproc_dir))
         nifti = join(preproc_dir, nifti.split(sep)[-1])
@@ -695,31 +694,126 @@ def t2star_pipeline(do_normalise_before=False,
     if len(mag_niftis) > 1:
         return NotImplementedError
     else:
+        assert len(mag_niftis) == 1
         mag_nifti = mag_niftis[0]
         if do_normalise_before:
-            return NotImplementedError
+            # get segments for better normalisation
+            time_elapsed = time.time() - start_time
+            print('[INFO,  t={:.2f}s] segmenting'.format(time_elapsed))
+            image = mag_nifti
+            out_info = segment(image, True)
 
-        # preprocessing step: segmenting largest flip angle image
+            # save normalised segments for later use
+            segments = [join(preproc_dir, f"w{out_info[segment].split('/')[-1]}") for segment in ['gm', 'wm']]
+
+            # normalise image to MNI space
+            time_elapsed = time.time() - start_time
+            print('[INFO,  t={:.2f}s] transforming to MNI space...'.format(time_elapsed))
+            out_info = to_MNI(image, data=out_info)
+            norm_mag_nifti = out_info['anat']
+            
+            time_elapsed = time.time() - start_time
+            print('[INFO,  t={:.2f}s] \t transformed {}'.format(time_elapsed, image.split(sep)[-1]))
+
+        # preprocessing step: segmenting for masking
         if do_segment:
-            return NotImplementedError
-    
-    # TO IMPLEMENT: extract echo times from NIFTIs or json sidecars
-    # mag_header = dict(mag_image.header)
-    # phase_header = dict(phase_image.header)
+            time_elapsed = time.time() - start_time
+            # if already normalised, use MNI mask
+            if do_normalise_before:
+                print('[INFO,  t={:.2f}s] creating a mask'.format(time_elapsed))
+                image = norm_mag_nifti
+                mni = compute_brain_mask(image)
+                closed_mni = closing(mni, 12)
+                union = intersect_masks([mni, closed_mni], threshold=0)
+            # if not normalised, segment the image and use the segments for creating a mask
+            else:
+                print('[INFO,  t={:.2f}s] segmenting...'.format(time_elapsed))
+                image = mag_nifti
+                out_info = segment(image, True)
+                segments = [out_info['gm'], out_info['wm']]
+                time_elapsed = time.time() - start_time
+                print('[INFO,  t={:.2f}s] segmented {}'.format(time_elapsed, image.split(sep)[-1]))
 
-    # hard-coding echo times for now
-    TEs = [2.03, 5.84, 9.65, 13.46, 17.27, 21.08, 24.89, 28.7, 32.51, 36.32, 40.13, 43.94]
+                # preprocessing step: creating a mask using the segments and nilearn masking module
+                print('[INFO,  t={:.2f}s] creating a mask using segments...'.format(time_elapsed))
+                add = math_img("img1 + img2", img1=segments[0], img2=segments[1])
+                if sub_name=='sub-08':
+                    full = compute_epi_mask(add, exclude_zeros=True)
+                else:
+                    full = compute_epi_mask(add)
+                insides = compute_background_mask(full, opening=12)
+                union = intersect_masks([full, insides], threshold=0)
+
+
+            # save the mask
+            mask_file = join(preproc_dir, 'mask.nii')
+            union.to_filename(mask_file)
+
+            # applying the mask
+            time_elapsed = time.time() - start_time
+            print('[INFO,  t={:.2f}s] masking image...'.format(time_elapsed))
+            union_arr = union.get_fdata()
+            image_nifti = load(image)
+            image_arr = image_nifti.get_fdata()
+            # create 4d mask, since input image is 4d with 12 echo times in 4th dim
+            union_arr_rep = [union_arr for _ in range(image_arr.shape[3])]
+            union_arr_4d = np.stack(union_arr_rep, axis=3)
+            masked_image_arr = np.where(union_arr_4d, image_arr, 0)
+            # create nifti image from the masked image array
+            masked_image_nifti = new_img_like(image_nifti, masked_image_arr, image_nifti.affine)
+            # save the masked image
+            masked_image = join(preproc_dir, f'masked_{image.split(sep)[-1]}')
+            masked_image_nifti.to_filename(f'{masked_image}')
 
 
     # estimation directory setup
     time_elapsed = time.time() - start_time
     print('[INFO,  t={:.2f}s] starting estimation...'.format(time_elapsed))
-
-
-    r2star_map, relative_uncertainty_map, aff, R2STARPath = monoexponential(mag_nifti, TEs, len(TEs))
+    recon_dir = join(cwd, 'tmp_t2star', 'recon')
+    if not exists(recon_dir):
+        makedirs(recon_dir)
     
+    # selecting input image based on preproc steps performed
+    if do_segment:
+        image = masked_image
+    else:
+        if do_normalise_before:
+            image = norm_mag_nifti
+        else:
+            image = mag_nifti
+
+    # TO DO: extract echo times from NIFTIs or json sidecars
+    # mag_header = dict(mag_image.header)
+    # phase_header = dict(phase_image.header)
+
+    # import echo times
+    TE_file = open(echo_times)
+    TE_dict = json.load(TE_file)
+    TEs = TE_dict['TEs']
+
+    r2star_map, relative_uncertainty_map, aff, R2STARPath = monoexponential(image, TEs, len(TEs), recon_dir)
+
+    # invert to get T2* (????)
+    t2star_map = 1000 / r2star_map
+    t2star_map[ np.isinf(t2star_map) ] = 0 #remove Inf in T2*
+    t2star_map[ np.isnan(t2star_map) ] = 0 #remove NaN in T2*
+    t2star_nifti = Nifti1Image( t2star_map, aff )
+
+    print(f"{sub_name}, {sess_num} T2-star estimation done")
+
     # doing the plots
     if do_plot:
         return NotImplementedError
 
-    return f"{sub_name}, {sess_num} T2-star estimation done"
+    # move derived files out and delete tmp_t2star directory
+    final_recon_map = join(SAVE_TO, f'{sub_name}_space-{space}_T2starmap.nii.gz')
+    r2star_map_file = join(SAVE_TO, f'{sub_name}_space-{space}_R2starmap.nii.gz')
+    uncertainty_map_file = join(SAVE_TO, f'{sub_name}_space-{space}_uncertainty-map.nii.gz')
+    save( t2star_nifti, final_recon_map)
+    shutil.move(join(R2STARPath, 'r2star_map.nii.gz'), r2star_map_file)
+    shutil.move(join(R2STARPath, 'dispersion_map.nii.gz'), uncertainty_map_file)
+
+    if not keep_tmp:
+        shutil.rmtree(join(SAVE_TO, 'tmp_t2star'))
+
+    return 1
