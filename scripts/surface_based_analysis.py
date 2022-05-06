@@ -85,8 +85,8 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
             print (basename)
             # output names
             # the .gii files are put in the same directory as the input fMRI
-            left_fmri_tex = os.path.join(fs_dir, basename + '_lh.gii')
-            right_fmri_tex = os.path.join(fs_dir, basename + '_rh.gii')
+            left_fmri_tex = os.path.join(fs_dir, basename + '_individual_lh.gii')
+            right_fmri_tex = os.path.join(fs_dir, basename + '_individual_rh.gii')
             if do_bbr:
                 # use BBR registration to finesse the coregistration
                 bbreg = BBRegister(
@@ -140,9 +140,9 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
 
             # resample to fsaverage
             left_fsaverage_fmri_tex = os.path.join(
-                fs_dir, basename + '_fsaverage_lh.gii')
+                fs_dir, basename + '_fsaverage7_lh.gii')
             right_fsaverage_fmri_tex = os.path.join(
-                fs_dir, basename + '_fsaverage_rh.gii')
+                fs_dir, basename + '_fsaverage7_rh.gii')
 
             print(os.system(
                 '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
