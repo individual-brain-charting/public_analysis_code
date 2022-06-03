@@ -397,10 +397,12 @@ def post_process(df, paradigm_id):
         df1 = df.copy()
         df1 = df1[df.trial_type.isin(stim)]
         df2 = df1.copy()
-        df1['modulation'] = [float(x.split('+')[1].split('_')[0])
-                             for x in df1.trial_type.values]
-        df2['modulation'] = [float(x.split('-')[1])
-                             for x in df2.trial_type.values]
+        mod1 = np.array([float(x.split('+')[1].split('_')[0])
+                         for x in df1.trial_type.values])
+        mod2 = np.array([float(x.split('-')[1])
+                         for x in df2.trial_type.values])
+        df1['modulation'] = mod1 - mod1.mean() # tbc
+        df2['modulation'] = mod2 - mod2.mean() # tbc
         df1.trial_type = 'gain'
         df2.trial_type = 'loss'
         df = df[df.trial_type.isin(resp)]
