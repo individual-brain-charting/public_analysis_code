@@ -158,7 +158,7 @@ def plot_thresholded_qmap(img, coords, output_folder, brain=None, mask=None,
 
 
 
-def t2_pipeline(do_coreg=True, do_normalise_before=False,
+def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
                 do_segment=True, do_normalise_after=False, do_plot=True,
                 keep_tmp=True, sub_name='sub-11', sess_num='ses-17',
                 root_path='/neurospin/ibc'):
@@ -288,7 +288,7 @@ def t2_pipeline(do_coreg=True, do_normalise_before=False,
                 else:
                     image = normed_nifti
                 mni = compute_brain_mask(image)
-                closed_mni = closing(mni, 12)
+                closed_mni = closing(mni, closing_iter)
                 union = intersect_masks([mni, closed_mni], threshold=0)
             else:
                 if do_coreg:
@@ -426,7 +426,7 @@ def t2_pipeline(do_coreg=True, do_normalise_before=False,
 
 
 
-def t1_pipeline(do_normalise_before=False,
+def t1_pipeline(closing_iter=12, do_normalise_before=False,
                 do_segment=True, do_normalise_after=False,
                 do_plot=True,  keep_tmp=True ,
                 sub_name='sub-11', sess_num='ses-17', 
@@ -536,7 +536,7 @@ def t1_pipeline(do_normalise_before=False,
             print('[INFO,  t={:.2f}s] creating a mask'.format(time_elapsed))
             image = normed_niftis[-1]
             mni = compute_brain_mask(image)
-            closed_mni = closing(mni, 12)
+            closed_mni = closing(mni, closing_iter)
             union = intersect_masks([mni, closed_mni], threshold=0)
         else:
             print("[INFO,  t={:.2f}s] segmenting" 
@@ -663,7 +663,7 @@ def t1_pipeline(do_normalise_before=False,
                                                         final_recon_map))
 
 
-def t2star_pipeline(do_normalise_before=False,
+def t2star_pipeline(closing_iter=12, do_normalise_before=False,
                     do_segment=True, do_normalise_after=False,
                     do_plot=False, keep_tmp=False ,
                     sub_name='sub-11', sess_num='ses-17', 
@@ -769,7 +769,7 @@ def t2star_pipeline(do_normalise_before=False,
                 print('[INFO,  t={:.2f}s] creating a mask'.format(time_elapsed))
                 image = norm_mag_nifti
                 mni = compute_brain_mask(image)
-                closed_mni = closing(mni, 12)
+                closed_mni = closing(mni, closing_iter)
                 union = intersect_masks([mni, closed_mni], threshold=0)
             # if not normalised, segment the image and use the segments
             # for creating a mask
