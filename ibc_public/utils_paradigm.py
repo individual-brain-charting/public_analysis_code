@@ -441,6 +441,8 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'OptimismBias':
         #df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
         df.drop(df[df.trial_type == 'start'].index, 0, inplace=True)
+    if paradigm_id == 'HarririAomic':
+        df.drop(df[df.trial_type == 'ttl'].index, 0, inplace=True)
     return df
 
 

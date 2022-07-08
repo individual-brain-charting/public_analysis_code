@@ -144,6 +144,12 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return motion(design_matrix_columns)
     elif paradigm_id == 'OptimismBias':
         return optimism_bias(design_matrix_columns)
+    elif paradigm_id == 'HarririAomic':
+        return harriri_aomic(design_matrix_columns)
+    elif paradigm_id == 'FacesAomic':
+        return faces_aomic(design_matrix_columns)
+    elif paradigm_id == 'StroopAomic':
+        return stroop_aomic(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -192,6 +198,85 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     if con != []:
         contrast['derivatives'] = np.array(con)
     return contrast
+
+
+def stroop_aomic(design_matrix_columns):
+    """ Contrasts for color localizer """
+    contrast_names = []
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {}
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def harriri_aomic(design_matrix_columns):
+    """ Contrasts for color localizer """
+    contrast_names = ['emotion', 'index_response',  'middle_response',
+                      'shape','emotion-shape']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {'emotion': con['emotion'],
+                 'index_response': con['index_response'],
+                 'middle_response': con['middle_response'],
+                 'shape' : con['shape'],
+                 'emotion-shape': con['emotion'] - con['shape']}
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def faces_aomic(design_matrix_columns):
+    """ Contrasts for color localizer """
+    contrast_names = ['ITI',
+                      'anger', 'contempt', 'joy', 'neutral', 'pride',
+                      'all-neutral',
+                      'anger-neutral',
+                      'contempt-neutral',
+                      'joy-neutral', 
+                      'pride-neutral',
+                      'male-female',
+                      'female-male',
+                      'mediterranean-european',
+                      'european-mediterranean']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    anger = np.sum([con[x] for x in con.keys() if x[:5] == 'anger'], 0)
+    contempt = np.sum([con[x] for x in con.keys() if x[:8] == 'contempt'], 0)
+    joy = np.sum([con[x] for x in con.keys() if x[:3] == 'joy'], 0)
+    neutral = np.sum([con[x] for x in con.keys() if x[:7] == 'neutral'], 0)
+    pride = np.sum([con[x] for x in con.keys() if x[:5] == 'pride'], 0)
+    male = np.sum([con[x] for x in con.keys() if 'female' not in x], 0)
+    female  = np.sum([con[x] for x in con.keys() if 'female' in x], 0)
+    european = np.sum([con[x] for x in con.keys() if 'european' not in x], 0)
+    mediterranean = np.sum(
+        [con[x] for x in con.keys() if 'mediterranean' in x], 0)
+    contrasts = {'ITI': con ['ITI'],
+                 'anger': anger,
+                 'contempt': contempt,
+                 'joy': joy,
+                 'neutral': neutral,
+                 'pride': pride,
+                 'anger-neutral': anger - neutral,
+                 'contempt-neutral': contempt - neutral,
+                 'joy-neutral': joy - neutral,
+                 'pride-neutral': pride - neutral,
+                 'all-neutral': .25 * (anger + contempt + joy + pride) - neutral,
+                 'female-male': female-male,
+                 'male-female':male-female,
+                 'european-mediterranean': european - mediterranean,
+                 'mediterranean-european': mediterranean - european,
+    }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def color(design_matrix_columns):
