@@ -1,20 +1,17 @@
 """
-This module contains pipelines and functions 
-for generating qMRI t1 and t2-maps.
+This module contains pipelines and functions for generating qMRI t1, t2 and
+t2star maps.
 
 Author: Himanshu Aggarwal (himanshu.aggarwal@inria.fr), 2021-22
 """
 
 import warnings
-
 warnings.filterwarnings("ignore")
-
 import json
 import shutil
 import time
 from os import listdir, makedirs, sep, system
 from os.path import exists, join
-
 import numpy as np
 from matplotlib import cm
 from matplotlib.pyplot import close, hist, savefig, title
@@ -32,26 +29,55 @@ from pypreprocess.nipype_preproc_spm_utils import (SubjectData,
 from qmri.t2star.trunk.monoexp import monoexponential
 from scipy import ndimage
 
-
 def closing(image, iterations):
+    """ Wrapper for scipy's binary_closing function to close a NIFTI image with
+    n iterations
+    
+    Parameters
+    ----------
+    image : nibabel.nifti1.Nifti1Image
+        NIFTI image to be closed loaded as a nibabel Nifti1Image object
+    iterations : int
+        number or closing iterations to perform on the input image
+
+    Returns
+    -------
+    nibabel.nifti1.Nifti1Image
+        NIFTI image with given iterations of closing on it
     """
-    Wrapper for scipy's binary_closing function to close
-    a NIFTI image with n iterations
-    """
+
+    # extract voxel intensity array
     image_data = image.get_fdata()
+    # extract the afffine matrix
     image_affine = image.affine
-    closing_test = ndimage.binary_closing(image_data,
+    # scipy closing
+    closed_array = ndimage.binary_closing(image_data,
                      iterations=iterations).astype(int)
 
-    closing_test = new_img_like(image, closing_test, image_affine)
+    closed_nifti_img = new_img_like(image, closed_array, image_affine)
 
-    return closing_test
+    return closed_nifti_img
 
 def to_T2space(t2_img, t1_img, output_dir):
+    """ Wrapper for pypreprocess's coregister function, used in T2 pipeline to
+    coregister T1 image to T2 image 
+
+    Parameters
+    ----------
+    t2_img : str
+        path for the t2 image
+    t1_img : str
+        path for the t1 image
+    output_dir : str
+        location to write the corregistered image
+
+    Returns
+    -------
+    dict
+        dictionary object consisting of all input and output info including the
+        name of output file which is used later in the pipelines
     """
-    Wrapper for pypreprocess's coregister function,
-    used here to coregister T1 image to T2 image 
-    """
+
     data = SubjectData()
     data.anat = t1_img
     data.func = [t2_img]
@@ -63,10 +89,28 @@ def to_T2space(t2_img, t1_img, output_dir):
     return coreged
 
 def to_MNI(image, data = SubjectData(), func=None):
+    """ Wrapper for pypreprocess's normalize function, to transform images from
+    subject space to MNI-152 space
+
+    Parameters
+    ----------
+    image : str
+        path for the t1 image
+    data : pypreprocess.nipype_preproc_spm_utils.Subject_Data, optional
+        dict-like object containing information about preprocessing, input and
+        output file locations, by default SubjectData()
+    func : str, optional
+        path to another low-resolution(?) image to be normalised alongwith the
+        anatomical image. Used in t1_pipeline to normalise B1 map as functional
+        image with T1 map as anatomical, by default None
+
+    Returns
+    -------
+    dict
+        dictionary object consisting of all input and output info including the
+        name of output file which is used later in the pipelines
     """
-    Wrapper for pypreprocess's normalize function,
-    to transform images from subject space to MNI-152 space
-    """
+
     data.anat = image
     data.func = func
     data.output_dir = '.'
@@ -79,23 +123,52 @@ def to_MNI(image, data = SubjectData(), func=None):
     return normalized
 
 def segment(image, normalize):
-    """
-    Wrapper for pypreprocess's segment function,
-    to segment images into grey matter, white matter and csf
-    """
+    """ Wrapper for pypreprocess's segment function, to segment images into
+    grey matter, white matter and csf
+
+    Parameters
+    ----------
+    image : str
+        path for the nifti image
+    normalize : bool
+        whether or not to normalize the segments
+
+    Returns
+    -------
+    dict
+        dictionary object consisting of all input and output info including the
+        name of output file which is used later in the pipelines
+    """    
+
     data = SubjectData()
     data.anat = image
     segmented = _do_subject_segment(data, caching=False,
                     normalize=normalize, hardlink_output=False)
     return segmented
 
-def plot_thresholded_qmap(img, coords, output_folder, brain=None, mask=None,
-                        thresh=99, map="map", interactive=False):
+def plot_thresholded_qmap(img, coords, output_folder, thresh=99,
+                          map="map", interactive=False):
+    """ Plot the final estimated t1 or t2-maps and threshold voxel intensity at
+    a given percentile or a given arbitrary intensity
+
+    Parameters
+    ----------
+    img : str
+        path to the nifti image
+    coords : tuple
+        a tuple of size 3, specifying the slice to view
+    output_folder : str
+        location to save the plots
+    thresh : str or int, optional
+        if str then thresholds image at that many percentile and if int then
+        thresholds the image at that intensity, by default 99
+    map : str, optional
+        specify what map is it (eg. t1 or t2) just used in file name strings of
+        the plot, by default "map"
+    interactive : bool, optional
+        whether or not to plot the interactive html plots, by default False
     """
-    Plot the final estimated t1 or t2-maps
-    and threshold voxel intensity at some percentile 
-    or an arbitrary intensity
-    """
+
     # flatten image data for calculating threshold
     img_arr = load(img).get_data().astype(float)
     img_arr_flat = img_arr.reshape((-1, img_arr.shape[-1])).flatten()
@@ -135,7 +208,7 @@ def plot_thresholded_qmap(img, coords, output_folder, brain=None, mask=None,
     # this is buggy
     if interactive:
         html_view = nilplot.view_img(img,
-                                    brain,
+                                    brain=None,
                                     cmap=cm.gray,
                                     symmetric_cmap=False,
                                     # vmin=0,
@@ -146,7 +219,7 @@ def plot_thresholded_qmap(img, coords, output_folder, brain=None, mask=None,
         
     # plot a simple thresholded image
     normal_view = nilplot.plot_img(img=img,
-                                bg_img=brain,
+                                bg_img=None,
                                 cut_coords=coords,
                                 cmap=cm.gray,
                                 vmax=threshold,
@@ -156,18 +229,58 @@ def plot_thresholded_qmap(img, coords, output_folder, brain=None, mask=None,
     normal_view.savefig(fig_name)
     normal_view.close()
 
-
-
 def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
                 do_segment=True, do_normalise_after=False, do_plot=True,
                 keep_tmp=True, sub_name='sub-11', sess_num='ses-17',
                 root_path='/neurospin/ibc'):
+    """ Preprocess qMRI t2 images and then run estimation to generate t2-maps,
+    more details in scripts/qmri_README.md, only one of do_normalise_before and
+    do_normalise_after should be True, both can be False
+
+    Parameters
+    ----------
+    closing_iter : int, optional
+        number of closing iteration for creating a suitable mask, by default 12
+    do_coreg : bool, optional
+        whether or not to corregister t1 image to t2 image-space. The t1 image
+        is later used to create a mask for t2 map estimation step because 
+        t1 image being high-res gives a better mask than t2 itself,
+        by default True
+    do_normalise_before : bool, optional
+        whether or not to normalise BEFORE estimation. So if True the input
+        image is transformed to MNI152 space. Make it True only if 
+        do_normalise_after is False and vice versa. Also, normalising before the
+        estimation is recommended over doing it after - it has been observed to
+        give better looking results for IBC subjects, by default False
+    do_segment : bool, optional
+        whether or not to segment the image. The segments are used to create a
+        mask used to exclude skull and neck during estimation. So if False,
+        estimation is done on every voxel in the input image, by default True
+    do_normalise_after : bool, optional
+        whether or not to normalise AFTER estimation. So if True the estimated
+        map is transformed to MNI152 space. Make it True only if 
+        do_normalise_before is False and vice versa. But normalising the 
+        estimated map has been observed to give spurious results for IBC
+        subjects, by default False
+    do_plot : bool, optional
+        whether or not to create thresholded plots for the images. Included 
+        because the actual output nifti images have unrealistically high 
+        intensity voxels as a result of inversion and they need to be discarded
+        for viewing the images, by default True
+    keep_tmp : bool, optional
+        whether or not to keep temporary transitional images created during
+        various preprocessing steps. Stored in a separate drectory for each
+        pipeline under output directory, by default True
+    sub_name : str, optional
+        name of the input subject, by default 'sub-11'
+    sess_num : str, optional
+        name of the session for relaxometry acquisition, by default 'ses-17'
+    root_path : str, optional
+        path to the root directory where directory named sourcedata should have
+        input files and a directory named derivatives where the outputs would be
+        stored, by default '/neurospin/ibc'
     """
-    Preprocess qMRI t2 images and then run estimation to generate t2-maps,
-    more details in scripts/qmri_README.md,
-    only one of do_normalise_before and do_normalise_after should be True,
-    both can be False
-    """
+
     DATA_LOC = join(root_path, 'sourcedata', sub_name, sess_num)
     SAVE_TO = join(root_path, 'derivatives', sub_name, sess_num)
 
@@ -277,7 +390,6 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
                   "{} to {} space".format(time_elapsed, t1_img.split(sep)[-1],
                                           mean_t2_img.split(sep)[-1]))
 
-
         # preprocessing step: segmenting largest flip angle image
         if do_segment:
             if do_normalise_before:
@@ -330,7 +442,6 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
             else:
                 resampled_mask_img = mask_file
 
-
         # estimation directory setup
         time_elapsed = time.time() - start_time
         print('[INFO,  t={:.2f}s] starting estimation...'.format(time_elapsed))
@@ -345,7 +456,6 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
 
         if do_segment == False:
             mask_file = None
-
 
         # estimation: t2 estimation
         system(f"python3 ../scripts/qmri_t2_map.py\
@@ -374,7 +484,6 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
                               segmented=out_info.nipype_results['segment'])
             norm_recon_map = out_info['anat']
 
-
         # doing the plots
         if do_plot:
             time_elapsed = time.time() - start_time
@@ -396,7 +505,6 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
 
         time_elapsed = time.time() - start_time
         print('\n[INFO,  t={:.2f}s] DONE'.format(time_elapsed))
-
 
         # move derived files out and delete tmp_t2 directory
         final_recon_map = join(SAVE_TO, f"{sub_name}_run-0{run_count+1}"
@@ -423,20 +531,53 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
                                                             final_recon_map))
         run_count = run_count + 1
 
-
-
-
-def t1_pipeline(closing_iter=12, do_normalise_before=False,
-                do_segment=True, do_normalise_after=False,
-                do_plot=True,  keep_tmp=True ,
-                sub_name='sub-11', sess_num='ses-17', 
+def t1_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
+                do_normalise_after=False, do_plot=True, keep_tmp=True,
+                sub_name='sub-11', sess_num='ses-17',
                 root_path='/neurospin/ibc'):
-    """
-    Preprocess qMRI t1 images and then run estimation to generate t1-maps,
-    more details in scripts/qmri_README.md,
-    only one of do_normalise_before and do_normalise_after should be True,
-    both can be False
-    """
+    """ Preprocess qMRI t1 images and then run estimation to generate t1-maps,
+    more details in scripts/qmri_README.md, only one of do_normalise_before
+    and do_normalise_after should be True, both can be False
+
+    Parameters
+    ----------
+    closing_iter : int, optional
+        number of closing iteration for creating a suitable mask, by default 12
+    do_normalise_before : bool, optional
+        whether or not to normalise BEFORE estimation. So if True the input
+        image is transformed to MNI152 space. Make it True only if 
+        do_normalise_after is False and vice versa. Also, normalising before the
+        estimation is recommended over doing it after - it has been observed to
+        give better looking results for IBC subjects, by default False
+    do_segment : bool, optional
+        whether or not to segment the image. The segments are used to create a
+        mask used to exclude skull and neck during estimation. So if False,
+        estimation is done on every voxel in the input image, by default True
+    do_normalise_after : bool, optional
+        whether or not to normalise AFTER estimation. So if True the estimated
+        map is transformed to MNI152 space. Make it True only if 
+        do_normalise_before is False and vice versa. But normalising the 
+        estimated map has been observed to give spurious results for IBC
+        subjects, by default False
+    do_plot : bool, optional
+        whether or not to create thresholded plots for the images. Included 
+        because the actual output nifti images have unrealistically high 
+        intensity voxels as a result of inversion and they need to be discarded
+        for viewing the images, by default True
+    keep_tmp : bool, optional
+        whether or not to keep temporary transitional images created during
+        various preprocessing steps. Stored in a separate drectory for each
+        pipeline under output directory, by default True
+    sub_name : str, optional
+        name of the input subject, by default 'sub-11'
+    sess_num : str, optional
+        name of the session for relaxometry acquisition, by default 'ses-17'
+    root_path : str, optional
+        path to the root directory where directory named sourcedata should have
+        input files and a directory named derivatives where the outputs would be
+        stored, by default '/neurospin/ibc'
+    """    
+
     DATA_LOC = join(root_path, 'sourcedata', sub_name, sess_num)
     SAVE_TO = join(root_path, 'derivatives', sub_name, sess_num)
 
@@ -469,7 +610,6 @@ def t1_pipeline(closing_iter=12, do_normalise_before=False,
     niftis.sort()
     jsons.sort()
 
-
     # preprocessing directory setup
     time_elapsed = time.time() - start_time
     print('[INFO,  t={:.2f}s] copying necessary files...'.format(time_elapsed))
@@ -496,7 +636,6 @@ def t1_pipeline(closing_iter=12, do_normalise_before=False,
                         b1_map_nifti.split(sep)[-1].split('.')[0] + '.nii')
     system('cp {} {}'.format(b1_map_json, preproc_dir))
     b1_map_json = join(preproc_dir, b1_map_json.split(sep)[-1])
-
 
     # preprocessing step: spatial normalization to MNI space
     # of T1 maps
@@ -618,7 +757,6 @@ def t1_pipeline(closing_iter=12, do_normalise_before=False,
         out_info = to_MNI(image, segmented=out_info.nipype_results['segment'])
         norm_recon_map = out_info['anat']
 
-
     # doing the plots
     if do_plot:
         time_elapsed = time.time() - start_time
@@ -662,18 +800,55 @@ def t1_pipeline(closing_iter=12, do_normalise_before=False,
     print('\n[INFO,  t={:.2f}s] created {} \n\n'.format(time_elapsed,
                                                         final_recon_map))
 
-
-def t2star_pipeline(closing_iter=12, do_normalise_before=False,
-                    do_segment=True, do_normalise_after=False,
-                    do_plot=False, keep_tmp=False ,
-                    sub_name='sub-11', sess_num='ses-17', 
+def t2star_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
+                    do_normalise_after=False, do_plot=False, keep_tmp=False,
+                    sub_name='sub-11', sess_num='ses-17',
                     root_path='/neurospin/ibc',
                     echo_times='qmri_T2star_echo-times.json'):
-    """
-    Preprocess qMRI t2 star images and then run estimation to generate
-    t2star-maps, more details in scripts/qmri_README.md,
-    only one of do_normalise_before and do_normalise_after should be True,
-    both can be False
+    """ Preprocess qMRI t2 star images and then run estimation to generate
+    t2star-maps, more details in scripts/qmri_README.md, only one of 
+    do_normalise_before and do_normalise_after should be True, both can be False
+
+    Parameters
+    ----------
+    closing_iter : int, optional
+        number of closing iteration for creating a suitable mask, by default 12
+    do_normalise_before : bool, optional
+        whether or not to normalise BEFORE estimation. So if True the input
+        image is transformed to MNI152 space. Make it True only if 
+        do_normalise_after is False and vice versa. Also, normalising before the
+        estimation is recommended over doing it after - it has been observed to
+        give better looking results for IBC subjects, by default False
+    do_segment : bool, optional
+        whether or not to segment the image. The segments are used to create a
+        mask used to exclude skull and neck during estimation. So if False,
+        estimation is done on every voxel in the input image, by default True
+    do_normalise_after : bool, optional
+        whether or not to normalise AFTER estimation. So if True the estimated
+        map is transformed to MNI152 space. Make it True only if 
+        do_normalise_before is False and vice versa. But normalising the 
+        estimated map has been observed to give spurious results for IBC
+        subjects, by default False
+    do_plot : bool, optional
+        whether or not to create thresholded plots for the images. Included 
+        because the actual output nifti images have unrealistically high 
+        intensity voxels as a result of inversion and they need to be discarded
+        for viewing the images, by default True
+    keep_tmp : bool, optional
+        whether or not to keep temporary transitional images created during
+        various preprocessing steps. Stored in a separate drectory for each
+        pipeline under output directory, by default True
+    sub_name : str, optional
+        name of the input subject, by default 'sub-11'
+    sess_num : str, optional
+        name of the session for relaxometry acquisition, by default 'ses-17'
+    root_path : str, optional
+        path to the root directory where directory named sourcedata should have
+        input files and a directory named derivatives where the outputs would be
+        stored, by default '/neurospin/ibc'
+    echo_times : str, optional
+        JSON file containing echo times for each 12 t2star volumes,
+        by default 'qmri_T2star_echo-times.json'
     """
 
     DATA_LOC = join(root_path, 'sourcedata', sub_name, sess_num)
@@ -795,7 +970,6 @@ def t2star_pipeline(closing_iter=12, do_normalise_before=False,
                 insides = compute_background_mask(full, opening=12)
                 union = intersect_masks([full, insides], threshold=0)
 
-
             # save the mask
             mask_file = join(preproc_dir, 'mask.nii')
             union.to_filename(mask_file)
@@ -817,7 +991,6 @@ def t2star_pipeline(closing_iter=12, do_normalise_before=False,
             # save the masked image
             masked_image = join(preproc_dir, f'masked_{image.split(sep)[-1]}')
             masked_image_nifti.to_filename(f'{masked_image}')
-
 
     # estimation directory setup
     time_elapsed = time.time() - start_time
