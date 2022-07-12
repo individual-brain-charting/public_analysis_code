@@ -1,12 +1,10 @@
 """
-This module contains pipelines and functions for generating qMRI t1, t2 and
-t2star maps.
+This module contains pipelines and functions for generating t1, t2 and
+t2star qMRI maps.
 
 Author: Himanshu Aggarwal (himanshu.aggarwal@inria.fr), 2021-22
 """
 
-import warnings
-warnings.filterwarnings("ignore")
 import json
 import shutil
 import time
@@ -701,7 +699,6 @@ def t1_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
         mask_file = join(preproc_dir, 'mask.nii')
         union.to_filename(mask_file)
 
-
     # estimation directory setup
     time_elapsed = time.time() - start_time
     print('[INFO,  t={:.2f}s] starting estimation...'.format(time_elapsed))
@@ -908,89 +905,88 @@ def t2star_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
         else:
             mag_niftis.append(nifti)
 
-    if len(mag_niftis) > 1:
-        return NotImplementedError
-    else:
-        assert len(mag_niftis) == 1
-        mag_nifti = mag_niftis[0]
+    assert len(mag_niftis) == 1
+    mag_nifti = mag_niftis[0]
+    if do_normalise_before:
+        # get segments for better normalisation
+        time_elapsed = time.time() - start_time
+        print('[INFO,  t={:.2f}s] segmenting'.format(time_elapsed))
+        image = mag_nifti
+        out_info = segment(image, True)
+
+        # save normalised segments for later use
+        segments = [join(preproc_dir,
+                    f"w{out_info[segment].split('/')[-1]}")
+                    for segment in ['gm', 'wm']]
+
+        # normalise image to MNI space
+        time_elapsed = time.time() - start_time
+        print("[INFO,  t={:.2f}s] transforming" 
+                " to MNI space...".format(time_elapsed))
+        out_info = to_MNI(image, data=out_info)
+        norm_mag_nifti = out_info['anat']
+        
+        time_elapsed = time.time() - start_time
+        print("[INFO,  t={:.2f}s] \t transformed" 
+                "{}".format(time_elapsed, image.split(sep)[-1]))
+
+    # preprocessing step: segmenting for masking
+    if do_segment:
+        time_elapsed = time.time() - start_time
+        # if already normalised, use MNI mask
         if do_normalise_before:
-            # get segments for better normalisation
-            time_elapsed = time.time() - start_time
-            print('[INFO,  t={:.2f}s] segmenting'.format(time_elapsed))
+            print('[INFO,  t={:.2f}s] creating a mask'.format(time_elapsed))
+            image = norm_mag_nifti
+            mni = compute_brain_mask(image)
+            closed_mni = closing(mni, closing_iter)
+            union = intersect_masks([mni, closed_mni], threshold=0)
+        # if not normalised, segment the image and use the segments
+        # for creating a mask
+        else:
+            print('[INFO,  t={:.2f}s] segmenting...'.format(time_elapsed))
             image = mag_nifti
             out_info = segment(image, True)
-
-            # save normalised segments for later use
-            segments = [join(preproc_dir,
-                        f"w{out_info[segment].split('/')[-1]}")
-                        for segment in ['gm', 'wm']]
-
-            # normalise image to MNI space
+            segments = [out_info['gm'], out_info['wm']]
             time_elapsed = time.time() - start_time
-            print("[INFO,  t={:.2f}s] transforming" 
-                  " to MNI space...".format(time_elapsed))
-            out_info = to_MNI(image, data=out_info)
-            norm_mag_nifti = out_info['anat']
-            
-            time_elapsed = time.time() - start_time
-            print("[INFO,  t={:.2f}s] \t transformed" 
-                  "{}".format(time_elapsed, image.split(sep)[-1]))
+            print("[INFO,  t={:.2f}s] segmented"
+                    " {}".format(time_elapsed, image.split(sep)[-1]))
 
-        # preprocessing step: segmenting for masking
-        if do_segment:
-            time_elapsed = time.time() - start_time
-            # if already normalised, use MNI mask
-            if do_normalise_before:
-                print('[INFO,  t={:.2f}s] creating a mask'.format(time_elapsed))
-                image = norm_mag_nifti
-                mni = compute_brain_mask(image)
-                closed_mni = closing(mni, closing_iter)
-                union = intersect_masks([mni, closed_mni], threshold=0)
-            # if not normalised, segment the image and use the segments
-            # for creating a mask
+            # preprocessing step: creating a mask using the segments
+            # and nilearn masking module
+            print("[INFO,  t={:.2f}s] creating" 
+                    " a mask using segments...".format(time_elapsed))
+            add = math_img("img1 + img2", img1=segments[0],
+                            img2=segments[1])
+            # something different with sub-08 images
+            # acquisition was done recently - years after other subjects
+            if sub_name=='sub-08':
+                full = compute_epi_mask(add, exclude_zeros=True)
             else:
-                print('[INFO,  t={:.2f}s] segmenting...'.format(time_elapsed))
-                image = mag_nifti
-                out_info = segment(image, True)
-                segments = [out_info['gm'], out_info['wm']]
-                time_elapsed = time.time() - start_time
-                print("[INFO,  t={:.2f}s] segmented"
-                      " {}".format(time_elapsed, image.split(sep)[-1]))
+                full = compute_epi_mask(add)
+            insides = compute_background_mask(full, opening=12)
+            union = intersect_masks([full, insides], threshold=0)
 
-                # preprocessing step: creating a mask using the segments
-                # and nilearn masking module
-                print("[INFO,  t={:.2f}s] creating" 
-                      " a mask using segments...".format(time_elapsed))
-                add = math_img("img1 + img2", img1=segments[0],
-                               img2=segments[1])
-                if sub_name=='sub-08':
-                    full = compute_epi_mask(add, exclude_zeros=True)
-                else:
-                    full = compute_epi_mask(add)
-                insides = compute_background_mask(full, opening=12)
-                union = intersect_masks([full, insides], threshold=0)
+        # save the mask
+        mask_file = join(preproc_dir, 'mask.nii')
+        union.to_filename(mask_file)
 
-            # save the mask
-            mask_file = join(preproc_dir, 'mask.nii')
-            union.to_filename(mask_file)
-
-            # applying the mask
-            time_elapsed = time.time() - start_time
-            print('[INFO,  t={:.2f}s] masking image...'.format(time_elapsed))
-            union_arr = union.get_fdata()
-            image_nifti = load(image)
-            image_arr = image_nifti.get_fdata()
-            # create 4d mask, since input image is 4d with 12 echo times
-            # in 4th dim
-            union_arr_rep = [union_arr for _ in range(image_arr.shape[3])]
-            union_arr_4d = np.stack(union_arr_rep, axis=3)
-            masked_image_arr = np.where(union_arr_4d, image_arr, 0)
-            # create nifti image from the masked image array
-            masked_image_nifti = new_img_like(image_nifti, masked_image_arr,
-                                              image_nifti.affine)
-            # save the masked image
-            masked_image = join(preproc_dir, f'masked_{image.split(sep)[-1]}')
-            masked_image_nifti.to_filename(f'{masked_image}')
+        # applying the mask
+        time_elapsed = time.time() - start_time
+        print('[INFO,  t={:.2f}s] masking image...'.format(time_elapsed))
+        union_arr = union.get_fdata()
+        image_nifti = load(image)
+        image_arr = image_nifti.get_fdata()
+        # create 4d mask, since input image is 4d with 12 echo times
+        # in 4th dim
+        union_arr_rep = [union_arr for _ in range(image_arr.shape[3])]
+        union_arr_4d = np.stack(union_arr_rep, axis=3)
+        masked_image_arr = np.where(union_arr_4d, image_arr, 0)
+        # create nifti image from the masked image array
+        masked_image_nifti = new_img_like(image_nifti, masked_image_arr,
+                                            image_nifti.affine)
+        # save the masked image
+        masked_image = join(preproc_dir, f'masked_{image.split(sep)[-1]}')
+        masked_image_nifti.to_filename(f'{masked_image}')
 
     # estimation directory setup
     time_elapsed = time.time() - start_time
@@ -1024,24 +1020,26 @@ def t2star_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
 
     # invert to get T2* (????)
     t2star_map = 1000 / r2star_map
-    t2star_map[ np.isinf(t2star_map) ] = 0 #remove Inf in T2*
-    t2star_map[ np.isnan(t2star_map) ] = 0 #remove NaN in T2*
-    t2star_nifti = Nifti1Image( t2star_map, aff )
+    t2star_map[np.isinf(t2star_map)] = 0 #remove Inf in T2*
+    t2star_map[np.isnan(t2star_map)] = 0 #remove NaN in T2*
+    t2star_nifti = Nifti1Image(t2star_map, aff)
 
     print(f"{sub_name}, {sess_num} T2-star estimation done")
 
     # doing the plots
     if do_plot:
-        return NotImplementedError
+        print('plotting not implemented for t2star est, saving the estimated'
+              'NIFTIs')
 
     # move derived files out and delete tmp_t2star directory
     final_recon_map = join(SAVE_TO,
                            f'{sub_name}_space-{space}_T2starmap.nii.gz')
-    r2star_map_file = join(SAVE_TO,
+    r2star_map_file = join(SAVE_TO, 'tmp_t2star',
                            f'{sub_name}_space-{space}_R2starmap.nii.gz')
-    uncertainty_map_file = join(SAVE_TO, f"{sub_name}_space-{space}"
-                                          "_uncertainty-map.nii.gz")
-    save( t2star_nifti, final_recon_map)
+    uncertainty_map_file = join(SAVE_TO, 'tmp_t2star',
+                                f"{sub_name}_space-{space}"
+                                "_uncertainty-map.nii.gz")
+    save(t2star_nifti, final_recon_map)
     shutil.move(join(R2STARPath, 'r2star_map.nii.gz'), r2star_map_file)
     shutil.move(join(R2STARPath, 'dispersion_map.nii.gz'), uncertainty_map_file)
 
