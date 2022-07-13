@@ -506,7 +506,7 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
 
         # move derived files out and delete tmp_t2 directory
         final_recon_map = join(SAVE_TO, f"{sub_name}_run-0{run_count+1}"
-                                         "_space-{space}_T2map.nii.gz")
+                                        f"_space-{space}_T2map.nii.gz")
         if do_normalise_after:
             system('gzip {}'.format(norm_recon_map))
             recon_map = norm_recon_map + '.gz'
@@ -639,7 +639,7 @@ def t1_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
     # of T1 maps
     if do_normalise_before:
         time_elapsed = time.time() - start_time
-        print("[INFO,  t={:.2f}s] segmenting" 
+        print("[INFO,  t={:.2f}s] segmenting " 
               "highest flip angle image".format(time_elapsed))
         image = niftis[-1]
         out_info = segment(image, True)
@@ -648,7 +648,7 @@ def t1_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
                     f"w{out_info[segment].split('/')[-1]}") 
                     for segment in ['gm', 'wm']]
         time_elapsed = time.time() - start_time
-        print("[INFO,  t={:.2f}s] transforming" 
+        print("[INFO,  t={:.2f}s] transforming " 
               "images to MNI space...".format(time_elapsed))
         normed_niftis = []
         cnt = 0
@@ -662,7 +662,7 @@ def t1_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
                 out_info = to_MNI(image, data=out_info)
             normed_niftis.append(out_info['anat'])
             time_elapsed = time.time() - start_time
-            print("[INFO,  t={:.2f}s] \t transformed"
+            print("[INFO,  t={:.2f}s] \t transformed "
                   "{}".format(time_elapsed, nii.split(sep)[-1]))
             cnt = cnt + 1
 
@@ -682,7 +682,7 @@ def t1_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
             out_info = segment(image, True)
             segments = [out_info['gm'], out_info['wm']]
             time_elapsed = time.time() - start_time
-            print("[INFO,  t={:.2f}s] \t segmented" 
+            print("[INFO,  t={:.2f}s] \t segmented " 
                   "{}".format(time_elapsed, image.split(sep)[-1]))
 
             # preprocessing step: creating a mask
@@ -927,8 +927,8 @@ def t2star_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
         norm_mag_nifti = out_info['anat']
         
         time_elapsed = time.time() - start_time
-        print("[INFO,  t={:.2f}s] \t transformed" 
-                "{}".format(time_elapsed, image.split(sep)[-1]))
+        print("[INFO,  t={:.2f}s] \t transformed " 
+              "{}".format(time_elapsed, image.split(sep)[-1]))
 
     # preprocessing step: segmenting for masking
     if do_segment:
@@ -949,12 +949,12 @@ def t2star_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
             segments = [out_info['gm'], out_info['wm']]
             time_elapsed = time.time() - start_time
             print("[INFO,  t={:.2f}s] segmented"
-                    " {}".format(time_elapsed, image.split(sep)[-1]))
+                  " {}".format(time_elapsed, image.split(sep)[-1]))
 
             # preprocessing step: creating a mask using the segments
             # and nilearn masking module
             print("[INFO,  t={:.2f}s] creating" 
-                    " a mask using segments...".format(time_elapsed))
+                  " a mask using segments...".format(time_elapsed))
             add = math_img("img1 + img2", img1=segments[0],
                             img2=segments[1])
             # something different with sub-08 images
@@ -1028,7 +1028,7 @@ def t2star_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
 
     # doing the plots
     if do_plot:
-        print('plotting not implemented for t2star est, saving the estimated'
+        print('plotting not implemented for t2star est, saving the estimated '
               'NIFTIs')
 
     # move derived files out and delete tmp_t2star directory
@@ -1038,7 +1038,7 @@ def t2star_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
                            f'{sub_name}_space-{space}_R2starmap.nii.gz')
     uncertainty_map_file = join(SAVE_TO, 'tmp_t2star',
                                 f"{sub_name}_space-{space}"
-                                "_uncertainty-map.nii.gz")
+                                 "_uncertainty-map.nii.gz")
     save(t2star_nifti, final_recon_map)
     shutil.move(join(R2STARPath, 'r2star_map.nii.gz'), r2star_map_file)
     shutil.move(join(R2STARPath, 'dispersion_map.nii.gz'), uncertainty_map_file)
