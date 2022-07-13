@@ -63,5 +63,5 @@ if __name__ == "__main__":
                 'sub-09': 'ses-19', 'sub-11': 'ses-17', 'sub-12': 'ses-17',
                 'sub-13': 'ses-20', 'sub-14': 'ses-20', 'sub-15': 'ses-18'}
 
-    Parallel(n_jobs=1)(delayed(run_all_estimation)(sub, sess, DATA_ROOT)
+    Parallel(n_jobs=1)(delayed(run_all_estimation)(DATA_ROOT, sub, sess)
                        for sub, sess in sub_sess.items())
