@@ -202,11 +202,39 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
 
 def stroop_aomic(design_matrix_columns):
     """ Contrasts for color localizer """
-    contrast_names = []
+    contrast_names = ['incongruent_word_male_face_female',
+                      'congruent_word_female_face_female', 
+                      'congruent_word_male_face_male',
+                      'incongruent_word_female_face_male',
+                      'index_response', 'middle_response',
+                      'congurent-incongruent',
+                      'incongurent-congruent',
+                      'face_male-face_female',
+                      'word_male-word_female',
+                      'index-middle', 'middle-index'
+    ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {}
+    contrasts = dict([(name, con[name]) for name in contrast_names[:6]])
+    congruent = con['congruent_word_female_face_female'] +\
+                con['congruent_word_male_face_male']
+    incongruent = con['incongruent_word_male_face_female'] +\
+                  con['incongruent_word_female_face_male']
+    face_male = con['incongruent_word_female_face_male'] +\
+                con['congruent_word_male_face_male']
+    face_female = con['congruent_word_female_face_female'] +\
+                  con['incongruent_word_male_face_female']
+    word_male = con['congruent_word_male_face_male'] +\
+                con['incongruent_word_male_face_female']
+    word_female = con['congruent_word_female_face_female'] +\
+                  con['incongruent_word_female_face_male']
+    contrasts['congurent-incongruent'] = congruent - incongruent
+    contrasts['incongurent-congruent'] = incongruent - congruent
+    contrasts['face_male-face_female'] = face_male - face_female
+    contrasts['word_male-word_female'] = word_male - word_female
+    contrasts['index-middle'] = con['index_response'] - con['middle_response']
+    contrasts['middle-index'] = con['middle_response'] - con['index_response']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)

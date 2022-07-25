@@ -442,7 +442,10 @@ def post_process(df, paradigm_id):
         #df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
         df.drop(df[df.trial_type == 'start'].index, 0, inplace=True)
     if paradigm_id == 'HarririAomic':
-        df.drop(df[df.trial_type == 'ttl'].index, 0, inplace=True)
+        df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, 0, inplace=True)
+    if paradigm_id == 'StroopAomic':
+        df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, 0, inplace=True)
+        # todo: distinguish incorrect vs female
     return df
 
 
