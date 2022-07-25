@@ -181,7 +181,7 @@ def plot_thresholded_qmap(img, coords, output_folder, thresh=99,
     # if given threshold is specified as percentile
     if type(thresh) is str:
         threshold = nanpercentile(img_arr_flat, float(thresh))
-        titl = ("Voxel distribution ranged between" 
+        titl = ("Voxel distribution ranged between " 
                "[0, {}] (at {} percentile)").format(threshold, thresh)
     # if given threshold is specified as voxel value
     else:
@@ -311,7 +311,7 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
     for nifti in niftis:
         # preprocessing directory setup
         time_elapsed = time.time() - start_time
-        print("[INFO,  t={:.2f}s] copying" 
+        print("[INFO,  t={:.2f}s] copying " 
               "necessary files...".format(time_elapsed))
         cwd = SAVE_TO
         preproc_dir = join(cwd, 'tmp_t2', 'preproc')
@@ -344,7 +344,7 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
             if do_coreg:
                 t1_img = t1_nifti
                 time_elapsed = time.time() - start_time
-                print("[INFO,  t={:.2f}s]" 
+                print("[INFO,  t={:.2f}s] " 
                       "segmenting the t1 image".format(time_elapsed))
                 out_info = segment(t1_img, False)
                 time_elapsed = time.time() - start_time
@@ -355,7 +355,7 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
                 normed_nifti = out_info['func'][0]
             else:
                 time_elapsed = time.time() - start_time
-                print("[INFO,  t={:.2f}s]" 
+                print("[INFO,  t={:.2f}s] " 
                       "segmenting the t2 image".format(time_elapsed))
                 out_info = segment(image, False)
                 time_elapsed = time.time() - start_time
@@ -370,7 +370,7 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
         # preprocessing step: transform t1 image to t2 space
         if do_coreg:
             time_elapsed = time.time() - start_time
-            print("[INFO,  t={:.2f}s] transforming" 
+            print("[INFO,  t={:.2f}s] transforming " 
                   "t1 image to t2 space...".format(time_elapsed))
             if do_normalise_before:
                 t2_img = normed_nifti
@@ -384,7 +384,7 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
             mean_t2.to_filename(mean_t2_img)
             out_info = to_T2space(t2_img=mean_t2_img, t1_img=t1_img,
                                   output_dir=preproc_dir)
-            print("[INFO,  t={:.2f}s] \t transformed" 
+            print("[INFO,  t={:.2f}s] \t transformed " 
                   "{} to {} space".format(time_elapsed, t1_img.split(sep)[-1],
                                           mean_t2_img.split(sep)[-1]))
 
@@ -406,12 +406,12 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
                 else:
                     image = nifti
                 time_elapsed = time.time() - start_time
-                print("[INFO,  t={:.2f}s] segmenting the image" 
+                print("[INFO,  t={:.2f}s] segmenting the image " 
                       "for creating a mask".format(time_elapsed))
                 out_info = segment(image, False)
                 segments = [out_info['gm'], out_info['wm']]
                 time_elapsed = time.time() - start_time
-                print("[INFO,  t={:.2f}s] \t segmented" 
+                print("[INFO,  t={:.2f}s] \t segmented " 
                       "{}".format(time_elapsed, image.split(sep)[-1]))
 
                 # preprocessing step: creating a mask
