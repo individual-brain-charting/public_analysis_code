@@ -26,7 +26,7 @@ from nilearn.image import smooth_img
 
 work_dir = '/neurospin/ibc/derivatives'
 subjects = ['sub-%02d' % i for i in [1, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]]
-subjects = ['sub-%02d' % i for i in [8, 9, 11, 12, 13, 14]]
+subjects = ['sub-%02d' % i for i in [11, 12]]
 mem = Memory(base_dir='/neurospin/tmp/ibc')
 
 # Step 1: Perform recon-all
@@ -58,8 +58,8 @@ def recon_all(work_dir, subject, high_res=True):
         os.system('recon-all -all -subjid %s -sd %s' % (subject, t1_dir))
 
 
-# Parallel(n_jobs=1)(delayed(recon_all)(work_dir, subject, True)
-#                        for subject in subjects)
+Parallel(n_jobs=2)(delayed(recon_all)(work_dir, subject, True)
+                   for subject in subjects)
 
 # Step 2: Perform the projection
 def project_volume(work_dir, subject, sessions, do_bbr=True):
@@ -207,6 +207,7 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
 # protocols = ['enumeration']
 #protocols = ['stanford1', 'stanford2', 'stanford3']
 # protocols = ['biological_motion', 'navigation' , 'camcan1', 'camcan2', 'fbirn', 'search', 'reward', 'scene', 'monkey_kingdom', 'color']
+"""
 protocols = ['BBT1', 'BBT2']
 subject_sessions = sorted(get_subject_session(protocols))
 
@@ -214,3 +215,4 @@ Parallel(n_jobs=6)(
     delayed(project_volume)(work_dir, subject_session[0], [subject_session[1]],
                             do_bbr=True)
     for subject_session in subject_sessions)
+"""

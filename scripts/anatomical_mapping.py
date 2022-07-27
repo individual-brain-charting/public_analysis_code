@@ -12,13 +12,12 @@ import os
 from nipype.interfaces.freesurfer import BBRegister
 from joblib import Memory, Parallel, delayed
 import glob
-# import mayavi.mlab as mlab
 import numpy as np
 import nibabel as nib
 
 data_dir = '/neurospin/ibc/derivatives'
-subjects = ['sub-%02d' % i for i in [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]]
-subjects = ['sub-%02d' % i for i in [8, 9, 11, 12, 13, 14]]
+subjects = ['sub-%02d' % i for i in [1, 4, 5, 6, 7, 8, 9, 13, 14]]
+# subjects = ['sub-%02d' % i for i in [11, 12, 15]] # 
 os.environ['SUBJECTS_DIR'] = ''
 
 
@@ -60,12 +59,12 @@ def closing(image):
     from scipy.ndimage.morphology import grey_closing
     # from nilearn.plotting import plot_anat
     import nibabel as nib
-    data = nib.load(image).get_data()
+    data = nib.load(image).get_fdata()
     data_ = grey_closing(data, size=(3, 3, 3))
     img = nib.Nifti1Image(data_, nib.load(image).affine)
     print(np.sum((data - data_) ** 2))
     filename = os.path.join(
-        os.path.dirname(image), os.path.basename(image)[:-4] +
+        os.path.dirname(image), 'analysis', os.path.basename(image)[:-4] +
         '_closed.nii.gz')
     img.to_filename(filename)
     return filename
@@ -74,7 +73,7 @@ def closing(image):
 def project_volume(work_dir, subject, do_bbr=True):
     # first find the session where T1w and T2w files could be
     ref_file = sorted(glob.glob(os.path.join(
-        work_dir, subject, 'ses-*', 'anat', '*-highres_T1w.nii*')))[-1]
+        work_dir, subject, 'ses-*', 'anat', 'sub*-highres_T1w.nii')))[-1]
     # session = ref_file.split('/')[-3]
     anat_dir = os.path.dirname(ref_file)
 
@@ -84,14 +83,14 @@ def project_volume(work_dir, subject, do_bbr=True):
     os.environ['SUBJECTS_DIR'] = anat_dir
     data = {}
     for modality in ['T1w', 'T2w']:
-        if modality == ['T1w']:
+        if modality == 'T1w':
             image = ref_file
         else:
             image = sorted(glob.glob(os.path.join(
-                work_dir, subject, 'ses-*', 'anat', '*-highres_T2w.nii*')))[-1]
+                work_dir, subject, 'ses-*', 'anat', '*-highres_T2w.nii')))[-1]
 
         image_ = closing(image)
-
+        
         # --------------------------------------------------------------------
         # run the projection using freesurfer
         print("image", image)
@@ -105,15 +104,15 @@ def project_volume(work_dir, subject, do_bbr=True):
             bbreg = BBRegister(subject_id=subject, source_file=image,
                                init='header', contrast_type='t2')
 
-        regheader = os.path.join(anat_dir, basename + '_bbreg_%s.dat'
+        regheader = os.path.join(os.path.dirname(image), basename + '_bbreg_%s.dat'
                                  % subject)
         bbreg.run()
 
         if 1:
             # output names
             # the .gii files will be put in the same directory as the input
-            left_tex = os.path.join(write_dir, basename + '_lh.gii')
-            right_tex = os.path.join(write_dir, basename + '_rh.gii')
+            left_tex = os.path.join(write_dir, basename + '_individual_lh.gii')
+            right_tex = os.path.join(write_dir, basename + '_individual_rh.gii')
 
             # run freesrufer command for projection
             os.system(
@@ -126,11 +125,11 @@ def project_volume(work_dir, subject, do_bbr=True):
                 '--out_type gii --srcreg %s --hemi rh --projfrac-avg 0 1 0.1'
                 % (image_, right_tex, regheader))
 
-            # resample to fsaverage
+            # resample to fsaverage7
             left_smooth_tex = os.path.join(
-                write_dir, basename + '_fsaverage_lh.gii')
+                write_dir, basename + '_fsaverage7_lh.gii')
             right_smooth_tex = os.path.join(
-                write_dir, basename + '_fsaverage_rh.gii')
+                write_dir, basename + '_fsaverage7_rh.gii')
 
             os.system(
                 '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
@@ -142,6 +141,24 @@ def project_volume(work_dir, subject, do_bbr=True):
                 '--srcsurfval %s --trgsubject ico --trgicoorder 7 '
                 '--trgsurfval %s --hemi rh' %
                 (subject, right_tex, right_smooth_tex))
+
+            # resample to fsaverage5
+            left_smooth_tex = os.path.join(
+                write_dir, basename + '_fsaverage5_lh.gii')
+            right_smooth_tex = os.path.join(
+                write_dir, basename + '_fsaverage5_rh.gii')
+
+            os.system(
+                '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
+                '--srcsurfval %s --trgsurfval %s --trgsubject ico '
+                '--trgicoorder 5 --hemi lh' %
+                (subject, left_tex, left_smooth_tex))
+            os.system(
+                '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
+                '--srcsurfval %s --trgsubject ico --trgicoorder 5 '
+                '--trgsurfval %s --hemi rh' %
+                (subject, right_tex, right_smooth_tex))
+            
             data[modality] = {
                 'lh': nib.load(left_smooth_tex).darrays[0].data,
                 'rh': nib.load(right_smooth_tex).darrays[0].data
@@ -164,20 +181,44 @@ def project_volume(work_dir, subject, do_bbr=True):
         file_ratio = os.path.join(write_dir, 't1_t2_ratio_%s.gii' % hemi)
         write(GiftiImage(darrays=[gda(data=ratio.astype('float32'))]),
               file_ratio)
-        """
-        views = ['lat', 'med']
-        fig = mlab.figure()
-        from surfer import Brain
-        brain = Brain('fsaverage', hemi, "inflated", title='Ratio', figure=fig)
-        brain.add_data(ratio, min=1., max=2., colormap='jet')
-        brain.show_view('lateral')
-        brain.save_montage('/tmp/t1_t2_ratio_%s_%s.png' % (subject, hemi),
-            order=views)
-        """
 
 
 Parallel(n_jobs=1)(
     delayed(project_volume)(data_dir, subject)
     for subject in subjects)
 
-# mlab.show()
+
+###########################################################################
+from nilearn.plotting import plot_surf, view_surf, show
+from nilearn import datasets
+import os
+import nibabel as nib
+import glob
+
+fsaverage = datasets.fetch_surf_fsaverage('fsaverage5')
+
+dir_ = '/neurospin/ibc/derivatives/sub-*/ses-*/anat/analysis/'
+wc = os.path.join(dir_, 't1_t2_ratio_lh.gii')
+textures = glob.glob(wc)
+for texture in textures:
+    tex = nib.load(texture).darrays[0].data
+    view_surf(
+        fsaverage['infl_left'], surf_map=tex, bg_map=None, vmin=1, vmax=2
+    ).open_in_browser()
+
+wc = os.path.join(dir_, 't1_t2_ratio_rh.gii')
+textures = glob.glob(wc)
+for texture in textures:
+    tex = nib.load(texture).darrays[0].data
+    view_surf(
+        fsaverage['infl_right'], surf_map=tex, bg_map=None, vmin=1, vmax=2
+    ).open_in_browser()
+
+    
+"""
+plot_surf(
+    fsaverage['infl_left'],
+    surf_map=tex, bg_map=None, hemi='left', view='lateral', engine='matplotlib')
+"""
+
+show()
