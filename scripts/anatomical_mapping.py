@@ -212,7 +212,7 @@ def project_volume(work_dir, subject, do_bbr=True):
 
 Parallel(n_jobs=1)(
     delayed(project_volume)(data_dir, subject)
-    for subject in subjects[:1])
+    for subject in subjects)
 
 
 ###########################################################################
