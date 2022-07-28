@@ -70,6 +70,33 @@ def closing(image):
     return filename
 
 
+def median_filter(image):
+    """Numerical filter of the image
+
+    Parameters
+    ----------
+    image: string,
+           input image
+
+    returns
+    -------
+    filename: string,
+              path of closed image
+    """
+    from scipy.ndimage import median_filter
+    # from nilearn.plotting import plot_anat
+    import nibabel as nib
+    data = nib.load(image).get_fdata()
+    data_ = median_filter(data, size=(3, 3, 3))
+    img = nib.Nifti1Image(data_, nib.load(image).affine)
+    print(np.sum((data - data_) ** 2) / np.sum(data ** 2))
+    filename = os.path.join(
+        os.path.dirname(image), 'analysis', os.path.basename(image)[:-4] +
+        '_median.nii.gz')
+    img.to_filename(filename)
+    return filename
+
+
 def project_volume(work_dir, subject, do_bbr=True):
     # first find the session where T1w and T2w files could be
     ref_file = sorted(glob.glob(os.path.join(
@@ -89,7 +116,7 @@ def project_volume(work_dir, subject, do_bbr=True):
             image = sorted(glob.glob(os.path.join(
                 work_dir, subject, 'ses-*', 'anat', '*-highres_T2w.nii')))[-1]
 
-        image_ = closing(image)
+        image_ = median_filter(image)
         
         # --------------------------------------------------------------------
         # run the projection using freesurfer
@@ -185,7 +212,7 @@ def project_volume(work_dir, subject, do_bbr=True):
 
 Parallel(n_jobs=1)(
     delayed(project_volume)(data_dir, subject)
-    for subject in subjects)
+    for subject in subjects[:1])
 
 
 ###########################################################################
@@ -198,27 +225,36 @@ import glob
 fsaverage = datasets.fetch_surf_fsaverage('fsaverage5')
 
 dir_ = '/neurospin/ibc/derivatives/sub-*/ses-*/anat/analysis/'
-wc = os.path.join(dir_, 't1_t2_ratio_lh.gii')
-textures = glob.glob(wc)
-for texture in textures:
-    tex = nib.load(texture).darrays[0].data
-    view_surf(
-        fsaverage['infl_left'], surf_map=tex, bg_map=None, vmin=1, vmax=2
-    ).open_in_browser()
+if 0:
+    wc = os.path.join(dir_, 't1_t2_ratio_lh.gii')
+    textures = glob.glob(wc)
+    for texture in textures:
+        tex = nib.load(texture).darrays[0].data
+        view_surf(
+            fsaverage['infl_left'], surf_map=tex, bg_map=None, vmin=1, vmax=2
+        ).open_in_browser()
 
-wc = os.path.join(dir_, 't1_t2_ratio_rh.gii')
-textures = glob.glob(wc)
-for texture in textures:
-    tex = nib.load(texture).darrays[0].data
-    view_surf(
-        fsaverage['infl_right'], surf_map=tex, bg_map=None, vmin=1, vmax=2
-    ).open_in_browser()
+    wc = os.path.join(dir_, 't1_t2_ratio_rh.gii')
+    textures = glob.glob(wc)
+    for texture in textures:
+        tex = nib.load(texture).darrays[0].data
+        view_surf(
+            fsaverage['infl_right'], surf_map=tex, bg_map=None, vmin=1, vmax=2
+        ).open_in_browser()
 
-    
-"""
-plot_surf(
-    fsaverage['infl_left'],
-    surf_map=tex, bg_map=None, hemi='left', view='lateral', engine='matplotlib')
-"""
+if 1:
+    wc = os.path.join(dir_, 't1_t2_ratio_lh.gii')
+    textures = glob.glob(wc)
+    tex = nib.load(textures[0]).darrays[0].data
+    plot_surf(
+        fsaverage['infl_left'],
+        surf_map=tex, bg_map=None, hemi='left', view='lateral',
+        vmin=1, vmax=2, engine='matplotlib')
+    plot_surf(
+        fsaverage['infl_left'],
+        surf_map=tex, bg_map=None, hemi='left', view='medial',
+        vmin=1, vmax=2, engine='matplotlib')
+    show()
 
-show()
+
+

@@ -639,7 +639,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 if acquisition in ['ap', 'pa']:
                     wc = os.path.join(
                         derivatives, subject, '*', dir_, 'z_surf',
-                        '%s_%s.gii' % (contrast, side))
+                        '%s*%s.gii' % (contrast, side))
                 imgs_ = glob.glob(wc)
                 imgs_.sort()
 
