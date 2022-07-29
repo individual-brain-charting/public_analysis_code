@@ -199,9 +199,9 @@ def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
         contrast_ = compute_contrast(labels, res, con_)
         stats = [contrast_.z_score(), contrast_.stat_, contrast_.effect,
                  contrast_.variance]
-        for map_type, out_map in zip(['z', 't', 'effects', 'variance'], stats):
+        for map_type, out_map in zip(['z_score', 'stat', 'effect_size', 'effect_variance'], stats):
             map_dir = os.path.join(
-                subject_session_output_dir, '%s_surf' % map_type)
+                subject_session_output_dir, '%s_maps' % map_type)
             if not os.path.exists(map_dir):
                 os.makedirs(map_dir)
             map_path = os.path.join(map_dir, '%s_%s.gii' % (contrast_id, side))
@@ -454,10 +454,10 @@ def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
                 data_available = False
                 continue
             effect_size_maps.append(
-                os.path.join(sess_dir, 'effects_surf', '%s_%s.gii' %
+                os.path.join(sess_dir, 'effect_size_maps', '%s_%s.gii' %
                              (contrast, side)))
             effect_variance_maps.append(
-                os.path.join(sess_dir, 'variance_surf', '%s_%s.gii' %
+                os.path.join(sess_dir, 'variance_size_maps', '%s_%s.gii' %
                              (contrast, side)))
     return effect_size_maps, effect_variance_maps, data_available
 
@@ -484,17 +484,10 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
         contrasts = make_contrasts(paradigm).keys()
         # create write_dir
         if mesh is not False:
-            if mesh == 'fsaverage5':
-                write_dir = os.path.join(subject_dic['output_dir'],
-                                         'res_fsaverage5_%s_ffx' % paradigm)
-            elif mesh == 'individual':
-                write_dir = os.path.join(subject_dic['output_dir'],
-                                         'res_individual_%s_ffx' % paradigm)
-            else:
-                write_dir = os.path.join(subject_dic['output_dir'],
-                                         'res_fsaverage7_%s_ffx' % paradigm)
+            write_dir = os.path.join(subject_dic['output_dir'],
+                                     'res_%s_%s_ffx' % (mesh, paradigm))
             dirs = [os.path.join(write_dir, stat) for stat in [
-                    'effect_surf', 'variance_surf', 'stat_surf']]
+                    'effect_size_maps', 'effect_variance_maps', 'stat_maps']]
         else:
             write_dir = os.path.join(subject_dic['output_dir'],
                                      'res_stats_%s_ffx' % paradigm)

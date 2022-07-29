@@ -99,7 +99,7 @@ for subject_session in subjects_sessions:
     if do_surface:
         for hemi in ['lh', 'rh']:
             z_maps = [
-                pjoin(work_dir, acq, 'z_surf', 'effects_interest_%s.gii' % hemi)
+                pjoin(work_dir, acq, 'z_score_maps', 'effects_interest_%s.gii' % hemi)
                 for acq in acqs]
 
             mean_z = np.mean([np.ravel([
@@ -132,27 +132,27 @@ for subject_session in subjects_sessions:
             #
             cos_wedge_clock = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_fsaverage7_WedgeClock_pa', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeClock_pa', 'z_score_maps',
                           'cos_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_fsaverage7_WedgeClock_ap', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeClock_ap', 'z_score_maps',
                           'cos_%s.gii' % hemi))], 0)
             sin_wedge_clock = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_fsaverage7_WedgeClock_pa', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeClock_pa', 'z_score_maps',
                           'sin_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_fsaverage7_WedgeClock_ap', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeClock_ap', 'z_score_maps',
                           'sin_%s.gii' % hemi))], 0)
             cos_wedge_anti = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_fsaverage7_WedgeAnti_pa', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeAnti_pa', 'z_score_maps',
                           'cos_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_fsaverage7_WedgeAnti_ap', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeAnti_ap', 'z_score_maps',
                           'cos_%s.gii' % hemi))], 0)
             sin_wedge_anti = np.mean([np.ravel([
                 darrays.data for darrays in load(z_map).darrays]) for z_map in (
-                    pjoin(work_dir, 'res_fsaverage7_WedgeAnti_pa', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeAnti_pa', 'z_score_maps',
                           'sin_%s.gii' % hemi),
-                    pjoin(work_dir, 'res_fsaverage7_WedgeAnti_ap', 'z_surf',
+                    pjoin(work_dir, 'res_fsaverage7_WedgeAnti_ap', 'z_score_maps',
                           'sin_%s.gii' % hemi))], 0)
             retino_imgs = {
                 'cos_wedge_pos': cos_wedge_anti,
@@ -160,13 +160,13 @@ for subject_session in subjects_sessions:
                 'sin_wedge_neg': sin_wedge_clock,
                 'cos_wedge_neg': cos_wedge_clock,
                 'cos_ring_pos': pjoin(
-                    work_dir, 'res_fsaverage7_ExpRing_pa', 'z_surf', 'cos_%s.gii' % hemi),
+                    work_dir, 'res_fsaverage7_ExpRing_pa', 'z_score_maps', 'cos_%s.gii' % hemi),
                 'sin_ring_pos': pjoin(
-                    work_dir, 'res_fsaverage7_ExpRing_pa', 'z_surf', 'sin_%s.gii' % hemi),
+                    work_dir, 'res_fsaverage7_ExpRing_pa', 'z_score_maps', 'sin_%s.gii' % hemi),
                 'sin_ring_neg': pjoin(
-                    work_dir, 'res_fsaverage7_ContRing_ap', 'z_surf', 'sin_%s.gii' % hemi),
+                    work_dir, 'res_fsaverage7_ContRing_ap', 'z_score_maps', 'sin_%s.gii' % hemi),
                 'cos_ring_neg': pjoin(
-                    work_dir, 'res_fsaverage7_ContRing_ap', 'z_surf', 'cos_%s.gii' % hemi)
+                    work_dir, 'res_fsaverage7_ContRing_ap', 'z_score_maps', 'cos_%s.gii' % hemi)
             }
             retino_coefs = {}
             for key in retino_imgs.keys():

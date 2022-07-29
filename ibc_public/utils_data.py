@@ -561,7 +561,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
           default behaviour will be that of "fsaverage5" if no value
           or incorrect value is given
 
-    acquisition: one of ['ffx', 'ap', 'pa'], defaults to 'ffx'
+    acquisition: one of ['ffx', 'ap', 'pa', 'all'], defaults to 'ffx'
           the acquisition to be picked.
 
     Returns
@@ -604,26 +604,17 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
             task_name = task
             if (task_list is not False) and (task not in task_list):
                 continue
-            if task == 'rsvp_language':
-                task = 'language'
-                task_name = 'rsvp_language'
-            if task == 'mtt_sn':
-                task = 'MTTNS'
-                task_name = 'mtt_sn'
-            if task == 'mtt_we':
-                task = 'MTTWE'
-                task_name = 'mtt_we'
-            if task == 'math_language':
-                task = 'mathlang'
-                task_name = 'math_language'
-
-            # Rename contrast for a specific task
-            if ((contrast == 'probe') & (task_name == 'rsvp_language')):
-                contrast = 'language_probe'
 
             # set directory depending on mesh type
             # (defaults to mesh == "fsaverage5" if no value
             # or incorrect value is given)
+            if acquisition == 'all':
+                dir_ = 'res_task-%s_space-%s*' % (task, mesh)
+            elif acquisition == 'ffx':
+                dir_ = 'res_task-%s_space-%s*_dir-ffx' % (task, mesh)
+            elif acquisition in ['ap', 'pa']:
+                dir_ = 'res_task-%s_space-%s*_dir-%s' % (task, mesh, acquisition)
+            """
             dir_ = 'res_fsaverage5_%s_%s' % (task, acquisition)
             if mesh == 'fsaverage5':
                 dir_ = 'res_fsaverage5_%s_%s' % (task, acquisition)
@@ -631,14 +622,14 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 dir_ = 'res_fsaverage7_%s_%s' % (task, acquisition)
             elif mesh == 'individual':
                 dir_ = 'res_individual_%s_%s' % (task, acquisition)
-
+            """
             for side in ['lh', 'rh']:
                 wc = os.path.join(
-                    derivatives, subject, '*', dir_, 'stat_surf',
+                    derivatives, subject, '*', dir_, 'stat_maps',
                     '%s_%s.gii' % (contrast, side))
                 if acquisition in ['ap', 'pa']:
                     wc = os.path.join(
-                        derivatives, subject, '*', dir_, 'z_surf',
+                        derivatives, subject, '*', dir_, 'z_score_maps',
                         '%s*%s.gii' % (contrast, side))
                 imgs_ = glob.glob(wc)
                 imgs_.sort()
@@ -658,9 +649,6 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     sides.append(side)
                     modalities.append('bold')
                     meshes.append(mesh)
-
-            if task == 'language_':
-                pass # stop
 
     print(f"{len(imgs)} images found, {len(missing_images)} were missing")
 
