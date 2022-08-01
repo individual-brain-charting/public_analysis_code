@@ -343,7 +343,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     continue
                 wildcard = os.path.join(
                     derivatives, subject, '*',
-                    'res_stats_%s*_%s*' % (task, acq),
+                    'res_task-%s_space-MNI305_*dir-%s' % (task, acq),
                     'stat_maps', '%s.nii.gz' % contrast)
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:

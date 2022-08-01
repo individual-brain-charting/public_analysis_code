@@ -15,30 +15,22 @@ archi_social = [
     'triangle_random', ]
 
 relevant_conditions = {
-    'emotional': ['Face', 'Shape'],
-    'gambling': ['Reward', 'Punishment', 'Neutral'],
-    'hcp_language': ['math', 'story'],
-    'motor': ['LeftHand', 'RightHand', 'LeftFoot', 'RightFoot',
-              'Cue', 'Tongue'],
-    'relational': ['Relational', 'Cue', 'Control'],
-    'social': ['Mental', 'Response', 'Random'],
-    'wm': ['2-BackBody', '0-BackBody', '2-BackFace', '0-BackFace',
+    'HcpEmotional': ['face', 'shape'],
+    'HcpGambling': ['reward', 'punishment', 'neutral'],
+    'HcpLanguage': ['math', 'story'],
+    'HcpMotor': ['left_hand', 'right_hand', 'left_foot', 'right_foot',
+              'cue', 'tongue'],
+    'HcpRelational': ['relational', 'cue', 'control'],
+    'HcpSocial': ['mental', 'response', 'random'],
+    'HcpWm': ['2-BackBody', '0-BackBody', '2-BackFace', '0-BackFace',
            '2-BackTools', '0-BackTools', '0-BackPlace', '2-BackPlace'],
-    'archi_social': archi_social,
-    'language_00': rsvp_language,
-    'language_01': rsvp_language,
-    'language_02': rsvp_language,
-    'language_03': rsvp_language,
-    'language_04': rsvp_language,
-    'language_05': rsvp_language,
-    'language': rsvp_language,
+    'ArchiSocial': archi_social,
+    'RSVPLanguage': rsvp_language,
     }
 
 
 def post_process(df, paradigm_id):
-    language_paradigms = ['language_%02d' % i for i in range(6)] +\
-                         ['rsvp-language', 'language_', 'language']
-    if paradigm_id in language_paradigms:
+    if paradigm_id == 'RSVLanguage':
         targets = ['complex_sentence_objrel',
                    'complex_sentence_objclef',
                    'complex_sentence_subjrel']
@@ -52,13 +44,13 @@ def post_process(df, paradigm_id):
 
         # df.onset *= .001
         # df.duration = 3 * np.ones(len(df.duration))
-    if paradigm_id == 'hcp_motor':
+    if paradigm_id == 'HcpMotor':
         df = df.replace('right_foot_cue', 'cue')
         df = df.replace('left_foot_cue', 'cue')
         df = df.replace('right_hand_cue', 'cue')
         df = df.replace('left_hand_cue', 'cue')
         df = df.replace('tongue_cue', 'cue')
-
+        
     if paradigm_id == 'Visu':
         df = df.replace('visage', 'face')
     if paradigm_id == 'Audi':
@@ -74,11 +66,12 @@ def post_process(df, paradigm_id):
         df = df[condition]
 
     if paradigm_id[:10] == 'Preference':
-        domain = paradigm_id[11:]
+        domain = paradigm_id[10:].lower()
         if domain[-1] == 's':
             domain = domain[:-1]
         #
         linear = df[df.trial_type == domain]['score'].values.astype('float')
+        linear[np.isnan(linear)] = np.nanmean(linear)
         mean = linear.mean()
         linear -= mean
         df1 = df[df.trial_type == domain]

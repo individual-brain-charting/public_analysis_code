@@ -16,8 +16,8 @@ import numpy as np
 import nibabel as nib
 
 data_dir = '/neurospin/ibc/derivatives'
-subjects = ['sub-%02d' % i for i in [1, 4, 5, 6, 7, 8, 9, 11, 13, 14]]
-subjects = ['sub-%02d' % i for i in [12, 15]] # 
+subjects = ['sub-%02d' % i for i in [1, 4, 5, 6, 7, 8, 9, 11, 13, 14, 12, 15]]
+subjects = ['sub-%02d' % i for i in [2]] # 
 os.environ['SUBJECTS_DIR'] = ''
 
 

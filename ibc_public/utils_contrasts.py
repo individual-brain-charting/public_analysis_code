@@ -40,7 +40,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
     elif paradigm_id in ['Ring', 'ContRing', 'ExpRing']:
         return ring(design_matrix_columns)
     elif paradigm_id[:10] == 'Preference':
-        domain = paradigm_id[11:]
+        domain = paradigm_id[10:].lower()
         if domain[-1] == 's':
             domain = domain[: -1]
         return preferences(design_matrix_columns, domain)
@@ -100,9 +100,9 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return columbia_cards(design_matrix_columns)
     elif paradigm_id == 'DotPatterns':
         return dot_patterns(design_matrix_columns)
-    elif paradigm_id == 'biological_motion1':
+    elif paradigm_id == 'BiologicalMotion1':
         return biological_motion1(design_matrix_columns)
-    elif paradigm_id == 'biological_motion2':
+    elif paradigm_id == 'BiologicalMotion2':
         return biological_motion2(design_matrix_columns)
     elif paradigm_id == 'MathLanguage':
         return math_language(design_matrix_columns)
@@ -2164,7 +2164,7 @@ def hcp_motor(design_matrix_columns):
     contrast_names = [
         'left_hand', 'right_hand', 'left_foot', 'right_foot',
         'tongue', 'tongue-avg', 'left_hand-avg', 'right_hand-avg',
-        'left_foot-avg', 'right_foot-avg', 'cue']
+        'left_foot-avg', 'right_foot-avg']
     if design_matrix_columns is None:
         return dict([(x, []) for x in contrast_names])
     n_columns = len(design_matrix_columns)
@@ -2177,7 +2177,6 @@ def hcp_motor(design_matrix_columns):
         contrasts['left_foot'] +
         contrasts['right_foot'] + contrasts['tongue']) / 5
     contrasts = {
-        'cue': contrasts['cue'],
         'left_hand': contrasts['left_hand'],
         'right_hand': contrasts['right_hand'],
         'left_foot': contrasts['left_foot'],
