@@ -104,7 +104,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return biological_motion1(design_matrix_columns)
     elif paradigm_id == 'BiologicalMotion2':
         return biological_motion2(design_matrix_columns)
-    elif paradigm_id == 'MathLanguage':
+    elif paradigm_id in ['MathLanguage', 'MathLanguage1', 'MathLanguage2']:
         return math_language(design_matrix_columns)
     elif paradigm_id == 'SpatialNavigation':
         return spatial_navigation(design_matrix_columns)
@@ -333,15 +333,18 @@ def optimism_bias(design_matrix_columns):
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    all_ = ['past_positive', 'future_positive', 'past_negative', 'future_negative',
-            'inconclusive'] # 'future_neutral', 'past_neutral',
+    if 'inconclusive' in design_matrix_columns:
+        all_ = ['past_positive', 'future_positive', 'past_negative', 'future_negative',
+                'inconclusive'] # 'future_neutral', 'past_neutral',
+    else:
+        all_ = ['past_positive', 'future_positive', 'past_negative', 'future_negative']
     all_events = np.mean([con[c] for c in all_ ], 0)
     future_negative_control = ['future_positive', 'past_positive', 'past_negative']
     optimism_bias = con['future_negative'] - np.mean(
         [con[c] for c in future_negative_control], 0)
     future = ['future_negative', 'future_positive'] #  'future_neutral',
     past = ['past_negative', 'past_positive'] # 'past_neutral',
-    positive = ['future_positive', 'past_positive']
+    positive = [s for s in ['future_positive', 'past_positive'] if s in design_matrix_columns]
     negative = ['future_negative', 'past_negative']
     positive_vs_negative = np.sum([con[c] for c in positive], 0) -\
                            np.sum([con[c] for c in negative], 0)
@@ -2164,7 +2167,7 @@ def hcp_motor(design_matrix_columns):
     contrast_names = [
         'left_hand', 'right_hand', 'left_foot', 'right_foot',
         'tongue', 'tongue-avg', 'left_hand-avg', 'right_hand-avg',
-        'left_foot-avg', 'right_foot-avg']
+        'left_foot-avg', 'right_foot-avg', 'cue']
     if design_matrix_columns is None:
         return dict([(x, []) for x in contrast_names])
     n_columns = len(design_matrix_columns)
@@ -2177,6 +2180,7 @@ def hcp_motor(design_matrix_columns):
         contrasts['left_foot'] +
         contrasts['right_foot'] + contrasts['tongue']) / 5
     contrasts = {
+        'cue': contrasts['cue'],
         'left_hand': contrasts['left_hand'],
         'right_hand': contrasts['right_hand'],
         'left_foot': contrasts['left_foot'],

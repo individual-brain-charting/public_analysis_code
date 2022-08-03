@@ -22,15 +22,15 @@ relevant_conditions = {
               'cue', 'tongue'],
     'HcpRelational': ['relational', 'cue', 'control'],
     'HcpSocial': ['mental', 'response', 'random'],
-    'HcpWm': ['2-BackBody', '0-BackBody', '2-BackFace', '0-BackFace',
-           '2-BackTools', '0-BackTools', '0-BackPlace', '2-BackPlace'],
+    'HcpWm': ['2back_body', '0back_body', '2back_face', '0back_face',
+           '2back_tools', '0back_tools', '0back_place', '2back_place'],
     'ArchiSocial': archi_social,
     'RSVPLanguage': rsvp_language,
     }
 
 
 def post_process(df, paradigm_id):
-    if paradigm_id == 'RSVLanguage':
+    if paradigm_id == 'RSVPLanguage':
         targets = ['complex_sentence_objrel',
                    'complex_sentence_objclef',
                    'complex_sentence_subjrel']
@@ -331,7 +331,7 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'biological_motion2':
         df = df[df.trial_type.isin(['modified_upright', 'modified_inverted',
                                     'natural_upright', 'natural_inverted'])]
-    if paradigm_id == 'MathLanguage':
+    if paradigm_id in ['MathLanguage', 'MathLanguage1', 'MathLanguage2']:
         trial_types = [
             'colorlessg_auditory', 'colorlessg_visual',
             'wordlist_auditory', 'wordlist_visual',

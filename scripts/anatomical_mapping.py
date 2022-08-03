@@ -16,8 +16,7 @@ import numpy as np
 import nibabel as nib
 
 data_dir = '/neurospin/ibc/derivatives'
-subjects = ['sub-%02d' % i for i in [1, 4, 5, 6, 7, 8, 9, 11, 13, 14, 12, 15]]
-subjects = ['sub-%02d' % i for i in [2]] # 
+subjects = ['sub-%02d' % i for i in [1, 2, 4, 5, 6, 7, 8, 9, 11, 13, 14, 12, 15]]
 os.environ['SUBJECTS_DIR'] = ''
 
 
@@ -110,7 +109,9 @@ def project_volume(work_dir, subject, do_bbr=True):
     if not os.path.exists(write_dir):
         os.mkdir(write_dir)
     os.environ['SUBJECTS_DIR'] = anat_dir
-    data = {}
+    data = {'fsaverage5': {},
+            'fsaverage7': {}
+    }
     for modality in ['T1w', 'T2w']:
         if modality == 'T1w':
             image = ref_file
@@ -137,79 +138,78 @@ def project_volume(work_dir, subject, do_bbr=True):
                                  % subject)
         bbreg.run()
 
-        if 1:
-            # output names
-            # the .gii files will be put in the same directory as the input
-            left_tex = os.path.join(write_dir, basename + '_individual_lh.gii')
-            right_tex = os.path.join(write_dir, basename + '_individual_rh.gii')
+        # output names
+        # the .gii files will be put in the same directory as the input
+        left_tex = os.path.join(write_dir, basename + '_space-individual_lh.gii')
+        right_tex = os.path.join(write_dir, basename + '_space-individual_rh.gii')
 
-            # run freesrufer command for projection
-            os.system(
-                '$FREESURFER_HOME/bin/mri_vol2surf --src %s --o %s '
-                '--out_type gii --srcreg %s --hemi lh --projfrac-avg 0 1 0.1'
-                % (image_, left_tex, regheader))
+        # run freesrufer command for projection
+        os.system(
+            '$FREESURFER_HOME/bin/mri_vol2surf --src %s --o %s '
+            '--out_type gii --srcreg %s --hemi lh --projfrac-avg 0 1 0.1'
+            % (image_, left_tex, regheader))
+        
+        os.system(
+            '$FREESURFER_HOME/bin/mri_vol2surf --src %s --o %s '
+            '--out_type gii --srcreg %s --hemi rh --projfrac-avg 0 1 0.1'
+            % (image_, right_tex, regheader))
 
-            os.system(
-                '$FREESURFER_HOME/bin/mri_vol2surf --src %s --o %s '
-                '--out_type gii --srcreg %s --hemi rh --projfrac-avg 0 1 0.1'
-                % (image_, right_tex, regheader))
+        # resample to fsaverage7
+        left_smooth_tex = os.path.join(
+            write_dir, basename + '_space-fsaverage7_lh.gii')
+        right_smooth_tex = os.path.join(
+            write_dir, basename + '_space-fsaverage7_rh.gii')
 
-            # resample to fsaverage7
-            left_smooth_tex = os.path.join(
-                write_dir, basename + '_fsaverage7_lh.gii')
-            right_smooth_tex = os.path.join(
-                write_dir, basename + '_fsaverage7_rh.gii')
+        os.system(
+            '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
+            '--srcsurfval %s --trgsurfval %s --trgsubject ico '
+            '--trgicoorder 7 --hemi lh' %
+            (subject, left_tex, left_smooth_tex))
+        os.system(
+            '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
+            '--srcsurfval %s --trgsubject ico --trgicoorder 7 '
+            '--trgsurfval %s --hemi rh' %
+            (subject, right_tex, right_smooth_tex))
 
-            os.system(
-                '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
-                '--srcsurfval %s --trgsurfval %s --trgsubject ico '
-                '--trgicoorder 7 --hemi lh' %
-                (subject, left_tex, left_smooth_tex))
-            os.system(
-                '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
-                '--srcsurfval %s --trgsubject ico --trgicoorder 7 '
-                '--trgsurfval %s --hemi rh' %
-                (subject, right_tex, right_smooth_tex))
+        data['fsaverage7'][modality] = {
+            'lh': nib.load(left_smooth_tex).darrays[0].data,
+            'rh': nib.load(right_smooth_tex).darrays[0].data
+        }
 
-            # resample to fsaverage5
-            left_smooth_tex = os.path.join(
-                write_dir, basename + '_fsaverage5_lh.gii')
-            right_smooth_tex = os.path.join(
-                write_dir, basename + '_fsaverage5_rh.gii')
-
-            os.system(
-                '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
-                '--srcsurfval %s --trgsurfval %s --trgsubject ico '
-                '--trgicoorder 5 --hemi lh' %
-                (subject, left_tex, left_smooth_tex))
-            os.system(
-                '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
-                '--srcsurfval %s --trgsubject ico --trgicoorder 5 '
-                '--trgsurfval %s --hemi rh' %
-                (subject, right_tex, right_smooth_tex))
+        # resample to fsaverage5
+        left_smooth_tex = os.path.join(
+            write_dir, basename + '_space-fsaverage5_lh.gii')
+        right_smooth_tex = os.path.join(
+            write_dir, basename + '_space-fsaverage5_rh.gii')
+        
+        os.system(
+            '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
+            '--srcsurfval %s --trgsurfval %s --trgsubject ico '
+            '--trgicoorder 5 --hemi lh' %
+            (subject, left_tex, left_smooth_tex))
+        os.system(
+            '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
+            '--srcsurfval %s --trgsubject ico --trgicoorder 5 '
+            '--trgsurfval %s --hemi rh' %
+            (subject, right_tex, right_smooth_tex))
             
-            data[modality] = {
-                'lh': nib.load(left_smooth_tex).darrays[0].data,
-                'rh': nib.load(right_smooth_tex).darrays[0].data
-                }
-        else:
-            from surfer import project_volume_data
-            data[modality] = {}
-            for hemi in ['lh', 'rh']:
-                data_ = project_volume_data(
-                    image_, hemi, regheader, projarg=[0, 1., .1],
-                    smooth_fwhm=0)
-                data[modality][hemi] = data_
-
-    # reset subject_dir to set fsaverage
-    os.environ['SUBJECTS_DIR'] = os.path.join(
-        work_dir, subject, 'ses-00', 'anat')
-    for hemi in ['lh', 'rh']:
-        ratio = data['T1w'][hemi] / data['T2w'][hemi]
-        from nibabel.gifti import write, GiftiImage, GiftiDataArray as gda
-        file_ratio = os.path.join(write_dir, 't1_t2_ratio_%s.gii' % hemi)
-        write(GiftiImage(darrays=[gda(data=ratio.astype('float32'))]),
-              file_ratio)
+        data['fsaverage5'][modality] = {
+            'lh': nib.load(left_smooth_tex).darrays[0].data,
+            'rh': nib.load(right_smooth_tex).darrays[0].data
+        }
+        
+    from nibabel.gifti import write, GiftiImage, GiftiDataArray as gda
+    session = os.path.basename(ref_file).split('_')[1]
+    for mesh in ['fsaverage5', 'fsaverage7']:
+        for hemi in ['lh', 'rh']:
+            ratio = data[mesh]['T1w'][hemi] / data[mesh]['T2w'][hemi]
+            file_ratio = os.path.join(
+                write_dir,
+                '{}_{}_T1T2Ratio_space-{}_{}.gii'.format(
+                    subject, session, mesh, hemi))
+            write(
+                GiftiImage(darrays=[gda(data=ratio.astype('float32'))]),
+                file_ratio)
 
 
 Parallel(n_jobs=1)(
@@ -221,14 +221,12 @@ Parallel(n_jobs=1)(
 from nilearn.plotting import plot_surf, view_surf, show
 from nilearn import datasets
 import os
-import nibabel as nib
-import glob
 
 fsaverage = datasets.fetch_surf_fsaverage('fsaverage5')
+dir_ = '/neurospin/ibc/derivatives/sub-02/ses-*/anat/analysis/'
 
-dir_ = '/neurospin/ibc/derivatives/sub-*/ses-*/anat/analysis/'
-if 0:
-    wc = os.path.join(dir_, 't1_t2_ratio_lh.gii')
+if 1:
+    wc = os.path.join(dir_, '*_*_T1T2Ratio_space-fsaverage5_lh.gii')
     textures = glob.glob(wc)
     for texture in textures:
         tex = nib.load(texture).darrays[0].data
@@ -236,7 +234,7 @@ if 0:
             fsaverage['infl_left'], surf_map=tex, bg_map=None, vmin=1, vmax=2
         ).open_in_browser()
 
-    wc = os.path.join(dir_, 't1_t2_ratio_rh.gii')
+    wc = os.path.join(dir_, '*_*_T1T2Ratio_space-fsaverage5_rh.gii')
     textures = glob.glob(wc)
     for texture in textures:
         tex = nib.load(texture).darrays[0].data
@@ -245,7 +243,7 @@ if 0:
         ).open_in_browser()
 
 if 1:
-    wc = os.path.join(dir_, 't1_t2_ratio_lh.gii')
+    wc = os.path.join(dir_, '*_*_T1T2Ratio_space-fsaverage5_lh.gii')
     textures = glob.glob(wc)
     tex = nib.load(textures[0]).darrays[0].data
     plot_surf(

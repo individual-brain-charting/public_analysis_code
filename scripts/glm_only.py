@@ -134,10 +134,10 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
-    protocols = ['hcp1', 'hcp2', 'rsvp-language']
+    # protocols = ['rsvp-language'] # 'hcp1', archi, screening 'hcp2', 
     # protocols = ['clips4']
     # protocols = ['biological_motion', 'camcan1', 'camcan2', 'audio1', 'audio2']
-    # protocols = ['fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'optimism', 'navigation', 'mathlang']
+    protocols = ['mathlang', 'optimism'] # 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     
     
