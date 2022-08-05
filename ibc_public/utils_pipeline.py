@@ -318,10 +318,10 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
 
         # handle manually supplied regressors
         add_reg_names = []
-        if additional_regressors[session_id] is None:
+        if additional_regressors[task_id] is None:
             add_regs = confounds
         else:
-            df = read_csv(additional_regressors[session_id])
+            df = read_csv(additional_regressors[task_id])
             add_regs = []
             for regressor in df:
                 add_reg_names.append(regressor)
@@ -383,31 +383,7 @@ def _session_id_to_task_id(session_ids):
         if task_id[:5] == 'task-':
             task_id = task_id[5:]
         task_ids.append(task_id)
-    """
-    run_mark = tuple(['_run-%02d' % d for d in range(10)])
-    task_ids = []
-    for i, session_id in enumerate(session_ids):
-        if session_id.endswith(run_mark):
-            task_ids.append(session_id[:-7])
-        else:
-            task_ids.append(session_id)
 
-    acq_mark = tuple(['_ap', '_pa'])
-    for i, task_id in enumerate(task_ids):
-        if task_id.endswith(acq_mark):
-            task_ids[i] = task_id[: -3]
-
-    for i, task_id in enumerate(task_ids):
-        if task_id.endswith(run_mark):
-            task_ids[i] = task_id[:-7]
-
-    for i, task_id in enumerate(task_ids):
-        if task_id[:4] not in ['lyon', 'biol']:  # fixme
-            for x in range(0, 10):
-                task_id = task_id.replace('_' + str(x), '')
-                task_id = task_id.replace(str(x), '')
-            task_ids[i] = task_id
-    """
     # customization for wedge and ring stimuli
     for i, task_id in enumerate(task_ids):
         if 'wedge' in task_id:
