@@ -137,7 +137,7 @@ if __name__ == '__main__':
     # protocols = ['rsvp-language'] # 'hcp1', archi, screening 'hcp2', 
     # protocols = ['clips4']
     # protocols = ['biological_motion', 'camcan1', 'camcan2', 'audio1', 'audio2']
-    protocols = ['mathlang', 'optimism'] # 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 
+    protocols = ['optimism'] # 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang', 
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     
     
