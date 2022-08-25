@@ -71,9 +71,9 @@ def to_T2space(t2_img, t1_img, output_dir):
 
     Returns
     -------
-    dict
-        dictionary object consisting of all input and output info including the
-        name of output file which is used later in the pipelines
+    coreged : pypreprocess.nipype_preproc_spm_utils.Subject_Data
+        dict-like object containing information about preprocessing, input and
+        output file locations which are used later in the pipelines
     """
 
     data = SubjectData()
@@ -104,9 +104,9 @@ def to_MNI(image, data = SubjectData(), func=None):
 
     Returns
     -------
-    dict
-        dictionary object consisting of all input and output info including the
-        name of output file which is used later in the pipelines
+    normalized : pypreprocess.nipype_preproc_spm_utils.Subject_Data
+        dict-like object containing information about preprocessing, input and
+        output file locations which are used later in the pipelines
     """
 
     data.anat = image
@@ -133,9 +133,9 @@ def segment(image, normalize):
 
     Returns
     -------
-    dict
-        dictionary object consisting of all input and output info including the
-        name of output file which is used later in the pipelines
+    segmented : pypreprocess.nipype_preproc_spm_utils.Subject_Data
+        dict-like object containing information about preprocessing, input and
+        output file locations which are used later in the pipelines
     """    
 
     data = SubjectData()
