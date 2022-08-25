@@ -340,6 +340,9 @@ def t2_pipeline(closing_iter=12, do_coreg=True, do_normalise_before=False,
         # preprocessing step: spatial normalization to MNI space
         # of T1 maps
         if do_normalise_before:
+            # enforce normalisation instantiation only once - before or after
+            assert not do_normalise_after, ValueError("Only one of "
+            "'do_normalise_before' or 'do_normalise_after' can be True")
             image = nifti
             if do_coreg:
                 t1_img = t1_nifti
@@ -638,6 +641,9 @@ def t1_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
     # preprocessing step: spatial normalization to MNI space
     # of T1 maps
     if do_normalise_before:
+        # enforce normalisation instantiation only once - before or after
+        assert not do_normalise_after, ValueError("Only one of "
+        "'do_normalise_before' or 'do_normalise_after' can be True")
         time_elapsed = time.time() - start_time
         print("[INFO,  t={:.2f}s] segmenting " 
               "highest flip angle image".format(time_elapsed))
@@ -825,7 +831,7 @@ def t2star_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
         map is transformed to MNI152 space. Make it True only if 
         do_normalise_before is False and vice versa. But normalising the 
         estimated map has been observed to give spurious results for IBC
-        subjects, by default False
+        subjects. Not implemented for t2star processing, by default False
     do_plot : bool, optional
         whether or not to create thresholded plots for the images. Included 
         because the actual output nifti images have unrealistically high 
@@ -908,6 +914,9 @@ def t2star_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
     assert len(mag_niftis) == 1
     mag_nifti = mag_niftis[0]
     if do_normalise_before:
+        # enforce normalisation instantiation only once - before or after
+        assert not do_normalise_after, ValueError("Only one of "
+        "'do_normalise_before' or 'do_normalise_after' can be True")
         # get segments for better normalisation
         time_elapsed = time.time() - start_time
         print('[INFO,  t={:.2f}s] segmenting'.format(time_elapsed))
@@ -1026,6 +1035,9 @@ def t2star_pipeline(closing_iter=12, do_normalise_before=False, do_segment=True,
 
     print(f"{sub_name}, {sess_num} T2-star estimation done")
 
+    if do_normalise_after:
+        print(NotImplementedError("normalisation after t2star estimation has "
+                                  "not been implemented yet"))
     # doing the plots
     if do_plot:
         print('plotting not implemented for t2star est, saving the estimated '
