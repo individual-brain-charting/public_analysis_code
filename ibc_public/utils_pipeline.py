@@ -318,10 +318,10 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
 
         # handle manually supplied regressors
         add_reg_names = []
-        if additional_regressors[task_id] is None:
+        if additional_regressors[session_id] is None:
             add_regs = confounds
         else:
-            df = read_csv(additional_regressors[task_id])
+            df = read_csv(additional_regressors[session_id])
             add_regs = []
             for regressor in df:
                 add_reg_names.append(regressor)
