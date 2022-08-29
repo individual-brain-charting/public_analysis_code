@@ -10,8 +10,11 @@ from dipy.io.streamline import load_tck, save_tck, load_trk
 from dipy.segment.clustering import QuickBundles
 
 workdir = '/neurospin/ibc/derivatives/sub-04/ses-08/dwi'
+#f = os.path.join(workdir,
+#                 'reduced-tracks-100k_sub-04_ses-08.tck')
 f = os.path.join(workdir,
-                 'reduced-tracks-100k_sub-04_ses-08.tck')
+                 'tracks_sub-04_ses-08_t1.tck')
+
 ref = os.path.join(workdir,
                    'sub-04_ses-08_desc-denoise-eddy-correct_dwi.nii.gz')
 tract = load_tck(f, ref)
@@ -84,7 +87,7 @@ rb = RecoBundles(moved, verbose=True, rng=np.random.RandomState(2001))
 import glob
 bundle_files = sorted(glob.glob(all_bundles_files))
 
-labels = []
+clusters = []
 for bf in bundle_files:
     model = load_trk(bf, "same", bbox_valid_check=False).streamlines
     recognized, label = rb.recognize(model_bundle=model,
@@ -94,4 +97,28 @@ for bf in bundle_files:
                                      reduction_distance='mdf',
                                      pruning_distance='mdf',
                                      slr=True)
-    labels.append(label)
+    clusters.append(label)
+
+labels = np.zeros(len(tract.streamlines), dtype=int)
+for i, cluster in enumerate(clusters):
+    labels[cluster] =  i + 1
+
+# skip empty clusters
+u, indices = np.unique(labels, return_inverse=True)
+labels_ = np.zeros(len(tract.streamlines), dtype=int)
+for i, v in enumerate(u):
+    labels_[indices == v] = i
+
+tract.streamlines = tract.streamlines[labels_ > 0]
+labels_ = labels_[labels_ > 0]
+labels_ -= 1
+unique_labels = np.unique(labels_)
+np.random.seed(1)
+np.random.shuffle(unique_labels)
+labels_ = unique_labels[labels_]
+np.savetxt(os.path.join(workdir, 'palette.txt'), labels_)
+
+print(save_tck(
+    tract,
+    os.path.join(workdir, 'bundle-tracks-100k_sub-04_ses-08.tck'),
+    bbox_valid_check=True))
