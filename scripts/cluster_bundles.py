@@ -91,21 +91,22 @@ clusters = []
 for bf in bundle_files:
     model = load_trk(bf, "same", bbox_valid_check=False).streamlines
     recognized, label = rb.recognize(model_bundle=model,
-                                     model_clust_thr=0.1,
-                                     reduction_thr=15,
-                                     pruning_thr=7,
+                                     model_clust_thr=0.05,
+                                     reduction_thr=10,
+                                     pruning_thr=5,
                                      reduction_distance='mdf',
                                      pruning_distance='mdf',
                                      slr=True)
     clusters.append(label)
 
-labels = np.zeros(len(tract.streamlines), dtype=int)
+n_fibers= len(moved)
+labels = np.zeros(n_fibers, dtype=int)
 for i, cluster in enumerate(clusters):
     labels[cluster] =  i + 1
 
 # skip empty clusters
 u, indices = np.unique(labels, return_inverse=True)
-labels_ = np.zeros(len(tract.streamlines), dtype=int)
+labels_ = np.zeros(n_fibers, dtype=int)
 for i, v in enumerate(u):
     labels_[indices == v] = i
 
@@ -120,5 +121,5 @@ np.savetxt(os.path.join(workdir, 'palette.txt'), labels_)
 
 print(save_tck(
     tract,
-    os.path.join(workdir, 'bundle-tracks-100k_sub-04_ses-08.tck'),
+    os.path.join(workdir, 'bundle-tracks-all_sub-04_ses-08.tck'),
     bbox_valid_check=True))

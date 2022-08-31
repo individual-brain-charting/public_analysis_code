@@ -62,7 +62,10 @@ MTTNS	sn_average_event
 MTTNS	sn_space-time_event
 MTTNS	southside-northside_event
 MTTNS	sn_before-after_event
-Preference	preference_constant
+PreferenceHouses	house_constant
+PreferenceFaces	face_constant
+PreferencePaintings	painting_constant
+PreferenceFood	food_constant
 Preference	preference_linear
 Preference	preference_quadratic
 TheoryOfMind	photo
