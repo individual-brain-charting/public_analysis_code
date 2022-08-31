@@ -241,7 +241,6 @@ SpatialNavigation	experimental-intersection
 SpatialNavigation	experimental-control
 SpatialNavigation	intersection
 SpatialNavigation	experimental
-SpatialNavigation	encoding_phase
 SpatialNavigation	retrieval
 SpatialNavigation	pointing_experimental
 SpatialNavigation	control
