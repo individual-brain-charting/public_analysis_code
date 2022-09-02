@@ -331,7 +331,7 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'biological_motion2':
         df = df[df.trial_type.isin(['modified_upright', 'modified_inverted',
                                     'natural_upright', 'natural_inverted'])]
-    if paradigm_id in ['MathLanguage', 'MathLanguage1', 'MathLanguage2']:
+    if paradigm_id == 'MathLanguage':
         trial_types = [
             'colorlessg_auditory', 'colorlessg_visual',
             'wordlist_auditory', 'wordlist_visual',

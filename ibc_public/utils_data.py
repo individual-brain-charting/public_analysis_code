@@ -321,26 +321,12 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 contrast = contrast_name[i]
                 task = con_df.task[i]
                 task_name = task
-                if task == 'rsvp_language':
-                    task = 'language'
-                    task_name = 'rsvp_language'
-                if task == 'mtt_sn':
-                    task = 'MTTNS'
-                    task_name = 'mtt_sn'
-                if task == 'mtt_we':
-                    task = 'MTTWE'
-                    task_name = 'mtt_we'
-                if task == 'vstm':
-                    task = 'VSTM'
-                    task_name = 'vstm'
-                if task == 'math_language':
-                    task = 'mathlang'
-                    task_name = 'math_language'
 
                 if (task_list is not None) and (task not in task_list):
                     if verbose:
                         print('%s found as task, not in task_list' % task)
                     continue
+                
                 wildcard = os.path.join(
                     derivatives, subject, '*',
                     'res_task-%s_space-MNI305_*dir-%s' % (task, acq),
