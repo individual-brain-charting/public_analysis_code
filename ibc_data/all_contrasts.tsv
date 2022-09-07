@@ -501,22 +501,29 @@ Scene	dot_hard_left				['']
 Scene	dot_hard_right				['']
 Scene	scene_impossible_correct				['']
 Scene	scene_impossible_incorrect				['']
-Scene	scene_possible_incorrect				['']
 Scene	scene_possible_correct				['']
 Scene	scene_possible_correct-scene_impossible_correct				['']
 Scene	scene_correct-dot_correct				['']
 Scene	dot_left-right				['']
 Scene	dot_hard-easy				['']
-VisualSearch	memory_array				['']
-VisualSearch	probe_item				['']
-VisualSearch	response				['']
+VisualSearch	memory_array_four				['']
+VisualSearch	memory_array_two				
 VisualSearch	sample_item				['']
-VisualSearch	search_array				['']
-Narps	gain				['']
-Narps	loss				['']
-Narps	weakly_accept				['']
-Narps	weakly_reject				['']
-Narps	strongly_accept				['']
-Narps	strongly_reject				['']
-Narps	Reject-accept				['']
-Narps	accept-reject				['']
+VisualSearch	delay_vis				['']
+VisualSearch	probe_item_absent				
+VisualSearch	probe_item_present				
+VisualSearch	response_hit				
+VisualSearch	response_miss				
+VisualSearch	delay_wm				
+VisualSearch	search_array_four_absent				
+VisualSearch	search_array_four_present				
+VisualSearch	search_array_two_absent				
+VisualSearch	search_array_two_present				
+NARPS	gain				['']
+NARPS	loss				['']
+NARPS	weakly_accept				['']
+NARPS	weakly_reject				['']
+NARPS	strongly_accept				['']
+NARPS	strongly_reject				['']
+NARPS	Reject-accept				['']
+NARPS	accept-reject				['']

@@ -13,7 +13,7 @@ import warnings
 import pandas as pd
 import shutil
 import numpy as np
-from ibc_public.utils_annotations import expand_table
+# from ibc_public.utils_annotations import expand_table
 from tqdm import tqdm
 
 main_parent_dir = '/neurospin/ibc'
@@ -36,9 +36,6 @@ CONDITIONS = pd.read_csv(os.path.join(
     _package_directory, '..', 'ibc_data', 'conditions.tsv'), sep='\t')
 CONTRASTS = pd.read_csv(os.path.join(
     _package_directory, '..', 'ibc_data', 'main_contrasts.tsv'), sep='\t')
-#  ALL_CONTRASTS = expand_table(pd.read_csv(os.path.join(
-#    _package_directory, '..', 'ibc_data', 'all_contrasts.tsv'),
-#                                         sep='\t'))
 ALL_CONTRASTS = os.path.join(
     _package_directory, '..', 'ibc_data', 'all_contrasts.tsv')
 
@@ -103,7 +100,8 @@ def get_subject_session(protocols):
 
 
 def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
-                subject_list=SUBJECTS, task_list=False, verbose=0):
+                subject_list=SUBJECTS, task_list=False, verbose=0,
+                acquisition='all'):
     """Generate a dataframe that contains all the data corresponding
     to the archi, hcp and rsvp_language acquisitions
 
@@ -123,6 +121,9 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
     verbose: Bool, optional,
              verbosity mode
+
+    acquisition={'all', 'ap', 'pa', 'ffx'}, default='all'
+        which acquisition to select
 
     Returns
     -------
@@ -315,8 +316,12 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     # fixed-effects activation images (postprocessed)
     con_df = conditions
     contrast_name = con_df.contrast
-    for acq in ['ap', 'pa', 'ffx']:
-        for subject in subject_list:
+
+    acq_card = '*' # if acquisition == 'all'
+    if acquisition in ['ffx', 'ap', 'pa']:
+        acq_card = 'dir-%s' % acquisition
+
+    for subject in subject_list:
             for i in range(len(con_df)):
                 contrast = contrast_name[i]
                 task = con_df.task[i]
@@ -329,7 +334,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 
                 wildcard = os.path.join(
                     derivatives, subject, '*',
-                    'res_task-%s_space-MNI305_*dir-%s' % (task, acq),
+                    'res_task-%s_space-MNI305_%s' % (task, acq_card),
                     'stat_maps', '%s.nii.gz' % contrast)
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
@@ -338,6 +343,11 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 # some renaming
                 contrast_id = contrast
                 for img in imgs_:
+                    acq = 'unknown'
+                    if 'dir-' in img:
+                        acq = img.split('dir-')[1][:2]
+                        if acq == 'ff':
+                            acq = 'ffx'
                     session = img.split('/')[-4]
                     paths.append(img)
                     sessions.append(session)
