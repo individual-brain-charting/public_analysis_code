@@ -446,7 +446,7 @@ def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
                 os.path.join(sess_dir, 'effect_size_maps', '%s_%s.gii' %
                              (contrast, side)))
             effect_variance_maps.append(
-                os.path.join(sess_dir, 'variance_size_maps', '%s_%s.gii' %
+                os.path.join(sess_dir, 'effect_variance_maps', '%s_%s.gii' %
                              (contrast, side)))
     return effect_size_maps, effect_variance_maps, data_available
 
@@ -505,12 +505,12 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
                     ffx_effects, ffx_variance, ffx_stat = fixed_effects_surf(
                         effect_size_maps, effect_variance_maps)
                     write(ffx_effects, os.path.join(
-                        write_dir, 'effect_surf/%s_%s.gii' % (contrast, side)))
+                        write_dir, 'effect_size_maps/%s_%s.gii' % (contrast, side)))
                     write(ffx_variance, os.path.join(
-                        write_dir, 'variance_surf/%s_%s.gii' %
+                        write_dir, 'effect_variance_maps/%s_%s.gii' %
                         (contrast, side)))
                     write(ffx_stat, os.path.join(
-                        write_dir, 'stat_surf/%s_%s.gii' % (contrast, side)))
+                        write_dir, 'stat_maps/%s_%s.gii' % (contrast, side)))
             else:
                 effect_size_maps, effect_variance_maps, data_available =\
                     _load_summary_stats(

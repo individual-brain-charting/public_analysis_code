@@ -63,12 +63,6 @@ from dipy.segment.bundles import RecoBundles
 from dipy.data import fetch_bundle_atlas_hcp842, get_bundle_atlas_hcp842
 from dipy.io.utils import create_tractogram_header
 
-"""
-atlas = 'Atlas_30_Bundles/whole_brain/whole_brain_MNI.trk'
-atlas_ref = 'Atlas_30_Bundles/reference_density_map.nii.gz'
-loaded_atlas = load_trk(atlas, atlas_ref)
-"""
-
 atlas_file, atlas_folder = fetch_bundle_atlas_hcp842()
 atlas_file, all_bundles_files = get_bundle_atlas_hcp842()
 sft_atlas = load_trk(atlas_file, "same", bbox_valid_check=False)
@@ -83,7 +77,6 @@ moved, transform, qb_centroids1, qb_centroids2 = whole_brain_slr(
 
 rb = RecoBundles(moved, verbose=True, rng=np.random.RandomState(2001))
 
-# model_af_l = 'Atlas_30_Bundles/bundles/AF_L.trk'
 import glob
 bundle_files = sorted(glob.glob(all_bundles_files))
 
@@ -104,19 +97,14 @@ labels = np.zeros(n_fibers, dtype=int)
 for i, cluster in enumerate(clusters):
     labels[cluster] =  i + 1
 
-# skip empty clusters
-u, indices = np.unique(labels, return_inverse=True)
-labels_ = np.zeros(n_fibers, dtype=int)
-for i, v in enumerate(u):
-    labels_[indices == v] = i
-
-tract.streamlines = tract.streamlines[labels_ > 0]
-labels_ = labels_[labels_ > 0]
+tract.streamlines = tract.streamlines[labels > 0]
+labels_ = labels[labels > 0]
 labels_ -= 1
-unique_labels = np.unique(labels_)
+
+unique_bundles = np.arange(len(bundle_files))
 np.random.seed(1)
-np.random.shuffle(unique_labels)
-labels_ = unique_labels[labels_]
+np.random.shuffle(unique_bundles)
+labels_ = unique_bundles[labels_]
 np.savetxt(os.path.join(workdir, 'palette.txt'), labels_)
 
 print(save_tck(
