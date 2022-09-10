@@ -3,6 +3,7 @@ This script creates diffusion tracts and highres anat images
 to later plot with mrview - for IBC subjects
 """
 from pypreprocess.nipype_preproc_spm_utils import (SubjectData,
+                                                   _do_subject_segment,
                                                    _do_subject_coregister)
 import os
 import glob
@@ -16,6 +17,11 @@ from dipy.segment.bundles import RecoBundles
 from dipy.data import fetch_bundle_atlas_hcp842, get_bundle_atlas_hcp842
 from dipy.io.utils import create_tractogram_header
 
+from nilearn.image import math_img
+from nilearn.masking import compute_epi_mask
+
+from scipy import ndimage
+from nilearn.image.image import new_img_like
 
 def coreg(b0img, t1_img, output_dir, inverse):
     """ Wrapper for pypreprocess's coregister function
@@ -31,6 +37,34 @@ def coreg(b0img, t1_img, output_dir, inverse):
                                     hardlink_output=False,
                                     coreg_anat_to_func=inverse)
     return coreged
+
+def segment(image, normalize):
+    """ Wrapper for pypreprocess's segment function, for segmenting highres
+        t1 used for subsequent masking.
+    """    
+
+    data = SubjectData()
+    data.anat = image
+    segmented = _do_subject_segment(data, caching=False,
+                    normalize=normalize, hardlink_output=False)
+    return segmented
+
+def closing(image, iterations):
+    """ Wrapper for scipy's binary_closing function to close a NIFTI image with
+    n iterations
+    """
+
+    # extract voxel intensity array
+    image_data = image.get_fdata()
+    # extract the afffine matrix
+    image_affine = image.affine
+    # scipy closing
+    closed_array = ndimage.binary_closing(image_data,
+                     iterations=iterations).astype(int)
+
+    closed_nifti_img = new_img_like(image, closed_array, image_affine)
+
+    return closed_nifti_img
 
 def cluster_bundles(workdir, outdir):
     """ This algorithm:
@@ -124,22 +158,43 @@ if __name__ == "__main__":
         if not os.path.exists(outdir):
                 os.makedirs(outdir)
 
-        b0img_pth = os.path.join(dwi_workdir, f'{sub}_{ses}_desc-denoise-eddy-correct-b0_dwi.nii.gz')
+        b0img_pth = os.path.join(dwi_workdir, 
+                        f'{sub}_{ses}_desc-denoise-eddy-correct-b0_dwi.nii.gz')
 
-        t1img_pth = os.path.join(highres_workdir, f'{sub}_{ses}_T1w-bet.nii.gz')
+        t1img_pth = os.path.join(highres_workdir,
+                         f'{sub}_{ses}_acq-highres_T1w.nii')
 
         os.system(f'cp {b0img_pth} {outdir}')
         os.system(f'cp {t1img_pth} {outdir}')
 
-        b0img_pth = os.path.join(outdir, f'{sub}_{ses}_desc-denoise-eddy-correct-b0_dwi.nii.gz')
-        t1img_pth = os.path.join(outdir, f'{sub}_{ses}_T1w-bet.nii.gz')
+        b0img_pth = os.path.join(outdir,
+                     f'{sub}_{ses}_desc-denoise-eddy-correct-b0_dwi.nii.gz')
+        t1img_pth = os.path.join(outdir, f'{sub}_{ses}_acq-highres_T1w.nii')
 
         os.system(f'gunzip -df {b0img_pth}')
-        os.system(f'gunzip -df {t1img_pth}')
 
-        b0img_pth = os.path.join(outdir, f'{sub}_{ses}_desc-denoise-eddy-correct-b0_dwi.nii')
-        t1img_pth = os.path.join(outdir, f'{sub}_{ses}_T1w-bet.nii')
+        b0img_pth = os.path.join(outdir,
+                         f'{sub}_{ses}_desc-denoise-eddy-correct-b0_dwi.nii')
+
+        segmented = segment(t1img_pth, False)
+        segments = [segmented['gm'], segmented['wm']]
+        add = math_img("img1 + img2", img1=segments[0],
+                       img2=segments[1])
+        full = compute_epi_mask(add)
+        mask = closing(full, 10)
+        mask_pth = os.path.join(outdir, f'{sub}_{ses}_mask.nii')
+        # mask.to_filename(mask_pth)
+        masked_t1 = math_img("img1 * img2", img1=t1img_pth,
+                       img2=mask)
+        t1img_pth = os.path.join(outdir, f'{sub}_{ses}_highres_T1w-masked.nii')
+        masked_t1.set_data_dtype(float)
+        masked_t1.to_filename(t1img_pth)
 
         coreged = coreg(b0img_pth, t1img_pth, outdir, True)
 
-        color_palette_path, tck_path = cluster_bundles(dwi_workdir, outdir)
+        t1img_pth_final = os.path.join(outdir,
+                                 f'{sub}_{ses}_highres_T1w-masked-coreg.nii.gz')
+        os.system(f'gzip -9 -c {t1img_pth} > {t1img_pth_final}')
+
+
+        # color_palette_path, tck_path = cluster_bundles(dwi_workdir, outdir)
