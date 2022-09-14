@@ -104,7 +104,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return biological_motion1(design_matrix_columns)
     elif paradigm_id == 'BiologicalMotion2':
         return biological_motion2(design_matrix_columns)
-    elif paradigm_id in ['MathLanguage', 'MathLanguage1', 'MathLanguage2']:
+    elif paradigm_id == 'MathLanguage':
         return math_language(design_matrix_columns)
     elif paradigm_id == 'SpatialNavigation':
         return spatial_navigation(design_matrix_columns)
@@ -333,31 +333,37 @@ def optimism_bias(design_matrix_columns):
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    if 'inconclusive' in design_matrix_columns:
-        all_ = ['past_positive', 'future_positive', 'past_negative', 'future_negative',
-                'inconclusive'] # 'future_neutral', 'past_neutral',
-    else:
-        all_ = ['past_positive', 'future_positive', 'past_negative', 'future_negative']
+    all_ = [c for c in ['past_positive', 'future_positive', 'past_negative', 'future_negative',
+                        'inconclusive'] if c in design_matrix_columns]
     all_events = np.mean([con[c] for c in all_ ], 0)
     future_negative_control = ['future_positive', 'past_positive', 'past_negative']
-    optimism_bias = con['future_negative'] - np.mean(
-        [con[c] for c in future_negative_control], 0)
-    future = ['future_negative', 'future_positive'] #  'future_neutral',
-    past = ['past_negative', 'past_positive'] # 'past_neutral',
+    if 'future_negative' in design_matrix_columns:
+        optimism_bias = con['future_negative'] - np.mean(
+            [con[c] for c in future_negative_control], 0)
+    else:
+        optimism_bias = con['future_neutral'] - np.mean(
+            [con[c] for c in future_negative_control], 0)
+    future = [s for s in ['future_negative', 'future_positive'] if s in design_matrix_columns] #  'future_neutral',
+    past = [s for s in ['past_negative', 'past_positive'] if s in design_matrix_columns] # 'past_neutral',
     positive = [s for s in ['future_positive', 'past_positive'] if s in design_matrix_columns]
-    negative = ['future_negative', 'past_negative']
-    positive_vs_negative = np.sum([con[c] for c in positive], 0) -\
-                           np.sum([con[c] for c in negative], 0)
-    future_vs_past = np.sum([con[c] for c in future], 0)\
-                     - np.sum([con[c] for c in past], 0)
-    interaction = con['future_positive'] + con['past_negative']\
-                  - con['future_negative'] - con['past_positive']
+    negative = [s for s in ['future_negative', 'past_negative']if s in design_matrix_columns]
+    positive_vs_negative = np.mean([con[c] for c in positive], 0) -\
+                           np.mean([con[c] for c in negative], 0)
+    future_vs_past = np.mean([con[c] for c in future], 0)\
+                     - np.mean([con[c] for c in past], 0)
+    if 'future_negative' in design_matrix_columns:
+        interaction = con['future_positive'] + con['past_negative']\
+                      - con['future_negative'] - con['past_positive']
+        future_positive_vs_negative = con['future_positive'] - con['future_negative']
+    else:
+        interaction = con['future_positive'] + con['past_negative']\
+                      - con['future_neutral'] - con['past_positive']
+        future_positive_vs_negative = con['future_positive'] - con['future_neutral']
     contrasts = {'all_events': all_events - con['fix'],
                  'optimism_bias': optimism_bias,
                  'future_vs_past': future_vs_past,
                  'positive_vs_negative': positive_vs_negative,
-                 'future_positive_vs_negative': con['future_positive'] -\
-                     con['future_negative'],
+                 'future_positive_vs_negative': future_positive_vs_negative,
                  'past_positive_vs_negative': con['past_positive'] - con['past_negative'],
                  'interaction': interaction
                  }

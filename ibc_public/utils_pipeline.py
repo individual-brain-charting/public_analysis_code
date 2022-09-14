@@ -383,31 +383,7 @@ def _session_id_to_task_id(session_ids):
         if task_id[:5] == 'task-':
             task_id = task_id[5:]
         task_ids.append(task_id)
-    """
-    run_mark = tuple(['_run-%02d' % d for d in range(10)])
-    task_ids = []
-    for i, session_id in enumerate(session_ids):
-        if session_id.endswith(run_mark):
-            task_ids.append(session_id[:-7])
-        else:
-            task_ids.append(session_id)
 
-    acq_mark = tuple(['_ap', '_pa'])
-    for i, task_id in enumerate(task_ids):
-        if task_id.endswith(acq_mark):
-            task_ids[i] = task_id[: -3]
-
-    for i, task_id in enumerate(task_ids):
-        if task_id.endswith(run_mark):
-            task_ids[i] = task_id[:-7]
-
-    for i, task_id in enumerate(task_ids):
-        if task_id[:4] not in ['lyon', 'biol']:  # fixme
-            for x in range(0, 10):
-                task_id = task_id.replace('_' + str(x), '')
-                task_id = task_id.replace(str(x), '')
-            task_ids[i] = task_id
-    """
     # customization for wedge and ring stimuli
     for i, task_id in enumerate(task_ids):
         if 'wedge' in task_id:
@@ -470,7 +446,7 @@ def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
                 os.path.join(sess_dir, 'effect_size_maps', '%s_%s.gii' %
                              (contrast, side)))
             effect_variance_maps.append(
-                os.path.join(sess_dir, 'variance_size_maps', '%s_%s.gii' %
+                os.path.join(sess_dir, 'effect_variance_maps', '%s_%s.gii' %
                              (contrast, side)))
     return effect_size_maps, effect_variance_maps, data_available
 
@@ -529,12 +505,12 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
                     ffx_effects, ffx_variance, ffx_stat = fixed_effects_surf(
                         effect_size_maps, effect_variance_maps)
                     write(ffx_effects, os.path.join(
-                        write_dir, 'effect_surf/%s_%s.gii' % (contrast, side)))
+                        write_dir, 'effect_size_maps/%s_%s.gii' % (contrast, side)))
                     write(ffx_variance, os.path.join(
-                        write_dir, 'variance_surf/%s_%s.gii' %
+                        write_dir, 'effect_variance_maps/%s_%s.gii' %
                         (contrast, side)))
                     write(ffx_stat, os.path.join(
-                        write_dir, 'stat_surf/%s_%s.gii' % (contrast, side)))
+                        write_dir, 'stat_maps/%s_%s.gii' % (contrast, side)))
             else:
                 effect_size_maps, effect_variance_maps, data_available =\
                     _load_summary_stats(

@@ -21,10 +21,12 @@ SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
 
 RETINO_REG = dict(
     [(session_id, 'sin_cos_regressors.csv')
-        for session_id in ['WedgeAnti_pa', 'WedgeClock_ap', 'ContRing_ap',
-                           'WedgeAnti_ap', 'ExpRing_pa', 'WedgeClock_pa']] +
-    [(session_id, None) for session_id in
-        ['ClipsTrn10', 'ClipsTrn11', 'ClipsTrn12']])
+        for session_id in [
+                'task-WedgeAnti_dir-pa', 'task-WedgeClock_dir-ap', 'task-ContRing_dir-ap',
+                'task-WedgeAnti_dir-ap', 'task-ExpRing_dir-pa', 'task-WedgeClock_dir-pa']] +
+    [('task-ClipsTrn_run-10', None),
+     ('task-ClipsTrn_run-11', None),
+     ('task-ClipsTrn_run-12', None)])
 IBC = '/neurospin/ibc'
 # IBC = '/storage/store2/data/ibc/'
 
@@ -134,13 +136,13 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
-    # protocols = ['rsvp-language'] # 'hcp1', archi, screening 'hcp2', 
-    # protocols = ['clips4']
+    # protocols = ['rsvp-language', 'hcp1', 'archi', 'screening', 'hcp2'] 
+    # protocols = ['clips4', 'mtt1', 'mtt2', 'preference']
     # protocols = ['biological_motion', 'camcan1', 'camcan2', 'audio1', 'audio2']
-    protocols = ['mathlang', 'optimism'] # 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 
+    # protocols += ['optimism' 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang']
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     
-    
+    """
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
@@ -148,19 +150,18 @@ if __name__ == '__main__':
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
             for (subject, session) in subject_session)
-        # for (subject, session) in subject_session:
-        #     run_subject_glm(jobfile, protocol, subject, session, lowres=True,
-        #                     smooth=5)
     """
+         
     smooth = 5
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=4)(
+        Parallel(n_jobs=6)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
             for (subject, session) in subject_session)
 
+    """
     smooth = None
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol

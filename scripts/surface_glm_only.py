@@ -31,21 +31,10 @@ def generate_glm_input(jobfile, mesh=None):
         reports_output_dir = os.path.join(output_dir, 'reports')
         basenames = ['wr' + os.path.basename(func_)[:-3]
                      for func_ in subject.func]
-        if mesh == 'fsaverage5':
-            gii_basenames = ['r' + os.path.basename(func_).split('.')[0] +
-                             '_fsaverage5_lh.gii' for func_ in subject.func]
-            gii_basenames += ['r' + os.path.basename(func_).split('.')[0] +
-                              '_fsaverage5_rh.gii' for func_ in subject.func]
-        elif mesh == 'individual':
-            gii_basenames = ['r' + os.path.basename(func_).split('.')[0] +
-                             '_lh.gii' for func_ in subject.func]
-            gii_basenames += ['r' + os.path.basename(func_).split('.')[0] +
-                              '_rh.gii' for func_ in subject.func]
-        elif mesh == 'fsaverage7':
-            gii_basenames = ['r' + os.path.basename(func_).split('.')[0] +
-                             '_fsaverage_lh.gii' for func_ in subject.func]
-            gii_basenames += ['r' + os.path.basename(func_).split('.')[0] +
-                              '_fsaverage_rh.gii' for func_ in subject.func]
+        gii_basenames = ['r' + os.path.basename(func_).split('.')[0] +
+                         '_{}_lh.gii'.format(mesh) for func_ in subject.func]
+        gii_basenames += ['r' + os.path.basename(func_).split('.')[0] +
+                          '_{}_rh.gii'.format(mesh) for func_ in subject.func]
         func = [os.path.join(output_dir, 'freesurfer', basename)
                 for basename in gii_basenames]
         realignment_parameters = [
@@ -110,8 +99,9 @@ if __name__ == '__main__':
     protocols = ['preference', 'audio1', 'audio2']
     protocols = ['enumeration', 'biological_motion', 'reward', 'mathlang', 
                  'navigation', 'search']
-    """
     protocols = ['scene', 'color']
+    """
+    protocols = ['mathlang']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol

@@ -17,6 +17,7 @@ import nibabel as nib
 
 data_dir = '/neurospin/ibc/derivatives'
 subjects = ['sub-%02d' % i for i in [1, 2, 4, 5, 6, 7, 8, 9, 11, 13, 14, 12, 15]]
+subjects = ['sub-%02d' % i for i in [12]]
 os.environ['SUBJECTS_DIR'] = ''
 
 
@@ -117,7 +118,7 @@ def project_volume(work_dir, subject, do_bbr=True):
             image = ref_file
         else:
             image = sorted(glob.glob(os.path.join(
-                work_dir, subject, 'ses-*', 'anat', '*-highres_T2w.nii')))[-1]
+                work_dir, subject, 'ses-*', 'anat', '*-highres_T2w.nii')))[0]
 
         image_ = median_filter(image)
         
@@ -223,7 +224,7 @@ from nilearn import datasets
 import os
 
 fsaverage = datasets.fetch_surf_fsaverage('fsaverage5')
-dir_ = '/neurospin/ibc/derivatives/sub-02/ses-*/anat/analysis/'
+dir_ = '/neurospin/ibc/derivatives/sub-12/ses-*/anat/analysis/'
 
 if 1:
     wc = os.path.join(dir_, '*_*_T1T2Ratio_space-fsaverage5_lh.gii')

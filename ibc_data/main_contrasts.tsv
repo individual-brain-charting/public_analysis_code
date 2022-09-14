@@ -62,7 +62,10 @@ MTTNS	sn_average_event
 MTTNS	sn_space-time_event
 MTTNS	southside-northside_event
 MTTNS	sn_before-after_event
-Preference	preference_constant
+PreferenceHouses	house_constant
+PreferenceFaces	face_constant
+PreferencePaintings	painting_constant
+PreferenceFood	food_constant
 Preference	preference_linear
 Preference	preference_quadratic
 TheoryOfMind	photo
@@ -213,12 +216,12 @@ WardAndAllport	intermediate-direct
 WardAndAllport	planning_ambiguous_direct
 WardAndAllport	planning_unambiguous_intermediate
 WardAndAllport	ambiguous-unambiguous
-BiologicalMotion1	global_upright-global_inverted
-BiologicalMotion1	natural_upright-natural_inverted
-BiologicalMotion1	global_upright-natural_upright
-BiologicalMotion2	modified_upright-modified_inverted
-BiologicalMotion2	natural_upright-natural_inverted
-BiologicalMotion2	natural_upright-modified_upright
+BiologicalMotion1	global_upright - global_inverted
+BiologicalMotion1	natural_upright - natural_inverted
+BiologicalMotion1	global_upright - natural_upright
+BiologicalMotion2	modified_upright - modified_inverted
+BiologicalMotion2	natural_upright - natural_inverted
+BiologicalMotion2	natural_upright - modified_upright
 MathLanguage	arithmetic_fact-othermath
 MathLanguage	arithmetic_principle-othermath
 MathLanguage	auditory-visual
@@ -238,7 +241,6 @@ SpatialNavigation	experimental-intersection
 SpatialNavigation	experimental-control
 SpatialNavigation	intersection
 SpatialNavigation	experimental
-SpatialNavigation	encoding_phase
 SpatialNavigation	retrieval
 SpatialNavigation	pointing_experimental
 SpatialNavigation	control
