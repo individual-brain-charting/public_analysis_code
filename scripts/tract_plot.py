@@ -66,17 +66,16 @@ def closing(image, iterations):
 
     return closed_nifti_img
 
-def cluster_bundles(workdir, outdir):
+def cluster_bundles(workdir, sub, ses, outdir):
     """ This algorithm:
         * removes singleton fibers
         * outputs a colormap for remaining fibers
     """
 
-    f = os.path.join(workdir,
-                    'tracks_sub-04_ses-08_t1.tck')
+    f = os.path.join(workdir, f'tracks_{sub}_{ses}_t1.tck')
 
     ref = os.path.join(workdir,
-                    'sub-04_ses-08_desc-denoise-eddy-correct_dwi.nii.gz')
+                    f'{sub}_{ses}_desc-denoise-eddy-correct_dwi.nii.gz')
     tract = load_tck(f, ref)
 
     atlas_file, atlas_folder = fetch_bundle_atlas_hcp842()
@@ -129,7 +128,7 @@ def cluster_bundles(workdir, outdir):
     color_palette_path = os.path.join(outdir, 'palette.txt')
     np.savetxt(color_palette_path, labels_)
 
-    tck_path = os.path.join(outdir, 'bundle-tracks-all_sub-04_ses-08.tck')
+    tck_path = os.path.join(outdir, f'bundle-tracks-all_{sub}_{ses}.tck')
     print(save_tck(tract, tck_path, bbox_valid_check=True))
 
     return color_palette_path, tck_path
@@ -180,7 +179,10 @@ if __name__ == "__main__":
         segments = [segmented['gm'], segmented['wm']]
         add = math_img("img1 + img2", img1=segments[0],
                        img2=segments[1])
-        full = compute_epi_mask(add)
+        if sub=='sub-08':
+            full = compute_epi_mask(add, exclude_zeros=True)
+        else:
+            full = compute_epi_mask(add)
         mask = closing(full, 10)
         mask_pth = os.path.join(outdir, f'{sub}_{ses}_mask.nii')
         # mask.to_filename(mask_pth)
@@ -197,4 +199,5 @@ if __name__ == "__main__":
         os.system(f'gzip -9 -c {t1img_pth} > {t1img_pth_final}')
 
 
-        # color_palette_path, tck_path = cluster_bundles(dwi_workdir, outdir)
+        color_palette_path, tck_path = cluster_bundles(dwi_workdir,
+                                                       sub, ses,  outdir)
