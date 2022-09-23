@@ -610,15 +610,6 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 dir_ = 'res_task-%s_space-%s*_dir-ffx' % (task, mesh)
             elif acquisition in ['ap', 'pa']:
                 dir_ = 'res_task-%s_space-%s*_dir-%s' % (task, mesh, acquisition)
-            """
-            dir_ = 'res_fsaverage5_%s_%s' % (task, acquisition)
-            if mesh == 'fsaverage5':
-                dir_ = 'res_fsaverage5_%s_%s' % (task, acquisition)
-            elif mesh == 'fsaverage7':
-                dir_ = 'res_fsaverage7_%s_%s' % (task, acquisition)
-            elif mesh == 'individual':
-                dir_ = 'res_individual_%s_%s' % (task, acquisition)
-            """
             for side in ['lh', 'rh']:
                 wc = os.path.join(
                     derivatives, subject, '*', dir_, 'stat_maps',
