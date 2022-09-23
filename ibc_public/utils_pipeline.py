@@ -361,6 +361,10 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             anat_img = nib.load(subject_dic['anat'])
             stats_report_filename = os.path.join(
                  subject_session_output_dir, 'report_stats.html')
+            make_glm_report(fmri_glm,
+                            contrasts=contrasts,
+                            bg_img=anat_img,
+            ).save_as_html(stats_report_filename)
 
 
 def _guess_run_and_dir_from_session_id(session_id):

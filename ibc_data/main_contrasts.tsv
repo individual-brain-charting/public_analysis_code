@@ -216,15 +216,14 @@ WardAndAllport	intermediate-direct
 WardAndAllport	planning_ambiguous_direct
 WardAndAllport	planning_unambiguous_intermediate
 WardAndAllport	ambiguous-unambiguous
-BiologicalMotion1	global_upright - global_inverted
-BiologicalMotion1	natural_upright - natural_inverted
-BiologicalMotion1	global_upright - natural_upright
-BiologicalMotion2	modified_upright - modified_inverted
-BiologicalMotion2	natural_upright - natural_inverted
-BiologicalMotion2	natural_upright - modified_upright
+BiologicalMotion	global_upright - global_inverted
+BiologicalMotion	natural_upright - natural_inverted
+BiologicalMotion	global_upright - natural_upright
+BiologicalMotion	modified_upright - modified_inverted
+BiologicalMotion	natural_upright - natural_inverted
+BiologicalMotion	natural_upright - modified_upright
 MathLanguage	arithmetic_fact-othermath
 MathLanguage	arithmetic_principle-othermath
-MathLanguage	auditory-visual
 MathLanguage	colorlessg-wordlist
 MathLanguage	context-general
 MathLanguage	context-theory_of_mind
