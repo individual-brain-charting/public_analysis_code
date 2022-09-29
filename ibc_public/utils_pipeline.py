@@ -231,6 +231,21 @@ def masking(func, output_dir):
     return mask_img
 
 
+def _audio_frametimes_and_onset():
+    mask = np.array([1, 0, 1, 1, 0, 1, 1, 0, 1, 1])
+    n_cycles = 28
+    cycle_duration = 20
+    t_r = 2
+    cycle = np.arange(0, cycle_duration, t_r)[mask > 0]
+    frametimes = np.tile(cycle, n_cycles) +\
+                 np.repeat(np.arange(n_cycles) * cycle_duration, mask.sum())
+    frametimes = frametimes[:-2].astype(float)  # for some reason...
+    cycle = np.arange(0, cycle_duration, t_r)[mask == 0]
+    onsets = np.tile(cycle, n_cycles) + np.repeat(np.arange(n_cycles) * cycle_duration, len(cycle))
+    onsets = onsets[:-2].astype(float)
+    return frametimes, onsets
+
+
 def first_level(subject_dic, additional_regressors=None, compcorr=False,
                 smooth=None, mesh=False, mask_img=None):
     """ Run the first-level analysis (GLM fitting + statistical maps)
@@ -282,15 +297,8 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         motion = np.loadtxt(motion_path)
         # define the time stamps for different images
         frametimes = np.linspace(slice_time_ref, (n_scans - 1 + slice_time_ref) * tr, n_scans)
-        if task_id == 'audio':
-            mask = np.array([1, 0, 1, 1, 0, 1, 1, 0, 1, 1])
-            n_cycles = 28
-            cycle_duration = 20
-            t_r = 2
-            cycle = np.arange(0, cycle_duration, t_r)[mask > 0]
-            frametimes = np.tile(cycle, n_cycles) +\
-                np.repeat(np.arange(n_cycles) * cycle_duration, mask.sum())
-            frametimes = frametimes[:-2]  # for some reason...
+        if task_id == 'Audio':
+            frametimes, audio_onsets = _audio_frametimes_and_onset()
 
         if mesh is not False:
             compcorr = False  # XXX Fixme
@@ -315,7 +323,9 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             paradigm = None
         else:
             paradigm = make_paradigm(onset, task_id)
-
+            if task_id == 'Audio':
+                paradigm.onset = audio_onsets
+            
         # handle manually supplied regressors
         add_reg_names = []
         if additional_regressors[session_id] is None:

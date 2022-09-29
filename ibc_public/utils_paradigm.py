@@ -233,6 +233,7 @@ def post_process(df, paradigm_id):
             df = df.replace(nature, 'nature')
         for tool in tools:
             df = df.replace(tool, 'tool')
+        df.drop(df[df.trial_type == 'fixation'].index, 0, inplace=True)
     if paradigm_id == 'Attention':
         df = df[df.trial_type.isin([
             'spatial_incongruent', 'double_congruent', 'spatial_congruent',

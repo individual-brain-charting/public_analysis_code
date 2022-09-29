@@ -141,7 +141,7 @@ if __name__ == '__main__':
     # protocols = ['biological_motion', 'camcan1', 'camcan2', 'audio1', 'audio2']
     # protocols += ['optimism' 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang']
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
-    protocols = ['biological_motion']
+    protocols = ['audio1', 'audio2']
     """
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
@@ -156,7 +156,7 @@ if __name__ == '__main__':
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=6)(
+        Parallel(n_jobs=4)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
             for (subject, session) in subject_session)
