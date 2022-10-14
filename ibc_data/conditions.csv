@@ -1,0 +1,377 @@
+task,condition,description
+ArchiStandard,audio_left_button_press,"left-hand three-times button press, indicated by auditory instruction"
+ArchiStandard,audio_right_button_press,"right-hand three-times button press, indicated by auditory instruction"
+ArchiStandard,video_left_button_press,"left-hand three-times button press, indicated by visual instruction"
+ArchiStandard,video_right_button_press,"right-hand three-times button press, indicated by visual instruction"
+ArchiStandard,horizontal_checkerboard,visualization of flashing horizontal checkerboards
+ArchiStandard,vertical_checkerboard,visualization of flashing vertical checkerboards
+ArchiStandard,audio_sentence,listen to narrative sentences
+ArchiStandard,video_sentence,read narrative sentences
+ArchiStandard,audio_computation,"mental subtraction, indicated by auditory instruction"
+ArchiStandard,video_computation,"mental subtraction, indicated by visual instruction"
+ArchiSpatial,saccades,ocular movements were performed according to the displacement of a fixation cross from the center towards peripheral points in the image displayed
+ArchiSpatial,rotation_hand,mental judgment on whether the hand displayed on the image is a left or a right hand
+ArchiSpatial,rotation_side,mental judgment on the palmar-dorsal direction of a hand displayed as visual stimulus
+ArchiSpatial,object_grasp,"mimicry of object grasping with right hand, in which the corresponding object was displayed on the screen"
+ArchiSpatial,object_orientation,"mimic orientation of rhombus, displayed as image background on the screen , using right hand along with fingers"
+ArchiSocial,mechanistic_audio,"interpret short stories (presented as auditory stimuli) through mental reply (no active response was involved), featuring a cause-consequence plot"
+ArchiSocial,mechanistic_video,"interpret short stories (presented as visual stimuli) through mental reply (no active response was involved), featuring a cause-consequence plot"
+ArchiSocial,triangle_mental,"watch short movies of triangles, which exhibit a putative interaction"
+ArchiSocial,triangle_random,"watch short movies of triangles, which exhibit a random movement"
+ArchiSocial,false_belief_audio,"interpret short stories (presented as auditory stimuli) through mental reply (no active response was involved), featuring a false-belief plot"
+ArchiSocial,false_belief_video,"interpret short stories (presented as visual stimuli) through mental reply (no active response was involved), featuring a false-belief plot"
+ArchiSocial,speech_sound,listen passively to short samples of human voices
+ArchiSocial,non_speech_sound,listen passively to short samples of natural sounds
+ArchiEmotional,face_gender,gender evaluation of the presented human faces
+ArchiEmotional,face_control,mental assessment on the slope of a gray-scale grid image (obtained from scrambling a face’s image) that may be tilted or not
+ArchiEmotional,face_trusty,trustworthy evaluation of the presented human faces
+ArchiEmotional,expression_intention,trustworthy evaluation of the presented human eye images
+ArchiEmotional,expression_gender,gender evaluation of the presented human eye images
+ArchiEmotional,expression_control,mental assessment on the slope of a gray-scale grid image (obtained from scrambling an eyes’ image) that may be tilted or not
+HcpEmotion,shape,shape outline
+HcpEmotion,face,face image
+HcpGambling,punishment,
+HcpGambling,reward,
+HcpMotor,left_hand,
+HcpMotor,right_hand,
+HcpMotor,left_foot,
+HcpMotor,right_foot,
+HcpMotor,tongue,
+HcpMotor,cue,
+HcpLanguage,story,tale
+HcpLanguage,math,mental addition
+HcpRelational,relational,relational processing
+HcpRelational,match,visual matching
+HcpSocial,mental,mental motion
+HcpSocial,random,random motion
+HcpWm,0back_body,
+HcpWm,2back_body,
+HcpWm,0back_face,
+HcpWm,2back_face,
+HcpWm,0back_tools,
+HcpWm,2back_tools,
+HcpWm,0back_place,
+HcpWm,2back_place,
+RSVPLanguage,complex,"constituents, i.e words, formed syntactically and semantically congruent sentences with more than one clause grid image that may be tilted or not (high sentence-structure complexity)"
+RSVPLanguage,simple,"constituents, i.e. words, formed syntactically and semantically congruent sentences of one single clause (low_sentence-structure_complexity)"
+RSVPLanguage,jabberwocky,syntactically congruent sentences composed by non-lexical vocable constituents
+RSVPLanguage,word_list,syntactically non-congruent sentences but with semantic content
+RSVPLanguage,pseudoword_list,syntactically and semantically non-congruent sentences composed by non-lexical vocable constituents
+RSVPLanguage,consonant_string,syntactically and semantically non-congruent sentences composed by non-vocable constituents
+RSVPLanguage,probe,
+MTTWE,we_average_reference,action in the story to serve as reference for the time or space judgment in the same trial in the west-east island
+MTTWE,we_all_space_cue,cue indicating a question about spatial orientation in the west-east island
+MTTWE,we_all_time_cue,cue indicating a question about time orientation in the west-east island
+MTTWE,we_westside_event,"action to be judged whether it takes place west or east from this reference, that actually takes place west from this reference"
+MTTWE,we_eastside_event,"action to be judged whether it takes place west or east from this reference, that actually takes place east from this reference"
+MTTWE,we_before_event,"action to be judged whether it takes place before or after this reference, that actually takes place before this reference, in the west-east island"
+MTTWE,we_after_event,"action to be judged whether it takes place before or after this reference, that actually takes place
+before this reference, in the west-east island"
+MTTWE,we_all_event_response,motor responses performed after every event condition in the west-east island
+MTTNS,sn_average_reference,action in the story to serve as reference for the time or space judgment in the same trial in the west-east island
+MTTNS,sn_all_space_cue,cue indicating a question about spatial orientation in the south-north island
+MTTNS,sn_all_time_cue,cue indicating a question about time orientation in the south-north island
+MTTNS,sn_southside_event,"action to be judged whether it takes place south or north from this reference, that actually takes place south from this reference"
+MTTNS,sn_northside_event,"action to be judged whether it takes place south or north from this reference, that actually takes place north from this reference"
+MTTNS,sn_before_event,"action to be judged whether it takes place before or after this reference, that actually takes place before this reference, in the south-north island"
+MTTNS,sn_after_event,"action to be judged whether it takes place before or after this reference, that actually takes place before this reference, in the south-north island"
+MTTNS,sn_all_event_response,motor responses performed after every event condition in the south-north island
+PreferenceFood,food_constant,classify the level of pleasantness of a food item displayed on the screen in terms of willingness to eat it. visual evaluation of an item vs. fixation
+PreferenceFood,food_linear,classify the level of pleasantness of a food item displayed on the screen in terms of willingness to eat it. visual preference vs. no preference
+PreferenceFood,food_quadratic,classify the level of pleasantness of a food item displayed on the screen in terms of willingness to eat it. confidence in preference vs. no confidence
+PreferencePaintings,painting_constant,classify the level of pleasantness of a painting displayed on the screen in terms of willingness to possess it. visual evaluation of an item vs. fixation
+PreferencePaintings,painting_linear,classify the level of pleasantness of a painting displayed on the screen in terms of willingness to possess it. visual preference vs. no preference
+PreferencePaintings,painting_quadratic,classify the level of pleasantness of a painting displayed on the screen in terms of willingness to possess it. confidence in preference vs. no confidence
+PreferenceFaces,face_constant,classify the level of pleasantness of a human face displayed on the screen in terms of willingness to meet the person portrayed. visual evaluation of an item vs. fixation
+PreferenceFaces,face_linear,classify the level of pleasantness of a human face displayed on the screen in terms of willingness to meet the person portrayed. visual preference vs. no preference
+PreferenceFaces,face_quadratic,classify the level of pleasantness of a human face displayed on the screen in terms of willingness to meet the person portrayed. confidence in preference vs. no confidence
+PreferenceHouses,house_constant,classify the level of pleasantness of a house displayed on the screen in terms of willingness to live in that house. visual evaluation of an item vs. fixation
+PreferenceHouses,house_linear,classify the level of pleasantness of a house displayed on the screen in terms of willingness to live in that house. visual preference vs. no preference
+PreferenceHouses,house_quadratic,classify the level of pleasantness of a house displayed on the screen in terms of willingness to live in that house. confidence in preference vs. no confidence
+TheoryOfMind,belief,read a false-belief story
+TheoryOfMind,photo,read a false-photograph story
+EmotionalPain,physical_pain,read story about fictional characters suffering from physical pain
+EmotionalPain,emotional_pain,read story about fictional characters suffering from emotional pain
+PainMovie,movie_pain,watch movie-scene wherein characters experience physical pain
+PainMovie,movie_mental,"watch movie-scene wherein characters experience changes in beliefs, desires, and/or emotions"
+VSTM,vstm_linear,"judge whether any bar changed orientation within two consecutive displays of bar sets on the screen, response to constant numerosity vs. fixation"
+VSTM,vstm_constant,"judge whether any bar changed orientation within two consecutive displays of bar sets on the screen, esponse to numerosity vs. fixation"
+VSTM,vstm_quadratic,"judge whether any bar changed orientation within two consecutive displays of bar sets on the screen, response to numerosity interaction vs. fixation"
+Enumeration,enumeration_linear,enumeration response to constant numerosity vs. fixation
+Enumeration,enumeration_constant,enumeration response to numerosity vs. fixation
+Enumeration,enumeration_quadratic,enumeration response to numerosity interaction vs. fixation
+Self,instructions,presentation of a question related to the succeeding block
+Self,encode_self,"judge with overt response whether or not a certain adjective, displayed on the screen, qualifies oneself. self-reference encoding vs. other-reference encoding"
+Self,encode_other,"judging with overt response whether a certain adjective, displayed on the screen, qualifies someone else, other-reference encoding vs. fixation"
+Self,recognition_self_hit,"successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “self-reference encoding” trial of the preceding encoding phase, self-reference recognition vs. other-reference recognition"
+Self,recognition_other_hit,"successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “other-reference encoding” trial of the preceding encoding phase, other-reference recognition vs. fixation"
+Self,correct_rejection,
+Self,false_alarm,
+Bang,talk,speech vs. no speech. speech: watch contiguous scenes of speech: no speech: watch contiguous scenes with no speech
+Bang,no_talk,no speech vs. fixation. no speech: watch contiguous scenes with no speech
+Clips,,
+Wedge,lower_meridian,visual representation in the lower half-plane of the visual field delimited by its horizontal meridian
+Wedge,upper_meridian,visual representation in the upper half-plane of the visual field delimited by its horizontal meridian
+Wedge,lower_right,visual representation in the lower-right quadrant of the visual field delimited by its vertical and horizontal meridians
+Wedge,upper_left,visual representation in the upper-left quadrant of the visual field delimited by its vertical and horizontal meridians
+Wedge,right_meridian,visual representation in the right half-plane of the visual field delimited by its vertical meridian
+Wedge,left_meridian,visual representation in the left half-plane of the visual field delimited by its vertical meridian
+Wedge,upper_right,visual representation in the upper-right quadrant of the visual field delimited by its vertical and horizontal meridians
+Wedge,lower_left,visual representation in the lower-left quadrant of the visual field delimited by its vertical and horizontal meridians
+Ring,foveal,visual representation in the fovea
+Ring,middle,visual representation in the mid-periphery of the visual field
+Ring,peripheral,visual representation in the far-periphery of the visual field
+Raiders,,
+Lec2,unattend,A white word is rapidly presented and the participant must ignore it
+Lec2,attend,A black word is rapidly presented and the participant must silently read it to form a short story together with the rest of black words
+Audi,tear,Concatenated sounds of people crying
+Audi,suomi,Suomi speech stimuli
+Audi,yawn,Concatenated sounds of people yawning
+Audi,human,Other human sounds
+Audi,silence,"Silence, used as a baseline"
+Audi,music,Real-life complex musical sounds
+Audi,reverse,French speech stimuli played in reverse
+Audi,speech,French speech stimuli
+Audi,alphabet,French voice saying the alphabet
+Audi,cough,Concatenated sounds of people coughing
+Audi,environment,Real-life complex environmental sounds
+Audi,laugh,Concatenated sounds of people laughing
+Audi,animals,Real-life animal sounds
+Visu,scrambled,"Scrambled image, used as baseline"
+Visu,face,Image of a human face
+Visu,characters,String of random characters
+Visu,scene,Image of a naturalistic scene
+Visu,house,Image of a house
+Visu,animal,Image of an animal
+Visu,pseudoword,String that conforms a pseudoword
+Visu,tool,Image of a tool
+Visu,fruit,Image of a fruit
+Lec1,random_string,A string of random consonants is presented and the participant has to answer if it is all-uppercase or all-lowercase
+Lec1,word,A word is presented and the participant has to decide whether it is a living entity or not
+Lec1,pseudoword,A pseudoword in presented and the participant has to answer whether it has one or two syllabes
+MVEB,letter_occurrence_response,
+MVEB,2_letters_different,2 characters to remember
+MVEB,4_letters_different,4 characters to remember
+MVEB,6_letters_different,6 characters to remember
+MVEB,2_letters_same,1 character to remember
+MVEB,4_letters_same,1 character to remember
+MVEB,6_letters_same,1 character to remember
+MVIS,dot_displacement_response,
+MVIS,2_dots,2 positions to remember
+MVIS,2_dots_control,1 position to remember because of the highlighted dot
+MVIS,4_dots,4 positions to remember
+MVIS,4_dots_control,1 position to remember because of the highlighted dot
+MVIS,6_dots,6 positions to remember
+MVIS,6_dots_control,1 position to remember because of the highlighted dot
+Moto,finger_right,"Movement of the right index finger, indicated by a button-press"
+Moto,finger_left,"Movement of the left index finger, indicated by a button-press"
+Moto,foot_left,Movement of the left foot
+Moto,foot_right,Movement of the right foot
+Moto,hand_left,Movement of the left hand
+Moto,hand_right,Movement of the right hand
+Moto,saccade_left,Movement of the eyes to the left
+Moto,saccade_right,Movement of the eyes to the right
+Moto,tongue_left,Movement of the tongue to the left
+Moto,tongue_right,Movement of the tongue to the right
+Moto,fixation,Gaze fixation on the central square
+MCSE,high_salience_left,Effect of salience on the left side
+MCSE,high_salience_right,Effect of salience on the right side
+MCSE,low_salience_left,Effect of salience on the left side
+MCSE,low_salience_right,Effect of salience on the right side
+Audio,animal,Sound of animal noises
+Audio,music,Musical sound
+Audio,nature,Naturalistic sound
+Audio,speech,Human speech sound
+Audio,tool,Sound of tool usage
+Audio,voice,Non-speech human sound
+Audio,catch,Repetition of the previous sound
+Audio,silence,No sound
+Attention,double_congruent,"The stim is not cued, and all the distractors are congruent with the target"
+Attention,double_incongruent,"The stim not is cued, and all the distractors are incongruent with the target"
+Attention,double_cue,
+Attention,spatial_incongruent,"The stim is cued, and all the distractors are incongruent with the target"
+Attention,spatial_congruent,"The stim is cued, and all the distractors are congruent with the target"
+StopSignal,go,Answer to the stim
+StopSignal,stop,Hold motor response
+TwoByTwo,task_stay_cue_stay,Both the task and the cue are the same
+TwoByTwo,task_switch_cue_switch,Only the cue switches
+TwoByTwo,task_switch_cue_stay,"Task switch. Since the cues are divided in two groups, this means that the cue stays in the same group, but obviously changes since the task has changed"
+TwoByTwo,task_stay_cue_switch,"Task switch. Practically, this condition and the previous one are the same, but this time the cue also changes to the other group"
+Discount,delay,Effect of reward delay
+Discount,amount,Effect of reward gain
+SelectiveStopSignal,go_critical,Answer to the stim (critical side)
+SelectiveStopSignal,go_noncritical,Answer to the stim (noncritical side)
+SelectiveStopSignal,stop,Hold motor response
+SelectiveStopSignal,ignore,Answer regardless of the stop signal
+Stroop,congruent,Color and word are the same
+Stroop,incongruent,Color and word are different
+ColumbiaCards,num_loss_cards,Probability of losing
+ColumbiaCards,loss,Expected loss
+ColumbiaCards,gain,Expected gain
+DotPatterns,cue,
+DotPatterns,correct_cue_correct_probe,"Target pair, captures expectancy after correct cue"
+DotPatterns,correct_cue_incorrect_probe,Nontarget pair that also captures expectancy after correct cue
+DotPatterns,incorrect_cue_correct_probe,Incorrect pair. The probe is correct but the cue is not
+DotPatterns,incorrect_cue_incorrect_probe,"Incorrect pair, both are incorrect"
+WardAndAllport,planning_ambiguous_intermediate,Partially ambiguous goal state with intermediate movement
+WardAndAllport,planning_unambiguous_direct,Unambiguous goal state without intermediate movement
+WardAndAllport,planning_ambiguous_direct,Partially ambiguous goal state without intermediate movement
+WardAndAllport,planning_unambiguous_intermediate,Unambiguous goal state with intermediate movement
+BiologicalMotion1,global_upright,"Structural information is preserved, but individual local trajectories are mirror-symmetric. ""Global-only"" in the original paper."
+BiologicalMotion1,global_inverted,"Global walker, inverted upside-down"
+BiologicalMotion1,natural_upright,"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment."
+BiologicalMotion1,natural_inverted,"Local natural walker, inverted along the horizontal axis"
+BiologicalMotion2,modified_upright,"Neither structural or local information is carried out by this type of walker, it uses both types of modifications used for the previous two categories. ""Local modified"" in the original study."
+BiologicalMotion2,modified_inverted,"Local modified walker, inverted along the horizontal axis"
+BiologicalMotion2,natural_upright,"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment."
+BiologicalMotion2,natural_inverted,"Local natural walker, inverted along the horizontal axis"
+MathLanguage,arithmetic_fact_auditory,Listen to arithmetic fact
+MathLanguage,arithmetic_fact_visual,Read arithmetic fact
+MathLanguage,arithmetic_principle_auditory,Listen to arithmetic principle
+MathLanguage,arithmetic_principle_visual,Read arithmetic principle
+MathLanguage,colorlessg_auditory,Auditory Jabberwocky sentence parsing
+MathLanguage,colorlessg_visual,Visual Jabberwocky sentence parsing
+MathLanguage,context_auditory,Fixation
+MathLanguage,context_visual,Fixation
+MathLanguage,general_auditory,Listen to sentence
+MathLanguage,general_visual,Read sentence
+MathLanguage,geometry_fact_auditory,Listen to geometric fact
+MathLanguage,geometry_fact_visual,Read geometric fact
+MathLanguage,theory_of_mind_auditory,Listen to false-belief tale
+MathLanguage,theory_of_mind_visual,Read false-belief tale
+MathLanguage,wordlist_auditory,Listen to word list
+MathLanguage,wordlist_visual,Read word list
+SpatialNavigation,encoding_phase,Encode location of key building
+SpatialNavigation,intersection,Participant at an intersection in the city.
+SpatialNavigation,retrieval,Retrieve location of key building
+SpatialNavigation,control,Camera approaches intersection in an control trial
+SpatialNavigation,pointing_control,Participant rotates camera to point to blue building in control trial
+SpatialNavigation,experimental,Camera approaches intersection in an experimental trial.
+SpatialNavigation,pointing_experimental,Participant rotates camera to point to key building in experimental trial
+SpatialNavigation,navigation,Camera approaches intersection during training
+EmoMem,neutral_image,Neutral background image
+EmoMem,negative_image,Negative background image
+EmoMem,positive_image,Positive background image
+EmoMem,object,Neutral object
+EmoReco,neutral_female,Neutral emotion on female face
+EmoReco,neutral_male,Neutral emotion on male face
+EmoReco,angry_female,Angry emotion on female face
+EmoReco,angry_male,Angry emotion on male face
+StopNogo,go,Arrow stays black; press button corresponding to arrow direction
+StopNogo,nogo,Arrow starts out red so do not press button
+StopNogo,successful_stop,Arrow starts out black but turns red; motor response inhibited
+StopNogo,unsuccessful_stop,Arrow starts out black but turns red; motor response not inhibited
+Catell / oddball,easy_oddball,Easy oddball trial where the non-oddball images are similar and very different from the oddball
+Catell / oddball,hard_oddball,Difficult oddball trial where all images are similar
+FingerTapping,specified,Finger to tap is highlighted
+FingerTapping,chosen,Participant chooses 1 out of 3 highlighted fingers to tap
+FingerTapping,null,No finger tap
+VSTMC,stim_load1,Dots in only one colour move coherently in a given direction
+VSTMC,stim_load2,Dots in two colours move coherently in two different directions
+VSTMC,stim_load3,Dots in all three colours move coherently in 3 different directions
+VSTMC,resp_load1,Response period of stim_load1 trials
+VSTMC,resp_load2,Response period of stim_load2 trials
+VSTMC,resp_load3,Response period of stim_load3 trials
+RewProc,green,Subject selected the green pattern
+RewProc,purple,Subject selected the purple pattern
+RewProc,left,Selected pattern was in the left side of the screen
+RewProc,right,Selected pattern was in the right side of the screen
+RewProc,switch,Selected pattern was different from the one selected in previous trial
+RewProc,stay,Selected pattern was the same as the one selected in previous trial
+RewProc,plus_20,Gained 20 units of reward as a result of the selection
+RewProc,minus_20,Lost 20 units of reward as a result of the selection
+RewProc,plus_10,Gained 10 units of reward as a result of the selection
+RewProc,minus_10,Lost 10 units of reward as a result of the selection
+NARPS,strongly_accept,Subject accepted the gamble with high confidence
+NARPS,weakly_accept,Subject accepted the gamble with low confidence
+NAPRS,weakly_reject,Subject rejected the gamble with low confidence
+NAPRS,strongly_reject,Subject rejected the gamble with high confidence
+FaceBody,bodies_body,Block presenting images of body parts (category) with full bodies without faces (subcategory)
+FaceBody,bodies_limb,Block presenting images of body parts (category) with just limbs (subcategory)
+FaceBody,characters_number,Block presenting images of printed characters (category) with just numbers (subcategory)
+FaceBody,characters_word,Block presenting images of printed characters (category) with just words (subcategory)
+FaceBody,faces_adult,Block presenting faces (category) of adults (subcategory)
+FaceBody,faces_child,Block presenting faces (category) of children (subcategory)
+FaceBody,objects_car,Block presenting images of objects (category) with just cars (subcategory)
+FaceBody,objects_instrument,Block presenting images of objects (category) with just musical instruments (subcategory)
+FaceBody,places_corridor,Block presenting images of places (category) with just corridors (subcategory)
+FaceBody,places_house,Block presenting images of places (category) with just houses (subcategory)
+Scene,scene_impossible_correct,Impossible scene trial that subject identified correctly
+Scene,scene_impossible_incorrect,Impossible scene trial that subject identified incorrectly
+Scene,scene_possible_correct,Possible scene trial that subject identified correctly
+Scene,scene_possible_incorrect,Possible scene trial that subject identified incorrectly
+Scene,dot_easy_left,More opaque dot on left
+Scene,dot_easy_right,More opaque dot on right
+Scene,dot_hard_left,More transparent dot on left
+Scene,dot_hard_right,More transparent dot on right
+BreathHolding,breathe,Breathe normally
+BreathHolding,get_ready,Prepare to hold breath
+BreathHolding,hold_breath,Hold breath
+Checkerboard,checkerboard,Checkerboard block
+Checkerboard,fixation,Fixation block
+FingerTap,fingertap,Press button corresponding to visual stimulus
+FingerTap,rest,Rest block
+ItemRecognition,load1_instr,Instruction signaling start of load 1 block
+ItemRecognition,encode1,Encode digit of load 1 block
+ItemRecognition,probe1_mem,Probe digit that was encoded at the start of load 1 block
+ItemRecognition,probe1_new,Probe digit that is new
+ItemRecognition,load3_instr,Instruction signaling start of load 3 blocks
+ItemRecognition,encode3,Encode digit of load 3 blocks
+ItemRecognition,probe3_mem,Probe digit that was encoded at the start of load 3 blocks
+ItemRecognition,probe3_new,Probe digit that is new
+ItemRecognition,load5_instr,Instruction signaling start of load 5 blocks
+ItemRecognition,encode5,Encode digit of load 5 blocks
+ItemRecognition,probe5_mem,Probe digit that was encoded at the start of load 5 blocks
+ItemRecognition,probe5_new,Probe digit that is new
+ItemRecognition,arrow_right,Rightward pointing arrow
+ItemRecognition,arrow_left,Leftward pointing arrow
+VisualSearch,memory_array_two,"Array of two items, with or without the item to search for (probe item) - in working memory trials"
+VisualSearch,memory_array_four,"Array of four items, with or without the item to search for (probe item) - in working memory trials"
+VisualSearch,delay_wm,Delay period between memory array and probe item in working memory trials
+VisualSearch,probe_item_absent,Item to search for but was absent in memory array - in working memory trials
+VisualSearch,probe_item_present,Item to search for and was present in memory array - in working memory trials
+VisualSearch,sample_item,Item to search for in an array of two or four items (search array) - in visual search trials
+VisualSearch,delay_vis,Delay period between sample item and search array in visual search trials
+VisualSearch,search_array_two_absent,"Array of two items, without sample item - in visual search trials"
+VisualSearch,search_array_two_present,"Array of two items, with sample item - in visual search trials"
+VisualSearch,search_array_four_absent,"Array of four items, without sample item - in visual search trials"
+VisualSearch,search_array_four_present,"Array of four items, with sample item - in visual search trials"
+VisualSearch,response_hit,Subject responded correctly
+VisualSearch,response_miss,Subject responded incorrectly
+Color,chromatic,Block with chromatic Mondrian patterns
+Color,achromatic,Block with achromatic Mondrian patterns
+Color,response,Subject's response to 1-back task i.e. when the same color pattern was presented twice consecutively
+Motion,incoherent,Motion condition when dots were moving incoherently in random directions
+Motion,coherent,Motion condition when dots were moving coherently in the same direction
+Motion,stationary,Motion condition when dots stayed stationary but each dot was respawned in a different location after 1 sec
+Motion,clock,The trials where direction of coherent motion was changed in the clockwise direction
+Motion,anti,The trials where direction of coherent motion was changed in the anti-clockwise direction
+Motion,left,The trials where dot pattern was presented only in the left visual field
+Motion,right,The trials where dot pattern was presented only in the right visual field
+OptimismBias,past_positive,"Past, positive valence and very or a little arousing event"
+OptimismBias,past_negative,"Past, negative valence and very or a little arousing event"
+OptimismBias,future_positive,"Future, positive valence and very or a little arousing event"
+OptimismBias,future_negative,"Future, negative valence and very or a little arousing event"
+OptimismBias,past_neutral,"Past, negative or positive valence and not at all arousing event"
+OptimismBias,future_neutral,"Future, negative or positive valence and not at all arousing event"
+OptimismBias,inconclusive,Absence of either or both responses
+HarririAomic,shape,When the presented trial was that with shapes
+HarririAomic,emotion,When the presented trial was that with emotions
+HarririAomic,index_response,"When subject responded with index finger, meaning the image on left matched with image on top"
+HarririAomic,middle_response,"When subject responded with index finger, meaning the image on right matched with image on top"
+FacesAomic,ITI,Inter-trial intervals
+FacesAomic,anger,When the anger was the emotion expressed in the video
+FacesAomic,contempt,When the contempt was the emotion expressed in the video
+FacesAomic,joy,When the joy was the emotion expressed in the video
+FacesAomic,pride,When the pride was the emotion expressed in the video
+FacesAomic,neutral,"Baseline, when no emotion was expressed"
+FacesAomic,male,When the model expressing the emotion was a male
+FacesAomic,female,When the model expressing the emotion was a female
+FacesAomic,mediterranean,When the model expressing the emotion was of mediterranean ethnicity
+FacesAomic,european,When the model expressing the emotion was of european ethinicity
+StroopAomic,congruent,When the word and the face shown were congruent or matched
+StroopAomic,incongruent,When the word and the face shown were incongruent or did not match
+StroopAomic,face_male,When the face shown was that of a male
+StroopAomic,face_female,When the face shown was that of a female
+StroopAomic,word_male,When the word shown corresponded to a male
+StroopAomic,word_female,When the word shown corresponded to a female
