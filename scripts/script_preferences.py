@@ -178,9 +178,9 @@ for (subject, session) in subject_session:
         for hemi in ['lh', 'rh']:
             write_dir = os.path.join(workdir, subject, session,
                                      'res_%s_Preference_ffx' % mesh)
-            effect_dir = os.path.join(write_dir, 'effect_surf')
-            variance_dir = os.path.join(write_dir, 'variance_surf')
-            stat_dir = os.path.join(write_dir, 'stat_surf')
+            effect_dir = os.path.join(write_dir, 'effect_size_maps')
+            variance_dir = os.path.join(write_dir, 'effect_variance_maps')
+            stat_dir = os.path.join(write_dir, 'stat_maps')
             dirs = [write_dir, effect_dir, variance_dir, stat_dir]
             for dir_ in dirs:
                 if not os.path.exists(dir_):
@@ -188,12 +188,12 @@ for (subject, session) in subject_session:
             for contrast in contrasts:
                 effects = [os.path.join(
                     workdir, subject, session,
-                    'res_%s_Preference%s_ffx' % (mesh, category_), 'effect_surf',
+                    'res_%s_Preference%s_ffx' % (mesh, category_), 'effect_size_maps',
                     '%s_%s_%s.gii' % (category, contrast, hemi))
                             for category, category_ in zip(categories, categories_)]
                 variance = [os.path.join(
                     workdir, subject, session,
-                    'res_%s_Preference%s_ffx' % (mesh, category_), 'variance_surf',
+                    'res_%s_Preference%s_ffx' % (mesh, category_), 'effect_variance_maps',
                     '%s_%s_%s.gii' % (category, contrast, hemi))
                             for category, category_ in zip(categories, categories_)]
                 fixed_effect, fixed_variance, fixed_stat = fixed_effects_surf(
@@ -209,12 +209,12 @@ for (subject, session) in subject_session:
             contrast = 'constant'
             effects = [os.path.join(
                 workdir, subject, session,
-                'res_%s_Preference%s_ffx' % (mesh, category_), 'effect_surf',
+                'res_%s_Preference%s_ffx' % (mesh, category_), 'effect_size_maps',
                 '%s_%s_%s.gii' % (category, contrast, hemi))
                         for category, category_ in zip(categories, categories_)]
             variance = [os.path.join(
                 workdir, subject, session,
-                'res_%s_Preference%s_ffx' % (mesh, category_), 'variance_surf',
+                'res_%s_Preference%s_ffx' % (mesh, category_), 'effect_variance_maps',
                 '%s_%s_%s.gii' % (category, contrast, hemi))
                         for category, category_ in zip(categories, categories_)]
             outputs = elementary_contrasts_surf(effects, variance)

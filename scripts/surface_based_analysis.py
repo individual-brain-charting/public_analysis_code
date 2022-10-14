@@ -26,7 +26,7 @@ from nilearn.image import smooth_img
 
 work_dir = '/neurospin/ibc/derivatives'
 subjects = ['sub-%02d' % i for i in [1, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]]
-subjects = ['sub-%02d' % i for i in [8, 9, 11, 12, 13, 14]]
+subjects = ['sub-%02d' % i for i in [2]]
 mem = Memory(base_dir='/neurospin/tmp/ibc')
 
 # Step 1: Perform recon-all
@@ -58,8 +58,8 @@ def recon_all(work_dir, subject, high_res=True):
         os.system('recon-all -all -subjid %s -sd %s' % (subject, t1_dir))
 
 
-# Parallel(n_jobs=1)(delayed(recon_all)(work_dir, subject, True)
-#                        for subject in subjects)
+Parallel(n_jobs=1)(delayed(recon_all)(work_dir, subject, True)
+                   for subject in subjects)
 
 # Step 2: Perform the projection
 def project_volume(work_dir, subject, sessions, do_bbr=True):
@@ -85,8 +85,8 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
             print (basename)
             # output names
             # the .gii files are put in the same directory as the input fMRI
-            left_fmri_tex = os.path.join(fs_dir, basename + '_lh.gii')
-            right_fmri_tex = os.path.join(fs_dir, basename + '_rh.gii')
+            left_fmri_tex = os.path.join(fs_dir, basename + '_individual_lh.gii')
+            right_fmri_tex = os.path.join(fs_dir, basename + '_individual_rh.gii')
             if do_bbr:
                 # use BBR registration to finesse the coregistration
                 bbreg = BBRegister(
@@ -140,9 +140,9 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
 
             # resample to fsaverage
             left_fsaverage_fmri_tex = os.path.join(
-                fs_dir, basename + '_fsaverage_lh.gii')
+                fs_dir, basename + '_fsaverage7_lh.gii')
             right_fsaverage_fmri_tex = os.path.join(
-                fs_dir, basename + '_fsaverage_rh.gii')
+                fs_dir, basename + '_fsaverage7_rh.gii')
 
             print(os.system(
                 '$FREESURFER_HOME/bin/mri_surf2surf --srcsubject %s '
@@ -197,19 +197,22 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
                 (subject, right_fmri_tex, right_fmri_tex, subject)))
 
 
-protocols = ['archi', 'screening', 'rsvp-language']
-protocols += ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
-protocols += ['hcp1', 'hcp2', 'lyon1', 'lyon2']
-protocols = ['audio1', 'audio2', 'lpp1', 'lpp2']
+#protocols = ['archi', 'screening', 'rsvp-language']
+#protocols += ['preference', 'mtt1', 'mtt2', 'clips4', 'tom', 'self']
+#protocols += ['hcp1', 'hcp2', 'lyon1', 'lyon2']
+#protocols = ['audio1', 'audio2', 'lpp1', 'lpp2']
 # protocols += ['enumeration', 'clips1', 'clips2', 'clips3', 'raiders1',
 #              'raiders2', 'BBT1', 'BBT2', 'BBT3', 'self']
-# protocols = ['mathlang']
+#protocols = ['mathlang']
 # protocols = ['enumeration']
-protocols = ['stanford1', 'stanford2', 'stanford3']
-
+#protocols = ['stanford1', 'stanford2', 'stanford3']
+# protocols = ['biological_motion', 'navigation' , 'camcan1', 'camcan2', 'fbirn', 'search', 'reward', 'scene', 'monkey_kingdom', 'color']
+"""
+protocols = ['BBT1', 'BBT2']
 subject_sessions = sorted(get_subject_session(protocols))
-subject_sessions = [ss for ss in subject_sessions if ss[0] == 'sub-08'] ###############
+
 Parallel(n_jobs=6)(
     delayed(project_volume)(work_dir, subject_session[0], [subject_session[1]],
                             do_bbr=True)
     for subject_session in subject_sessions)
+"""

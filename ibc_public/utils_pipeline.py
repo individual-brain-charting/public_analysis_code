@@ -133,7 +133,8 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
 
 
 def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
-            subject_session_output_dir, tr, smoothing_fwhm=False):
+            subject_session_output_dir, tr, slice_time_ref,
+            smoothing_fwhm=False):
     """ Run the GLM on a given session and compute contrasts
 
     Parameters
@@ -152,7 +153,8 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
 
     # GLM analysis
     print('Fitting a GLM (this takes time)...')
-    fmri_glm = FirstLevelModel(mask_img=mask_img, t_r=tr, slice_time_ref=.5,
+    fmri_glm = FirstLevelModel(mask_img=mask_img, t_r=tr,
+                               slice_time_ref=slice_time_ref,
                                smoothing_fwhm=smoothing_fwhm).fit(
         fmri_4d, design_matrices=dmtx)
 
@@ -182,10 +184,10 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
 def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
     """ """
     from nibabel.gifti import read, write, GiftiDataArray, GiftiImage
-    from nilearn.glm.first_level import run_glm
+    from nilearn.glm.first_level import run_glm as run_glm_nl
     from nilearn.glm import compute_contrast
     Y = np.array([darrays.data for darrays in read(fmri_path).darrays])
-    labels, res = run_glm(Y, dmtx.values)
+    labels, res = run_glm_nl(Y, dmtx.values)
     # Estimate the contrasts
     print('Computing contrasts...')
     side = fmri_path[-6:-4]
@@ -197,9 +199,9 @@ def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
         contrast_ = compute_contrast(labels, res, con_)
         stats = [contrast_.z_score(), contrast_.stat_, contrast_.effect,
                  contrast_.variance]
-        for map_type, out_map in zip(['z', 't', 'effects', 'variance'], stats):
+        for map_type, out_map in zip(['z_score', 'stat', 'effect_size', 'effect_variance'], stats):
             map_dir = os.path.join(
-                subject_session_output_dir, '%s_surf' % map_type)
+                subject_session_output_dir, '%s_maps' % map_type)
             if not os.path.exists(map_dir):
                 os.makedirs(map_dir)
             map_path = os.path.join(map_dir, '%s_%s.gii' % (contrast_id, side))
@@ -229,6 +231,21 @@ def masking(func, output_dir):
     return mask_img
 
 
+def _audio_frametimes_and_onset():
+    mask = np.array([1, 0, 1, 1, 0, 1, 1, 0, 1, 1])
+    n_cycles = 28
+    cycle_duration = 20
+    t_r = 2
+    cycle = np.arange(0, cycle_duration, t_r)[mask > 0]
+    frametimes = np.tile(cycle, n_cycles) +\
+                 np.repeat(np.arange(n_cycles) * cycle_duration, mask.sum())
+    frametimes = frametimes[:-2].astype(float)  # for some reason...
+    cycle = np.arange(0, cycle_duration, t_r)[mask == 0]
+    onsets = np.tile(cycle, n_cycles) + np.repeat(np.arange(n_cycles) * cycle_duration, len(cycle))
+    onsets = onsets[:-2].astype(float)
+    return frametimes, onsets
+
+
 def first_level(subject_dic, additional_regressors=None, compcorr=False,
                 smooth=None, mesh=False, mask_img=None):
     """ Run the first-level analysis (GLM fitting + statistical maps)
@@ -254,7 +271,8 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
     high_pass = subject_dic['high_pass']
     drift_model = subject_dic['drift_model']
     tr = subject_dic['TR']
-
+    slice_time_ref = .5 ###
+    
     if not mesh and (mask_img is None):
         mask_img = masking(subject_dic['func'], subject_dic['output_dir'])
 
@@ -278,17 +296,12 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         # motion parameters
         motion = np.loadtxt(motion_path)
         # define the time stamps for different images
-        frametimes = np.linspace(0, (n_scans - 1) * tr, n_scans)
-        if task_id == 'audio':
-            mask = np.array([1, 0, 1, 1, 0, 1, 1, 0, 1, 1])
-            n_cycles = 28
-            cycle_duration = 20
-            t_r = 2
-            cycle = np.arange(0, cycle_duration, t_r)[mask > 0]
-            frametimes = np.tile(cycle, n_cycles) +\
-                np.repeat(np.arange(n_cycles) * cycle_duration, mask.sum())
-            frametimes = frametimes[:-2]  # for some reason...
-
+        frametimes = np.linspace(slice_time_ref, (n_scans - 1 + slice_time_ref) * tr, n_scans)
+        if task_id == 'Audio':
+            frametimes, audio_onsets = _audio_frametimes_and_onset()
+            frametimes += 1
+            # slice_time_ref = 0
+            
         if mesh is not False:
             compcorr = False  # XXX Fixme
 
@@ -312,7 +325,9 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             paradigm = None
         else:
             paradigm = make_paradigm(onset, task_id)
-
+            if task_id == 'Audio':
+                paradigm.onset = audio_onsets
+            
         # handle manually supplied regressors
         add_reg_names = []
         if additional_regressors[session_id] is None:
@@ -338,21 +353,8 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         # create the relevant contrasts
         contrasts = make_contrasts(task_id, names)
 
-        if mesh  == 'fsaverage5':
-            # this is low-resolution data
-            subject_session_output_dir = os.path.join(
-                subject_dic['output_dir'],
-                'res_fsaverage5_%s' % session_id)
-        elif mesh == 'fsaverage7':
-                subject_session_output_dir = os.path.join(
-                    subject_dic['output_dir'], 'res_fsaverage7_%s' % session_id)
-        elif mesh == 'individual':
-            subject_session_output_dir = os.path.join(
-                    subject_dic['output_dir'], 'res_individual_%s' % session_id)
-        else:
-            subject_session_output_dir = os.path.join(
-                subject_dic['output_dir'], 'res_stats_%s' % session_id)
-
+        subject_session_output_dir = _session_output_dir_from_session_id(session_id, mesh, subject_dic['output_dir'])
+        
         if not os.path.exists(subject_session_output_dir):
             os.makedirs(subject_session_output_dir)
         np.savez(os.path.join(subject_session_output_dir, 'design_matrix.npz'),
@@ -364,50 +366,39 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         else:
             z_maps, fmri_glm = run_glm(
                 design_matrix, contrasts, fmri_path, mask_img, subject_dic,
-                subject_session_output_dir, tr=tr, smoothing_fwhm=smooth)
-
+                subject_session_output_dir, tr=tr, slice_time_ref=slice_time_ref,
+                smoothing_fwhm=smooth)
 
             # do stats report
             anat_img = nib.load(subject_dic['anat'])
             stats_report_filename = os.path.join(
                  subject_session_output_dir, 'report_stats.html')
+            make_glm_report(fmri_glm,
+                            contrasts=contrasts,
+                            bg_img=anat_img,
+            ).save_as_html(stats_report_filename)
 
-            report = make_glm_report(fmri_glm,
-                                     contrasts,
-                                     threshold=3.0,
-                                     bg_img=anat_img,
-                                     cluster_threshold=15,
-                                     title="GLM for subject %s" % session_id,
-                                     )
-            report.save_as_html(stats_report_filename)
+
+def _guess_run_and_dir_from_session_id(session_id):
+            run_, dir_ = None, None
+            parts = session_id.split('_')
+            for part in parts:
+                if part[:4] == 'run-':
+                    run_ = part[4:]
+                if part[:4] == 'dir-':
+                    dir_ = part[4:]
+            return run_, dir_
 
 
 def _session_id_to_task_id(session_ids):
     """ Converts a session_id to a task _id
     by removing non-zero digits and _ap or _pa suffixes"""
-    run_mark = tuple(['_run-%02d' % d for d in range(10)])
     task_ids = []
     for i, session_id in enumerate(session_ids):
-        if session_id.endswith(run_mark):
-            task_ids.append(session_id[:-7])
-        else:
-            task_ids.append(session_id)
-
-    acq_mark = tuple(['_ap', '_pa'])
-    for i, task_id in enumerate(task_ids):
-        if task_id.endswith(acq_mark):
-            task_ids[i] = task_id[: -3]
-
-    for i, task_id in enumerate(task_ids):
-        if task_id.endswith(run_mark):
-            task_ids[i] = task_id[:-7]
-
-    for i, task_id in enumerate(task_ids):
-        if task_id[:4] not in ['lyon', 'biol']:  # fixme
-            for x in range(0, 10):
-                task_id = task_id.replace('_' + str(x), '')
-                task_id = task_id.replace(str(x), '')
-            task_ids[i] = task_id
+        task_id = session_id.split('_')[0]
+        if task_id[:5] == 'task-':
+            task_id = task_id[5:]
+        task_ids.append(task_id)
 
     # customization for wedge and ring stimuli
     for i, task_id in enumerate(task_ids):
@@ -418,6 +409,27 @@ def _session_id_to_task_id(session_ids):
     return task_ids
 
 
+def _session_output_dir_from_session_id(session_id, mesh, output_dir):
+    """ Generate output_dir name from session_id.
+    TODO: session -> run
+    """
+    run_, dir_ = _guess_run_and_dir_from_session_id(session_id)
+    task_id = _session_id_to_task_id([session_id])[0]
+    if mesh in ['fsaverage5', 'fsaverage7', 'individual']:
+        # this is low-resolution data
+        subject_session_output_dir = os.path.join(
+            output_dir,
+            'res_task-%s_space-%s' % (task_id, mesh))
+    else:
+        subject_session_output_dir = os.path.join(
+            output_dir, 'res_task-%s_space-MNI305' % task_id)
+    if run_:
+        subject_session_output_dir += '_run-%s' % run_
+    if dir_:
+        subject_session_output_dir += '_dir-%s' % dir_
+    return subject_session_output_dir
+
+
 def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
                         side=False, mesh=None):
     """ data fetcher for summary statistics"""
@@ -425,7 +437,8 @@ def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
     effect_variance_maps = []
     if side is False:
         for session_id in sessions:
-            sess_dir = os.path.join(output_dir, 'res_stats_%s' % session_id)
+            sess_dir = _session_output_dir_from_session_id(session_id, mesh, output_dir)
+            # sess_dir = os.path.join(output_dir, 'res_%s' % session_id)
             if not os.path.exists(sess_dir):
                 warnings.warn('Missing session dir, skipping')
                 data_available = False
@@ -438,23 +451,18 @@ def _load_summary_stats(output_dir, sessions, contrast, data_available=True,
                              '%s.nii.gz' % contrast))
     else:
         for session_id in sessions:
-            if mesh == 'fsaverage5':
-                sess_dir = os.path.join(
-                    output_dir, 'res_fsaverage5_%s' % session_id)
-            elif mesh == 'individual':
-                sess_dir = os.path.join(
-                    output_dir, 'res_individual_%s' % session_id)
-            else:  # mesh = 'fsaverage7'
-                sess_dir = os.path.join(output_dir, 'res_fsaverage7_%s' % session_id)
+            sess_dir = _session_output_dir_from_session_id(session_id, mesh, output_dir)
+            #sess_dir = os.path.join(
+            #    output_dir, 'res_%s_%s' % (mesh, session_id))
             if not os.path.exists(sess_dir):
                 warnings.warn('Missing session dir, skipping')
                 data_available = False
                 continue
             effect_size_maps.append(
-                os.path.join(sess_dir, 'effects_surf', '%s_%s.gii' %
+                os.path.join(sess_dir, 'effect_size_maps', '%s_%s.gii' %
                              (contrast, side)))
             effect_variance_maps.append(
-                os.path.join(sess_dir, 'variance_surf', '%s_%s.gii' %
+                os.path.join(sess_dir, 'effect_variance_maps', '%s_%s.gii' %
                              (contrast, side)))
     return effect_size_maps, effect_variance_maps, data_available
 
@@ -481,20 +489,13 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
         contrasts = make_contrasts(paradigm).keys()
         # create write_dir
         if mesh is not False:
-            if mesh == 'fsaverage5':
-                write_dir = os.path.join(subject_dic['output_dir'],
-                                         'res_fsaverage5_%s_ffx' % paradigm)
-            elif mesh == 'individual':
-                write_dir = os.path.join(subject_dic['output_dir'],
-                                         'res_individual_%s_ffx' % paradigm)
-            else:
-                write_dir = os.path.join(subject_dic['output_dir'],
-                                         'res_fsaverage7_%s_ffx' % paradigm)
+            write_dir = os.path.join(subject_dic['output_dir'],
+                                     'res_task-%s_space-%s_dir-ffx' % (paradigm, mesh))
             dirs = [os.path.join(write_dir, stat) for stat in [
-                    'effect_surf', 'variance_surf', 'stat_surf']]
+                    'effect_size_maps', 'effect_variance_maps', 'stat_maps']]
         else:
             write_dir = os.path.join(subject_dic['output_dir'],
-                                     'res_stats_%s_ffx' % paradigm)
+                                     'res_task-%s_space-MNI305_dir-ffx' % paradigm)
             dirs = [os.path.join(write_dir, stat) for stat in [
                 'effect_size_maps', 'effect_variance_maps', 'stat_maps']]
         for dir_ in dirs:
@@ -520,12 +521,12 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
                     ffx_effects, ffx_variance, ffx_stat = fixed_effects_surf(
                         effect_size_maps, effect_variance_maps)
                     write(ffx_effects, os.path.join(
-                        write_dir, 'effect_surf/%s_%s.gii' % (contrast, side)))
+                        write_dir, 'effect_size_maps/%s_%s.gii' % (contrast, side)))
                     write(ffx_variance, os.path.join(
-                        write_dir, 'variance_surf/%s_%s.gii' %
+                        write_dir, 'effect_variance_maps/%s_%s.gii' %
                         (contrast, side)))
                     write(ffx_stat, os.path.join(
-                        write_dir, 'stat_surf/%s_%s.gii' % (contrast, side)))
+                        write_dir, 'stat_maps/%s_%s.gii' % (contrast, side)))
             else:
                 effect_size_maps, effect_variance_maps, data_available =\
                     _load_summary_stats(

@@ -15,30 +15,22 @@ archi_social = [
     'triangle_random', ]
 
 relevant_conditions = {
-    'emotional': ['Face', 'Shape'],
-    'gambling': ['Reward', 'Punishment', 'Neutral'],
-    'hcp_language': ['math', 'story'],
-    'motor': ['LeftHand', 'RightHand', 'LeftFoot', 'RightFoot',
-              'Cue', 'Tongue'],
-    'relational': ['Relational', 'Cue', 'Control'],
-    'social': ['Mental', 'Response', 'Random'],
-    'wm': ['2-BackBody', '0-BackBody', '2-BackFace', '0-BackFace',
-           '2-BackTools', '0-BackTools', '0-BackPlace', '2-BackPlace'],
-    'archi_social': archi_social,
-    'language_00': rsvp_language,
-    'language_01': rsvp_language,
-    'language_02': rsvp_language,
-    'language_03': rsvp_language,
-    'language_04': rsvp_language,
-    'language_05': rsvp_language,
-    'language': rsvp_language,
+    'HcpEmotional': ['face', 'shape'],
+    'HcpGambling': ['reward', 'punishment', 'neutral'],
+    'HcpLanguage': ['math', 'story'],
+    'HcpMotor': ['left_hand', 'right_hand', 'left_foot', 'right_foot',
+              'cue', 'tongue'],
+    'HcpRelational': ['relational', 'cue', 'control'],
+    'HcpSocial': ['mental', 'response', 'random'],
+    'HcpWm': ['2back_body', '0back_body', '2back_face', '0back_face',
+           '2back_tools', '0back_tools', '0back_place', '2back_place'],
+    'ArchiSocial': archi_social,
+    'RSVPLanguage': rsvp_language,
     }
 
 
 def post_process(df, paradigm_id):
-    language_paradigms = ['language_%02d' % i for i in range(6)] +\
-                         ['rsvp-language', 'language_', 'language']
-    if paradigm_id in language_paradigms:
+    if paradigm_id == 'RSVPLanguage':
         targets = ['complex_sentence_objrel',
                    'complex_sentence_objclef',
                    'complex_sentence_subjrel']
@@ -52,13 +44,13 @@ def post_process(df, paradigm_id):
 
         # df.onset *= .001
         # df.duration = 3 * np.ones(len(df.duration))
-    if paradigm_id == 'hcp_motor':
+    if paradigm_id == 'HcpMotor':
         df = df.replace('right_foot_cue', 'cue')
         df = df.replace('left_foot_cue', 'cue')
         df = df.replace('right_hand_cue', 'cue')
         df = df.replace('left_hand_cue', 'cue')
         df = df.replace('tongue_cue', 'cue')
-
+        
     if paradigm_id == 'Visu':
         df = df.replace('visage', 'face')
     if paradigm_id == 'Audi':
@@ -74,11 +66,12 @@ def post_process(df, paradigm_id):
         df = df[condition]
 
     if paradigm_id[:10] == 'Preference':
-        domain = paradigm_id[11:]
+        domain = paradigm_id[10:].lower()
         if domain[-1] == 's':
             domain = domain[:-1]
         #
         linear = df[df.trial_type == domain]['score'].values.astype('float')
+        linear[np.isnan(linear)] = np.nanmean(linear)
         mean = linear.mean()
         linear -= mean
         df1 = df[df.trial_type == domain]
@@ -240,13 +233,14 @@ def post_process(df, paradigm_id):
             df = df.replace(nature, 'nature')
         for tool in tools:
             df = df.replace(tool, 'tool')
+        df.drop(df[df.trial_type == 'fixation'].index, 0, inplace=True)
     if paradigm_id == 'Attention':
         df = df[df.trial_type.isin([
             'spatial_incongruent', 'double_congruent', 'spatial_congruent',
             'double_incongruent', 'spatialcue', 'doublecue'])]
     if paradigm_id == 'StopSignal':
         df = df[df.trial_type.isin(['go', 'stop'])]
-    if paradigm_id in ['ward-allport', 'ward_and_allport']:
+    if paradigm_id in ['WardAndAllport']:
         df = df[df.trial_type.isin([
             'planning_PA_with_intermediate',
             'planning_PA_without_intermediate',
@@ -332,13 +326,13 @@ def post_process(df, paradigm_id):
         df.replace('probe_AY', 'correct_cue_incorrect_probe', inplace=True)
         df.replace('probe_BY', 'incorrect_cue_incorrect_probe', inplace=True)
 
-    if paradigm_id == 'biological_motion1':
+    if paradigm_id == 'BiologicalMotion1':
         df = df[df.trial_type.isin(['global_upright', 'global_inverted',
                                     'natural_upright', 'natural_inverted'])]
-    if paradigm_id == 'biological_motion2':
+    if paradigm_id == 'BiologicalMotion2':
         df = df[df.trial_type.isin(['modified_upright', 'modified_inverted',
                                     'natural_upright', 'natural_inverted'])]
-    if paradigm_id == 'mathlang':
+    if paradigm_id == 'MathLanguage':
         trial_types = [
             'colorlessg_auditory', 'colorlessg_visual',
             'wordlist_auditory', 'wordlist_visual',
@@ -367,6 +361,10 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'RewProc':
         df.drop(df[df.trial_type == 'prefix'].index, 0, inplace=True)
         df.drop(df[df.trial_type == 'postfix'].index, 0, inplace=True)
+        df.replace('out_+10', 'plus_10', inplace=True)
+        df.replace('out_+20', 'plus_20', inplace=True)
+        df.replace('out_-10', 'minus_10', inplace=True)
+        df.replace('out_-20', 'minus_20', inplace=True)
         green = [tt for tt in df.trial_type.unique() if 'green' in tt]
         left = [tt for tt in df.trial_type.unique() if 'left' in tt]
         stay = [tt for tt in df.trial_type.unique() if 'stay' in tt]
@@ -393,10 +391,12 @@ def post_process(df, paradigm_id):
         df1 = df.copy()
         df1 = df1[df.trial_type.isin(stim)]
         df2 = df1.copy()
-        df1['modulation'] = [float(x.split('+')[1].split('_')[0])
-                             for x in df1.trial_type.values]
-        df2['modulation'] = [float(x.split('-')[1])
-                             for x in df2.trial_type.values]
+        mod1 = np.array([float(x.split('+')[1].split('_')[0])
+                         for x in df1.trial_type.values])
+        mod2 = np.array([float(x.split('-')[1])
+                         for x in df2.trial_type.values])
+        df1['modulation'] = mod1 - mod1.mean() # tbc
+        df2['modulation'] = mod2 - mod2.mean() # tbc
         df1.trial_type = 'gain'
         df2.trial_type = 'loss'
         df = df[df.trial_type.isin(resp)]
@@ -425,6 +425,21 @@ def post_process(df, paradigm_id):
         df.replace('dot_hard_left_incorrect', 'dot_hard_left', inplace=True)
         df.replace('dot_hard_right_correct', 'dot_hard_right', inplace=True)
         df.replace('dot_hard_right_incorrect', 'dot_hard_right', inplace=True)
+    if paradigm_id == 'Color':
+        df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == '1-back'].index, 0, inplace=True)
+        df.loc[df.trial_type == 'y', 'duration'] = .5
+    if paradigm_id == 'Motion':
+        df.drop(df[df.trial_type == 'iti_fix'].index, 0, inplace=True)
+        df.loc[df.trial_type == 'y', 'duration'] = .5
+    if paradigm_id == 'OptimismBias':
+        #df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'start'].index, 0, inplace=True)
+    if paradigm_id == 'HarririAomic':
+        df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, 0, inplace=True)
+    if paradigm_id == 'StroopAomic':
+        df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, 0, inplace=True)
+        # todo: distinguish incorrect vs female
     return df
 
 

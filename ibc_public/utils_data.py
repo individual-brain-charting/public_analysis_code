@@ -13,7 +13,7 @@ import warnings
 import pandas as pd
 import shutil
 import numpy as np
-from ibc_public.utils_annotations import expand_table
+# from ibc_public.utils_annotations import expand_table
 from tqdm import tqdm
 
 main_parent_dir = '/neurospin/ibc'
@@ -36,9 +36,6 @@ CONDITIONS = pd.read_csv(os.path.join(
     _package_directory, '..', 'ibc_data', 'conditions.tsv'), sep='\t')
 CONTRASTS = pd.read_csv(os.path.join(
     _package_directory, '..', 'ibc_data', 'main_contrasts.tsv'), sep='\t')
-#  ALL_CONTRASTS = expand_table(pd.read_csv(os.path.join(
-#    _package_directory, '..', 'ibc_data', 'all_contrasts.tsv'),
-#                                         sep='\t'))
 ALL_CONTRASTS = os.path.join(
     _package_directory, '..', 'ibc_data', 'all_contrasts.tsv')
 
@@ -103,7 +100,8 @@ def get_subject_session(protocols):
 
 
 def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
-                subject_list=SUBJECTS, task_list=False, verbose=0):
+                subject_list=SUBJECTS, task_list=False, verbose=0,
+                acquisition='all'):
     """Generate a dataframe that contains all the data corresponding
     to the archi, hcp and rsvp_language acquisitions
 
@@ -123,6 +121,9 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
     verbose: Bool, optional,
              verbosity mode
+
+    acquisition={'all', 'ap', 'pa', 'ffx'}, default='all'
+        which acquisition to select
 
     Returns
     -------
@@ -315,35 +316,25 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     # fixed-effects activation images (postprocessed)
     con_df = conditions
     contrast_name = con_df.contrast
-    for acq in ['ap', 'pa', 'ffx']:
-        for subject in subject_list:
+
+    acq_card = '*' # if acquisition == 'all'
+    if acquisition in ['ffx', 'ap', 'pa']:
+        acq_card = 'dir-%s' % acquisition
+
+    for subject in subject_list:
             for i in range(len(con_df)):
                 contrast = contrast_name[i]
                 task = con_df.task[i]
                 task_name = task
-                if task == 'rsvp_language':
-                    task = 'language'
-                    task_name = 'rsvp_language'
-                if task == 'mtt_sn':
-                    task = 'MTTNS'
-                    task_name = 'mtt_sn'
-                if task == 'mtt_we':
-                    task = 'MTTWE'
-                    task_name = 'mtt_we'
-                if task == 'vstm':
-                    task = 'VSTM'
-                    task_name = 'vstm'
-                if task == 'math_language':
-                    task = 'mathlang'
-                    task_name = 'math_language'
 
                 if (task_list is not None) and (task not in task_list):
                     if verbose:
                         print('%s found as task, not in task_list' % task)
                     continue
+                
                 wildcard = os.path.join(
                     derivatives, subject, '*',
-                    'res_stats_%s*_%s*' % (task, acq),
+                    'res_task-%s_space-MNI305_%s' % (task, acq_card),
                     'stat_maps', '%s.nii.gz' % contrast)
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
@@ -352,6 +343,11 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 # some renaming
                 contrast_id = contrast
                 for img in imgs_:
+                    acq = 'unknown'
+                    if 'dir-' in img:
+                        acq = img.split('dir-')[1][:2]
+                        if acq == 'ff':
+                            acq = 'ffx'
                     session = img.split('/')[-4]
                     paths.append(img)
                     sessions.append(session)
@@ -561,7 +557,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
           default behaviour will be that of "fsaverage5" if no value
           or incorrect value is given
 
-    acquisition: one of ['ffx', 'ap', 'pa'], defaults to 'ffx'
+    acquisition: one of ['ffx', 'ap', 'pa', 'all'], defaults to 'ffx'
           the acquisition to be picked.
 
     Returns
@@ -604,42 +600,24 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
             task_name = task
             if (task_list is not False) and (task not in task_list):
                 continue
-            if task == 'rsvp_language':
-                task = 'language'
-                task_name = 'rsvp_language'
-            if task == 'mtt_sn':
-                task = 'MTTNS'
-                task_name = 'mtt_sn'
-            if task == 'mtt_we':
-                task = 'MTTWE'
-                task_name = 'mtt_we'
-            if task == 'math_language':
-                task = 'mathlang'
-                task_name = 'math_language'
-
-            # Rename contrast for a specific task
-            if ((contrast == 'probe') & (task_name == 'rsvp_language')):
-                contrast = 'language_probe'
 
             # set directory depending on mesh type
             # (defaults to mesh == "fsaverage5" if no value
             # or incorrect value is given)
-            dir_ = 'res_fsaverage5_%s_%s' % (task, acquisition)
-            if mesh == 'fsaverage5':
-                dir_ = 'res_fsaverage5_%s_%s' % (task, acquisition)
-            elif mesh == 'fsaverage7':
-                dir_ = 'res_fsaverage7_%s_%s' % (task, acquisition)
-            elif mesh == 'individual':
-                dir_ = 'res_individual_%s_%s' % (task, acquisition)
-
+            if acquisition == 'all':
+                dir_ = 'res_task-%s_space-%s*' % (task, mesh)
+            elif acquisition == 'ffx':
+                dir_ = 'res_task-%s_space-%s*_dir-ffx' % (task, mesh)
+            elif acquisition in ['ap', 'pa']:
+                dir_ = 'res_task-%s_space-%s*_dir-%s' % (task, mesh, acquisition)
             for side in ['lh', 'rh']:
                 wc = os.path.join(
-                    derivatives, subject, '*', dir_, 'stat_surf',
+                    derivatives, subject, '*', dir_, 'stat_maps',
                     '%s_%s.gii' % (contrast, side))
                 if acquisition in ['ap', 'pa']:
                     wc = os.path.join(
-                        derivatives, subject, '*', dir_, 'z_surf',
-                        '%s_%s.gii' % (contrast, side))
+                        derivatives, subject, '*', dir_, 'z_score_maps',
+                        '%s*%s.gii' % (contrast, side))
                 imgs_ = glob.glob(wc)
                 imgs_.sort()
 
@@ -658,9 +636,6 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     sides.append(side)
                     modalities.append('bold')
                     meshes.append(mesh)
-
-            if task == 'language_':
-                pass # stop
 
     print(f"{len(imgs)} images found, {len(missing_images)} were missing")
 
