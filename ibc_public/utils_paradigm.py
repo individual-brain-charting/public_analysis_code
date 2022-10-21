@@ -326,10 +326,10 @@ def post_process(df, paradigm_id):
         df.replace('probe_AY', 'correct_cue_incorrect_probe', inplace=True)
         df.replace('probe_BY', 'incorrect_cue_incorrect_probe', inplace=True)
 
-    if paradigm_id == 'biological_motion1':
+    if paradigm_id == 'BiologicalMotion1':
         df = df[df.trial_type.isin(['global_upright', 'global_inverted',
                                     'natural_upright', 'natural_inverted'])]
-    if paradigm_id == 'biological_motion2':
+    if paradigm_id == 'BiologicalMotion2':
         df = df[df.trial_type.isin(['modified_upright', 'modified_inverted',
                                     'natural_upright', 'natural_inverted'])]
     if paradigm_id == 'MathLanguage':

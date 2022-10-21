@@ -271,7 +271,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
     high_pass = subject_dic['high_pass']
     drift_model = subject_dic['drift_model']
     tr = subject_dic['TR']
-    slice_time_ref = 1.
+    slice_time_ref = .5 ###
     
     if not mesh and (mask_img is None):
         mask_img = masking(subject_dic['func'], subject_dic['output_dir'])
@@ -299,7 +299,9 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         frametimes = np.linspace(slice_time_ref, (n_scans - 1 + slice_time_ref) * tr, n_scans)
         if task_id == 'Audio':
             frametimes, audio_onsets = _audio_frametimes_and_onset()
-
+            frametimes += 1
+            # slice_time_ref = 0
+            
         if mesh is not False:
             compcorr = False  # XXX Fixme
 

@@ -212,50 +212,57 @@ def project_volume(work_dir, subject, do_bbr=True):
                 GiftiImage(darrays=[gda(data=ratio.astype('float32'))]),
                 file_ratio)
 
-
+"""
 Parallel(n_jobs=1)(
     delayed(project_volume)(data_dir, subject)
     for subject in subjects)
-
+"""
 
 ###########################################################################
 from nilearn.plotting import plot_surf, view_surf, show
 from nilearn import datasets
+from ibc_public.utils_data import get_subject_session
+from ibc_public.utils_data import DERIVATIVES
 import os
 
 fsaverage = datasets.fetch_surf_fsaverage('fsaverage5')
-dir_ = '/neurospin/ibc/derivatives/sub-12/ses-*/anat/analysis/'
+# dir_ = '/neurospin/ibc/derivatives/sub-12/ses-*/anat/analysis/'
 
-if 1:
-    wc = os.path.join(dir_, '*_*_T1T2Ratio_space-fsaverage5_lh.gii')
-    textures = glob.glob(wc)
-    for texture in textures:
-        tex = nib.load(texture).darrays[0].data
-        view_surf(
-            fsaverage['infl_left'], surf_map=tex, bg_map=None, vmin=1, vmax=2
-        ).open_in_browser()
+subject_sessions = get_subject_session('anat1')
+interactive = False
 
-    wc = os.path.join(dir_, '*_*_T1T2Ratio_space-fsaverage5_rh.gii')
-    textures = glob.glob(wc)
-    for texture in textures:
-        tex = nib.load(texture).darrays[0].data
-        view_surf(
-            fsaverage['infl_right'], surf_map=tex, bg_map=None, vmin=1, vmax=2
-        ).open_in_browser()
+for subject_session in subject_sessions:
+    subject, session = subject_session
+    dir_ = os.path.join(DERIVATIVES, subject, session, 'anat', 'analysis')
+    if interactive:
+        wc = os.path.join(dir_, '*_*_T1T2Ratio_space-fsaverage5_lh.gii')
+        textures = glob.glob(wc)
+        for texture in textures:
+            tex = nib.load(texture).darrays[0].data
+            view_surf(
+                fsaverage['infl_left'], surf_map=tex, bg_map=None, vmin=1, vmax=2
+            ).open_in_browser()
 
-if 1:
-    wc = os.path.join(dir_, '*_*_T1T2Ratio_space-fsaverage5_lh.gii')
-    textures = glob.glob(wc)
-    tex = nib.load(textures[0]).darrays[0].data
-    plot_surf(
-        fsaverage['infl_left'],
-        surf_map=tex, bg_map=None, hemi='left', view='lateral',
-        vmin=1, vmax=2, engine='matplotlib')
-    plot_surf(
-        fsaverage['infl_left'],
-        surf_map=tex, bg_map=None, hemi='left', view='medial',
-        vmin=1, vmax=2, engine='matplotlib')
-    show()
+        wc = os.path.join(dir_, '*_*_T1T2Ratio_space-fsaverage5_rh.gii')
+        textures = glob.glob(wc)
+        for texture in textures:
+            tex = nib.load(texture).darrays[0].data
+            view_surf(
+                fsaverage['infl_right'], surf_map=tex, bg_map=None, vmin=1, vmax=2
+            ).open_in_browser()
+    else:
+        wc = os.path.join(dir_, '*_*_T1T2Ratio_space-fsaverage5_lh.gii')
+        textures = glob.glob(wc)
+        tex = nib.load(textures[0]).darrays[0].data
+        plot_surf(
+            fsaverage['infl_left'],
+            surf_map=tex, bg_map=None, hemi='left', view='lateral',
+            vmin=1, vmax=2, engine='matplotlib')
+        plot_surf(
+            fsaverage['infl_left'],
+            surf_map=tex, bg_map=None, hemi='left', view='medial',
+            vmin=1, vmax=2, engine='matplotlib')
+        show()
 
 
 
