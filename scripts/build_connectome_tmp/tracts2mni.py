@@ -39,7 +39,7 @@ if __name__ == "__main__":
     tmp_dir = 'tmp'
 
     if not os.path.exists(tmp_dir):
-                os.makedirs(tmp_dir)
+        os.makedirs(tmp_dir)
 
     antsRegister_b0dwi2mni(mni_nifti, b0dwi, tmp_dir)
 
@@ -67,9 +67,7 @@ if __name__ == "__main__":
     tcktransform_tract2mni(tck, mni_tck, tmp_dir)
 
 
-# cmd9 = "tck2connectome -force -symmetric -zero_diagonal -scale_invnodevol mni-bundle-tracks-all_sub-04_ses-08.tck Schaefer2018_400Parcels_7Networks_order_FSLMNI152_1mm.nii.gz connectome.csv -out_assignments assignments.txt"
+    # cmd9 = "tck2connectome -force -symmetric -zero_diagonal -scale_invnodevol mni-bundle-tracks-all_sub-04_ses-08.tck Schaefer2018_400Parcels_7Networks_order_FSLMNI152_1mm.nii.gz connectome.csv -out_assignments assignments.txt"
 
-# print(cmd9)
-# os.system(cmd9
-
-# )
+    # print(cmd9)
+    # os.system(cmd9)
