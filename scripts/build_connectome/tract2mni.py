@@ -1,5 +1,6 @@
 """
 This script transforms the tracts from native space to MNI
+Following https://community.mrtrix.org/t/registration-using-transformations-generated-from-other-packages/2259
 """
 
 import os
@@ -57,7 +58,7 @@ if __name__ == "__main__":
         mni_nifti = os.path.join(tmp_dir, 'mni_t1w.nii.gz')
         mni.to_filename(mni_nifti)
 
-        b0dwi = os.path.join(DATA_ROOT, sub, ses, 'dwi', 'sub-04_ses-08_desc-denoise-eddy-correct-b0_dwi.nii.gz')
+        b0dwi = os.path.join(DATA_ROOT, sub, ses, 'dwi', f'{sub}_{ses}_desc-denoise-eddy-correct-b0_dwi.nii.gz')
 
         antsRegister_b0dwi2mni(mni_nifti, b0dwi, tmp_dir)
 
