@@ -4,7 +4,7 @@ Following https://community.mrtrix.org/t/registration-using-transformations-gene
 """
 
 import os
-import nilearn
+from nilearn import datasets
 
 def antsRegister_b0dwi2mni(mni, b0dwi, tmp_dir):
     cmd1 = f"antsRegistration --verbose 1 --dimensionality 3 --float 0 --output [{tmp_dir}/ants,{tmp_dir}/antsWarped.nii.gz,{tmp_dir}/antsInverseWarped.nii.gz] --interpolation Linear --use-histogram-matching 1 --winsorize-image-intensities [0.005,0.995] --transform Rigid[0.1] --metric CC[{mni},{b0dwi},1,4,Regular,0.1] --convergence [1000x500x250x100,1e-6,10] --shrink-factors 8x4x2x1 --smoothing-sigmas 3x2x1x0vox --transform Affine[0.1] --metric CC[{mni},{b0dwi},1,4,Regular,0.2] --convergence [1000x500x250x100,1e-6,10] --shrink-factors 8x4x2x1 --smoothing-sigmas 3x2x1x0vox --transform SyN[0.1,3,0] --metric CC[{mni},{b0dwi},1,4] --convergence [100x70x50x20,1e-6,10] --shrink-factors 4x2x2x1 --smoothing-sigmas 2x2x1x0vox -x [reference_mask.nii.gz,input_mask.nii.gz]"
@@ -54,7 +54,7 @@ if __name__ == "__main__":
         if not os.path.exists(tmp_dir):
             os.makedirs(tmp_dir)
 
-        mni = nilearn.datasets.load_mni152_template(resolution=1)
+        mni = datasets.load_mni152_template(resolution=1)
         mni_nifti = os.path.join(tmp_dir, 'mni_t1w.nii.gz')
         mni.to_filename(mni_nifti)
 
@@ -62,7 +62,7 @@ if __name__ == "__main__":
 
         antsRegister_b0dwi2mni(mni_nifti, b0dwi, tmp_dir)
 
-        mni_mif = os.path.join(tmp_dir, 'mni_t1w.mif')
+        mni_mif = 'mni_t1w.mif'
         mrconvert_nifti2mif(mni_nifti, mni_mif, tmp_dir)
 
         inv_identity_warp_prefix = 'inv_identity_warp'
