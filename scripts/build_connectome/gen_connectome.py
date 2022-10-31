@@ -40,7 +40,7 @@ if __name__ == "__main__":
                                            '.csv')
         inverse_connectivity_matrix = os.path.join(DATA_ROOT, sub, ses, 'dwi',
                                                    (f'schaefer400_inverse-'
-                                                    f'connectome_{sub}_{ses}',
+                                                    f'connectome_{sub}_{ses}'
                                                     f'.csv'))
         tck2connectome(schaefer400.maps, mni_tck, connectivity_matrix,
                        inverse_connectivity_matrix, sift_weights=None)
