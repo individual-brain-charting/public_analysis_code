@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
     for sub, ses in sub_ses.items():
 
-        tmp_dir = os.path.join(DATA_ROOT, sub, ses, 'tract2mni_tmp')
+        tmp_dir = os.path.join(DATA_ROOT, sub, ses, 'dwi', 'tract2mni_tmp')
 
         if not os.path.exists(tmp_dir):
             os.makedirs(tmp_dir)
