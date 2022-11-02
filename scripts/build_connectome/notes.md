@@ -13,4 +13,6 @@
 * Partial correlations exceed -1.0
 
 ## Others
-* TODO: nilearn PR for region coordinates in Schaefer 2018 atlas
+* functional connectivity obviously shows across hemisphere connections, which won't be the case for structural connectivity
+    - do analysis for each hemisphere separately?
+* TODO: nilearn PR for region coordinates in Schaefer 2018 atlas fetcher
