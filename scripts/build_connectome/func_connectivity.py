@@ -17,16 +17,16 @@ from nilearn import plotting
 from sklearn.covariance import GraphicalLassoCV
 
 DATA_ROOT = '/neurospin/ibc/derivatives/'
-sub_ses = {'sub-01': ['ses-14','ses-15'], 'sub-04': ['ses-11','ses-12'],
-           'sub-05': ['ses-11','ses-12'], 'sub-06': ['ses-11','ses-12'],
-           'sub-07': ['ses-11','ses-12'], 'sub-08': ['ses-12','ses-13'],
-           'sub-09': ['ses-12','ses-13'], 'sub-11': ['ses-11','ses-12'],
-           'sub-12': ['ses-11','ses-12'], 'sub-13': ['ses-11','ses-12'],
-           'sub-14': ['ses-11','ses-12'], 'sub-15': ['ses-14','ses-15']}
+sub_ses = {'sub-01': ['ses-14', 'ses-15'], 'sub-04': ['ses-11', 'ses-12'],
+           'sub-05': ['ses-11', 'ses-12'], 'sub-06': ['ses-11', 'ses-12'],
+           'sub-07': ['ses-11', 'ses-12'], 'sub-08': ['ses-12', 'ses-13'],
+           'sub-09': ['ses-12', 'ses-13'], 'sub-11': ['ses-11', 'ses-12'],
+           'sub-12': ['ses-11', 'ses-12'], 'sub-13': ['ses-11', 'ses-12'],
+           'sub-14': ['ses-11', 'ses-12'], 'sub-15': ['ses-14', 'ses-15']}
 
 for sub, sess in sub_ses.items():
     for ses in sess:
-        for direction in ['ap','pa']:
+        for direction in ['ap', 'pa']:
             # setup tmp dir for saving figures
             tmp_dir = os.path.join(DATA_ROOT, sub, ses, 'func',
                                    'connectivity_tmp')
@@ -44,13 +44,12 @@ for sub, sess in sub_ses.items():
                                     f'-{direction}_bold.nii.gz'))
             # path to confounds file
             confounds = os.path.join(DATA_ROOT, sub, ses, 'func',
-                                    (f'{sub}_{ses}_task-RestingState_'
-                                     f'dir-{direction}_desc'
-                                     f'-confounds_timeseries.tsv'))
+                                    (f'rp_dc{sub}_{ses}_task-RestingState_'
+                                     f'dir-{direction}_bold.txt'))
             # extract time series for those regions
             time_series = masker.fit_transform(rs_fmri, confounds=confounds)
             # define a sparse iinverse covariance estimator
-            estimator = GraphicalLassoCV(cv=10)
+            estimator = GraphicalLassoCV()
             estimator.fit(time_series)
             # save correlation and partial correlation matrices as csv
             corr = os.path.join(tmp_dir, (f'{atlas.name}_corr_{sub}_{ses}_'
