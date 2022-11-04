@@ -93,3 +93,4 @@ if __name__ == "__main__":
                                            (f'{atlas.name}_connectome_sift-'
                                             f'weighted_{sub}_{ses}.png'))
         mat_sift_fig.savefig(connectome_sift_fig, bbox_inches='tight')
+        plt.close('all')

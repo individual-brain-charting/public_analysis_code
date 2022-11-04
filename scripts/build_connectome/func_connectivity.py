@@ -34,7 +34,8 @@ for sub, sess in sub_ses.items():
                 os.makedirs(tmp_dir)
             # get atlas
             atlas = datasets.fetch_atlas_schaefer_2018(data_dir=tmp_dir,
-                                                    resolution_mm=1, n_rois=400)
+                                                       resolution_mm=1,
+                                                       n_rois=400)
             # give atlas a custom name
             atlas['name'] = 'schaefer400'
             # define regions using the atlas
@@ -74,3 +75,6 @@ for sub, sess in sub_ses.items():
                                          (f'{atlas.name}_part_corr_{sub}_{ses}_'
                                           f'dir-{direction}.png'))
             fig.savefig(part_corr_fig, bbox_inches='tight')
+
+            plt.close('all')
+            

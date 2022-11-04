@@ -3,11 +3,16 @@
     - posted on MRTrix forum https://community.mrtrix.org/t/are-sift2-weights-still-interpretable-following-non-linear-transformation/6162
     - seems like they can be
 * gen_connectome fails for sub-06
-    - TODO: check if tract2mni has worked as expected
+    - ~~TODO: check if tract2mni has worked as expected~~
+    - very weird warps for sub-06
+    - also for 07, 11, 15
+    - TODO: plot tracts on mni
+    - TODO: try again? with different parameters?
 * TODO: plot dwi connectome using `nilearn.plotting.plot_connectome`
 
+
 ## Resting state functional connectome
-* where are the confounds? Yasmin found some on EBRAINS release, use those?
+* ~~where are the confounds? Yasmin found some on EBRAINS release, use those?~~ found 'em
 * two sessions of rs-fmri, use both?
 * ap and pa which one to use? or how are they combined for distortion correction?
 * Partial correlations exceed -1.0
