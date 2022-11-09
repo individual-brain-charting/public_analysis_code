@@ -83,8 +83,7 @@ if __name__ == "__main__":
         # mni_nifti = os.path.join(tmp_dir, 'mni_t1w.nii.gz')
         # mni.to_filename(mni_nifti)
         
-        os.system('wget http://www.bic.mni.mcgill.ca/\~vfonov/icbm/2009/mni_icbm152_nlin_sym_09a_nifti.zip')
-        os.system(f'mv mni_icbm152_nlin_sym_09a_nifti.zip {tmp_dir}')
+        os.system(F'wget http://www.bic.mni.mcgill.ca/\~vfonov/icbm/2009/mni_icbm152_nlin_sym_09a_nifti.zip -P {tmp_dir}')
         os.system(f'unzip {tmp_dir}/mni_icbm152_nlin_sym_09a_nifti.zip')
         mni_nifti = os.path.join(tmp_dir, 'mni_icbm152_nlin_sym_09a', 'mni_icbm152_t2_tal_nlin_sym_09a.nii')
 
