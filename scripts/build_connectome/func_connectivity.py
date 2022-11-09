@@ -11,12 +11,13 @@ for two given ROIs.
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.covariance import GraphicalLassoCV
 from nilearn import datasets
 from nilearn.maskers import NiftiLabelsMasker
 from nilearn import plotting
-from sklearn.covariance import GraphicalLassoCV
+from nilearn.connectome import ConnectivityMeasure
+from nilearn.connectome import GroupSparseCovarianceCV
 from ibc_public.utils_data import get_subject_session
-
 
  
 DATA_ROOT = '/neurospin/ibc/derivatives/'
@@ -50,8 +51,12 @@ masker = NiftiLabelsMasker(
     memory=mem,
 ).fit()
 
+correlation_measure = ConnectivityMeasure(kind='correlation')
+glc = GraphicalLassoCV()
+gsc = GroupSparseCovarianceCV(verbose=2)
 
 for sub, sess in sub_ses.items():
+    all_time_series = []
     for ses in sess:
         for direction in ['ap', 'pa']:
             # setup tmp dir for saving figures
@@ -67,35 +72,35 @@ for sub, sess in sub_ses.items():
             confounds = os.path.join(DATA_ROOT, sub, ses, 'func',
                                     (f'rp_dc{sub}_{ses}_task-RestingState_'
                                      f'dir-{direction}_bold.txt'))
-            # todo add high-variance confounds
+            # todo: add high-variance confounds
 
             # extract time series for those regions
             time_series = masker.transform(rs_fmri, confounds=confounds)
+            all_time_series.append(time_series)
 
-            # define a sparse inverse covariance estimator
-            estimator = GraphicalLassoCV()
-            estimator.fit(time_series)
-            
-            # save correlation and partial correlation matrices as csv
-            # todo: also use pearson correlation
-            # todo: use sparse group inverse across 4 runs for beter estimates
+            correlation_matrix = correlation_measure.fit_transform([time_series])[0]
             corr = os.path.join(tmp_dir, (f'{atlas.name}_corr_{sub}_{ses}_'
-                                          f'dir-{direction}.csv'))
-            part_corr = os.path.join(tmp_dir, (f'{atlas.name}_part_corr_{sub}_'
-                                               f'{ses}_dir-{direction}.csv'))
-            np.savetxt(corr, estimator.covariance_, delimiter=',')
-            np.savetxt(part_corr, -estimator.precision_, delimiter=',')
-
-            # plot heatmaps and save figs                     
-            fig = plt.figure(figsize = (50,50))
-            plotting.plot_matrix(estimator.covariance_, labels=atlas.labels,
+                                  f'dir-{direction}.csv'))
+            np.savetxt(corr, correlation_matrix, delimiter=',')
+            fig = plt.figure(figsize=(10, 10))
+            plotting.plot_matrix(correlation_matrix, labels=atlas.labels,
                                  figure=fig, vmax=1, vmin=-1,
                                  title='Covariance')
             corr_fig = os.path.join(tmp_dir, (f'{atlas.name}_corr_{sub}_{ses}_'
                                               f'dir-{direction}.png'))
             fig.savefig(corr_fig, bbox_inches='tight')
-            fig = plt.figure(figsize = (50, 50))
-            plotting.plot_matrix(-estimator.precision_, labels=atlas.labels,
+            
+            # define a sparse inverse covariance estimator
+            glc.fit(time_series)
+    
+            # save correlation and partial correlation matrices as csv
+            part_corr = os.path.join(tmp_dir, (f'{atlas.name}_part_corr_{sub}_'
+                                               f'{ses}_dir-{direction}.csv'))
+            np.savetxt(part_corr, -glc.precision_, delimiter=',')
+    
+            # plot heatmaps and save figs                     
+            fig = plt.figure(figsize = (10, 10))
+            plotting.plot_matrix(-glc.precision_, labels=atlas.labels,
                                  figure=fig, vmax=1, vmin=-1,
                                  title='Sparse inverse covariance')
             part_corr_fig = os.path.join(tmp_dir, 
@@ -103,5 +108,9 @@ for sub, sess in sub_ses.items():
                                           f'dir-{direction}.png'))
             fig.savefig(part_corr_fig, bbox_inches='tight')
 
-            plt.close('all')
+    # Use sparse group inverse across 4 runs for beter estimates
+    gsc.fit(all_time_series)
+    glc.fit(np.concatenate(all_time_series))
+    stop    
+    plt.close('all')
             
