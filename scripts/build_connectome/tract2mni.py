@@ -8,8 +8,8 @@ from nilearn import datasets
 
 def antsRegister_b0dwi2mni(mni, b0dwi, tmp_dir):
     cmd1 = (f"antsRegistration --verbose 1 --dimensionality 3 --float 0 "
-            f"--output [{tmp_dir}/ants,{tmp_dir}/antsWarped.nii.gz,{tmp_dir}/"
-            f"antsInverseWarped.nii.gz] "
+            f"--output [{tmp_dir}/ants_t2,{tmp_dir}/antsWarped_t2.nii.gz,{tmp_dir}/"
+            f"antsInverseWarped_t2.nii.gz] "
             f"--interpolation Linear --use-histogram-matching 1 "
             f"--winsorize-image-intensities [0.005,0.995] "
             f"--transform Rigid[0.1] "
@@ -24,7 +24,7 @@ def antsRegister_b0dwi2mni(mni, b0dwi, tmp_dir):
             f"--metric CC[{mni},{b0dwi},1,4] "
             f"--convergence [100x70x50x20,1e-6,10] --shrink-factors 4x2x2x1 "
             f"--smoothing-sigmas 2x2x1x0vox "
-            f"-x [reference_mask.nii.gz,input_mask.nii.gz]")
+            f"-x [reference_mask_t2.nii.gz,input_mask_t2.nii.gz]")
     print(cmd1)
     os.system(cmd1)
 
@@ -35,37 +35,37 @@ def mrconvert_nifti2mif(nifti, mif, tmp_dir):
 
 def warpinit_create_mni_invidentitywarp(mni_mif, inv_identity_warp, tmp_dir):
     cmd3 = (f"warpinit {tmp_dir}/{mni_mif}" 
-            f"{tmp_dir}/{inv_identity_warp}'[]'.nii -force")
+            f"{tmp_dir}/{inv_identity_warp}'[]'_t2.nii -force")
     print(cmd3)
     os.system(cmd3)
 
 def antsApplyTransforms_invidentitywarp2mni(b0dwi, tmp_dir):
     for warp in range(3):
         cmd4 = (f"antsApplyTransforms -d 3 -e 0 "
-               f"-i {tmp_dir}/inv_identity_warp{warp}.nii "
-               f"-o {tmp_dir}/inv_mrtrix_warp{warp}.nii -r {b0dwi} "
-               f"-t '[{tmp_dir}/ants0GenericAffine.mat,1]' "
-               f"-t {tmp_dir}/ants1InverseWarp.nii.gz "
+               f"-i {tmp_dir}/inv_identity_warp{warp}_t2.nii "
+               f"-o {tmp_dir}/inv_mrtrix_warp{warp}_t2.nii -r {b0dwi} "
+               f"-t '[{tmp_dir}/ants0GenericAffine_t2.mat,1]' "
+               f"-t {tmp_dir}/ants1InverseWarp_t2.nii.gz "
                f"--default-value 2147483647")
         print(cmd4)
         os.system(cmd4)
 
 def warpcorrect(tmp_dir):
-    cmd5 = (f"warpcorrect {tmp_dir}/inv_mrtrix_warp'[]'.nii "
-            f"{tmp_dir}/inv_mrtrix_warp_corrected.mif "
+    cmd5 = (f"warpcorrect {tmp_dir}/inv_mrtrix_warp'[]'_t2.nii "
+            f"{tmp_dir}/inv_mrtrix_warp_corrected_t2.mif "
             f"-marker 2147483647 -force")
     print(cmd5)
     os.system(cmd5)
 
 def tcktransform_tract2mni(tck, mni_tck, tmp_dir):
-    cmd8 = (f"tcktransform {tck} {tmp_dir}/inv_mrtrix_warp_corrected.mif "
+    cmd8 = (f"tcktransform {tck} {tmp_dir}/inv_mrtrix_warp_corrected_t2.mif "
             f"{mni_tck} -force")
     print(cmd8)
     os.system(cmd8)
 
 if __name__ == "__main__":
 
-    DATA_ROOT = '/data/parietal/store2/data/ibc/derivatives/'
+    DATA_ROOT = '/data/parietal/store2/data/ibc/'
 
     sub_ses = {'sub-01': 'ses-12', 'sub-04': 'ses-08', 'sub-05': 'ses-08',
                'sub-06': 'ses-09', 'sub-07': 'ses-09', 'sub-08': 'ses-09',
@@ -74,22 +74,28 @@ if __name__ == "__main__":
 
     for sub, ses in sub_ses.items():
 
-        tmp_dir = os.path.join(DATA_ROOT, sub, ses, 'dwi', 'tract2mni_tmp')
+        tmp_dir = os.path.join(DATA_ROOT, 'derivatives', sub, ses, 'dwi', 'tract2mni_tmp')
 
         if not os.path.exists(tmp_dir):
             os.makedirs(tmp_dir)
 
-        mni = datasets.load_mni152_template(resolution=1)
-        mni_nifti = os.path.join(tmp_dir, 'mni_t1w.nii.gz')
-        mni.to_filename(mni_nifti)
+        # mni = datasets.load_mni152_template(resolution=1)
+        # mni_nifti = os.path.join(tmp_dir, 'mni_t1w.nii.gz')
+        # mni.to_filename(mni_nifti)
+        
+        os.system('wget http://www.bic.mni.mcgill.ca/\~vfonov/icbm/2009/mni_icbm152_nlin_sym_09a_nifti.zip')
+        os.system(f'mv mni_icbm152_nlin_sym_09a_nifti.zip {tmp_dir}')
+        os.system(f'unzip {tmp_dir}/mni_icbm152_nlin_sym_09a_nifti.zip')
+        mni_nifti = os.path.join(tmp_dir, 'mni_icbm152_nlin_sym_09a', 'mni_icbm152_t2_tal_nlin_sym_09a.nii')
 
-        b0dwi = os.path.join(DATA_ROOT, sub, ses, 'dwi',
+        b0dwi = os.path.join(DATA_ROOT, 'derivatives', sub, ses, 'dwi',
                              (f'{sub}_{ses}_desc-denoise-eddy-correct-b0_dwi'
                               f'.nii.gz'))
 
         antsRegister_b0dwi2mni(mni_nifti, b0dwi, tmp_dir)
 
-        mni_mif = 'mni_t1w.mif'
+        # mni_mif = 'mni_t1w.mif'
+        mni_mif = 'mni_t2w.mif'
         mrconvert_nifti2mif(mni_nifti, mni_mif, tmp_dir)
 
         inv_identity_warp_prefix = 'inv_identity_warp'
@@ -99,8 +105,8 @@ if __name__ == "__main__":
         antsApplyTransforms_invidentitywarp2mni(b0dwi, tmp_dir)
         warpcorrect(tmp_dir)
 
-        tck = os.path.join(DATA_ROOT, sub, ses, 'dwi',
+        tck = os.path.join(DATA_ROOT, 'derivatives', sub, ses, 'dwi',
                            f'tracks_{sub}_{ses}_t1.tck')
-        mni_tck = os.path.join(DATA_ROOT, sub, ses, 'dwi',
-                               f'mni-tracks_{sub}_{ses}_t1.tck')
+        mni_tck = os.path.join(DATA_ROOT, 'derivatives', sub, ses, 'dwi',
+                               f'mni-tracks_{sub}_{ses}_t2.tck')
         tcktransform_tract2mni(tck, mni_tck, tmp_dir)
