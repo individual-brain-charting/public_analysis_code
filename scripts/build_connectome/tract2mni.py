@@ -34,7 +34,7 @@ def mrconvert_nifti2mif(nifti, mif, tmp_dir):
     os.system(cmd2)
 
 def warpinit_create_mni_invidentitywarp(mni_mif, inv_identity_warp, tmp_dir):
-    cmd3 = (f"warpinit {tmp_dir}/{mni_mif}" 
+    cmd3 = (f"warpinit {tmp_dir}/{mni_mif} " 
             f"{tmp_dir}/{inv_identity_warp}'[]'_t2.nii -force")
     print(cmd3)
     os.system(cmd3)
@@ -44,8 +44,8 @@ def antsApplyTransforms_invidentitywarp2mni(b0dwi, tmp_dir):
         cmd4 = (f"antsApplyTransforms -d 3 -e 0 "
                f"-i {tmp_dir}/inv_identity_warp{warp}_t2.nii "
                f"-o {tmp_dir}/inv_mrtrix_warp{warp}_t2.nii -r {b0dwi} "
-               f"-t '[{tmp_dir}/ants0GenericAffine_t2.mat,1]' "
-               f"-t {tmp_dir}/ants1InverseWarp_t2.nii.gz "
+               f"-t '[{tmp_dir}/ants_t20GenericAffine.mat,1]' "
+               f"-t {tmp_dir}/ants_t21InverseWarp.nii.gz "
                f"--default-value 2147483647")
         print(cmd4)
         os.system(cmd4)
@@ -68,9 +68,9 @@ if __name__ == "__main__":
     DATA_ROOT = '/data/parietal/store2/data/ibc/'
 
     sub_ses = {'sub-01': 'ses-12', 'sub-04': 'ses-08', 'sub-05': 'ses-08',
-               'sub-06': 'ses-09', 'sub-07': 'ses-09', 'sub-08': 'ses-09',
-               'sub-09': 'ses-09', 'sub-11': 'ses-09', 'sub-12': 'ses-09',
-               'sub-13': 'ses-09', 'sub-14': 'ses-05', 'sub-15': 'ses-12'}
+                'sub-06': 'ses-09', 'sub-07': 'ses-09', 'sub-08': 'ses-09',
+                'sub-09': 'ses-09', 'sub-11': 'ses-09', 'sub-12': 'ses-09',
+                'sub-13': 'ses-09', 'sub-14': 'ses-05', 'sub-15': 'ses-12'}
 
     for sub, ses in sub_ses.items():
 
@@ -83,8 +83,8 @@ if __name__ == "__main__":
         # mni_nifti = os.path.join(tmp_dir, 'mni_t1w.nii.gz')
         # mni.to_filename(mni_nifti)
         
-        os.system(F'wget http://www.bic.mni.mcgill.ca/\~vfonov/icbm/2009/mni_icbm152_nlin_sym_09a_nifti.zip -P {tmp_dir}')
-        os.system(f'unzip {tmp_dir}/mni_icbm152_nlin_sym_09a_nifti.zip -d {tmp_dir}')
+        os.system(f'wget -O http://www.bic.mni.mcgill.ca/\~vfonov/icbm/2009/mni_icbm152_nlin_sym_09a_nifti.zip -P {tmp_dir}')
+        os.system(f'unzip -o {tmp_dir}/mni_icbm152_nlin_sym_09a_nifti.zip -d {tmp_dir}')
         mni_nifti = os.path.join(tmp_dir, 'mni_icbm152_nlin_sym_09a', 'mni_icbm152_t2_tal_nlin_sym_09a.nii')
 
         b0dwi = os.path.join(DATA_ROOT, 'derivatives', sub, ses, 'dwi',
@@ -105,7 +105,7 @@ if __name__ == "__main__":
         warpcorrect(tmp_dir)
 
         tck = os.path.join(DATA_ROOT, 'derivatives', sub, ses, 'dwi',
-                           f'tracks_{sub}_{ses}_t1.tck')
+                            f'tracks_{sub}_{ses}_t1.tck')
         mni_tck = os.path.join(DATA_ROOT, 'derivatives', sub, ses, 'dwi',
-                               f'mni-tracks_{sub}_{ses}_t2.tck')
+                                f'mni-tracks_{sub}_{ses}_t2.tck')
         tcktransform_tract2mni(tck, mni_tck, tmp_dir)
