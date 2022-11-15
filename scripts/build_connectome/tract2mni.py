@@ -5,6 +5,7 @@ Following https://community.mrtrix.org/t/registration-using-transformations-gene
 
 import os
 from nilearn import datasets
+from nilearn.maskers import NiftiMasker
 
 def antsRegister_b0dwi2mni(mni, b0dwi, tmp_dir):
     cmd1 = (f"antsRegistration --verbose 1 --dimensionality 3 --float 0 "
@@ -63,6 +64,12 @@ def tcktransform_tract2mni(tck, mni_tck, tmp_dir):
     print(cmd8)
     os.system(cmd8)
 
+def apply_mask(img, mask, out_masked_img):
+    masker = NiftiMasker(mask)
+    masked_img_arr = masker.fit_transform(img)
+    masked_img = masker.inverse_transform(masked_img_arr)
+    masked_img.to_filename(out_masked_img)
+
 if __name__ == "__main__":
 
     DATA_ROOT = '/data/parietal/store2/data/ibc/'
@@ -72,6 +79,7 @@ if __name__ == "__main__":
                 'sub-09': 'ses-09', 'sub-11': 'ses-09', 'sub-12': 'ses-09',
                 'sub-13': 'ses-09', 'sub-14': 'ses-05', 'sub-15': 'ses-12'}
 
+    sub_ses = {'sub-15': 'ses-12'}
     for sub, ses in sub_ses.items():
 
         tmp_dir = os.path.join(DATA_ROOT, 'derivatives', sub, ses, 'dwi', 'tract2mni_tmp')
@@ -83,13 +91,16 @@ if __name__ == "__main__":
         # mni_nifti = os.path.join(tmp_dir, 'mni_t1w.nii.gz')
         # mni.to_filename(mni_nifti)
         
-        os.system(f'wget -O http://www.bic.mni.mcgill.ca/\~vfonov/icbm/2009/mni_icbm152_nlin_sym_09a_nifti.zip -P {tmp_dir}')
+        os.system(f'wget http://www.bic.mni.mcgill.ca/\~vfonov/icbm/2009/mni_icbm152_nlin_sym_09a_nifti.zip -P {tmp_dir}')
         os.system(f'unzip -o {tmp_dir}/mni_icbm152_nlin_sym_09a_nifti.zip -d {tmp_dir}')
-        mni_nifti = os.path.join(tmp_dir, 'mni_icbm152_nlin_sym_09a', 'mni_icbm152_t2_tal_nlin_sym_09a.nii')
+        mni_unmasked = os.path.join(tmp_dir, 'mni_icbm152_nlin_sym_09a', 'mni_icbm152_t2_tal_nlin_sym_09a.nii')
+        mni_mask = os.path.join(tmp_dir, 'mni_icbm152_nlin_sym_09a', 'mni_icbm152_t1_tal_nlin_sym_09a_mask.nii')
+        mni_nifti = os.path.join(tmp_dir, 'mni_t2w.nii.gz')
+        apply_mask(mni_unmasked, mni_mask, mni_nifti)
 
         b0dwi = os.path.join(DATA_ROOT, 'derivatives', sub, ses, 'dwi',
-                             (f'{sub}_{ses}_desc-denoise-eddy-correct-b0_dwi'
-                              f'.nii.gz'))
+                                (f'{sub}_{ses}_desc-denoise-eddy-correct-b0_dwi'
+                                f'.nii.gz'))
 
         antsRegister_b0dwi2mni(mni_nifti, b0dwi, tmp_dir)
 
