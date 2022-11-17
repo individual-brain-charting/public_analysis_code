@@ -109,8 +109,29 @@ for sub, sess in sub_ses.items():
             fig.savefig(part_corr_fig, bbox_inches='tight')
 
     # Use sparse group inverse across 4 runs for beter estimates
-    gsc.fit(all_time_series)
+    # gsc.fit(all_time_series)
+    
     glc.fit(np.concatenate(all_time_series))
-    stop    
+    # save correlation and partial correlation matrices as csv
+    part_corr = os.path.join(tmp_dir, f'{atlas.name}_part_corr_{sub}_all.csv')
+    np.savetxt(part_corr, -glc.precision_, delimiter=',')
+    
+    
+    # plot heatmaps and save figs                     
+    fig = plt.figure(figsize = (10, 10))
+    plotting.plot_matrix(-glc.precision_, labels=atlas.labels,
+                         figure=fig, vmax=1, vmin=-1,
+                         title='Sparse inverse covariance')
+    part_corr_fig = os.path.join(
+        tmp_dir, f'{atlas.name}_part_corr_{sub}_all.png')
+    fig.savefig(part_corr_fig, bbox_inches='tight')
+    #
+    fig = plt.figure(figsize = (10, 10))
+    plotting.plot_matrix(glc.covariance_, labels=atlas.labels,
+                         figure=fig, vmax=1, vmin=-1,
+                         title='Covariance with sparse inverse')
+    corr_fig = os.path.join(
+        tmp_dir, f'{atlas.name}_corr_{sub}_all.png')
+    fig.savefig(corr_fig, bbox_inches='tight')
     plt.close('all')
             
