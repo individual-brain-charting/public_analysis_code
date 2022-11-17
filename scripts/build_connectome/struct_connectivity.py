@@ -51,27 +51,27 @@ if __name__ == "__main__":
         atlas['name'] = 'schaefer400'
         # input files for tck2connectome without sift weights
         mni_tck = os.path.join(DATA_ROOT, sub, ses, 'dwi',
-                               f'mni-tracks_{sub}_{ses}_t1.tck')
+                               f'mni-tracks_{sub}_{ses}_t2.tck')
         connectivity_matrix = os.path.join(DATA_ROOT, sub, ses, 'dwi',
                                            (f'{atlas.name}_connectome_'
-                                            f'{sub}_{ses}.csv'))
+                                            f'{sub}_{ses}_t2.csv'))
         inverse_connectivity_matrix = os.path.join(DATA_ROOT, sub, ses, 'dwi',
                                                    (f'{atlas.name}_inverse-'
                                                     f'connectome_{sub}_{ses}'
-                                                    f'.csv'))
+                                                    f'_t2.csv'))
         tck2connectome(atlas.maps, mni_tck, connectivity_matrix,
                        inverse_connectivity_matrix, sift_weights=None)
         # input files for tck2connectome with sift weights
         connectivity_matrix_sift = os.path.join(DATA_ROOT, sub, ses, 'dwi',
                                                 (f'{atlas.name}_connectome_'
                                                  f'sift-weighted_{sub}_{ses}'
-                                                 f'.csv'))
+                                                 f'_t2.csv'))
         inverse_connectivity_matrix_sift = os.path.join(DATA_ROOT, sub, ses, 
                                                         'dwi',
                                                         (f'{atlas.name}_inverse'
                                                          f'-connectome_sift-'
                                                          f'weighted_{sub}_{ses}'
-                                                         f'.csv'))
+                                                         f'_t2.csv'))
         sift_weights = os.path.join(DATA_ROOT, sub, ses, 'dwi',
                                     f'sift-track_{sub}_{ses}.txt')
         tck2connectome(atlas.maps, mni_tck, connectivity_matrix_sift,
@@ -82,7 +82,7 @@ if __name__ == "__main__":
         mat_fig = plt.figure(figsize = (50,50))
         plotting.plot_matrix(mat, labels=atlas.labels, figure=mat_fig)
         connectome_fig = os.path.join(tmp_dir,
-                                     f'{atlas.name}_connectome_{sub}_{ses}.png')
+                                     f'{atlas.name}_connectome_{sub}_{ses}_t2.png')
         mat_fig.savefig(connectome_fig, bbox_inches='tight')
         # save connectivity matrix with sift weights as csv
         mat_sift = pd.read_csv(connectivity_matrix_sift, names=atlas.labels)
@@ -91,6 +91,6 @@ if __name__ == "__main__":
         plotting.plot_matrix(mat_sift, labels=atlas.labels, figure=mat_sift_fig)
         connectome_sift_fig = os.path.join(tmp_dir,
                                            (f'{atlas.name}_connectome_sift-'
-                                            f'weighted_{sub}_{ses}.png'))
+                                            f'weighted_{sub}_{ses}_t2.png'))
         mat_sift_fig.savefig(connectome_sift_fig, bbox_inches='tight')
         plt.close('all')
