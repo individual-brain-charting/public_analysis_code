@@ -18,7 +18,7 @@ from nilearn import plotting
 from nilearn.connectome import ConnectivityMeasure
 from nilearn.connectome import GroupSparseCovarianceCV
 from ibc_public.utils_data import get_subject_session
-
+from nilearn.image import high_variance_confounds
  
 DATA_ROOT = '/neurospin/ibc/derivatives/'
 mem = '/neurospin/tmp/bthirion/'
@@ -73,7 +73,9 @@ for sub, sess in sub_ses.items():
                                     (f'rp_dc{sub}_{ses}_task-RestingState_'
                                      f'dir-{direction}_bold.txt'))
             # todo: add high-variance confounds
-
+            compcor = high_variance_confounds(rs_fmri)
+            confounds = np.hstack((np.loadtxt(confounds), compcor))
+            
             # extract time series for those regions
             time_series = masker.transform(rs_fmri, confounds=confounds)
             all_time_series.append(time_series)
