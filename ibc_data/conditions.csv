@@ -28,37 +28,37 @@ ArchiEmotional,face_trusty,trustworthy evaluation of the presented human faces
 ArchiEmotional,expression_intention,trustworthy evaluation of the presented human eye images
 ArchiEmotional,expression_gender,gender evaluation of the presented human eye images
 ArchiEmotional,expression_control,mental assessment on the slope of a gray-scale grid image (obtained from scrambling an eyes’ image) that may be tilted or not
-HcpEmotion,shape,shape outline
-HcpEmotion,face,face image
-HcpGambling,punishment,
-HcpGambling,reward,
-HcpMotor,left_hand,
-HcpMotor,right_hand,
-HcpMotor,left_foot,
-HcpMotor,right_foot,
-HcpMotor,tongue,
-HcpMotor,cue,
+HcpEmotion,shape,images with shapes were displayed
+HcpEmotion,face,images with faces were displayed
+HcpGambling,punishment,the participant experiences loss
+HcpGambling,reward,the participant experiences reward
+HcpMotor,left_hand,visual cue indicating the left hand should be moved
+HcpMotor,right_hand,visual cue indicating the right hand should be moved
+HcpMotor,left_foot,visual cue indicating the left foot should be moved
+HcpMotor,right_foot,visual cue indicating the rigth foot should be moved
+HcpMotor,tongue,visual cue indicating the left hand should be moved
+HcpMotor,cue,fixation dot
 HcpLanguage,story,tale
 HcpLanguage,math,mental addition
 HcpRelational,relational,relational processing
 HcpRelational,match,visual matching
 HcpSocial,mental,mental motion
 HcpSocial,random,random motion
-HcpWm,0back_body,
-HcpWm,2back_body,
-HcpWm,0back_face,
-HcpWm,2back_face,
-HcpWm,0back_tools,
-HcpWm,2back_tools,
-HcpWm,0back_place,
-HcpWm,2back_place,
-RSVPLanguage,complex,"constituents, i.e words, formed syntactically and semantically congruent sentences with more than one clause grid image that may be tilted or not (high sentence-structure complexity)"
-RSVPLanguage,simple,"constituents, i.e. words, formed syntactically and semantically congruent sentences of one single clause (low_sentence-structure_complexity)"
-RSVPLanguage,jabberwocky,syntactically congruent sentences composed by non-lexical vocable constituents
+HcpWm,0back_body,"0-back, pictures of body parts were displayed"
+HcpWm,2back_body,"2-back, pictures of body parts were displayed"
+HcpWm,0back_face,"0-back, pictures of faces were displayed"
+HcpWm,2back_face,"2-back, pictures of faces were displayed"
+HcpWm,0back_tools,"0-back, pictures of tools were displayed"
+HcpWm,2back_tools,"2-back, pictures of tools were displayed"
+HcpWm,0back_place,"0-back, pictures of places were displayed"
+HcpWm,2back_place,"2-back, pictures of places were displayed"
+RSVPLanguage,complex,"constituents, i.e. words formed syntactically and semantically congruent sentences with more than one clause grid image that may be tilted or not (high sentence-structure complexity)"
+RSVPLanguage,simple,"constituents, i.e. words formed syntactically and semantically congruent sentences of one single clause (low_sentence-structure_complexity)"
+RSVPLanguage,read_jabberwocky,syntactically congruent sentences composed by non-lexical vocable constituents
 RSVPLanguage,word_list,syntactically non-congruent sentences but with semantic content
 RSVPLanguage,pseudoword_list,syntactically and semantically non-congruent sentences composed by non-lexical vocable constituents
 RSVPLanguage,consonant_string,syntactically and semantically non-congruent sentences composed by non-vocable constituents
-RSVPLanguage,probe,
+RSVPLanguage,probe,"presented word, for which one has to assess whether it was in the previously presented sequence or not"
 MTTWE,we_average_reference,action in the story to serve as reference for the time or space judgment in the same trial in the west-east island
 MTTWE,we_all_space_cue,cue indicating a question about spatial orientation in the west-east island
 MTTWE,we_all_time_cue,cue indicating a question about time orientation in the west-east island
@@ -76,18 +76,18 @@ MTTNS,sn_northside_event,"action to be judged whether it takes place south or no
 MTTNS,sn_before_event,"action to be judged whether it takes place before or after this reference, that actually takes place before this reference, in the south-north island"
 MTTNS,sn_after_event,"action to be judged whether it takes place before or after this reference, that actually takes place before this reference, in the south-north island"
 MTTNS,sn_all_event_response,motor responses performed after every event condition in the south-north island
-PreferenceFood,food_constant,classify the level of pleasantness of a food item displayed on the screen in terms of willingness to eat it. visual evaluation of an item vs. fixation
-PreferenceFood,food_linear,classify the level of pleasantness of a food item displayed on the screen in terms of willingness to eat it. visual preference vs. no preference
-PreferenceFood,food_quadratic,classify the level of pleasantness of a food item displayed on the screen in terms of willingness to eat it. confidence in preference vs. no confidence
-PreferencePaintings,painting_constant,classify the level of pleasantness of a painting displayed on the screen in terms of willingness to possess it. visual evaluation of an item vs. fixation
-PreferencePaintings,painting_linear,classify the level of pleasantness of a painting displayed on the screen in terms of willingness to possess it. visual preference vs. no preference
-PreferencePaintings,painting_quadratic,classify the level of pleasantness of a painting displayed on the screen in terms of willingness to possess it. confidence in preference vs. no confidence
-PreferenceFaces,face_constant,classify the level of pleasantness of a human face displayed on the screen in terms of willingness to meet the person portrayed. visual evaluation of an item vs. fixation
-PreferenceFaces,face_linear,classify the level of pleasantness of a human face displayed on the screen in terms of willingness to meet the person portrayed. visual preference vs. no preference
-PreferenceFaces,face_quadratic,classify the level of pleasantness of a human face displayed on the screen in terms of willingness to meet the person portrayed. confidence in preference vs. no confidence
-PreferenceHouses,house_constant,classify the level of pleasantness of a house displayed on the screen in terms of willingness to live in that house. visual evaluation of an item vs. fixation
-PreferenceHouses,house_linear,classify the level of pleasantness of a house displayed on the screen in terms of willingness to live in that house. visual preference vs. no preference
-PreferenceHouses,house_quadratic,classify the level of pleasantness of a house displayed on the screen in terms of willingness to live in that house. confidence in preference vs. no confidence
+PreferenceFood,food_constant,"classify the level of pleasantness of a food item displayed on the screen in terms of willingness to eat it, this condition serves as an occurrence regressor when formulated as visual evaluation of an item vs. fixation"
+PreferenceFood,food_linear,classify the level of pleasantness of a food item displayed on the screen in terms of willingness to eat it. this condition captures the linear effect of pleasantness (akin to judgement effects) when formulated as visual preference vs. no preference
+PreferenceFood,food_quadratic,classify the level of pleasantness of a food item displayed on the screen in terms of willingness to eat it. this condition captures the quadratic effect of pleasantness (akin to confidence effects) when formulated as confidence in preference vs. no confidence
+PreferencePaintings,painting_constant,"classify the level of pleasantness of a painting displayed on the screen in terms of willingness to possess it, this condition serves as an occurrenceregressor when formulated as visual evaluation of an item vs. fixation"
+PreferencePaintings,painting_linear,classify the level of pleasantness of a painting displayed on the screen in terms of willingness to possess it. this condition captures the linear effect of pleasantness (akin to judgement effects) when formulated as visual preference vs. no preference
+PreferencePaintings,painting_quadratic,classify the level of pleasantness of a painting displayed on the screen in terms of willingness to possess it. this condition captures the quadratic effect of pleasantness (akin to confidence effects) when formulated as  confidence in preference vs. no confidence
+PreferenceFaces,face_constant,"classify the level of pleasantness of a human face displayed on the screen in terms of willingness to meet the person portrayed, this condition serves as an occurrence regressor when formulated as visual evaluation of an item vs. fixation"
+PreferenceFaces,face_linear,classify the level of pleasantness of a human face displayed on the screen in terms of willingness to meet the person portrayed. this condition captures the linear effect of pleasantness (akin to judgement effects) when formulated as visual preference vs. no preference
+PreferenceFaces,face_quadratic,classify the level of pleasantness of a human face displayed on the screen in terms of willingness to meet the person portrayed. this condition captures the quadratic effect of pleasantness (akin to confidence effects) when formulated as  confidence in preference vs. no confidence
+PreferenceHouses,house_constant,classify the level of pleasantness of a house displayed on the screen in terms of willingness to live in that house. this condition serves as an occurrenceregressor when formulated as visual evaluation of an item vs. fixation
+PreferenceHouses,house_linear,classify the level of pleasantness of a house displayed on the screen in terms of willingness to live in that house. this condition captures the linear effect of pleasantness (akin to judgement effects) when formulated as visual preference vs. no preference
+PreferenceHouses,house_quadratic,classify the level of pleasantness of a house displayed on the screen in terms of willingness to live in that house. this condition captures the quadratic effect of pleasantness (akin to confidence effects) when formulated as  confidence in preference vs. no confidence
 TheoryOfMind,belief,read a false-belief story
 TheoryOfMind,photo,read a false-photograph story
 EmotionalPain,physical_pain,read story about fictional characters suffering from physical pain
@@ -95,18 +95,18 @@ EmotionalPain,emotional_pain,read story about fictional characters suffering fro
 PainMovie,movie_pain,watch movie-scene wherein characters experience physical pain
 PainMovie,movie_mental,"watch movie-scene wherein characters experience changes in beliefs, desires, and/or emotions"
 VSTM,vstm_linear,"judge whether any bar changed orientation within two consecutive displays of bar sets on the screen, response to constant numerosity vs. fixation"
-VSTM,vstm_constant,"judge whether any bar changed orientation within two consecutive displays of bar sets on the screen, esponse to numerosity vs. fixation"
+VSTM,vstm_constant,"judge whether any bar changed orientation within two consecutive displays of bar sets on the screen, response to numerosity vs. fixation"
 VSTM,vstm_quadratic,"judge whether any bar changed orientation within two consecutive displays of bar sets on the screen, response to numerosity interaction vs. fixation"
-Enumeration,enumeration_linear,enumeration response to constant numerosity vs. fixation
-Enumeration,enumeration_constant,enumeration response to numerosity vs. fixation
-Enumeration,enumeration_quadratic,enumeration response to numerosity interaction vs. fixation
+Enumeration,enumeration_linear,capture the linear effect of enumeration response to numerosity when compared against fixation
+Enumeration,enumeration_constant,occurrence regressor for the enumeration response to constant numerosity when compared against fixation
+Enumeration,enumeration_quadratic,capture the quadratic effect of enumeration response to numerosity interaction when compared againts fixation
 Self,instructions,presentation of a question related to the succeeding block
-Self,encode_self,"judge with overt response whether or not a certain adjective, displayed on the screen, qualifies oneself. self-reference encoding vs. other-reference encoding"
-Self,encode_other,"judging with overt response whether a certain adjective, displayed on the screen, qualifies someone else, other-reference encoding vs. fixation"
-Self,recognition_self_hit,"successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “self-reference encoding” trial of the preceding encoding phase, self-reference recognition vs. other-reference recognition"
-Self,recognition_other_hit,"successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “other-reference encoding” trial of the preceding encoding phase, other-reference recognition vs. fixation"
-Self,correct_rejection,
-Self,false_alarm,
+Self,self-reference_encoding,"judge with overt response whether or not a certain adjective, displayed on the screen, qualifies oneself"
+Self,other-reference_encoding,"judging with overt response whether a certain adjective, displayed on the screen, qualifies someone else"
+Self,self-reference_recognition,"successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “self-reference encoding” trial of the preceding encoding phase"
+Self,other-reference_recognition,"successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “other-reference encoding” trial of the preceding encoding phase"
+Self,memory,successful identification with an overt response that a new adjective has never been presented before
+Self,no_recognition,unsuccessful identification with an overt response that a new adjective has been presented before
 Bang,talk,speech vs. no speech. speech: watch contiguous scenes of speech: no speech: watch contiguous scenes with no speech
 Bang,no_talk,no speech vs. fixation. no speech: watch contiguous scenes with no speech
 Clips,,
@@ -138,24 +138,24 @@ Audi,environment,Real-life complex environmental sounds
 Audi,laugh,Concatenated sounds of people laughing
 Audi,animals,Real-life animal sounds
 Visu,scrambled,"Scrambled image, used as baseline"
-Visu,face,Image of a human face
-Visu,characters,String of random characters
-Visu,scene,Image of a naturalistic scene
-Visu,house,Image of a house
-Visu,animal,Image of an animal
-Visu,pseudoword,String that conforms a pseudoword
-Visu,tool,Image of a tool
-Visu,fruit,Image of a fruit
+Visu,face,Viewing the image of a human face
+Visu,characters,Viewing a string of random characters
+Visu,scene,Viewing the image of a naturalistic scene
+Visu,house,Viewing the image of a house
+Visu,animal,Viewing the image of an animal
+Visu,pseudoword,Viewing a string that conforms a pseudoword
+Visu,tool,Viewing the image of a tool
+Visu,fruit,Viewing the image of a fruit
 Lec1,random_string,A string of random consonants is presented and the participant has to answer if it is all-uppercase or all-lowercase
 Lec1,word,A word is presented and the participant has to decide whether it is a living entity or not
 Lec1,pseudoword,A pseudoword in presented and the participant has to answer whether it has one or two syllabes
 MVEB,letter_occurrence_response,
-MVEB,2_letters_different,2 characters to remember
-MVEB,4_letters_different,4 characters to remember
-MVEB,6_letters_different,6 characters to remember
-MVEB,2_letters_same,1 character to remember
-MVEB,4_letters_same,1 character to remember
-MVEB,6_letters_same,1 character to remember
+MVEB,2_letters_different,The subject must remeber 2 characters from a presented string of different letters
+MVEB,4_letters_different,The subject must remeber 4 characters from a presented string of different letters
+MVEB,6_letters_different,The subject must remeber 6 characters from a presented string of different letters
+MVEB,2_letters_same,The subject must remeber 2 characters from a presented string of identical letters
+MVEB,4_letters_same,The subject must remeber 4 characters from a presented string of identical letters
+MVEB,6_letters_same,The subject must remeber 6 characters from a presented string of identical letters
 MVIS,dot_displacement_response,
 MVIS,2_dots,2 positions to remember
 MVIS,2_dots_control,1 position to remember because of the highlighted dot
@@ -208,7 +208,7 @@ Stroop,incongruent,Color and word are different
 ColumbiaCards,num_loss_cards,Probability of losing
 ColumbiaCards,loss,Expected loss
 ColumbiaCards,gain,Expected gain
-DotPatterns,cue,
+DotPatterns,cue,Look at the stimulus to provide a description of the cue
 DotPatterns,correct_cue_correct_probe,"Target pair, captures expectancy after correct cue"
 DotPatterns,correct_cue_incorrect_probe,Nontarget pair that also captures expectancy after correct cue
 DotPatterns,incorrect_cue_correct_probe,Incorrect pair. The probe is correct but the cue is not
@@ -229,10 +229,10 @@ MathLanguage,arithmetic_fact_auditory,Listen to arithmetic fact
 MathLanguage,arithmetic_fact_visual,Read arithmetic fact
 MathLanguage,arithmetic_principle_auditory,Listen to arithmetic principle
 MathLanguage,arithmetic_principle_visual,Read arithmetic principle
-MathLanguage,colorlessg_auditory,Auditory Jabberwocky sentence parsing
-MathLanguage,colorlessg_visual,Visual Jabberwocky sentence parsing
-MathLanguage,context_auditory,Fixation
-MathLanguage,context_visual,Fixation
+MathLanguage,colorlessg_auditory,Jabberwocky sentence presented as auditory stimulus
+MathLanguage,colorlessg_visual,Jabberwocky sentence presented as visual stimulus
+MathLanguage,context_auditory,Fixation period
+MathLanguage,context_visual,Fixation period
 MathLanguage,general_auditory,Listen to sentence
 MathLanguage,general_visual,Read sentence
 MathLanguage,geometry_fact_auditory,Listen to geometric fact
@@ -286,6 +286,7 @@ NARPS,strongly_accept,Subject accepted the gamble with high confidence
 NARPS,weakly_accept,Subject accepted the gamble with low confidence
 NAPRS,weakly_reject,Subject rejected the gamble with low confidence
 NAPRS,strongly_reject,Subject rejected the gamble with high confidence
+NAPRS,stim_+17_-15,Mixed gamble stimulus with 17 units of potential gain and 15 units of potential loss (amounts could vary between 5-20)
 FaceBody,bodies_body,Block presenting images of body parts (category) with full bodies without faces (subcategory)
 FaceBody,bodies_limb,Block presenting images of body parts (category) with just limbs (subcategory)
 FaceBody,characters_number,Block presenting images of printed characters (category) with just numbers (subcategory)
@@ -355,7 +356,7 @@ OptimismBias,future_negative,"Future, negative valence and very or a little arou
 OptimismBias,past_neutral,"Past, negative or positive valence and not at all arousing event"
 OptimismBias,future_neutral,"Future, negative or positive valence and not at all arousing event"
 OptimismBias,inconclusive,Absence of either or both responses
-HarririAomic,shape,When the presented trial was that with shapes
+HarririAomic,shape,Viewing a shape
 HarririAomic,emotion,When the presented trial was that with emotions
 HarririAomic,index_response,"When subject responded with index finger, meaning the image on left matched with image on top"
 HarririAomic,middle_response,"When subject responded with index finger, meaning the image on right matched with image on top"
