@@ -21,7 +21,7 @@ def atlas2dwi(dwi_b0, mni_nifti, atlas_nifti, atlas_in_dwi_space):
                     f" --use-Histogram-Matching")
 
     apply_warp_cmd = (f"WarpImageMultiTransform 3 {atlas_nifti}"
-                      f"{atlas_in_dwi_space} -R {dwi_b0}"
+                      f" {atlas_in_dwi_space} -R {dwi_b0}"
                       f" -i ANTSAffine.txt ANTSInverseWarp.nii --use-NN")
 
     print(get_warp_cmd)
