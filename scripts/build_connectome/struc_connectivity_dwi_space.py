@@ -78,7 +78,7 @@ if __name__ == "__main__":
                              (f'{atlas.name}_in_dwi_space.nii.gz'))
         atlas2dwi(b0dwi, mni_nifti, atlas.maps, atlas_in_dwi_space)
         # input files for tck2connectome without sift weights
-        dwi_tck = os.path.join(DATA_ROOT, 'derivatives', sub, ses, 'dwi',
+        dwi_tck = os.path.join(DATA_ROOT, sub, ses, 'dwi',
                                f'tracks_{sub}_{ses}_t1.tck')
         connectivity_matrix = os.path.join(tmp_dir,
                                            (f'{atlas.name}_connectome_'
