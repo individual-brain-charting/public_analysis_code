@@ -284,9 +284,12 @@ RewProc,plus_10,Gained 10 units of reward as a result of the selection
 RewProc,minus_10,Lost 10 units of reward as a result of the selection
 NARPS,strongly_accept,Subject accepted the gamble with high confidence
 NARPS,weakly_accept,Subject accepted the gamble with low confidence
-NAPRS,weakly_reject,Subject rejected the gamble with low confidence
-NAPRS,strongly_reject,Subject rejected the gamble with high confidence
-NAPRS,stim_+17_-15,Mixed gamble stimulus with 17 units of potential gain and 15 units of potential loss (amounts could vary between 5-20)
+NARPS,weakly_reject,Subject rejected the gamble with low confidence
+NARPS,strongly_reject,Subject rejected the gamble with high confidence
+NARPS,stim_+17_-15,Mixed gamble stimulus with 17 units of potential gain and 15 units of potential loss (amounts could vary between 5-20)
+NARPS,gain,Significant parametric increase in BOLD signal to increasing potential gains
+NARPS,loss,Significant parametric decrease in BOLD signal to increasing potential losses
+NARPS,reject-accept,Gambles rejected vs. gambles accepted
 FaceBody,bodies_body,Block presenting images of body parts (category) with full bodies without faces (subcategory)
 FaceBody,bodies_limb,Block presenting images of body parts (category) with just limbs (subcategory)
 FaceBody,characters_number,Block presenting images of printed characters (category) with just numbers (subcategory)
@@ -297,10 +300,10 @@ FaceBody,objects_car,Block presenting images of objects (category) with just car
 FaceBody,objects_instrument,Block presenting images of objects (category) with just musical instruments (subcategory)
 FaceBody,places_corridor,Block presenting images of places (category) with just corridors (subcategory)
 FaceBody,places_house,Block presenting images of places (category) with just houses (subcategory)
-Scene,scene_impossible_correct,Impossible scene trial that subject identified correctly
-Scene,scene_impossible_incorrect,Impossible scene trial that subject identified incorrectly
-Scene,scene_possible_correct,Possible scene trial that subject identified correctly
-Scene,scene_possible_incorrect,Possible scene trial that subject identified incorrectly
+Scene,scene_impossible_correct,Impossible scene trial that the subject identified correctly
+Scene,scene_impossible_incorrect,Impossible scene trial that the subject identified incorrectly
+Scene,scene_possible_correct,Possible scene trial that the subject identified correctly
+Scene,scene_possible_incorrect,Possible scene trial that the subject identified incorrectly
 Scene,dot_easy_left,More opaque dot on left
 Scene,dot_easy_right,More opaque dot on right
 Scene,dot_hard_left,More transparent dot on left
@@ -312,18 +315,18 @@ Checkerboard,checkerboard,Checkerboard block
 Checkerboard,fixation,Fixation block
 FingerTap,fingertap,Press button corresponding to visual stimulus
 FingerTap,rest,Rest block
-ItemRecognition,load1_instr,Instruction signaling start of load 1 block
-ItemRecognition,encode1,Encode digit of load 1 block
-ItemRecognition,probe1_mem,Probe digit that was encoded at the start of load 1 block
-ItemRecognition,probe1_new,Probe digit that is new
+ItemRecognition,load1_instr,Instruction signaling start of load 1 blocks
+ItemRecognition,encode1,Encode digit of load 1 blocks
+ItemRecognition,probe1_mem,Probe digit that was encoded at the start of load 1 blocks
+ItemRecognition,probe1_new,Probe digit that is new for load 1 blocks
 ItemRecognition,load3_instr,Instruction signaling start of load 3 blocks
 ItemRecognition,encode3,Encode digit of load 3 blocks
 ItemRecognition,probe3_mem,Probe digit that was encoded at the start of load 3 blocks
-ItemRecognition,probe3_new,Probe digit that is new
+ItemRecognition,probe3_new,Probe digit that is new for load 3 blocks
 ItemRecognition,load5_instr,Instruction signaling start of load 5 blocks
 ItemRecognition,encode5,Encode digit of load 5 blocks
 ItemRecognition,probe5_mem,Probe digit that was encoded at the start of load 5 blocks
-ItemRecognition,probe5_new,Probe digit that is new
+ItemRecognition,probe5_new,Probe digit that is new for load 5 blocks
 ItemRecognition,arrow_right,Rightward pointing arrow
 ItemRecognition,arrow_left,Leftward pointing arrow
 VisualSearch,memory_array_two,"Array of two items, with or without the item to search for (probe item) - in working memory trials"
@@ -345,10 +348,10 @@ Color,response,Subject's response to 1-back task i.e. when the same color patter
 Motion,incoherent,Motion condition when dots were moving incoherently in random directions
 Motion,coherent,Motion condition when dots were moving coherently in the same direction
 Motion,stationary,Motion condition when dots stayed stationary but each dot was respawned in a different location after 1 sec
-Motion,clock,The trials where direction of coherent motion was changed in the clockwise direction
-Motion,anti,The trials where direction of coherent motion was changed in the anti-clockwise direction
-Motion,left,The trials where dot pattern was presented only in the left visual field
-Motion,right,The trials where dot pattern was presented only in the right visual field
+Motion,clock,Trials with direction of coherent motion changing in the clockwise direction
+Motion,anti,Trials with direction of coherent motion changing in the anti-clockwise direction
+Motion,left,Trials where dot pattern was presented only in the left visual field
+Motion,right,Trials where dot pattern was presented only in the right visual field
 OptimismBias,past_positive,"Past, positive valence and very or a little arousing event"
 OptimismBias,past_negative,"Past, negative valence and very or a little arousing event"
 OptimismBias,future_positive,"Future, positive valence and very or a little arousing event"
@@ -361,10 +364,10 @@ HarririAomic,emotion,When the presented trial was that with emotions
 HarririAomic,index_response,"When subject responded with index finger, meaning the image on left matched with image on top"
 HarririAomic,middle_response,"When subject responded with index finger, meaning the image on right matched with image on top"
 FacesAomic,ITI,Inter-trial intervals
-FacesAomic,anger,When the anger was the emotion expressed in the video
-FacesAomic,contempt,When the contempt was the emotion expressed in the video
-FacesAomic,joy,When the joy was the emotion expressed in the video
-FacesAomic,pride,When the pride was the emotion expressed in the video
+FacesAomic,anger,Video of a face that expresses anger
+FacesAomic,contempt,Video of a face that expresses contempt
+FacesAomic,joy,Video of a face that expresses joy
+FacesAomic,pride,Video of a face that expresses pride
 FacesAomic,neutral,"Baseline, when no emotion was expressed"
 FacesAomic,male,When the model expressing the emotion was a male
 FacesAomic,female,When the model expressing the emotion was a female
