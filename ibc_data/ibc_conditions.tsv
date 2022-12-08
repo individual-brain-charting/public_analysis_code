@@ -48,7 +48,8 @@ HcpRelational	match	Simple visual matching
 
 HcpSocial	mental	Watching a movie with mental motion
 
-HcpSocial	random	Random motion
+HcpSocial	random	Watching a movie with random motion
+
 HcpWm	0back_body	0-back, pictures of body parts were displayed
 HcpWm	2back_body	2-back, pictures of body parts were displayed
 HcpWm	0back_face	0-back, pictures of faces were displayed
