@@ -40,7 +40,8 @@ HcpMotor	tongue	Visual cue indicating the left hand should be moved
 HcpMotor	cue	Fixation dot
 HcpLanguage	story	Listening to tales
 
-HcpLanguage	math	Mental addition
+HcpLanguage	math	Auditorily-cued mental addition
+
 HcpRelational	relational	Relational processing
 HcpRelational	match	Visual matching
 HcpSocial	mental	Mental motion
