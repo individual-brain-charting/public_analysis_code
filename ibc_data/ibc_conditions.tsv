@@ -38,7 +38,8 @@ HcpMotor	left_foot	Visual cue indicating the left foot should be moved
 HcpMotor	right_foot	Visual cue indicating the rigth foot should be moved
 HcpMotor	tongue	Visual cue indicating the left hand should be moved
 HcpMotor	cue	Fixation dot
-HcpLanguage	story	Tale
+HcpLanguage	story	Listening to tales
+
 HcpLanguage	math	Mental addition
 HcpRelational	relational	Relational processing
 HcpRelational	match	Visual matching
