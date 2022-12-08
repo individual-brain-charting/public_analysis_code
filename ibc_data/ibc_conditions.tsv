@@ -42,7 +42,8 @@ HcpLanguage	story	Listening to tales
 
 HcpLanguage	math	Auditorily-cued mental addition
 
-HcpRelational	relational	Relational processing
+HcpRelational	relational	Relational processing of visual objects
+
 HcpRelational	match	Visual matching
 HcpSocial	mental	Mental motion
 HcpSocial	random	Random motion
