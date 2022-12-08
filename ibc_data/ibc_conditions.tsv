@@ -44,7 +44,8 @@ HcpLanguage	math	Auditorily-cued mental addition
 
 HcpRelational	relational	Relational processing of visual objects
 
-HcpRelational	match	Visual matching
+HcpRelational	match	Simple visual matching
+
 HcpSocial	mental	Mental motion
 HcpSocial	random	Random motion
 HcpWm	0back_body	0-back, pictures of body parts were displayed
