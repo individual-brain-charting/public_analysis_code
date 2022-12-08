@@ -46,7 +46,8 @@ HcpRelational	relational	Relational processing of visual objects
 
 HcpRelational	match	Simple visual matching
 
-HcpSocial	mental	Mental motion
+HcpSocial	mental	Watching a movie with mental motion
+
 HcpSocial	random	Random motion
 HcpWm	0back_body	0-back, pictures of body parts were displayed
 HcpWm	2back_body	2-back, pictures of body parts were displayed
