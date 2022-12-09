@@ -113,7 +113,8 @@ Self	other-reference_recognition	Successful recognition with an overt response o
 Self	memory	Successful identification with an overt response that a new adjective has never been presented before
 Self	no_recognition	Unsuccessful identification with an overt response that a new adjective has been presented before
 Bang	talk	Speech vs. no speech. speech: watch contiguous scenes of speech: no speech: watch contiguous scenes with no speech
-Bang	no_talk	No speech vs. fixation. no speech: watch contiguous scenes with no speech
+Bang	no_talk	Watch contiguous scenes with no speech
+
 Clips		
 Wedge	lower_meridian	Visual representation in the lower half-plane of the visual field delimited by its horizontal meridian
 Wedge	upper_meridian	Visual representation in the upper half-plane of the visual field delimited by its horizontal meridian
