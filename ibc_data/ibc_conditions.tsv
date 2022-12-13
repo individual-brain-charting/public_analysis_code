@@ -93,12 +93,12 @@ EmotionalPain	physical_pain	Read story about fictional characters suffering from
 EmotionalPain	emotional_pain	Read story about fictional characters suffering from emotional pain
 PainMovie	movie_pain	Watch movie-scene wherein characters experience physical pain
 PainMovie	movie_mental	Watch movie-scene wherein characters experience changes in beliefs, desires, and/or emotions
-VSTM	vstm_linear	Judge whether any bar changed orientation within two consecutive displays of bar sets on the screen, response to constant numerosity vs. fixation
+VSTM	vstm_linear	Judge whether any bar changed orientation within two consecutive displays of bar sets on the screen, linear response to numerosity
 VSTM	vstm_constant	Judge whether any bar changed orientation within two consecutive displays of bar sets on the screen, response to numerosity vs. fixation
-VSTM	vstm_quadratic	Judge whether any bar changed orientation within two consecutive displays of bar sets on the screen, response to numerosity interaction vs. fixation
-Enumeration	enumeration_linear	Capture the linear effect of enumeration response to numerosity when compared against fixation
+VSTM	vstm_quadratic	Judge whether any bar changed orientation within two consecutive displays of bar sets on the screen, response to quadratic numerosity effect
+Enumeration	enumeration_linear	Capture the linear effect of enumeration response to numerosity
 Enumeration	enumeration_constant	Occurrence regressor for the enumeration response to constant numerosity when compared against fixation
-Enumeration	enumeration_quadratic	Capture the quadratic effect of enumeration response to numerosity interaction when compared againts fixation
+Enumeration	enumeration_quadratic	Capture the quadratic effect of enumeration response to numerosity
 Self	instructions	Presentation of a question related to the succeeding block
 Self	self-reference_encoding	Judge with overt response whether or not a certain adjective, displayed on the screen, qualifies oneself
 Self	other-reference_encoding	Judging with overt response whether a certain adjective, displayed on the screen, qualifies someone else
