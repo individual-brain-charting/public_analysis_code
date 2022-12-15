@@ -20,8 +20,12 @@ from nilearn.connectome import GroupSparseCovarianceCV
 from ibc_public.utils_data import get_subject_session
 from nilearn.image import high_variance_confounds
  
-DATA_ROOT = '/neurospin/ibc/derivatives/'
-mem = '/neurospin/tmp/bthirion/'
+if 0:
+    DATA_ROOT = '/neurospin/ibc/derivatives/'
+    mem = '/neurospin/tmp/bthirion/'
+else:
+    DATA_ROOT = '/storage/store2/data/ibc/derivatives/'
+    mem = '/storage/store/work/bthirion/'
 #sub_ses = {'sub-01': ['ses-14', 'ses-15'], 'sub-04': ['ses-11', 'ses-12'],
 #           'sub-05': ['ses-11', 'ses-12'], 'sub-06': ['ses-11', 'ses-12'],
 #           'sub-07': ['ses-11', 'ses-12'], 'sub-08': ['ses-12', 'ses-13'],
@@ -44,7 +48,7 @@ atlas['name'] = 'schaefer400'
 masker = NiftiLabelsMasker(
     labels_img=atlas.maps,
     standardize=True,
-    low_pass=.1,
+    low_pass=.2,
     high_pass=.01,
     t_r=.76,
     verbose=1,
