@@ -185,11 +185,10 @@ Audio	tool	Sound of tool usage
 Audio	voice	Non-speech human sound
 Audio	catch	Repetition of the previous sound
 Audio	silence	No sound
-Attention	double_congruent	The stim is not cued, and all the distractors are congruent with the target
-Attention	double_incongruent	The stim not is cued, and all the distractors are incongruent with the target
-Attention	double_cue	
-Attention	spatial_incongruent	The stim is cued, and all the distractors are incongruent with the target
-Attention	spatial_congruent	The stim is cued, and all the distractors are congruent with the target
+Attention	spatial	The stimulus is spatially cued, so the subject knows where the arrows will be shown (only one star appears).
+Attention	double_cue	The stimulus is not spatially cued, so the subject doesn't know where the arrows will be shown (both stars appear).
+Attention	congruent	The stimulus is congruent (same direction) with the rest of the arrows shown.
+Attention	incongruent	The stimulus is not congruent (opposite direction) with the rest of the arrows shown.
 StopSignal	go	Answer to the stim
 StopSignal	stop	Hold motor response
 TwoByTwo	task_stay_cue_stay	Both the task and the cue are the same
@@ -289,16 +288,16 @@ NARPS	stim_+17_-15	Mixed gamble stimulus with 17 units of potential gain and 15 
 NARPS	gain	Significant parametric increase in BOLD signal to increasing potential gains
 NARPS	loss	Significant parametric decrease in BOLD signal to increasing potential losses
 NARPS	reject-accept	Gambles rejected vs. gambles accepted
-FaceBody	bodies_body	images of body parts (category) with full bodies without faces (subcategory)
-FaceBody	bodies_limb	Block presenting images of body parts (category) with just limbs (subcategory)
-FaceBody	characters_number	Block presenting images of printed characters (category) with just numbers (subcategory)
-FaceBody	characters_word	Block presenting images of printed characters (category) with just words (subcategory)
-FaceBody	faces_adult	Block presenting faces (category) of adults (subcategory)
-FaceBody	faces_child	Block presenting faces (category) of children (subcategory)
-FaceBody	objects_car	Block presenting images of objects (category) with just cars (subcategory)
-FaceBody	objects_instrument	Block presenting images of objects (category) with just musical instruments (subcategory)
-FaceBody	places_corridor	Block presenting images of places (category) with just corridors (subcategory)
-FaceBody	places_house	Block presenting images of places (category) with just houses (subcategory)
+FaceBody	bodies_body	Images of body parts (category) with full bodies without faces (subcategory)
+FaceBody	bodies_limb	Images of body parts (category) with just limbs (subcategory)
+FaceBody	characters_number	Images of printed characters (category) with just numbers (subcategory)
+FaceBody	characters_word	Images of printed characters (category) with just words (subcategory)
+FaceBody	faces_adult	Images of faces (category) of adults (subcategory)
+FaceBody	faces_child	Images of faces (category) of children (subcategory)
+FaceBody	objects_car	Images of objects (category) with just cars (subcategory)
+FaceBody	objects_instrument	Images of objects (category) with just musical instruments (subcategory)
+FaceBody	places_corridor	Images of places (category) with just corridors (subcategory)
+FaceBody	places_house	Images of places (category) with just houses (subcategory)
 Scene	scene_impossible_correct	Impossible scene trial that the subject identified correctly
 Scene	scene_impossible_incorrect	Impossible scene trial that the subject identified incorrectly
 Scene	scene_possible_correct	Possible scene trial that the subject identified correctly
@@ -341,8 +340,8 @@ VisualSearch	search_array_four_absent	Array of four items, without sample item -
 VisualSearch	search_array_four_present	Array of four items, with sample item - in visual search trials
 VisualSearch	response_hit	Subject responded correctly
 VisualSearch	response_miss	Subject responded incorrectly
-Color	chromatic	Block with chromatic Mondrian patterns
-Color	achromatic	Block with achromatic Mondrian patterns
+Color	chromatic	Chromatic Mondrian patterns
+Color	achromatic	Achromatic Mondrian patterns
 Color	response	Subject's response to 1-back task i.e. when the same color pattern was presented twice consecutively
 Motion	incoherent	Motion condition when dots were moving incoherently in random directions
 Motion	coherent	Motion condition when dots were moving coherently in the same direction
@@ -368,10 +367,10 @@ FacesAomic	contempt	Video of a face that expresses contempt
 FacesAomic	joy	Video of a face that expresses joy
 FacesAomic	pride	Video of a face that expresses pride
 FacesAomic	neutral	Baseline, when no emotion was expressed
-FacesAomic	male	When the model expressing the emotion was a male
-FacesAomic	female	When the model expressing the emotion was a female
-FacesAomic	mediterranean	When the model expressing the emotion was of mediterranean ethnicity
-FacesAomic	european	When the model expressing the emotion was of european ethinicity
+FacesAomic	male	Video with male face expressing some emotion
+FacesAomic	female	Video with female face expressing some emotion
+FacesAomic	mediterranean	Video with a mediterranean ethnicity model expressing some emotion
+FacesAomic	european	Video with an european ethnicity model expressing some emotion
 StroopAomic	congruent	When the word and the face shown were congruent or matched
 StroopAomic	incongruent	When the word and the face shown were incongruent or did not match
 StroopAomic	face_male	When the face shown was that of a male
