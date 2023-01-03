@@ -289,7 +289,7 @@ NARPS	stim_+17_-15	Mixed gamble stimulus with 17 units of potential gain and 15 
 NARPS	gain	Significant parametric increase in BOLD signal to increasing potential gains
 NARPS	loss	Significant parametric decrease in BOLD signal to increasing potential losses
 NARPS	reject-accept	Gambles rejected vs. gambles accepted
-FaceBody	bodies_body	Block presenting images of body parts (category) with full bodies without faces (subcategory)
+FaceBody	bodies_body	images of body parts (category) with full bodies without faces (subcategory)
 FaceBody	bodies_limb	Block presenting images of body parts (category) with just limbs (subcategory)
 FaceBody	characters_number	Block presenting images of printed characters (category) with just numbers (subcategory)
 FaceBody	characters_word	Block presenting images of printed characters (category) with just words (subcategory)
