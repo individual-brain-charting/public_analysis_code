@@ -98,7 +98,7 @@ VSTM	vstm_constant	Judge whether any bar changed orientation within two consecut
 VSTM	vstm_quadratic	Judge whether any bar changed orientation within two consecutive displays of bar sets on the screen, response to quadratic numerosity effect
 Enumeration	enumeration_linear	Capture the linear effect of enumeration response to numerosity
 Enumeration	enumeration_constant	Occurrence regressor for the enumeration response to constant numerosity when compared against fixation
-Enumeration	enumeration_quadratic	Capture the quadratic effect of enumeration response to numerosity
+Enumeration	enumeration_quadratic	Capture the quadratic effect of enumeration response to numerosity interaction
 Self	instructions	Presentation of a question related to the succeeding block
 Self	self-reference_encoding	Judge with overt response whether or not a certain adjective, displayed on the screen, qualifies oneself
 Self	other-reference_encoding	Judging with overt response whether a certain adjective, displayed on the screen, qualifies someone else
@@ -120,7 +120,7 @@ Wedge	lower_left	Visual representation in the lower-left quadrant of the visual 
 Ring	foveal	Visual representation in the fovea
 Ring	middle	Visual representation in the mid-periphery of the visual field
 Ring	peripheral	Visual representation in the far-periphery of the visual field
-Raiders		
+Raiders	Raiders	Raiders
 Lec2	unattend	A white word is rapidly presented and the participant must ignore it
 Lec2	attend	A black word is rapidly presented and the participant must silently read it to form a short story together with the rest of black words
 Audi	tear	Concatenated sounds of people crying
@@ -176,7 +176,7 @@ Moto	fixation	Gaze fixation on the central square
 MCSE	high_salience_left	Looking for a salient letter in the left visual field
 MCSE	high_salience_right	Looking for a salient letter in the right visual field
 MCSE	low_salience_left	Looking for a non-salient letter in the left visual field
-MCSE	low_salience_right	Looking for a non-salient letter in the right visual field 
+MCSE	low_salience_right	Looking for a non-salient letter in the right visual field
 Audio	animal	Sound of animal noises
 Audio	music	Musical sound
 Audio	nature	Naturalistic sound
@@ -215,13 +215,13 @@ WardAndAllport	planning_ambiguous_intermediate	Partially ambiguous goal state wi
 WardAndAllport	planning_unambiguous_direct	Unambiguous goal state without intermediate movement
 WardAndAllport	planning_ambiguous_direct	Partially ambiguous goal state without intermediate movement
 WardAndAllport	planning_unambiguous_intermediate	Unambiguous goal state with intermediate movement
-BiologicalMotion1	global_upright	"Structural information is preserved, but individual local trajectories are mirror-symmetric. ""Global-only"" in the original paper."
+BiologicalMotion1	global_upright	Structural information is preserved, but individual local trajectories are mirror-symmetric. "Global-only" in the original paper.
 BiologicalMotion1	global_inverted	Global walker, inverted upside-down
-BiologicalMotion1	natural_upright	"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment."
+BiologicalMotion1	natural_upright	Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. "Local-natural" in the original experiment.
 BiologicalMotion1	natural_inverted	Local natural walker, inverted along the horizontal axis
-BiologicalMotion2	modified_upright	"Neither structural or local information is carried out by this type of walker, it uses both types of modifications used for the previous two categories. ""Local modified"" in the original study."
+BiologicalMotion2	modified_upright	Neither structural or local information is carried out by this type of walker, it uses both types of modifications used for the previous two categories. "Local modified" in the original study.
 BiologicalMotion2	modified_inverted	Local modified walker, inverted along the horizontal axis
-BiologicalMotion2	natural_upright	"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment."
+BiologicalMotion2	natural_upright	Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. "Local-natural" in the original experiment.
 BiologicalMotion2	natural_inverted	Local natural walker, inverted along the horizontal axis
 MathLanguage	arithmetic_fact_auditory	Listen to arithmetic fact
 MathLanguage	arithmetic_fact_visual	Read arithmetic fact
@@ -284,7 +284,7 @@ NARPS	strongly_accept	Subject accepted the gamble with high confidence
 NARPS	weakly_accept	Subject accepted the gamble with low confidence
 NARPS	weakly_reject	Subject rejected the gamble with low confidence
 NARPS	strongly_reject	Subject rejected the gamble with high confidence
-NARPS	stim_+17_-15	Mixed gamble stimulus with 17 units of potential gain and 15 units of potential loss (amounts could vary between 5-20)
+NARPS	stim	Mixed gamble stimulus with given units of potential gain and loss (amounts could vary between 5-20)
 NARPS	gain	Significant parametric increase in BOLD signal to increasing potential gains
 NARPS	loss	Significant parametric decrease in BOLD signal to increasing potential losses
 NARPS	reject-accept	Gambles rejected vs. gambles accepted
@@ -362,18 +362,18 @@ HarririAomic	emotion	When the presented trial was that with emotions
 HarririAomic	index_response	When subject responded with index finger, meaning the image on left matched with image on top
 HarririAomic	middle_response	When subject responded with index finger, meaning the image on right matched with image on top
 FacesAomic	ITI	Inter-trial intervals
-FacesAomic	anger	Video of a face that expresses anger
-FacesAomic	contempt	Video of a face that expresses contempt
-FacesAomic	joy	Video of a face that expresses joy
-FacesAomic	pride	Video of a face that expresses pride
+FacesAomic	anger	Video of a face expressing anger
+FacesAomic	contempt	Video of a face expressing contempt
+FacesAomic	joy	Video of a face expressing joy
+FacesAomic	pride	Video of a face expressing pride
 FacesAomic	neutral	Baseline, when no emotion was expressed
 FacesAomic	male	Video with male face expressing some emotion
 FacesAomic	female	Video with female face expressing some emotion
 FacesAomic	mediterranean	Video with a mediterranean ethnicity model expressing some emotion
 FacesAomic	european	Video with an european ethnicity model expressing some emotion
-StroopAomic	congruent	When the word and the face shown were congruent or matched
-StroopAomic	incongruent	When the word and the face shown were incongruent or did not match
-StroopAomic	face_male	When the face shown was that of a male
-StroopAomic	face_female	When the face shown was that of a female
-StroopAomic	word_male	When the word shown corresponded to a male
-StroopAomic	word_female	When the word shown corresponded to a female
+StroopAomic	congruent	The presented word matches the face shown
+StroopAomic	incongruent	The presented word did not matche the face shown
+StroopAomic	face_male	Male face shown
+StroopAomic	face_female	Female face shown
+StroopAomic	word_male	The presented word corresponds to a male
+StroopAomic	word_female	The presented word corresponds to a female
