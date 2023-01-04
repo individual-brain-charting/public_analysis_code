@@ -19,7 +19,7 @@ from nilearn.connectome import ConnectivityMeasure
 from nilearn.connectome import GroupSparseCovarianceCV
 from ibc_public.utils_data import get_subject_session
 from nilearn.image import high_variance_confounds
- 
+
 if 0:
     DATA_ROOT = '/neurospin/ibc/derivatives/'
     mem = '/neurospin/tmp/bthirion/'
@@ -55,6 +55,11 @@ masker = NiftiLabelsMasker(
     memory=mem,
 ).fit()
 
+subject_sessions = sorted(get_subject_session(['mtt1', 'mtt2']))
+sub_ses = dict([(subject_sessions[2 * i][0],
+                 [subject_sessions[2 * i][1], subject_sessions[2 * i + 1][1]])
+                for i in range(len(subject_sessions) // 2)])
+
 correlation_measure = ConnectivityMeasure(kind='correlation')
 glc = GraphicalLassoCV()
 gsc = GroupSparseCovarianceCV(verbose=2)
@@ -68,7 +73,7 @@ for sub, sess in sub_ses.items():
                                    'connectivity_tmp')
             if not os.path.exists(tmp_dir):
                 os.makedirs(tmp_dir)
-            
+
             rs_fmri = os.path.join(DATA_ROOT, sub, ses, 'func',
                                    (f'wrdc{sub}_{ses}_task-RestingState_dir'
                                     f'-{direction}_bold.nii.gz'))
@@ -119,9 +124,10 @@ for sub, sess in sub_ses.items():
     
     glc.fit(np.concatenate(all_time_series))
     # save correlation and partial correlation matrices as csv
-    part_corr = os.path.join(tmp_dir, f'{atlas.name}_part_corr_{sub}_all.csv')
+    part_corr = os.path.join(tmp_dir, f'{atlas.name}_part_corr_{sub}_all_compcorr.csv')
     np.savetxt(part_corr, -glc.precision_, delimiter=',')
-    
+    corr = os.path.join(tmp_dir, f'{atlas.name}_corr_{sub}_all.csv')
+    np.savetxt(corr, glc.covariance_, delimiter=',')
     
     # plot heatmaps and save figs                     
     fig = plt.figure(figsize = (10, 10))
@@ -140,4 +146,3 @@ for sub, sess in sub_ses.items():
         tmp_dir, f'{atlas.name}_corr_{sub}_all.png')
     fig.savefig(corr_fig, bbox_inches='tight')
     plt.close('all')
-            
