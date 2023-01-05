@@ -23,17 +23,25 @@ func_connectivity_matrices = ['each', 'all_corr', 'all_part_corr']
 
 DATA_ROOT = '/neurospin/ibc/derivatives/'
 # dwi session numbers for each subject
-sub_ses_dwi = {'sub-01': 'ses-12', 'sub-04': 'ses-08', 'sub-05': 'ses-08',
-               'sub-06': 'ses-09', 'sub-07': 'ses-09', 'sub-08': 'ses-09',
-               'sub-09': 'ses-09', 'sub-11': 'ses-09', 'sub-12': 'ses-09',
-               'sub-13': 'ses-09', 'sub-14': 'ses-05', 'sub-15': 'ses-12'}
+subject_sessions_dwi = sorted(get_subject_session(['anat1']))
+sub_ses_dwi = dict([(subject_sessions[2 * i][0],
+                 [subject_sessions[2 * i][1], subject_sessions[2 * i + 1][1]])
+                for i in range(len(subject_sessions) // 2)])
+# sub_ses_dwi = {'sub-01': 'ses-12', 'sub-04': 'ses-08', 'sub-05': 'ses-08',
+#                'sub-06': 'ses-09', 'sub-07': 'ses-09', 'sub-08': 'ses-09',
+#                'sub-09': 'ses-09', 'sub-11': 'ses-09', 'sub-12': 'ses-09',
+#                'sub-13': 'ses-09', 'sub-14': 'ses-05', 'sub-15': 'ses-12'}
 # resting session numbers for each subject
-sub_ses_fmri = {'sub-01': ['ses-14','ses-15'], 'sub-04': ['ses-11','ses-12'],
-                'sub-05': ['ses-11','ses-12'], 'sub-06': ['ses-11','ses-12'],
-                'sub-07': ['ses-11','ses-12'], 'sub-08': ['ses-12','ses-13'],
-                'sub-09': ['ses-12','ses-13'], 'sub-11': ['ses-11','ses-12'],
-                'sub-12': ['ses-11','ses-12'], 'sub-13': ['ses-11','ses-12'],
-                'sub-14': ['ses-11','ses-12'], 'sub-15': ['ses-14','ses-15']}
+subject_sessions_fmri = sorted(get_subject_session(['mtt1', 'mtt2']))
+sub_ses_fmri = dict([(subject_sessions[2 * i][0],
+                 [subject_sessions[2 * i][1], subject_sessions[2 * i + 1][1]])
+                for i in range(len(subject_sessions) // 2)])
+# sub_ses_fmri = {'sub-01': ['ses-14','ses-15'], 'sub-04': ['ses-11','ses-12'],
+#                 'sub-05': ['ses-11','ses-12'], 'sub-06': ['ses-11','ses-12'],
+#                 'sub-07': ['ses-11','ses-12'], 'sub-08': ['ses-12','ses-13'],
+#                 'sub-09': ['ses-12','ses-13'], 'sub-11': ['ses-11','ses-12'],
+#                 'sub-12': ['ses-11','ses-12'], 'sub-13': ['ses-11','ses-12'],
+#                 'sub-14': ['ses-11','ses-12'], 'sub-15': ['ses-14','ses-15']}
 tmp_dir = os.path.join(DATA_ROOT, 'sub-04', 'ses-08', 'dwi', 'tract2mni_tmp')
 atlas = datasets.fetch_atlas_schaefer_2018(data_dir=tmp_dir, 
                                            resolution_mm=1,
@@ -82,12 +90,9 @@ for hemisphere in hemispheres:
                         if sess_sift[0] == 'each':
                             all_func = []
                             for sess_func in sess_funcs:
-                                for direction in ['dir-ap', 'dir-pa']:
-                                    func_mat = os.path.join(DATA_ROOT, sub_func, 
-                                                            sess_func, 'func',
-                                                            'connectivity_tmp', 
-                                                            f'schaefer400_corr_{sub_func}_{sess_func}_{direction}.csv')
-                                    func = pd.read_csv(func_mat, names=atlas.labels)
+                                runs = glob(os.path.join(DATA_ROOT, sub_func, sess_func, 'func', 'connectivity_func', 'schaefer400_corr*ses*.csv'))
+                                for run in runs:
+                                    func = pd.read_csv(run, names=atlas.labels)
                                     if hemisphere == 'LH':
                                         func = func[0:200]
                                     elif hemisphere == 'RH':
