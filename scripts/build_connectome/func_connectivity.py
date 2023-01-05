@@ -55,11 +55,6 @@ masker = NiftiLabelsMasker(
     memory=mem,
 ).fit()
 
-subject_sessions = sorted(get_subject_session(['mtt1', 'mtt2']))
-sub_ses = dict([(subject_sessions[2 * i][0],
-                 [subject_sessions[2 * i][1], subject_sessions[2 * i + 1][1]])
-                for i in range(len(subject_sessions) // 2)])
-
 correlation_measure = ConnectivityMeasure(kind='correlation')
 glc = GraphicalLassoCV()
 gsc = GroupSparseCovarianceCV(verbose=2)
