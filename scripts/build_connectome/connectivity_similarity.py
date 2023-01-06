@@ -53,6 +53,7 @@ similarity_metric = 'spearman'
 struc_conn = 'mni_no_sift'
 func_conn = 'all_part_corr'
 count = 0
+f = open("ttest.txt", "w")
 for hemisphere in hemispheres:
     for similarity_metric in similarity_metrics:
         for struc_conn in struc_connectivity_matrices:
@@ -151,12 +152,17 @@ for hemisphere in hemispheres:
                 plt.xlabel('functional')
                 plt.ylabel('structural')
                 if t_test[1] < 0.05:
+                    f.write(f'***{count}_{similarity_metric}, {hemisphere}, func({func_conn})-vs-struc({struc_conn})\n')
+                    f.write(f'***{t_test}\n')
                     print(colored(f'{count}_{similarity_metric}, {hemisphere}, func({func_conn})-vs-struc({struc_conn})', 'yellow'))
                     print(colored(t_test, 'yellow'))
                 else:
+                    f.write(f'{count}_{similarity_metric}, {hemisphere}, func({func_conn})-vs-struc({struc_conn})\n')
+                    f.write(f'{t_test}\n')
                     print(f'{count}_{similarity_metric}, {hemisphere}, func({func_conn})-vs-struc({struc_conn})')
                     print(t_test)
                 plt.savefig(f'movie_similarity/{count}_{similarity_metric}_{hemisphere}_func-{func_conn}_struc-{struc_conn}.png', bbox_inches='tight')
                 count = count + 1
                 plt.close()
                 # # plt.show()
+f.close()
