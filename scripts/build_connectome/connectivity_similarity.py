@@ -13,6 +13,8 @@ from sklearn.metrics import pairwise
 from sklearn.preprocessing import normalize
 import seaborn as sns
 from scipy import stats
+from ibc_public.utils_data import get_subject_session
+from glob import glob
 from termcolor import colored
 
 similarity_metrics = ['pearson', 'spearman', 'cosine']
@@ -21,7 +23,7 @@ struc_connectivity_matrices = ['mni_sift', 'mni_no_sift', 'native_sift',
                                'native_no_sift']
 func_connectivity_matrices = ['each', 'all_corr', 'all_part_corr']
 
-DATA_ROOT = '/data/parietal/store2/data/ibc/derivatives/'
+DATA_ROOT = '/neurospin/ibc/derivatives'
 # dwi session numbers for each subject
 # subject_sessions_dwi = sorted(get_subject_session(['anat1']))
 # sub_ses_dwi = dict([(subject_sessions_dwi[2 * i][0],
@@ -72,7 +74,7 @@ for hemisphere in hemispheres:
                             filename = f'sift-weighted_{sub_dwi}_{ses_dwi}_t2.csv'
                         elif space_sift[1] == 'no':
                             filename = f'{sub_dwi}_{ses_dwi}_t2.csv'
-                        struc_mat = os.path.join(DATA_ROOT, sub_dwi, ses_dwi, 'dwi',
+                        struc_mat = os.path.join(DATA_ROOT, sub_dwi, ses_dwi, 'dwi', 'tract2mni_tmp'
                                                 f'schaefer400_connectome_{filename}')
                     struc = pd.read_csv(struc_mat, names=atlas.labels)
                     if hemisphere == 'LH':
@@ -84,13 +86,14 @@ for hemisphere in hemispheres:
                     similarities = []
                     agg_similarities = []
                     for sub_func, sess_funcs in sub_ses_fmri.items():
+                        sess_funcs = sorted(sess_funcs)
                         if sub_func == 'sub-06' and space_sift[0] == 'mni':
                             continue
                         sess_sift = func_conn.split('_')
                         if sess_sift[0] == 'each':
                             all_func = []
                             for sess_func in sess_funcs:
-                                runs = glob(os.path.join(DATA_ROOT, sub_func, sess_func, 'func', 'connectivity_func', 'schaefer400_corr*ses*.csv'))
+                                runs = glob(os.path.join(DATA_ROOT, sub_func, sess_func, 'func', 'connectivity_tmp', 'schaefer400_corr*ses*.csv'))
                                 for run in runs:
                                     func = pd.read_csv(run, names=atlas.labels)
                                     if hemisphere == 'LH':
