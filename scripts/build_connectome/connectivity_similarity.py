@@ -21,21 +21,21 @@ struc_connectivity_matrices = ['mni_sift', 'mni_no_sift', 'native_sift',
                                'native_no_sift']
 func_connectivity_matrices = ['each', 'all_corr', 'all_part_corr']
 
-DATA_ROOT = '/neurospin/ibc/derivatives/'
+DATA_ROOT = '/data/parietal/store2/data/ibc/derivatives/'
 # dwi session numbers for each subject
-subject_sessions_dwi = sorted(get_subject_session(['anat1']))
-sub_ses_dwi = dict([(subject_sessions[2 * i][0],
-                 [subject_sessions[2 * i][1], subject_sessions[2 * i + 1][1]])
-                for i in range(len(subject_sessions) // 2)])
-# sub_ses_dwi = {'sub-01': 'ses-12', 'sub-04': 'ses-08', 'sub-05': 'ses-08',
-#                'sub-06': 'ses-09', 'sub-07': 'ses-09', 'sub-08': 'ses-09',
-#                'sub-09': 'ses-09', 'sub-11': 'ses-09', 'sub-12': 'ses-09',
-#                'sub-13': 'ses-09', 'sub-14': 'ses-05', 'sub-15': 'ses-12'}
+# subject_sessions_dwi = sorted(get_subject_session(['anat1']))
+# sub_ses_dwi = dict([(subject_sessions_dwi[2 * i][0],
+#                  [subject_sessions_dwi[2 * i][1], subject_sessions_dwi[2 * i + 1][1]])
+#                 for i in range(len(subject_sessions_dwi) // 2)])
+sub_ses_dwi = {'sub-01': 'ses-12', 'sub-04': 'ses-08', 'sub-05': 'ses-08',
+               'sub-06': 'ses-09', 'sub-07': 'ses-09', 'sub-08': 'ses-09',
+               'sub-09': 'ses-09', 'sub-11': 'ses-09', 'sub-12': 'ses-09',
+               'sub-13': 'ses-09', 'sub-14': 'ses-05', 'sub-15': 'ses-12'}
 # resting session numbers for each subject
-subject_sessions_fmri = sorted(get_subject_session(['mtt1', 'mtt2']))
-sub_ses_fmri = dict([(subject_sessions[2 * i][0],
-                 [subject_sessions[2 * i][1], subject_sessions[2 * i + 1][1]])
-                for i in range(len(subject_sessions) // 2)])
+subject_sessions_fmri = sorted(get_subject_session(['raiders1', 'raiders2']))
+sub_ses_fmri = dict([(subject_sessions_fmri[2 * i][0],
+                 [subject_sessions_fmri[2 * i][1], subject_sessions_fmri[2 * i + 1][1]])
+                for i in range(len(subject_sessions_fmri) // 2)])
 # sub_ses_fmri = {'sub-01': ['ses-14','ses-15'], 'sub-04': ['ses-11','ses-12'],
 #                 'sub-05': ['ses-11','ses-12'], 'sub-06': ['ses-11','ses-12'],
 #                 'sub-07': ['ses-11','ses-12'], 'sub-08': ['ses-12','ses-13'],
@@ -153,7 +153,7 @@ for hemisphere in hemispheres:
                 else:
                     print(f'{count}_{similarity_metric}, {hemisphere}, func({func_conn})-vs-struc({struc_conn})')
                     print(t_test)
-                plt.savefig(f'new/{count}_{similarity_metric}_{hemisphere}_func-{func_conn}_struc-{struc_conn}.png', bbox_inches='tight')
+                plt.savefig(f'movie_similarity/{count}_{similarity_metric}_{hemisphere}_func-{func_conn}_struc-{struc_conn}.png', bbox_inches='tight')
                 count = count + 1
                 plt.close()
                 # # plt.show()
