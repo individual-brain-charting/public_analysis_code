@@ -148,14 +148,14 @@ Visu	fruit	Viewing the image of a fruit
 Lec1	random_string	A string of random consonants is presented and the participant has to answer if it is all-uppercase or all-lowercase
 Lec1	word	A word is presented and the participant has to decide whether it is a living entity or not
 Lec1	pseudoword	A pseudoword in presented and the participant has to answer whether it has one or two syllabes
-MVEB	letter_occurrence_response	
+MVEB	letter_occurrence_response	Subject's index finger response, indicating whether the letter was part of of the previously presented string
 MVEB	2_letters_different	The subject must remember 2 characters from a presented string of different letters
 MVEB	4_letters_different	The subject must remember 4 characters from a presented string of different letters
 MVEB	6_letters_different	The subject must remember 6 characters from a presented string of different letters
-MVEB	2_letters_same	The subject must remember 2 characters from a presented string of identical letters
-MVEB	4_letters_same	The subject must remember 4 characters from a presented string of identical letters
-MVEB	6_letters_same	The subject must remember 6 characters from a presented string of identical letters
-MVIS	dot_displacement_response	
+MVEB	2_letters_same	The subject must remember the presented character from a string of 2 identical letters
+MVEB	4_letters_same	The subject must remember the presented character from a string of 4 identical letters
+MVEB	6_letters_same	The subject must remember the presented character from a string of 6 identical letters
+MVIS	dot_displacement_response	Subject's index finger response, indicating whether the dot was in the same position as any of the previously presented ones
 MVIS	2_dots	2 positions to remember
 MVIS	2_dots_control	1 position to remember because of the highlighted dot
 MVIS	4_dots	4 positions to remember
