@@ -150,6 +150,11 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return faces_aomic(design_matrix_columns)
     elif paradigm_id == 'StroopAomic':
         return stroop_aomic(design_matrix_columns)
+    elif paradigm_id == 'Emotion':
+        return emotion(design_matrix_columns)
+    elif paradigm_id == 'MDTB':
+        return mdtb(design_matrix_columns)
+    
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -198,6 +203,54 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     if con != []:
         contrast['derivatives'] = np.array(con)
     return contrast
+
+
+def emotion(design_matrix_columns):
+    """ Contrasts for color localizer """
+    contrast_names = ['neutral_image', 'negative_image', 'echelle_valence',
+                      'negative-neutral'
+    ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:3]])
+    contrasts['negative-neutral'] = con['negative_image'] - con['neutral_image'] 
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
+def mdtb(design_matrix_columns):
+    """ Contrasts for color localizer """
+    contrast_names = ['action_action', 'action_control',
+                      'finger_simple', 'finger_complex',
+                      'semantic_hard', 'semantic_easy', #####
+                      '2back_easy', '2back_hard', ####
+                      'tom_photo', 'tom_belief', ####
+                      'search_easy', 'search_hard',  ####
+                      'flexion_extension',
+                      'action_action-control',
+                      'finger_complex-simple',
+                      'semantic_hard-easy',
+                      '2back_hard-easy',
+                      'tom_belief-photo',
+                      'search_hard-easy'
+    ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:13]])
+    contrasts['action_action-control'] = con['action_action'] - con['action_control']
+    contrasts['finger_complex-simple'] = con['finger_simple'] - con['finger_complex']
+    contrasts['semantic_hard-easy'] = con['semantic_hard'] - con['semantic_easy']
+    contrasts['2back_hard-easy'] = con['2back_hard'] - con['2back_easy']
+    contrasts['tom_belief-photo'] = con['tom_belief'] - con['tom_photo']
+    contrasts['search_hard-easy'] =  con['search_hard'] - con['search_easy']
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def stroop_aomic(design_matrix_columns):
@@ -336,35 +389,54 @@ def optimism_bias(design_matrix_columns):
     all_ = [c for c in ['past_positive', 'future_positive', 'past_negative', 'future_negative',
                         'inconclusive'] if c in design_matrix_columns]
     all_events = np.mean([con[c] for c in all_ ], 0)
-    future_negative_control = ['future_positive', 'past_positive', 'past_negative']
+    future_negative_control = [c for c in
+                               ['future_positive', 'past_positive', 'past_negative']
+                               if c in design_matrix_columns]
     if 'future_negative' in design_matrix_columns:
         optimism_bias = con['future_negative'] - np.mean(
             [con[c] for c in future_negative_control], 0)
-    else:
+    elif 'future_neutral' in design_matrix_columns:
         optimism_bias = con['future_neutral'] - np.mean(
             [con[c] for c in future_negative_control], 0)
-    future = [s for s in ['future_negative', 'future_positive'] if s in design_matrix_columns] #  'future_neutral',
-    past = [s for s in ['past_negative', 'past_positive'] if s in design_matrix_columns] # 'past_neutral',
-    positive = [s for s in ['future_positive', 'past_positive'] if s in design_matrix_columns]
-    negative = [s for s in ['future_negative', 'past_negative']if s in design_matrix_columns]
+    else:
+        optimism_bias = con['future_positive'] - np.mean(
+            [con[c] for c in future_negative_control], 0)
+    future = [s for s in ['future_negative', 'future_positive']
+              if s in design_matrix_columns] #  'future_neutral',
+    past = [s for s in ['past_negative', 'past_positive']
+            if s in design_matrix_columns] # 'past_neutral',
+    positive = [s for s in ['future_positive', 'past_positive']
+                if s in design_matrix_columns]
+    negative = [s for s in ['future_negative', 'past_negative']
+                if s in design_matrix_columns]
     positive_vs_negative = np.mean([con[c] for c in positive], 0) -\
                            np.mean([con[c] for c in negative], 0)
     future_vs_past = np.mean([con[c] for c in future], 0)\
                      - np.mean([con[c] for c in past], 0)
+    inter_pos = [c for c in ['future_positive', 'past_negative']
+                 if c in design_matrix_columns]
+    inter_neg = [c for c in ['future_negative', 'past_positive']
+                 if c in design_matrix_columns]
+    interaction = np.mean([con[c] for c in inter_pos], 0)\
+                     - np.mean([con[c] for c in inter_neg], 0)
     if 'future_negative' in design_matrix_columns:
-        interaction = con['future_positive'] + con['past_negative']\
-                      - con['future_negative'] - con['past_positive']
         future_positive_vs_negative = con['future_positive'] - con['future_negative']
-    else:
-        interaction = con['future_positive'] + con['past_negative']\
-                      - con['future_neutral'] - con['past_positive']
+    elif 'future_neutral' in design_matrix_columns:
         future_positive_vs_negative = con['future_positive'] - con['future_neutral']
+    elif 'past_negative' in design_matrix_columns:
+        future_positive_vs_negative = con['future_positive'] - con['past_negative']
+    else:
+        future_positive_vs_negative = con['future_positive']
+    if 'past_negative' in design_matrix_columns:
+        past_positive_vs_negative = con['past_positive'] - con['past_negative']
+    else:
+        past_positive_vs_negative = positive_vs_negative
     contrasts = {'all_events': all_events - con['fix'],
                  'optimism_bias': optimism_bias,
                  'future_vs_past': future_vs_past,
                  'positive_vs_negative': positive_vs_negative,
                  'future_positive_vs_negative': future_positive_vs_negative,
-                 'past_positive_vs_negative': con['past_positive'] - con['past_negative'],
+                 'past_positive_vs_negative': past_positive_vs_negative,
                  'interaction': interaction
                  }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))

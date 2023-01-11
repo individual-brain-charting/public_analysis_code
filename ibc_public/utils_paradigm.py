@@ -440,6 +440,31 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'StroopAomic':
         df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, 0, inplace=True)
         # todo: distinguish incorrect vs female
+    if paradigm_id == 'Emotion':
+        to_drop  = ['block_divider']
+        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        df.replace('NEU_image_display', 'neutral_image', inplace=True)
+        df.replace('NEG_image_display', 'negative_image', inplace=True)
+    if paradigm_id == 'MDTB':
+        to_drop  = ['iti']
+        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        df.replace('semantic_easy_False', 'semantic_easy', inplace=True)
+        df.replace('semantic_easy_True', 'semantic_easy', inplace=True)
+        df.replace('semantic_hard_False', 'semantic_hard', inplace=True)
+        df.replace('semantic_hard_True', 'semantic_hard', inplace=True)
+        df.replace('search_easy_False', 'search_easy', inplace=True)
+        df.replace('search_easy_True', 'search_easy', inplace=True)
+        df.replace('search_hard_False', 'search_hard', inplace=True)
+        df.replace('search_hard_True', 'search_hard', inplace=True)
+        df.replace('2back_easy_False', '2back_easy', inplace=True)
+        df.replace('2back_easy_True', '2back_easy', inplace=True)
+        df.replace('2back_hard_False', '2back_hard', inplace=True)
+        df.replace('2back_hard_True', '2back_hard', inplace=True)
+        df.replace('tom_photo_False', 'tom_photo', inplace=True)
+        df.replace('tom_photo_True', 'tom_photo', inplace=True)
+        df.replace('tom_belief_False', 'tom_belief', inplace=True)
+        df.replace('tom_belief_True', 'tom_belief', inplace=True)
+        df.replace('', '', inplace=True)
     return df
 
 
