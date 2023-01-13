@@ -26,7 +26,7 @@ data_dir = DERIVATIVES
 do_surface = True
 
 # find the subjects / sessions with the retinotopy protocol
-cos_imgs = glob.glob(pjoin(data_dir, 'sub-*', 'ses-*', 'res_stats_*',
+cos_imgs = glob.glob(pjoin(data_dir, 'sub-*', 'ses-*', 'res_task*',
                            'z_score_maps', 'cos.nii.gz'))
 
 subjects_sessions = []
@@ -61,17 +61,20 @@ ref_shape = (105, 127, 105)
 #######################################################################################
 # stuff for surface plotting
 
-surf_dir = os.path.join(
-    DERIVATIVES, subject, 'ses-00', 'anat', 'fsaverage', 'surf')
-lh_pial = os.path.join(surf_dir, 'lh.pial')
-lh_white = os.path.join(surf_dir, 'lh.white')
-rh_pial = os.path.join(surf_dir, 'rh.pial')
-rh_white = os.path.join(surf_dir, 'rh.white')
-sulc_left =  os.path.join(surf_dir, 'lh.sulc')
-sulc_right =  os.path.join(surf_dir, 'rh.sulc')
-lh_inflated = os.path.join(surf_dir, 'lh.inflated')
-rh_inflated = os.path.join(surf_dir, 'rh.inflated')
-
+def make_paths(subject):
+    surf_dir = os.path.join(
+        DERIVATIVES, subject, 'ses-00', 'anat', 'fsaverage', 'surf')
+    lh_pial = os.path.join(surf_dir, 'lh.pial')
+    lh_white = os.path.join(surf_dir, 'lh.white')
+    rh_pial = os.path.join(surf_dir, 'rh.pial')
+    rh_white = os.path.join(surf_dir, 'rh.white')
+    sulc_left =  os.path.join(surf_dir, 'lh.sulc')
+    sulc_right =  os.path.join(surf_dir, 'rh.sulc')
+    lh_inflated = os.path.join(surf_dir, 'lh.inflated')
+    rh_inflated = os.path.join(surf_dir, 'rh.inflated')
+    return(lh_pial, lh_white, rh_pial, rh_white, sulc_left, sulc_right,
+           lh_inflated, rh_inflated)
+    
 
 def get_retino_coefs(work_dir, mesh, hemi):
     """Reads files containing retinotopic coefficients"""
@@ -168,6 +171,8 @@ for subject_session in subjects_sessions:
             
             # todo: plot on a surface
             """
+            lh_pial, lh_white, rh_pial, rh_white, sulc_left, sulc_right,
+           lh_inflated, rh_inflated = make_paths(subject)
             output_file = pjoin(write_dir, 'retinotopicity_%s.png' % hemi)
             if hemi == 'lh':
                 plot_surf_stat_map(
