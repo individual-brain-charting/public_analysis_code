@@ -41,7 +41,7 @@ acqs = ['res_stats_%s' % acq for acq in [
     'ExpRing_pa', 'ContRing_ap']]
 mesh = 'fsaverage7'
 if do_surface:
-    acqs = ['res_{}_{}'.format(mesh, acq) for acq in [
+    acqs = ['res_task-{}_space-{}_dir-{}'.format(acq[:-3], mesh, acq[-2:]) for acq in [
         'WedgeAnti_pa', 'WedgeAnti_ap', 'WedgeClock_ap', 'WedgeClock_pa',
         'ExpRing_pa', 'ContRing_ap']]
 
@@ -81,44 +81,44 @@ def get_retino_coefs(work_dir, mesh, hemi):
     #
     cos_wedge_clock = np.mean([np.ravel([
         darrays.data for darrays in load(z_map).darrays]) for z_map in (
-            pjoin(work_dir, 'res_{}_WedgeClock_pa'.format(mesh), 'z_score_maps',
-                  'cos_%s.gii' % hemi),
-            pjoin(work_dir, 'res_{}_WedgeClock_ap'.format(mesh), 'z_score_maps',
-                  'cos_%s.gii' % hemi))], 0)
+            pjoin(work_dir, 'res_task-WedgeClock_space-{}_dir-pa'.format(mesh),
+                  'z_score_maps', 'cos_%s.gii' % hemi),
+            pjoin(work_dir, 'res_task-WedgeClock_space-{}_dir-ap'.format(mesh),
+                  'z_score_maps', 'cos_%s.gii' % hemi))], 0)
     sin_wedge_clock = np.mean([np.ravel([
         darrays.data for darrays in load(z_map).darrays]) for z_map in (
-            pjoin(work_dir, 'res_{}_WedgeClock_pa'.format(mesh), 'z_score_maps',
-                  'sin_%s.gii' % hemi),
-            pjoin(work_dir, 'res_{}_WedgeClock_ap'.format(mesh), 'z_score_maps',
-                  'sin_%s.gii' % hemi))], 0)
+            pjoin(work_dir, 'res_task-WedgeClock_space-{}_dir-pa'.format(mesh),
+                  'z_score_maps', 'sin_%s.gii' % hemi),
+            pjoin(work_dir, 'res_task-WedgeClock_space-{}_dir-ap'.format(mesh),
+                  'z_score_maps', 'sin_%s.gii' % hemi))], 0)
     cos_wedge_anti = np.mean([np.ravel([
         darrays.data for darrays in load(z_map).darrays]) for z_map in (
-            pjoin(work_dir, 'res_{}_WedgeAnti_pa'.format(mesh), 'z_score_maps',
-                  'cos_%s.gii' % hemi),
-            pjoin(work_dir, 'res_{}_WedgeAnti_ap'.format(mesh), 'z_score_maps',
-                  'cos_%s.gii' % hemi))], 0)
+            pjoin(work_dir, 'res_task-WedgeAnti_space-{}_dir-pa'.format(mesh),
+                  'z_score_maps', 'cos_%s.gii' % hemi),
+            pjoin(work_dir, 'res_task-WedgeAnti_space-{}_dir-ap'.format(mesh),
+                  'z_score_maps', 'cos_%s.gii' % hemi))], 0)
     sin_wedge_anti = np.mean([np.ravel([
         darrays.data for darrays in load(z_map).darrays]) for z_map in (
-            pjoin(work_dir, 'res_{}_WedgeAnti_pa'.format(mesh), 'z_score_maps',
-                  'sin_%s.gii' % hemi),
-            pjoin(work_dir, 'res_{}_WedgeAnti_ap'.format(mesh), 'z_score_maps',
-                  'sin_%s.gii' % hemi))], 0)
+            pjoin(work_dir, 'res_task-WedgeAnti_space-{}_dir-pa'.format(mesh),
+                  'z_score_maps', 'sin_%s.gii' % hemi),
+            pjoin(work_dir, 'res_task-WedgeAnti_space-{}_dir-ap'.format(mesh),
+                  'z_score_maps', 'sin_%s.gii' % hemi))], 0)
     retino_imgs = {
         'cos_wedge_pos': cos_wedge_anti,
         'sin_wedge_pos': sin_wedge_anti,
         'sin_wedge_neg': sin_wedge_clock,
         'cos_wedge_neg': cos_wedge_clock,
         'cos_ring_pos': pjoin(
-            work_dir, 'res_{}_ExpRing_pa'.format(mesh), 'z_score_maps',
+            work_dir, 'res_task-ExpRing_space-{}_dir-pa'.format(mesh), 'z_score_maps',
             'cos_%s.gii' % hemi),
         'sin_ring_pos': pjoin(
-            work_dir, 'res_{}_ExpRing_pa'.format(mesh), 'z_score_maps',
+            work_dir, 'res_task-ExpRing_space-{}_dir-pa'.format(mesh), 'z_score_maps',
             'sin_%s.gii' % hemi),
         'sin_ring_neg': pjoin(
-            work_dir, 'res_{}_ContRing_ap'.format(mesh), 'z_score_maps',
+            work_dir, 'res_task-ContRing_space-{}_dir-ap'.format(mesh), 'z_score_maps',
             'sin_%s.gii' % hemi),
         'cos_ring_neg': pjoin(
-            work_dir, 'res_{}_ContRing_ap'.format(mesh), 'z_score_maps',
+            work_dir, 'res_task-ContRing_space-{}_dir-ap'.format(mesh), 'z_score_maps',
             'cos_%s.gii' % hemi)
     }
     retino_coefs = {}
@@ -139,9 +139,9 @@ for subject_session in subjects_sessions:
     ses_dir = pjoin(DERIVATIVES, subject, session)
     if not os.path.exists(ses_dir):
         os.mkdir(ses_dir)
-    task_dir = pjoin(ses_dir, 'res_stats_Retinotopy_ffx')
+    task_dir = pjoin(ses_dir, 'res_task-Retinotopy_space-MNI305_dir-ffx')
     if do_surface:
-        task_dir = pjoin(ses_dir, 'res_{}_Retinotopy_ffx'.format(mesh))
+        task_dir = pjoin(ses_dir, 'res_task-Retinotopy_space-{}_dir-ffx'.format(mesh))
     if not os.path.exists(task_dir):
         os.mkdir(task_dir)
     write_dir = pjoin(task_dir, 'stat_maps')
@@ -283,8 +283,9 @@ for subject_session in subjects_sessions:
 plt.figure(figsize=(6, 20))
 for i, subject_session in enumerate(subjects_sessions):
     subject, session = subject_session.split('_')
-    write_dir = pjoin(DERIVATIVES, subject, session,
-                      'res_{}_retinotopy_ffx', 'stat_maps')
+    write_dir = pjoin(
+        DERIVATIVES, subject, session,
+        'res_task-Retinotopy_space-{}_dir-ffx'.format(mesh), 'stat_maps')
 
     for j, stat in enumerate(['phase_wedge', 'phase_ring']):
         lh = os.path.join(write_dir, '%s_lh.gii' % stat)
