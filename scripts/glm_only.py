@@ -142,12 +142,13 @@ if __name__ == '__main__':
     # protocols += ['optimism' 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang']
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     # protocols = ['audio1', 'audio2']
-    protocols = ['audio1', 'audio2', 'camcan1', 'camcan2', 'stanford1', 'stanford2', 'stanford3']
+    # protocols = ['audio1', 'audio2', 'camcan1', 'camcan2', 'stanford1', 'stanford2', 'stanford3']
+    protocols = ['optimism', 'abstraction']
     
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=4)(
+        Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
             for (subject, session) in subject_session)
@@ -156,7 +157,7 @@ if __name__ == '__main__':
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=4)(
+        Parallel(n_jobs=6)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
             for (subject, session) in subject_session)
@@ -166,7 +167,7 @@ if __name__ == '__main__':
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=4)(
+        Parallel(n_jobs=6)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
             for (subject, session) in subject_session)
