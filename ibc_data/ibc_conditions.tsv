@@ -229,8 +229,8 @@ MathLanguage	arithmetic_principle_auditory	Listen to arithmetic principle
 MathLanguage	arithmetic_principle_visual	Read arithmetic principle
 MathLanguage	colorlessg_auditory	Jabberwocky sentence presented as auditory stimulus
 MathLanguage	colorlessg_visual	Jabberwocky sentence presented as visual stimulus
-MathLanguage	context_auditory	Fixation period
-MathLanguage	context_visual	Fixation period
+MathLanguage	context_auditory	Beep sound indicating that the following stimuli will be audio
+MathLanguage	context_visual	Red cross indicating that the following stimuli will be visual
 MathLanguage	general_auditory	Listen to sentence
 MathLanguage	general_visual	Read sentence
 MathLanguage	geometry_fact_auditory	Listen to geometric fact
