@@ -35,8 +35,8 @@ HcpGambling	reward	The participant experiences reward
 HcpMotor	left_hand	Visual cue indicating the left hand should be moved
 HcpMotor	right_hand	Visual cue indicating the right hand should be moved
 HcpMotor	left_foot	Visual cue indicating the left foot should be moved
-HcpMotor	right_foot	Visual cue indicating the rigth foot should be moved
-HcpMotor	tongue	Visual cue indicating the left hand should be moved
+HcpMotor	right_foot	Visual cue indicating the right foot should be moved
+HcpMotor	tongue	Visual cue indicating the tongue hand should be moved
 HcpMotor	cue	Fixation dot
 HcpLanguage	story	Listening to tales
 HcpLanguage	math	Auditorily-cued mental addition
@@ -147,7 +147,7 @@ Visu	tool	Viewing the image of a tool
 Visu	fruit	Viewing the image of a fruit
 Lec1	random_string	A string of random consonants is presented and the participant has to answer if it is all-uppercase or all-lowercase
 Lec1	word	A word is presented and the participant has to decide whether it is a living entity or not
-Lec1	pseudoword	A pseudoword in presented and the participant has to answer whether it has one or two syllabes
+Lec1	pseudoword	A pseudoword in presented and the participant has to answer whether it has one or two syllables
 MVEB	letter_occurrence_response	Subject's index finger response, indicating whether the letter was part of of the previously presented string
 MVEB	2_letters_different	The subject must remember 2 characters from a presented string of different letters
 MVEB	4_letters_different	The subject must remember 4 characters from a presented string of different letters
@@ -372,7 +372,7 @@ FacesAomic	female	Video with female face expressing some emotion
 FacesAomic	mediterranean	Video with a mediterranean ethnicity model expressing some emotion
 FacesAomic	european	Video with an european ethnicity model expressing some emotion
 StroopAomic	congruent	The presented word matches the face shown
-StroopAomic	incongruent	The presented word did not matche the face shown
+StroopAomic	incongruent	The presented word did not match the face shown
 StroopAomic	face_male	Male face shown
 StroopAomic	face_female	Female face shown
 StroopAomic	word_male	The presented word corresponds to a male
