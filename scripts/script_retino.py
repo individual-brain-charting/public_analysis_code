@@ -39,7 +39,7 @@ subjects_sessions = np.unique(subjects_sessions)
 acqs = ['res_stats_%s' % acq for acq in [
     'WedgeAnti_pa', 'WedgeAnti_ap', 'WedgeClock_ap', 'WedgeClock_pa',
     'ExpRing_pa', 'ContRing_ap']]
-mesh = 'fsaverage7'
+mesh = 'individual'
 if do_surface:
     acqs = ['res_task-{}_space-{}_dir-{}'.format(acq[:-3], mesh, acq[-2:]) for acq in [
         'WedgeAnti_pa', 'WedgeAnti_ap', 'WedgeClock_ap', 'WedgeClock_pa',
