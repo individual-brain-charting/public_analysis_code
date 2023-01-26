@@ -298,6 +298,7 @@ for i, subject_session in enumerate(subjects_sessions):
         x[x == 0] = np.nan
         vertex_data = cortex.Vertex(x, 'fsaverage')
         ax = plt.subplot(12, 2, i * 2 + j + 1)
+        """
         fig = cortex.quickshow(vertex_data,
                                with_colorbar=False,
                                with_rois=False,
@@ -310,6 +311,7 @@ for i, subject_session in enumerate(subjects_sessions):
         )
         #fig.set_size_inches((8, 4.5))
         #fig.savefig(output_file)
+        """
     #
     ax = plt.axes([.46, .96 - i * 1. * .0815, .08, .04])
     ax.text(.01, .2, subject)
