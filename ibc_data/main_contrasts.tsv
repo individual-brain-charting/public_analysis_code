@@ -284,3 +284,11 @@ Scene	scene_possible_correct-scene_impossible_correct
 Scene	scene_correct-dot_correct
 Scene	dot_left-right
 Scene	dot_hard-easy
+NARPS	gain
+NARPS	loss
+NARPS	weakly_accept
+NARPS	weakly_reject
+NARPS	strongly_accept
+NARPS	strongly_reject
+NARPS	reject-accept
+NARPS	accept-reject
