@@ -465,6 +465,27 @@ def post_process(df, paradigm_id):
         df.replace('tom_belief_False', 'tom_belief', inplace=True)
         df.replace('tom_belief_True', 'tom_belief', inplace=True)
         df.replace('', '', inplace=True)
+    if paradigm_id == 'MultiModal': # aka Leuven task
+        to_drop  = ['fix' ]
+        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        for x in df.trial_type.unique():
+            y = x
+            if 'audio' in x:
+                y = 'audio_' + x.split('_')[2]
+                y.replace('silence.wav', 'silence')
+            if 'image' in x :
+                y = 'image_' + x.split('_')[1]
+                y = y.replace('humbod', 'human_body')
+                y = y.replace('monbod', 'monkey_body')
+                y = y.replace('monobj', 'monkey_object')
+                y = y.replace('monfac', 'monkey_face')
+                y = y.replace('humfac', 'human_face')
+                y = y.replace('sculp', 'sculpture')
+            if x[4:10] == 'valves':
+                y = x[:3]
+                y.replace('mid', 'middle')
+                y.replace('bot', 'bottom')
+            df.replace(x, y, inplace=True)
     return df
 
 

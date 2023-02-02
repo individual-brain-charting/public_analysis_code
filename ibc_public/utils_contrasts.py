@@ -154,7 +154,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return emotion(design_matrix_columns)
     elif paradigm_id == 'MDTB':
         return mdtb(design_matrix_columns)
-    
+    elif paradigm_id == 'MultiModal':
+        return multi_modal(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -206,7 +207,7 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
 
 
 def emotion(design_matrix_columns):
-    """ Contrasts for color localizer """
+    """ Contrasts for emotion task """
     contrast_names = ['neutral_image', 'negative_image', 'echelle_valence',
                       'negative-neutral'
     ]
@@ -221,8 +222,23 @@ def emotion(design_matrix_columns):
     return contrasts
 
 
+def multi_modal(design_matrix_columns):
+    """ Contrasts sfor multimodal task (Leuven protocol)"""
+    contrast_names = ['']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:3]])
+    
+    contrasts['negative-neutral'] = con['negative_image'] - con['neutral_image'] 
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+        
+
 def mdtb(design_matrix_columns):
-    """ Contrasts for color localizer """
+    """ Contrasts for Multy Somain Task Battery """
     contrast_names = ['action_action', 'action_control',
                       'finger_simple', 'finger_complex',
                       'semantic_hard', 'semantic_easy', #####
