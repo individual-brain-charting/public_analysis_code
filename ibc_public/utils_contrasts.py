@@ -215,7 +215,7 @@ def emotion(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = dict([(name, con[name]) for name in contrast_names[:3]])
-    contrasts['negative-neutral'] = con['negative_image'] - con['neutral_image'] 
+    contrasts['negative-neutral'] = con['negative_image'] - con['neutral_image']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -224,18 +224,52 @@ def emotion(design_matrix_columns):
 
 def multi_modal(design_matrix_columns):
     """ Contrasts sfor multimodal task (Leuven protocol)"""
-    contrast_names = ['']
+    audio_ = ['audio_animal', 'audio_monkey', 'audio_nature', 'audio_silence',
+             'audio_speech', 'audio_tools', 'audio_voice']
+    tactile_ = ['tactile_bottom', 'tactile_middle', 'tactile_top']
+    image_ = ['image_animals', 'image_birds', 'image_fruits',
+              'image_human_body', 'image_human_face', 'image_human_object',
+              'image_monkey_body','image_monkey_face', 'image_monkey_object',
+              'image_sculpture']
+    contrast_names = audio_ + tactile_ + image_
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names[:3]])
-    
-    contrasts['negative-neutral'] = con['negative_image'] - con['neutral_image'] 
+    contrasts = dict([(name, con[name]) for name in audio_ + tactile_ + image_])
+    audio = np.sum([con[x] for x in audio_], 0)
+    visual = np.sum([con[x] for x in image_], 0)
+    tactile = np.sum([con[x] for x in tactile_], 0)
+    contrasts['audio'] = audio - con['audio_silence']
+    contrasts['audio-control'] = audio - 7 * con['audio_silence']
+    contrasts['visual'] = visual
+    contrasts['visual-control'] = visual - 10 * con['audio_silence']
+    contrasts['tactile'] = tactile
+    contrasts['tactile-control'] = tactile - 3 * con['silence']
+    contrasts['audio-visual'] = audio - visual
+    contrasts['visual-audio'] = visual - audio
+    contrasts['tactile-visual'] = tactile - visual
+    contrasts['tactile-audio'] = tactile - audio
+
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
-        
+"""
+'faces-other': '8* (humfac+monfac)-2* (animals+birds+fruits+humbod+humobj+monbod+monobj+sculp)',
+'bodies-other_non_faces': '6* (humbod+monbod)-2* (animals+birds+fruits+humobj+monobj+sculp)',
+'bodies-other': '8* (humbod+monbod)-2* (animals+birds+fruits+humfac+monfac+humobj+monobj+sculp)',
+'animate-inanimate': '3* (humfac+monfac+humbod+monbod+animals+birds)-6* (fruits+sculp+monobj)',
+'monkey_speech-other': '5* (s2_monkey)-1* (s2_animal+s2_nature+s2_speech+s2_tools+s2_voice)',
+'speech-other': '5* (s2_speech)-1* (s2_animal+s2_monkey+s2_nature+s2_tools+s2_voice)',
+'(speech+voice)-other': '4* (s2_speech+s2_voice)-2* (s2_animal+s2_monkey+s2_nature+s2_tools)',
+'visual-audio': '6* (animals+birds+fruits+humbod+humfac+humobj+monbod+monfac+monobj+sculp)-10* (s2_animal+s2_monkey+s2_nature+s2_speech+s2_tools+s2_voice)',
+'visual-tactile': '3* (animals+birds+fruits+humbod+humfac+humobj+monbod+monfac+monobj+sculp)-10* (tacbot+tacmid+tactop)',
+'tactile-audio': '6* (tacbot+tacmid+tactop)-3* (s2_animal+s2_monkey+s2_nature+s2_speech+s2_tools+s2_voice)',
+'visual-control': '1* (animals+birds+fruits+humbod+humfac+humobj+monbod+monfac+monobj+sculp)-10* (control_visual_audio)',
+'audio-control': '1* (s2_animal+s2_monkey+s2_nature+s2_speech+s2_tools+s2_voice)-6* (control_visual_audio)',
+'tactile-control': '1* (tacbot+tacmid+tactop)-3* (control_tactile)'
+"""
+
 
 def mdtb(design_matrix_columns):
     """ Contrasts for Multy Somain Task Battery """
@@ -272,7 +306,7 @@ def mdtb(design_matrix_columns):
 def stroop_aomic(design_matrix_columns):
     """ Contrasts for color localizer """
     contrast_names = ['incongruent_word_male_face_female',
-                      'congruent_word_female_face_female', 
+                      'congruent_word_female_face_female',
                       'congruent_word_male_face_male',
                       'incongruent_word_female_face_male',
                       'index_response', 'middle_response',
@@ -335,7 +369,7 @@ def faces_aomic(design_matrix_columns):
                       'all-neutral',
                       'anger-neutral',
                       'contempt-neutral',
-                      'joy-neutral', 
+                      'joy-neutral',
                       'pride-neutral',
                       'male-female',
                       'female-male',
@@ -489,11 +523,11 @@ def motion(design_matrix_columns):
         anti = 1.5 * (con['right_coherent_anti'] + con['both_coherent_anti'])
         left = con['left_incoherent'] + con['left_coherent_clock'] +\
                con['left_stationary']
-        
+
     coherent = clock + anti
     right = con['right_incoherent'] + con['right_coherent_clock'] +\
             con['right_stationary'] + con['right_coherent_anti']
-    
+
     #
     contrasts = {'incoherent': incoherent,
                  'coherent': coherent,

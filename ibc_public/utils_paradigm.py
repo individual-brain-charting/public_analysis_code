@@ -50,7 +50,7 @@ def post_process(df, paradigm_id):
         df = df.replace('right_hand_cue', 'cue')
         df = df.replace('left_hand_cue', 'cue')
         df = df.replace('tongue_cue', 'cue')
-        
+
     if paradigm_id == 'Visu':
         df = df.replace('visage', 'face')
     if paradigm_id == 'Audi':
@@ -92,7 +92,7 @@ def post_process(df, paradigm_id):
         df1 = df1.replace(domain, '%s_linear' % domain)
         df = concat([df1, df2, df3], axis=0, ignore_index=True)
         df.drop('score', axis=1)
-        
+
     responses_we = ['response_we_east_present_space_close',
                     'response_we_west_present_space_far',
                     'response_we_center_past_space_far',
@@ -135,7 +135,7 @@ def post_process(df, paradigm_id):
                     'response_sn_south_present_space_far',
                     'response_sn_center_present_time_close',
                     'response_sn_north_present_space_close',
-                    'response_sn_center_present_space_far',
+                    'response_sn_center_present_space_far',MCSE
                     'response_sn_center_future_time_far',
                     'response_sn_center_future_time_far']
 
@@ -472,19 +472,21 @@ def post_process(df, paradigm_id):
             y = x
             if 'audio' in x:
                 y = 'audio_' + x.split('_')[2]
-                y.replace('silence.wav', 'silence')
+                y = y.replace('silence.wav', 'silence')
             if 'image' in x :
                 y = 'image_' + x.split('_')[1]
                 y = y.replace('humbod', 'human_body')
                 y = y.replace('monbod', 'monkey_body')
                 y = y.replace('monobj', 'monkey_object')
+                y = y.replace('humobj', 'human_object')
                 y = y.replace('monfac', 'monkey_face')
                 y = y.replace('humfac', 'human_face')
                 y = y.replace('sculp', 'sculpture')
             if x[4:10] == 'valves':
                 y = x[:3]
-                y.replace('mid', 'middle')
-                y.replace('bot', 'bottom')
+                y = y.replace('mid', 'tactile_middle')
+                y = y.replace('bot', 'tactile_bottom')
+                y = y.replace('top', 'tactile_top')
             df.replace(x, y, inplace=True)
     return df
 

@@ -136,15 +136,15 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
-    # protocols = ['rsvp-language', 'hcp1', 'archi', 'screening', 'hcp2'] 
+    # protocols = ['rsvp-language', 'hcp1', 'archi', 'screening', 'hcp2']
     # protocols = ['clips4', 'mtt1', 'mtt2', 'preference']
     # protocols = ['biological_motion', 'camcan1', 'camcan2', 'audio1', 'audio2']
     # protocols += ['optimism' 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang']
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     # protocols = ['audio1', 'audio2']
-    # protocols = ['audio1', 'audio2', 'camcan1', 'camcan2', 'stanford1', 'stanford2', 'stanford3']
-    protocols = ['optimism', 'abstraction']
-    
+    # protocols = ['optimism', 'abstraction']
+    protocols = 'NARPS'  # ['lyon1']  # 
+
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
@@ -152,7 +152,7 @@ if __name__ == '__main__':
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
             for (subject, session) in subject_session)
-   
+
     smooth = 5
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
