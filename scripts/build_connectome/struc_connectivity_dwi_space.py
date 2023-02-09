@@ -1,12 +1,12 @@
 """
-This script transforms given parcellation to the subject native diffusion space 
-and creates structural connectivity matrix between ROIs from the transformed 
+This script transforms given parcellation to the subject native diffusion space
+and creates structural connectivity matrix between ROIs from the transformed
 atlas using diffusion tractography.
-MRtrix3 wiki on transforming atlases: 
+MRtrix3 wiki on transforming atlases:
 https://community.mrtrix.org/t/use-of-volumetric-templates-parcellation-atlases/2253
 Connectivity between two ROIs here is measured as per-bundle sum of SIFT2
 weights normalised by ROI volume.
-Discussion on using original SIFT2 weights (calculated before non-linear 
+Discussion on using original SIFT2 weights (calculated before non-linear
 transformation of tracts): https://community.mrtrix.org/t/are-sift2-weights-still-interpretable-following-non-linear-transformation/6162
 """
 import os
