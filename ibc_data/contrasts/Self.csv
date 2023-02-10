@@ -1,0 +1,8 @@
+condition,encode_self-other,recognition_self-other,recognition_hit,correct_rejection,recognition_hit-correct_rejection
+instructions,,,,,
+encode_self,1,,,,
+encode_other,-1,,,,
+recognition_self_hit,,1,,,
+recognition_other_hit,,-1,,,
+correct_rejection,,,,,
+false_alarm,,,,,

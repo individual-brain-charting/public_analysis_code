@@ -1,0 +1,9 @@
+condition,lower_meridian-fixation,upper_meridian-fixation,left_meridian-fixation,right_meridian-fixation,lower_left-fixation,upper_left-fixation,lower_right-fixation,upper_right-fixation
+lower_meridian,1,,,,,,,
+upper_meridian,,1,,,,,,
+lower_right,,,,,,,1,
+upper_left,,,,,,1,,
+right_meridian,,,,1,,,,
+left_meridian,,,1,,,,,
+upper_right,,,,,,,,1
+lower_left,,,,,1,,,

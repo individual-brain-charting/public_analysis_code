@@ -1,0 +1,5 @@
+condition,task_switch-stay,cue_switch-stay
+task_stay_cue_stay,-1,-1
+task_switch_cue_switch,1,1
+task_switch_cue_stay,1,-1
+task_stay_cue_switch,-1,1

@@ -1,0 +1,9 @@
+condition,triangle_mental-random,false_belief-mechanistic_audio,false_belief-mechanistic_video,false_belief-mechanistic,speech-non_speech
+mechanistic_audio,,-1,,-1,
+mechanistic_video,,,-1,-1,
+triangle_mental,1,,,,
+triangle_random,-1,,,,
+false_belief_audio,,1,,1,
+false_belief_video,,,1,1,
+speech_sound,,,,,1
+non_speech_sound,,,,,-1
