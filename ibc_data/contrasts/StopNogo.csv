@@ -1,5 +1,0 @@
-condition,nogo-go,unsuccessful-successful_stop,successful+nogo-unsucessful
-go,-1,,
-nogo,1,,1
-successful_stop,,-1,1
-unsuccessful_stop,,1,-1

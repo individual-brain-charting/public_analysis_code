@@ -1,7 +1,0 @@
-condition,congruent–incongruent ,face_female–face_male,word_female–word_male 
-congruent,1,,
-incongruent,-1,,
-face_male,,-1,
-face_female,,1,
-word_male,,,-1
-word_female,,,1

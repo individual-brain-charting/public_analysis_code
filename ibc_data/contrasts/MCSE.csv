@@ -1,5 +1,0 @@
-condition,high-low_salience,low-high_salience,salience_left-right,salience_right-left,low+high_salience
-high_salience_left,1,-1,1,-1,1
-high_salience_right,1,-1,-1,1,1
-low_salience_left,-1,1,1,-1,1
-low_salience_right,-1,1,-1,1,1

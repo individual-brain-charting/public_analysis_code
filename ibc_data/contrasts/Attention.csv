@@ -1,7 +1,0 @@
-condition,spatial_cue-double_cue,incongruent-congruen,spatial_incongruent-spatial_congruent,double_incongruent-double_congruent
-double_congruent,,-1,,-1
-double_incongruent,,1,,1
-double_cue,-1,,,
-spatial_congruent,,-1,-1,
-spatial_incongruent,,1,1,
-spatial_cue,1,,,
