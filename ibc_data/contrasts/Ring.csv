@@ -1,4 +1,4 @@
-condition,foveal-fixation,middle-fixation,peripheral-fixation
+condition,foveal,middle,peripheral
 foveal,1,,
 middle,,1,
 peripheral,,,1
