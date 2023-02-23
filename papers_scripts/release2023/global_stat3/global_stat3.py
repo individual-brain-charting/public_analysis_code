@@ -1,9 +1,10 @@
 """
 Global statistical analysis of SPM maps produced by first-level analyis
 of the dataset.
-* tease out effect of subject, task and phase encoding direction
+* Tease out effect of subject, task and phase encoding direction
 * Study global similarity effects
 Authors: Bertrand Thirion, Ana Luisa Pinho 2020
+Last update: Fernanda Ponce, February 2023
 Compatibility: Python 3.5
 """
 
@@ -22,7 +23,7 @@ import matplotlib.pyplot as plt
 
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 from sklearn.manifold import TSNE
-from nilearn.input_data import NiftiMasker
+from nilearn.maskers import NiftiMasker
 from nilearn import plotting
 from nilearn.image import math_img
 
@@ -300,7 +301,7 @@ def condition_similarity_across_subjects(db, masker):
     correlation = np.zeros((n_conditions, n_conditions))
     correlations = {}
     unique_subjects = df.subject.unique()
-    n_voxels =  masker.mask_img_.get_data().sum()
+    n_voxels =  np.asanyarray(masker.mask_img_.dataobj).sum()
     x_sum = np.zeros((n_conditions, n_voxels))
     X = []
     for subject in unique_subjects:
@@ -322,10 +323,10 @@ def condition_similarity_across_subjects(db, masker):
     task_pos = np.array(
         [np.mean(np.where(tasks == task)[0]) for task in unique_tasks])
     ## Ugly trick, but just to maks the labels readable :-(
-    task_pos = np.array([25.5, 18.5, 12. ,4.5, 40, 34, 28.5, 37., 43, 31.5,
-                         47.5, 55. ])
+    #task_pos = np.array([25.5, 18.5, 12. ,4.5, 40, 34, 28.5, 37., 43, 31.5,
+    #                     47.5, 55. ])
     nice_tasks = np.array([task.replace('_', ' ') for task in unique_tasks])
-    mean_correlation = np.mean(np.array(correlations.values()), 0)
+    #mean_correlation = np.mean(np.array(correlations.values()), 0)
 
     def complexity(correlation):
         _, s, _ = np.linalg.svd(correlation, 0)
@@ -387,7 +388,8 @@ def condition_similarity_across_subjects(db, masker):
     plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.22)
     plt.savefig(os.path.join(cache, 'condition_similarity_of_mean.pdf'))
     C1 = bootstrap_complexity_correlation_mean(X, n_bootstrap=100)
-    C2 = bootstrap_complexity_mean_correlation(np.array(correlations.values()),
+    C2 = bootstrap_complexity_mean_correlation(np.array(list(
+                                               correlations.values())),
                                                n_bootstrap=100)
     plt.figure(figsize=(6, 3))
     bp = plt.boxplot(C1, vert=0, positions=[0], widths=.8)
@@ -420,7 +422,7 @@ if __name__ == '__main__':
                                           suffix + '.nii.gz'))
     acq_map.to_filename(os.path.join(cache, 'acq_effect' + '_' + suffix +
                                      '.nii.gz'))
-    ### ...or load them
+    # ## ...or load them
     #subject_map = os.path.join(cache,
     #                           'subject_effect' + '_' + suffix + '.nii.gz')
     #contrast_map = os.path.join(cache,
@@ -453,6 +455,6 @@ if __name__ == '__main__':
 
     ### Other analyses ### 
     global_similarity(db, masker)
-    # condition_similarity_across_subjects(db, masker)
+    condition_similarity_across_subjects(db, masker)
     condition_similarity(db, masker)
     # plt.show()
