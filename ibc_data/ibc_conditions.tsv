@@ -330,8 +330,10 @@ ItemRecognition	arrow_left	Leftward pointing arrow
 VisualSearch	memory_array_two	Array of two items, with or without the item to search for (probe item) - in working memory trials
 VisualSearch	memory_array_four	Array of four items, with or without the item to search for (probe item) - in working memory trials
 VisualSearch	delay_wm	Delay period between memory array and probe item in working memory trials
-VisualSearch	probe_item_absent	Item to search for but was absent in memory array - in working memory trials
-VisualSearch	probe_item_present	Item to search for and was present in memory array - in working memory trials
+VisualSearch	probe_item_two_absent	Item to search for but was absent in memory array of two items - in working memory trials
+VisualSearch	probe_item_four_absent	Item to search for but was absent in memory array of four items - in working memory trials
+VisualSearch	probe_item_two_present	Item to search for and was present in memory array of two items - in working memory trials
+VisualSearch	probe_item_four_present	Item to search for and was present in memory array of four items - in working memory trials
 VisualSearch	sample_item	Item to search for in an array of two or four items (search array) - in visual search trials
 VisualSearch	delay_vis	Delay period between sample item and search array in visual search trials
 VisualSearch	search_array_two_absent	Array of two items, without sample item - in visual search trials
