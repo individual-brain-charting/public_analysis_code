@@ -135,7 +135,7 @@ def post_process(df, paradigm_id):
                     'response_sn_south_present_space_far',
                     'response_sn_center_present_time_close',
                     'response_sn_north_present_space_close',
-                    'response_sn_center_present_space_far',MCSE
+                    'response_sn_center_present_space_far',
                     'response_sn_center_future_time_far',
                     'response_sn_center_future_time_far']
 

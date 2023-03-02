@@ -231,7 +231,14 @@ def multi_modal(design_matrix_columns):
               'image_human_body', 'image_human_face', 'image_human_object',
               'image_monkey_body','image_monkey_face', 'image_monkey_object',
               'image_sculpture']
-    contrast_names = audio_ + tactile_ + image_
+    others_ = ['audio', 'audio-control', 'visual', 'visual-control',
+               'tactile', 'tactile-control', 'audio-visual', 'visual-audio',
+               'tactile-visual', 'visual-tactile', 'tactile-audio',
+               'audio-tactile', 'face-other', 'body-other', 'body-non_face',
+               'animate-inanimate', 'monkey_speech-other', 'speech-other',
+               'speech+voice-other'
+    ]
+    contrast_names = audio_ + tactile_ + image_ + others_
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -239,6 +246,12 @@ def multi_modal(design_matrix_columns):
     audio = np.sum([con[x] for x in audio_], 0)
     visual = np.sum([con[x] for x in image_], 0)
     tactile = np.sum([con[x] for x in tactile_], 0)
+    face_ = ['image_human_face', 'image_monkey_face']
+    body_ = ['image_human_body', 'image_monkey_body']
+    animate_ = face_ + body_ + ['image_animals', 'image_birds']
+    face = np.sum([con[x] for x in face_], 0)
+    body = np.sum([con[x] for x in body_], 0)
+    animate = np.sum([con[x] for x in animate_], 0)
     contrasts['audio'] = audio - con['audio_silence']
     contrasts['audio-control'] = audio - 7 * con['audio_silence']
     contrasts['visual'] = visual
@@ -248,27 +261,23 @@ def multi_modal(design_matrix_columns):
     contrasts['audio-visual'] = audio - visual
     contrasts['visual-audio'] = visual - audio
     contrasts['tactile-visual'] = tactile - visual
+    contrasts['visual-tactile'] = visual - tactile
     contrasts['tactile-audio'] = tactile - audio
+    contrasts['audio-tactile'] = audio - tactile
+    contrasts['face-other'] = 5 * face - visual
+    contrasts['body-other'] =  5 * body - visual
+    contrasts['body-non_face'] = 4 * body + face - visual
+    contrasts['animate-inanimate'] = 5 * animate - 3 * visual
+    contrasts['monkey_speech-other'] = 7 * con['audio_monkey'] - audio
+    contrasts['speech-other'] = 7 * con['audio_speech'] - audio
+    contrasts['speech+voice-other'] =\
+        3 * (con['audio_speech'] + con['audio_voice']) - audio
 
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
-"""
-'faces-other': '8* (humfac+monfac)-2* (animals+birds+fruits+humbod+humobj+monbod+monobj+sculp)',
-'bodies-other_non_faces': '6* (humbod+monbod)-2* (animals+birds+fruits+humobj+monobj+sculp)',
-'bodies-other': '8* (humbod+monbod)-2* (animals+birds+fruits+humfac+monfac+humobj+monobj+sculp)',
-'animate-inanimate': '3* (humfac+monfac+humbod+monbod+animals+birds)-6* (fruits+sculp+monobj)',
-'monkey_speech-other': '5* (s2_monkey)-1* (s2_animal+s2_nature+s2_speech+s2_tools+s2_voice)',
-'speech-other': '5* (s2_speech)-1* (s2_animal+s2_monkey+s2_nature+s2_tools+s2_voice)',
-'(speech+voice)-other': '4* (s2_speech+s2_voice)-2* (s2_animal+s2_monkey+s2_nature+s2_tools)',
-'visual-audio': '6* (animals+birds+fruits+humbod+humfac+humobj+monbod+monfac+monobj+sculp)-10* (s2_animal+s2_monkey+s2_nature+s2_speech+s2_tools+s2_voice)',
-'visual-tactile': '3* (animals+birds+fruits+humbod+humfac+humobj+monbod+monfac+monobj+sculp)-10* (tacbot+tacmid+tactop)',
-'tactile-audio': '6* (tacbot+tacmid+tactop)-3* (s2_animal+s2_monkey+s2_nature+s2_speech+s2_tools+s2_voice)',
-'visual-control': '1* (animals+birds+fruits+humbod+humfac+humobj+monbod+monfac+monobj+sculp)-10* (control_visual_audio)',
-'audio-control': '1* (s2_animal+s2_monkey+s2_nature+s2_speech+s2_tools+s2_voice)-6* (control_visual_audio)',
-'tactile-control': '1* (tacbot+tacmid+tactop)-3* (control_tactile)'
-"""
+
 
 
 def mdtb(design_matrix_columns):
