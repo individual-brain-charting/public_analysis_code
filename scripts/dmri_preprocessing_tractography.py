@@ -270,10 +270,10 @@ def run_dmri_preproc(subject_session):
     if subject == 'sub-08':
         threshold = 0.8
         r = 105
-    else if subject == 'sub-12':
+    elif subject == 'sub-12':
         threshold = 0.75
         r = None
-    else if subject == 'sub-14':
+    elif subject == 'sub-14':
         threshold = 0.75
         r = 105
     else:
@@ -286,7 +286,7 @@ def run_dmri_preproc(subject_session):
     # the corresponding line of the acquisition parameters file.
     # The way the data has been concatenated, we have 2 AP runs followed by 2 PA runs,
     # each with 61 volumes. Thus, the text file will have 244 lines, the first 122 will
-    # say "1" and the last 122 will say "2"
+    # say "1" and the last 122 will say "3"
     index_file = os.path.join(dest_dwi_dir, '%s_%s_desc-acqdir-index_dwi.txt')
     nvols = 61
     make_acqdir_file(index_file, nvols)
