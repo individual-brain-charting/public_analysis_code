@@ -215,13 +215,13 @@ WardAndAllport	planning_ambiguous_intermediate	Partially ambiguous goal state wi
 WardAndAllport	planning_unambiguous_direct	Unambiguous goal state without intermediate movement
 WardAndAllport	planning_ambiguous_direct	Partially ambiguous goal state without intermediate movement
 WardAndAllport	planning_unambiguous_intermediate	Unambiguous goal state with intermediate movement
-BiologicalMotion1	global_upright	"Structural information is preserved, but individual local trajectories are mirror-symmetric. ""Global-only"" in the original paper."
+BiologicalMotion1	global_upright	"Structural information is preserved, but individual local trajectories are mirror-symmetric. ""Global-only"" in the original paper"
 BiologicalMotion1	global_inverted	Global walker, inverted upside-down
-BiologicalMotion1	natural_upright	"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment."
+BiologicalMotion1	natural_upright	"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment"
 BiologicalMotion1	natural_inverted	Local natural walker, inverted along the horizontal axis
-BiologicalMotion2	modified_upright	"Neither structural or local information is carried out by this type of walker, it uses both types of modifications used for the previous two categories. ""Local modified"" in the original study."
+BiologicalMotion2	modified_upright	"Neither structural or local information is carried out by this type of walker, it uses both types of modifications used for the previous two categories. ""Local modified"" in the original study"
 BiologicalMotion2	modified_inverted	Local modified walker, inverted along the horizontal axis
-BiologicalMotion2	natural_upright	"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment."
+BiologicalMotion2	natural_upright	"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment"
 BiologicalMotion2	natural_inverted	Local natural walker, inverted along the horizontal axis
 MathLanguage	arithmetic_fact_auditory	Listen to arithmetic fact
 MathLanguage	arithmetic_fact_visual	Read arithmetic fact
@@ -240,13 +240,12 @@ MathLanguage	theory_of_mind_visual	Read false-belief tale
 MathLanguage	wordlist_auditory	Listen to word list
 MathLanguage	wordlist_visual	Read word list
 SpatialNavigation	encoding_phase	Encode location of key building
-SpatialNavigation	intersection	Participant at an intersection in the city.
-SpatialNavigation	retrieval	Retrieve location of key building
+SpatialNavigation	intersection	Camera approaches intersection during encoding phase
 SpatialNavigation	control	Camera approaches intersection in an control trial
 SpatialNavigation	pointing_control	Participant rotates camera to point to blue building in control trial
-SpatialNavigation	experimental	Camera approaches intersection in an experimental trial.
+SpatialNavigation	experimental	Camera approaches intersection in an experimental trial
 SpatialNavigation	pointing_experimental	Participant rotates camera to point to key building in experimental trial
-SpatialNavigation	navigation	Camera approaches intersection during training
+SpatialNavigation	navigation	Camera navigates through the streets during encoding phase
 EmoMem	neutral_image	Neutral background image
 EmoMem	negative_image	Negative background image
 EmoMem	positive_image	Positive background image
