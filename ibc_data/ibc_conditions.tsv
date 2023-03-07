@@ -191,10 +191,14 @@ Attention	congruent	The stimulus is congruent (same direction) with the rest of 
 Attention	incongruent	The stimulus is not congruent (opposite direction) with the rest of the arrows shown.
 StopSignal	go	Answer to the stim
 StopSignal	stop	Hold motor response
-TwoByTwo	task_stay_cue_stay	Both the task and the cue are the same
-TwoByTwo	task_switch_cue_switch	Only the cue switches
-TwoByTwo	task_switch_cue_stay	Task switch. Since the cues are divided in two groups, this means that the cue stays in the same group, but obviously changes since the task has changed
-TwoByTwo	task_stay_cue_switch	Task switch. Practically, this condition and the previous one are the same, but this time the cue also changes to the other group
+TwoByTwo	cue_taskstay_cuestay	Appearance of the cue on screen when both the task and the cue are the same with respect to the previous trial
+TwoByTwo	cue_taskstay_cueswitch	"Appearance of the cue on screen when only the cue switches with respect of the previous trial, for example the colour task is repeated but the cue changes from ""Color"" to ''Orange/Blue"""
+TwoByTwo	cue_taskswitch_cuestay	Appearance of the cue on screen when the task switches but the cue stays the same it was the previous trial for that taks. For example, if the tasks switches from color to number and the presented cue is the same as the previous number trial
+TwoByTwo	cue_taskswitch_cueswitch	Appearance of the cue on screen when both the task and the cue switch, for example the task goes from color to number and the cue changes from “Magnitude” to “High/Low” compared to the previous number trial
+TwoByTwo	stim_taskstay_cuestay	Appearance of the stimulus on screen when both the task and the cue are the same with respect to the previous trial
+TwoByTwo	stim_taskstay_cueswitch	"Appearance of the stimulus when only the cue switches with respect of the previous trial, for example the colour task is repeated but the cue changes from ""Color"" to ''Orange/Blue"""
+TwoByTwo	stim_taskswitch_cuestay	Appearance of the stimulus when the task switches but the cue stays the same it was the previous trial for that taks. For example, if the tasks switches from color to number and the presented cue is the same as the previous number trial
+TwoByTwo	stim_taskswitch_cueswitch	Appearance of the stimulus when both the task and the cue switch, for example the task goes from color to number and the cue changes from “Magnitude” to “High/Low” compared to the previous number trial
 Discount	delay	Effect of reward delay
 Discount	amount	Effect of reward gain
 SelectiveStopSignal	go_critical	Answer to the visual stimulus (critical side)
