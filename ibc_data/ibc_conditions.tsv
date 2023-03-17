@@ -382,3 +382,19 @@ StroopAomic	face_male	Male face shown
 StroopAomic	face_female	Female face shown
 StroopAomic	word_male	The presented word corresponds to a male
 StroopAomic	word_female	The presented word corresponds to a female
+MDTB	search_easy_True	A right-oriented `L' shape is present on the on the array and it's easy to find
+MDTB	search_easy_False	A right-oriented `L' shape is not present on the array and it's easy to figure it out
+MDTB	search_hard_True	A right-oriented `L' shape is present on the array and it's hard to find
+MDTB	search_hard_False	A right-oriented `L' shape is not present on the array and it's hard to figure it out
+MDTB	action_action	Watching a pair of hands make a specific knot
+MDTB	action_control	The resulting knot is shown from different angles
+MDTB	flexion_extension	Continuous flexion and extension of toes
+MDTB	finger_complex	Sequence of button presses that is hard to complete (with no consecutive or repeated fingers)
+MDTB	finger_simple	Sequence of button presses that is easy to complete (using consecutive or repeated fingers)
+MDTB	tom_photo_True	The statement presented is true, according to the paragraph
+MDTB	tom_photo_False	The statement presented is false, according to the paragraph
+MDTB	tom_belief_True	The statement presented is true, according to the paragraph
+MDTB	2back_easy_True	The image shown is the same that was presented two trials before and it's easy to identify
+MDTB	2back_easy_False	The image shown is not the same that was presented two trials before and it's easy to identify
+MDTB	2back_hard_True	The image shown is the same that was presented two trials before and it's hard to identify
+MDTB	2back_hard_False	The image shown is not the same that was presented two trials before and it's hard to identify
