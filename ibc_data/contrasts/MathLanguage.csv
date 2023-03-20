@@ -1,4 +1,4 @@
-condition,colorlessg-wordlist,general-colorlessg,math-nonmath,nonmath-math,geometry-othermath,arithmetric_principle-othermath,arithmetric_fact-othermath,theory_of_mind-general,context-general,theory_of_mind-context,context-theory_of_mind,theory_of_mind_and_context-general
+condition,colorlessg-wordlist,general-colorlessg,math-nonmath,nonmath-math,geometry-othermath,arithmetic_principle-othermath,arithmetic_fact-othermath,theory_of_mind-general,context-general,theory_of_mind-context,context-theory_of_mind,theory_of_mind_and_context-general
 arithmetic_fact_auditory,,,1,-1,"-0,5","-0,5",1,,,,,
 arithmetic_fact_visual,,,1,-1,"-0,5","-0,5",1,,,,,
 arithmetic_principle_auditory,,,1,-1,"-0,5",1,"-0,5",,,,,
