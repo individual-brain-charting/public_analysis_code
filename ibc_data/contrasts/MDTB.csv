@@ -1,0 +1,14 @@
+condition,action_action,action_control,finger_simple,finger_complex,semantic_hard,semantic_easy,2back_easy,2back_hard,tom_photo,tom_belief,search_easy,search_hard,flexion_extension,action_action-control,finger_complex-simple,semantic_hard-easy,2back_hard-easy,tom_belief-photo,search_hard-easy
+search_easy,,,,,,,,,,,1,,,,,,,,-1
+search_hard,,,,,,,,,,,,1,,,,,,,1
+action_action,1,,,,,,,,,,,,,1,,,,,
+action_control,,1,,,,,,,,,,,,-1,,,,,
+flexion_extension,,,,,,,,,,,,,1,,,,,,
+finger_complex,,,,1,,,,,,,,,,,1,,,,
+finger_simple,,,1,,,,,,,,,,,,-1,,,,
+tom_belief,,,,,,,,,,1,,,,,,,,1,
+tom_photo,,,,,,,,,1,,,,,,,,,-1,
+2back_easy,,,,,,,1,,,,,,,,,,-1,,
+2back_hard,,,,,,,,1,,,,,,,,,1,,
+semantic easy,,,,,,1,,,,,,,,,,-1,,,
+semantic hard,,,,,1,,,,,,,,,,,1,,,
