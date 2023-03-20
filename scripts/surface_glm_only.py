@@ -14,8 +14,12 @@ from pipeline import (clean_subject, clean_anatomical_images,
 
 
 SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
-retino_sessions = ['WedgeAnti_pa', 'WedgeClock_ap', 'ContRing_ap',
-                   'WedgeAnti_ap', 'ExpRing_pa', 'WedgeClock_pa']
+retino_sessions = ['task-WedgeAnti_dir-pa',
+                   'task-WedgeClock_dir-ap',
+                   'task-ContRing_dir-ap',
+                   'task-WedgeAnti_dir-ap',
+                   'task-ExpRing_dir-pa',
+                   'task-WedgeClock_dir-pa']
 RETINO_REG = dict([(session_id, 'sin_cos_regressors.csv')
                    for session_id in retino_sessions])
 IBC = 'neurospin/ibc'
@@ -101,7 +105,7 @@ if __name__ == '__main__':
                  'navigation', 'search']
     protocols = ['scene', 'color']
     """
-    protocols = ['biological_motion']
+    protocols = ['retino']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol

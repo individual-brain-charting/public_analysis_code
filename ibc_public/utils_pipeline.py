@@ -299,7 +299,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         frametimes = np.linspace(slice_time_ref, (n_scans - 1 + slice_time_ref) * tr, n_scans)
         if task_id == 'Audio':
             frametimes, audio_onsets = _audio_frametimes_and_onset()
-            frametimes += 1
+            # frametimes += 1
             # slice_time_ref = 0
             
         if mesh is not False:

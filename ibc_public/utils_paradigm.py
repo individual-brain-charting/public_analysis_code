@@ -50,7 +50,7 @@ def post_process(df, paradigm_id):
         df = df.replace('right_hand_cue', 'cue')
         df = df.replace('left_hand_cue', 'cue')
         df = df.replace('tongue_cue', 'cue')
-        
+
     if paradigm_id == 'Visu':
         df = df.replace('visage', 'face')
     if paradigm_id == 'Audi':
@@ -92,7 +92,7 @@ def post_process(df, paradigm_id):
         df1 = df1.replace(domain, '%s_linear' % domain)
         df = concat([df1, df2, df3], axis=0, ignore_index=True)
         df.drop('score', axis=1)
-        
+
     responses_we = ['response_we_east_present_space_close',
                     'response_we_west_present_space_far',
                     'response_we_center_past_space_far',
@@ -440,6 +440,54 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'StroopAomic':
         df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, 0, inplace=True)
         # todo: distinguish incorrect vs female
+    if paradigm_id == 'Emotion':
+        to_drop  = ['block_divider']
+        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        df.replace('NEU_image_display', 'neutral_image', inplace=True)
+        df.replace('NEG_image_display', 'negative_image', inplace=True)
+    if paradigm_id == 'MDTB':
+        to_drop  = ['iti']
+        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        df.replace('semantic_easy_False', 'semantic_easy', inplace=True)
+        df.replace('semantic_easy_True', 'semantic_easy', inplace=True)
+        df.replace('semantic_hard_False', 'semantic_hard', inplace=True)
+        df.replace('semantic_hard_True', 'semantic_hard', inplace=True)
+        df.replace('search_easy_False', 'search_easy', inplace=True)
+        df.replace('search_easy_True', 'search_easy', inplace=True)
+        df.replace('search_hard_False', 'search_hard', inplace=True)
+        df.replace('search_hard_True', 'search_hard', inplace=True)
+        df.replace('2back_easy_False', '2back_easy', inplace=True)
+        df.replace('2back_easy_True', '2back_easy', inplace=True)
+        df.replace('2back_hard_False', '2back_hard', inplace=True)
+        df.replace('2back_hard_True', '2back_hard', inplace=True)
+        df.replace('tom_photo_False', 'tom_photo', inplace=True)
+        df.replace('tom_photo_True', 'tom_photo', inplace=True)
+        df.replace('tom_belief_False', 'tom_belief', inplace=True)
+        df.replace('tom_belief_True', 'tom_belief', inplace=True)
+        df.replace('', '', inplace=True)
+    if paradigm_id == 'MultiModal': # aka Leuven task
+        to_drop  = ['fix' ]
+        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        for x in df.trial_type.unique():
+            y = x
+            if 'audio' in x:
+                y = 'audio_' + x.split('_')[2]
+                y = y.replace('silence.wav', 'silence')
+            if 'image' in x :
+                y = 'image_' + x.split('_')[1]
+                y = y.replace('humbod', 'human_body')
+                y = y.replace('monbod', 'monkey_body')
+                y = y.replace('monobj', 'monkey_object')
+                y = y.replace('humobj', 'human_object')
+                y = y.replace('monfac', 'monkey_face')
+                y = y.replace('humfac', 'human_face')
+                y = y.replace('sculp', 'sculpture')
+            if x[4:10] == 'valves':
+                y = x[:3]
+                y = y.replace('mid', 'tactile_middle')
+                y = y.replace('bot', 'tactile_bottom')
+                y = y.replace('top', 'tactile_top')
+            df.replace(x, y, inplace=True)
     return df
 
 
