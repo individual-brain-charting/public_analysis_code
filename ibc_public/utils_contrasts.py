@@ -558,14 +558,24 @@ def motion(design_matrix_columns):
 
 def search(design_matrix_columns):
     """ Contrasts for search protocol"""
-    contrast_names = ['memory_array_four', 'memory_array_two',
-                      'probe_item_two_absent', 'probe_item_four_absent', 
-                      'probe_item_two_present', 'probe_item_four_present',
-                      'response_hit', 'response_miss',
-                      'sample_item', 'delay_vis', 'delay_wm',
-                      'search_array_four_absent', 'search_array_four_present',
-                      'search_array_two_absent', 'search_array_two_present',
-                      'probe_item', 'search_array', 'delay_vis–delay_wm',
+    contrast_names = ['memory_array_four',
+                      'memory_array_two',
+                      'response_hit',
+                      'response_miss',
+                      'sample_item',
+                      'delay_vis',
+                      'delay_wm',
+                      'probe_item',
+                      'probe_item_absent',
+                      'probe_item_present',
+                      'probe_item_four',
+                      'probe_item_two',
+                      'search_array',
+                      'search_array_four',
+                      'search_array_two',
+                      'search_array_absent',
+                      'search_array_present',
+                      'delay_vis-delay_wm',
                       'probe_item_absent–probe_item_present',
                       'search_array_absent–search_array_present',
                       'probe_item_four–probe_item_two',
@@ -574,7 +584,6 @@ def search(design_matrix_columns):
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names[:15]])
     contrasts = {
         'probe_item': con['probe_item_two_present'] + 
                       con['probe_item_four_present'] + 
@@ -600,8 +609,10 @@ def search(design_matrix_columns):
                              con['search_array_four_present'],
         'search_array_two': con['search_array_two_absent'] +
                              con['search_array_two_present'],
-        'delay_vis–delay_wm': con['delay_vis'] + con['delay_wm']                             
+        'delay_vis-delay_wm': con['delay_vis'] - con['delay_wm']                             
         }
+    for name in contrast_names[:7]:
+        contrasts[name] = con[name]
     contrasts['probe_item_absent–probe_item_present'] = \
         contrasts['probe_item_absent'] - contrasts['probe_item_present']
     contrasts['search_array_absent–search_array_present'] = \
