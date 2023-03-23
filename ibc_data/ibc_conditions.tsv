@@ -191,10 +191,14 @@ Attention	congruent	The stimulus is congruent (same direction) with the rest of 
 Attention	incongruent	The stimulus is not congruent (opposite direction) with the rest of the arrows shown.
 StopSignal	go	Answer to the stim
 StopSignal	stop	Hold motor response
-TwoByTwo	task_stay_cue_stay	Both the task and the cue are the same
-TwoByTwo	task_switch_cue_switch	Only the cue switches
-TwoByTwo	task_switch_cue_stay	Task switch. Since the cues are divided in two groups, this means that the cue stays in the same group, but obviously changes since the task has changed
-TwoByTwo	task_stay_cue_switch	Task switch. Practically, this condition and the previous one are the same, but this time the cue also changes to the other group
+TwoByTwo	cue_taskstay_cuestay	Appearance of the cue on screen when both the task and the cue are the same with respect to the previous trial
+TwoByTwo	cue_taskstay_cueswitch	Appearance of the cue on screen when only the cue switches with respect of the previous trial, for example the color task is repeated but the cue changes from `Color’ to `Orange/Blue’
+TwoByTwo	cue_taskswitch_cuestay	Appearance of the cue on screen when the task switches but the cue stays the same it was the previous trial for that task. For example, the task switches from color to number and the presented cue is the same as the previous number trial
+TwoByTwo	cue_taskswitch_cueswitch	Appearance of the cue on screen when both the task and the cue switch, for example the task goes from color to number and the cue changes from `Magnitude’ to `High/Low' compared to the previous number trial
+TwoByTwo	stim_taskstay_cuestay	Appearance of the stimulus on screen when both the task and the cue are the same with respect to the previous trial
+TwoByTwo	stim_taskstay_cueswitch	Appearance of the stimulus on screen when only the cue switches with respect of the previous trial, for example the color task is repeated but the cue changes from `Color’ to `Orange/Blue'
+TwoByTwo	stim_taskswitch_cuestay	Appearance of the stimulus on screen when the task switches but the cue stays the same it was the previous trial for that task. For example, the task switches from color to number and the presented cue is the same as the previous number trial
+TwoByTwo	stim_taskswitch_cueswitch	Appearance of the stimulus on screen when both the task and the cue switch, for example the task goes from color to number and the cue changes from `Magnitude’ to `High/Low' compared to the previous number trial
 Discount	delay	Effect of reward delay
 Discount	amount	Effect of reward gain
 SelectiveStopSignal	go_critical	Answer to the visual stimulus (critical side)
@@ -215,13 +219,13 @@ WardAndAllport	planning_ambiguous_intermediate	Partially ambiguous goal state wi
 WardAndAllport	planning_unambiguous_direct	Unambiguous goal state without intermediate movement
 WardAndAllport	planning_ambiguous_direct	Partially ambiguous goal state without intermediate movement
 WardAndAllport	planning_unambiguous_intermediate	Unambiguous goal state with intermediate movement
-BiologicalMotion1	global_upright	"Structural information is preserved, but individual local trajectories are mirror-symmetric. ""Global-only"" in the original paper."
+BiologicalMotion1	global_upright	"Structural information is preserved, but individual local trajectories are mirror-symmetric. ""Global-only"" in the original paper"
 BiologicalMotion1	global_inverted	Global walker, inverted upside-down
-BiologicalMotion1	natural_upright	"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment."
+BiologicalMotion1	natural_upright	"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment"
 BiologicalMotion1	natural_inverted	Local natural walker, inverted along the horizontal axis
-BiologicalMotion2	modified_upright	"Neither structural or local information is carried out by this type of walker, it uses both types of modifications used for the previous two categories. ""Local modified"" in the original study."
+BiologicalMotion2	modified_upright	"Neither structural or local information is carried out by this type of walker, it uses both types of modifications used for the previous two categories. ""Local modified"" in the original study"
 BiologicalMotion2	modified_inverted	Local modified walker, inverted along the horizontal axis
-BiologicalMotion2	natural_upright	"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment."
+BiologicalMotion2	natural_upright	"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment"
 BiologicalMotion2	natural_inverted	Local natural walker, inverted along the horizontal axis
 MathLanguage	arithmetic_fact_auditory	Listen to arithmetic fact
 MathLanguage	arithmetic_fact_visual	Read arithmetic fact
@@ -240,13 +244,12 @@ MathLanguage	theory_of_mind_visual	Read false-belief tale
 MathLanguage	wordlist_auditory	Listen to word list
 MathLanguage	wordlist_visual	Read word list
 SpatialNavigation	encoding_phase	Encode location of key building
-SpatialNavigation	intersection	Participant at an intersection in the city.
-SpatialNavigation	retrieval	Retrieve location of key building
+SpatialNavigation	intersection	Camera approaches intersection during encoding phase
 SpatialNavigation	control	Camera approaches intersection in an control trial
 SpatialNavigation	pointing_control	Participant rotates camera to point to blue building in control trial
-SpatialNavigation	experimental	Camera approaches intersection in an experimental trial.
+SpatialNavigation	experimental	Camera approaches intersection in an experimental trial
 SpatialNavigation	pointing_experimental	Participant rotates camera to point to key building in experimental trial
-SpatialNavigation	navigation	Camera approaches intersection during training
+SpatialNavigation	navigation	Camera navigates through the streets during encoding phase
 EmoMem	neutral_image	Neutral background image
 EmoMem	negative_image	Negative background image
 EmoMem	positive_image	Positive background image
@@ -379,3 +382,96 @@ StroopAomic	face_male	Male face shown
 StroopAomic	face_female	Female face shown
 StroopAomic	word_male	The presented word corresponds to a male
 StroopAomic	word_female	The presented word corresponds to a female
+Abstraction	localizer_faces	Block with images from the faces category
+Abstraction	localizer_humanbody	Block with images from the human body category
+Abstraction	localizer_words	Block with images from the words category
+Abstraction	localizer_nonsensewords	Block with images from the non-sense words category
+Abstraction	localizer_numbers	Block with images from the numbers category
+Abstraction	localizer_places	Block with images from the places category
+Abstraction	localizer_objects	Block with images from the objects category
+Abstraction	localizer_checkerboards	Block with images from the checkerboards category
+Abstraction	humanbody_standing_geometry	Image from the human body semantic category using a standing body as example, presented with the geometry render
+Abstraction	humanbody_walking_geometry	Image from the human body semantic category using a walking body as example, presented with the geometry render
+Abstraction	humanbody_hand_geometry	Image from the human body semantic category using hands as example, presented with the geometry render
+Abstraction	humanbody_legs_geometry	Image from the human body semantic category using legs as example, presented with the geometry render
+Abstraction	humanbody_standing_edge	Image from the human body semantic category using a standing body as example, presented with the edge render
+Abstraction	humanbody_walking_edge	Image from the human body semantic category using a walking body as example, presented with the edge render
+Abstraction	humanbody_hand_edge	Image from the human body semantic category using hands as example, presented with the edge render
+Abstraction	humanbody_legs_edge	Image from the human body semantic category using legs as example, presented with the edge render
+Abstraction	humanbody_standing_photo	Image from the human body semantic category using a standing body as example, presented with the photo render
+Abstraction	humanbody_walking_photo	Image from the human body semantic category using a walking body as example, presented with the photo render
+Abstraction	humanbody_hand_photo	Image from the human body semantic category using hands as example, presented with the photo render
+Abstraction	humanbody_legs_photo	Image from the human body semantic category using legs as example, presented with the photo render
+Abstraction	animals_bird_geometry	Image from the animals semantic category using a bird as example, presented with the geometry render
+Abstraction	animals_fish_geometry	Image from the animals semantic category using a fish as example, presented with the geometry render
+Abstraction	animals_girafe_geometry	Image from the animals semantic category using a girafe as example, presented with the geometry render
+Abstraction	animals_butterfly_geometry	Image from the animals semantic category using a butterfly as example, presented with the geometry render
+Abstraction	animals_bird_edge	Image from the animals semantic category using a bird as example, presented with the edge render
+Abstraction	animals_fish_edge	Image from the animals semantic category using a fish as example, presented with the edge render
+Abstraction	animals_girafe_edge	Image from the animals semantic category using a girafe as example, presented with the edge render
+Abstraction	animals_butterfly_edge	Image from the animals semantic category using a butterfly as example, presented with the edge render
+Abstraction	animals_bird_photo	Image from the animals semantic category using a bird as example, presented with the photo render
+Abstraction	animals_fish_photo	Image from the animals semantic category using a fish as example, presented with the photo render
+Abstraction	animals_girafe_photo	Image from the animals semantic category using a girafe as example, presented with the photo render
+Abstraction	animals_butterfly_photo	Image from the animals semantic category using a butterfly as example, presented with the photo render
+Abstraction	faces_face_geometry	Image from the faces semantic category using a face as example, presented with the geometry render
+Abstraction	faces_face2_geometry	Image from the faces semantic category using a diferent face as example, presented with the geometry render
+Abstraction	faces_eyes_geometry	Image from the faces semantic category using eyes as example, presented with the geometry render
+Abstraction	faces_cat_geometry	Image from the faces semantic category using a cat face as example, presented with the geometry render
+Abstraction	faces_face_edge	Image from the faces semantic category using a face as example, presented with the edge render
+Abstraction	faces_face2_edge	Image from the faces semantic category using a different face as example, presented with the edge render
+Abstraction	faces_eyes_edge	Image from the faces semantic category using eyes as example, presented with the edge render
+Abstraction	faces_cat_edge	Image from the faces semantic category using a cat face as example, presented with the edge render
+Abstraction	faces_face_photo	Image from the faces semantic category using a face as example, presented with the photo render
+Abstraction	faces_face2_photo	Image from the faces semantic category using a different face as example, presented with the photo render
+Abstraction	faces_eyes_photo	Image from the faces semantic category using eyes as example, presented with the photo render
+Abstraction	faces_cat_photo	Image from the faces semantic category using a cat face as example, presented with the photo render
+Abstraction	flora_tree_geometry	Image from the flora semantic category using a tree as example, presented with the photo render
+Abstraction	flora_flower_geometry	Image from the flora semantic category using a flower as example, presented with the photo render
+Abstraction	flora_cherry_geometry	Image from the flora semantic category using a cherry as example, presented with the photo render
+Abstraction	flora_carrot_geometry	Image from the flora semantic category using a carrot as example, presented with the photo render
+Abstraction	flora_tree_edge	Image from the flora semantic category using a tree as example, presented with the photo render
+Abstraction	flora_flower_edge	Image from the flora semantic category using a flower as example, presented with the photo render
+Abstraction	flora_cherry_edge	Image from the flora semantic category using a cherry as example, presented with the photo render
+Abstraction	flora_carrot_edge	Image from the flora semantic category using a carrot as example, presented with the photo render
+Abstraction	flora_tree_photo	Image from the flora semantic category using a tree as example, presented with the photo render
+Abstraction	flora_flower_photo	Image from the flora semantic category using a flower as example, presented with the photo render
+Abstraction	flora_cherry_photo	Image from the flora semantic category using a cherry as example, presented with the photo render
+Abstraction	flora_carrot_photo	Image from the flora semantic category using a carrot as example, presented with the photo render
+Abstraction	objects_truck_geometry	Image from the objects semantic category using a truck as example, presented with the photo render
+Abstraction	objects_key_geometry	Image from the objects semantic category using a key as example, presented with the photo render
+Abstraction	objects_camera_geometry	Image from the objects semantic category using a camara as example, presented with the photo render
+Abstraction	objects_watch_geometry	Image from the objects semantic category using a watch as example, presented with the photo render
+Abstraction	objects_truck_edge	Image from the objects semantic category using a truck as example, presented with the photo render
+Abstraction	objects_key_edge	Image from the objects semantic category using a key as example, presented with the photo render
+Abstraction	objects_camera_edge	Image from the objects semantic category using a camara as example, presented with the photo render
+Abstraction	objects_watch_edge	Image from the objects semantic category using a watch as example, presented with the photo render
+Abstraction	objects_truck_photo	Image from the objects semantic category using a truck as example, presented with the photo render
+Abstraction	objects_key_photo	Image from the objects semantic category using a key as example, presented with the photo render
+Abstraction	objects_camera_photo	Image from the objects semantic category using a camara as example, presented with the photo render
+Abstraction	objects_watch_photo	Image from the objects semantic category using a watch as example, presented with the photo render
+Abstraction	places_house_geometry	Image from the places semantic category using a house as example, presented with the photo render
+Abstraction	places_mountain_geometry	Image from the places semantic category using a mountain as example, presented with the photo render
+Abstraction	places_road_geometry	Image from the places semantic category using a road as example, presented with the photo render
+Abstraction	places_windmill_geometry	Image from the places semantic category using a windmill as example, presented with the photo render
+Abstraction	places_house_edge	Image from the places semantic category using a house as example, presented with the photo render
+Abstraction	places_mountain_edge	Image from the places semantic category using a mountain as example, presented with the photo render
+Abstraction	places_road_edge	Image from the places semantic category using a road as example, presented with the photo render
+Abstraction	places_windmill_edge	Image from the places semantic category using a windmill as example, presented with the photo render
+Abstraction	places_house_photo	Image from the places semantic category using a house as example, presented with the photo render
+Abstraction	places_mountain_photo	Image from the places semantic category using a mountain as example, presented with the photo render
+Abstraction	places_road_photo	Image from the places semantic category using a road as example, presented with the photo render
+Abstraction	places_windmill_photo	Image from the places semantic category using a windmill as example, presented with the photo render
+MDTB	search_easy	It is easy to judge whether there is a right-oriented `L' shape present on the array
+MDTB	search_hard	It is hard to judge whether there is a right-oriented `L' shape present on the array
+MDTB	action_action	Watching a pair of hands make a specific knot
+MDTB	action_control	The resulting knot is shown from different angles
+MDTB	flexion_extension	Continuous flexion and extension of toes
+MDTB	finger_complex	Sequence of button presses that is hard to complete (with no consecutive or repeated fingers)
+MDTB	finger_simple	Sequence of button presses that is easy to complete (using consecutive or repeated fingers)
+MDTB	tom_belief	The statement presented relates to thoughts or believes the characters from the paragraph might have
+MDTB	tom_photo	The statement presented relates to facts described on the paragraph
+MDTB	2back_easy	Easy 2-back trial, it is easy to remember whether the image was shown 2 images ago.
+MDTB	2back_hard	Hard 2-back trial, it is hard to remember whether the image was shown 2 images ago.
+MDTB	semantic easy	Easy to decide whether the last word fits in the sentence, natural sequence
+MDTB	semantic hard	Hard to decide whether the last word fits in the sentence, ambiguous sequence

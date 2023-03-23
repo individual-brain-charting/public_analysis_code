@@ -670,14 +670,22 @@ def fingertap(design_matrix_columns):
 
 def item_recognition(design_matrix_columns):
     """ Contrasts for breath holding protocol"""
-    contrast_names = ['encode5-encode1', 'probe5_mem-probe1_mem', 'probe5_new-probe1_new']
+    contrast_names = ['encode5-encode1', 'probe5_mem-probe1_mem',
+                      'probe5_new-probe1_new', 'prob-arrow',
+                      'encode', 'arrow_left-arrow_right']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {
         'encode5-encode1': con['encode5'] - con['encode1'],
         'probe5_mem-probe1_mem': con['probe5_mem'] - con['probe1_mem'],
-        'probe5_new-probe1_new': con['probe5_new'] - con['probe1_new']
+        'probe5_new-probe1_new': con['probe5_new'] - con['probe1_new'],
+        'prob-arrow': con['probe1_mem'] + con['probe1_new'] + con['probe3_mem']
+                      + con['probe3_new'] + con['probe5_mem'] 
+                      + con['probe5_new'] - 3 * con['arrow_right'] 
+                      - 3 * con['arrow_left'],
+        'encode': con['encode1'] + con['encode3'] + con['encode5'],
+        'arrow_left-arrow_right': con['arrow_left'] - con['arrow_right']
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
