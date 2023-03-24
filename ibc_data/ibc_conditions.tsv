@@ -478,3 +478,24 @@ MDTB	semantic hard	Hard to decide whether the last word fits in the sentence, am
 Emotion	neutral_image	Block of neutral images
 Emotion	negative_image	Block of negative images
 Emotion	echelle_valence	Subject’s rating of emotional state
+Multi-modal	audio_monkey	Monkey sounds used as audio stimulus
+Multi-modal	audio_animal	Animal sounds different from monkeys used as audio stimulus
+Multi-modal	audio_nature	Nature sounds (i.e. rain) used as audio stimulus
+Multi-modal	audio_silence	Control condition for both audio and visual stimuli, no sound played and no image displayed
+Multi-modal	audio_speech	Speech sounds used as audio stimulus
+Multi-modal	audio_tools	Tools sounds used as audio stimulus
+Multi-modal	audio_voice	Human sounds (i.e. laugh, cough) used as audio stimulus
+Multi-modal	tactile_bottom	Air puffs delivered beneath the lower lips as tactile stimulus
+Multi-modal	tactile_middle	Air puffs delivered by the middle lips as tactile stimulus
+Multi-modal	tactile_top	Air puffs delivered above the upper lips as tactile stimulus
+Multi-modal	tactile_novalve	Control condition for tactile stimulus, air is sent to the pair of pipes placed outside the coil, so it doesn't touch the subject
+Multi-modal	image_animals	Image of an animal different from monkeys and birds used as visual stimulus
+Multi-modal	image_birds	Image of a bird used as visual stimulus
+Multi-modal	image_fruits	Image of fruits used as visual stimulus
+Multi-modal	image_human_body	Image of a human body (without the head) used as visual stimulus
+Multi-modal	image_human_face	Image of a human face used as visual stimulus
+Multi-modal	image_human_object	Image of an object used by humans (i.e. guitar) used as visual stimulus
+Multi-modal	image_monkey_body	Image of a monkey body (without the head) used as visual stimulus
+Multi-modal	image_monkey_face	Image of a monkey face used as visual stimulus
+Multi-modal	image_monkey_object	Image of an object used by monkeys (i.e. drinker) used as visual stimulus
+Multi-modal	image_sculpture	Image of a sculpture used as visual stimulus
