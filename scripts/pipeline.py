@@ -209,15 +209,11 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
-    do_topup = False
-    protocol =  'aomic'  # 'optimism'  # 'mdtb' # 'aomic' # 'monkey_kingdom' # 'scene' #
-    subject_session = [('sub-08', 'ses-45')] # sorted(get_subject_session([protocol]))
+    do_topup = True
+    #protocol =  'aomic'  # 'optimism'  # 'mdtb' # 'aomic' # 'monkey_kingdom' # 'scene' #
+    #subject_session = [('sub-08', 'ses-45')] # sorted(get_subject_session([protocol]))
     protocol =  'leuven'
-    subject_session = [('sub-04', 'ses-47'), ('sub-09', 'ses-48')]
-    protocol =  'abstraction'
-    subject_session = [('sub-08', 'ses-46')]
-    protocol =  'mdtb'
-    subject_session = [('sub-08', 'ses-47')]
+    subject_session = [('sub-08', 'ses-48')]
     
     if do_topup:
         acq = None
