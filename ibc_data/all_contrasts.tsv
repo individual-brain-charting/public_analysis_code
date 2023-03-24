@@ -470,7 +470,6 @@ FingerTapping	chosen	uncued finger tapping	fixation	uncued finger tapping	['moto
 FingerTapping	specified-null	cued finger tapping	inhibited finger tapping	cued vs inhibited finger tapping	['motor_control','response_execution','right_finger_response_execution'] 
 FingerTapping	null	inhibited finger tapping	fixation	inhibited finger tapping	['response_selection']
 FingerTapping	chosen-null	uncued finger tapping	inhibited finger tapping	uncued vs inhibited finger tapping	['motor_planning','response_selection','response_execution','right_finger_response_execution'] 
-					
 VSTMC	stim_load1	attending to one set of points	fixation	attending to one set of points	['visual_attention','spatial_working_memory']
 VSTMC	resp_load1	response to motion direction	fixation	response to motion direction of one set of points	['response_selection','response_execution']
 VSTMC	stim	attending to sets of points	fixation	attending to sets of points	['visual_attention','spatial_working_memory','task_difficulty']
@@ -481,8 +480,6 @@ VSTMC	resp	response to motion	fixation	response to motion	['response_selection',
 VSTMC	stim_load3	attending to three set of points	fixation	attending to three set of points	['visual_attention','spatial_working_memory','task_difficulty']
 VSTMC	resp_load3	response to motion direction	fixation	response to motion direction of three sets of points	['response_selection','response_execution']
 VSTMC	stim_load3-load1	attending to three set of points	attending to one set of points	difference in attending to motion of one vs three sets of points	['visual_attention','spatial_working_memory','task_difficulty']
-					
-					
 FaceBody	bodies_body	1-back body image	fixation	body image 1-back task vs. fixation	['visual_body_recognition','body_maintenance','response_execution','updating','working_memory']
 FaceBody	objects_instrument	1-back object image	fixation	object image 1-back task vs. fixation	['visual_object_recognition','object_maintenance','response_execution','working_memory']
 FaceBody	characters_number	1-back characters image	fixation	character images 1-back vs fixation	['visual_letter_recognition',’visual_number_recognition’,'response_execution','working_memory']
@@ -498,9 +495,6 @@ FaceBody	objects-others	1-back object image	rest of categories	object image 0-ba
 FaceBody	faces_child	1-back face image	fixation	face image 1-back task vs. fixation	['visual_face_recognition','face_maintenance','response_execution','updating','working_memory']
 FaceBody	bodies_limb	1-back body image	fixation	body image 1-back task vs. fixation	['visual_body_recognition','body_maintenance','response_execution','updating','working_memory']
 FaceBody	characters_word	1-back word image	fixation	words images 1-back vs fixation	['visual_pseudoword_recognition',,'response_execution','working_memory']
-					
-					
-					
 Scene	dot_easy_left	high salience left	fixation	looking for a salience dot in left visual field	['response_selection','response_execution','visual_search','salience','upper-left_vision','lower-left_vision']
 Scene	dot_easy_right	high salience right	fixation	looking for a salience dot in right visual field	['response_selection','response_execution','visual_search','salience','upper-right_vision','lower-right_vision']
 Scene	dot_hard_left	low salience left	fixation	looking for a low-salience dot in left visual field	['response_selection','response_execution','visual_search','task_difficulty','upper-left_vision','lower-left_vision']
@@ -512,27 +506,33 @@ Scene	scene_possible_correct-scene_impossible_correct	correct possible scene ide
 Scene	scene_correct-dot_correct	identifying a scene	looking for a dot 	assessing scenes vs detecting a dot	['visual_scene_perception',’spatial_attention’,’oddball_detection’]
 Scene	dot_left-right	salience left	salience right	looking for a dot in left vs right visual field	['response_selection','response_execution','visual_search','salience','upper-left_vision','lower-left_vision']
 Scene	dot_hard-easy	low salience	high salience	looking for low-salience vs high-salience dot	['response_selection','response_execution','visual_search','task_difficulty']
-					
-					
-					
-VisualSearch	memory_array_four				['']
-VisualSearch	memory_array_two				
-VisualSearch	sample_item				['']
-VisualSearch	delay_vis				['']
-VisualSearch	probe_item_absent				
-VisualSearch	probe_item_present				
-VisualSearch	response_hit				
-VisualSearch	response_miss				
-VisualSearch	delay_wm				
-VisualSearch	search_array_four_absent				
-VisualSearch	search_array_four_present				
-VisualSearch	search_array_two_absent				
-VisualSearch	search_array_two_present				
-NARPS	gain				['']
-NARPS	loss				['']
-NARPS	weakly_accept				['']
-NARPS	weakly_reject				['']
-NARPS	strongly_accept				['']
-NARPS	strongly_reject				['']
-NARPS	Reject-accept				['']
-NARPS	accept-reject				['']
+VisualSearch	memory_array_four	memorizing 4 items	fixation	array of four items with or without the item to search for	['visual_pattern_recognition',’visual_attention’,’task_difficulty’,’visual_working_memory’]
+VisualSearch	memory_array_two	memorizing 2 items	fixation	array of two items with or without the item to search for	['visual_pattern_recognition',’visual_attention’,’visual_working_memory’]
+VisualSearch	sample_item	item to search for	fixation	item to search for in an array of two or four items	['visual_pattern_recognition',’visual_attention’,’visual_working_memory’]
+VisualSearch	delay_vis	delay period on visual search	fixation	delay period on visual search	['working_memory_maintenance']
+VisualSearch	probe_item_four_absent	probing an absent item from array of four	fixation	probing an absent item from array of four	[‘visual_search’,'visual_pattern_recognition',’visual_form_discrimination’,’task_difficulty’]
+VisualSearch	probe_item_two_absent	probing an absent item from array of two	fixation	probing an absent item from array of four	[‘visual_search’,'visual_pattern_recognition',’visual_form_discrimination’]
+VisualSearch	probe_item_four_present	probing a present item from array of four	fixation	probing a present item from array of four	[‘visual_search’,'visual_pattern_recognition',’visual_form_discrimination’,’task_difficulty’]
+VisualSearch	probe_item_two_present	probing a present item from array of two	fixation	probing a present item from array of four	[‘visual_search’,'visual_pattern_recognition',’visual_form_discrimination’]
+VisualSearch	response_hit	subject’s correct response	fixation	subject’s correct response	['response_selection','response_execution']
+VisualSearch	response_miss	subject’s incorrect response	fixation	subject’s incorrect response	['response_selection','response_execution']
+VisualSearch	delay_wm	delay period on working memory	fixation	delay period on working memory	['working_memory_maintenance']
+VisualSearch	search_array_four_absent	array of four items without the sample item	fixation	array of four items without sample item	['visual_pattern_recognition',’visual_attention’,’task_difficulty’,’visual_working_memory’,’visual_form_discrimination’]
+VisualSearch	search_array_four_present	array of four items with the sample item	fixation	array of four items with sample item	['visual_pattern_recognition',’visual_attention’,’task_difficulty’,’visual_working_memory’,’visual_form_discrimination’]
+VisualSearch	search_array_two_absent	array of two items without the sample item	fixation	array of two items without the sample item	['visual_pattern_recognition',’visual_attention’,’visual_working_memory’,’visual_form_discrimination’]
+VisualSearch	search_array_two_present	array of two items with the sample item	fixation	array of two items with the sample item	['visual_pattern_recognition',’visual_attention’,’visual_working_memory’,’visual_form_discrimination’]
+VisualSearch	probe_item	probing an item	fixation	probing an item, absent or present	[‘visual_search’,'visual_pattern_recognition',’visual_form_discrimination’]
+VisualSearch	search_array	array of items	fixation	array of items, four or two	['visual_pattern_recognition',’visual_attention’,’visual_working_memory’,’visual_form_discrimination’]
+VisualSearch	probe_item_absent–probe_item_present	probing an absent item	probing a present item	probing an absent vs present item	[’visual_form_discrimination’]
+VisualSearch	search_array_absent–search_array_present 	array of items without the sample item	array of items with the sample item	array of items without vs with sample item	[’visual_form_discrimination’,'visual_pattern_recognition']
+VisualSearch	probe_item_four–probe_item_two	probing an item from an array of four	probing an item from an array of two	probing an item from an array of four vs two	[’visual_attention’,’task_difficulty’,’visual_working_memory’]
+VisualSearch	search_array_four–search_array_two	array of four items	array of two items	array of four vs two items	['visual_pattern_recognition',’task_difficulty’]
+VisualSearch	delay_vis–delay_wm	delay period on visual search	delay period on working memory	delay period on visual search vs on working memory	['working_memory_maintenance',‘visual_search’]
+NARPS	gain	potential gains during stim events	fixation	potential gains during stim events	['reward_valuation','reward_processing']
+NARPS	loss	potential losses during stim events	fixation	potential losses during stim events	['reward_valuation','reward_processing','risk_aversion','risk_processing',’loss_aversion’]
+NARPS	weakly_accept	accept the gamble with low confidence	fixation	accept the gamble with low confidence	['response_selection','response_execution',’reward_anticipation’]
+NARPS	weakly_reject	reject the gamble with low confidence	fixation	reject the gamble with low confidence	['response_selection','response_execution',’reward_anticipation’,'loss_aversion']
+NARPS	strongly_accept	accept the gamble with high confidence	fixation	accept the gamble with high confidence	['response_selection','response_execution',’reward_anticipation’]
+NARPS	strongly_reject	reject the gamble with high confidence	fixation	reject the gamble with high confidence	['response_selection','response_execution',’reward_anticipation’,'loss_aversion']
+NARPS	Reject-accept	gambles rejected	gambles accepted	gambles rejected vs gambles accepted	['response_selection','response_execution',’reward_anticipation’,’decision_making’]
+NARPS	accept-reject	gambles accepted	gambles rejected	gambles accepted vs gambles rejected	['response_selection','response_execution',’reward_anticipation’]

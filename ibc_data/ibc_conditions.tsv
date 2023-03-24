@@ -382,86 +382,86 @@ StroopAomic	face_male	Male face shown
 StroopAomic	face_female	Female face shown
 StroopAomic	word_male	The presented word corresponds to a male
 StroopAomic	word_female	The presented word corresponds to a female
-Abstraction	localizer_faces	Block with images from the faces category
-Abstraction	localizer_humanbody	Block with images from the human body category
-Abstraction	localizer_words	Block with images from the words category
-Abstraction	localizer_nonsensewords	Block with images from the non-sense words category
-Abstraction	localizer_numbers	Block with images from the numbers category
-Abstraction	localizer_places	Block with images from the places category
-Abstraction	localizer_objects	Block with images from the objects category
-Abstraction	localizer_checkerboards	Block with images from the checkerboards category
-Abstraction	humanbody_standing_geometry	Image from the human body semantic category using a standing body as example, presented with the geometry render
-Abstraction	humanbody_walking_geometry	Image from the human body semantic category using a walking body as example, presented with the geometry render
-Abstraction	humanbody_hand_geometry	Image from the human body semantic category using hands as example, presented with the geometry render
-Abstraction	humanbody_legs_geometry	Image from the human body semantic category using legs as example, presented with the geometry render
-Abstraction	humanbody_standing_edge	Image from the human body semantic category using a standing body as example, presented with the edge render
-Abstraction	humanbody_walking_edge	Image from the human body semantic category using a walking body as example, presented with the edge render
-Abstraction	humanbody_hand_edge	Image from the human body semantic category using hands as example, presented with the edge render
-Abstraction	humanbody_legs_edge	Image from the human body semantic category using legs as example, presented with the edge render
-Abstraction	humanbody_standing_photo	Image from the human body semantic category using a standing body as example, presented with the photo render
-Abstraction	humanbody_walking_photo	Image from the human body semantic category using a walking body as example, presented with the photo render
-Abstraction	humanbody_hand_photo	Image from the human body semantic category using hands as example, presented with the photo render
-Abstraction	humanbody_legs_photo	Image from the human body semantic category using legs as example, presented with the photo render
-Abstraction	animals_bird_geometry	Image from the animals semantic category using a bird as example, presented with the geometry render
-Abstraction	animals_fish_geometry	Image from the animals semantic category using a fish as example, presented with the geometry render
-Abstraction	animals_girafe_geometry	Image from the animals semantic category using a girafe as example, presented with the geometry render
-Abstraction	animals_butterfly_geometry	Image from the animals semantic category using a butterfly as example, presented with the geometry render
-Abstraction	animals_bird_edge	Image from the animals semantic category using a bird as example, presented with the edge render
-Abstraction	animals_fish_edge	Image from the animals semantic category using a fish as example, presented with the edge render
-Abstraction	animals_girafe_edge	Image from the animals semantic category using a girafe as example, presented with the edge render
-Abstraction	animals_butterfly_edge	Image from the animals semantic category using a butterfly as example, presented with the edge render
-Abstraction	animals_bird_photo	Image from the animals semantic category using a bird as example, presented with the photo render
-Abstraction	animals_fish_photo	Image from the animals semantic category using a fish as example, presented with the photo render
-Abstraction	animals_girafe_photo	Image from the animals semantic category using a girafe as example, presented with the photo render
-Abstraction	animals_butterfly_photo	Image from the animals semantic category using a butterfly as example, presented with the photo render
-Abstraction	faces_face_geometry	Image from the faces semantic category using a face as example, presented with the geometry render
-Abstraction	faces_face2_geometry	Image from the faces semantic category using a diferent face as example, presented with the geometry render
-Abstraction	faces_eyes_geometry	Image from the faces semantic category using eyes as example, presented with the geometry render
-Abstraction	faces_cat_geometry	Image from the faces semantic category using a cat face as example, presented with the geometry render
-Abstraction	faces_face_edge	Image from the faces semantic category using a face as example, presented with the edge render
-Abstraction	faces_face2_edge	Image from the faces semantic category using a different face as example, presented with the edge render
-Abstraction	faces_eyes_edge	Image from the faces semantic category using eyes as example, presented with the edge render
-Abstraction	faces_cat_edge	Image from the faces semantic category using a cat face as example, presented with the edge render
-Abstraction	faces_face_photo	Image from the faces semantic category using a face as example, presented with the photo render
-Abstraction	faces_face2_photo	Image from the faces semantic category using a different face as example, presented with the photo render
-Abstraction	faces_eyes_photo	Image from the faces semantic category using eyes as example, presented with the photo render
-Abstraction	faces_cat_photo	Image from the faces semantic category using a cat face as example, presented with the photo render
-Abstraction	flora_tree_geometry	Image from the flora semantic category using a tree as example, presented with the photo render
-Abstraction	flora_flower_geometry	Image from the flora semantic category using a flower as example, presented with the photo render
-Abstraction	flora_cherry_geometry	Image from the flora semantic category using a cherry as example, presented with the photo render
-Abstraction	flora_carrot_geometry	Image from the flora semantic category using a carrot as example, presented with the photo render
-Abstraction	flora_tree_edge	Image from the flora semantic category using a tree as example, presented with the photo render
-Abstraction	flora_flower_edge	Image from the flora semantic category using a flower as example, presented with the photo render
-Abstraction	flora_cherry_edge	Image from the flora semantic category using a cherry as example, presented with the photo render
-Abstraction	flora_carrot_edge	Image from the flora semantic category using a carrot as example, presented with the photo render
-Abstraction	flora_tree_photo	Image from the flora semantic category using a tree as example, presented with the photo render
-Abstraction	flora_flower_photo	Image from the flora semantic category using a flower as example, presented with the photo render
-Abstraction	flora_cherry_photo	Image from the flora semantic category using a cherry as example, presented with the photo render
-Abstraction	flora_carrot_photo	Image from the flora semantic category using a carrot as example, presented with the photo render
-Abstraction	objects_truck_geometry	Image from the objects semantic category using a truck as example, presented with the photo render
-Abstraction	objects_key_geometry	Image from the objects semantic category using a key as example, presented with the photo render
-Abstraction	objects_camera_geometry	Image from the objects semantic category using a camara as example, presented with the photo render
-Abstraction	objects_watch_geometry	Image from the objects semantic category using a watch as example, presented with the photo render
-Abstraction	objects_truck_edge	Image from the objects semantic category using a truck as example, presented with the photo render
-Abstraction	objects_key_edge	Image from the objects semantic category using a key as example, presented with the photo render
-Abstraction	objects_camera_edge	Image from the objects semantic category using a camara as example, presented with the photo render
-Abstraction	objects_watch_edge	Image from the objects semantic category using a watch as example, presented with the photo render
-Abstraction	objects_truck_photo	Image from the objects semantic category using a truck as example, presented with the photo render
-Abstraction	objects_key_photo	Image from the objects semantic category using a key as example, presented with the photo render
-Abstraction	objects_camera_photo	Image from the objects semantic category using a camara as example, presented with the photo render
-Abstraction	objects_watch_photo	Image from the objects semantic category using a watch as example, presented with the photo render
-Abstraction	places_house_geometry	Image from the places semantic category using a house as example, presented with the photo render
-Abstraction	places_mountain_geometry	Image from the places semantic category using a mountain as example, presented with the photo render
-Abstraction	places_road_geometry	Image from the places semantic category using a road as example, presented with the photo render
-Abstraction	places_windmill_geometry	Image from the places semantic category using a windmill as example, presented with the photo render
-Abstraction	places_house_edge	Image from the places semantic category using a house as example, presented with the photo render
-Abstraction	places_mountain_edge	Image from the places semantic category using a mountain as example, presented with the photo render
-Abstraction	places_road_edge	Image from the places semantic category using a road as example, presented with the photo render
-Abstraction	places_windmill_edge	Image from the places semantic category using a windmill as example, presented with the photo render
-Abstraction	places_house_photo	Image from the places semantic category using a house as example, presented with the photo render
-Abstraction	places_mountain_photo	Image from the places semantic category using a mountain as example, presented with the photo render
-Abstraction	places_road_photo	Image from the places semantic category using a road as example, presented with the photo render
-Abstraction	places_windmill_photo	Image from the places semantic category using a windmill as example, presented with the photo render
+Abstraction	localizer_faces	Face images
+Abstraction	localizer_humanbody	Body images
+Abstraction	localizer_words	Words images
+Abstraction	localizer_nonsensewords	Non-sense words images
+Abstraction	localizer_numbers	Number images
+Abstraction	localizer_places	Place images
+Abstraction	localizer_objects	Object Images
+Abstraction	localizer_checkerboards	Checkerboards images
+Abstraction	humanbody_standing_geometry	Geometry rendering of standing human 
+Abstraction	humanbody_walking_geometry	Geometry rendering of walking human
+Abstraction	humanbody_hand_geometry	Geometry rendering of hands
+Abstraction	humanbody_legs_geometry	Geometry rendering of legs
+Abstraction	humanbody_standing_edge	Edge rendering of standing human
+Abstraction	humanbody_walking_edge	Edge rendering of walking human
+Abstraction	humanbody_hand_edge	Edge rendering of hands
+Abstraction	humanbody_legs_edge	Edge rendering of legs
+Abstraction	humanbody_standing_photo	Photo rendering of standing human
+Abstraction	humanbody_walking_photo	Photo rendering of walking human
+Abstraction	humanbody_hand_photo	Photo rendering of hands   
+Abstraction	humanbody_legs_photo	Photo rendering of  legs
+Abstraction	animals_bird_geometry	Images of a bird  presented with the geometry render
+Abstraction	animals_fish_geometry	Images of a fish  presented with the geometry render
+Abstraction	animals_girafe_geometry	Images of a girafe  presented with the geometry render
+Abstraction	animals_butterfly_geometry	Images of a butterfly  presented with the geometry render
+Abstraction	animals_bird_edge	Images of a bird  presented with the edge render
+Abstraction	animals_fish_edge	Images of a fish  presented with the edge render
+Abstraction	animals_girafe_edge	Images of a girafe  presented with the edge render
+Abstraction	animals_butterfly_edge	Images of a butterfly  presented with the edge render
+Abstraction	animals_bird_photo	Images of a bird  presented with the photo render
+Abstraction	animals_fish_photo	Images of a fish  presented with the photo render
+Abstraction	animals_girafe_photo	Images of a girafe  presented with the photo render
+Abstraction	animals_butterfly_photo	Images of a butterfly  presented with the photo render
+Abstraction	faces_face_geometry	Image of a face  presented with the geometry render
+Abstraction	faces_face2_geometry	Image of a diferent face  presented with the geometry render
+Abstraction	faces_eyes_geometry	Image of eyes  presented with the geometry render
+Abstraction	faces_cat_geometry	Image of a cat face  presented with the geometry render
+Abstraction	faces_face_edge	Image of a face  presented with the edge render
+Abstraction	faces_face2_edge	Image of a different face  presented with the edge render
+Abstraction	faces_eyes_edge	Image of eyes  presented with the edge render
+Abstraction	faces_cat_edge	Image of a cat face  presented with the edge render
+Abstraction	faces_face_photo	Image of a face  presented with the photo render
+Abstraction	faces_face2_photo	Image of a different face  presented with the photo render
+Abstraction	faces_eyes_photo	Image of eyes  presented with the photo render
+Abstraction	faces_cat_photo	Image of a cat face  presented with the photo render
+Abstraction	flora_tree_geometry	Image of a tree  presented with the photo render
+Abstraction	flora_flower_geometry	Image of a flower  presented with the photo render
+Abstraction	flora_cherry_geometry	Image of a cherry  presented with the photo render
+Abstraction	flora_carrot_geometry	Image of a carrot  presented with the photo render
+Abstraction	flora_tree_edge	Image of a tree  presented with the photo render
+Abstraction	flora_flower_edge	Image of a flower  presented with the photo render
+Abstraction	flora_cherry_edge	Image of a cherry  presented with the photo render
+Abstraction	flora_carrot_edge	Image of a carrot  presented with the photo render
+Abstraction	flora_tree_photo	Image of a tree  presented with the photo render
+Abstraction	flora_flower_photo	Image of a flower  presented with the photo render
+Abstraction	flora_cherry_photo	Image of a cherry  presented with the photo render
+Abstraction	flora_carrot_photo	Image of a carrot  presented with the photo render
+Abstraction	objects_truck_geometry	Image of a truck  presented with the photo render
+Abstraction	objects_key_geometry	Image of a key  presented with the photo render
+Abstraction	objects_camera_geometry	Image of a camara  presented with the photo render
+Abstraction	objects_watch_geometry	Image of a watch  presented with the photo render
+Abstraction	objects_truck_edge	Image of a truck  presented with the photo render
+Abstraction	objects_key_edge	Image of a key  presented with the photo render
+Abstraction	objects_camera_edge	Image of a camara  presented with the photo render
+Abstraction	objects_watch_edge	Image of a watch  presented with the photo render
+Abstraction	objects_truck_photo	Image of a truck  presented with the photo render
+Abstraction	objects_key_photo	Image of a key  presented with the photo render
+Abstraction	objects_camera_photo	Image of a camara  presented with the photo render
+Abstraction	objects_watch_photo	Image of a watch  presented with the photo render
+Abstraction	places_house_geometry	Image of a house  presented with the photo render
+Abstraction	places_mountain_geometry	Image of a mountain  presented with the photo render
+Abstraction	places_road_geometry	Image of a road  presented with the photo render
+Abstraction	places_windmill_geometry	Image of a windmill  presented with the photo render
+Abstraction	places_house_edge	Image of a house  presented with the photo render
+Abstraction	places_mountain_edge	Image of a mountain  presented with the photo render
+Abstraction	places_road_edge	Image of a road  presented with the photo render
+Abstraction	places_windmill_edge	Image of a windmill  presented with the photo render
+Abstraction	places_house_photo	Image of a house  presented with the photo render
+Abstraction	places_mountain_photo	Image of a mountain  presented with the photo render
+Abstraction	places_road_photo	Image of a road  presented with the photo render
+Abstraction	places_windmill_photo	Image of a windmill  presented with the photo render
 MDTB	search_easy	It is easy to judge whether there is a right-oriented `L' shape present on the array
 MDTB	search_hard	It is hard to judge whether there is a right-oriented `L' shape present on the array
 MDTB	action_action	Watching a pair of hands make a specific knot
@@ -475,3 +475,27 @@ MDTB	2back_easy	Easy 2-back trial, it is easy to remember whether the image was 
 MDTB	2back_hard	Hard 2-back trial, it is hard to remember whether the image was shown 2 images ago.
 MDTB	semantic easy	Easy to decide whether the last word fits in the sentence, natural sequence
 MDTB	semantic hard	Hard to decide whether the last word fits in the sentence, ambiguous sequence
+Emotion	neutral_image	Block of neutral images
+Emotion	negative_image	Block of negative images
+Emotion	echelle_valence	Subject’s rating of emotional state
+Multi-modal	audio_monkey	Monkey sounds used as audio stimulus
+Multi-modal	audio_animal	Animal sounds different from monkeys used as audio stimulus
+Multi-modal	audio_nature	Nature sounds (i.e. rain) used as audio stimulus
+Multi-modal	audio_silence	Control condition for both audio and visual stimuli, no sound played and no image displayed
+Multi-modal	audio_speech	Speech sounds used as audio stimulus
+Multi-modal	audio_tools	Tools sounds used as audio stimulus
+Multi-modal	audio_voice	Human sounds (i.e. laugh, cough) used as audio stimulus
+Multi-modal	tactile_bottom	Air puffs delivered beneath the lower lips as tactile stimulus
+Multi-modal	tactile_middle	Air puffs delivered by the middle lips as tactile stimulus
+Multi-modal	tactile_top	Air puffs delivered above the upper lips as tactile stimulus
+Multi-modal	tactile_novalve	Control condition for tactile stimulus, air is sent to the pair of pipes placed outside the coil, so it doesn't touch the subject
+Multi-modal	image_animals	Image of an animal different from monkeys and birds used as visual stimulus
+Multi-modal	image_birds	Image of a bird used as visual stimulus
+Multi-modal	image_fruits	Image of fruits used as visual stimulus
+Multi-modal	image_human_body	Image of a human body (without the head) used as visual stimulus
+Multi-modal	image_human_face	Image of a human face used as visual stimulus
+Multi-modal	image_human_object	Image of an object used by humans (i.e. guitar) used as visual stimulus
+Multi-modal	image_monkey_body	Image of a monkey body (without the head) used as visual stimulus
+Multi-modal	image_monkey_face	Image of a monkey face used as visual stimulus
+Multi-modal	image_monkey_object	Image of an object used by monkeys (i.e. drinker) used as visual stimulus
+Multi-modal	image_sculpture	Image of a sculpture used as visual stimulus
