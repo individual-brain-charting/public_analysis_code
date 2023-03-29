@@ -462,6 +462,7 @@ Abstraction	places_house_photo	Image of a house  presented with the photo render
 Abstraction	places_mountain_photo	Image of a mountain  presented with the photo render
 Abstraction	places_road_photo	Image of a road  presented with the photo render
 Abstraction	places_windmill_photo	Image of a windmill  presented with the photo render
+Abstraction	response	Subject's button press when they saw a star
 MDTB	search_easy	It is easy to judge whether there is a right-oriented 'L' shape present on the array
 MDTB	search_hard	It is hard to judge whether there is a right-oriented 'L' shape present on the array
 MDTB	action_action	Watching a pair of hands make a specific knot
