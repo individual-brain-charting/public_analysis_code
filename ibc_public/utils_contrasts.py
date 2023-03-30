@@ -156,6 +156,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return mdtb(design_matrix_columns)
     elif paradigm_id == 'MultiModal':
         return multi_modal(design_matrix_columns)
+    elif paradigm_id == 'Abstraction':
+        return abstraction(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -223,7 +225,7 @@ def emotion(design_matrix_columns):
 
 
 def multi_modal(design_matrix_columns):
-    """ Contrasts sfor multimodal task (Leuven protocol)"""
+    """ Contrasts for multimodal task (Leuven protocol)"""
     audio_ = ['audio_animal', 'audio_monkey', 'audio_nature', 'audio_silence',
              'audio_speech', 'audio_tools', 'audio_voice']
     tactile_ = ['tactile_bottom', 'tactile_middle', 'tactile_top']
@@ -278,10 +280,143 @@ def multi_modal(design_matrix_columns):
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
     return contrasts
 
+def abstraction(design_matrix_columns):
+    """ Contrasts for Abstraction """
+    localizer_ = ['localizer_faces', 'localizer_humanbody',
+                      'localizer_words', 'localizer_nonsensewords',
+                      'localizer_numbers', 'localizer_places',
+                      'localizer_objects', 'localizer_checkerboards']
+    humanbody_ = ['humanbody_geometry', 'humanbody_edge',
+                      'humanbody_photo']
+    animals_ = ['animals_geometry', 'animals_edge', 'animals_photo']
+    faces_ = ['faces_geometry', 'faces_edge', 'faces_photo'] 
+    flora_ =['flora_geometry', 'flora_edge', 'flora_photo']
+    objects_ = ['objects_geometry', 'objects_edge', 'objects_photo']
+    places_ = ['places_geometry', 'places_edge', 'places_photo']
+    others_ = ['response', 'localizer_faces-others',
+               'localizer_humanbody-others','localizer_words-others',
+               'localizer_nonsensewords-others',
+               'localizer_numbers-others',
+               'localizer_places-others', 'localizer_objects-others',
+               'localizer_checkerboards-others','humanbody-other',
+               'animals-other','faces-other',
+               'flora-other','objects-other','places-other',
+               'geometry-others','edge-other','photo-others',
+               'humanbody_geometry-humanbody_others',
+               'humanbody_edge-humanbody_others',
+               'humanbody_photo-humanbody_others',
+               'animals_geometry-animals_others',
+               'animals_edge-animals_others',
+               'animals_photo-animals_others',
+               'faces_geometry-faces_others',
+               'faces_edge-faces_others',
+               'faces_photo-faces_others',
+               'flora_geometry-flora_others',
+               'flora_edge-flora_others',
+               'flora_photo-flora_others',
+               'objects_geometry-objects_others',
+               'objects_edge-objects_others',
+               'objects_photo-objects_others',
+               'places_geometry-places_others',
+               'places_edge-places_others',
+               'places_photo-places_others'
+    ]
+    contrast_names = localizer_ + humanbody_ + animals_ + faces_ +\
+                     flora_ + objects_ + places_ + others_
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in localizer_ +\
+                      humanbody_ + animals_ + faces_ + flora_ +\
+                      objects_ + places_])
+    localizer = np.sum([con[x] for x in localizer_], 0)
+    humanbody = np.sum([con[x] for x in humanbody_], 0)
+    animals = np.sum([con[x] for x in animals_], 0)
+    faces = np.sum([con[x] for x in faces_], 0)
+    flora = np.sum([con[x] for x in flora_], 0)
+    objects = np.sum([con[x] for x in objects_], 0)
+    places = np.sum([con[x] for x in places_], 0)
+    allstim_ =  faces_ + humanbody_ + animals_ + flora_ + objects_  +\
+        places_
+    geometry_ = ['humanbody_geometry', 'animals_geometry', 'faces_geometry',
+                 'flora_geometry','objects_geometry', 'places_geometry']
+    edge_ = ['humanbody_edge', 'animals_edge', 'faces_edge',
+                 'flora_edge','objects_edge', 'places_edge']
+    photo_ = ['humanbody_photo', 'animals_photo', 'faces_photo',
+                 'flora_photo','objects_photo', 'places_photo']
+    allstim = np.sum([con[x] for x in allstim_], 0)
+    geometry = np.sum([con[x] for x in geometry_], 0)
+    edge = np.sum([con[x] for x in edge_], 0)
+    photo = np.sum([con[x] for x in photo_], 0)
+    contrasts['localizer_faces-others'] = 7 * con['localizer_faces'] -\
+        localizer
+    contrasts['localizer_humanbody-others'] = 7 *\
+        con['localizer_humanbody'] - localizer
+    contrasts['localizer_words-others'] = 7 * con['localizer_words'] -\
+        localizer
+    contrasts['localizer_nonsensewords-others'] = 7 *\
+        con['localizer_nonsensewords'] - localizer
+    contrasts['localizer_numbers-others'] = 7 * con['localizer_numbers'] -\
+        localizer
+    contrasts['localizer_places-others'] = 7 * con['localizer_places'] -\
+        localizer
+    contrasts['localizer_objects-others'] = 7 * con['localizer_objects'] -\
+        localizer
+    contrasts['localizer_checkerboards-others'] = 7 *\
+        con['localizer_checkerboards'] - localizer
+    contrasts['humanbody-other'] = 5 * humanbody - allstim
+    contrasts['animals-other'] = 5 * animals - allstim
+    contrasts['faces-other'] = 5 * faces- allstim
+    contrasts['flora-other'] = 5 * flora - allstim
+    contrasts['places-other'] = 5 * places - allstim
+    contrasts['objects-other'] = 5 * objects - allstim
+    contrasts['geometry-others'] = 2 * geometry - allstim
+    contrasts['edge-others'] = 2 * edge - allstim
+    contrasts['photo-others'] = 2 * photo - allstim
+    contrasts['humanbody_geometry-humanbody_others'] = 2 *\
+        con['humanbody_geometry'] - humanbody
+    contrasts['humanbody_edge-humanbody_others'] = 2 *\
+        con['humanbody_edge'] - humanbody
+    contrasts['humanbody_photo-humanbody_others'] = 2 *\
+        con['humanbody_photo'] - humanbody
+    contrasts['animals_geometry-animals_others'] = 2 *\
+        con['animals_geometry'] - animals
+    contrasts['animals_edge-animals_others'] = 2 *\
+        con['animals_edge'] - animals
+    contrasts['animals_photo-animals_others'] = 2 *\
+        con['animals_photo'] - animals
+    contrasts['faces_geometry-faces_others'] = 2 *\
+        con['faces_geometry'] - faces
+    contrasts['faces_edge-faces_others'] = 2 *\
+        con['faces_edge'] - faces
+    contrasts['faces_photo-faces_others'] = 2 *\
+        con['faces_photo'] - faces
+    contrasts['flora_geometry-flora_others'] = 2 *\
+        con['flora_geometry'] - flora
+    contrasts['flora_edge-flora_others'] = 2 *\
+        con['flora_edge'] - flora
+    contrasts['flora_photos-flora_others'] = 2 *\
+        con['flora_photos'] - flora
+    contrasts['objects_geometry-objects_others'] = 2 *\
+        con['objects_geometry'] - objects
+    contrasts['objects_edge-objects_others'] = 2 *\
+        con['objects_edge'] - objects
+    contrasts['objects_photo-objects_others'] = 2 *\
+        con['objects_photo'] - objects
+    contrasts['places_geometry-places_others'] = 2 *\
+        con['places_geometry'] - places
+    contrasts['places_edge-places_others'] = 2 *\
+        con['places_edge'] - places
+    contrasts['places_photo-places_others'] = 2 *\
+        con['places_photo'] - places
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def mdtb(design_matrix_columns):
-    """ Contrasts for Multy Somain Task Battery """
+    """ Contrasts for Multy Domain Task Battery """
     contrast_names = ['action_action', 'action_control',
                       'finger_simple', 'finger_complex',
                       'semantic_hard', 'semantic_easy', #####
@@ -558,24 +693,14 @@ def motion(design_matrix_columns):
 
 def search(design_matrix_columns):
     """ Contrasts for search protocol"""
-    contrast_names = ['memory_array_four',
-                      'memory_array_two',
-                      'response_hit',
-                      'response_miss',
-                      'sample_item',
-                      'delay_vis',
-                      'delay_wm',
-                      'probe_item',
-                      'probe_item_absent',
-                      'probe_item_present',
-                      'probe_item_four',
-                      'probe_item_two',
-                      'search_array',
-                      'search_array_four',
-                      'search_array_two',
-                      'search_array_absent',
-                      'search_array_present',
-                      'delay_vis-delay_wm',
+    contrast_names = ['memory_array_four', 'memory_array_two',
+                      'probe_item_two_absent', 'probe_item_four_absent', 
+                      'probe_item_two_present', 'probe_item_four_present',
+                      'response_hit', 'response_miss',
+                      'sample_item', 'delay_vis', 'delay_wm',
+                      'search_array_four_absent', 'search_array_four_present',
+                      'search_array_two_absent', 'search_array_two_present',
+                      'probe_item', 'search_array', 'delay_vis–delay_wm',
                       'probe_item_absent–probe_item_present',
                       'search_array_absent–search_array_present',
                       'probe_item_four–probe_item_two',
@@ -584,6 +709,7 @@ def search(design_matrix_columns):
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:15]])
     contrasts = {
         'probe_item': con['probe_item_two_present'] + 
                       con['probe_item_four_present'] + 
@@ -609,10 +735,8 @@ def search(design_matrix_columns):
                              con['search_array_four_present'],
         'search_array_two': con['search_array_two_absent'] +
                              con['search_array_two_present'],
-        'delay_vis-delay_wm': con['delay_vis'] - con['delay_wm']                             
+        'delay_vis–delay_wm': con['delay_vis'] + con['delay_wm']                             
         }
-    for name in contrast_names[:7]:
-        contrasts[name] = con[name]
     contrasts['probe_item_absent–probe_item_present'] = \
         contrasts['probe_item_absent'] - contrasts['probe_item_present']
     contrasts['search_array_absent–search_array_present'] = \
