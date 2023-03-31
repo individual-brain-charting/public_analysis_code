@@ -306,17 +306,17 @@ def abstraction_localizer(design_matrix_columns):
         localizer
     contrasts['localizer_humanbody-other'] = 8 *\
         con['localizer_humanbody'] - localizer
-    contrasts['localizer_words-other'] = 7 * con['localizer_words'] -\
+    contrasts['localizer_words-other'] = 8 * con['localizer_words'] -\
         localizer
     contrasts['localizer_nonsensewords-other'] = 7 *\
         con['localizer_nonsensewords'] - localizer
-    contrasts['localizer_numbers-other'] = 7 * con['localizer_numbers'] -\
+    contrasts['localizer_numbers-other'] = 8 * con['localizer_numbers'] -\
         localizer
-    contrasts['localizer_places-other'] = 7 * con['localizer_places'] -\
+    contrasts['localizer_places-other'] = 8 * con['localizer_places'] -\
         localizer
-    contrasts['localizer_objects-other'] = 7 * con['localizer_objects'] -\
+    contrasts['localizer_objects-other'] = 8 * con['localizer_objects'] -\
         localizer
-    contrasts['localizer_checkerboards-other'] = 7 *\
+    contrasts['localizer_checkerboards-other'] = 8 *\
         con['localizer_checkerboards'] - localizer
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
