@@ -192,13 +192,13 @@ Attention	incongruent	The stimulus is not congruent (opposite direction) with th
 StopSignal	go	Answer to the stim
 StopSignal	stop	Hold motor response
 TwoByTwo	cue_taskstay_cuestay	Appearance of the cue on screen when both the task and the cue are the same with respect to the previous trial
-TwoByTwo	cue_taskstay_cueswitch	Appearance of the cue on screen when only the cue switches with respect of the previous trial, for example the color task is repeated but the cue changes from `Color’ to `Orange/Blue’
+TwoByTwo	cue_taskstay_cueswitch	Appearance of the cue on screen when only the cue switches with respect of the previous trial, for example the color task is repeated but the cue changes from 'Color’ to 'Orange/Blue’
 TwoByTwo	cue_taskswitch_cuestay	Appearance of the cue on screen when the task switches but the cue stays the same it was the previous trial for that task. For example, the task switches from color to number and the presented cue is the same as the previous number trial
-TwoByTwo	cue_taskswitch_cueswitch	Appearance of the cue on screen when both the task and the cue switch, for example the task goes from color to number and the cue changes from `Magnitude’ to `High/Low' compared to the previous number trial
+TwoByTwo	cue_taskswitch_cueswitch	Appearance of the cue on screen when both the task and the cue switch, for example the task goes from color to number and the cue changes from 'Magnitude’ to 'High/Low' compared to the previous number trial
 TwoByTwo	stim_taskstay_cuestay	Appearance of the stimulus on screen when both the task and the cue are the same with respect to the previous trial
-TwoByTwo	stim_taskstay_cueswitch	Appearance of the stimulus on screen when only the cue switches with respect of the previous trial, for example the color task is repeated but the cue changes from `Color’ to `Orange/Blue'
+TwoByTwo	stim_taskstay_cueswitch	Appearance of the stimulus on screen when only the cue switches with respect of the previous trial, for example the color task is repeated but the cue changes from 'Color’ to 'Orange/Blue'
 TwoByTwo	stim_taskswitch_cuestay	Appearance of the stimulus on screen when the task switches but the cue stays the same it was the previous trial for that task. For example, the task switches from color to number and the presented cue is the same as the previous number trial
-TwoByTwo	stim_taskswitch_cueswitch	Appearance of the stimulus on screen when both the task and the cue switch, for example the task goes from color to number and the cue changes from `Magnitude’ to `High/Low' compared to the previous number trial
+TwoByTwo	stim_taskswitch_cueswitch	Appearance of the stimulus on screen when both the task and the cue switch, for example the task goes from color to number and the cue changes from 'Magnitude’ to 'High/Low' compared to the previous number trial
 Discount	delay	Effect of reward delay
 Discount	amount	Effect of reward gain
 SelectiveStopSignal	go_critical	Answer to the visual stimulus (critical side)
@@ -382,14 +382,19 @@ StroopAomic	face_male	Male face shown
 StroopAomic	face_female	Female face shown
 StroopAomic	word_male	The presented word corresponds to a male
 StroopAomic	word_female	The presented word corresponds to a female
-Abstraction	localizer_faces	Face images
-Abstraction	localizer_humanbody	Body images
-Abstraction	localizer_words	Words images
-Abstraction	localizer_nonsensewords	Non-sense words images
-Abstraction	localizer_numbers	Number images
-Abstraction	localizer_places	Place images
-Abstraction	localizer_objects	Object Images
-Abstraction	localizer_checkerboards	Checkerboards images
+WorkingMemoryAomic	active_change	Active trials when the probe was present in the search of the simulus
+WorkingMemoryAomic	active_no_change	Active trials when the probe was absent in the search of the simulus
+WorkingMemoryAomic	passive_change	Passive trials when the probe was present in the search of the simulus
+WorkingMemoryAomic	passive_no_change	Passive trials when the probe was absent in the search of the simulus
+AbstractionLocalizer	localizer_faces	Face images
+AbstractionLocalizer	localizer_humanbody	Body images
+AbstractionLocalizer	localizer_words	Words images
+AbstractionLocalizer	localizer_nonsensewords	Non-sense words images
+AbstractionLocalizer	localizer_numbers	Number images
+AbstractionLocalizer	localizer_places	Place images
+AbstractionLocalizer	localizer_objects	Object Images
+AbstractionLocalizer	localizer_checkerboards	Checkerboards images
+AbstractionLocalizer	response	Subject's button press when they saw a star
 Abstraction	humanbody_standing_geometry	Geometry rendering of standing human 
 Abstraction	humanbody_walking_geometry	Geometry rendering of walking human
 Abstraction	humanbody_hand_geometry	Geometry rendering of hands
@@ -462,8 +467,9 @@ Abstraction	places_house_photo	Image of a house  presented with the photo render
 Abstraction	places_mountain_photo	Image of a mountain  presented with the photo render
 Abstraction	places_road_photo	Image of a road  presented with the photo render
 Abstraction	places_windmill_photo	Image of a windmill  presented with the photo render
-MDTB	search_easy	It is easy to judge whether there is a right-oriented `L' shape present on the array
-MDTB	search_hard	It is hard to judge whether there is a right-oriented `L' shape present on the array
+Abstraction	response	Subject's button press when they saw a star
+MDTB	search_easy	It is easy to judge whether there is a right-oriented 'L' shape present on the array
+MDTB	search_hard	It is hard to judge whether there is a right-oriented 'L' shape present on the array
 MDTB	action_action	Watching a pair of hands make a specific knot
 MDTB	action_control	The resulting knot is shown from different angles
 MDTB	flexion_extension	Continuous flexion and extension of toes
