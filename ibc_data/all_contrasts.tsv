@@ -536,3 +536,32 @@ NARPS	strongly_accept	accept the gamble with high confidence	fixation	accept the
 NARPS	strongly_reject	reject the gamble with high confidence	fixation	reject the gamble with high confidence	['response_selection','response_execution',’reward_anticipation’,'loss_aversion']
 NARPS	Reject-accept	gambles rejected	gambles accepted	gambles rejected vs gambles accepted	['response_selection','response_execution',’reward_anticipation’,’decision_making’]
 NARPS	accept-reject	gambles accepted	gambles rejected	gambles accepted vs gambles rejected	['response_selection','response_execution',’reward_anticipation’]
+RewProc	stim				
+RewProc	minus_20	lost 20 units of reward	fixation	lost 20 units of reward	
+RewProc	plus_20	gained 20 units of reward	fixation	gained 20 units of reward	
+RewProc	minus_10	lost 10 units of reward	fixation	lost 10 units of reward	
+RewProc	plus_10	gained 10 units of reward	fixation	gained 10 units of reward	
+RewProc	green-purple	green pattern selected	purple pattern selected	green vs purple pattern selected	
+RewProc	purple-green	purple pattern selected	green pattern selected	purple vs green pattern selected	
+RewProc	left-right	selected pattern was on the left side	selected pattern was on the right side	selected pattern on the left vs right side	
+RewProc	right-left	selected pattern was on the right side	selected pattern was on the left side	selected pattern on the right vs left side	
+RewProc	switch	selected a different pattern than previous trial	fixation	selected a different pattern than previous trial	
+RewProc	stay	selected the same pattern than previous trial	fixation	selected the same pattern than previous trial	
+RewProc	switch-stay	selected a different pattern than previous trial	selected the same pattern than previous trial	selected a different vs same pattern	
+RewProc	stay-switch	selected the same pattern than previous trial	selected a different pattern than previous trial	selected the same vs different pattern	
+RewProc	gain	gained 20 and 10 units of reward 	fixation	gained units of reward 	
+RewProc	loss	lost 20 and 10 units of reward	fixation	lost units of reward	
+RewProc	gain-loss	gained 20 and 10 units of reward 	lost 20 and 10 units of reward	gained vs lost units of reward 	
+RewProc	loss-gain	lost 20 and 10 units of reward	gained 20 and 10 units of reward 	lost vs gained units of reward	
+BreathHolding	breathe	breathe normally	fixation	breathe normally	
+BreathHolding	hold_breath	hold breath	fixation	hold breath	
+BreathHolding	hold-breathe	hold breath	breathe normally	hold breath vs breathe normally	
+BreathHolding	breathe-hold	breathe normally	hold breath	breathe normally vs hold breath	
+Checkerboard	checkerboard-fixation	checkerboard block	fixation	checkerboard block	
+FingerTapping	fingertap-rest	button-press corresponding to visual stimulus	rest	button-pressing vs rest	
+ItemRecognition	encode5-encode1	encoding 5 items	encoding 1 item	encoding 5 vs 1 item	
+ItemRecognition	probe5_mem-probe1_mem	probing an encoded digit in load 5	probing an encoded digit in load 1	probing an encoded digit in a load of 5 vs 1	
+ItemRecognition	probe5_new-probe1_new	probing a new digit in a load 5	probing a new digit in a load 1	probing a new digit in a load 5 vs 1	
+ItemRecognition	prob-arrow	probing encoded and new digits	trials of left and right pointing arrows	probing digits vs trials of pointing arrows	
+ItemRecognition	encode	encoding items	fixation	encoding 1, 3 and 5 items	
+ItemRecognition	arrow_left-arrow_right	identifying a left pointing arrow	identifying a right pointing arrow	identifying a left vs right pointing arrow	
