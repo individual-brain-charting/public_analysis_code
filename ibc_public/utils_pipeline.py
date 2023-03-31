@@ -263,7 +263,7 @@ def _orthogonalize_confounds_wrt_task(confounds, frametimes, paradigm, hrf_model
 
     
 def first_level(subject_dic, additional_regressors=None, compcorr=False,
-                smooth=None, mesh=False, mask_img=None):
+                smooth=None, mesh=False, mask_img=None, orthogonalize_confounds=False):
     """ Run the first-level analysis (GLM fitting + statistical maps)
     in a given subject
 
@@ -338,8 +338,9 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
 
         if compcorr:
             confounds = high_variance_confounds(fmri_path, mask_img=mask_img)
-            confounds = _orthogonalize_confounds_wrt_task(
-                confounds, frametimes, paradigm, hrf_model='spm')
+            if orthogonalize_confounds:
+                confounds = _orthogonalize_confounds_wrt_task(
+                    confounds, frametimes, paradigm, hrf_model='spm')
             confounds = np.hstack((confounds, motion))
             confound_names = ['conf_%d' % i for i in range(5)] + motion_names
         else:

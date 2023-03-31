@@ -213,7 +213,7 @@ if __name__ == '__main__':
     #protocol =  'aomic'  # 'optimism'  # 'mdtb' # 'aomic' # 'monkey_kingdom' # 'scene' #
     #subject_session = [('sub-08', 'ses-45')] # sorted(get_subject_session([protocol]))
     protocol =  'leuven'
-    subject_session = [('sub-08', 'ses-48')]
+    subject_session = [('sub-14', 'ses-47')]
     
     if do_topup:
         acq = None
