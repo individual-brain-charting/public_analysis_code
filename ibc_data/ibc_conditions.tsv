@@ -386,14 +386,15 @@ WorkingMemoryAomic	active_change	Active trials when the probe was present in the
 WorkingMemoryAomic	active_no_change	Active trials when the probe was absent in the search of the simulus
 WorkingMemoryAomic	passive_change	Passive trials when the probe was present in the search of the simulus
 WorkingMemoryAomic	passive_no_change	Passive trials when the probe was absent in the search of the simulus
-Abstraction	localizer_faces	Face images
-Abstraction	localizer_humanbody	Body images
-Abstraction	localizer_words	Words images
-Abstraction	localizer_nonsensewords	Non-sense words images
-Abstraction	localizer_numbers	Number images
-Abstraction	localizer_places	Place images
-Abstraction	localizer_objects	Object Images
-Abstraction	localizer_checkerboards	Checkerboards images
+AbstractionLocalizer	localizer_faces	Face images
+AbstractionLocalizer	localizer_humanbody	Body images
+AbstractionLocalizer	localizer_words	Words images
+AbstractionLocalizer	localizer_nonsensewords	Non-sense words images
+AbstractionLocalizer	localizer_numbers	Number images
+AbstractionLocalizer	localizer_places	Place images
+AbstractionLocalizer	localizer_objects	Object Images
+AbstractionLocalizer	localizer_checkerboards	Checkerboards images
+AbstractionLocalizer	response	Subject's button press when they saw a star
 Abstraction	humanbody_standing_geometry	Geometry rendering of standing human 
 Abstraction	humanbody_walking_geometry	Geometry rendering of walking human
 Abstraction	humanbody_hand_geometry	Geometry rendering of hands
