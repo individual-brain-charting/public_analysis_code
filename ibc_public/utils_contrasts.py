@@ -370,7 +370,8 @@ def abstraction(design_matrix_columns):
     contrasts['flora-other'] = 5 * flora - allstim
     contrasts['places-other'] = 5 * places - allstim
     contrasts['objects-other'] = 5 * objects - allstim
-    contrasts['geometry-others'] = 2 * geometry - allstim
+    contrasts['geometry-others'] = 3 * geometry - allstim
+``` as we want the contrasts to sum to 0 ?
     contrasts['edge-others'] = 2 * edge - allstim
     contrasts['photo-others'] = 2 * photo - allstim
     contrasts['humanbody_geometry-humanbody_others'] = 2 *\
