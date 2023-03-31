@@ -1,0 +1,5 @@
+condition,active-passive,active_change-active_no_change
+active_change,1,1
+active_no_change,1,-1
+passive_change,-1,
+passive_no_change,-1,
