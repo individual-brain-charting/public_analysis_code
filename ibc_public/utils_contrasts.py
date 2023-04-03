@@ -308,7 +308,7 @@ def abstraction_localizer(design_matrix_columns):
         con['localizer_humanbody'] - localizer
     contrasts['localizer_words-other'] = 8 * con['localizer_words'] -\
         localizer
-    contrasts['localizer_nonsensewords-other'] = 7 *\
+    contrasts['localizer_nonsensewords-other'] = 8 *\
         con['localizer_nonsensewords'] - localizer
     contrasts['localizer_numbers-other'] = 8 * con['localizer_numbers'] -\
         localizer
