@@ -1,7 +1,7 @@
 name: Update notifier
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths: [ibc_data/ibc_tasks.tsv, ibc_data/ibc_conditions.tsv, ibc_data/all_contrasts.tsv]
 
 jobs:
