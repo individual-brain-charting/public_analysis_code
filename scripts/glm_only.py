@@ -126,6 +126,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
         subject['onset'] = [onset for onset in subject['onset']
                             if onset is not None]
         clean_subject(subject)
+        stop
         if len(subject['session_id']) > 0:
             if protocol == 'clips4':
                 first_level(subject, compcorr=compcorr,
@@ -145,13 +146,13 @@ if __name__ == '__main__':
     # protocols += ['optimism' 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang']
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     # protocols = ['audio1', 'audio2']
-    # protocols = ['optimism', 'abstraction']
-    protocols = ['leuven']  # ['search']  #  
+    # protocols = ['optimism', 'abstraction', 'leuven', 'abstraction']
+    protocols = ['leuven']
 
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=6)(
+        Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
             for (subject, session) in subject_session)
