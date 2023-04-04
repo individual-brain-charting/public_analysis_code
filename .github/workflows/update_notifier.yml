@@ -18,6 +18,5 @@ jobs:
       - name: Trigger docs build
         run: |
             curl -H "Accept: application/vnd.github.everest-preview+json" \
-            -H "Authorization: token ${{ secrets.FILE_UPDATE }}" \
             --request POST \
             --data '{"event_type": "desc_updated"' https://api.github.com/repos/${{ matrix.repo }}/dispatches
