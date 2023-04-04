@@ -1,0 +1,23 @@
+name: Update notifier
+on:
+  push:
+    branches: [main]
+    paths: [ibc_data/ibc_tasks.tsv, ibc_data/ibc_conditions.tsv, ibc_data/all_contrasts.tsv]
+
+jobs:
+  dispatch:
+    name: Notify docs
+    env:
+      PACKAGES_TO_UPGRADE: ${{ needs.run_publish.outputs.packages }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: ['individual-brain-charting/docs']
+    timeout-minutes: 5
+    steps:
+      - name: Trigger docs build
+        run: |
+            curl -H "Accept: application/vnd.github.everest-preview+json" \
+            -H "Authorization: token ${{ secrets.FILE_UPDATE }}" \
+            --request POST \
+            --data '{"event_type": "desc_updated"' https://api.github.com/repos/${{ matrix.repo }}/dispatches
