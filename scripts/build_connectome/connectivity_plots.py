@@ -635,8 +635,8 @@ if __name__ == "__main__":
     # pairs of connectivity matrices to compare
     # Pick between DWI, RestingState and Raiders
     task_pairs = [
-        ("DWI", "RestingState"),
-        ("DWI", "Raiders"),
+        ("RestingState", "DWI"),
+        ("Raiders", "DWI"),
         ("DWI", "DWI"),
         ("Raiders", "RestingState"),
         ("Raiders", "Raiders"),
