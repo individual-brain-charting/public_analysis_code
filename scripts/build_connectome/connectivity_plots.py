@@ -1,8 +1,13 @@
 """
 This script:
-1) plots connectivity networks and matrices for each subject for each task-connectivity_measure combination
-2) calculates and plots pearsons correlation matrices across subjects between given pairs of task-connectvity_measure combinations 
-3) t-tests and plots box plots to compare same-subject and cross-subject correlations for each task-connectivity_measure combination
+1) plots connectivity networks and matrices for
+ each subject for each task-connectivity_measure combination
+2) calculates and plots pearsons correlation matrices
+ across subjects between given pairs of
+ task-connectvity_measure combinations 
+3) t-tests and plots box plots to compare same-subject
+ and cross-subject correlations for each
+ task-connectivity_measure combination
 """
 
 import numpy as np
@@ -489,10 +494,10 @@ def run_all_comparisons(
             fig_xlabel = f"{task2} {task2_conn_measure}"
             fig_ylabel = f"{task1} {task1_conn_measure}"
             fig_title = (
-                    f"Correlation b/w {task1_modality} connectivities\n"
-                    f" measured from {task1} and {task2}\nas {conn_measure}"
-                )
-            
+                f"Correlation b/w {task1_modality} connectivities\n"
+                f" measured from {task1} and {task2}\nas {conn_measure}"
+            )
+
             if mean_center:
                 fig_title = "Double mean centered " + fig_title
 
@@ -732,7 +737,11 @@ if __name__ == "__main__":
             )
         ]
         # plot the summary box plots for all the above subseets of results
-        for results_df in [results_df_funcvfunc, results_df_strucvstruc, results_df_funcvstruc]:
+        for results_df in [
+            results_df_funcvfunc,
+            results_df_strucvstruc,
+            results_df_funcvstruc,
+        ]:
             name = (
                 results_df.iloc[0]["task1_modality"]
                 + "v"
@@ -745,8 +754,10 @@ if __name__ == "__main__":
                 "comparison",
                 "Pearson's correlation",
                 "Functional connectivity measure",
-                f"{results_df.iloc[0]['task1']} {results_df.iloc[0]['task1_modality']}"
-                f" vs {results_df.iloc[0]['task2']} {results_df.iloc[0]['task2_modality']} connectivity",
+                f"{results_df.iloc[0]['task1']} "
+                f"{results_df.iloc[0]['task1_modality']}"
+                f" vs {results_df.iloc[0]['task2']} "
+                f"{results_df.iloc[0]['task2_modality']} connectivity",
                 name,
                 mean_center,
             )
