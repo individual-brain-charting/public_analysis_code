@@ -714,7 +714,7 @@ if __name__ == "__main__":
         correlation_file = "all_comparisons"
         if mean_center:
             correlation_file = correlation_file + "_mean_centered"
-        results_df.to_csv(f"{correlation_file}.csv")
+        results_df.to_csv(f"{correlation_file}.csv", index=False)
         # keep results for functional vs functional comparisons
         # between resting state and raiders
         results_df_funcvfunc = results_df[
