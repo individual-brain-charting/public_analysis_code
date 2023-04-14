@@ -1,8 +1,11 @@
 """
-This script computes pearson correlation and covariance and inverse covariances 
-from GraphicalLassoCV and GroupSparseCovariance estimators (each representing 
-functional connectivity) from movie (Raiders of the Lost Ark) and Resting state
-task for ROIs from a Schaefer 2018 atlas
+This script computes:
+1) pearson correlation
+2) correlations and partial correlations
+from GraphicalLassoCV estimator
+3) correlations and partial correlations GroupSparseCovarianceCV estimator 
+
+Each representing functional connectivity from movie (Raiders of the Lost Ark) and Resting state task for ROIs from Schaefer 2018 atlas
 
 See: https://nilearn.github.io/stable/connectivity/functional_connectomes.html
 and https://nilearn.github.io/stable/connectivity/connectome_extraction.html
@@ -64,6 +67,8 @@ for task in tasks:
     subject_sessions = sorted(get_subject_session(session_names))
     sub_ses = dict()
     for subject_session in subject_sessions:
+        if subject_session[0] in ["sub-11", "sub-12"] and subject_session[1] == "ses-13":
+            continue
         try:
             sub_ses[subject_session[0]]
         except KeyError:
@@ -88,8 +93,6 @@ for task in tasks:
             runs = glob(
                 os.path.join(DATA_ROOT, sub, ses, "func", f"wrdc*{task}")
             )
-            if sub in ["sub-11", "sub-12"] and ses == "ses-13":
-                continue
             # iterate over runs in each session for each subject
             for run in runs:
                 # get run number string
