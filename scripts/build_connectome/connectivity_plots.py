@@ -675,6 +675,21 @@ if __name__ == "__main__":
     #### Run Comparisons ####
     # save results with and without mean-centering the correlations
     for mean_center in [True, False]:
+        # dictionary to store all the results
+        results = {
+            k: []
+            for k in [
+                "task1",
+                "task2",
+                "correlation",
+                "p_value",
+                "comparison",
+                "task1_measure",
+                "task2_measure",
+                "task1_modality",
+                "task2_modality",
+            ]
+        }
         # loop over all pairs of tasks
         for task_pair in task_pairs:
             results = run_all_comparisons(
@@ -691,7 +706,7 @@ if __name__ == "__main__":
         results_df = pd.DataFrame(results)
         correlation_file = "all_comparisons"
         if mean_center:
-            correlations_file = correlations_file + "_mean_centered"
+            correlation_file = correlation_file + "_mean_centered"
         results_df.to_csv(f"{correlation_file}.csv")
         # keep results for functional vs functional comparisons
         # between resting state and raiders
