@@ -731,7 +731,7 @@ if __name__ == "__main__":
                 "Pearson's correlation",
                 "Functional connectivity measure",
                 f"{results_df.iloc[0]['task1']} {results_df.iloc[0]['task1_modality']}"
-                f" vs {results_df.iloc[0]['task1']} {results_df.iloc[0]['task2_modality']} connectivity",
+                f" vs {results_df.iloc[0]['task2']} {results_df.iloc[0]['task2_modality']} connectivity",
                 name,
                 mean_center,
             )
