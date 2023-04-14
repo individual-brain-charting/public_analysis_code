@@ -267,7 +267,8 @@ def get_all_subject_connectivity(
         if plot_network:
             fig_net.subplots_adjust(wspace=0, hspace=0)
             fig_net.suptitle(
-                f"{task} {task_modality} connectivity networks, measured as {conn_measure}"
+                f"{task} {task_modality} connectivity networks,"
+                f" measured as {conn_measure}"
             )
             if not os.path.exists("connectivity_networks"):
                 os.makedirs("connectivity_networks")
@@ -278,7 +279,8 @@ def get_all_subject_connectivity(
         if plot_matrix:
             fig_mat.subplots_adjust(wspace=0.4, hspace=0)
             fig_mat.suptitle(
-                f"{task} {task_modality} connectivity matrices, measured as {conn_measure}"
+                f"{task} {task_modality} connectivity matrices,"
+                f" measured as {conn_measure}"
             )
             if not os.path.exists("connectivity_matrices"):
                 os.makedirs("connectivity_matrices")
