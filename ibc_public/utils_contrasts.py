@@ -150,6 +150,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return faces_aomic(design_matrix_columns)
     elif paradigm_id == 'StroopAomic':
         return stroop_aomic(design_matrix_columns)
+    elif paradigm_id == 'WorkingMemoryAomic':
+        return working_memory_aomic(design_matrix_columns)    
     elif paradigm_id == 'Emotion':
         return emotion(design_matrix_columns)
     elif paradigm_id == 'MDTB':
@@ -465,8 +467,29 @@ def mdtb(design_matrix_columns):
     return contrasts
 
 
+def working_memory_aomic(design_matrix_columns):
+    """ Contrasts for WorkingMemory in AOMIC """
+    contrast_names = ['active_change', 'active_no_change',
+                       'passive_change', 'passive_no_change',
+                       'active-passive','active_change-active_no_change'
+    ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:4]])
+    contrasts['active-passive'] = con['active_change'] +\
+        con['active_no_change'] - con['passive_change'] -\
+        con['passive_no_change']
+    contrasts['active_change-active_no_change'] = con['active_change'] -\
+        con['active_no_change']
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
+
+
 def stroop_aomic(design_matrix_columns):
-    """ Contrasts for color localizer """
+    """ Contrasts for StroopAomic """
     contrast_names = ['incongruent_word_male_face_female',
                       'congruent_word_female_face_female',
                       'congruent_word_male_face_male',
@@ -507,7 +530,7 @@ def stroop_aomic(design_matrix_columns):
 
 
 def harriri_aomic(design_matrix_columns):
-    """ Contrasts for color localizer """
+    """ Contrasts for HarririAomic """
     contrast_names = ['emotion', 'index_response',  'middle_response',
                       'shape','emotion-shape']
     if design_matrix_columns is None:
