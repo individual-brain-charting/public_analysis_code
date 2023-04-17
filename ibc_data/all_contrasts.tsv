@@ -625,3 +625,91 @@ WorkingMemoryAomic	passive_change	passive trials where the probe was present 	fi
 WorkingMemoryAomic	passive_no_change	passive trials where the probe was absent 	fixation	passive trials where the probe was absent 	
 WorkingMemoryAomic	active-passive	active trials	passive trials	active vs passive trials	
 WorkingMemoryAomic	active_change-active_no_change	active trials where the probe was present 	active trials where the probe was absent 	active trials where the probe was present vs absent	
+AbstractionLocalizer	localizer_faces	human faces	fixation	localizer for human faces	
+AbstractionLocalizer	localizer_humanbody	human bodies without the head	fixation	localizer for human bodies	
+AbstractionLocalizer	localizer_words	words	fixation	localizer for words	
+AbstractionLocalizer	localizer_nonsensewords	nonsense words	fixation	localizer for nonsense words	
+AbstractionLocalizer	localizer_numbers	display of numbers	fixation	localizer for numbers	
+AbstractionLocalizer	localizer_places	places	fixation	localizer for places	
+AbstractionLocalizer	localizer_objects	different objects	fixation	localizer for objects	
+AbstractionLocalizer	localizer_checkerboards	checkerboards	fixation	localizer for checkerboards	
+AbstractionLocalizer	localizer_faces-other	human faces	rest of categories	human faces vs other categories	
+AbstractionLocalizer	localizer_humanbody-other	human bodies without the head	rest of categories	human bodies vs other categories	
+AbstractionLocalizer	localizer_words-other	words	rest of categories	words vs other categories	
+AbstractionLocalizer	localizer_nonsensewords-other	nonsense words	rest of categories	nonsense words vs other categories	
+AbstractionLocalizer	localizer_numbers-other	display of numbers	rest of categories	numbers vs other categories	
+AbstractionLocalizer	localizer_places-other	word_male-word_female	rest of categories	places vs other categories	
+AbstractionLocalizer	localizer_objects-other	different objects	rest of categories	objects vs other categories	
+AbstractionLocalizer	localizer_checkerboards-other	checkerboards	rest of categories	checkerboards vs other categories	
+AbstractionLocalizer	response	indicate a star appeared	fixation	response to star image as control	
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+ 					
