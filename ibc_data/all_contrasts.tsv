@@ -565,3 +565,151 @@ ItemRecognition	probe5_new-probe1_new	probing a new digit in a load 5	probing a 
 ItemRecognition	prob-arrow	probing encoded and new digits	trials of left and right pointing arrows	probing digits vs trials of pointing arrows	
 ItemRecognition	encode	encoding items	fixation	encoding 1, 3 and 5 items	
 ItemRecognition	arrow_left-arrow_right	identifying a left pointing arrow	identifying a right pointing arrow	identifying a left vs right pointing arrow	
+Color	chromatic	chromatic mondrian patterns	fixation	attending to chromatic mondrian patterns	
+Color	achromatic	achromatic mondrian patterns	fixation	attending to achromatic mondrian patterns	
+Color	chromatic-achromatic	chromatic mondrian patterns	achromatic mondrian patterns	chromatic vs achromatic mondrian patterns	
+Color	response	response to repeated pattern	fixation	response to repeated mondrian patterns	
+Motion	incoherent	dots moving incoherently in random directions	fixation	dots moving in random directions 	
+Motion	coherent	dots moving coherently in the same direction	fixation	dots moving in the same direction	
+Motion	stationary	stationary dots appearing in a different location after 1 sec	fixation	stationary dots changing location every sec	
+Motion	clock	direction of coherent motion in clockwise direction	fixation	coherent motion of dots in clockwise direction	
+Motion	anti	direction of coherent motion in anti-clockwise direction	fixation	coherent motion of dots in anti-clockwise direction	
+Motion	response	button press to fixation point turned blue	fixation	attending to fixation point turning blue 	
+Motion	coherent-incoherent	dots moving coherently in the same direction	dots moving incoherently in random directions	dots moving in the same vs random directions	
+Motion	coherent-stationary	dots moving coherently in the same direction	stationary dots appearing in a different location after 1 sec	dots moving coherently vs staying stationary	
+Motion	incoherent-stationary	dots moving incoherently in random directions	stationary dots appearing in a different location after 1 sec	dots moving incoherently vs staying stationary	
+Motion	clock-anti	direction of coherent motion in clockwise direction	direction of coherent motion in anti-clockwise direction	coherent motion in clockwise vs anti-clockwise direction 	
+Motion	left-right	dot pattern presented in the left visual field	dot pattern presented in the right visual field	dot pattern presented in the left vs right visual field	
+OptimismBias	all_events	past and future with negative and positive valence	fixation	all past and future with negative and positive valence	
+OptimismBias	optimism_bias	future, negative valence	past, positive plus past, negative plus future, positive	future negative vs past positive and negative and future positive	
+OptimismBias	future_vs_past	future, positive and negative valence	past, positive and negative valence	future positive and negative vs. past positive and negative	
+OptimismBias	positive_vs_negative	future and past positive valence	future and past negative valence	past and future positive vs past and future negative	
+OptimismBias	future_positive_vs_negative	future, positive valence	future negative valence	future positive vs negative	
+OptimismBias	past_positive_vs_negative	past, positive valence	past, negative valence	past positive vs. past negative trials	
+OptimismBias	interaction	future, positive and past, negative valence	future neutral arousal and past, positive valence	future positive and past negative vs future neutral and past positive	
+HarririAomic	emotion	match the emotion/facial expression	fixation	match the emotion/facial expression of images	
+HarririAomic	shape	match the shape of the images	fixation	match the shape of the images	
+HarririAomic	index_response	the left image matches the top image	fixation	matching the left image to the top image	
+HarririAomic	middle_response	the right image matches the top image	fixation	matching the right image to the top image	
+HarririAomic	emotion-shape	match the emotion/facial expression	match the shape of the images	match emotion/facial expression show on image vs the shape of the image	
+FacesAomic	ITI	inter-trial intervals	fixation	inter-trial intervals	
+FacesAomic	anger	watching a face that expresses anger	fixation	attending to a face that expresses anger	
+FacesAomic	contempt	watching a face that expresses contempt	fixation	attending to a face that expresses contempt	
+FacesAomic	joy	watching a face that expresses joy	fixation	attending to a face that expresses joy	
+FacesAomic	neutral	watching a face that expressed no emotion	fixation	attending to a face that expressed no emotion	
+FacesAomic	pride	watching a face that expresses pride	fixation	attending to a face that expresses pride	
+FacesAomic	all-neutral	watching faces that express pride, anger, contempt and joy	watching a face that expressed no emotion	attending to faces that express pride, joy, anger and contempt vs no emotion	
+FacesAomic	anger-neutral	watching a face that expresses anger	watching a face that expressed no emotion	attending to a face that expresses anger vs no emotion	
+FacesAomic	contempt-neutral	watching a face that expresses contempt	watching a face that expressed no emotion	attending to a face that expresses contempt vs no emotion	
+FacesAomic	joy-neutral	watching a face that expresses joy	watching a face that expressed no emotion	attending to a face that expresses joy vs no emotion	
+FacesAomic	pride-neutral	watching a face that expresses pride	watching a face that expressed no emotion	attending to a face that expresses pride vs no emotion	
+FacesAomic	male-female	watching a male face expressing emotion	watching a female face expressing emotion 	attending to a male vs female face expressing emotion 	
+FacesAomic	female-male	watching a female face expressing emotion 	watching a male face expressing emotion	attending to a female vs male face expressing emotion 	
+FacesAomic	mediterranean-european	watching a mediterranean ethnicity model expressing emotion	watching a european ethnicity model expressing emotion	attending to a mediterranean vs european ethnicity model expressing emotion	
+FacesAomic	european-mediterranean	watching a european ethnicity model expressing emotion	watching a mediterranean ethnicity model expressing emotion	attending to a european vs mediterranean ethnicity model expressing emotion	
+StroopAomic	incongruent_word_male_face_female	show the word “male” on top of a female face	fixation	attending to a female face while reading “male”	
+StroopAomic	congruent_word_female_face_female	show the word “female” on top of a female face	fixation	attending to a female face while reading “female”	
+StroopAomic	congruent_word_male_face_male	show the word “male” on top of a male face	fixation	attending to a male face while reading “male”	
+StroopAomic	incongruent_word_female_face_male	show the word “female” on top of a male face	fixation	attending to a male face while reading “female”	
+StroopAomic	index_response	indicate the face is of a male	fixation	identifying a male face	
+StroopAomic	middle_response	indicate the face is of a female	fixation	identifying a female face	
+StroopAomic	congruent-incongruent	word and the face shown matched	word and the face shown did not match	word and the face shown matched vs did not match	
+StroopAomic	incongruent-congruent	word and the face shown did not match	word and the face shown matched	word and the face shown did not match vs matched	
+StroopAomic	face_male-face_female	male face shown	female face shown	male vs female face shown 	
+StroopAomic	word_male-word_female	word “male” shown	word “female” shown	word “male” vs “female” shown 	
+StroopAomic	index-middle	indicate the face is of a male	indicate the face is of a female	indicate the face is of a male vs of a female	
+StroopAomic	middle-index	indicate the face is of a female	indicate the face is of a male	indicate the face is of a female vs of a male	
+WorkingMemoryAomic	active_change	active trials where the probe was present 	fixation	active trials where the probe was present 	
+WorkingMemoryAomic	active_no_change	active trials where the probe was absent 	fixation	active trials where the probe was absent 	
+WorkingMemoryAomic	passive_change	passive trials where the probe was present 	fixation	passive trials where the probe was present 	
+WorkingMemoryAomic	passive_no_change	passive trials where the probe was absent 	fixation	passive trials where the probe was absent 	
+WorkingMemoryAomic	active-passive	active trials	passive trials	active vs passive trials	
+WorkingMemoryAomic	active_change-active_no_change	active trials where the probe was present 	active trials where the probe was absent 	active trials where the probe was present vs absent	
+AbstractionLocalizer	localizer_faces	human faces	fixation	localizer for human faces	
+AbstractionLocalizer	localizer_humanbody	human bodies without the head	fixation	localizer for human bodies	
+AbstractionLocalizer	localizer_words	words	fixation	localizer for words	
+AbstractionLocalizer	localizer_nonsensewords	nonsense words	fixation	localizer for nonsense words	
+AbstractionLocalizer	localizer_numbers	display of numbers	fixation	localizer for numbers	
+AbstractionLocalizer	localizer_places	places	fixation	localizer for places	
+AbstractionLocalizer	localizer_objects	different objects	fixation	localizer for objects	
+AbstractionLocalizer	localizer_checkerboards	checkerboards	fixation	localizer for checkerboards	
+AbstractionLocalizer	localizer_faces-other	human faces	rest of categories	human faces vs other categories	
+AbstractionLocalizer	localizer_humanbody-other	human bodies without the head	rest of categories	human bodies vs other categories	
+AbstractionLocalizer	localizer_words-other	words	rest of categories	words vs other categories	
+AbstractionLocalizer	localizer_nonsensewords-other	nonsense words	rest of categories	nonsense words vs other categories	
+AbstractionLocalizer	localizer_numbers-other	display of numbers	rest of categories	numbers vs other categories	
+AbstractionLocalizer	localizer_places-other	word_male-word_female	rest of categories	places vs other categories	
+AbstractionLocalizer	localizer_objects-other	different objects	rest of categories	objects vs other categories	
+AbstractionLocalizer	localizer_checkerboards-other	checkerboards	rest of categories	checkerboards vs other categories	
+AbstractionLocalizer	response	indicate a star appeared	fixation	response to star image as control	
+Abstraction	humanbody_geometry	geometry render of a human body	fixation	geometry renders of human bodies	
+Abstraction	humanbody_edge	edge render of a human body	fixation	edges renders of human bodies	
+Abstraction	humanbody_photo	photo of a human body	fixation	photos of human bodies	
+Abstraction	animals_geometry	geometry render of an animal	fixation	geometry renders of animals	
+Abstraction	animals_edge	edge render of an animal	fixation	edge renders of an animals	
+Abstraction	animals_photo	photo of an animal	fixation	photo of an animal	
+Abstraction	faces_geometry	geometry render of a human face	fixation	geometry renders of human faces	
+Abstraction	faces_edge	edge render of a human face	fixation	edge renders of human faces	
+Abstraction	faces_photo	photo of a human face	fixation	photos of human faces	
+Abstraction	flora_geometry	geometry render of flora	fixation	geometry renders of flora	
+Abstraction	flora_edge	edge render of flora	fixation	edge renders of flora	
+Abstraction	flora_photo	photo of flora	fixation	photos of flora	
+Abstraction	objects_geometry	geometry render of an object	fixation	geometry renders of objects	
+Abstraction	objects_edge	edge render of an object	fixation	edge renders of objects	
+Abstraction	objects_photo	photo of an object	fixation	photos of objects	
+Abstraction	places_geometry	geometry render of places	fixation	geometry renders of places	
+Abstraction	places_edge	edge render of places	fixation	edge renders of places	
+Abstraction	places_photo	photo of places	fixation	photos of places	
+Abstraction	humanbody-other	renders of a human body	renders of the rest of categories	renders of human bodies vs of rest of categories	
+Abstraction	animals-other	renders of animals	renders of the rest of categories	renders of animals vs of rest of categories	
+Abstraction	faces-other	renders of human faces	renders of the rest of categories	renders of faces vs of rest of categories	
+Abstraction	flora-other	renders of flora	renders of the rest of categories	renders of flora vs of rest of categories	
+Abstraction	objects-other	renders of objects	renders of the rest of categories	renders of objects vs of rest of categories	
+Abstraction	places-other	renders of places	renders of the rest of categories	renders of places vs of rest of categories	
+Abstraction	geometry-other	geometry renders of all categories	edge and photo renders of all categories	geometry vs edge and photo render	
+Abstraction	edge-other	edge renders of all categories	geometry and photo renders of all categories	edge vs geometry and photo render	
+Abstraction	photo-other	photos of all categories	geometry and edge renders of all categories	photo vs geometry and edge render	
+Abstraction	humanbody_geometry-humanbody_other	geometry render of human bodies	edge and photo renders of a human body	geometry vs edge and photo render of human bodies	
+Abstraction	humanbody_edge-humanbody_other	edges render of human bodies	geometry and photo renders of a human body	edge vs geometry and photo render of human bodies	
+Abstraction	humanbody_photo-humanbody_other	photos of human bodies	geometry and edge renders of a human body	photo vs geometry and edge render of human bodies	
+Abstraction	animals_geometry-animals_other	geometry render of animals	edge and photo renders of animals	geometry vs edge and photo render of animals	
+Abstraction	animals_edge-animals_other	edges render of animals	geometry and photo renders of animals	edge vs geometry and photo render of animals	
+Abstraction	animals_photo-animals_other	photos of animals	geometry and edge renders of animals	photo vs geometry and edge render of animals	
+Abstraction	faces_geometry-faces_other	geometry render of human faces	edge and photo renders of human faces	geometry vs edge and photo render of faces	
+Abstraction	faces_edge-faces_other	edges render of faces	geometry and photo renders of faces	edge vs geometry and photo render of faces	
+Abstraction	faces_photo-faces_other	photos of human faces	geometry and edge renders of human faces	photo vs geometry and edge render of faces	
+Abstraction	flora_geometry-flora_other	geometry render of flora	edge and photo renders of flora	geometry vs edge and photo render of flora	
+Abstraction	flora_edge-flora_other	edges render of flora	geometry and photo renders of flora	edge vs geometry and photo render of flora	
+Abstraction	flora_photo-flora_other	photos of flora	geometry and edge renders of flora	photo vs geometry and edge render of flora	
+Abstraction	objects_geometry-objects_other	geometry render of objects	edge and photo renders of objects	geometry vs edge and photo render of objects	
+Abstraction	objects_edge-objects_other	edges render of objects	geometry and photo renders of objects	edge vs geometry and photo render of objects	
+Abstraction	objects_photo-objects_other	photos of objects	geometry and edge renders of objects	photo vs geometry and edge render of objects	
+Abstraction	places_geometry-places_other	geometry render of places	edge and photo renders of places	geometry vs edge and photo render of places	
+Abstraction	places_edge-places_other	edges render of places	geometry and photo renders of places	edge vs geometry and photo render of places	
+Abstraction	places_photo-places_other	photos of places	geometry and edge renders of places	photo vs geometry and edge render of places	
+Abstraction	response	indicate a star appeared	fixation	button press to star	
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+ 					
