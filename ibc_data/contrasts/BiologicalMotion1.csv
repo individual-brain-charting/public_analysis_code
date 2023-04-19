@@ -1,0 +1,5 @@
+condition,global_upright - natural_upright,global_upright - global_inverted,natural_upright - natural_inverted,global-natural,natural-global,inverted-upright
+global_upright,1,1,,1,-1,-1
+global_inverted,,-1,,1,-1,1
+natural_upright,-1,,1,-1,1,-1
+natural_inverted,,,-1,-1,1,1

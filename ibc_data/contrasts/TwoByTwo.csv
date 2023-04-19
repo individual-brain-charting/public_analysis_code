@@ -1,0 +1,9 @@
+condition,task_switch-stay,cue_switch-stay,cue_taskstay_cuestay,cue_taskswitch_cueswitch,cue_taskswitch_cuestay,cue_taskstay_cueswitch,stim_taskstay_cuestay,stim_taskswitch_cueswitch,stim_taskswitch_cuestay,stim_taskstay_cueswitch
+cue_taskstay_cuestay,-1,-1,1,,,,,,,
+cue_taskswitch_cueswitch,1,,,1,,,,,,
+cue_taskswitch_cuestay,1,,,,1,,,,,
+cue_taskstay_cueswitch,-1,1,,,,1,,,,
+stim_taskstay_cuestay,,,,,,,1,,,
+stim_taskswitch_cueswitch,,,,,,,,1,,
+stim_taskswitch_cuestay,,,,,,,,,1,
+stim_taskstay_cueswitch,,,,,,,,,,1

@@ -23,11 +23,11 @@ ArchiSocial	false_belief_video	Interpret short stories (presented as visual stim
 ArchiSocial	speech_sound	Listen passively to short samples of human voices
 ArchiSocial	non_speech_sound	Listen passively to short samples of natural sounds
 ArchiEmotional	face_gender	Gender evaluation of the presented human faces
-ArchiEmotional	face_control	Mental assessment on the slope of a gray-scale grid image (obtained from scrambling a face’s image) that may be tilted or not
+ArchiEmotional	face_control	Mental assessment on the slope of a gray-scale grid image (obtained from scrambling a face's image) that may be tilted or not
 ArchiEmotional	face_trusty	Trustworthy evaluation of the presented human faces
 ArchiEmotional	expression_intention	Trustworthy evaluation of the presented human eye images
 ArchiEmotional	expression_gender	Gender evaluation of the presented human eye images
-ArchiEmotional	expression_control	Mental assessment on the slope of a gray-scale grid image (obtained from scrambling an eyes’ image) that may be tilted or not
+ArchiEmotional	expression_control	Mental assessment on the slope of a gray-scale grid image (obtained from scrambling an eyes' image) that may be tilted or not
 HcpEmotion	shape	Images with shapes were displayed
 HcpEmotion	face	Images with faces were displayed
 HcpGambling	punishment	The participant experiences loss

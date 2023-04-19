@@ -1,0 +1,4 @@
+condition,hold-breathe,breathe-hold
+breathe,-1,1
+get_ready,,
+hold_breath,1,-1

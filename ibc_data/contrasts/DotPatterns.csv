@@ -1,0 +1,6 @@
+condition,correct_cue_incorrect_probe-correct_cue_correct_probe,incorrect_cue_incorrect_probe-incorrect_cue_correct_probe,correct_cue_incorrect_probe-incorrect_cue_correct_probe,incorrect_cue_incorrect_probe-correct_cue_incorrect_probe,correct_cue-incorrect_cue,incorrect_probe-correct_probe
+cue,,,,,,
+correct_cue_correct_probe,-1,,,,1,-1
+correct_cue_incorrect_probe,1,,1,-1,1,1
+incorrect_cue_correct_probe,,-1,-1,,-1,-1
+incorrect_cue_incorrect_probe,,1,,1,-1,1

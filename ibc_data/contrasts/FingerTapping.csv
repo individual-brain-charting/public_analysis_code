@@ -1,0 +1,4 @@
+condition,chosen-specified,specified-null,chosen-null
+specified,-1,1,
+chosen,1,,1
+null,,-1,-1
