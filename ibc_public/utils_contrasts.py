@@ -160,6 +160,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return abstraction(design_matrix_columns)
     elif paradigm_id == 'AbstractionLocalizer':
         return abstraction_localizer(design_matrix_columns)
+    elif paradigm_id == 'Mario':
+        return mario(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -208,6 +210,50 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     if con != []:
         contrast['derivatives'] = np.array(con)
     return contrast
+
+
+def mario(design_matrix_columns):
+    """ Contrasts for Mario task """
+    contrast_names = [
+        # 'action_fire',
+        'action_jump',
+        'action_leftrun',
+        'action_leftwalk',
+        # 'action_pipedown',
+        'action_rest',
+        'action_rightrun',
+        'action_rightwalk',
+        'loss_dying',
+        # 'loss_powerdown',
+        # 'loss_powerup_miss',
+        'onscreen_enemy',
+        'onscreen_powerup',
+        #'reward_bricksmash',
+        'reward_coin',
+        'reward_enemykill_impact',
+        'reward_enemykill_kick',
+        'reward_enemykill_stomp',
+        'reward_powerup_taken',
+        'action',
+        'loss',
+        'reward',
+        'reward-loss',
+    ]
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = dict([(name, con[name]) for name in contrast_names[:-4]])
+    contrasts['action'] = np.sum([con[name] for name in con.keys()
+                                  if 'action' in name], 0)
+    contrasts['loss'] = np.sum([con[name] for name in con.keys()
+                               if 'loss' in name], 0)
+    contrasts['reward'] = np.sum([con[name] for name in con.keys()
+                                 if 'reward' in name], 0)
+    contrasts['reward-loss']  = contrasts['reward'] - contrasts['loss']
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def emotion(design_matrix_columns):
@@ -329,7 +375,7 @@ def abstraction(design_matrix_columns):
     humanbody_ = ['humanbody_geometry', 'humanbody_edge',
                       'humanbody_photo']
     animals_ = ['animals_geometry', 'animals_edge', 'animals_photo']
-    faces_ = ['faces_geometry', 'faces_edge', 'faces_photo'] 
+    faces_ = ['faces_geometry', 'faces_edge', 'faces_photo']
     flora_ =['flora_geometry', 'flora_edge', 'flora_photo']
     objects_ = ['objects_geometry', 'objects_edge', 'objects_photo']
     places_ = ['places_geometry', 'places_edge', 'places_photo']
@@ -738,11 +784,11 @@ def search(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {
-        'probe_item': con['probe_item_two_present'] + 
-                      con['probe_item_four_present'] + 
+        'probe_item': con['probe_item_two_present'] +
+                      con['probe_item_four_present'] +
                       con['probe_item_two_absent'] +
                       con['probe_item_four_absent'],
-        'search_array': con['search_array_two_present'] + 
+        'search_array': con['search_array_two_present'] +
                         con['search_array_four_present'] +
                         con['search_array_two_absent'] +
                         con['search_array_four_absent'],
@@ -762,7 +808,7 @@ def search(design_matrix_columns):
                              con['search_array_four_present'],
         'search_array_two': con['search_array_two_absent'] +
                              con['search_array_two_present'],
-        'delay_vis-delay_wm': con['delay_vis'] - con['delay_wm']                             
+        'delay_vis-delay_wm': con['delay_vis'] - con['delay_wm']
         }
     for name in contrast_names[:7]:
         contrasts[name] = con[name]
@@ -834,8 +880,8 @@ def item_recognition(design_matrix_columns):
         'probe5_mem-probe1_mem': con['probe5_mem'] - con['probe1_mem'],
         'probe5_new-probe1_new': con['probe5_new'] - con['probe1_new'],
         'prob-arrow': con['probe1_mem'] + con['probe1_new'] + con['probe3_mem']
-                      + con['probe3_new'] + con['probe5_mem'] 
-                      + con['probe5_new'] - 3 * con['arrow_right'] 
+                      + con['probe3_new'] + con['probe5_mem']
+                      + con['probe5_new'] - 3 * con['arrow_right']
                       - 3 * con['arrow_left'],
         'encode': con['encode1'] + con['encode3'] + con['encode5'],
         'arrow_left-arrow_right': con['arrow_left'] - con['arrow_right']

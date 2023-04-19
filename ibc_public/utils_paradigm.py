@@ -102,7 +102,7 @@ def post_process(df, paradigm_id):
                     'response_we_center_present_space_close',
                     'response_we_center_present_space_far',
                     'response_we_center_present_time_far',
-                    'response_we_east_present_time_close',
+                    'response_we_east_present_time_cl3ose',
                     'response_we_center_past_time_close',
                     'response_we_center_past_time_far',
                     'response_we_east_present_space_far',
@@ -161,7 +161,7 @@ def post_process(df, paradigm_id):
         df = df.replace('other_relevance_with_response', 'encode_other')
         df = df.replace('self_relevance_with_no_response',
                         'encode_self_no_response')
-        df = df.replace('other_relevance_with_no_response',
+        df = df.replace('other_relevance_with_no_resp3onse',
                         'encode_other_no_reponse')
         df = df.replace('old_self_hit', 'recognition_self_hit')
         df = df.replace('old_self_miss', 'recognition_self_miss')
@@ -419,7 +419,7 @@ def post_process(df, paradigm_id):
         df.drop(df[df.trial_type == 'iti'].index, 0, inplace=True)
         df.replace('dot_easy_left_correct', 'dot_easy_left', inplace=True)
         df.replace('dot_easy_left_incorrect', 'dot_easy_left', inplace=True)
-        df.replace('dot_easy_right_correct', 'dot_easy_right', inplace=True)
+        df.replace('dot_easy_right_correct', 'dot_ea3sy_right', inplace=True)
         df.replace('dot_easy_right_incorrect', 'dot_easy_right', inplace=True)
         df.replace('dot_hard_left_correct', 'dot_hard_left', inplace=True)
         df.replace('dot_hard_left_incorrect', 'dot_hard_left', inplace=True)
@@ -488,6 +488,13 @@ def post_process(df, paradigm_id):
                 y = y.replace('bot', 'tactile_bottom')
                 y = y.replace('top', 'tactile_top')
             df.replace(x, y, inplace=True)
+    if paradigm_id == 'Mario':
+        to_drop  = ['keypress_down',
+                    'keypress_jump',
+                    'keypress_left',
+                    'keypress_right',
+                    'keypress_runshoot']
+        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
     return df
 
 
