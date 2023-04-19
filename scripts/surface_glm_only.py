@@ -70,13 +70,15 @@ def generate_glm_input(jobfile, mesh=None):
     return output
 
 
-def run_subject_surface_glm(jobfile, subject, session, protocol, mesh=None):
+def run_subject_surface_glm(jobfile, subject, session, protocol, mesh=None, compcorr=True):
     """ Create jobfile and run it """
     output_name = os.path.join(
         '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
     _adapt_jobfile(jobfile, subject, output_name, session)
     list_subjects_update = generate_glm_input(output_name, mesh)
     clean_anatomical_images(IBC)
+    if protocol == 'mathlang':
+        compcorr = False
     for subject in list_subjects_update:
         clean_subject(subject)
         if len(subject['session_id']) > 0:
@@ -84,11 +86,11 @@ def run_subject_surface_glm(jobfile, subject, session, protocol, mesh=None):
         if len(subject['session_id']) > 0:
             if protocol == 'retino':
                 subject['onset'] = [''] * len(subject['onset'])
-                first_level(subject, compcorr=True,
+                first_level(subject, compcorr=compcorr,
                             additional_regressors=RETINO_REG,
                             smooth=None, mesh=mesh)
             else:
-                first_level(subject, compcorr=True, smooth=None, mesh=mesh)
+                first_level(subject, compcorr=compcorr, smooth=None, mesh=mesh)
                 fixed_effects_analysis(subject, mesh=mesh)
 
 
@@ -105,7 +107,7 @@ if __name__ == '__main__':
                  'navigation', 'search']
     protocols = ['scene', 'color']
     """
-    protocols = ['retino']
+    protocols = ['search']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol
@@ -113,7 +115,7 @@ if __name__ == '__main__':
             acquisition = 'clips4'
         subject_session = sorted(get_subject_session(acquisition))
         for mesh in ['fsaverage5', 'individual', 'fsaverage7']:
-            Parallel(n_jobs=1)(
+            Parallel(n_jobs=4)(
                 delayed(run_subject_surface_glm)(
                     jobfile, subject, session, protocol, mesh=mesh)
                 for (subject, session) in subject_session)

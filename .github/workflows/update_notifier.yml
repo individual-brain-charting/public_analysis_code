@@ -1,0 +1,26 @@
+name: Update notifier
+on:
+  push:
+    branches: [master]
+    paths: [ibc_data/ibc_tasks.tsv, ibc_data/ibc_conditions.tsv, ibc_data/all_contrasts.tsv]
+
+jobs:
+  dispatch:
+    name: Notify docs
+    env:
+      PACKAGES_TO_UPGRADE: ${{ needs.run_publish.outputs.packages }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: ['individual-brain-charting/docs']
+    timeout-minutes: 5
+    steps:
+      - name: Trigger docs build
+        run: |
+            curl -L \
+              -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: token ${{ secrets.UPDATE_NOTIFIER_TOKEN }}"\
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+             https://api.github.com/repos/${{ matrix.repo }}/dispatches \
+             -d '{"event_type":"descriptions_updated","client_payload":{"unit":false,"integration":true}}'

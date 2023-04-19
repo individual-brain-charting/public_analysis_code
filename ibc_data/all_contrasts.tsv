@@ -33,7 +33,7 @@ ArchiSocial	triangle_mental	mental motion	fixation	mental motion of triangle	['a
 ArchiSocial	triangle_random	random motion	fixation	randomly drifting triangle	['motion_detection']
 ArchiSocial	triangle_mental-random	mental motion	random motion	mental motion vs. random motion	['animacy_perception','animacy_decision','mentalization']
 ArchiSocial	false_belief_video	false-belief tale	fixation	false-belief story 	['visual_word_recognition','visual_sentence_comprehension','narrative_comprehension','visual_imagery','theory-of-mind']
-ArchiSocial	false_belief_audio	false-belief tale	fixation	false-belief tale 	['auditory_word_recognition','auditory_sentence_recognition','narrative_comprehension','auditory_imagery','theory-of-mind']]
+ArchiSocial	false_belief_audio	false-belief tale	fixation	false-belief tale 	['auditory_word_recognition','auditory_sentence_recognition','narrative_comprehension','auditory_imagery','theory-of-mind']
 ArchiSocial	mechanistic_video	mechanistic story	fixation	reading a mechanistic story	['visual_word_recognition','visual_sentence_comprehension','narrative_comprehension']
 ArchiSocial	mechanistic_audio	mechanistic tale	fixation	listening to a mechanistic tale	['auditory_word_recognition','auditory_sentence_recognition','narrative_comprehension']
 ArchiSocial	false_belief-mechanistic_video	false-belief story	mechanistic story	false-belief story vs. mechanistic story	['visual_imagery','theory-of-mind']
@@ -224,7 +224,7 @@ Audi	yawn	yawning	silence	listen to yawning	['auditory_perception','auditory_att
 Audi	human	human sounds	silence	listen to human sounds	['auditory_perception','auditory_attention','sound_perception','voice_perception','listening']
 Audi	silence	silence	silence	listen to silence	['auditory_attention']
 Audi	music	music	silence	listen to music	['auditory_perception','auditory_attention','sound_perception','listening']
-Audi	reverse	reversed speech	silence	listen to reversed speech	['auditory_perception','auditory_attention','sound_perception','voice_perception','listening','speech_perception','language_processing'
+Audi	reverse	reversed speech	silence	listen to reversed speech	['auditory_perception','auditory_attention','sound_perception','voice_perception','listening','speech_perception','language_processing']
 Audi	speech	speech	silence	listen to speech	['auditory_perception','auditory_attention','sound_perception','voice_perception','auditory_sentence_recognition','listening','speech_perception','speech_processing','language_processing','language_comprehension','semantic_processing']
 Audi	alphabet	letters sounds	silence	listen to letters	['auditory_perception','auditory_attention','sound_perception','voice_perception','listening','speech_perception','speech_processing','language_processing','language_comprehension']
 Audi	cough	coughing	silence	listen to coughing	['auditory_perception','auditory_attention','sound_perception','voice_perception','listening']
@@ -260,8 +260,8 @@ Visu	animal	animal image	fixation	view an animal	['object_recognition','object_c
 Visu	characters	pseudoword image	fixation	view characters	['visual_word_recognition','reading']
 Visu	pseudoword	pseudoword image	fixation	view a pseudoword	['visual_string_recognition','visual_pseudoword_recognition','reading']
 Lec1	word	word	fixation	read a word 	['visual_word_recognition','language_processing','semantic_processing','reading','response_selection','response_execution']
-Lec1	random_string	random string	fixation	read a random string	['visual_string_recognition','reading','response_selection','response_execution]
-Lec1	pseudoword	pseudoword	fixation	read a pseudoword	['visual_pseudoword_recognition','language_processing','reading','response_selection','response_execution]
+Lec1	random_string	random string	fixation	read a random string	['visual_string_recognition','reading','response_selection','response_execution']
+Lec1	pseudoword	pseudoword	fixation	read a pseudoword	['visual_pseudoword_recognition','language_processing','reading','response_selection','response_execution']
 Lec1	word-random_string	word	random string	read a word vs. a random string	['visual_word_recognition','language_processing','semantic_processing']
 Lec1	word-pseudoword	word	pseudoword	read a word vs. a pseudoword	['visual_word_recognition','semantic_processing']
 Lec1	pseudoword-random_string	pseudoword	random string	read a pseudoword vs. a random string	['visual_pseudoword_recognition','language_processing','reading']
@@ -443,7 +443,7 @@ EmoMem	positive-neutral_image	emotionally positive image	emotionally neutral ima
 EmoMem	negative_image	emotionally negative image	fixation	viewing a negative image	['visual_perception','negative_emotion']
 EmoMem	negative-neutral_image	emotionally negative image	emotionally neutral image	negative vs neutral image	['negative_emotion']
 EmoMem	positive_image	emotionally positive image	fixation	viewing a positive image	['visual_perception','positive_emotion']
-EmoMem	object	visual cue	fixation	foreground object and imagination task	['visual_perception',‘visual_cue','imagination']
+EmoMem	object	visual cue	fixation	foreground object and imagination task	['visual_perception','visual_cue','imagination']
 EmoReco	neutral_male	neutral male face	fixation	neutral male face perception	['face_perception']
 EmoReco	neutral	neutral face	fixation	neutral face perception	['face_perception']
 EmoReco	female-male	female face	male face	female vs male face perception	['face_perception','gender_perception']
@@ -470,62 +470,246 @@ FingerTapping	chosen	uncued finger tapping	fixation	uncued finger tapping	['moto
 FingerTapping	specified-null	cued finger tapping	inhibited finger tapping	cued vs inhibited finger tapping	['motor_control','response_execution','right_finger_response_execution'] 
 FingerTapping	null	inhibited finger tapping	fixation	inhibited finger tapping	['response_selection']
 FingerTapping	chosen-null	uncued finger tapping	inhibited finger tapping	uncued vs inhibited finger tapping	['motor_planning','response_selection','response_execution','right_finger_response_execution'] 
+VSTMC	stim_load1	attending to one set of points	fixation	attending to one set of points	['visual_attention','spatial_working_memory']
+VSTMC	resp_load1	response to motion direction	fixation	response to motion direction of one set of points	['response_selection','response_execution']
+VSTMC	stim	attending to sets of points	fixation	attending to sets of points	['visual_attention','spatial_working_memory','task_difficulty']
+VSTMC	resp_load3-load1	response to motion direction of three sets of points	response to motion direction of one set of points	difference in response to one vs three sets of points	['response_selection','response_execution','task_difficulty']
+VSTMC	stim_load2	attending to two set of points	fixation	attending to two sets of points	['visual_attention','spatial_working_memory']
+VSTMC	resp_load2	response to motion direction	fixation	response to motion direction of two sets of points	['response_selection','response_execution']
+VSTMC	resp	response to motion	fixation	response to motion	['response_selection','response_execution']
+VSTMC	stim_load3	attending to three set of points	fixation	attending to three set of points	['visual_attention','spatial_working_memory','task_difficulty']
+VSTMC	resp_load3	response to motion direction	fixation	response to motion direction of three sets of points	['response_selection','response_execution']
+VSTMC	stim_load3-load1	attending to three set of points	attending to one set of points	difference in attending to motion of one vs three sets of points	['visual_attention','spatial_working_memory','task_difficulty']
+FaceBody	bodies_body	1-back body image	fixation	body image 1-back task vs. fixation	['visual_body_recognition','body_maintenance','response_execution','updating','working_memory']
+FaceBody	objects_instrument	1-back object image	fixation	object image 1-back task vs. fixation	['visual_object_recognition','object_maintenance','response_execution','working_memory']
+FaceBody	characters_number	1-back characters image	fixation	character images 1-back vs fixation	['visual_letter_recognition','visual_number_recognition','response_execution','working_memory']
+FaceBody	places_house	1-back place image	fixation	place image 1-back task vs. fixation	['visual_place_recognition','place_maintenance','response_execution','working_memory']
+FaceBody	faces_adult	1-back face image	fixation	face image 1-back task vs. fixation	['visual_face_recognition','face_maintenance','response_execution','updating','working_memory']
+FaceBody	characters-others	1-back characters image	rest of categories	character images 1-back vs. rest of categories	['visual_letter_recognition','visual_number_recognition']
+FaceBody	faces-others	1-back face image	rest of categories	face image 1-back task vs. rest of categories	['visual_face_recognition','face_maintenance']
+FaceBody	objects_car	1-back object image	fixation	object image 0-back task vs. fixation	['visual_object_recognition','object_maintenance','response_execution','working_memory']
+FaceBody	places-others	1-back place image	rest of categories	place image 1-back task vs. rest of categories	['visual_place_recognition','place_maintenance']
+FaceBody	places_corridor	1-back place image	fixation	place image 1-back task vs. fixation	['visual_place_recognition','place_maintenance','response_execution','working_memory']
+FaceBody	bodies-others	1-back body image	rest of categories	body image 1-back task vs. rest of categories	['visual_body_recognition','body_maintenance']
+FaceBody	objects-others	1-back object image	rest of categories	object image 0-back task vs. rest of categories	['visual_object_recognition','object_maintenance']
+FaceBody	faces_child	1-back face image	fixation	face image 1-back task vs. fixation	['visual_face_recognition','face_maintenance','response_execution','updating','working_memory']
+FaceBody	bodies_limb	1-back body image	fixation	body image 1-back task vs. fixation	['visual_body_recognition','body_maintenance','response_execution','updating','working_memory']
+FaceBody	characters_word	1-back word image	fixation	words images 1-back vs fixation	['visual_pseudoword_recognition',,'response_execution','working_memory']
+Scene	dot_easy_left	high salience left	fixation	looking for a salience dot in left visual field	['response_selection','response_execution','visual_search','salience','upper-left_vision','lower-left_vision']
+Scene	dot_easy_right	high salience right	fixation	looking for a salience dot in right visual field	['response_selection','response_execution','visual_search','salience','upper-right_vision','lower-right_vision']
+Scene	dot_hard_left	low salience left	fixation	looking for a low-salience dot in left visual field	['response_selection','response_execution','visual_search','task_difficulty','upper-left_vision','lower-left_vision']
+Scene	dot_hard_right	low salience right	fixation	looking for a low-salience dot in right visual field	['response_selection','response_execution','visual_search','task_difficulty','upper-right_vision','lower-right_vision']
+Scene	scene_impossible_correct	correct impossible scene identification	fixation	successful identification of an impossible scene	['visual_scene_perception','spatial_attention','response_selection','response_execution','oddball_detection']
+Scene	scene_impossible_incorrect	incorrect impossible scene identification	fixation	failed  identification an impossible scene	['visual_scene_perception','spatial_attention','response_selection','response_execution','oddball_detection']
+Scene	scene_possible_correct	correct possible scene identification	fixation	successful identification of an possible scene	['visual_scene_perception','spatial_attention','response_selection','response_execution']
+Scene	scene_possible_correct-scene_impossible_correct	correct possible scene identification	correct impossible scene identification	successful identification of an possible vs impossible scene	['visual_scene_perception','spatial_attention']
+Scene	scene_correct-dot_correct	identifying a scene	looking for a dot 	assessing scenes vs detecting a dot	['visual_scene_perception','spatial_attention','oddball_detection']
+Scene	dot_left-right	salience left	salience right	looking for a dot in left vs right visual field	['response_selection','response_execution','visual_search','salience','upper-left_vision','lower-left_vision']
+Scene	dot_hard-easy	low salience	high salience	looking for low-salience vs high-salience dot	['response_selection','response_execution','visual_search','task_difficulty']
+VisualSearch	memory_array_four	memorizing 4 items	fixation	array of four items with or without the item to search for	['visual_pattern_recognition','visual_attention','task_difficulty','visual_working_memory']
+VisualSearch	memory_array_two	memorizing 2 items	fixation	array of two items with or without the item to search for	['visual_pattern_recognition','visual_attention','visual_working_memory']
+VisualSearch	sample_item	item to search for	fixation	item to search for in an array of two or four items	['visual_pattern_recognition','visual_attention','visual_working_memory']
+VisualSearch	delay_vis	delay period on visual search	fixation	delay period on visual search	['working_memory_maintenance']
+VisualSearch	probe_item_four_absent	probing an absent item from array of four	fixation	probing an absent item from array of four	['visual_search','visual_pattern_recognition','visual_form_discrimination','task_difficulty']
+VisualSearch	probe_item_two_absent	probing an absent item from array of two	fixation	probing an absent item from array of four	['visual_search','visual_pattern_recognition','visual_form_discrimination']
+VisualSearch	probe_item_four_present	probing a present item from array of four	fixation	probing a present item from array of four	['visual_search','visual_pattern_recognition','visual_form_discrimination','task_difficulty']
+VisualSearch	probe_item_two_present	probing a present item from array of two	fixation	probing a present item from array of four	['visual_search','visual_pattern_recognition','visual_form_discrimination']
+VisualSearch	response_hit	subject's correct response	fixation	subject's correct response	['response_selection','response_execution']
+VisualSearch	response_miss	subject's incorrect response	fixation	subject's incorrect response	['response_selection','response_execution']
+VisualSearch	delay_wm	delay period on working memory	fixation	delay period on working memory	['working_memory_maintenance']
+VisualSearch	search_array_four_absent	array of four items without the sample item	fixation	array of four items without sample item	['visual_pattern_recognition','visual_attention','task_difficulty','visual_working_memory','visual_form_discrimination']
+VisualSearch	search_array_four_present	array of four items with the sample item	fixation	array of four items with sample item	['visual_pattern_recognition','visual_attention','task_difficulty','visual_working_memory','visual_form_discrimination']
+VisualSearch	search_array_two_absent	array of two items without the sample item	fixation	array of two items without the sample item	['visual_pattern_recognition','visual_attention','visual_working_memory','visual_form_discrimination']
+VisualSearch	search_array_two_present	array of two items with the sample item	fixation	array of two items with the sample item	['visual_pattern_recognition','visual_attention','visual_working_memory','visual_form_discrimination']
+VisualSearch	probe_item	probing an item	fixation	probing an item, absent or present	['visual_search','visual_pattern_recognition','visual_form_discrimination']
+VisualSearch	search_array	array of items	fixation	array of items, four or two	['visual_pattern_recognition','visual_attention','visual_working_memory','visual_form_discrimination']
+VisualSearch	probe_item_absent–probe_item_present	probing an absent item	probing a present item	probing an absent vs present item	['visual_form_discrimination']
+VisualSearch	search_array_absent–search_array_present 	array of items without the sample item	array of items with the sample item	array of items without vs with sample item	['visual_form_discrimination','visual_pattern_recognition']
+VisualSearch	probe_item_four–probe_item_two	probing an item from an array of four	probing an item from an array of two	probing an item from an array of four vs two	['visual_attention','task_difficulty','visual_working_memory']
+VisualSearch	search_array_four–search_array_two	array of four items	array of two items	array of four vs two items	['visual_pattern_recognition','task_difficulty']
+VisualSearch	delay_vis–delay_wm	delay period on visual search	delay period on working memory	delay period on visual search vs on working memory	['working_memory_maintenance','visual_search']
+NARPS	gain	potential gains during stim events	fixation	potential gains during stim events	['reward_valuation','reward_processing']
+NARPS	loss	potential losses during stim events	fixation	potential losses during stim events	['reward_valuation','reward_processing','risk_aversion','risk_processing','loss_aversion']
+NARPS	weakly_accept	accept the gamble with low confidence	fixation	accept the gamble with low confidence	['response_selection','response_execution','reward_anticipation']
+NARPS	weakly_reject	reject the gamble with low confidence	fixation	reject the gamble with low confidence	['response_selection','response_execution','reward_anticipation','loss_aversion']
+NARPS	strongly_accept	accept the gamble with high confidence	fixation	accept the gamble with high confidence	['response_selection','response_execution','reward_anticipation']
+NARPS	strongly_reject	reject the gamble with high confidence	fixation	reject the gamble with high confidence	['response_selection','response_execution','reward_anticipation','loss_aversion']
+NARPS	Reject-accept	gambles rejected	gambles accepted	gambles rejected vs gambles accepted	['response_selection','response_execution','reward_anticipation','decision_making']
+NARPS	accept-reject	gambles accepted	gambles rejected	gambles accepted vs gambles rejected	['response_selection','response_execution','reward_anticipation']
+RewProc	stim				
+RewProc	minus_20	lost 20 units of reward	fixation	lost 20 units of reward	
+RewProc	plus_20	gained 20 units of reward	fixation	gained 20 units of reward	
+RewProc	minus_10	lost 10 units of reward	fixation	lost 10 units of reward	
+RewProc	plus_10	gained 10 units of reward	fixation	gained 10 units of reward	
+RewProc	green-purple	green pattern selected	purple pattern selected	green vs purple pattern selected	
+RewProc	purple-green	purple pattern selected	green pattern selected	purple vs green pattern selected	
+RewProc	left-right	selected pattern was on the left side	selected pattern was on the right side	selected pattern on the left vs right side	
+RewProc	right-left	selected pattern was on the right side	selected pattern was on the left side	selected pattern on the right vs left side	
+RewProc	switch	selected a different pattern than previous trial	fixation	selected a different pattern than previous trial	
+RewProc	stay	selected the same pattern than previous trial	fixation	selected the same pattern than previous trial	
+RewProc	switch-stay	selected a different pattern than previous trial	selected the same pattern than previous trial	selected a different vs same pattern	
+RewProc	stay-switch	selected the same pattern than previous trial	selected a different pattern than previous trial	selected the same vs different pattern	
+RewProc	gain	gained 20 and 10 units of reward 	fixation	gained units of reward 	
+RewProc	loss	lost 20 and 10 units of reward	fixation	lost units of reward	
+RewProc	gain-loss	gained 20 and 10 units of reward 	lost 20 and 10 units of reward	gained vs lost units of reward 	
+RewProc	loss-gain	lost 20 and 10 units of reward	gained 20 and 10 units of reward 	lost vs gained units of reward	
+BreathHolding	breathe	breathe normally	fixation	breathe normally	
+BreathHolding	hold_breath	hold breath	fixation	hold breath	
+BreathHolding	hold-breathe	hold breath	breathe normally	hold breath vs breathe normally	
+BreathHolding	breathe-hold	breathe normally	hold breath	breathe normally vs hold breath	
+Checkerboard	checkerboard-fixation	checkerboard block	fixation	checkerboard block	
+FingerTapping	fingertap-rest	button-press corresponding to visual stimulus	rest	button-pressing vs rest	
+ItemRecognition	encode5-encode1	encoding 5 items	encoding 1 item	encoding 5 vs 1 item	
+ItemRecognition	probe5_mem-probe1_mem	probing an encoded digit in load 5	probing an encoded digit in load 1	probing an encoded digit in a load of 5 vs 1	
+ItemRecognition	probe5_new-probe1_new	probing a new digit in a load 5	probing a new digit in a load 1	probing a new digit in a load 5 vs 1	
+ItemRecognition	prob-arrow	probing encoded and new digits	trials of left and right pointing arrows	probing digits vs trials of pointing arrows	
+ItemRecognition	encode	encoding items	fixation	encoding 1, 3 and 5 items	
+ItemRecognition	arrow_left-arrow_right	identifying a left pointing arrow	identifying a right pointing arrow	identifying a left vs right pointing arrow	
+Color	chromatic	chromatic mondrian patterns	fixation	attending to chromatic mondrian patterns	
+Color	achromatic	achromatic mondrian patterns	fixation	attending to achromatic mondrian patterns	
+Color	chromatic-achromatic	chromatic mondrian patterns	achromatic mondrian patterns	chromatic vs achromatic mondrian patterns	
+Color	response	response to repeated pattern	fixation	response to repeated mondrian patterns	
+Motion	incoherent	dots moving incoherently in random directions	fixation	dots moving in random directions 	
+Motion	coherent	dots moving coherently in the same direction	fixation	dots moving in the same direction	
+Motion	stationary	stationary dots appearing in a different location after 1 sec	fixation	stationary dots changing location every sec	
+Motion	clock	direction of coherent motion in clockwise direction	fixation	coherent motion of dots in clockwise direction	
+Motion	anti	direction of coherent motion in anti-clockwise direction	fixation	coherent motion of dots in anti-clockwise direction	
+Motion	response	button press to fixation point turned blue	fixation	attending to fixation point turning blue 	
+Motion	coherent-incoherent	dots moving coherently in the same direction	dots moving incoherently in random directions	dots moving in the same vs random directions	
+Motion	coherent-stationary	dots moving coherently in the same direction	stationary dots appearing in a different location after 1 sec	dots moving coherently vs staying stationary	
+Motion	incoherent-stationary	dots moving incoherently in random directions	stationary dots appearing in a different location after 1 sec	dots moving incoherently vs staying stationary	
+Motion	clock-anti	direction of coherent motion in clockwise direction	direction of coherent motion in anti-clockwise direction	coherent motion in clockwise vs anti-clockwise direction 	
+Motion	left-right	dot pattern presented in the left visual field	dot pattern presented in the right visual field	dot pattern presented in the left vs right visual field	
+OptimismBias	all_events	past and future with negative and positive valence	fixation	all past and future with negative and positive valence	
+OptimismBias	optimism_bias	future, negative valence	past, positive plus past, negative plus future, positive	future negative vs past positive and negative and future positive	
+OptimismBias	future_vs_past	future, positive and negative valence	past, positive and negative valence	future positive and negative vs. past positive and negative	
+OptimismBias	positive_vs_negative	future and past positive valence	future and past negative valence	past and future positive vs past and future negative	
+OptimismBias	future_positive_vs_negative	future, positive valence	future negative valence	future positive vs negative	
+OptimismBias	past_positive_vs_negative	past, positive valence	past, negative valence	past positive vs. past negative trials	
+OptimismBias	interaction	future, positive and past, negative valence	future neutral arousal and past, positive valence	future positive and past negative vs future neutral and past positive	
+HarririAomic	emotion	match the emotion/facial expression	fixation	match the emotion/facial expression of images	
+HarririAomic	shape	match the shape of the images	fixation	match the shape of the images	
+HarririAomic	index_response	the left image matches the top image	fixation	matching the left image to the top image	
+HarririAomic	middle_response	the right image matches the top image	fixation	matching the right image to the top image	
+HarririAomic	emotion-shape	match the emotion/facial expression	match the shape of the images	match emotion/facial expression show on image vs the shape of the image	
+FacesAomic	ITI	inter-trial intervals	fixation	inter-trial intervals	
+FacesAomic	anger	watching a face that expresses anger	fixation	attending to a face that expresses anger	
+FacesAomic	contempt	watching a face that expresses contempt	fixation	attending to a face that expresses contempt	
+FacesAomic	joy	watching a face that expresses joy	fixation	attending to a face that expresses joy	
+FacesAomic	neutral	watching a face that expressed no emotion	fixation	attending to a face that expressed no emotion	
+FacesAomic	pride	watching a face that expresses pride	fixation	attending to a face that expresses pride	
+FacesAomic	all-neutral	watching faces that express pride, anger, contempt and joy	watching a face that expressed no emotion	attending to faces that express pride, joy, anger and contempt vs no emotion	
+FacesAomic	anger-neutral	watching a face that expresses anger	watching a face that expressed no emotion	attending to a face that expresses anger vs no emotion	
+FacesAomic	contempt-neutral	watching a face that expresses contempt	watching a face that expressed no emotion	attending to a face that expresses contempt vs no emotion	
+FacesAomic	joy-neutral	watching a face that expresses joy	watching a face that expressed no emotion	attending to a face that expresses joy vs no emotion	
+FacesAomic	pride-neutral	watching a face that expresses pride	watching a face that expressed no emotion	attending to a face that expresses pride vs no emotion	
+FacesAomic	male-female	watching a male face expressing emotion	watching a female face expressing emotion 	attending to a male vs female face expressing emotion 	
+FacesAomic	female-male	watching a female face expressing emotion 	watching a male face expressing emotion	attending to a female vs male face expressing emotion 	
+FacesAomic	mediterranean-european	watching a mediterranean ethnicity model expressing emotion	watching a european ethnicity model expressing emotion	attending to a mediterranean vs european ethnicity model expressing emotion	
+FacesAomic	european-mediterranean	watching a european ethnicity model expressing emotion	watching a mediterranean ethnicity model expressing emotion	attending to a european vs mediterranean ethnicity model expressing emotion	
+StroopAomic	incongruent_word_male_face_female	show the word “male” on top of a female face	fixation	attending to a female face while reading “male”	
+StroopAomic	congruent_word_female_face_female	show the word “female” on top of a female face	fixation	attending to a female face while reading “female”	
+StroopAomic	congruent_word_male_face_male	show the word “male” on top of a male face	fixation	attending to a male face while reading “male”	
+StroopAomic	incongruent_word_female_face_male	show the word “female” on top of a male face	fixation	attending to a male face while reading “female”	
+StroopAomic	index_response	indicate the face is of a male	fixation	identifying a male face	
+StroopAomic	middle_response	indicate the face is of a female	fixation	identifying a female face	
+StroopAomic	congruent-incongruent	word and the face shown matched	word and the face shown did not match	word and the face shown matched vs did not match	
+StroopAomic	incongruent-congruent	word and the face shown did not match	word and the face shown matched	word and the face shown did not match vs matched	
+StroopAomic	face_male-face_female	male face shown	female face shown	male vs female face shown 	
+StroopAomic	word_male-word_female	word “male” shown	word “female” shown	word “male” vs “female” shown 	
+StroopAomic	index-middle	indicate the face is of a male	indicate the face is of a female	indicate the face is of a male vs of a female	
+StroopAomic	middle-index	indicate the face is of a female	indicate the face is of a male	indicate the face is of a female vs of a male	
+WorkingMemoryAomic	active_change	active trials where the probe was present 	fixation	active trials where the probe was present 	
+WorkingMemoryAomic	active_no_change	active trials where the probe was absent 	fixation	active trials where the probe was absent 	
+WorkingMemoryAomic	passive_change	passive trials where the probe was present 	fixation	passive trials where the probe was present 	
+WorkingMemoryAomic	passive_no_change	passive trials where the probe was absent 	fixation	passive trials where the probe was absent 	
+WorkingMemoryAomic	active-passive	active trials	passive trials	active vs passive trials	
+WorkingMemoryAomic	active_change-active_no_change	active trials where the probe was present 	active trials where the probe was absent 	active trials where the probe was present vs absent	
+AbstractionLocalizer	localizer_faces	human faces	fixation	localizer for human faces	
+AbstractionLocalizer	localizer_humanbody	human bodies without the head	fixation	localizer for human bodies	
+AbstractionLocalizer	localizer_words	words	fixation	localizer for words	
+AbstractionLocalizer	localizer_nonsensewords	nonsense words	fixation	localizer for nonsense words	
+AbstractionLocalizer	localizer_numbers	display of numbers	fixation	localizer for numbers	
+AbstractionLocalizer	localizer_places	places	fixation	localizer for places	
+AbstractionLocalizer	localizer_objects	different objects	fixation	localizer for objects	
+AbstractionLocalizer	localizer_checkerboards	checkerboards	fixation	localizer for checkerboards	
+AbstractionLocalizer	localizer_faces-other	human faces	rest of categories	human faces vs other categories	
+AbstractionLocalizer	localizer_humanbody-other	human bodies without the head	rest of categories	human bodies vs other categories	
+AbstractionLocalizer	localizer_words-other	words	rest of categories	words vs other categories	
+AbstractionLocalizer	localizer_nonsensewords-other	nonsense words	rest of categories	nonsense words vs other categories	
+AbstractionLocalizer	localizer_numbers-other	display of numbers	rest of categories	numbers vs other categories	
+AbstractionLocalizer	localizer_places-other	word_male-word_female	rest of categories	places vs other categories	
+AbstractionLocalizer	localizer_objects-other	different objects	rest of categories	objects vs other categories	
+AbstractionLocalizer	localizer_checkerboards-other	checkerboards	rest of categories	checkerboards vs other categories	
+AbstractionLocalizer	response	indicate a star appeared	fixation	response to star image as control	
 					
 					
-VSTMC	stim_load1	attending to one set of points	fixation		['']
-VSTMC	resp_load1	response to motion direction	fixation		['']
-VSTMC	stim	attending to sets of points			['']
-VSTMC	resp_load3-load1				['']
-VSTMC	stim_load2	attending to two set of points	fixation		['']
-VSTMC	resp_load2	response to motion direction	fixation		['']
-VSTMC	resp	response to motion			['']
-VSTMC	stim_load3	attending to three set of points	fixation		['']
-VSTMC	resp_load3	response to motion direction	fixation		['']
-VSTMC	stim_load3-load1				['']
-FaceBody	bodies_body				['']
-FaceBody	objects_instrument				['']
-FaceBody	characters_number				['']
-FaceBody	places_house				['']
-FaceBody	faces_adult				['']
-FaceBody	characters-others				['']
-FaceBody	faces-others				['']
-FaceBody	objects_car				['']
-FaceBody	places-others				['']
-FaceBody	places_corridor				['']
-FaceBody	bodies-others				['']
-FaceBody	objects-others				['']
-FaceBody	faces_child				['']
-FaceBody	bodies_limb				['']
-FaceBody	characters_word				['']
-Scene	dot_easy_left				['']
-Scene	dot_easy_right				['']
-Scene	dot_hard_left				['']
-Scene	dot_hard_right				['']
-Scene	scene_impossible_correct				['']
-Scene	scene_impossible_incorrect				['']
-Scene	scene_possible_correct				['']
-Scene	scene_possible_correct-scene_impossible_correct				['']
-Scene	scene_correct-dot_correct				['']
-Scene	dot_left-right				['']
-Scene	dot_hard-easy				['']
-VisualSearch	memory_array_four				['']
-VisualSearch	memory_array_two				
-VisualSearch	sample_item				['']
-VisualSearch	delay_vis				['']
-VisualSearch	probe_item_absent				
-VisualSearch	probe_item_present				
-VisualSearch	response_hit				
-VisualSearch	response_miss				
-VisualSearch	delay_wm				
-VisualSearch	search_array_four_absent				
-VisualSearch	search_array_four_present				
-VisualSearch	search_array_two_absent				
-VisualSearch	search_array_two_present				
-NARPS	gain				['']
-NARPS	loss				['']
-NARPS	weakly_accept				['']
-NARPS	weakly_reject				['']
-NARPS	strongly_accept				['']
-NARPS	strongly_reject				['']
-NARPS	Reject-accept				['']
-NARPS	accept-reject				['']
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+ 					
