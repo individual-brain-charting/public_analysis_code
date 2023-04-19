@@ -642,52 +642,52 @@ AbstractionLocalizer	localizer_places-other	word_male-word_female	rest of catego
 AbstractionLocalizer	localizer_objects-other	different objects	rest of categories	objects vs other categories	
 AbstractionLocalizer	localizer_checkerboards-other	checkerboards	rest of categories	checkerboards vs other categories	
 AbstractionLocalizer	response	indicate a star appeared	fixation	response to star image as control	
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+Abstraction	humanbody_geometry	geometry render of a human body	fixation	geometry renders of human bodies	
+Abstraction	humanbody_edge	edge render of a human body	fixation	edges renders of human bodies	
+Abstraction	humanbody_photo	photo of a human body	fixation	photos of human bodies	
+Abstraction	animals_geometry	geometry render of an animal	fixation	geometry renders of animals	
+Abstraction	animals_edge	edge render of an animal	fixation	edge renders of an animals	
+Abstraction	animals_photo	photo of an animal	fixation	photo of an animal	
+Abstraction	faces_geometry	geometry render of a human face	fixation	geometry renders of human faces	
+Abstraction	faces_edge	edge render of a human face	fixation	edge renders of human faces	
+Abstraction	faces_photo	photo of a human face	fixation	photos of human faces	
+Abstraction	flora_geometry	geometry render of flora	fixation	geometry renders of flora	
+Abstraction	flora_edge	edge render of flora	fixation	edge renders of flora	
+Abstraction	flora_photo	photo of flora	fixation	photos of flora	
+Abstraction	objects_geometry	geometry render of an object	fixation	geometry renders of objects	
+Abstraction	objects_edge	edge render of an object	fixation	edge renders of objects	
+Abstraction	objects_photo	photo of an object	fixation	photos of objects	
+Abstraction	places_geometry	geometry render of places	fixation	geometry renders of places	
+Abstraction	places_edge	edge render of places	fixation	edge renders of places	
+Abstraction	places_photo	photo of places	fixation	photos of places	
+Abstraction	humanbody-other	renders of a human body	renders of the rest of categories	renders of human bodies vs of rest of categories	
+Abstraction	animals-other	renders of animals	renders of the rest of categories	renders of animals vs of rest of categories	
+Abstraction	faces-other	renders of human faces	renders of the rest of categories	renders of faces vs of rest of categories	
+Abstraction	flora-other	renders of flora	renders of the rest of categories	renders of flora vs of rest of categories	
+Abstraction	objects-other	renders of objects	renders of the rest of categories	renders of objects vs of rest of categories	
+Abstraction	places-other	renders of places	renders of the rest of categories	renders of places vs of rest of categories	
+Abstraction	geometry-other	geometry renders of all categories	edge and photo renders of all categories	geometry vs edge and photo render	
+Abstraction	edge-other	edge renders of all categories	geometry and photo renders of all categories	edge vs geometry and photo render	
+Abstraction	photo-other	photos of all categories	geometry and edge renders of all categories	photo vs geometry and edge render	
+Abstraction	humanbody_geometry-humanbody_other	geometry render of human bodies	edge and photo renders of a human body	geometry vs edge and photo render of human bodies	
+Abstraction	humanbody_edge-humanbody_other	edges render of human bodies	geometry and photo renders of a human body	edge vs geometry and photo render of human bodies	
+Abstraction	humanbody_photo-humanbody_other	photos of human bodies	geometry and edge renders of a human body	photo vs geometry and edge render of human bodies	
+Abstraction	animals_geometry-animals_other	geometry render of animals	edge and photo renders of animals	geometry vs edge and photo render of animals	
+Abstraction	animals_edge-animals_other	edges render of animals	geometry and photo renders of animals	edge vs geometry and photo render of animals	
+Abstraction	animals_photo-animals_other	photos of animals	geometry and edge renders of animals	photo vs geometry and edge render of animals	
+Abstraction	faces_geometry-faces_other	geometry render of human faces	edge and photo renders of human faces	geometry vs edge and photo render of faces	
+Abstraction	faces_edge-faces_other	edges render of faces	geometry and photo renders of faces	edge vs geometry and photo render of faces	
+Abstraction	faces_photo-faces_other	photos of human faces	geometry and edge renders of human faces	photo vs geometry and edge render of faces	
+Abstraction	flora_geometry-flora_other	geometry render of flora	edge and photo renders of flora	geometry vs edge and photo render of flora	
+Abstraction	flora_edge-flora_other	edges render of flora	geometry and photo renders of flora	edge vs geometry and photo render of flora	
+Abstraction	flora_photo-flora_other	photos of flora	geometry and edge renders of flora	photo vs geometry and edge render of flora	
+Abstraction	objects_geometry-objects_other	geometry render of objects	edge and photo renders of objects	geometry vs edge and photo render of objects	
+Abstraction	objects_edge-objects_other	edges render of objects	geometry and photo renders of objects	edge vs geometry and photo render of objects	
+Abstraction	objects_photo-objects_other	photos of objects	geometry and edge renders of objects	photo vs geometry and edge render of objects	
+Abstraction	places_geometry-places_other	geometry render of places	edge and photo renders of places	geometry vs edge and photo render of places	
+Abstraction	places_edge-places_other	edges render of places	geometry and photo renders of places	edge vs geometry and photo render of places	
+Abstraction	places_photo-places_other	photos of places	geometry and edge renders of places	photo vs geometry and edge render of places	
+Abstraction	response	indicate a star appeared	fixation	button press to star	
 					
 					
 					
