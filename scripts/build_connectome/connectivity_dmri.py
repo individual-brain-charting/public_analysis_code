@@ -152,6 +152,26 @@ def tcktransform_tract2mni(tck, mni_tck, tmp_dir):
     os.system(cmd8)
 
 
+def fetch_mni_template(tmp_dir):
+    """Fetch MNI template and mask
+
+    Parameters
+    ----------
+    tmp_dir : str
+        where to store the downloaded files
+    """
+    # download mni templates and mask
+    mni_templates_link = (
+        "http://www.bic.mni.mcgill.ca/~vfonov/"
+        "icbm/2009/mni_icbm152_nlin_sym_09a_nifti.zip"
+    )
+    os.system(f"wget {mni_templates_link} -P {tmp_dir}")
+    # unzip mni templates and mask
+    os.system(
+        f"unzip -o {tmp_dir}/mni_icbm152_nlin_sym_09a_nifti.zip -d {tmp_dir}"
+    )
+
+
 def apply_mask(img, mask, out_masked_img):
     """Wrapper function for NiftiMasker to apply mask to image
 
@@ -249,47 +269,51 @@ def tck2connectome(
     os.system(cmd)
 
 
-def pipeline(sub, ses, DATA_ROOT):
-    # tract to mni and then tck2connectome fails for sub-06, skipping for
-    # now
+def pipeline(sub, ses, DATA_ROOT, atlas, mni_nifti):
+    """Pipeline for creating connectivity matrices from tractography in MNI
+    as well as in individual space
+
+    Parameters
+    ----------
+    sub : str
+        subject id
+    ses : str
+        session id
+    DATA_ROOT : str
+        path to data root directory
+    atlas : sklearn.utils.Bunch
+        Dictionary-like object, contains:
+        - 'maps': `str`, path to nifti file containing the
+        3D ~nibabel.nifti1.Nifti1Image (its shape is (182, 218, 182)). The
+        values are consecutive integers between 0 and n_rois which can be
+        interpreted as indices in the list of labels.
+        - 'labels': numpy.ndarray of str, array containing the ROI labels
+        including Yeo-network annotation.
+        - 'description': `str`, short description of the atlas
+          and some references.
+        _description_
+    mni_nifti : str
+        path to mni nifti template
+
+    Returns
+    -------
+    str
+        status message
+    """
+    # tract to mni and then tck2connectome fails for sub-06, skipping for now
     if sub == "sub-06":
         return f"{sub} skipped"
-    # setup tmp dir for saving figures
+    # setup tmp dir for saving intermediate files
     tmp_dir = os.path.join(DATA_ROOT, sub, ses, "dwi", "connectivity_tmp")
     if not os.path.exists(tmp_dir):
         os.makedirs(tmp_dir)
-    # download mni templates and mask
-    mni_templates_link = (
-        "http://www.bic.mni.mcgill.ca/~vfonov/"
-        "icbm/2009/mni_icbm152_nlin_sym_09a_nifti.zip"
-    )
-    os.system(f"wget {mni_templates_link} -P {tmp_dir}")
-    # unzip mni templates and mask
-    os.system(
-        f"unzip -o {tmp_dir}/mni_icbm152_nlin_sym_09a_nifti.zip -d {tmp_dir}"
-    )
-    # path to mni t2w template
-    mni_unmasked = os.path.join(
-        tmp_dir,
-        "mni_icbm152_nlin_sym_09a",
-        "mni_icbm152_t2_tal_nlin_sym_09a.nii",
-    )
-    # path to mni t1w template mask
-    mni_mask = os.path.join(
-        tmp_dir,
-        "mni_icbm152_nlin_sym_09a",
-        "mni_icbm152_t1_tal_nlin_sym_09a_mask.nii",
-    )
-    # path to masked mni t2w
-    mni_nifti = os.path.join(tmp_dir, "mni_t2w.nii.gz")
-    # apply mask to mni t2w template
-    apply_mask(mni_unmasked, mni_mask, mni_nifti)
+    # directory with dwi data
+    dwi_dir = os.path.join(DATA_ROOT, sub, ses, "dwi")
+
+    ######## start transform diffusion images to diffusion mni space ########
     # path to diffusion b0 image
     b0dwi = os.path.join(
-        DATA_ROOT,
-        sub,
-        ses,
-        "dwi",
+        dwi_dir,
         f"{sub}_{ses}_desc-denoise-eddy-correct-b0_dwi.nii.gz",
     )
     # register b0 to mni t2w template
@@ -308,30 +332,18 @@ def pipeline(sub, ses, DATA_ROOT):
     warpcorrect(tmp_dir)
     # path to diffusion tractogram in native space
     dwi_tck = os.path.join(
-        DATA_ROOT,
-        sub,
-        ses,
-        "dwi",
+        dwi_dir,
         f"tracks_{sub}_{ses}_t1.tck",
     )
     # path to diffusion tractogram in mni space
     mni_tck = os.path.join(
-        DATA_ROOT,
-        sub,
-        ses,
-        "dwi",
+        dwi_dir,
         f"mni-tracks_{sub}_{ses}_t2.tck",
     )
     # transform diffusion tractogram to mni space
     tcktransform_tract2mni(dwi_tck, mni_tck, tmp_dir)
 
-    #### transform atlas to diffusion native space #####
-    # get atlas
-    atlas = datasets.fetch_atlas_schaefer_2018(
-        data_dir=tmp_dir, resolution_mm=1, n_rois=400
-    )
-    # give atlas a custom name
-    atlas["name"] = "schaefer400"
+    ######## start transform atlas to diffusion native space ########
     # name of atlas in diffusion native space
     atlas_in_dwi_space = os.path.join(
         tmp_dir, (f"{atlas.name}_in_dwi_space.nii.gz")
@@ -357,24 +369,21 @@ def pipeline(sub, ses, DATA_ROOT):
             if sift == "siftweighted":
                 # file path for previously calculated sift weights
                 sift_weights = os.path.join(
-                    DATA_ROOT,
-                    sub,
-                    ses,
-                    "dwi",
+                    dwi_dir,
                     f"sift-track_{sub}_{ses}.txt",
                 )
             else:
                 sift_weights = None
             # name for output connectivity matrix
             connectivity_matrix = os.path.join(
-                tmp_dir,
-                f"{sub}_{ses}_Diffusion_{atlas.name}_{space}_connectome_"
+                dwi_dir,
+                f"{sub}_{ses}_Diffusion_connectome_{atlas.name}_{space}_"
                 f"{sift}.csv",
             )
             # name for output inverse connectivity matrix
             inverse_connectivity_matrix = os.path.join(
-                tmp_dir,
-                f"{sub}_{ses}_Diffusion_{atlas.name}_{space}_invconnectome_"
+                dwi_dir,
+                f"{sub}_{ses}_Diffusion_invconnectome_{atlas.name}_{space}_"
                 f"{sift}.csv",
             )
             # calculate and save the connectivity and inv connectivity
@@ -392,17 +401,43 @@ def pipeline(sub, ses, DATA_ROOT):
 
 if __name__ == "__main__":
     DATA_ROOT = "/data/parietal/store2/data/ibc/derivatives/"
+    # cache directory
+    cache = "/storage/store/work/haggarwa/"
+    # get atlas
+    atlas = datasets.fetch_atlas_schaefer_2018(
+        data_dir=cache, resolution_mm=1, n_rois=400
+    )
+    # give atlas a custom name
+    atlas["name"] = "schaefer400"
+    # download mni templates and mask
+    fetch_mni_template(cache)
+    # path to mni t2w template
+    mni_unmasked = os.path.join(
+        cache,
+        "mni_icbm152_nlin_sym_09a",
+        "mni_icbm152_t2_tal_nlin_sym_09a.nii",
+    )
+    # path to mni t1w template mask
+    mni_mask = os.path.join(
+        cache,
+        "mni_icbm152_nlin_sym_09a",
+        "mni_icbm152_t1_tal_nlin_sym_09a_mask.nii",
+    )
+    # path to masked mni t2w
+    mni_nifti = os.path.join(cache, "mni_t2w.nii.gz")
+    # apply mask to mni t2w template
+    apply_mask(mni_unmasked, mni_mask, mni_nifti)
     # get sessions with diffusion data
     subject_sessions = sorted(get_subject_session("anat1"))
-    sub_ses = dict()
-    for subject_session in subject_sessions:
-        if subject_session[0] in ["sub-01", "sub-15"]:
-            sub_ses[subject_session[0]] = "ses-12"
-        else:
-            sub_ses[subject_session[0]] = subject_session[1]
-
+    sub_ses = {
+        subject_session[0]: "ses-12"
+        if subject_session[0] in ["sub-01", "sub-15"]
+        else subject_session[1]
+        for subject_session in subject_sessions
+    }
     results = Parallel(n_jobs=6, verbose=1, backend="multiprocessing")(
-        delayed(pipeline)(sub, ses, DATA_ROOT) for sub, ses in sub_ses.items()
+        delayed(pipeline)(sub, ses, DATA_ROOT, atlas, mni_nifti)
+        for sub, ses in sub_ses.items()
     )
 
     print(results)
