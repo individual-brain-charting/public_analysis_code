@@ -1,13 +1,11 @@
 """
 This script:
-1) plots connectivity networks and matrices for
- each subject for each task-connectivity_measure combination
-2) calculates and plots pearsons correlation matrices
- across subjects between given pairs of
- task-connectvity_measure combinations 
-3) t-tests and plots box plots to compare same-subject
- and cross-subject correlations for each
- task-connectivity_measure combination
+1) plots connectivity networks and matrices for each subject for each 
+task-connectivity_measure combination
+2) calculates and plots pearsons correlation matrices across subjects between 
+given pairs of task-connectvity_measure combinations 
+3) t-tests and plots box plots to compare same-subject and cross-subject 
+correlations for each task-connectivity_measure combination
 """
 
 import numpy as np
@@ -49,7 +47,7 @@ def get_ses_modality(task):
         session_names = ["anat1"]
     # get session numbers for each subject
     subject_sessions = sorted(get_subject_session(session_names))
-    sub_ses = dict()
+    sub_ses = {}
     if task in ["Raiders", "RestingState"]:
         modality = "functional"
         for subject_session in subject_sessions:
@@ -65,11 +63,12 @@ def get_ses_modality(task):
             sub_ses[subject_session[0]].append(subject_session[1])
     elif task == "DWI":
         modality = "structural"
-        for subject_session in subject_sessions:
-            if subject_session[0] in ["sub-01", "sub-15"]:
-                sub_ses[subject_session[0]] = "ses-12"
-            else:
-                sub_ses[subject_session[0]] = subject_session[1]
+        sub_ses = {
+            subject_session[0]: "ses-12"
+            if subject_session[0] in ["sub-01", "sub-15"]
+            else subject_session[1]
+            for subject_session in subject_sessions
+        }
 
     return sub_ses, modality
 
@@ -104,10 +103,7 @@ def plot_connectivity_network(
     )
     coords = coords[["R", "A", "S"]]
     coords = coords.to_numpy()
-    if task == "DWI":
-        edge_threshold = "99.5%"
-    else:
-        edge_threshold = "99.9%"
+    edge_threshold = "99.5%" if task == "DWI" else "99.9%"
     plotting.plot_connectome(
         connectivity_matrix,
         coords,
@@ -172,12 +168,14 @@ def get_all_subject_connectivity(
     conn_measure : str
         name of the connectivity measure
     skip_sub06 : bool, optional
-        whether to skip sub-06 (because normalisation of diffusion tracts fails for sub-06), by default False
+        whether to skip sub-06 (because normalisation of diffusion tracts fails
+        for sub-06), by default False
 
     Returns
     -------
     np.array
-        a numpy array with connectivity matrices for all subjects for the given task and connectivity measure
+        a numpy array with connectivity matrices for all subjects for the given
+        task and connectivity measure
     """
     # get session numbers and modality for the given task
     task_sub_ses, task_modality = get_ses_modality(task)
@@ -189,12 +187,12 @@ def get_all_subject_connectivity(
 
     if plot_network:
         fig_net, axs_net = plt.subplots(
-            int(len(task_sub_ses.items()) / 3), 3, figsize=(36, 16)
+            len(task_sub_ses.items()) // 3, 3, figsize=(36, 16)
         )
         net_plot_counter = 0
     if plot_matrix:
         fig_mat, axs_mat = plt.subplots(
-            int(len(task_sub_ses.items()) / 4), 4, figsize=(16, 12)
+            len(task_sub_ses.items()) // 4, 4, figsize=(16, 12)
         )
         mat_plot_counter = 0
 
@@ -208,9 +206,7 @@ def get_all_subject_connectivity(
             all_pearsons = []
             all_pearsons_ = []
             for ses in sess:
-                file_loc = os.path.join(
-                    DATA_ROOT, sub, ses, ses_mod_dir, tmp_dir
-                )
+                file_loc = os.path.join(DATA_ROOT, sub, ses, ses_mod_dir)
                 runs = glob(os.path.join(file_loc, f"*{conn_measure}*"))
                 for run in runs:
                     pearson_mat = pd.read_csv(run, names=atlas.labels)
@@ -239,7 +235,7 @@ def get_all_subject_connectivity(
                 ses = sess[1]
             elif task_modality == "structural":
                 ses = sess
-            file_loc = os.path.join(DATA_ROOT, sub, ses, ses_mod_dir, tmp_dir)
+            file_loc = os.path.join(DATA_ROOT, sub, ses, ses_mod_dir)
             subject_connectivity = glob(
                 os.path.join(file_loc, f"*{conn_measure}*")
             )
@@ -321,10 +317,7 @@ def calculate_pearson_corr(connectivity_matrices, subjects, mean_center=True):
             similarity_mat_centered.T - similarity_mat_centered.mean(axis=1)
         ).T
         similarity_mat = similarity_mat_centered
-    similarity_df = pd.DataFrame(
-        similarity_mat, columns=task1_subs, index=task2_subs
-    )
-    return similarity_df
+    return pd.DataFrame(similarity_mat, columns=task1_subs, index=task2_subs)
 
 
 def plot_correlation_matrix(
@@ -360,7 +353,7 @@ def plot_correlation_matrix(
     plt.xlabel(xlabel)
     save_folder = "correration_matrices"
     if mean_center:
-        save_folder = save_folder + "_mean_centered"
+        save_folder += "_mean_centered"
     if not os.path.exists(save_folder):
         os.makedirs(save_folder)
     plt.savefig(f"{save_folder}/{plot_filename}.png", bbox_inches="tight")
@@ -377,7 +370,35 @@ def save_all_info(
     task1_modality,
     task2_modality,
 ):
-    """Save all the information in a dicionary"""
+    """Update dictionary with every single correlation value in a long-form
+    fashion (every row contains a single correlation in the correlation column),
+    and the corresponding information about the tasks, the modality, the
+    connectivity measure, and the comparison (same subject vs cross subject)
+
+    Parameters
+    ----------
+    similarity_df : pandas dataframe
+        correlation matrix as a dataframe with subjects as index and columns
+    d : dict
+        dictionary to update
+    task1 : str
+        name of the first task
+    task2 : str
+        name of the second task
+    task1_conn_measure : str
+        name of the connectivity measure used for the first task
+    task2_conn_measure : str
+        name of the connectivity measure used for the second task
+    task1_modality : str
+        name of the modality of the first task
+    task2_modality : str
+        name of the modality of the second task
+
+    Returns
+    -------
+    d : dict
+        updated dictionary
+    """
     same_sub_corr = np.diagonal(similarity_df.values).tolist()
     cross_sub_corr = similarity_df.values[
         np.where(~np.eye(similarity_df.values.shape[0], dtype=bool))
@@ -392,18 +413,17 @@ def save_all_info(
         if comparison == "same subject":
             size = len(same_sub_corr)
             d["correlation"].extend(same_sub_corr)
-            d["comparison"].extend([comparison for i in range(size)])
         else:
             size = len(cross_sub_corr)
             d["correlation"].extend(cross_sub_corr)
-            d["comparison"].extend([comparison for i in range(size)])
-        d["task1"].extend([task1 for i in range(size)])
-        d["task2"].extend([task2 for i in range(size)])
-        d["task1_measure"].extend([task1_conn_measure for i in range(size)])
-        d["task2_measure"].extend([task2_conn_measure for i in range(size)])
-        d["task1_modality"].extend([task1_modality for i in range(size)])
-        d["task2_modality"].extend([task2_modality for i in range(size)])
-        d["p_value"].extend([p_value for i in range(size)])
+        d["comparison"].extend([comparison for _ in range(size)])
+        d["task1"].extend([task1 for _ in range(size)])
+        d["task2"].extend([task2 for _ in range(size)])
+        d["task1_measure"].extend([task1_conn_measure for _ in range(size)])
+        d["task2_measure"].extend([task2_conn_measure for _ in range(size)])
+        d["task1_modality"].extend([task1_modality for _ in range(size)])
+        d["task2_modality"].extend([task2_modality for _ in range(size)])
+        d["p_value"].extend([p_value for _ in range(size)])
 
     return d
 
@@ -430,7 +450,7 @@ def plot_summary_box(
     plt.title(fig_title)
     save_folder = "boxplots"
     if mean_center:
-        save_folder = save_folder + "_mean_centered"
+        save_folder += "_mean_centered"
     if not os.path.exists(save_folder):
         os.makedirs(save_folder)
     plt.savefig(f"{save_folder}/{plot_filename}.png", bbox_inches="tight")
@@ -447,6 +467,46 @@ def run_all_comparisons(
     d,
     mean_center,
 ):
+    """Manages specific choices related to calculation of pearson correlation
+    between two connectivity matrices, depending on the modality and the type
+    of connectivity measure
+
+    Parameters
+    ----------
+    DATA_ROOT : str
+        path to the root directory of the data
+    tmp_dir : str
+        path to the temporary directory
+    task_pair : tuple of str
+        pair of tasks to be compared
+    func_conn_measures : list of str
+        calculated functional connectivity measures
+    struc_conn_measures : list of str
+        calculated structural connectivity measures
+    atlas : sklearn.utils.Bunch
+        Dictionary-like object, contains:
+        - 'maps': `str`, path to nifti file containing the
+        3D ~nibabel.nifti1.Nifti1Image (its shape is (182, 218, 182)). The
+        values are consecutive integers between 0 and n_rois which can be
+        interpreted as indices in the list of labels.
+        - 'labels': numpy.ndarray of str, array containing the ROI labels
+        including Yeo-network annotation.
+        - 'description': `str`, short description of the atlas
+          and some references.
+    d : dict
+        dictionary containing every single correlation value in a long-form
+        fashion (every row contains a single correlation in the correlation
+        column), and the corresponding information about the tasks,
+        the modality, the connectivity measure, and the comparison (same
+        subject vs cross subject)
+    mean_center : bool
+        whether to mean-center the correlation matrices
+
+    Returns
+    -------
+    dictionary
+        dictionary d defined above is updated with the new values
+    """
     # get session numbers and modality for each task in the pair
     task1, task2 = task_pair[0], task_pair[1]
     task1_sub_ses, task1_modality = get_ses_modality(task1)
@@ -625,15 +685,12 @@ def run_all_comparisons(
 if __name__ == "__main__":
     #### Inputs ####
     # set data paths
-    if 0:
-        DATA_ROOT = "/neurospin/ibc/derivatives/"
-        mem = "/neurospin/tmp/bthirion/"
-    else:
-        DATA_ROOT = "/storage/store2/data/ibc/derivatives/"
-        mem = "/storage/store/work/bthirion/"
+    DATA_ROOT = "/data/parietal/store2/data/ibc/derivatives/"
+    # cache directory
+    cache = "/storage/store/work/haggarwa/"
     tmp_dir = "connectivity_tmp"
     # pairs of connectivity matrices to compare
-    # Pick between DWI, RestingState and Raiders
+    # pick between DWI, RestingState and Raiders
     task_pairs = [
         ("RestingState", "DWI"),
         ("Raiders", "DWI"),
@@ -652,14 +709,14 @@ if __name__ == "__main__":
     ]
     # calculated measures of structural connectivity
     struc_conn_measures = [
-        "MNI152_connectome_siftweighted",
-        "individual_connectome_siftweighted",
-        "MNI152_connectome_nosift",
-        "individual_connectome_nosift",
+        "MNI152_siftweighted",
+        "individual_siftweighted",
+        "MNI152_nosift",
+        "individual_nosift",
     ]
     # get atlas
     atlas = datasets.fetch_atlas_schaefer_2018(
-        data_dir=mem, resolution_mm=2, n_rois=400
+        data_dir=cache, resolution_mm=2, n_rois=400
     )
     # give atlas a custom name
     atlas["name"] = "schaefer400"
@@ -713,7 +770,7 @@ if __name__ == "__main__":
         results_df = pd.DataFrame(results)
         correlation_file = "all_comparisons"
         if mean_center:
-            correlation_file = correlation_file + "_mean_centered"
+            correlation_file += "_mean_centered"
         results_df.to_csv(f"{correlation_file}.csv", index=False)
         # keep results for functional vs functional comparisons
         # between resting state and raiders
@@ -727,6 +784,32 @@ if __name__ == "__main__":
             (results_df["task1_modality"] == "structural")
             & (results_df["task2_modality"] == "structural")
         ]
+        # results for Raiders vs structural comparisons
+        results_df_Raidersvstruc = results_df[
+            (
+                (results_df["task1_modality"] == "functional" & 
+                 results_df["task1"] == results_df["Raiders"])
+                & (results_df["task2_modality"] == "structural")
+            )
+            | (
+                (results_df["task1_modality"] == "structural")
+                & (results_df["task2_modality"] == "functional" & 
+                 results_df["task1"] == results_df["Raiders"])
+            )
+        ]
+        # results for RestingState vs structural comparisons
+        results_df_RestingStatevstruc = results_df[
+            (
+                (results_df["task1_modality"] == "functional" & 
+                 results_df["task1"] == results_df["RestingState"])
+                & (results_df["task2_modality"] == "structural")
+            )
+            | (
+                (results_df["task1_modality"] == "structural")
+                & (results_df["task2_modality"] == "functional" & 
+                 results_df["task1"] == results_df["RestingState"])
+            )
+        ]
         # results for functional vs structural comparisons
         results_df_funcvstruc = results_df[
             (
@@ -738,15 +821,23 @@ if __name__ == "__main__":
                 & (results_df["task2_modality"] == "functional")
             )
         ]
-        # plot the summary box plots for all the above subseets of results
+        if results_df["task1_modality"] == "functional":
+            results_df_funcvstruc['task1'] = 'all'
+        else:
+            results_df_funcvstruc['task2'] = 'all'
+        # plot the summary box plots for all the above subsets of results
         for results_df in [
             results_df_funcvfunc,
             results_df_strucvstruc,
+            results_df_Raidersvstruc,
+            results_df_RestingStatevstruc,
             results_df_funcvstruc,
         ]:
             name = (
-                results_df.iloc[0]["task1_modality"]
+                results_df.iloc[0]["task1"]
+                + results_df.iloc[0]["task1_modality"]
                 + "v"
+                + results_df.iloc[0]["task2"]
                 + results_df.iloc[0]["task2_modality"]
             )
             plot_summary_box(
