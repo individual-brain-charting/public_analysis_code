@@ -21,10 +21,8 @@ from nilearn.maskers import NiftiLabelsMasker
 from nilearn.connectome import ConnectivityMeasure
 from nilearn.connectome import GroupSparseCovarianceCV
 from nilearn.image import high_variance_confounds
-from ibc_public.utils_data import get_subject_session
+from ibc_public.utils_data import get_subject_session, DERIVATIVES
 
-# set data paths
-DATA_ROOT = "/data/parietal/store2/data/ibc/derivatives/"
 # cache directory
 cache = "/storage/store/work/haggarwa/"
 
@@ -93,7 +91,7 @@ for task in tasks:
         # iterate over sessions for each subject
         for ses in sess:
             runs = glob(
-                os.path.join(DATA_ROOT, sub, ses, "func", f"wrdc*{task}")
+                os.path.join(DERIVATIVES, sub, ses, "func", f"wrdc*{task}")
             )
             # iterate over runs in each session for each subject
             for run in runs:
@@ -101,17 +99,17 @@ for task in tasks:
                 run_num = run.split("/")[-1].split("_")[-2]
                 confounds = glob(
                     os.path.join(
-                        DATA_ROOT, sub, ses, "func", f"rp*{run_num}_bold*"
+                        DERIVATIVES, sub, ses, "func", f"rp*{run_num}_bold*"
                     )
                 )[0]
                 # setup tmp dir for saving figures and calculated matrices
                 tmp_dir = os.path.join(
-                    DATA_ROOT, sub, ses, "func", "connectivity_tmp"
+                    DERIVATIVES, sub, ses, "func", "connectivity_tmp"
                 )
                 if not os.path.exists(tmp_dir):
                     os.makedirs(tmp_dir)
                 # directory with func data
-                func_dir = os.path.join(DATA_ROOT, sub, ses, "func")
+                func_dir = os.path.join(DERIVATIVES, sub, ses, "func")
                 # calculate high-variance confounds
                 compcor = high_variance_confounds(run)
                 # load confounds and append high-variance confounds

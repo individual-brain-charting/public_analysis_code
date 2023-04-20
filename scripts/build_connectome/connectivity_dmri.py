@@ -14,7 +14,7 @@ transformation of tracts): https://community.mrtrix.org/t/are-sift2-weights-stil
 """
 import os
 from nilearn import datasets
-from ibc_public.utils_data import get_subject_session
+from ibc_public.utils_data import get_subject_session, DERIVATIVES
 from nilearn.maskers import NiftiMasker
 from joblib import Parallel, delayed
 
@@ -269,7 +269,7 @@ def tck2connectome(
     os.system(cmd)
 
 
-def pipeline(sub, ses, DATA_ROOT, atlas, mni_nifti):
+def pipeline(sub, ses, data_root, atlas, mni_nifti):
     """Pipeline for creating connectivity matrices from tractography in MNI
     as well as in individual space
 
@@ -279,7 +279,7 @@ def pipeline(sub, ses, DATA_ROOT, atlas, mni_nifti):
         subject id
     ses : str
         session id
-    DATA_ROOT : str
+    data_root : str
         path to data root directory
     atlas : sklearn.utils.Bunch
         Dictionary-like object, contains:
@@ -304,11 +304,11 @@ def pipeline(sub, ses, DATA_ROOT, atlas, mni_nifti):
     if sub == "sub-06":
         return f"{sub} skipped"
     # setup tmp dir for saving intermediate files
-    tmp_dir = os.path.join(DATA_ROOT, sub, ses, "dwi", "connectivity_tmp")
+    tmp_dir = os.path.join(data_root, sub, ses, "dwi", "connectivity_tmp")
     if not os.path.exists(tmp_dir):
         os.makedirs(tmp_dir)
     # directory with dwi data
-    dwi_dir = os.path.join(DATA_ROOT, sub, ses, "dwi")
+    dwi_dir = os.path.join(data_root, sub, ses, "dwi")
 
     ######## start transform diffusion images to diffusion mni space ########
     # path to diffusion b0 image
@@ -400,7 +400,6 @@ def pipeline(sub, ses, DATA_ROOT, atlas, mni_nifti):
 
 
 if __name__ == "__main__":
-    DATA_ROOT = "/data/parietal/store2/data/ibc/derivatives/"
     # cache directory
     cache = "/storage/store/work/haggarwa/"
     # get atlas
@@ -436,7 +435,7 @@ if __name__ == "__main__":
         for subject_session in subject_sessions
     }
     results = Parallel(n_jobs=6, verbose=1, backend="multiprocessing")(
-        delayed(pipeline)(sub, ses, DATA_ROOT, atlas, mni_nifti)
+        delayed(pipeline)(sub, ses, DERIVATIVES, atlas, mni_nifti)
         for sub, ses in sub_ses.items()
     )
 

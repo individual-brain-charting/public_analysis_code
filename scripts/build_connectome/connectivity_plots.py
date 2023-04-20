@@ -15,7 +15,7 @@ import pandas as pd
 import os
 import seaborn as sns
 from scipy import stats
-from ibc_public.utils_data import get_subject_session
+from ibc_public.utils_data import get_subject_session, DERIVATIVES
 from glob import glob
 
 sns.set_theme(context="talk", style="ticks")
@@ -74,7 +74,7 @@ def get_ses_modality(task):
 
 
 def plot_connectivity_network(
-    connectivity_matrix, task, sub, ax_net, DATA_ROOT
+    connectivity_matrix, task, sub, ax_net, data_root
 ):
     """Plot connectivity network
 
@@ -92,7 +92,7 @@ def plot_connectivity_network(
 
     coords = pd.read_csv(
         os.path.join(
-            DATA_ROOT,
+            data_root,
             "sub-04",
             "ses-08",
             "dwi",
@@ -151,7 +151,7 @@ def plot_connectivity_matrix(connectivity_matrix, task, sub, ax):
 def get_all_subject_connectivity(
     task,
     conn_measure,
-    DATA_ROOT,
+    data_root,
     tmp_dir,
     atlas,
     combinations_plotted,
@@ -206,7 +206,7 @@ def get_all_subject_connectivity(
             all_pearsons = []
             all_pearsons_ = []
             for ses in sess:
-                file_loc = os.path.join(DATA_ROOT, sub, ses, ses_mod_dir)
+                file_loc = os.path.join(data_root, sub, ses, ses_mod_dir)
                 runs = glob(os.path.join(file_loc, f"*{conn_measure}*"))
                 for run in runs:
                     pearson_mat = pd.read_csv(run, names=atlas.labels)
@@ -219,7 +219,7 @@ def get_all_subject_connectivity(
             if plot_network:
                 ax_net = axs_net.flat[net_plot_counter]
                 plot_connectivity_network(
-                    subject_connectivity_, task, sub, ax_net, DATA_ROOT
+                    subject_connectivity_, task, sub, ax_net, data_root
                 )
                 net_plot_counter += 1
             if plot_matrix:
@@ -235,7 +235,7 @@ def get_all_subject_connectivity(
                 ses = sess[1]
             elif task_modality == "structural":
                 ses = sess
-            file_loc = os.path.join(DATA_ROOT, sub, ses, ses_mod_dir)
+            file_loc = os.path.join(data_root, sub, ses, ses_mod_dir)
             subject_connectivity = glob(
                 os.path.join(file_loc, f"*{conn_measure}*")
             )
@@ -246,7 +246,7 @@ def get_all_subject_connectivity(
             if plot_network:
                 ax_net = axs_net.flat[net_plot_counter]
                 plot_connectivity_network(
-                    subject_connectivity, task, sub, ax_net, DATA_ROOT
+                    subject_connectivity, task, sub, ax_net, data_root
                 )
                 net_plot_counter += 1
             if plot_matrix:
@@ -458,7 +458,7 @@ def plot_summary_box(
 
 
 def run_all_comparisons(
-    DATA_ROOT,
+    data_root,
     tmp_dir,
     task_pair,
     func_conn_measures,
@@ -473,7 +473,7 @@ def run_all_comparisons(
 
     Parameters
     ----------
-    DATA_ROOT : str
+    data_root : str
         path to the root directory of the data
     tmp_dir : str
         path to the temporary directory
@@ -527,7 +527,7 @@ def run_all_comparisons(
             task1_conn, combinations_plotted = get_all_subject_connectivity(
                 task1,
                 conn_measure,
-                DATA_ROOT,
+                data_root,
                 tmp_dir,
                 atlas,
                 combinations_plotted,
@@ -541,7 +541,7 @@ def run_all_comparisons(
             task2_conn, combinations_plotted = get_all_subject_connectivity(
                 task2,
                 conn_measure,
-                DATA_ROOT,
+                data_root,
                 tmp_dir,
                 atlas,
                 combinations_plotted,
@@ -610,7 +610,7 @@ def run_all_comparisons(
             task1_conn, combinations_plotted = get_all_subject_connectivity(
                 task1,
                 task1_conn_measure,
-                DATA_ROOT,
+                data_root,
                 tmp_dir,
                 atlas,
                 combinations_plotted,
@@ -634,7 +634,7 @@ def run_all_comparisons(
                 ) = get_all_subject_connectivity(
                     task2,
                     task2_conn_measure,
-                    DATA_ROOT,
+                    data_root,
                     tmp_dir,
                     atlas,
                     combinations_plotted,
@@ -684,8 +684,6 @@ def run_all_comparisons(
 
 if __name__ == "__main__":
     #### Inputs ####
-    # set data paths
-    DATA_ROOT = "/data/parietal/store2/data/ibc/derivatives/"
     # cache directory
     cache = "/storage/store/work/haggarwa/"
     tmp_dir = "connectivity_tmp"
@@ -757,7 +755,7 @@ if __name__ == "__main__":
         # loop over all pairs of tasks
         for task_pair in task_pairs:
             results = run_all_comparisons(
-                DATA_ROOT,
+                DERIVATIVES,
                 tmp_dir,
                 task_pair,
                 func_conn_measures,
