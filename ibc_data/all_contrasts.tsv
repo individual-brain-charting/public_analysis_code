@@ -534,7 +534,7 @@ NARPS	weakly_accept	accept the gamble with low confidence	fixation	accept the ga
 NARPS	weakly_reject	reject the gamble with low confidence	fixation	reject the gamble with low confidence	['response_selection','response_execution','reward_anticipation','loss_aversion']
 NARPS	strongly_accept	accept the gamble with high confidence	fixation	accept the gamble with high confidence	['response_selection','response_execution','reward_anticipation']
 NARPS	strongly_reject	reject the gamble with high confidence	fixation	reject the gamble with high confidence	['response_selection','response_execution','reward_anticipation','loss_aversion']
-NARPS	Reject-accept	gambles rejected	gambles accepted	gambles rejected vs gambles accepted	['response_selection','response_execution','reward_anticipation','decision_making']
+NARPS	reject-accept	gambles rejected	gambles accepted	gambles rejected vs gambles accepted	['response_selection','response_execution','reward_anticipation','decision_making']
 NARPS	accept-reject	gambles accepted	gambles rejected	gambles accepted vs gambles rejected	['response_selection','response_execution','reward_anticipation']
 RewProc	stim				
 RewProc	minus_20	lost 20 units of reward	fixation	lost 20 units of reward	

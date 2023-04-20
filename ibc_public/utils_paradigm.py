@@ -419,7 +419,7 @@ def post_process(df, paradigm_id):
         df.drop(df[df.trial_type == 'iti'].index, 0, inplace=True)
         df.replace('dot_easy_left_correct', 'dot_easy_left', inplace=True)
         df.replace('dot_easy_left_incorrect', 'dot_easy_left', inplace=True)
-        df.replace('dot_easy_right_correct', 'dot_ea3sy_right', inplace=True)
+        df.replace('dot_easy_right_correct', 'dot_easy_right', inplace=True)
         df.replace('dot_easy_right_incorrect', 'dot_easy_right', inplace=True)
         df.replace('dot_hard_left_correct', 'dot_hard_left', inplace=True)
         df.replace('dot_hard_left_incorrect', 'dot_hard_left', inplace=True)
@@ -493,7 +493,10 @@ def post_process(df, paradigm_id):
                     'keypress_jump',
                     'keypress_left',
                     'keypress_right',
-                    'keypress_runshoot']
+                    'keypress_runshoot',
+                    'action_fire',
+                    'action_rest'
+                    ]
         df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
     return df
 
