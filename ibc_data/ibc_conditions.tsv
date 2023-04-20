@@ -108,7 +108,6 @@ Self	memory	Successful identification with an overt response that a new adjectiv
 Self	no_recognition	Unsuccessful identification with an overt response that a new adjective has been presented before
 Bang	talk	Speech: watch contiguous scenes of speech. No speech: watch contiguous scenes with no speech
 Bang	no_talk	Watch contiguous scenes with no speech
-Clips		
 Wedge	lower_meridian	Visual representation in the lower half-plane of the visual field delimited by its horizontal meridian
 Wedge	upper_meridian	Visual representation in the upper half-plane of the visual field delimited by its horizontal meridian
 Wedge	lower_right	Visual representation in the lower-right quadrant of the visual field delimited by its vertical and horizontal meridians
@@ -120,7 +119,6 @@ Wedge	lower_left	Visual representation in the lower-left quadrant of the visual 
 Ring	foveal	Visual representation in the fovea
 Ring	middle	Visual representation in the mid-periphery of the visual field
 Ring	peripheral	Visual representation in the far-periphery of the visual field
-Raiders	Raiders	Raiders
 Lec2	unattend	A white word is rapidly presented and the participant must ignore it
 Lec2	attend	A black word is rapidly presented and the participant must silently read it to form a short story together with the rest of black words
 Audi	tear	Concatenated sounds of people crying
