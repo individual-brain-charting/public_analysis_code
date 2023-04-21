@@ -537,49 +537,49 @@ NARPS	strongly_reject	reject the gamble with high confidence	fixation	reject the
 NARPS	reject-accept	gambles rejected	gambles accepted	gambles rejected vs gambles accepted	['response_selection','response_execution','reward_anticipation','decision_making']
 NARPS	accept-reject	gambles accepted	gambles rejected	gambles accepted vs gambles rejected	['response_selection','response_execution','reward_anticipation']
 RewProc	stim				
-RewProc	minus_20	lost 20 units of reward	fixation	lost 20 units of reward	
-RewProc	plus_20	gained 20 units of reward	fixation	gained 20 units of reward	
-RewProc	minus_10	lost 10 units of reward	fixation	lost 10 units of reward	
-RewProc	plus_10	gained 10 units of reward	fixation	gained 10 units of reward	
-RewProc	green-purple	green pattern selected	purple pattern selected	green vs purple pattern selected	
-RewProc	purple-green	purple pattern selected	green pattern selected	purple vs green pattern selected	
-RewProc	left-right	selected pattern was on the left side	selected pattern was on the right side	selected pattern on the left vs right side	
-RewProc	right-left	selected pattern was on the right side	selected pattern was on the left side	selected pattern on the right vs left side	
-RewProc	switch	selected a different pattern than previous trial	fixation	selected a different pattern than previous trial	
-RewProc	stay	selected the same pattern than previous trial	fixation	selected the same pattern than previous trial	
-RewProc	switch-stay	selected a different pattern than previous trial	selected the same pattern than previous trial	selected a different vs same pattern	
-RewProc	stay-switch	selected the same pattern than previous trial	selected a different pattern than previous trial	selected the same vs different pattern	
-RewProc	gain	gained 20 and 10 units of reward 	fixation	gained units of reward 	
-RewProc	loss	lost 20 and 10 units of reward	fixation	lost units of reward	
-RewProc	gain-loss	gained 20 and 10 units of reward 	lost 20 and 10 units of reward	gained vs lost units of reward 	
-RewProc	loss-gain	lost 20 and 10 units of reward	gained 20 and 10 units of reward 	lost vs gained units of reward	
-BreathHolding	breathe	breathe normally	fixation	breathe normally	
-BreathHolding	hold_breath	hold breath	fixation	hold breath	
-BreathHolding	hold-breathe	hold breath	breathe normally	hold breath vs breathe normally	
-BreathHolding	breathe-hold	breathe normally	hold breath	breathe normally vs hold breath	
-Checkerboard	checkerboard-fixation	checkerboard block	fixation	checkerboard block	
-FingerTapping	fingertap-rest	button-press corresponding to visual stimulus	rest	button-pressing vs rest	
-ItemRecognition	encode5-encode1	encoding 5 items	encoding 1 item	encoding 5 vs 1 item	
-ItemRecognition	probe5_mem-probe1_mem	probing an encoded digit in load 5	probing an encoded digit in load 1	probing an encoded digit in a load of 5 vs 1	
-ItemRecognition	probe5_new-probe1_new	probing a new digit in a load 5	probing a new digit in a load 1	probing a new digit in a load 5 vs 1	
-ItemRecognition	prob-arrow	probing encoded and new digits	trials of left and right pointing arrows	probing digits vs trials of pointing arrows	
-ItemRecognition	encode	encoding items	fixation	encoding 1, 3 and 5 items	
-ItemRecognition	arrow_left-arrow_right	identifying a left pointing arrow	identifying a right pointing arrow	identifying a left vs right pointing arrow	
-Color	chromatic	chromatic mondrian patterns	fixation	attending to chromatic mondrian patterns	
-Color	achromatic	achromatic mondrian patterns	fixation	attending to achromatic mondrian patterns	
-Color	chromatic-achromatic	chromatic mondrian patterns	achromatic mondrian patterns	chromatic vs achromatic mondrian patterns	
-Color	response	response to repeated pattern	fixation	response to repeated mondrian patterns	
-Motion	incoherent	dots moving incoherently in random directions	fixation	dots moving in random directions 	
-Motion	coherent	dots moving coherently in the same direction	fixation	dots moving in the same direction	
-Motion	stationary	stationary dots appearing in a different location after 1 sec	fixation	stationary dots changing location every sec	
-Motion	clock	direction of coherent motion in clockwise direction	fixation	coherent motion of dots in clockwise direction	
-Motion	anti	direction of coherent motion in anti-clockwise direction	fixation	coherent motion of dots in anti-clockwise direction	
-Motion	response	button press to fixation point turned blue	fixation	attending to fixation point turning blue 	
-Motion	coherent-incoherent	dots moving coherently in the same direction	dots moving incoherently in random directions	dots moving in the same vs random directions	
-Motion	coherent-stationary	dots moving coherently in the same direction	stationary dots appearing in a different location after 1 sec	dots moving coherently vs staying stationary	
-Motion	incoherent-stationary	dots moving incoherently in random directions	stationary dots appearing in a different location after 1 sec	dots moving incoherently vs staying stationary	
-Motion	clock-anti	direction of coherent motion in clockwise direction	direction of coherent motion in anti-clockwise direction	coherent motion in clockwise vs anti-clockwise direction 	
-Motion	left-right	dot pattern presented in the left visual field	dot pattern presented in the right visual field	dot pattern presented in the left vs right visual field	
+RewProc	minus_20	lost 20 units of reward	fixation	lost 20 units of reward	['reward_valuation','reward_processing','risk_aversion','risk_processing','loss_aversion']
+RewProc	plus_20	gained 20 units of reward	fixation	gained 20 units of reward	['reward_valuation','reward_processing','response_selection','response_execution']
+RewProc	minus_10	lost 10 units of reward	fixation	lost 10 units of reward	['reward_valuation','reward_processing','risk_aversion','risk_processing','loss_aversion']
+RewProc	plus_10	gained 10 units of reward	fixation	gained 10 units of reward	['reward_valuation','reward_processing','response_selection','response_execution']
+RewProc	green-purple	green pattern selected	purple pattern selected	green vs purple pattern selected	[‘color_perception’]
+RewProc	purple-green	purple pattern selected	green pattern selected	purple vs green pattern selected	[‘color_perception’]
+RewProc	left-right	selected pattern on the left side	selected pattern on the right side	selected pattern on the left vs right side	['upper-right_vision','lower-right_vision'] 
+RewProc	right-left	selected pattern on the right side	selected pattern on the left side	selected pattern on the right vs left side	['upper-right_vision','lower-right_vision'] 
+RewProc	switch	selected a different pattern from previous trial	fixation	selected a different pattern than previous trial	['visual_perception','response_selection','response_execution','cue_switch']
+RewProc	stay	selected the same pattern as previous trial	fixation	selected the same pattern than previous trial	['visual_perception','response_selection','response_execution']
+RewProc	switch-stay	selected a different pattern from previous trial	selected the same pattern as previous trial	selected a different vs same pattern	['cue_switch']
+RewProc	stay-switch	selected the same pattern as previous trial	selected a different pattern from previous trial	selected the same vs different pattern	[‘repetition’]
+RewProc	gain	gained reward 	fixation	gained 20 or 10 units of reward 	['reward_valuation','reward_processing']
+RewProc	loss	lost reward	fixation	lost 20 or 10 units of reward	['reward_valuation','reward_processing','risk_aversion','risk_processing','loss_aversion']
+RewProc	gain-loss	gained  reward 	lost reward	gained vs lost 20 or 10 units of reward 	['reward_valuation','reward_processing']
+RewProc	loss-gain	lost reward	gained reward 	lost vs gained 20 or 10 units of reward	['risk_aversion','risk_processing','loss_aversion']
+BreathHolding	breathe	breathe normally	fixation	breathe normally	[‘self_monitoring']
+BreathHolding	hold_breath	hold breath	fixation	hold breath	[‘self_monitoring',’breath_holding’]
+BreathHolding	hold-breathe	hold breath	breathe normally	hold breath vs breathe normally	[‘self_monitoring',’breath_holding’]
+BreathHolding	breathe-hold	breathe normally	hold breath	breathe normally vs hold breath	[‘self_monitoring']
+Checkerboard	checkerboard-fixation	checkerboard	fixation	checkerboard	['response_selection','response_execution',’visual_perception’]
+FingerTapping	fingertap-rest	button-press	rest	button press vs rest	['response_selection','response_execution',’right_finger_response_execution’]
+ItemRecognition	encode5-encode1	encoding 5 items	encoding 1 item	encoding 5 vs 1 item	['visual_attention','spatial_working_memory',’task_difficulty’] 
+ItemRecognition	probe5_mem-probe1_mem	probing encoded digit in load 5	probing encoded digit in load 1	probing an encoded digit in a load of 5 vs 1	['visual_attention','spatial_working_memory',’task_difficulty’] 
+ItemRecognition	probe5_new-probe1_new	probing new digit in a load 5	probing new digit in a load 1	probing a new digit in a load 5 vs 1	['visual_attention','spatial_working_memory'’task_difficulty’,’numerosity’]
+ItemRecognition	prob-arrow	probing encoded and new digits	left or right pointing arrows	probing digits vs trials of pointing arrows	['visual_attention','spatial_working_memory'] 
+ItemRecognition	encode	encoding items	fixation	encoding 1, 3 and 5 items	['visual_attention','spatial_working_memory']
+ItemRecognition	arrow_left-arrow_right	identifying left pointing arrow	identifying right pointing arrow	identifying a left vs right pointing arrow	['visual_attention','spatial_working_memory']
+Color	chromatic	chromatic mondrian patterns	fixation	attending to chromatic mondrian patterns	[‘color_perception’,’working_memory’]
+Color	achromatic	achromatic mondrian patterns	fixation	attending to achromatic mondrian patterns	[’working_memory’]
+Color	chromatic-achromatic	chromatic mondrian patterns	achromatic mondrian patterns	chromatic vs achromatic mondrian patterns	[‘color_perception,’working_memory’]
+Color	response	response to repeated pattern	fixation	response to repeated mondrian patterns	['response_selection','response_execution']
+Motion	incoherent	incoherent motion	fixation	dots moving incoherently in random directions	[‘random_motion’]
+Motion	coherent	coherent  motion	fixation	dots moving coherently in the same direction	[‘coherent_motion’]
+Motion	stationary	stationary dots	fixation	stationary dots appearing in a different location after 1 sec	[‘visual_localization',’visual awareness’]
+Motion	clock	clockwise motion	fixation	direction of coherent motion in clockwise direction	[‘coherent_motion’]
+Motion	anti	anti-clockwise motion	fixation	direction of coherent motion in anti-clockwise direction	[‘coherent_motion’]
+Motion	response	cued button press	fixation	button press to fixation point turning blue	['response_selection','response_execution',’color recognition’,’color_perception’]
+Motion	coherent-incoherent	coherent motion	incoherent motion	dots moving in the same vs random directions	[‘coherent_motion’]
+Motion	coherent-stationary	coherent motion	stationary dots	dots moving coherently vs staying stationary	[‘coherent_motion’,’motion detection']
+Motion	incoherent-stationary	incoherent motion	stationary dots appearing in a different location after 1 sec	dots moving incoherently vs staying stationary	[‘random_motion’,’motion detection']
+Motion	clock-anti	clockwise motion	direction of coherent motion in anti-clockwise direction	coherent motion in clockwise vs anti-clockwise direction 	[’motion detection']
+Motion	left-right	dot pattern in left side	dot pattern in right side	dot pattern presented in the left vs right visual field	['upper-left_vision','lower-left_vision'] 
 OptimismBias	all_events	past and future with negative and positive valence	fixation	all past and future with negative and positive valence	
 OptimismBias	optimism_bias	future, negative valence	past, positive plus past, negative plus future, positive	future negative vs past positive and negative and future positive	
 OptimismBias	future_vs_past	future, positive and negative valence	past, positive and negative valence	future positive and negative vs. past positive and negative	
