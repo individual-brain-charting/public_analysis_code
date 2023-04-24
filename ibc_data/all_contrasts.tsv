@@ -587,26 +587,26 @@ OptimismBias	positive_vs_negative	future and past, positive valence	future and p
 OptimismBias	future_positive_vs_negative	future, positive valence	future, negative valence	future positive vs negative	[‘future_time’,’prospection','temporal_categorization']
 OptimismBias	past_positive_vs_negative	past, positive valence	past, negative valence	past positive vs past negative trials	[‘past_time’,’memory_retrieval’,’emotional_memory']
 OptimismBias	interaction	future, positive and past, negative valence	future neutral arousal and past, positive valence	future positive and past negative vs future neutral and past positive	['self-reference_effect’,’emotional_memory’,’prospection']
-HarririAomic	emotion	match the emotion/facial expression	fixation	match the emotion/facial expression of images	
-HarririAomic	shape	match the shape of the images	fixation	match the shape of the images	
-HarririAomic	index_response	the left image matches the top image	fixation	matching the left image to the top image	
-HarririAomic	middle_response	the right image matches the top image	fixation	matching the right image to the top image	
-HarririAomic	emotion-shape	match the emotion/facial expression	match the shape of the images	match emotion/facial expression show on image vs the shape of the image	
+HarririAomic	emotion	match the emotion/facial expression	fixation	match the emotion/facial expression of images	['visual_face_recognition','face_perception','negative_emotion','emotional_expression']
+HarririAomic	shape	match the shape of the images	fixation	match the shape of the images	['visual_face_recognition','shape_recognition','visual_orientation']
+HarririAomic	index_response	the left image matches the top image	fixation	matching the left image to the top image	['response_selection','response_execution','visual_representation']
+HarririAomic	middle_response	the right image matches the top image	fixation	matching the right image to the top image	['response_selection','response_execution','visual_representation']
+HarririAomic	emotion-shape	match the emotion/facial expression	match the shape of the images	match emotion/facial expression show on image vs the shape of the image	['face_perception','negative_emotion','emotional_expression']
 FacesAomic	ITI	inter-trial intervals	fixation	inter-trial intervals	
-FacesAomic	anger	watching a face that expresses anger	fixation	attending to a face that expresses anger	
-FacesAomic	contempt	watching a face that expresses contempt	fixation	attending to a face that expresses contempt	
-FacesAomic	joy	watching a face that expresses joy	fixation	attending to a face that expresses joy	
-FacesAomic	neutral	watching a face that expressed no emotion	fixation	attending to a face that expressed no emotion	
-FacesAomic	pride	watching a face that expresses pride	fixation	attending to a face that expresses pride	
-FacesAomic	all-neutral	watching faces that express pride, anger, contempt and joy	watching a face that expressed no emotion	attending to faces that express pride, joy, anger and contempt vs no emotion	
-FacesAomic	anger-neutral	watching a face that expresses anger	watching a face that expressed no emotion	attending to a face that expresses anger vs no emotion	
-FacesAomic	contempt-neutral	watching a face that expresses contempt	watching a face that expressed no emotion	attending to a face that expresses contempt vs no emotion	
-FacesAomic	joy-neutral	watching a face that expresses joy	watching a face that expressed no emotion	attending to a face that expresses joy vs no emotion	
-FacesAomic	pride-neutral	watching a face that expresses pride	watching a face that expressed no emotion	attending to a face that expresses pride vs no emotion	
-FacesAomic	male-female	watching a male face expressing emotion	watching a female face expressing emotion 	attending to a male vs female face expressing emotion 	
-FacesAomic	female-male	watching a female face expressing emotion 	watching a male face expressing emotion	attending to a female vs male face expressing emotion 	
-FacesAomic	mediterranean-european	watching a mediterranean ethnicity model expressing emotion	watching a european ethnicity model expressing emotion	attending to a mediterranean vs european ethnicity model expressing emotion	
-FacesAomic	european-mediterranean	watching a european ethnicity model expressing emotion	watching a mediterranean ethnicity model expressing emotion	attending to a european vs mediterranean ethnicity model expressing emotion	
+FacesAomic	anger	watching a face that expresses anger	fixation	attending to a face that expresses anger	['visual_face_recognition','face_perception','emotional_expression']
+FacesAomic	contempt	watching a face that expresses contempt	fixation	attending to a face that expresses contempt	['visual_face_recognition','face_perception','negative_emotion','emotional_expression']
+FacesAomic	joy	watching a face that expresses joy	fixation	attending to a face that expresses joy	['visual_face_recognition','face_perception','emotional_expression']
+FacesAomic	neutral	watching a face that expressed no emotion	fixation	attending to a face that expressed no emotion	['visual_face_recognition','face_perception']
+FacesAomic	pride	watching a face that expresses pride	fixation	attending to a face that expresses pride	['visual_face_recognition','face_perception','emotional_expression']
+FacesAomic	all-neutral	watching faces that express pride, anger, contempt and joy	watching a face that expressed no emotion	attending to faces that express pride, joy, anger and contempt vs no emotion	['emotional_expression']
+FacesAomic	anger-neutral	watching a face that expresses anger	watching a face that expressed no emotion	attending to a face that expresses anger vs no emotion	['negative_emotion','emotional_expression']
+FacesAomic	contempt-neutral	watching a face that expresses contempt	watching a face that expressed no emotion	attending to a face that expresses contempt vs no emotion	['negative_emotion','emotional_expression']
+FacesAomic	joy-neutral	watching a face that expresses joy	watching a face that expressed no emotion	attending to a face that expresses joy vs no emotion	['emotional_expression']
+FacesAomic	pride-neutral	watching a face that expresses pride	watching a face that expressed no emotion	attending to a face that expresses pride vs no emotion	['emotional_expression']
+FacesAomic	male-female	watching a male face expressing emotion	watching a female face expressing emotion 	attending to a male vs female face expressing emotion 	['face_perception','gender_perception']
+FacesAomic	female-male	watching a female face expressing emotion 	watching a male face expressing emotion	attending to a female vs male face expressing emotion 	['face_perception','gender_perception']
+FacesAomic	mediterranean-european	watching a mediterranean ethnicity model expressing emotion	watching a european ethnicity model expressing emotion	attending to a mediterranean vs european ethnicity model expressing emotion	['face_perception','feature_integration']
+FacesAomic	european-mediterranean	watching a european ethnicity model expressing emotion	watching a mediterranean ethnicity model expressing emotion	attending to a european vs mediterranean ethnicity model expressing emotion	['face_perception','feature_integration']
 StroopAomic	incongruent_word_male_face_female	show the word “male” on top of a female face	fixation	attending to a female face while reading “male”	
 StroopAomic	congruent_word_female_face_female	show the word “female” on top of a female face	fixation	attending to a female face while reading “female”	
 StroopAomic	congruent_word_male_face_male	show the word “male” on top of a male face	fixation	attending to a male face while reading “male”	
