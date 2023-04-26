@@ -521,17 +521,15 @@ def mdtb(design_matrix_columns):
 
 def working_memory_aomic(design_matrix_columns):
     """ Contrasts for WorkingMemory in AOMIC """
-    contrast_names = ['active_change', 'active_no_change',
-                       'passive_change', 'passive_no_change',
+    contrast_names = ['active_change', 'active_no_change', 'passive',
                        'active-passive','active_change-active_no_change'
     ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names[:4]])
+    contrasts = dict([(name, con[name]) for name in contrast_names[:3]])
     contrasts['active-passive'] = con['active_change'] +\
-        con['active_no_change'] - con['passive_change'] -\
-        con['passive_no_change']
+        con['active_no_change'] - 2 * con['passive']
     contrasts['active_change-active_no_change'] = con['active_change'] -\
         con['active_no_change']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
