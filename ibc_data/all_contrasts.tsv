@@ -536,7 +536,7 @@ NARPS	strongly_accept	accept the gamble with high confidence	fixation	accept the
 NARPS	strongly_reject	reject the gamble with high confidence	fixation	reject the gamble with high confidence	['response_selection','response_execution','reward_anticipation','loss_aversion']
 NARPS	reject-accept	gambles rejected	gambles accepted	gambles rejected vs gambles accepted	['response_selection','response_execution','reward_anticipation','decision_making']
 NARPS	accept-reject	gambles accepted	gambles rejected	gambles accepted vs gambles rejected	['response_selection','response_execution','reward_anticipation']
-RewProc	stim				
+RewProc	stim	visual task cue	fixation	appearance of the cue images	['response_selection','visual_cue']
 RewProc	minus_20	lost 20 units of reward	fixation	lost 20 units of reward	['reward_valuation','reward_processing','risk_aversion','risk_processing','loss_aversion']
 RewProc	plus_20	gained 20 units of reward	fixation	gained 20 units of reward	['reward_valuation','reward_processing','response_selection','response_execution']
 RewProc	minus_10	lost 10 units of reward	fixation	lost 10 units of reward	['reward_valuation','reward_processing','risk_aversion','risk_processing','loss_aversion']
@@ -607,24 +607,23 @@ FacesAomic	male-female	watching a male face expressing emotion	watching a female
 FacesAomic	female-male	watching a female face expressing emotion 	watching a male face expressing emotion	attending to a female vs male face expressing emotion 	['face_perception','gender_perception']
 FacesAomic	mediterranean-european	watching a mediterranean ethnicity model expressing emotion	watching a european ethnicity model expressing emotion	attending to a mediterranean vs european ethnicity model expressing emotion	['face_perception','feature_integration']
 FacesAomic	european-mediterranean	watching a european ethnicity model expressing emotion	watching a mediterranean ethnicity model expressing emotion	attending to a european vs mediterranean ethnicity model expressing emotion	['face_perception','feature_integration']
-StroopAomic	incongruent_word_male_face_female	show the word “male” on top of a female face	fixation	attending to a female face while reading “male”	
-StroopAomic	congruent_word_female_face_female	show the word “female” on top of a female face	fixation	attending to a female face while reading “female”	
-StroopAomic	congruent_word_male_face_male	show the word “male” on top of a male face	fixation	attending to a male face while reading “male”	
-StroopAomic	incongruent_word_female_face_male	show the word “female” on top of a male face	fixation	attending to a male face while reading “female”	
-StroopAomic	index_response	indicate the face is of a male	fixation	identifying a male face	
-StroopAomic	middle_response	indicate the face is of a female	fixation	identifying a female face	
-StroopAomic	congruent-incongruent	word and the face shown matched	word and the face shown did not match	word and the face shown matched vs did not match	
-StroopAomic	incongruent-congruent	word and the face shown did not match	word and the face shown matched	word and the face shown did not match vs matched	
-StroopAomic	face_male-face_female	male face shown	female face shown	male vs female face shown 	
-StroopAomic	word_male-word_female	word “male” shown	word “female” shown	word “male” vs “female” shown 	
-StroopAomic	index-middle	indicate the face is of a male	indicate the face is of a female	indicate the face is of a male vs of a female	
-StroopAomic	middle-index	indicate the face is of a female	indicate the face is of a male	indicate the face is of a female vs of a male	
-WorkingMemoryAomic	active_change	active trials where the probe was present 	fixation	active trials where the probe was present 	
-WorkingMemoryAomic	active_no_change	active trials where the probe was absent 	fixation	active trials where the probe was absent 	
-WorkingMemoryAomic	passive_change	passive trials where the probe was present 	fixation	passive trials where the probe was present 	
-WorkingMemoryAomic	passive_no_change	passive trials where the probe was absent 	fixation	passive trials where the probe was absent 	
-WorkingMemoryAomic	active-passive	active trials	passive trials	active vs passive trials	
-WorkingMemoryAomic	active_change-active_no_change	active trials where the probe was present 	active trials where the probe was absent 	active trials where the probe was present vs absent	
+StroopAomic	incongruent_word_male_face_female	word “male” and female face	fixation	attending to a female face while reading “male”	['visual_face_recognition','face_perception','gender_perception',’visual_word_recognition’,’conflict_detection’]
+StroopAomic	congruent_word_female_face_female	word “female” and female face	fixation	attending to a female face while reading “female”	['visual_face_recognition','face_perception','gender_perception',’visual_word_recognition’]
+StroopAomic	congruent_word_male_face_male	word “male” and male face	fixation	attending to a male face while reading “male”	['visual_face_recognition','face_perception','gender_perception',’visual_word_recognition’]
+StroopAomic	incongruent_word_female_face_male	word “female” and male face	fixation	attending to a male face while reading “female”	['visual_face_recognition','face_perception','gender_perception',’visual_word_recognition’,’conflict_detection’]
+StroopAomic	index_response	indicate the face is of a male	fixation	identifying a male face	['response_selection','response_execution']
+StroopAomic	middle_response	indicate the face is of a female	fixation	identifying a female face	['response_selection','response_execution']
+StroopAomic	congruent-incongruent	word and face matched	word and face did not match	word and the face shown matched vs did not match	['face_perception','gender_perception',’visual_word_recognition’]
+StroopAomic	incongruent-congruent	word and face did not match	word and face matched	word and the face shown did not match vs matched	['face_perception','gender_perception',’conflict_detection’]
+StroopAomic	face_male-face_female	male face	female face	male vs female face shown 	['face_perception','gender_perception']
+StroopAomic	word_male-word_female	word “male”	word “female”	word “male” vs “female” shown 	['gender_perception',’visual_word_recognition’]
+StroopAomic	index-middle	indicate the face is of a male	indicate the face is of a female	indicate the face is of a male vs of a female	['response_selection','response_execution']
+StroopAomic	middle-index	indicate the face is of a female	indicate the face is of a male	indicate the face is of a female vs of a male	['response_selection','response_execution']
+WorkingMemoryAomic	active_change	probe did not match original orientation	fixation	probe did not match original orientation	['visual_attention','spatial_working_memory',’visual_working_memory ’,’visual_angle’]
+WorkingMemoryAomic	active_no_change	probe matched original orientation	fixation	probe matched original orientation	['visual_attention','spatial_working_memory',’visual_working_memory ’,’visual_angle’]
+WorkingMemoryAomic	passive	no bars displayed	fixation	no bars were displayed	['visual_attention']
+WorkingMemoryAomic	active-passive	assess probe’s orientation	no bars displayed	assess probe’s orientation vs no item probe	['spatial_working_memory',’visual_working_memory ’,’visual_angle’]
+WorkingMemoryAomic	active_change-active_no_change	probe did not match original orientation	probe matched original orientation	probe did not match vs matched original orientation	[’visual_working_memory ’,’visual_angle’]
 AbstractionLocalizer	localizer_faces	human faces	fixation	localizer for human faces	
 AbstractionLocalizer	localizer_humanbody	human bodies without the head	fixation	localizer for human bodies	
 AbstractionLocalizer	localizer_words	words	fixation	localizer for words	
