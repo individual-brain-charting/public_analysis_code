@@ -523,11 +523,11 @@ VisualSearch,search_array_two_absent,array of two items without the sample item,
 VisualSearch,search_array_two_present,array of two items with the sample item,fixation,array of two items with the sample item,"['visual_pattern_recognition','visual_attention','visual_working_memory','visual_form_discrimination']"
 VisualSearch,probe_item,probing an item,fixation,"probing an item, absent or present","['visual_search','visual_pattern_recognition','visual_form_discrimination']"
 VisualSearch,search_array,array of items,fixation,"array of items, four or two","['visual_pattern_recognition','visual_attention','visual_working_memory','visual_form_discrimination']"
-VisualSearch,probe_item_absent–probe_item_present,probing an absent item,probing a present item,probing an absent vs present item,['visual_form_discrimination']
-VisualSearch,search_array_absent–search_array_present ,array of items without the sample item,array of items with the sample item,array of items without vs with sample item,"['visual_form_discrimination','visual_pattern_recognition']"
-VisualSearch,probe_item_four–probe_item_two,probing an item from an array of four,probing an item from an array of two,probing an item from an array of four vs two,"['visual_attention','task_difficulty','visual_working_memory']"
-VisualSearch,search_array_four–search_array_two,array of four items,array of two items,array of four vs two items,"['visual_pattern_recognition','task_difficulty']"
-VisualSearch,delay_vis–delay_wm,delay period on visual search,delay period on working memory,delay period on visual search vs on working memory,"['working_memory_maintenance','visual_search']"
+VisualSearch,probe_item_absent'probe_item_present,probing an absent item,probing a present item,probing an absent vs present item,['visual_form_discrimination']
+VisualSearch,search_array_absent'search_array_present ,array of items without the sample item,array of items with the sample item,array of items without vs with sample item,"['visual_form_discrimination','visual_pattern_recognition']"
+VisualSearch,probe_item_four'probe_item_two,probing an item from an array of four,probing an item from an array of two,probing an item from an array of four vs two,"['visual_attention','task_difficulty','visual_working_memory']"
+VisualSearch,search_array_four'search_array_two,array of four items,array of two items,array of four vs two items,"['visual_pattern_recognition','task_difficulty']"
+VisualSearch,delay_vis'delay_wm,delay period on visual search,delay period on working memory,delay period on visual search vs on working memory,"['working_memory_maintenance','visual_search']"
 NARPS,gain,potential gains during stim events,fixation,potential gains during stim events,"['reward_valuation','reward_processing']"
 NARPS,loss,potential losses during stim events,fixation,potential losses during stim events,"['reward_valuation','reward_processing','risk_aversion','risk_processing','loss_aversion']"
 NARPS,weakly_accept,accept the gamble with low confidence,fixation,accept the gamble with low confidence,"['response_selection','response_execution','reward_anticipation']"
@@ -541,52 +541,52 @@ RewProc,minus_20,lost 20 units of reward,fixation,lost 20 units of reward,"['rew
 RewProc,plus_20,gained 20 units of reward,fixation,gained 20 units of reward,"['reward_valuation','reward_processing','response_selection','response_execution']"
 RewProc,minus_10,lost 10 units of reward,fixation,lost 10 units of reward,"['reward_valuation','reward_processing','risk_aversion','risk_processing','loss_aversion']"
 RewProc,plus_10,gained 10 units of reward,fixation,gained 10 units of reward,"['reward_valuation','reward_processing','response_selection','response_execution']"
-RewProc,green-purple,green pattern selected,purple pattern selected,green vs purple pattern selected,[‘color_perception’]
-RewProc,purple-green,purple pattern selected,green pattern selected,purple vs green pattern selected,[‘color_perception’]
+RewProc,green-purple,green pattern selected,purple pattern selected,green vs purple pattern selected,[â€˜color_perception']
+RewProc,purple-green,purple pattern selected,green pattern selected,purple vs green pattern selected,[â€˜color_perception']
 RewProc,left-right,selected pattern on the left side,selected pattern on the right side,selected pattern on the left vs right side,"['upper-right_vision','lower-right_vision'] "
 RewProc,right-left,selected pattern on the right side,selected pattern on the left side,selected pattern on the right vs left side,"['upper-right_vision','lower-right_vision'] "
 RewProc,switch,selected a different pattern from previous trial,fixation,selected a different pattern than previous trial,"['visual_perception','response_selection','response_execution','cue_switch']"
 RewProc,stay,selected the same pattern as previous trial,fixation,selected the same pattern than previous trial,"['visual_perception','response_selection','response_execution']"
 RewProc,switch-stay,selected a different pattern from previous trial,selected the same pattern as previous trial,selected a different vs same pattern,['cue_switch']
-RewProc,stay-switch,selected the same pattern as previous trial,selected a different pattern from previous trial,selected the same vs different pattern,[‘repetition’]
+RewProc,stay-switch,selected the same pattern as previous trial,selected a different pattern from previous trial,selected the same vs different pattern,[â€˜repetition']
 RewProc,gain,gained reward ,fixation,gained 20 or 10 units of reward ,"['reward_valuation','reward_processing']"
 RewProc,loss,lost reward,fixation,lost 20 or 10 units of reward,"['reward_valuation','reward_processing','risk_aversion','risk_processing','loss_aversion']"
 RewProc,gain-loss,gained  reward ,lost reward,gained vs lost 20 or 10 units of reward ,"['reward_valuation','reward_processing']"
 RewProc,loss-gain,lost reward,gained reward ,lost vs gained 20 or 10 units of reward,"['risk_aversion','risk_processing','loss_aversion']"
-BreathHolding,breathe,breathe normally,fixation,breathe normally,[‘self_monitoring']
-BreathHolding,hold_breath,hold breath,fixation,hold breath,"[‘self_monitoring',’breath_holding’]"
-BreathHolding,hold-breathe,hold breath,breathe normally,hold breath vs breathe normally,"[‘self_monitoring',’breath_holding’]"
-BreathHolding,breathe-hold,breathe normally,hold breath,breathe normally vs hold breath,[‘self_monitoring']
-Checkerboard,checkerboard-fixation,checkerboard,fixation,checkerboard,"['response_selection','response_execution',’visual_perception’]"
-FingerTapping,fingertap-rest,button-press,rest,button press vs rest,"['response_selection','response_execution',’right_finger_response_execution’]"
-ItemRecognition,encode5-encode1,encoding 5 items,encoding 1 item,encoding 5 vs 1 item,"['visual_attention','spatial_working_memory',’task_difficulty’] "
-ItemRecognition,probe5_mem-probe1_mem,probing encoded digit in load 5,probing encoded digit in load 1,probing an encoded digit in a load of 5 vs 1,"['visual_attention','spatial_working_memory',’task_difficulty’] "
-ItemRecognition,probe5_new-probe1_new,probing new digit in a load 5,probing new digit in a load 1,probing a new digit in a load 5 vs 1,"['visual_attention','spatial_working_memory'’task_difficulty’,’numerosity’]"
+BreathHolding,breathe,breathe normally,fixation,breathe normally,['self_monitoring']
+BreathHolding,hold_breath,hold breath,fixation,hold breath,"[â€˜self_monitoring',â€™breath_holding']"
+BreathHolding,hold-breathe,hold breath,breathe normally,hold breath vs breathe normally,"[â€˜self_monitoring',â€™breath_holding']"
+BreathHolding,breathe-hold,breathe normally,hold breath,breathe normally vs hold breath,['self_monitoring']
+Checkerboard,checkerboard-fixation,checkerboard,fixation,checkerboard,"['response_selection','response_execution',â€™visual_perception']"
+FingerTapping,fingertap-rest,button-press,rest,button press vs rest,"['response_selection','response_execution','right_finger_response_execution']"
+ItemRecognition,encode5-encode1,encoding 5 items,encoding 1 item,encoding 5 vs 1 item,"['visual_attention','spatial_working_memory','task_difficulty'] "
+ItemRecognition,probe5_mem-probe1_mem,probing encoded digit in load 5,probing encoded digit in load 1,probing an encoded digit in a load of 5 vs 1,"['visual_attention','spatial_working_memory','task_difficulty'] "
+ItemRecognition,probe5_new-probe1_new,probing new digit in a load 5,probing new digit in a load 1,probing a new digit in a load 5 vs 1,"['visual_attention','spatial_working_memory''task_difficulty','numerosity']"
 ItemRecognition,prob-arrow,probing encoded and new digits,left or right pointing arrows,probing digits vs trials of pointing arrows,"['visual_attention','spatial_working_memory'] "
 ItemRecognition,encode,encoding items,fixation,"encoding 1, 3 and 5 items","['visual_attention','spatial_working_memory']"
 ItemRecognition,arrow_left-arrow_right,identifying left pointing arrow,identifying right pointing arrow,identifying a left vs right pointing arrow,"['visual_attention','spatial_working_memory']"
-Color,chromatic,chromatic mondrian patterns,fixation,attending to chromatic mondrian patterns,"[‘color_perception’,’working_memory’]"
-Color,achromatic,achromatic mondrian patterns,fixation,attending to achromatic mondrian patterns,[’working_memory’]
-Color,chromatic-achromatic,chromatic mondrian patterns,achromatic mondrian patterns,chromatic vs achromatic mondrian patterns,"[‘color_perception,’working_memory’]"
+Color,chromatic,chromatic mondrian patterns,fixation,attending to chromatic mondrian patterns,"['color_perception','working_memory']"
+Color,achromatic,achromatic mondrian patterns,fixation,attending to achromatic mondrian patterns,['working_memory']
+Color,chromatic-achromatic,chromatic mondrian patterns,achromatic mondrian patterns,chromatic vs achromatic mondrian patterns,"['color_perception,'working_memory']"
 Color,response,response to repeated pattern,fixation,response to repeated mondrian patterns,"['response_selection','response_execution']"
-Motion,incoherent,incoherent motion,fixation,dots moving incoherently,"[‘random_motion’,’visual_awareness’]"
-Motion,coherent,coherent  motion,fixation,dots moving coherently,"[‘coherent_motion’,’visual_awareness’]"
-Motion,stationary,stationary dots,fixation,stationary dots appearing in different locations,"[‘visual_localization',’visual_awareness’]"
-Motion,clock,clockwise motion,fixation,motion in clockwise direction,"[‘coherent_motion’,’visual_awareness’]"
-Motion,anti,anti-clockwise motion,fixation,anti-clockwise motion,"[‘coherent_motion’,’visual_awareness’]"
-Motion,response,cued button press,fixation,fixation point turning blue,"['response_selection','response_execution',’color recognition’,’color_perception’]"
-Motion,coherent-incoherent,coherent motion,incoherent motion,dots moving coherently vs coherently,"[‘coherent_motion’,’visual_awareness’]"
-Motion,coherent-stationary,coherent motion,stationary dots,dots moving coherently vs staying stationary,"[‘coherent_motion’,’motion detection']"
-Motion,incoherent-stationary,incoherent motion,stationary dots,dots moving incoherently vs staying stationary,"[‘random_motion’,’motion detection']"
-Motion,clock-anti,clockwise motion,coherent motion,clockwise vs anti-clockwise motion,"[’motion_detection',’visual_awareness’]"
+Motion,incoherent,incoherent motion,fixation,dots moving incoherently,"['random_motion','visual_awareness']"
+Motion,coherent,coherent  motion,fixation,dots moving coherently,"['coherent_motion','visual_awareness']"
+Motion,stationary,stationary dots,fixation,stationary dots appearing in different locations,"['visual_localization','visual_awareness']"
+Motion,clock,clockwise motion,fixation,motion in clockwise direction,"['coherent_motion','visual_awareness']"
+Motion,anti,anti-clockwise motion,fixation,anti-clockwise motion,"['coherent_motion','visual_awareness']"
+Motion,response,cued button press,fixation,fixation point turning blue,"['response_selection','response_execution','color recognition','color_perception']"
+Motion,coherent-incoherent,coherent motion,incoherent motion,dots moving coherently vs coherently,"['coherent_motion','visual_awareness']"
+Motion,coherent-stationary,coherent motion,stationary dots,dots moving coherently vs staying stationary,"['coherent_motion','motion detection']"
+Motion,incoherent-stationary,incoherent motion,stationary dots,dots moving incoherently vs staying stationary,"['random_motion','motion detection']"
+Motion,clock-anti,clockwise motion,coherent motion,clockwise vs anti-clockwise motion,"['motion_detection','visual_awareness']"
 Motion,left-right,dot pattern in left side,dot pattern in right side,dot pattern in left vs right visual field,"['upper-left_vision','lower-left_vision'] "
-OptimismBias,all_events,all events,fixation,all events,"['self-reference_effect’,‘emotional_memory’,’temporal_categorization',’episodic_simulation’]"
-OptimismBias,optimism_bias,"future, negative valence",other events,future negative vs other events,"['self-reference_effect’,‘emotional_memory’,’episodic_future_thinking']"
-OptimismBias,future_vs_past,future event,past event,future  vs past events,"[‘episodic_future_thinking’,'temporal_categorization']"
-OptimismBias,positive_vs_negative,positive event,negative event,positive vs negative events,"[‘emotional_memory’,‘future_time’,’past_time’]"
-OptimismBias,future_positive_vs_negative,"future, positive valence","future, negative valence",future positive vs negative,"[‘episodic_future_thinking’,'temporal_categorization']"
-OptimismBias,past_positive_vs_negative,"past, positive valence","past, negative valence",past positive vs negative,"[‘past_time’,’memory_retrieval’,’emotional_memory','self-reference_effect’]"
-OptimismBias,interaction,future and positive event,past and negative event,interaction of (future vs past) and (positive vs negative),"['self-reference_effect’,’emotional_memory’,‘episodic_future_thinking’]"
+OptimismBias,all_events,all events,fixation,all events,"['self-reference_effect','emotional_memory','temporal_categorization','episodic_simulation']"
+OptimismBias,optimism_bias,"future, negative valence",other events,future negative vs other events,"['self-reference_effect','emotional_memory','episodic_future_thinking']"
+OptimismBias,future_vs_past,future event,past event,future  vs past events,"['episodic_future_thinking','temporal_categorization']"
+OptimismBias,positive_vs_negative,positive event,negative event,positive vs negative events,"['emotional_memory','future_time','past_time']"
+OptimismBias,future_positive_vs_negative,"future, positive valence","future, negative valence",future positive vs negative,"['episodic_future_thinking','temporal_categorization']"
+OptimismBias,past_positive_vs_negative,"past, positive valence","past, negative valence",past positive vs negative,"['past_time','memory_retrieval','emotional_memory','self-reference_effect']"
+OptimismBias,interaction,future and positive event,past and negative event,interaction of (future vs past) and (positive vs negative),"['self-reference_effect','emotional_memory','episodic_future_thinking']"
 HarririAomic,emotion,match facial expression,fixation,match the facial expression,"['emotional_face_recognition','face_perception','emotional_expression']"
 HarririAomic,shape,match shape,fixation,match the shape of images,"['shape_recognition','visual_orientation']"
 HarririAomic,index_response,matched left image to cue,fixation,matching left image to top cue,"['response_selection','right_finger_response_execution']"
@@ -606,85 +606,85 @@ FacesAomic,male-female,male face,female face,attending to male vs female face,"[
 FacesAomic,female-male,female face,male face,attending to female vs male face,"['face_perception','gender_perception']"
 FacesAomic,mediterranean-european,mediterranean ethnicity face,european ethnicity face,attending to mediterranean vs european ethnicity face,"['face_perception','feature_integration']"
 FacesAomic,european-mediterranean,european ethnicity face,mediterranean ethnicity face,attending to european vs mediterranean ethnicity face,"['face_perception','feature_integration']"
-StroopAomic,incongruent_word_male_face_female,word “male” with female face,fixation,attending to female face while reading “male”,"['face_perception','gender_perception',’visual_word_recognition’,’conflict_detection’]"
-StroopAomic,congruent_word_female_face_female,word “female” with female face,fixation,attending to female face while reading “female”,"['face_perception','gender_perception',’visual_word_recognition’]"
-StroopAomic,congruent_word_male_face_male,word “male” with male face,fixation,attending to male face while reading “male”,"['face_perception','gender_perception',’visual_word_recognition’]"
-StroopAomic,incongruent_word_female_face_male,word “female” with male face,fixation,attending to male face while reading “female”,"['face_perception','gender_perception',’visual_word_recognition’,’conflict_detection’]"
+StroopAomic,incongruent_word_male_face_female,word 'male' with female face,fixation,attending to female face while reading 'male',"['face_perception','gender_perception','visual_word_recognition','conflict_detection']"
+StroopAomic,congruent_word_female_face_female,word 'female' with female face,fixation,attending to female face while reading 'female',"['face_perception','gender_perception','visual_word_recognition']"
+StroopAomic,congruent_word_male_face_male,word 'male' with male face,fixation,attending to male face while reading 'male',"['face_perception','gender_perception','visual_word_recognition']"
+StroopAomic,incongruent_word_female_face_male,word 'female' with male face,fixation,attending to male face while reading 'female',"['face_perception','gender_perception','visual_word_recognition','conflict_detection']"
 StroopAomic,index_response,male face response,fixation,identifying a male face,"['response_selection','right_finger_response_execution']"
 StroopAomic,middle_response,female face response,fixation,identifying a female face,"['response_selection','right_finger_response_execution']"
-StroopAomic,congruent-incongruent,word and face matched,word and face did not match,word and face matched vs did not match,"['face_perception','gender_perception',’visual_word_recognition’]"
-StroopAomic,incongruent-congruent,word and face did not match,word and face matched,word and face did not match vs matched,"['face_perception','gender_perception',’visual_word_recognition’,’conflict_detection’]"
+StroopAomic,congruent-incongruent,word and face matched,word and face did not match,word and face matched vs did not match,"['face_perception','gender_perception','visual_word_recognition']"
+StroopAomic,incongruent-congruent,word and face did not match,word and face matched,word and face did not match vs matched,"['face_perception','gender_perception','visual_word_recognition','conflict_detection']"
 StroopAomic,face_male-face_female,male face,female face,male vs female face,"['face_perception','gender_perception']"
-StroopAomic,word_male-word_female,word “male”,word “female”,word “male” vs “female”,[’visual_word_recognition’]
+StroopAomic,word_male-word_female,word 'male',word 'female',word 'male' vs 'female',['visual_word_recognition']
 StroopAomic,index-middle,male face response,female face response,indicate the face is of male vs of female,"['response_selection','right_finger_response_execution']"
 StroopAomic,middle-index,female face response,male face response,indicate the face is of female vs of male,"['response_selection','right_finger_response_execution']"
-WorkingMemoryAomic,active_change,unmatched orientation,fixation,probe did not match previous orientation,"['visual_attention',’visual_working_memory’,'visual_orientation']"
-WorkingMemoryAomic,active_no_change,matched orientation,fixation,probe matched previous orientation,"['visual_attention',’visual_working_memory’,'visual_orientation']"
+WorkingMemoryAomic,active_change,unmatched orientation,fixation,probe did not match previous orientation,"['visual_attention','visual_working_memory','visual_orientation']"
+WorkingMemoryAomic,active_no_change,matched orientation,fixation,probe matched previous orientation,"['visual_attention','visual_working_memory','visual_orientation']"
 WorkingMemoryAomic,passive,null event,fixation,null event,['visual_attention']
-WorkingMemoryAomic,active-passive,assess orientation,null event,assess probe orientation vs null event,"[’visual_working_memory’,’visual_orientation’]"
-WorkingMemoryAomic,active_change-active_no_change,unmatched orientation,matched orientation,probe did not match vs matched orientation,"[’visual_working_memory’,’visual_orientation’]"
-AbstractionLocalizer,localizer_faces,human faces,fixation,localizer for human faces,"['visual_attention',’visual_recognition','visual_face_recognition','face_perception']"
-AbstractionLocalizer,localizer_humanbody,human bodies without the head,fixation,localizer for human bodies,"['visual_attention',’visual_recognition','visual_body_recognition']"
-AbstractionLocalizer,localizer_words,words,fixation,localizer for words,"['visual_attention',’visual_recognition',’visual_word_recognition’]"
-AbstractionLocalizer,localizer_nonsensewords,nonsense words,fixation,localizer for nonsense words,"['visual_attention',’visual_recognition',‘visual_pseudoword_recognition']"
-AbstractionLocalizer,localizer_numbers,numbers,fixation,localizer for numbers,"['visual_attention',’visual_recognition',‘visual_number_recognition']"
-AbstractionLocalizer,localizer_places,places,fixation,localizer for places,"['visual_attention',’visual_recognition',‘visual_place_recognition']"
-AbstractionLocalizer,localizer_objects,objects,fixation,localizer for objects,"['visual_attention',’visual_recognition',‘visual_object_recognition']"
-AbstractionLocalizer,localizer_checkerboards,checkerboards,fixation,localizer for checkerboards,"['visual_attention',’visual_recognition','horizontal_checkerboard','vertical_checkerboard']"
+WorkingMemoryAomic,active-passive,assess orientation,null event,assess probe orientation vs null event,"['visual_working_memory','visual_orientation']"
+WorkingMemoryAomic,active_change-active_no_change,unmatched orientation,matched orientation,probe did not match vs matched orientation,"['visual_working_memory','visual_orientation']"
+AbstractionLocalizer,localizer_faces,human faces,fixation,localizer for human faces,"['visual_attention','visual_recognition','visual_face_recognition','face_perception']"
+AbstractionLocalizer,localizer_humanbody,human bodies without the head,fixation,localizer for human bodies,"['visual_attention','visual_recognition','visual_body_recognition']"
+AbstractionLocalizer,localizer_words,words,fixation,localizer for words,"['visual_attention','visual_recognition','visual_word_recognition']"
+AbstractionLocalizer,localizer_nonsensewords,nonsense words,fixation,localizer for nonsense words,"['visual_attention','visual_recognition','visual_pseudoword_recognition']"
+AbstractionLocalizer,localizer_numbers,numbers,fixation,localizer for numbers,"['visual_attention','visual_recognition','visual_number_recognition']"
+AbstractionLocalizer,localizer_places,places,fixation,localizer for places,"['visual_attention','visual_recognition','visual_place_recognition']"
+AbstractionLocalizer,localizer_objects,objects,fixation,localizer for objects,"['visual_attention','visual_recognition','visual_object_recognition']"
+AbstractionLocalizer,localizer_checkerboards,checkerboards,fixation,localizer for checkerboards,"['visual_attention','visual_recognition','horizontal_checkerboard','vertical_checkerboard']"
 AbstractionLocalizer,localizer_faces-other,human faces,rest of categories,human faces vs other categories,"['visual_face_recognition','face_perception']"
 AbstractionLocalizer,localizer_humanbody-other,human bodies without the head,rest of categories,human bodies vs other categories,['visual_body_recognition']
-AbstractionLocalizer,localizer_words-other,words,rest of categories,words vs other categories,[’visual_word_recognition’]
-AbstractionLocalizer,localizer_nonsensewords-other,nonsense words,rest of categories,nonsense words vs other categories,[‘visual_pseudoword_recognition']
-AbstractionLocalizer,localizer_numbers-other,numbers,rest of categories,numbers vs other categories,[‘visual_number_recognition']
-AbstractionLocalizer,localizer_places-other,places,rest of categories,places vs other categories,[‘visual_place_recognition']
-AbstractionLocalizer,localizer_objects-other,objects,rest of categories,objects vs other categories,[‘visual_object_recognition']
+AbstractionLocalizer,localizer_words-other,words,rest of categories,words vs other categories,['visual_word_recognition']
+AbstractionLocalizer,localizer_nonsensewords-other,nonsense words,rest of categories,nonsense words vs other categories,['visual_pseudoword_recognition']
+AbstractionLocalizer,localizer_numbers-other,numbers,rest of categories,numbers vs other categories,['visual_number_recognition']
+AbstractionLocalizer,localizer_places-other,places,rest of categories,places vs other categories,['visual_place_recognition']
+AbstractionLocalizer,localizer_objects-other,objects,rest of categories,objects vs other categories,['visual_object_recognition']
 AbstractionLocalizer,localizer_checkerboards-other,checkerboards,rest of categories,checkerboards vs other categories,"['horizontal_checkerboard','vertical_checkerboard']"
 AbstractionLocalizer,response,indicate a star appeared,fixation,response to star image as control,"['response_selection','response_execution']"
-Abstraction,humanbody_geometry,geometry render of a human body,fixation,geometry renders of human bodies,"['visual_body_recognition',’visual_representation',‘mental_representation’,'abstract_analogy’,’visual_form_recognition']"
-Abstraction,humanbody_edge,edge render of a human body,fixation,edges renders of human bodies,"['visual_body_recognition',’visual_representation',‘mental_representation’,'abstract_analogy’,’edge_detection']"
-Abstraction,humanbody_photo,photo of a human body,fixation,photos of human bodies,"['visual_body_recognition',’visual_representation']"
-Abstraction,animals_geometry,geometry render of an animal,fixation,geometry renders of animals,"['animacy_perception',’visual_representation',‘mental_representation’,'abstract_analogy’,’visual_form_recognition']"
-Abstraction,animals_edge,edge render of an animal,fixation,edge renders of an animals,"['animacy_perception',’visual_representation',‘mental_representation’,'abstract_analogy’,’edge_detection']"
-Abstraction,animals_photo,photo of an animal,fixation,photo of an animal,"['animacy_perception',’visual_representation']"
-Abstraction,faces_geometry,geometry render of a human face,fixation,geometry renders of human faces,"['visual_face_recognition','face_perception'',’visual_representation',‘mental_representation’,'abstract_analogy’,’visual_form_recognition']"
-Abstraction,faces_edge,edge render of a human face,fixation,edge renders of human faces,"['visual_face_recognition','face_perception',’visual_representation',‘mental_representation’,'abstract_analogy’,’edge_detection']"
-Abstraction,faces_photo,photo of a human face,fixation,photos of human faces,"['visual_face_recognition','face_perception',’visual_representation']"
-Abstraction,flora_geometry,geometry render of flora,fixation,geometry renders of flora,"['animacy_perception',’visual_representation',‘mental_representation’,'abstract_analogy’,’visual_form_recognition']"
-Abstraction,flora_edge,edge render of flora,fixation,edge renders of flora,"['animacy_perception',’visual_representation',‘mental_representation’,'abstract_analogy’,’edge_detection']"
-Abstraction,flora_photo,photo of flora,fixation,photos of flora,"['animacy_perception',’visual_representation']"
-Abstraction,objects_geometry,geometry render of an object,fixation,geometry renders of objects,"[‘visual_object_recognition',’visual_representation',‘mental_representation’,'abstract_analogy’,’visual_form_recognition']"
-Abstraction,objects_edge,edge render of an object,fixation,edge renders of objects,"[‘visual_object_recognition',’visual_representation',‘mental_representation’,'abstract_analogy’,’edge_detection']"
-Abstraction,objects_photo,photo of an object,fixation,photos of objects,"[‘visual_object_recognition',’visual_representation']"
-Abstraction,places_geometry,geometry render of places,fixation,geometry renders of places,"[‘visual_place_recognition',’visual_representation',‘mental_representation’,'abstract_analogy’,’visual_form_recognition']"
-Abstraction,places_edge,edge render of places,fixation,edge renders of places,"[‘visual_place_recognition',’visual_representation',‘mental_representation’,'abstract_analogy’,’edge_detection']"
-Abstraction,places_photo,photo of places,fixation,photos of places,"[‘visual_place_recognition',’visual_representation']"
-Abstraction,humanbody-other,renders of a human body,renders of the rest of categories,renders of human bodies vs of rest of categories,"['semantic_categorization’,'visual_body_recognition',’visual_representation'] "
-Abstraction,animals-other,renders of animals,renders of the rest of categories,renders of animals vs of rest of categories,"['semantic_categorization’,'animacy_perception',’visual_representation'] "
-Abstraction,faces-other,renders of human faces,renders of the rest of categories,renders of faces vs of rest of categories,"['semantic_categorization’,'visual_face_recognition','face_perception',’visual_representation']"
-Abstraction,flora-other,renders of flora,renders of the rest of categories,renders of flora vs of rest of categories,"['semantic_categorization’,'animacy_perception',’visual_representation'] "
-Abstraction,objects-other,renders of objects,renders of the rest of categories,renders of objects vs of rest of categories,"['semantic_categorization’,‘visual_object_recognition',’visual_representation']"
-Abstraction,places-other,renders of places,renders of the rest of categories,renders of places vs of rest of categories,"['semantic_categorization’,‘visual_place_recognition',’visual_representation']"
-Abstraction,geometry-other,geometry renders of all categories,edge and photo renders of all categories,geometry vs edge and photo render,"[’visual_representation',‘mental_representation’,'abstract_analogy’,’visual_form_recognition']"
-Abstraction,edge-other,edge renders of all categories,geometry and photo renders of all categories,edge vs geometry and photo render,"[’visual_representation',‘mental_representation’,'abstract_analogy’,’edge_detection']"
-Abstraction,photo-other,photos of all categories,geometry and edge renders of all categories,photo vs geometry and edge render,[’visual_representation']
-Abstraction,humanbody_geometry-humanbody_other,geometry render of human bodies,edge and photo renders of a human body,geometry vs edge and photo render of human bodies,"[‘mental_representation’,'abstract_analogy’,’visual_form_recognition']"
-Abstraction,humanbody_edge-humanbody_other,edges render of human bodies,geometry and photo renders of a human body,edge vs geometry and photo render of human bodies,"[‘mental_representation’,'abstract_analogy’,’edge_detection']"
-Abstraction,humanbody_photo-humanbody_other,photos of human bodies,geometry and edge renders of a human body,photo vs geometry and edge render of human bodies,[’visual_representation']
-Abstraction,animals_geometry-animals_other,geometry render of animals,edge and photo renders of animals,geometry vs edge and photo render of animals,"[‘mental_representation’,'abstract_analogy’,’visual_form_recognition']"
-Abstraction,animals_edge-animals_other,edges render of animals,geometry and photo renders of animals,edge vs geometry and photo render of animals,"[‘mental_representation’,'abstract_analogy’,’edge_detection']"
-Abstraction,animals_photo-animals_other,photos of animals,geometry and edge renders of animals,photo vs geometry and edge render of animals,[’visual_representation']
-Abstraction,faces_geometry-faces_other,geometry render of human faces,edge and photo renders of human faces,geometry vs edge and photo render of faces,"[‘mental_representation’,'abstract_analogy’,’visual_form_recognition']"
-Abstraction,faces_edge-faces_other,edges render of faces,geometry and photo renders of faces,edge vs geometry and photo render of faces,"[‘mental_representation’,'abstract_analogy’,’edge_detection']"
-Abstraction,faces_photo-faces_other,photos of human faces,geometry and edge renders of human faces,photo vs geometry and edge render of faces,[’visual_representation']
-Abstraction,flora_geometry-flora_other,geometry render of flora,edge and photo renders of flora,geometry vs edge and photo render of flora,"[‘mental_representation’,'abstract_analogy’,’visual_form_recognition']"
-Abstraction,flora_edge-flora_other,edges render of flora,geometry and photo renders of flora,edge vs geometry and photo render of flora,"[‘mental_representation’,'abstract_analogy’,’edge_detection']"
-Abstraction,flora_photo-flora_other,photos of flora,geometry and edge renders of flora,photo vs geometry and edge render of flora,[’visual_representation']
-Abstraction,objects_geometry-objects_other,geometry render of objects,edge and photo renders of objects,geometry vs edge and photo render of objects,"[‘mental_representation’,'abstract_analogy’,’visual_form_recognition']"
-Abstraction,objects_edge-objects_other,edges render of objects,geometry and photo renders of objects,edge vs geometry and photo render of objects,"[‘mental_representation’,'abstract_analogy’,’edge_detection']"
-Abstraction,objects_photo-objects_other,photos of objects,geometry and edge renders of objects,photo vs geometry and edge render of objects,[’visual_representation']
-Abstraction,places_geometry-places_other,geometry render of places,edge and photo renders of places,geometry vs edge and photo render of places,"[‘mental_representation’,'abstract_analogy’,’visual_form_recognition']"
-Abstraction,places_edge-places_other,edges render of places,geometry and photo renders of places,edge vs geometry and photo render of places,"[‘mental_representation’,'abstract_analogy’,’edge_detection']"
-Abstraction,places_photo-places_other,photos of places,geometry and edge renders of places,photo vs geometry and edge render of places,[’visual_representation']
+Abstraction,humanbody_geometry,geometry render of a human body,fixation,geometry renders of human bodies,"['visual_body_recognition','visual_representation','mental_representation','abstract_analogy','visual_form_recognition']"
+Abstraction,humanbody_edge,edge render of a human body,fixation,edges renders of human bodies,"['visual_body_recognition','visual_representation','mental_representation','abstract_analogy','edge_detection']"
+Abstraction,humanbody_photo,photo of a human body,fixation,photos of human bodies,"['visual_body_recognition','visual_representation']"
+Abstraction,animals_geometry,geometry render of an animal,fixation,geometry renders of animals,"['animacy_perception','visual_representation','mental_representation','abstract_analogy','visual_form_recognition']"
+Abstraction,animals_edge,edge render of an animal,fixation,edge renders of an animals,"['animacy_perception','visual_representation','mental_representation','abstract_analogy','edge_detection']"
+Abstraction,animals_photo,photo of an animal,fixation,photo of an animal,"['animacy_perception','visual_representation']"
+Abstraction,faces_geometry,geometry render of a human face,fixation,geometry renders of human faces,"['visual_face_recognition','face_perception'','visual_representation','mental_representation','abstract_analogy','visual_form_recognition']"
+Abstraction,faces_edge,edge render of a human face,fixation,edge renders of human faces,"['visual_face_recognition','face_perception','visual_representation','mental_representation','abstract_analogy','edge_detection']"
+Abstraction,faces_photo,photo of a human face,fixation,photos of human faces,"['visual_face_recognition','face_perception','visual_representation']"
+Abstraction,flora_geometry,geometry render of flora,fixation,geometry renders of flora,"['animacy_perception','visual_representation','mental_representation','abstract_analogy','visual_form_recognition']"
+Abstraction,flora_edge,edge render of flora,fixation,edge renders of flora,"['animacy_perception','visual_representation','mental_representation','abstract_analogy','edge_detection']"
+Abstraction,flora_photo,photo of flora,fixation,photos of flora,"['animacy_perception','visual_representation']"
+Abstraction,objects_geometry,geometry render of an object,fixation,geometry renders of objects,"['visual_object_recognition','visual_representation','mental_representation','abstract_analogy','visual_form_recognition']"
+Abstraction,objects_edge,edge render of an object,fixation,edge renders of objects,"['visual_object_recognition','visual_representation','mental_representation','abstract_analogy','edge_detection']"
+Abstraction,objects_photo,photo of an object,fixation,photos of objects,"['visual_object_recognition','visual_representation']"
+Abstraction,places_geometry,geometry render of places,fixation,geometry renders of places,"['visual_place_recognition','visual_representation','mental_representation','abstract_analogy','visual_form_recognition']"
+Abstraction,places_edge,edge render of places,fixation,edge renders of places,"['visual_place_recognition','visual_representation','mental_representation','abstract_analogy','edge_detection']"
+Abstraction,places_photo,photo of places,fixation,photos of places,"['visual_place_recognition','visual_representation']"
+Abstraction,humanbody-other,renders of a human body,renders of the rest of categories,renders of human bodies vs of rest of categories,"['semantic_categorization','visual_body_recognition','visual_representation'] "
+Abstraction,animals-other,renders of animals,renders of the rest of categories,renders of animals vs of rest of categories,"['semantic_categorization','animacy_perception','visual_representation'] "
+Abstraction,faces-other,renders of human faces,renders of the rest of categories,renders of faces vs of rest of categories,"['semantic_categorization','visual_face_recognition','face_perception','visual_representation']"
+Abstraction,flora-other,renders of flora,renders of the rest of categories,renders of flora vs of rest of categories,"['semantic_categorization','animacy_perception','visual_representation'] "
+Abstraction,objects-other,renders of objects,renders of the rest of categories,renders of objects vs of rest of categories,"['semantic_categorization','visual_object_recognition','visual_representation']"
+Abstraction,places-other,renders of places,renders of the rest of categories,renders of places vs of rest of categories,"['semantic_categorization','visual_place_recognition','visual_representation']"
+Abstraction,geometry-other,geometry renders of all categories,edge and photo renders of all categories,geometry vs edge and photo render,"['visual_representation','mental_representation','abstract_analogy','visual_form_recognition']"
+Abstraction,edge-other,edge renders of all categories,geometry and photo renders of all categories,edge vs geometry and photo render,"['visual_representation','mental_representation','abstract_analogy','edge_detection']"
+Abstraction,photo-other,photos of all categories,geometry and edge renders of all categories,photo vs geometry and edge render,['visual_representation']
+Abstraction,humanbody_geometry-humanbody_other,geometry render of human bodies,edge and photo renders of a human body,geometry vs edge and photo render of human bodies,"['mental_representation','abstract_analogy','visual_form_recognition']"
+Abstraction,humanbody_edge-humanbody_other,edges render of human bodies,geometry and photo renders of a human body,edge vs geometry and photo render of human bodies,"['mental_representation','abstract_analogy','edge_detection']"
+Abstraction,humanbody_photo-humanbody_other,photos of human bodies,geometry and edge renders of a human body,photo vs geometry and edge render of human bodies,['visual_representation']
+Abstraction,animals_geometry-animals_other,geometry render of animals,edge and photo renders of animals,geometry vs edge and photo render of animals,"['mental_representation','abstract_analogy','visual_form_recognition']"
+Abstraction,animals_edge-animals_other,edges render of animals,geometry and photo renders of animals,edge vs geometry and photo render of animals,"['mental_representation','abstract_analogy','edge_detection']"
+Abstraction,animals_photo-animals_other,photos of animals,geometry and edge renders of animals,photo vs geometry and edge render of animals,['visual_representation']
+Abstraction,faces_geometry-faces_other,geometry render of human faces,edge and photo renders of human faces,geometry vs edge and photo render of faces,"['mental_representation','abstract_analogy','visual_form_recognition']"
+Abstraction,faces_edge-faces_other,edges render of faces,geometry and photo renders of faces,edge vs geometry and photo render of faces,"['mental_representation','abstract_analogy','edge_detection']"
+Abstraction,faces_photo-faces_other,photos of human faces,geometry and edge renders of human faces,photo vs geometry and edge render of faces,['visual_representation']
+Abstraction,flora_geometry-flora_other,geometry render of flora,edge and photo renders of flora,geometry vs edge and photo render of flora,"['mental_representation','abstract_analogy','visual_form_recognition']"
+Abstraction,flora_edge-flora_other,edges render of flora,geometry and photo renders of flora,edge vs geometry and photo render of flora,"['mental_representation','abstract_analogy','edge_detection']"
+Abstraction,flora_photo-flora_other,photos of flora,geometry and edge renders of flora,photo vs geometry and edge render of flora,['visual_representation']
+Abstraction,objects_geometry-objects_other,geometry render of objects,edge and photo renders of objects,geometry vs edge and photo render of objects,"['mental_representation','abstract_analogy','visual_form_recognition']"
+Abstraction,objects_edge-objects_other,edges render of objects,geometry and photo renders of objects,edge vs geometry and photo render of objects,"['mental_representation','abstract_analogy','edge_detection']"
+Abstraction,objects_photo-objects_other,photos of objects,geometry and edge renders of objects,photo vs geometry and edge render of objects,['visual_representation']
+Abstraction,places_geometry-places_other,geometry render of places,edge and photo renders of places,geometry vs edge and photo render of places,"['mental_representation','abstract_analogy','visual_form_recognition']"
+Abstraction,places_edge-places_other,edges render of places,geometry and photo renders of places,edge vs geometry and photo render of places,"['mental_representation','abstract_analogy','edge_detection']"
+Abstraction,places_photo-places_other,photos of places,geometry and edge renders of places,photo vs geometry and edge render of places,['visual_representation']
 Abstraction,response,indicate a star appeared,fixation,button press to star,"['response_selection','response_execution']"
 MDTB,action_action ,hands making knot,fixation,watching hands make a specific knot,
 MDTB,action_control,resulting knot from different angles,fixation,resulting knot shown from different angles,
@@ -695,7 +695,7 @@ MDTB,semantic_easy,natural sequence,fixation,easy to decide whether the last wor
 MDTB,2back_easy,easy 2-back,fixation,easy 2-back,
 MDTB,2back_hard,hard 2-back,fixation,hard 2-back,
 MDTB,tom_photo,statement relates to facts,fixation,statement relates to facts from paragraph,
-MDTB,tom_belief,statement relates to believes,fixation,statement relates to character’s believes,
+MDTB,tom_belief,statement relates to believes,fixation,statement relates to character's believes,
 MDTB,search_easy,easy to look for the correct shape,fixation,easy to look for the right-oriented shape,
 MDTB,search_hard,hard to look for the correct shape,fixation,hard to look for the right-oriented shape,
 MDTB,flexion_extension,toes flexion-extension,fixation,continuous toes flexion-extension,
