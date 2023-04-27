@@ -114,6 +114,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
         '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
     _adapt_jobfile(jobfile, subject, output_name, session)
     list_subjects_update = generate_glm_input(output_name, smooth, lowres)
+    stop
     clean_anatomical_images(IBC)
     compcorr = True
     if protocol == 'mathlang':
@@ -126,7 +127,6 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
         subject['onset'] = [onset for onset in subject['onset']
                             if onset is not None]
         clean_subject(subject)
-        stop
         if len(subject['session_id']) > 0:
             if protocol == 'clips4':
                 first_level(subject, compcorr=compcorr,
@@ -147,7 +147,7 @@ if __name__ == '__main__':
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     # protocols = ['audio1', 'audio2']
     # protocols = ['optimism', 'abstraction', 'leuven', 'abstraction']
-    protocols = ['leuven']
+    protocols = ['aomic']
 
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol

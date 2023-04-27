@@ -601,8 +601,7 @@ def harriri_aomic(design_matrix_columns):
 
 def faces_aomic(design_matrix_columns):
     """ Contrasts for FacesAomic """
-    contrast_names = ['ITI',
-                      'anger', 'contempt', 'joy', 'neutral', 'pride',
+    contrast_names = ['anger', 'contempt', 'joy', 'neutral', 'pride',
                       'all-neutral',
                       'anger-neutral',
                       'contempt-neutral',
@@ -616,6 +615,7 @@ def faces_aomic(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     anger = np.sum([con[x] for x in con.keys() if x[:5] == 'anger'], 0)
+    stop
     contempt = np.sum([con[x] for x in con.keys() if x[:8] == 'contempt'], 0)
     joy = np.sum([con[x] for x in con.keys() if x[:3] == 'joy'], 0)
     neutral = np.sum([con[x] for x in con.keys() if x[:7] == 'neutral'], 0)
@@ -625,8 +625,7 @@ def faces_aomic(design_matrix_columns):
     european = np.sum([con[x] for x in con.keys() if 'european' not in x], 0)
     mediterranean = np.sum(
         [con[x] for x in con.keys() if 'mediterranean' in x], 0)
-    contrasts = {'ITI': con ['ITI'],
-                 'anger': anger,
+    contrasts = {'anger': anger,
                  'contempt': contempt,
                  'joy': joy,
                  'neutral': neutral,

@@ -115,7 +115,7 @@ if __name__ == '__main__':
             acquisition = 'clips4'
         subject_session = sorted(get_subject_session(acquisition))
         for mesh in ['fsaverage5', 'individual', 'fsaverage7']:
-            Parallel(n_jobs=4)(
+            Parallel(n_jobs=1)(
                 delayed(run_subject_surface_glm)(
                     jobfile, subject, session, protocol, mesh=mesh)
                 for (subject, session) in subject_session)
