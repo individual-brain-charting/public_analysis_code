@@ -1,4 +1,3 @@
-task	condition	description
 ArchiStandard	audio_left_button_press	Left-hand three-times button press, indicated by auditory instruction
 ArchiStandard	audio_right_button_press	Right-hand three-times button press, indicated by auditory instruction
 ArchiStandard	video_left_button_press	Left-hand three-times button press, indicated by visual instruction
@@ -364,7 +363,6 @@ HarririAomic	shape	Viewing a shape
 HarririAomic	emotion	When the presented trial was that with emotions
 HarririAomic	index_response	When subject responded with index finger, meaning the image on left matched with image on top
 HarririAomic	middle_response	When subject responded with middle finger, meaning the image on right matched with image on top
-FacesAomic	ITI	Inter-trial intervals
 FacesAomic	anger	Video of a face expressing anger
 FacesAomic	contempt	Video of a face expressing contempt
 FacesAomic	joy	Video of a face expressing joy
