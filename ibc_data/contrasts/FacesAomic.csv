@@ -1,3 +1,4 @@
+condition,all-neutral,anger-neutral,contempt-neutral,joy-neutral,pride-neutral,male-female,female-male,mediterranean-european,european-mediterranean
 anger,"0,25",1,,,,,,,
 contempt,"0,25",,1,,,,,,
 joy,"0,25",,,1,,,,,
