@@ -1,4 +1,4 @@
-ArchiStandard	audio_right_button_press	Right-hand three-times button press, indicated by auditory instruction		
+task	condition	description		
 ArchiStandard	video_left_button_press	Left-hand three-times button press, indicated by visual instruction		csv, Alexis
 ArchiStandard	video_right_button_press	Right-hand three-times button press, indicated by visual instruction		csv, Fer
 ArchiStandard	horizontal_checkerboard	Visualization of flashing horizontal checkerboards		
