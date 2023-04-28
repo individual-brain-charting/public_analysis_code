@@ -1,4 +1,3 @@
-task	condition	description		
 ArchiStandard	audio_right_button_press	Right-hand three-times button press, indicated by auditory instruction		
 ArchiStandard	video_left_button_press	Left-hand three-times button press, indicated by visual instruction		csv, Alexis
 ArchiStandard	video_right_button_press	Right-hand three-times button press, indicated by visual instruction		csv, Fer
@@ -216,13 +215,13 @@ WardAndAllport	planning_ambiguous_intermediate	Partially ambiguous goal state wi
 WardAndAllport	planning_unambiguous_direct	Unambiguous goal state without intermediate movement		
 WardAndAllport	planning_ambiguous_direct	Partially ambiguous goal state without intermediate movement		
 WardAndAllport	planning_unambiguous_intermediate	Unambiguous goal state with intermediate movement		
-BiologicalMotion1	global_upright	Structural information is preserved, but individual local trajectories are mirror-symmetric. "Global-only" in the original paper		
+BiologicalMotion1	global_upright	Structural information is preserved, but individual local trajectories are mirror-symmetric. Global-only in the original paper		
 BiologicalMotion1	global_inverted	Global walker, inverted upside-down		
-BiologicalMotion1	natural_upright	Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. "Local-natural" in the original experiment		
+BiologicalMotion1	natural_upright	"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment"		
 BiologicalMotion1	natural_inverted	Local natural walker, inverted along the horizontal axis		
-BiologicalMotion2	modified_upright	Neither structural or local information is carried out by this type of walker, it uses both types of modifications used for the previous two categories. "Local modified" in the original study		
+BiologicalMotion2	modified_upright	"Neither structural or local information is carried out by this type of walker, it uses both types of modifications used for the previous two categories. ""Local modified"" in the original study"		
 BiologicalMotion2	modified_inverted	Local modified walker, inverted along the horizontal axis		
-BiologicalMotion2	natural_upright	Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. "Local-natural" in the original experiment		
+BiologicalMotion2	natural_upright	"Local information is preserved, but the points are randomly shuffled along the X-axis, rendering global cues uninformative. ""Local-natural"" in the original experiment"		
 BiologicalMotion2	natural_inverted	Local natural walker, inverted along the horizontal axis		
 MathLanguage	arithmetic_fact_auditory	Listen to arithmetic fact		
 MathLanguage	arithmetic_fact_visual	Read arithmetic fact		
@@ -404,18 +403,18 @@ Abstraction	humanbody_hand_photo	Photo rendering of hands
 Abstraction	humanbody_legs_photo	Photo rendering of legs		
 Abstraction	animals_bird_geometry	Images of a bird presented with the geometry render		
 Abstraction	animals_fish_geometry	Images of a fish presented with the geometry render		
-Abstraction	animals_girafe_geometry	Images of a girafe presented with the geometry render		
+Abstraction	animals_giraffe_geometry	Images of a giraffe presented with the geometry render		
 Abstraction	animals_butterfly_geometry	Images of a butterfly presented with the geometry render		
 Abstraction	animals_bird_edge	Images of a bird presented with the edge render		
 Abstraction	animals_fish_edge	Images of a fish presented with the edge render		
-Abstraction	animals_girafe_edge	Images of a girafe presented with the edge render		
+Abstraction	animals_giraffe_edge	Images of a giraffe presented with the edge render		
 Abstraction	animals_butterfly_edge	Images of a butterfly presented with the edge render		
 Abstraction	animals_bird_photo	Images of a bird presented with the photo render		
 Abstraction	animals_fish_photo	Images of a fish presented with the photo render		
-Abstraction	animals_girafe_photo	Images of a girafe presented with the photo render		
+Abstraction	animals_giraffe_photo	Images of a giraffe presented with the photo render		
 Abstraction	animals_butterfly_photo	Images of a butterfly presented with the photo render		
 Abstraction	faces_face_geometry	Image of a face presented with the geometry render		
-Abstraction	faces_face2_geometry	Image of a diferent face presented with the geometry render		
+Abstraction	faces_face2_geometry	Image of a different face presented with the geometry render		
 Abstraction	faces_eyes_geometry	Image of eyes presented with the geometry render		
 Abstraction	faces_cat_geometry	Image of a cat face presented with the geometry render		
 Abstraction	faces_face_edge	Image of a face presented with the edge render		
@@ -499,4 +498,4 @@ MultiModal	image_human_object	Image of an object used by humans (i.e. guitar) us
 MultiModal	image_monkey_body	Image of a monkey body (without the head) used as visual stimulus		
 MultiModal	image_monkey_face	Image of a monkey face used as visual stimulus		
 MultiModal	image_monkey_object	Image of an object used by monkeys (i.e. drinker) used as visual stimulus		
-MultiModal	image_sculpture	ibc_conditions.tsv		
+MultiModal	image_sculpture	Image of a sculpture used as visual stimulus		
