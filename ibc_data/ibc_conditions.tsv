@@ -499,4 +499,4 @@ MultiModal	image_human_object	Image of an object used by humans (i.e. guitar) us
 MultiModal	image_monkey_body	Image of a monkey body (without the head) used as visual stimulus		
 MultiModal	image_monkey_face	Image of a monkey face used as visual stimulus		
 MultiModal	image_monkey_object	Image of an object used by monkeys (i.e. drinker) used as visual stimulus		
-MultiModal	image_sculpture	Image of a sculpture used as visual stimulus		
+MultiModal	image_sculpture	ibc_conditions.tsv		
