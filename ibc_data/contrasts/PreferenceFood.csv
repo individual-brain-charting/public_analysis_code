@@ -1,0 +1,4 @@
+condition,food_constant,food_linear,food_quadratic
+food_constant,1,,
+food_linear,,1,
+food_quadratic,,,1

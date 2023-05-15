@@ -1,0 +1,15 @@
+condition,encode5-encode1,probe5_mem-probe1_mem,probe5_new-probe1_new,prob-arrow,encode,arrow_left-arrow_right
+load1_instr,,,,,,
+encode1,-1,,,,1,
+probe1_mem,,-1,,1,,
+probe1_new,,,-1,1,,
+load3_instr,,,,,,
+encode3,,,,,1,
+probe3_mem,,,,1,,
+probe3_new,,,,1,,
+load5_instr,,,,,,
+encode5,1,,,,1,
+probe5_mem,,1,,1,,
+probe5_new,,,1,1,,
+arrow_right,,,,-3,,-1
+arrow_left,,,,-3,,1

@@ -57,9 +57,10 @@ def recon_all(work_dir, subject, high_res=True):
         #         T1_files=anat_img)
         os.system('recon-all -all -subjid %s -sd %s' % (subject, t1_dir))
 
-
+"""
 Parallel(n_jobs=1)(delayed(recon_all)(work_dir, subject, True)
                    for subject in subjects)
+"""
 
 # Step 2: Perform the projection
 def project_volume(work_dir, subject, sessions, do_bbr=True):
@@ -208,7 +209,7 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
 #protocols = ['stanford1', 'stanford2', 'stanford3']
 # protocols = ['biological_motion', 'navigation' , 'camcan1', 'camcan2', 'fbirn', 'search', 'reward', 'scene', 'monkey_kingdom', 'color']
 
-protocols = ['scene']
+protocols = ['color']
 subject_sessions = sorted(get_subject_session(protocols))
 
 Parallel(n_jobs=6)(

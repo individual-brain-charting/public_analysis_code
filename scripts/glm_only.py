@@ -114,7 +114,11 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
         '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
     _adapt_jobfile(jobfile, subject, output_name, session)
     list_subjects_update = generate_glm_input(output_name, smooth, lowres)
+    stop
     clean_anatomical_images(IBC)
+    compcorr = True
+    if protocol == 'mathlang':
+        compcorr = False  # till we orthogonalize comcorr wrt task regressors
     if lowres:
         mask_img = '../ibc_data/gm_mask_3mm.nii.gz'
     else:
@@ -125,26 +129,26 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
         clean_subject(subject)
         if len(subject['session_id']) > 0:
             if protocol == 'clips4':
-                first_level(subject, compcorr=True,
+                first_level(subject, compcorr=compcorr,
                             additional_regressors=RETINO_REG,
                             smooth=smooth, mask_img=mask_img)
             else:
-                first_level(subject, compcorr=True, smooth=smooth,
+                first_level(subject, compcorr=compcorr, smooth=smooth,
                             mask_img=mask_img)
                 fixed_effects_analysis(subject, mask_img=mask_img)
 
 
 if __name__ == '__main__':
     prepare_derivatives(IBC)
-    # protocols = ['rsvp-language', 'hcp1', 'archi', 'screening', 'hcp2'] 
+    # protocols = ['rsvp-language', 'hcp1', 'archi', 'screening', 'hcp2']
     # protocols = ['clips4', 'mtt1', 'mtt2', 'preference']
     # protocols = ['biological_motion', 'camcan1', 'camcan2', 'audio1', 'audio2']
     # protocols += ['optimism' 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang']
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     # protocols = ['audio1', 'audio2']
-    # protocols = ['audio1', 'audio2', 'camcan1', 'camcan2', 'stanford1', 'stanford2', 'stanford3']
-    protocols = ['optimism', 'abstraction']
-    
+    # protocols = ['optimism', 'abstraction', 'leuven', 'abstraction']
+    protocols = ['aomic']
+
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
@@ -152,7 +156,7 @@ if __name__ == '__main__':
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
             for (subject, session) in subject_session)
-   
+    
     smooth = 5
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
@@ -161,7 +165,6 @@ if __name__ == '__main__':
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
             for (subject, session) in subject_session)
-
 
     smooth = None
     for protocol in protocols:

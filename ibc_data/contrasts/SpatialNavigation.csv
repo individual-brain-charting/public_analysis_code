@@ -1,0 +1,8 @@
+condition,experimental-control,experimental-intersection,retrieval
+encoding_phase,,,
+intersection,,,
+control,-1,,-1
+pointing_control,,,-1
+experimental,1,,1
+pointing_experimental,,,1
+navigation,,,

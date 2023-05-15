@@ -1,0 +1,8 @@
+condition,animal-others,music-others,nature-others,speech-others,tool-others,voice-others,mean-silence,animal-silence,music-silence,nature-silence,speech-silence,tool-silence,voice-silence
+animal,5,-1,-1,-1,-1,-1,1,1,,,,,
+music,-1,5,-1,-1,-1,-1,1,,1,,,,
+nature,-1,-1,5,-1,-1,-1,1,,,1,,,
+speech,-1,-1,-1,5,-1,-1,1,,,,1,,
+tool,-1,-1,-1,-1,5,-1,1,,,,,1,
+voice,-1,-1,-1,-1,-1,5,1,,,,,,1
+silence,,,,,,,-6,-1,-1,-1,-1,-1,-1

@@ -1,0 +1,14 @@
+condition,tear-silence,suomi-silence,yawn-silence,human-silence,music-silence,reverse-silence,speech-silence,alphabet-silence,cough-silence,environment-silence,laugh-silence,animals-silence
+tear,1,,,,,,,,,,,
+suomi,,1,,,,,,,,,,
+yawn,,,1,,,,,,,,,
+human,,,,1,,,,,,,,
+music,,,,,1,,,,,,,
+reverse,,,,,,1,,,,,,
+speech,,,,,,,1,,,,,
+alphabet,,,,,,,,1,,,,
+cough,,,,,,,,,1,,,
+environment,,,,,,,,,,1,,
+laugh,,,,,,,,,,,1,
+animals,,,,,,,,,,,,1
+silence,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1

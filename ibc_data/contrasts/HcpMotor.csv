@@ -1,0 +1,7 @@
+condition,left_hand-avg,right_hand-avg,left_foot-avg,right_foot-avg,tongue-avg
+left_hand,0.8,-0.2,-0.2,-0.2,-0.2
+right_hand,-0.2,0.8,-0.2,-0.2,-0.2
+left_foot,-0.2,-0.2,0.8,-0.2,-0.2
+right_foot,-0.2,-0.2,-0.2,0.8,-0.2
+tongue,-0.2,-0.2,-0.2,-0.2,0.8
+cue,,,,,
