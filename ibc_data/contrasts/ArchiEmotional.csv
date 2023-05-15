@@ -1,0 +1,7 @@
+condition,face_trusty-control,face_gender-control,face_trusty-gender,expression_gender-control,expression_intention-control,expression_intention-gender,trusty_and_intention-control,trusty_and_intention-gender
+face_gender,,1,-1,,,,,-1
+face_control,-1,-1,,,,,-1,
+face_trusty,1,,1,,,,1,1
+expression_intention,,,,,1,1,1,1
+expression_gender,,,,1,,-1,,-1
+expression_control,,,,-1,-1,,-1,

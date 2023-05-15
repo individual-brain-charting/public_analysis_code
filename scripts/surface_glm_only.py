@@ -14,8 +14,12 @@ from pipeline import (clean_subject, clean_anatomical_images,
 
 
 SUBJECTS = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
-retino_sessions = ['WedgeAnti_pa', 'WedgeClock_ap', 'ContRing_ap',
-                   'WedgeAnti_ap', 'ExpRing_pa', 'WedgeClock_pa']
+retino_sessions = ['task-WedgeAnti_dir-pa',
+                   'task-WedgeClock_dir-ap',
+                   'task-ContRing_dir-ap',
+                   'task-WedgeAnti_dir-ap',
+                   'task-ExpRing_dir-pa',
+                   'task-WedgeClock_dir-pa']
 RETINO_REG = dict([(session_id, 'sin_cos_regressors.csv')
                    for session_id in retino_sessions])
 IBC = 'neurospin/ibc'
@@ -66,13 +70,15 @@ def generate_glm_input(jobfile, mesh=None):
     return output
 
 
-def run_subject_surface_glm(jobfile, subject, session, protocol, mesh=None):
+def run_subject_surface_glm(jobfile, subject, session, protocol, mesh=None, compcorr=True):
     """ Create jobfile and run it """
     output_name = os.path.join(
         '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
     _adapt_jobfile(jobfile, subject, output_name, session)
     list_subjects_update = generate_glm_input(output_name, mesh)
     clean_anatomical_images(IBC)
+    if protocol == 'mathlang':
+        compcorr = False
     for subject in list_subjects_update:
         clean_subject(subject)
         if len(subject['session_id']) > 0:
@@ -80,11 +86,11 @@ def run_subject_surface_glm(jobfile, subject, session, protocol, mesh=None):
         if len(subject['session_id']) > 0:
             if protocol == 'retino':
                 subject['onset'] = [''] * len(subject['onset'])
-                first_level(subject, compcorr=True,
+                first_level(subject, compcorr=compcorr,
                             additional_regressors=RETINO_REG,
                             smooth=None, mesh=mesh)
             else:
-                first_level(subject, compcorr=True, smooth=None, mesh=mesh)
+                first_level(subject, compcorr=compcorr, smooth=None, mesh=mesh)
                 fixed_effects_analysis(subject, mesh=mesh)
 
 
@@ -101,7 +107,7 @@ if __name__ == '__main__':
                  'navigation', 'search']
     protocols = ['scene', 'color']
     """
-    protocols = ['scene']
+    protocols = ['color']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol

@@ -1,0 +1,4 @@
+condition,house_constant,house_linear,house_quadratic
+house_constant,1,,
+house_linear,,1,
+house_quadratic,,,1

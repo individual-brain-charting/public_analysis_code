@@ -210,8 +210,8 @@ if __name__ == '__main__':
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
     do_topup = True
-    protocol =  'optimism' # 'monkey_kingdom' # 'scene' # 'abstraction' # 
-    subject_session = [('sub-15', 'ses-43')] #sorted(get_subject_session([protocol]))
+    protocol =  'abstraction'
+    subject_session = [('sub-12', 'ses-46')]
     
     if do_topup:
         acq = None

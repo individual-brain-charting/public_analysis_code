@@ -1,0 +1,8 @@
+condition,complex-simple,sentence-jabberwocky,sentence-word,word-consonant_string,jabberwocky-pseudo,word-pseudo,pseudo-consonant_string,sentence-consonant_string,simple-consonant_string,complex-consonant_string,sentence-pseudo,jabberwocky-consonant_string
+complex,1,1,1,,,,,1,,1,1,
+simple,-1,1,1,,,,,1,1,,1,
+jabberwocky,,-2,,,1,,,,,,,1
+word_list,,,-2,1,,1,,,,,,
+pseudoword_list,,,,,-1,-1,1,,,,-2,
+consonant_string,,,,-1,,,-1,-2,-1,-1,,-1
+probe,,,,,,,,,,,,

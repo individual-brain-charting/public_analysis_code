@@ -1,0 +1,5 @@
+condition,intermediate-direct,ambiguous-unambiguous
+planning_ambiguous_intermediate,1,1
+planning_unambiguous_direct,1,-1
+planning_ambiguous_direct,-1,1
+planning_unambiguous_intermediate,-1,-1

@@ -1,0 +1,10 @@
+condition,localizer_faces-other,localizer_humanbody-other,localizer_words-other,localizer_nonsensewords-other,localizer_numbers-other,localizer_places-other,localizer_objects-other,localizer_checkerboards-other,response
+localizer_faces,7,-1,-1,-1,-1,-1,-1,-1,
+localizer_humanbody,-1,7,-1,-1,-1,-1,-1,-1,
+localizer_words,-1,-1,7,-1,-1,-1,-1,-1,
+localizer_nonsensewords,-1,-1,-1,7,-1,-1,-1,-1,
+localizer_numbers,-1,-1,-1,-1,7,-1,-1,-1,
+localizer_places,-1,-1,-1,-1,-1,7,-1,-1,
+localizer_objects,-1,-1,-1,-1,-1,-1,7,-1,
+localizer_checkerboards,-1,-1,-1,-1,-1,-1,-1,7,
+response,,,,,,,,,1

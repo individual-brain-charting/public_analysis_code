@@ -1,0 +1,9 @@
+condition,scene_possible_correct-scene_impossible_correct,scene_correct-dot_correct,dot_left-right,dot_hard-easy
+scene_impossible_correct,-1,,,
+scene_impossible_incorrect,,,,
+scene_possible_correct,1,,,
+scene_possible_incorrect,,,,
+dot_easy_left,,,1,-1
+dot_easy_right,,,-1,-1
+dot_hard_left,,,1,1
+dot_hard_right,,,-1,1

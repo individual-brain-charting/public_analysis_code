@@ -651,7 +651,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
         side=sides,
         modality=modalities,
         mesh=meshes,
-        acquisition=acquisitions,
+        acquisition=acquisitions
     )
 
     # create a FataFrame out of the dictionary and write it to disk

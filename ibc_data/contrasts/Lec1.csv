@@ -1,0 +1,4 @@
+condition,word-pseudoword,word-random_string,pseudoword-random_string
+random_string,,-1,-1
+word,1,1,
+pseudoword,-1,,1

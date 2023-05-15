@@ -1,0 +1,13 @@
+condition,sn_southside_event,sn_northside_event,sn_before_event,sn_after_event,sn_all_space-time_cue,sn_all_time-space_cue,sn_space_event,sn_time_event,sn_average_event,sn_space-time_event,sn_time-space_event,northside-southside_event,southside-northside_event,sn_before-after_event,sn_after-before_event
+sn_average_reference,,,,,,,,,,,,,,,
+sn_all_space_cue,,,,,1,-1,,,,,,,,,
+sn_all_time_cue,,,,,-1,1,,,,,,,,,
+sn_southside_close_event,1,,,,,,1,,1,1,-1,-1,1,,
+sn_southside_far_event,1,,,,,,1,,1,1,-1,-1,1,,
+sn_northside_close_event,,1,,,,,1,,1,1,-1,1,-1,,
+sn_northside_far_event,,1,,,,,1,,1,1,-1,1,-1,,
+sn_before_close_event,,,1,,,,,1,1,-1,1,,,1,-1
+sn_before_far_event,,,1,,,,,1,1,-1,1,,,1,-1
+sn_after_close_event,,,,1,,,,1,1,-1,1,,,-1,1
+sn_after_far_event,,,,1,,,,1,1,-1,1,,,-1,1
+sn_all_event_response,,,,,,,,,,,,,,,

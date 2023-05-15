@@ -1,0 +1,4 @@
+condition,face_constant,face_linear,face_quadratic
+face_constant,1,,
+face_linear,,1,
+face_quadratic,,,1

@@ -11,14 +11,13 @@ import numpy as np
 from nilearn.image import mean_img, math_img
 from ibc_public.utils_retino import phase_maps
 import nibabel as nib
-from nilearn.plotting import plot_stat_map
+from nilearn.plotting import plot_stat_map, plot_surf_stat_map
 import matplotlib.pyplot as plt
 from nilearn.input_data import NiftiMasker
 from nilearn.image import resample_img
 from nibabel import load, save
 from nibabel.gifti import GiftiDataArray, GiftiImage
 from ibc_public.utils_data import DERIVATIVES
-from nilearn.plotting import plot_surf_stat_map
 import cortex
 from nilearn.glm import fdr_threshold
 
@@ -39,7 +38,7 @@ subjects_sessions = np.unique(subjects_sessions)
 acqs = ['res_stats_%s' % acq for acq in [
     'WedgeAnti_pa', 'WedgeAnti_ap', 'WedgeClock_ap', 'WedgeClock_pa',
     'ExpRing_pa', 'ContRing_ap']]
-mesh = 'fsaverage7'
+mesh = 'individual'
 if do_surface:
     acqs = ['res_task-{}_space-{}_dir-{}'.format(acq[:-3], mesh, acq[-2:]) for acq in [
         'WedgeAnti_pa', 'WedgeAnti_ap', 'WedgeClock_ap', 'WedgeClock_pa',
@@ -153,7 +152,8 @@ for subject_session in subjects_sessions:
     if do_surface:
         for hemi in ['lh', 'rh']:
             z_maps = [
-                pjoin(work_dir, acq, 'z_score_maps', 'effects_interest_%s.gii' % hemi)
+                pjoin(work_dir, acq, 'z_score_maps',
+                      'effects_interest_%s.gii' % hemi)
                 for acq in acqs]
 
             mean_z = np.mean([np.ravel([
@@ -176,13 +176,17 @@ for subject_session in subjects_sessions:
             output_file = pjoin(write_dir, 'retinotopicity_%s.png' % hemi)
             if hemi == 'lh':
                 plot_surf_stat_map(
-                    lh_inflated, fixed_effects, bg_map=sulc_left, output_file=output_file,
-                    hemi='left', view='medial', bg_on_data=True, darkness=1, alpha=1,
+                    lh_inflated, fixed_effects, bg_map=sulc_left,
+                    output_file=output_file,
+                    hemi='left', view='medial', bg_on_data=True, darkness=1,
+                    alpha=1,
                     threshold=THRESHOLD)
             else:
                 plot_surf_stat_map(
-                    rh_inflated, fixed_effects, bg_map=sulc_right, output_file=output_file,
-                    hemi='right', view='medial', bg_on_data=True, darkness=1, alpha=1,
+                    rh_inflated, fixed_effects, bg_map=sulc_right,
+                    output_file=output_file,
+                    hemi='right', view='medial', bg_on_data=True, darkness=1,
+                    alpha=1,
                     threshold=THRESHOLD)
             """
             retino_coefs = get_retino_coefs(work_dir, mesh, hemi)
@@ -255,6 +259,7 @@ for subject_session in subjects_sessions:
             'cos_ring_neg': pjoin(
                 work_dir, 'res_stats_ContRing_ap', 'z_score_maps', 'cos.nii.gz')
         }
+ 
         retino_coefs = {}
         for key in retino_imgs.keys():
             retino_coefs[key] = masker.transform(retino_imgs[key])
@@ -273,13 +278,61 @@ for subject_session in subjects_sessions:
         phase_hemo_img.to_filename(pjoin(write_dir, 'phase_hemo.nii.gz'))
 
         plot_stat_map(phase_wedge_img, title='polar angle', cmap='hsv',
-                      bg_img=anat, dim=1, output_file=pjoin(write_dir, 'phase_wedge.png'))
+                      bg_img=anat, dim=1,
+                      output_file=pjoin(write_dir, 'phase_wedge.png'))
         plot_stat_map(phase_ring_img, title='eccentricity', cmap='hsv',
-                      bg_img=anat, dim=1, output_file=pjoin(write_dir, 'phase_ring.png'))
+                      bg_img=anat, dim=1,
+                      output_file=pjoin(write_dir, 'phase_ring.png'))
         plot_stat_map(phase_hemo_img, title='hemodynamics', cmap='hsv',
-                      bg_img=anat, dim=1, output_file=pjoin(write_dir, 'phase_hemo.png'))
+                      bg_img=anat, dim=1,
+                      output_file=pjoin(write_dir, 'phase_hemo.png'))
 
 
+from nilearn.datasets import fetch_surf_fsaverage
+fsaverage = fetch_surf_fsaverage('fsaverage7')
+
+for i, subject_session in enumerate(subjects_sessions[2:3]):
+    subject, session = subject_session.split('_')
+    write_dir = pjoin(
+        DERIVATIVES, subject, session,
+        'res_task-Retinotopy_space-{}_dir-ffx'.format(mesh), 'stat_maps')
+    rh_mesh = fsaverage.infl_right
+    lh_mesh = fsaverage.infl_left
+    rh_sulc = fsaverage.sulc_right
+    lh_sulc = fsaverage.sulc_left
+    lh_mesh = pjoin(DERIVATIVES, subject, 'ses-00', 'anat', subject, 'surf', 'lh.inflated')
+    lh_sulc = pjoin(DERIVATIVES, subject, 'ses-00', 'anat', subject, 'surf', 'lh.sulc')
+    rh_mesh = pjoin(DERIVATIVES, subject, 'ses-00', 'anat', subject, 'surf', 'rh.inflated')
+    rh_sulc = pjoin(DERIVATIVES, subject, 'ses-00', 'anat', subject, 'surf', 'rh.sulc')
+    for j, stat in enumerate(['phase_wedge', 'phase_ring']):
+        lh = os.path.join(write_dir, '%s_lh.gii' % stat)
+        rh = os.path.join(write_dir, '%s_rh.gii' % stat)
+        output_file = os.path.join(write_dir, '%s.png' % stat)
+
+        x1 = np.ravel([darrays.data for darrays in load(lh).darrays])
+        x2 = np.ravel([darrays.data for darrays in load(rh).darrays])
+        #x1[x1 == 0] = np.nan
+        #x2[x2 == 0] = np.nan
+        fig = plot_surf_stat_map(
+            rh_mesh, x2, hemi='right',
+            title='{}, right hemisphere'.format(stat), colorbar=True,
+            threshold=1.e-6, bg_map=rh_sulc, cmap='coolwarm',
+            engine='plotly'  # Specify the plotting engine here
+        )
+        fig.show()
+        fig = plot_surf_stat_map(
+            lh_mesh, x1, hemi='left',
+            title='{}, left hemisphere'.format(stat), colorbar=True,
+            threshold=1.e-6, bg_map=lh_sulc, cmap='coolwarm',
+            engine='plotly'  # Specify the plotting engine here
+        )
+        fig.show()
+        
+        
+        
+plt.show(block=False)
+
+"""
 plt.figure(figsize=(6, 20))
 for i, subject_session in enumerate(subjects_sessions):
     subject, session = subject_session.split('_')
@@ -298,6 +351,7 @@ for i, subject_session in enumerate(subjects_sessions):
         x[x == 0] = np.nan
         vertex_data = cortex.Vertex(x, 'fsaverage')
         ax = plt.subplot(12, 2, i * 2 + j + 1)
+        
         fig = cortex.quickshow(vertex_data,
                                with_colorbar=False,
                                with_rois=False,
@@ -316,7 +370,8 @@ for i, subject_session in enumerate(subjects_sessions):
     ax.axis('off')
 
 plt.subplots_adjust(left=.01, right=.99, top=.99, bottom=.01, hspace=.01, wspace=.01)
-plt.show(block=False)
+
 output_file = pjoin(DERIVATIVES, 'group', 'retino', 'retino.svg')
 
 fig.savefig(output_file)
+"""
