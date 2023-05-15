@@ -4,8 +4,8 @@ This script computes:
 2) correlations and partial correlations from GraphicalLassoCV estimator
 3) correlations and partial correlations GroupSparseCovarianceCV estimator 
 
-Each representing functional connectivity from movie (Raiders of the Lost Ark) 
-and Resting state task for ROIs from Schaefer 2018 atlas
+Each representing functional connectivity from movie-watching and Resting state 
+task for ROIs from Schaefer 2018 atlas
 
 See: https://nilearn.github.io/stable/connectivity/functional_connectomes.html
 and https://nilearn.github.io/stable/connectivity/connectome_extraction.html
@@ -26,8 +26,19 @@ from ibc_public.utils_data import get_subject_session, DERIVATIVES
 # cache directory
 cache = "/storage/store/work/haggarwa/"
 
-# we will use the movie (raiders) and resting state data
-tasks = ["task-Raiders", "task-RestingState"]
+# overwrite existing files
+OVERWRITE = False
+
+# number of parallel workers
+N_JOBS = 11
+
+# we will use the resting state and all the movie-watching sessions
+tasks = [
+    "task-RestingState",
+    "task-Raiders",
+    "task-GoodBadUgly",
+    "task-MonkeyKingdom",
+]
 
 # get atlas
 atlas = datasets.fetch_atlas_schaefer_2018(
@@ -44,15 +55,23 @@ correlation_measure = ConnectivityMeasure(kind="correlation")
 # 2. covariance matrix from GraphicalLassoCV
 #    calculated over all runs for each subject
 #    returns a 400x400 matrix for each subject
-glc = GraphicalLassoCV()
+glc = GraphicalLassoCV(verbose=2, n_jobs=N_JOBS)
 # 3. covariance matrix from GroupSparseCovarianceCV
 #    calculated over all runs for all subjects
 #    returns a 400x400xN matrix where N is the number of subjects
 #    saved separately for each subject
-gsc = GroupSparseCovarianceCV(verbose=2, n_jobs=6)
+gsc = GroupSparseCovarianceCV(verbose=2, n_jobs=N_JOBS)
 # iterate over movie and task-RestingState state task data
 for task in tasks:
-    if task == "task-Raiders":
+    if task == "task-GoodBadUgly":
+        # session names with movie task data
+        session_names = ["BBT1", "BBT2", "BBT3"]
+        repetition_time = 2
+    elif task == "task-MonkeyKingdom":
+        # session names with movie task data
+        session_names = ["monkey_kingdom"]
+        repetition_time = 2
+    elif task == "task-Raiders":
         # session names with movie task data
         session_names = ["raiders1", "raiders2"]
         repetition_time = 2
@@ -91,7 +110,7 @@ for task in tasks:
         # iterate over sessions for each subject
         for ses in sess:
             runs = glob(
-                os.path.join(DERIVATIVES, sub, ses, "func", f"wrdc*{task}")
+                os.path.join(DERIVATIVES, sub, ses, "func", f"wrdc*{task}*")
             )
             # iterate over runs in each session for each subject
             for run in runs:
@@ -116,19 +135,25 @@ for task in tasks:
                 confounds = np.hstack((np.loadtxt(confounds), compcor))
                 # extract time series for atlas defined regions
                 time_series = masker.transform(run, confounds=confounds)
-                # calculate pearson correlation matrix as csv
-                correlation_matrix = correlation_measure.fit_transform(
-                    [time_series]
-                )[0]
-                # save pearson correlation matrix as csv
+
+                # name of csv file to save matrix as
                 corr = os.path.join(
-                    func_dir,
+                    tmp_dir,
                     (
                         f"{sub}_{ses}_{task}_{run_num}_{atlas.name}"
                         "_Pearsons_corr.csv"
                     ),
                 )
-                np.savetxt(corr, correlation_matrix, delimiter=",")
+                # skip calculating correlation if already done
+                if os.path.isfile(corr) and not OVERWRITE:
+                    pass
+                else:
+                    # calculate pearson correlation matrix
+                    correlation_matrix = correlation_measure.fit_transform(
+                        [time_series]
+                    )[0]
+                    # save pearson correlation matrix as csv
+                    np.savetxt(corr, correlation_matrix, delimiter=",")
                 # append time series from each run (from each session)
                 # to a list for each subject
                 # each element in the list is a 2D array with shape
@@ -139,19 +164,29 @@ for task in tasks:
         # all_ts_per_sub is now a 2D array with shape
         # (n_timepoints * n_runs, n_regions)
         all_ts_per_sub = np.concatenate(all_time_series)
-        # fit GraphicalLassoCV on concatenated time series
-        glc.fit(all_ts_per_sub)
-        # save GraphicalLassoCV inv cov matrix as csv
+        # name of csv file to save GraphicalLassoCV inv cov matrix as
         part_corr = os.path.join(
-            func_dir,
+            tmp_dir,
             f"{sub}_{task}_{atlas.name}_GraphicalLassoCV_partcorr.csv",
         )
-        np.savetxt(part_corr, -glc.precision_, delimiter=",")
-        # save GraphicalLassoCV cov matrix as csv
+        # name of csv file to save GraphicalLassoCV cov matrix as
         corr = os.path.join(
-            func_dir, f"{sub}_{task}_{atlas.name}_GraphicalLassoCV_corr.csv"
+            tmp_dir, f"{sub}_{task}_{atlas.name}_GraphicalLassoCV_corr.csv"
         )
-        np.savetxt(corr, glc.covariance_, delimiter=",")
+        # skip fitting glc if already done
+        if (
+            os.path.isfile(corr)
+            and os.path.isfile(part_corr)
+            and not OVERWRITE
+        ):
+            pass
+        else:
+            # fit GraphicalLassoCV on concatenated time series
+            glc.fit(all_ts_per_sub)
+            # save GraphicalLassoCV inv cov matrix as csv
+            np.savetxt(part_corr, -glc.precision_, delimiter=",")
+            # save GraphicalLassoCV cov matrix as csv
+            np.savetxt(corr, glc.covariance_, delimiter=",")
         # append the (n_timepoints * n_runs, n_regions) arrays for each subject
         # to a list
         all_ts_all_sub.append(all_ts_per_sub)
@@ -160,14 +195,18 @@ for task in tasks:
     # corresponds to one subject
     gsc.fit(all_ts_all_sub)
     for count, (sub, sess) in enumerate(sub_ses.items()):
-        ses = sorted(sess)[1]
+        ses = sorted(sess)[-1]
+        # setup tmp dir for saving figures and calculated matrices
+        tmp_dir = os.path.join(
+            DERIVATIVES, sub, ses, "func", "connectivity_tmp"
+        )
         part_corr = os.path.join(
-            func_dir,
+            tmp_dir,
             f"{sub}_{task}_{atlas.name}_GroupSparseCovarianceCV_partcorr.csv",
         )
         np.savetxt(part_corr, -gsc.precisions_[:, :, count], delimiter=",")
         corr = os.path.join(
-            func_dir,
+            tmp_dir,
             f"{sub}_{task}_{atlas.name}_GroupSparseCovarianceCV_corr.csv",
         )
         np.savetxt(corr, gsc.covariances_[:, :, count], delimiter=",")
