@@ -7,6 +7,8 @@ Authors: Bertrand Thirion, Ana Luisa Pinho 2020
 Last update: Fernanda Ponce, February 2023
 Compatibility: Python 3.5
 """
+# %%
+# Importing needed stuff
 
 import os
 import json
@@ -32,8 +34,8 @@ from nilearn.glm import threshold_stats_img
 
 from ibc_public.utils_data import (data_parser, DERIVATIVES,
                                    SMOOTH_DERIVATIVES, ALL_CONTRASTS)
-
-# ############################### INPUTS ######################################
+# %%
+# INPUTS 
 
 # Extract data from dataframe only referring to a pre-specified subset of
 # participants
@@ -41,32 +43,31 @@ participants = [4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
 
 # ####### Third Release ########
 task_list = ['MathLanguage', 'SpatialNavigation', 'EmoReco', 'EmoMem',
-             'StopNogo', 'Catell', 'FingerTapping', 'VSTMC','FaceBody',
-             'Scene'
+             'StopNogo', 'Catell', 'FingerTapping', 'VSTMC',
+             'BiologicalMotion1', 'BiologicalMotion2',
+             #'Checkerboard','FingerTap','ItemRecognition', 'BreathHolding'
              ] 
 
-suffix = 'third_rel'
-
-# ###############################
+suffix = '9task_12subs'
 
 cache = '/storage/store3/work/aponcema/IBC_paperFigures/global_stat3/'\
-        'cache_global_stat3'
+        'cache_global_stat3_12mai'
 mem = Memory(location=cache, verbose=0)
 
+# %%
+# Define subjects' paths and load dictionary
 
-# #############################################################################
-
-# Define subjects' paths
 sub_path = [os.path.join(DERIVATIVES, 'sub-%02d' % s) for s in participants]
 PTS = [os.path.basename(full_path) for full_path in sub_path]
 
 # BIDS conversion of task names
-# Load dictionary file
 with open(os.path.join('bids_postprocessed.json'), 'r') as f:
     task_dic = json.load(f)
 
 TASKS = [task_dic[tkey] for tkey in task_list]
 TASKS = [item for sublist in TASKS for item in sublist]
+
+# %%
 
 def tags(tags_lists):
     """
@@ -98,6 +99,7 @@ def tags(tags_lists):
     unique_tags = utags_array.tolist()
     return tags_clean, tags_flatten, unique_tags
 
+# %%
 def design(feature):
     enc = LabelEncoder().fit(feature)
     feature_label, feature_ = enc.transform(feature), enc.classes_
@@ -105,6 +107,7 @@ def design(feature):
         feature_label.reshape(-1, 1))
     return dmtx, feature_
 
+# %%
 def anova(db, masker):
     """perform a big ANOVA of brain activation with three factors:
     acquisition, subject, contrast"""
@@ -142,6 +145,7 @@ def anova(db, masker):
     acq_map =  math_img('img * (img > -8.2095)', img=acq_map)
     return design_matrix, subject_map, contrast_map, acq_map
 
+# %%
 def global_similarity(db, masker):
     """Study the global similarity of ffx activation maps"""
     df = db[db.acquisition == 'ffx']
@@ -174,6 +178,7 @@ def global_similarity(db, masker):
     plt.scatter(Y[:, 0], Y[:, 1], color=colors)
     plt.show()
 
+# %%
 def condition_similarity(db, masker):
     """
     Look at the similarity across conditions, averaged across
@@ -261,7 +266,10 @@ def condition_similarity(db, masker):
             msg = 'Condition "%s" not found!' % condition
             warnings.warn(msg)
         else:
-            cog_model[i] = df[df.index == condition].values
+            model = df[df.index == condition].values
+            if np.shape(model)[0] > 1:
+                model = model[0]
+            cog_model[i] = model
     cog_comp = [ccomp for ccomp in cog_model.T if np.any(ccomp)]
     print('The number of cognitive components present only in ' + \
           'the elementary contrasts is %s.' % len(cog_comp))
@@ -290,6 +298,7 @@ def condition_similarity(db, masker):
     print('pearson', st.pearsonr(x,y))
     print('spearman', st.spearmanr(x,y))
 
+# %%
 def condition_similarity_across_subjects(db, masker):
     """
     Look at the similarity across conditions,
@@ -405,7 +414,7 @@ def condition_similarity_across_subjects(db, masker):
     plt.savefig(os.path.join(cache, 'correlation_complexity.pdf'))
 
 
-
+# %%
 if __name__ == '__main__':
     db = data_parser(derivatives=SMOOTH_DERIVATIVES, subject_list = PTS,
                      task_list=TASKS)
@@ -423,11 +432,11 @@ if __name__ == '__main__':
     acq_map.to_filename(os.path.join(cache, 'acq_effect' + '_' + suffix +
                                      '.nii.gz'))
     # ## ...or load them
-    #subject_map = os.path.join(cache,
+    # subject_map = os.path.join(cache,
     #                           'subject_effect' + '_' + suffix + '.nii.gz')
-    #contrast_map = os.path.join(cache,
+    # contrast_map = os.path.join(cache,
     #                            'condition_effect' + '_' + suffix + '.nii.gz')
-    #acq_map = os.path.join(cache, 'acq_effect' + '_' + suffix + '.nii.gz')
+    # acq_map = os.path.join(cache, 'acq_effect' + '_' + suffix + '.nii.gz')
 
     # ## Plots
     _, threshold_ = threshold_stats_img(subject_map, alpha=.05, height_control='fdr')
@@ -455,6 +464,6 @@ if __name__ == '__main__':
 
     ### Other analyses ### 
     global_similarity(db, masker)
-    condition_similarity_across_subjects(db, masker)
     condition_similarity(db, masker)
-    # plt.show()
+    condition_similarity_across_subjects(db, masker)
+    plt.show()
