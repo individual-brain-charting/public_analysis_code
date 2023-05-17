@@ -114,7 +114,6 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
         '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
     _adapt_jobfile(jobfile, subject, output_name, session)
     list_subjects_update = generate_glm_input(output_name, smooth, lowres)
-    stop
     clean_anatomical_images(IBC)
     compcorr = True
     if protocol == 'mathlang':
@@ -146,8 +145,8 @@ if __name__ == '__main__':
     # protocols += ['optimism' 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang']
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     # protocols = ['audio1', 'audio2']
-    # protocols = ['optimism', 'abstraction', 'leuven', 'abstraction']
-    protocols = ['aomic']
+    # protocols = ['optimism', 'abstraction', 'leuven']
+    protocols = ['aomic'] # aomic
 
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol

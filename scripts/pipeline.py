@@ -79,6 +79,7 @@ def clean_subject(subject):
 
 def prepare_derivatives(main_dir):
     import shutil
+    shutil._USE_CP_SENDFILE = False
     source_dir = os.path.join(main_dir, 'sourcedata')
     output_dir = os.path.join(main_dir, 'derivatives')
     subjects = ['sub-%02d' % i for i in range(0, 16)]

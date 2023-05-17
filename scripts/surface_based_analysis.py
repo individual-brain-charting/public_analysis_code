@@ -209,7 +209,7 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
 #protocols = ['stanford1', 'stanford2', 'stanford3']
 # protocols = ['biological_motion', 'navigation' , 'camcan1', 'camcan2', 'fbirn', 'search', 'reward', 'scene', 'monkey_kingdom', 'color']
 
-protocols = ['color']
+protocols = ['optimism']
 subject_sessions = sorted(get_subject_session(protocols))
 
 Parallel(n_jobs=6)(

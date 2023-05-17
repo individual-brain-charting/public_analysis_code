@@ -150,7 +150,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return faces_aomic(design_matrix_columns)
     elif paradigm_id == 'StroopAomic':
         return stroop_aomic(design_matrix_columns)
-    elif paradigm_id == 'WorkingMemoryAomic':
+    elif paradigm_id == 'WMAomic':
         return working_memory_aomic(design_matrix_columns)
     elif paradigm_id == 'Emotion':
         return emotion(design_matrix_columns)
@@ -546,7 +546,7 @@ def stroop_aomic(design_matrix_columns):
                       'incongruent_word_female_face_male',
                       'index_response', 'middle_response',
                       'congurent-incongruent',
-                      'incongurent-congruent',
+                      'incongruent-congruent',
                       'face_male-face_female',
                       'word_male-word_female',
                       'index-middle', 'middle-index'
@@ -568,7 +568,7 @@ def stroop_aomic(design_matrix_columns):
     word_female = con['congruent_word_female_face_female'] +\
                   con['incongruent_word_female_face_male']
     contrasts['congurent-incongruent'] = congruent - incongruent
-    contrasts['incongurent-congruent'] = incongruent - congruent
+    contrasts['incongruent-congruent'] = incongruent - congruent
     contrasts['face_male-face_female'] = face_male - face_female
     contrasts['word_male-word_female'] = word_male - word_female
     contrasts['index-middle'] = con['index_response'] - con['middle_response']
@@ -613,7 +613,6 @@ def faces_aomic(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     anger = np.sum([con[x] for x in con.keys() if x[:5] == 'anger'], 0)
-    stop
     contempt = np.sum([con[x] for x in con.keys() if x[:8] == 'contempt'], 0)
     joy = np.sum([con[x] for x in con.keys() if x[:3] == 'joy'], 0)
     neutral = np.sum([con[x] for x in con.keys() if x[:7] == 'neutral'], 0)

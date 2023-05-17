@@ -498,6 +498,19 @@ def post_process(df, paradigm_id):
                     'action_rest'
                     ]
         df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+    if paradigm_id == 'StroopAomic':
+        df.replace('correct_incongruent_word_male_face_female',
+                   'incongruent_word_male_face_female', inplace=True)
+        df.replace('correct_congruent_word_female_face_female',
+                   'congruent_word_female_face_female', inplace=True)
+        df.replace('correct_congruent_word_male_face_male',
+                   'congruent_word_male_face_male', inplace=True)
+        df.replace('correct_incongruent_word_female_face_male',
+                   'incongruent_word_female_face_male', inplace=True)
+        df.replace('incorrect_incongruent_word_male_face_female',
+                   'incongruent_word_male_face_female', inplace=True)
+        df.replace('incorrect_incongruent_word_female_face_male',
+                   'incongruent_word_female_face_male', inplace=True)
     return df
 
 

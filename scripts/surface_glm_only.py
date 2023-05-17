@@ -107,7 +107,7 @@ if __name__ == '__main__':
                  'navigation', 'search']
     protocols = ['scene', 'color']
     """
-    protocols = ['color']
+    protocols = ['optimism']
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol
