@@ -47,8 +47,8 @@ def generate_glm_input(jobfile, mesh=None):
             zip(subject.session_output_dirs, basenames)] * 2
         session_ids = [session_id for (session_id, onset) in
                        zip(subject.session_id, subject.onset)
-                       if onset is not None]
-        onsets = [onset for onset in subject.onset if onset is not None]
+                      ] #  if onset is not None
+        onsets = [onset for onset in subject.onset] #  if onset is not None
         subject_ = {
             'output_dir': output_dir,
             'session_output_dirs': subject.session_output_dirs,

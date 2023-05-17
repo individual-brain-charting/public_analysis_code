@@ -68,7 +68,11 @@ def clean_subject(subject):
             funcs.append(func)
             session_ids.append(session_id)
             onsets.append(onset)
-
+            # print('OK', rp, func, session_id, onset)
+        else:
+            pass
+            #print('KO', rp, func, session_id, onset)
+            
     subject['onset'] = onsets
     subject['func'] = funcs
     subject['realignment_parameters'] = rps

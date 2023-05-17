@@ -545,7 +545,7 @@ def stroop_aomic(design_matrix_columns):
                       'congruent_word_male_face_male',
                       'incongruent_word_female_face_male',
                       'index_response', 'middle_response',
-                      'congurent-incongruent',
+                      'congruent-incongruent',
                       'incongruent-congruent',
                       'face_male-face_female',
                       'word_male-word_female',
@@ -567,7 +567,7 @@ def stroop_aomic(design_matrix_columns):
                 con['incongruent_word_male_face_female']
     word_female = con['congruent_word_female_face_female'] +\
                   con['incongruent_word_female_face_male']
-    contrasts['congurent-incongruent'] = congruent - incongruent
+    contrasts['congruent-incongruent'] = congruent - incongruent
     contrasts['incongruent-congruent'] = incongruent - congruent
     contrasts['face_male-face_female'] = face_male - face_female
     contrasts['word_male-word_female'] = word_male - word_female
@@ -702,14 +702,11 @@ def optimism_bias(design_matrix_columns):
                  if c in design_matrix_columns]
     interaction = np.mean([con[c] for c in inter_pos], 0)\
                      - np.mean([con[c] for c in inter_neg], 0)
-    if 'future_negative' in design_matrix_columns:
+    if ('future_negative' in design_matrix_columns) and (
+            'future_positive' in design_matrix_columns):
         future_positive_vs_negative = con['future_positive'] - con['future_negative']
-    elif 'future_neutral' in design_matrix_columns:
-        future_positive_vs_negative = con['future_positive'] - con['future_neutral']
-    elif 'past_negative' in design_matrix_columns:
-        future_positive_vs_negative = con['future_positive'] - con['past_negative']
     else:
-        future_positive_vs_negative = con['future_positive']
+        future_positive_vs_negative = positive_vs_negative
     if 'past_negative' in design_matrix_columns:
         past_positive_vs_negative = con['past_positive'] - con['past_negative']
     else:
