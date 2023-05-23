@@ -164,6 +164,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return abstraction_localizer(design_matrix_columns)
     elif paradigm_id == 'Mario':
         return mario(design_matrix_columns)
+    elif paradigm_id == 'Localizer':
+        return lpp_localizer(design_matrix_columns)
     else:
         raise ValueError('%s Unknown paradigm' % paradigm_id)
 
@@ -212,6 +214,22 @@ def _append_derivative_contrast(design_matrix_columns, contrast):
     if con != []:
         contrast['derivatives'] = np.array(con)
     return contrast
+
+
+def lpp_localizer(design_matrix_columns):
+    """ Contrasts for loo localizer """
+    contrast_names = ['control', 'french', 'french-control']
+    if design_matrix_columns is None:
+        return dict([(name, []) for name in contrast_names])
+    con = _elementary_contrasts(design_matrix_columns)
+    contrasts = {'control': con['control'],
+                 'french': con['french'],
+                 'french-control': con['french'] - con['control'],
+                 }
+    assert((sorted(contrasts.keys()) == sorted(contrast_names)))
+    _append_derivative_contrast(design_matrix_columns, contrasts)
+    _append_effects_interest_contrast(design_matrix_columns, contrasts)
+    return contrasts
 
 
 def mario(design_matrix_columns):
@@ -742,29 +760,23 @@ def motion(design_matrix_columns):
     con = _elementary_contrasts(design_matrix_columns)
     incoherent = con['left_incoherent'] + con['right_incoherent'] + con['both_incoherent']
     stationary = con['left_stationary'] + con['right_stationary'] + con['both_stationary']
-    clock = (con['left_coherent_clock'] + con['right_coherent_clock']
-             + con['both_coherent_clock'])
-    if 'left_coherent_anti' in design_matrix_columns:
-        anti = (con['left_coherent_anti'] + con['right_coherent_anti']
-                + con['both_coherent_anti'])
-        left = con['left_incoherent'] + con['left_coherent_clock'] +\
-               con['left_stationary'] + con['left_coherent_anti']
-    else:
-        anti = 1.5 * (con['right_coherent_anti'] + con['both_coherent_anti'])
-        left = con['left_incoherent'] + con['left_coherent_clock'] +\
-               con['left_stationary']
-
+    ckeys = ['left_coherent_clock', 'right_coherent_clock', 'both_coherent_clock']
+    akeys = ['left_coherent_anti', 'right_coherent_anti', 'both_coherent_anti']
+    lkeys = ['left_incoherent',  'left_coherent_clock', 'left_stationary',
+             'left_coherent_anti']
+    rkeys = ['right_incoherent',  'right_coherent_clock', 'right_stationary',
+             'right_coherent_anti']
+    clock = np.sum([con[x] for x in con.keys() if x in ckeys], 0)
+    anti = np.sum([con[x] for x in con.keys() if x in akeys], 0)
+    left = np.sum([con[x] for x in con.keys() if x in lkeys], 0)
+    right = np.sum([con[x] for x in con.keys() if x in rkeys], 0)
     coherent = clock + anti
-    right = con['right_incoherent'] + con['right_coherent_clock'] +\
-            con['right_stationary'] + con['right_coherent_anti']
-
-    #
     contrasts = {'incoherent': incoherent,
                  'coherent': coherent,
                  'clock': clock,
                  'anti': anti,
                  'stationary': stationary,
-                 'response':  con['y'],
+                 'response':  con['response'],
                  'coherent-incoherent': coherent - incoherent,
                  'coherent-stationary': coherent - stationary,
                  'incoherent-stationary': incoherent-stationary,

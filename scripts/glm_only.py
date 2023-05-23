@@ -123,8 +123,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
     else:
         mask_img = '../ibc_data/gm_mask_1_5mm.nii.gz'
     for subject in list_subjects_update:
-        subject['onset'] = [onset for onset in subject['onset']
-                            if onset is not None]
+        subject['onset'] = [onset for onset in subject['onset']]
         clean_subject(subject)
         if len(subject['session_id']) > 0:
             if protocol == 'clips4':
@@ -146,7 +145,7 @@ if __name__ == '__main__':
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     # protocols = ['audio1', 'audio2']
     # protocols = ['optimism', 'abstraction', 'leuven']
-    protocols = ['fbirn'] # 
+    protocols = ['color'] # 
 
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
