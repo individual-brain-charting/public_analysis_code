@@ -536,7 +536,7 @@ def make_db(
     conditions=CONDITIONS,
     subject_list=SUBJECTS,
     task_list=False,
-    support="fsaverage5",
+    space="fsaverage5",
     extension=".gii",
     acquisition="ffx",
 ):
@@ -552,7 +552,7 @@ def make_db(
         list of subjects to be included in the analysis
     task_list: list_optional,
         list of tasks to be returned
-    support: string, optional,
+    space: string, optional,
         Should be one of ["fsaverage5", "fsaverage7", "individual", "MNI305"],
         Default: "fsaverage5"
     extension: string, optional
@@ -576,23 +576,23 @@ def make_db(
     contrasts = []
     tasks = []
     modalities = []
-    supports = []
+    spaces = []
     acquisitions = []
 
     # Check that given mesh value is valid
-    available_supports = [
+    available_spaces = [
         "fsaverage5",
         "fsaverage7",
         "individual",
         "MNI305",
     ]
-    volumetric_supports = [
+    volumetric_spaces = [
         "MNI305",
     ]
-    if support not in available_supports:
+    if space not in available_spaces:
         raise ValueError(
-            'Mesh value (%s) unknown ; should be one of %s'
-            % (support, available_supports)
+            'Space value (%s) unknown ; should be one of %s'
+            % (space, available_spaces)
         )
 
     # fixed-effects activation images
@@ -611,17 +611,17 @@ def make_db(
             if (task_list is not False) and (task not in task_list):
                 continue
 
-            # Set directory depending on support type
+            # Set directory depending on space type
             if acquisition == 'all':
-                dir_ = 'res_task-%s_space-%s*' % (task, support)
+                dir_ = 'res_task-%s_space-%s*' % (task, space)
             elif acquisition == 'ffx':
-                dir_ = 'res_task-%s_space-%s*_dir-ffx' % (task, support)
+                dir_ = 'res_task-%s_space-%s*_dir-ffx' % (task, space)
             elif acquisition in ['ap', 'pa']:
                 dir_ = 'res_task-%s_space-%s*_dir-%s' % (
-                    task, support, acquisition
+                    task, space, acquisition
                 )
 
-            if support in volumetric_supports:
+            if space in volumetric_spaces:
                 selected_imgs_filename = os.path.join(
                     derivatives, subject, '*', dir_, 'stat_maps',
                     '%s%s' % (contrast, extension)
@@ -648,7 +648,7 @@ def make_db(
                     contrasts.append(contrast)
                     tasks.append(task)
                     modalities.append('bold')
-                    supports.append(support)
+                    spaces.append(space)
                     acquisitions.append(acquisition)
 
             else:
@@ -680,7 +680,7 @@ def make_db(
                         tasks.append(task)
                         sides.append(side)
                         modalities.append('bold')
-                        supports.append(support)
+                        spaces.append(space)
                         acquisitions.append(acquisition)
 
     total_missing_maps = sum([
@@ -690,9 +690,12 @@ def make_db(
     print(f"{len(imgs)} images found, {total_missing_maps} were missing")
 
     for subject in missing_images_per_subject.keys():
-        print(f"Missing images for subject {subject}:\t{len(missing_images_per_subject[subject])}")
+        print(
+            f"Missing images for subject {subject}:\t"
+            "{len(missing_images_per_subject[subject])}"
+        )
 
-    if support in volumetric_supports:
+    if space in volumetric_spaces:
         # create a dictionary with all the information
         db_dict = dict(
             path=imgs,
@@ -701,7 +704,7 @@ def make_db(
             session=sessions,
             task=tasks,
             modality=modalities,
-            support=supports,
+            space=spaces,
             acquisition=acquisitions
         )
     else:
@@ -714,7 +717,7 @@ def make_db(
             task=tasks,
             side=sides,
             modality=modalities,
-            mesh=supports,
+            mesh=spaces,
             acquisition=acquisitions
         )
 
@@ -739,7 +742,7 @@ def make_surf_db(
         conditions=conditions,
         subject_list=subject_list,
         task_list=task_list,
-        support=mesh,
+        space=mesh,
         extension=extension,
         acquisition=acquisition
     )
@@ -750,7 +753,7 @@ def make_vol_db(
     conditions=CONDITIONS,
     subject_list=SUBJECTS,
     task_list=False,
-    support="MNI305",
+    space="MNI305",
     extension=".nii.gz",
     acquisition="ffx"
 ):
@@ -760,7 +763,7 @@ def make_vol_db(
         conditions=conditions,
         subject_list=subject_list,
         task_list=task_list,
-        support=support,
+        space=space,
         extension=extension,
         acquisition=acquisition
     )
