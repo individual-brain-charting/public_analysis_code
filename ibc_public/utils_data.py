@@ -595,7 +595,8 @@ def make_db(
     con_df = conditions
     contrast_name = con_df.contrast
     missing_images = []
-    for subject in tqdm(subject_list):
+
+    for subject in tqdm(subject_list, desc="Search subject maps"):
         for i in range(len(con_df)):
             contrast = contrast_name[i]
             task = con_df.task[i]
@@ -702,6 +703,7 @@ def make_db(
 
     # create a FataFrame out of the dictionary and write it to disk
     db = pd.DataFrame().from_dict(db_dict)
+
     return db
 
 
