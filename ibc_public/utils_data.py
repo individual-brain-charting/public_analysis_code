@@ -598,7 +598,11 @@ def make_db(
     # fixed-effects activation images
     con_df = conditions
     contrast_name = con_df.contrast
-    missing_images = defaultdict(list)
+    missing_images_per_subject = defaultdict(list)
+
+    # Without the following print, other prints won't show up ;
+    # this is probably an issue with tqdm
+    print("Build CSV file rows")
 
     for subject in tqdm(subject_list, desc="Search subject maps"):
         for i in range(len(con_df)):
@@ -632,7 +636,9 @@ def make_db(
 
                 # Store missing images
                 if len(imgs_) == 0:
-                    missing_images[subject].append([subject, contrast, task])
+                    missing_images_per_subject[subject].append(
+                        [subject, contrast, task]
+                    )
 
                 for img in imgs_:
                     session = img.split('/')[-4]
@@ -661,7 +667,9 @@ def make_db(
 
                     # Display warning when no image is found
                     if len(imgs_) == 0:
-                        missing_images[subject].append([subject, contrast, task, side])
+                        missing_images_per_subject[subject].append(
+                            [subject, contrast, task, side]
+                        )
 
                     for img in imgs_:
                         session = img.split('/')[-4]
@@ -675,12 +683,14 @@ def make_db(
                         supports.append(support)
                         acquisitions.append(acquisition)
 
-    # Without the following print, other prints won't show up ;
-    # this is probably an issue with tqdm
-    print("Search complete")
-    print(f"{len(imgs)} images found, {len(missing_images)} were missing")
-    for subject in missing_images:
-        print(f"Missing images for subject {subject}:\t{len(missing_images[subject])}")
+    total_missing_maps = sum([
+        len(missing_images_per_subject[subject])
+        for subject in missing_images_per_subject.keys()
+    ])
+    print(f"{len(imgs)} images found, {total_missing_maps} were missing")
+
+    for subject in missing_images_per_subject.keys():
+        print(f"Missing images for subject {subject}:\t{len(missing_images_per_subject[subject])}")
 
     if support in volumetric_supports:
         # create a dictionary with all the information
