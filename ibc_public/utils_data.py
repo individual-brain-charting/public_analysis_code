@@ -675,6 +675,9 @@ def make_db(
                         supports.append(support)
                         acquisitions.append(acquisition)
 
+    # Without the following print, other prints won't show up ;
+    # this is probably an issue with tqdm
+    print("Search complete")
     print(f"{len(imgs)} images found, {len(missing_images)} were missing")
     for subject in missing_images:
         print(f"Missing images for subject {subject}:\t{len(missing_images[subject])}")
