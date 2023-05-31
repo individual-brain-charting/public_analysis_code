@@ -530,35 +530,33 @@ def copy_db(df, write_dir, filename='result_db.csv'):
     return df1
 
 
-def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
-                 subject_list=SUBJECTS, task_list=False, mesh="fsaverage5",
-                 acquisition='ffx'
+def make_db(
+    derivatives=DERIVATIVES,
+    conditions=CONDITIONS,
+    subject_list=SUBJECTS,
+    task_list=False,
+    support="fsaverage5",
+    extension=".gii",
+    acquisition="ffx",
 ):
     """ Create a database for surface data (gifti files)
 
-    derivatives: string,
-              directory where the studd will be found
-
-    conditions: Bool, optional,
-                Whether to map conditions or contrastsderivatives: string, optional
-        path toward a valid BIDS derivatives directory
-
+    Parameters
+    ----------
+    derivatives: string, optional,
+        Directory where the study will be found
     conditions: pandas DataFrame, optional,
-        dataframe describing the conditions under considerations
-
+        Dataframe describing the conditions under consideration
     subject_list: list, optional,
         list of subjects to be included in the analysis
-
     task_list: list_optional,
         list of tasks to be returned
-
-    mesh: string, optional,
-          should be one of ["fsaverage5", "fsaverage7", "individual"],
-          default behaviour will be that of "fsaverage5" if no value
-          or incorrect value is given
-
-    acquisition: one of ['ffx', 'ap', 'pa', 'all'], defaults to 'ffx'
-          the acquisition to be picked.
+    support: string, optional,
+        Should be one of ["fsaverage5", "fsaverage7", "individual", "MNI305"],
+        Default: "fsaverage5"
+    acquisition: string, optional
+        Acquisiton to be picked. One of ["ffx", "ap", "pa", "all"].
+        Default: "ffx"
 
     Returns
     -------
@@ -574,21 +572,24 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
     contrasts = []
     tasks = []
     modalities = []
-    meshes = []
+    supports = []
     acquisitions = []
 
     # Check that given mesh value is valid
-    available_meshes = [
+    available_supports = [
         "fsaverage5",
         "fsaverage7",
         "individual",
+        "MNI305",
     ]
-    if mesh not in available_meshes:
+    volumetric_supports = [
+        "MNI305",
+    ]
+    if support not in available_supports:
         raise ValueError(
             'Mesh value (%s) unknown ; should be one of %s'
-            % (mesh, available_meshes)
+            % (support, available_supports)
         )
-
 
     # fixed-effects activation images
     con_df = conditions
@@ -606,26 +607,31 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
             # (defaults to mesh == "fsaverage5" if no value
             # or incorrect value is given)
             if acquisition == 'all':
-                dir_ = 'res_task-%s_space-%s*' % (task, mesh)
+                dir_ = 'res_task-%s_space-%s*' % (task, support)
             elif acquisition == 'ffx':
-                dir_ = 'res_task-%s_space-%s*_dir-ffx' % (task, mesh)
+                dir_ = 'res_task-%s_space-%s*_dir-ffx' % (task, support)
             elif acquisition in ['ap', 'pa']:
-                dir_ = 'res_task-%s_space-%s*_dir-%s' % (task, mesh, acquisition)
-            for side in ['lh', 'rh']:
+                dir_ = 'res_task-%s_space-%s*_dir-%s' % (
+                    task, support, acquisition
+                )
+
+            if support in volumetric_supports:
                 wc = os.path.join(
                     derivatives, subject, '*', dir_, 'stat_maps',
-                    '%s_%s.gii' % (contrast, side))
+                    '%s%s' % (contrast, extension)
+                )
                 if acquisition in ['ap', 'pa']:
                     wc = os.path.join(
                         derivatives, subject, '*', dir_, 'z_score_maps',
-                        '%s*%s.gii' % (contrast, side))
+                        '%s%s' % (contrast, extension)
+                    )
                 imgs_ = glob.glob(wc)
                 imgs_.sort()
 
                 # Display warning when no image is found
                 if len(imgs_) == 0:
-                    missing_images.append([subject, contrast, task, side])
-                    print(wc)
+                    missing_images.append([subject, contrast, task])
+                    # print(wc)
 
                 for img in imgs_:
                     session = img.split('/')[-4]
@@ -634,26 +640,106 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     subjects.append(img.split('/')[-5])
                     contrasts.append(contrast)
                     tasks.append(task_name)
-                    sides.append(side)
                     modalities.append('bold')
-                    meshes.append(mesh)
+                    supports.append(support)
                     acquisitions.append(acquisition)
+
+            else:
+                for side in ['lh', 'rh']:
+                    wc = os.path.join(
+                        derivatives, subject, '*', dir_, 'stat_maps',
+                        '%s_%s%s' % (contrast, side, extension))
+                    if acquisition in ['ap', 'pa']:
+                        wc = os.path.join(
+                            derivatives, subject, '*', dir_, 'z_score_maps',
+                            '%s*%s%s' % (contrast, side, extension))
+                    imgs_ = glob.glob(wc)
+                    imgs_.sort()
+
+                    # Display warning when no image is found
+                    if len(imgs_) == 0:
+                        missing_images.append([subject, contrast, task, side])
+
+                    for img in imgs_:
+                        session = img.split('/')[-4]
+                        imgs.append(img)
+                        sessions.append(session)
+                        subjects.append(img.split('/')[-5])
+                        contrasts.append(contrast)
+                        tasks.append(task_name)
+                        sides.append(side)
+                        modalities.append('bold')
+                        supports.append(support)
+                        acquisitions.append(acquisition)
 
     print(f"{len(imgs)} images found, {len(missing_images)} were missing")
 
-    # create a dictionary with all the information
-    db_dict = dict(
-        path=imgs,
-        subject=subjects,
-        contrast=contrasts,
-        session=sessions,
-        task=tasks,
-        side=sides,
-        modality=modalities,
-        mesh=meshes,
-        acquisition=acquisitions
-    )
+    if support in volumetric_supports:
+        # create a dictionary with all the information
+        db_dict = dict(
+            path=imgs,
+            subject=subjects,
+            contrast=contrasts,
+            session=sessions,
+            task=tasks,
+            modality=modalities,
+            support=supports,
+            acquisition=acquisitions
+        )
+    else:
+        # create a dictionary with all the information
+        db_dict = dict(
+            path=imgs,
+            subject=subjects,
+            contrast=contrasts,
+            session=sessions,
+            task=tasks,
+            side=sides,
+            modality=modalities,
+            mesh=supports,
+            acquisition=acquisitions
+        )
 
     # create a FataFrame out of the dictionary and write it to disk
     db = pd.DataFrame().from_dict(db_dict)
     return db
+
+
+def make_surf_db(
+    derivatives=DERIVATIVES,
+    conditions=CONDITIONS,
+    subject_list=SUBJECTS,
+    task_list=False,
+    mesh="fsaverage5",
+    acquisition="ffx"
+):
+    """Create a CSV file listing available surface maps."""
+    return make_db(
+        derivatives=derivatives,
+        conditions=conditions,
+        subject_list=subject_list,
+        task_list=task_list,
+        support=mesh,
+        extension=".gii",
+        acquisition=acquisition
+    )
+
+
+def make_vol_db(
+    derivatives=DERIVATIVES,
+    conditions=CONDITIONS,
+    subject_list=SUBJECTS,
+    task_list=False,
+    support="MNI305",
+    acquisition="ffx"
+):
+    """Create a CSV file listing available volumetric maps."""
+    return make_db(
+        derivatives=derivatives,
+        conditions=conditions,
+        subject_list=subject_list,
+        task_list=task_list,
+        support=support,
+        extension="(.nii|.nii.gz)",
+        acquisition=acquisition
+    )
