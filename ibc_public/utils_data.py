@@ -10,6 +10,7 @@ Compatibility: Python 3.5
 import os
 import glob
 import warnings
+from collections import defaultdict
 import pandas as pd
 import shutil
 import numpy as np
@@ -554,6 +555,9 @@ def make_db(
     support: string, optional,
         Should be one of ["fsaverage5", "fsaverage7", "individual", "MNI305"],
         Default: "fsaverage5"
+    extension: string, optional
+        Extension of the files to be found.
+        Default: ".gii"
     acquisition: string, optional
         Acquisiton to be picked. One of ["ffx", "ap", "pa", "all"].
         Default: "ffx"
@@ -594,19 +598,16 @@ def make_db(
     # fixed-effects activation images
     con_df = conditions
     contrast_name = con_df.contrast
-    missing_images = []
+    missing_images = defaultdict(list)
 
     for subject in tqdm(subject_list, desc="Search subject maps"):
         for i in range(len(con_df)):
             contrast = contrast_name[i]
             task = con_df.task[i]
-            task_name = task
             if (task_list is not False) and (task not in task_list):
                 continue
 
-            # set directory depending on mesh type
-            # (defaults to mesh == "fsaverage5" if no value
-            # or incorrect value is given)
+            # Set directory depending on support type
             if acquisition == 'all':
                 dir_ = 'res_task-%s_space-%s*' % (task, support)
             elif acquisition == 'ffx':
@@ -617,22 +618,21 @@ def make_db(
                 )
 
             if support in volumetric_supports:
-                wc = os.path.join(
+                selected_imgs_filename = os.path.join(
                     derivatives, subject, '*', dir_, 'stat_maps',
                     '%s%s' % (contrast, extension)
                 )
                 if acquisition in ['ap', 'pa']:
-                    wc = os.path.join(
+                    selected_imgs_filename = os.path.join(
                         derivatives, subject, '*', dir_, 'z_score_maps',
                         '%s%s' % (contrast, extension)
                     )
-                imgs_ = glob.glob(wc)
+                imgs_ = glob.glob(selected_imgs_filename)
                 imgs_.sort()
 
-                # Display warning when no image is found
+                # Store missing images
                 if len(imgs_) == 0:
-                    missing_images.append([subject, contrast, task])
-                    # print(wc)
+                    missing_images[subject].append([subject, contrast, task])
 
                 for img in imgs_:
                     session = img.split('/')[-4]
@@ -640,26 +640,28 @@ def make_db(
                     sessions.append(session)
                     subjects.append(img.split('/')[-5])
                     contrasts.append(contrast)
-                    tasks.append(task_name)
+                    tasks.append(task)
                     modalities.append('bold')
                     supports.append(support)
                     acquisitions.append(acquisition)
 
             else:
                 for side in ['lh', 'rh']:
-                    wc = os.path.join(
+                    selected_imgs_filename = os.path.join(
                         derivatives, subject, '*', dir_, 'stat_maps',
-                        '%s_%s%s' % (contrast, side, extension))
+                        '%s_%s%s' % (contrast, side, extension)
+                    )
                     if acquisition in ['ap', 'pa']:
-                        wc = os.path.join(
+                        selected_imgs_filename = os.path.join(
                             derivatives, subject, '*', dir_, 'z_score_maps',
-                            '%s*%s%s' % (contrast, side, extension))
-                    imgs_ = glob.glob(wc)
+                            '%s*%s%s' % (contrast, side, extension)
+                        )
+                    imgs_ = glob.glob(selected_imgs_filename)
                     imgs_.sort()
 
                     # Display warning when no image is found
                     if len(imgs_) == 0:
-                        missing_images.append([subject, contrast, task, side])
+                        missing_images[subject].append([subject, contrast, task, side])
 
                     for img in imgs_:
                         session = img.split('/')[-4]
@@ -667,13 +669,15 @@ def make_db(
                         sessions.append(session)
                         subjects.append(img.split('/')[-5])
                         contrasts.append(contrast)
-                        tasks.append(task_name)
+                        tasks.append(task)
                         sides.append(side)
                         modalities.append('bold')
                         supports.append(support)
                         acquisitions.append(acquisition)
 
     print(f"{len(imgs)} images found, {len(missing_images)} were missing")
+    for subject in missing_images:
+        print(f"Missing images for subject {subject}:\t{len(missing_images[subject])}")
 
     if support in volumetric_supports:
         # create a dictionary with all the information
@@ -713,6 +717,7 @@ def make_surf_db(
     subject_list=SUBJECTS,
     task_list=False,
     mesh="fsaverage5",
+    extension=".gii",
     acquisition="ffx"
 ):
     """Create a CSV file listing available surface maps."""
@@ -722,7 +727,7 @@ def make_surf_db(
         subject_list=subject_list,
         task_list=task_list,
         support=mesh,
-        extension=".gii",
+        extension=extension,
         acquisition=acquisition
     )
 
@@ -733,6 +738,7 @@ def make_vol_db(
     subject_list=SUBJECTS,
     task_list=False,
     support="MNI305",
+    extension=".nii.gz",
     acquisition="ffx"
 ):
     """Create a CSV file listing available volumetric maps."""
@@ -742,6 +748,6 @@ def make_vol_db(
         subject_list=subject_list,
         task_list=task_list,
         support=support,
-        extension="(.nii|.nii.gz)",
+        extension=extension,
         acquisition=acquisition
     )
