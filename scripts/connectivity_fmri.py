@@ -22,9 +22,10 @@ from nilearn.connectome import ConnectivityMeasure
 from nilearn.connectome import GroupSparseCovarianceCV
 from nilearn.image import high_variance_confounds
 from ibc_public.utils_data import get_subject_session, DERIVATIVES
+import itertools
 
-# cache directory
-cache = "/storage/store/work/haggarwa/"
+# cache and output directory
+cache = OUT_ROOT = "/storage/store/work/haggarwa/"
 
 # overwrite existing files
 OVERWRITE = False
@@ -52,15 +53,21 @@ atlas["name"] = "schaefer400"
 #    calculated for each run (from each session), each subject. Separately
 #    returns a 400x400 matrix for each run, each subject
 correlation_measure = ConnectivityMeasure(kind="correlation")
-# 2. covariance matrix from GraphicalLassoCV
+# 2. pearson's partial correlation between time series from each ROI
+#    calculated for each run (from each session), each subject. Separately
+#    returns a 400x400 matrix for each run, each subject
+partcorr_measure = ConnectivityMeasure(kind="partial correlation")
+# 3. covariance matrix from GraphicalLassoCV
 #    calculated over all runs for each subject
 #    returns a 400x400 matrix for each subject
 glc = GraphicalLassoCV(verbose=2, n_jobs=N_JOBS)
-# 3. covariance matrix from GroupSparseCovarianceCV
+# 4. covariance matrix from GroupSparseCovarianceCV
 #    calculated over all runs for all subjects
 #    returns a 400x400xN matrix where N is the number of subjects
 #    saved separately for each subject
 gsc = GroupSparseCovarianceCV(verbose=2, n_jobs=N_JOBS)
+# 5. tangent space embedding from ConnectivityMeasure
+tangent_measure = ConnectivityMeasure(kind="tangent")
 # iterate over movie and task-RestingState state task data
 for task in tasks:
     if task == "task-GoodBadUgly":
@@ -104,6 +111,7 @@ for task in tasks:
         memory=cache,
     ).fit()
     all_ts_all_sub = []
+    all_sub_all_run = []
     # iterate over subjects
     for sub, sess in sub_ses.items():
         all_time_series = []
@@ -122,9 +130,7 @@ for task in tasks:
                     )
                 )[0]
                 # setup tmp dir for saving figures and calculated matrices
-                tmp_dir = os.path.join(
-                    DERIVATIVES, sub, ses, "func", "connectivity_tmp"
-                )
+                tmp_dir = os.path.join(OUT_ROOT, sub, ses, "func")
                 if not os.path.exists(tmp_dir):
                     os.makedirs(tmp_dir)
                 # directory with func data
@@ -144,6 +150,13 @@ for task in tasks:
                         "_Pearsons_corr.csv"
                     ),
                 )
+                part_corr = os.path.join(
+                    tmp_dir,
+                    (
+                        f"{sub}_{ses}_{task}_{run_num}_{atlas.name}"
+                        "_Pearsons_partcorr.csv"
+                    ),
+                )
                 # skip calculating correlation if already done
                 if os.path.isfile(corr) and not OVERWRITE:
                     pass
@@ -154,6 +167,16 @@ for task in tasks:
                     )[0]
                     # save pearson correlation matrix as csv
                     np.savetxt(corr, correlation_matrix, delimiter=",")
+                # skip calculating tangent space embedding if already done
+                if os.path.isfile(part_corr) and not OVERWRITE:
+                    pass
+                else:
+                    # calculate pearson partial correlation matrix
+                    partcorr_matrix = partcorr_measure.fit_transform(
+                        [time_series]
+                    )[0]
+                    # save pearson partial correlation matrix as csv
+                    np.savetxt(part_corr, partcorr_matrix, delimiter=",")
                 # append time series from each run (from each session)
                 # to a list for each subject
                 # each element in the list is a 2D array with shape
@@ -190,16 +213,25 @@ for task in tasks:
         # append the (n_timepoints * n_runs, n_regions) arrays for each subject
         # to a list
         all_ts_all_sub.append(all_ts_per_sub)
+        # keep runs unconcatenated for each subject
+        # all_sub_all_run is now a list of lists
+        # each list in this list corresponds to a subject and contains 2D arrays
+        # of shape (n_timepoints, n_regions) for each run
+        # this is for calculating tangent space embedding
+        all_sub_all_run.append(all_time_series)
+        # transpose this list of lists
+    t_all_sub_all_run = list(
+        map(list, itertools.zip_longest(*all_sub_all_run, fillvalue=None))
+    )
     # fit Group Sparse Cov est on this list of
     # (n_timepoints * n_runs, n_regions) dim matrices where each matrix
     # corresponds to one subject
     gsc.fit(all_ts_all_sub)
+    # save Group Sparse Cov estimates
     for count, (sub, sess) in enumerate(sub_ses.items()):
         ses = sorted(sess)[-1]
         # setup tmp dir for saving figures and calculated matrices
-        tmp_dir = os.path.join(
-            DERIVATIVES, sub, ses, "func", "connectivity_tmp"
-        )
+        tmp_dir = os.path.join(OUT_ROOT, sub, ses, "func")
         part_corr = os.path.join(
             tmp_dir,
             f"{sub}_{task}_{atlas.name}_GroupSparseCovarianceCV_partcorr.csv",
@@ -210,3 +242,29 @@ for task in tasks:
             f"{sub}_{task}_{atlas.name}_GroupSparseCovarianceCV_corr.csv",
         )
         np.savetxt(corr, gsc.covariances_[:, :, count], delimiter=",")
+
+    # fit tangent space embedding on all subjects for a given run
+    for run_num, run in enumerate(t_all_sub_all_run):
+        # run 13 is missing for subject 08 
+        if task == "task-Raiders" and run_num == 12:
+            # delete NoneType array for subject 08 (element index 5)
+            del run[5]
+        # calculate tangent space embedding
+        tse = tangent_measure.fit_transform(run)
+        # save tangent space embedding as csv
+        for sub_ind, tse_sub in enumerate(tse):
+            # skip saving tangent space embedding for subject 08 run 13
+            if task == "task-Raiders" and sub_ind == 5:
+                continue
+            sub = list(sub_ses.keys())[sub_ind]
+            ses = sorted(sub_ses[sub])[-1]
+            tmp_dir = os.path.join(OUT_ROOT, sub, ses, "func")
+            np.savetxt(
+                os.path.join(
+                    tmp_dir,
+                    f"{sub}_{ses}_{task}_{run_num+1:02d}_{atlas.name}"
+                    "_TangentSpaceEmbedding.csv",
+                ),
+                tse_sub,
+                delimiter=",",
+            )
