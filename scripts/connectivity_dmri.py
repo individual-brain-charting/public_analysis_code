@@ -269,7 +269,7 @@ def tck2connectome(
     os.system(cmd)
 
 
-def pipeline(sub, ses, data_root, atlas, mni_nifti):
+def pipeline(sub, ses, data_root, out_root, atlas, mni_nifti):
     """Pipeline for creating connectivity matrices from tractography in MNI
     as well as in individual space
 
@@ -281,6 +281,8 @@ def pipeline(sub, ses, data_root, atlas, mni_nifti):
         session id
     data_root : str
         path to data root directory
+    out_root : str
+        root of the directory to store output files
     atlas : sklearn.utils.Bunch
         Dictionary-like object, contains:
         - 'maps': `str`, path to nifti file containing the
@@ -301,7 +303,7 @@ def pipeline(sub, ses, data_root, atlas, mni_nifti):
         status message
     """
     # setup tmp dir for saving intermediate files
-    tmp_dir = os.path.join(data_root, sub, ses, "dwi", "connectivity_tmp")
+    tmp_dir = os.path.join(out_root, sub, ses, "dwi")
     if not os.path.exists(tmp_dir):
         os.makedirs(tmp_dir)
     # directory with dwi data
@@ -334,7 +336,7 @@ def pipeline(sub, ses, data_root, atlas, mni_nifti):
     )
     # path to diffusion tractogram in mni space
     mni_tck = os.path.join(
-        dwi_dir,
+        tmp_dir,
         f"mni-tracks_{sub}_{ses}_t2.tck",
     )
     # transform diffusion tractogram to mni space
@@ -395,8 +397,8 @@ def pipeline(sub, ses, data_root, atlas, mni_nifti):
 
 
 if __name__ == "__main__":
-    # cache directory
-    cache = "/storage/store/work/haggarwa/"
+    # cache and output directory
+    cache = OUT_ROOT = "/storage/store/work/haggarwa/"
     # get atlas
     atlas = datasets.fetch_atlas_schaefer_2018(
         data_dir=cache, resolution_mm=1, n_rois=400
@@ -429,8 +431,8 @@ if __name__ == "__main__":
         else subject_session[1]
         for subject_session in subject_sessions
     }
-    results = Parallel(n_jobs=6, verbose=1, backend="multiprocessing")(
-        delayed(pipeline)(sub, ses, DERIVATIVES, atlas, mni_nifti)
+    results = Parallel(n_jobs=12, verbose=1, backend="multiprocessing")(
+        delayed(pipeline)(sub, ses, DERIVATIVES, OUT_ROOT, atlas, mni_nifti)
         for sub, ses in sub_ses.items()
     )
 
