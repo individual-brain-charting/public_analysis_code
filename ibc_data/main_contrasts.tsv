@@ -216,12 +216,12 @@ WardAndAllport	intermediate-direct
 WardAndAllport	planning_ambiguous_direct
 WardAndAllport	planning_unambiguous_intermediate
 WardAndAllport	ambiguous-unambiguous
-BiologicalMotion1	global_upright - global_inverted
-BiologicalMotion1	natural_upright - natural_inverted
-BiologicalMotion1	global_upright - natural_upright
-BiologicalMotion2	modified_upright - modified_inverted
-BiologicalMotion2	natural_upright - natural_inverted
-BiologicalMotion2	natural_upright - modified_upright
+BiologicalMotion1	global_upright-global_inverted
+BiologicalMotion1	natural_upright-natural_inverted
+BiologicalMotion1	global_upright-natural_upright
+BiologicalMotion2	modified_upright-modified_inverted
+BiologicalMotion2	natural_upright-natural_inverted
+BiologicalMotion2	natural_upright-modified_upright
 MathLanguage	arithmetic_fact-othermath
 MathLanguage	arithmetic_principle-othermath
 MathLanguage	colorlessg-wordlist
@@ -292,3 +292,21 @@ NARPS	strongly_accept
 NARPS	strongly_reject
 NARPS	reject-accept
 NARPS	accept-reject
+VisualSearch	probe_item_absent-probe_item_present
+VisualSearch	search_array_absent-search_array_present 
+VisualSearch	probe_item_four-probe_item_two
+VisualSearch	search_array_four-search_array_two
+RewProc	left-right
+RewProc	right-left
+RewProc	switch-stay
+RewProc	stay-switch
+RewProc	gain-loss
+RewProc	loss-gain
+BreathHolding	hold-breathe
+BreathHolding	breathe-hold
+Checkerboard	checkerboard-fixation
+FingerTap	fingertap-rest
+ItemRecognition	encode5-encode1
+ItemRecognition	probe5_mem-probe1_mem
+ItemRecognition	probe5_new-probe1_new
+ItemRecognition	prob-arrow
