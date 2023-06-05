@@ -559,7 +559,7 @@ BreathHolding	hold_breath	hold breath	fixation	hold breath	"[‘self_monitoring'
 BreathHolding	hold-breathe	hold breath	breathe normally	hold breath vs breathe normally	"[‘self_monitoring'	’breath_holding']"
 BreathHolding	breathe-hold	breathe normally	hold breath	breathe normally vs hold breath	['self_monitoring']
 Checkerboard	checkerboard-fixation	checkerboard	fixation	checkerboard	"['response_selection','response_execution'	’visual_perception']"
-FingerTapping	fingertap-rest	button-press	rest	button press vs rest	['response_selection','response_execution','right_finger_response_execution']
+FingerTap	fingertap-rest	button-press	rest	button press vs rest	['response_selection','response_execution','right_finger_response_execution']
 ItemRecognition	encode5-encode1	encoding 5 items	encoding 1 item	encoding 5 vs 1 item	['visual_attention','spatial_working_memory','task_difficulty'] 
 ItemRecognition	probe5_mem-probe1_mem	probing encoded digit in load 5	probing encoded digit in load 1	probing an encoded digit in a load of 5 vs 1	['visual_attention','spatial_working_memory','task_difficulty'] 
 ItemRecognition	probe5_new-probe1_new	probing new digit in a load 5	probing new digit in a load 1	probing a new digit in a load 5 vs 1	['visual_attention','spatial_working_memory''task_difficulty','numerosity']
