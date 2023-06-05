@@ -305,6 +305,7 @@ RewProc	loss-gain
 BreathHolding	hold-breathe
 BreathHolding	breathe-hold
 Checkerboard	checkerboard-fixation
+FingerTap	fingertap-rest
 ItemRecognition	encode5-encode1
 ItemRecognition	probe5_mem-probe1_mem
 ItemRecognition	probe5_new-probe1_new
