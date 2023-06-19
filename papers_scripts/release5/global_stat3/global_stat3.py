@@ -4,7 +4,7 @@ of the dataset.
 * Tease out effect of subject, task and phase encoding direction
 * Study global similarity effects
 Authors: Bertrand Thirion, Ana Luisa Pinho 2020
-Last update: Fernanda Ponce, February 2023
+Last update: Fernanda Ponce, June 2023
 Compatibility: Python 3.5
 """
 # %%
@@ -13,27 +13,22 @@ Compatibility: Python 3.5
 import os
 import json
 import warnings
-
-from joblib import Memory
-
 import numpy as np
 import pandas as pd
 import nibabel as nib
-
 import scipy.stats as st
 import matplotlib.pyplot as plt
-
+from joblib import Memory
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 from sklearn.manifold import TSNE
 from nilearn.maskers import NiftiMasker
 from nilearn import plotting
 from nilearn.image import math_img
-
 from nilearn.glm.second_level import SecondLevelModel
 from nilearn.glm import threshold_stats_img
-
 from ibc_public.utils_data import (data_parser, DERIVATIVES,
-                                   SMOOTH_DERIVATIVES, ALL_CONTRASTS)
+                                   SMOOTH_DERIVATIVES, ALL_CONTRASTS,
+                                   CONDITIONS)
 # %%
 # INPUTS 
 
@@ -41,17 +36,17 @@ from ibc_public.utils_data import (data_parser, DERIVATIVES,
 # participants
 participants = [4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
 
-# ####### Third Release ########
+# Fifth Release 
 task_list = ['MathLanguage', 'SpatialNavigation', 'EmoReco', 'EmoMem',
              'StopNogo', 'Catell', 'FingerTapping', 'VSTMC',
              'BiologicalMotion1', 'BiologicalMotion2',
-             #'Checkerboard','FingerTap','ItemRecognition', 'BreathHolding'
-             ] 
+             'Checkerboard','FingerTap','ItemRecognition', 'BreathHolding'
+             ]
 
-suffix = '9task_12subs'
+suffix = '7jun'
 
 cache = '/storage/store3/work/aponcema/IBC_paperFigures/global_stat3/'\
-        'cache_global_stat3_12mai'
+        'cache_global_stat3_7jun'
 mem = Memory(location=cache, verbose=0)
 
 # %%
@@ -67,6 +62,36 @@ with open(os.path.join('bids_postprocessed.json'), 'r') as f:
 TASKS = [task_dic[tkey] for tkey in task_list]
 TASKS = [item for sublist in TASKS for item in sublist]
 
+# # Some tricks to find the right maps (to be discussed)
+
+df_conds = CONDITIONS
+trick_cond = (df_conds['task'] == 'Catell') & (df_conds['contrast'] == 'easy_oddball')
+df_conds.loc[trick_cond, 'contrast'] = 'easy'
+trick_cond = (df_conds['task'] == 'Catell') & (df_conds['contrast'] == 'hard_oddball')
+df_conds.loc[trick_cond, 'contrast'] = 'hard'
+trick_cond = df_conds['contrast'].isna()
+df_conds.loc[trick_cond, 'contrast'] = 'null'
+
+index = df_conds['task'].tolist().index('FingerTap')
+df_conds = df_conds.append({'task': 'FingerTap', 'contrast': 'fingertap-rest'},
+                           ignore_index=True)
+df_conds = df_conds.reindex(list(range(index + 1)) +
+                            [len(df_conds) - 1] +
+                            list(range(index + 1, len(df_conds) - 1)))
+
+index = df_conds['task'].tolist().index('ItemRecognition')
+df_conds = df_conds.append({'task': 'ItemRecognition', 'contrast': 'encode'},
+                           ignore_index=True)
+df_conds = df_conds.reindex(list(range(index + 1)) +
+                            [len(df_conds) - 1] +
+                            list(range(index + 1, len(df_conds) - 1)))
+
+index = df_conds['task'].tolist().index('Checkerboard')
+df_conds = df_conds.append({'task': 'Checkerboard', 'contrast': 'checkerboard-fixation'},
+                           ignore_index=True)
+df_conds = df_conds.reindex(list(range(index + 1)) +
+                            [len(df_conds) - 1] +
+                            list(range(index + 1, len(df_conds) - 1)))
 # %%
 
 def tags(tags_lists):
@@ -75,7 +100,7 @@ def tags(tags_lists):
     clean labels and return their unique tags.
     """
     tags_lists = [tl.replace("'", "") for tl in tags_lists]
-    tags_lists = [list(tg.strip('][]').split(', ')) for tg in tags_lists]
+    tags_lists = [list(tg.strip('][]').split(',')) for tg in tags_lists]
     # Some cleaning:
     # 1. remove extra-spaces;
     # 2. replace spaces between words by underscores
@@ -83,7 +108,7 @@ def tags(tags_lists):
     for tags_list in tags_lists:
         tag_clean = []
         for tc in tags_list:
-            tc = tc.replace(" ", "_")
+            tc = tc.replace(" ","_")
             if tc == '_':
                 continue
             if tc[0] == '_':
@@ -112,6 +137,11 @@ def anova(db, masker):
     """perform a big ANOVA of brain activation with three factors:
     acquisition, subject, contrast"""
     df = db[(db.acquisition == 'ap') | (db.acquisition == 'pa')]
+
+    _cond = df['task'] == 'BiologicalMotion2'
+    df_copy = df.copy()  # Create a copy of the DataFrame
+    df_copy.loc[_cond, 'contrast'] = df_copy.loc[_cond, 'contrast'] + '_biomo2'
+    df = df_copy 
 
     # make the design matrix
     subject_dmtx, subject_ = design(df.subject)
@@ -149,6 +179,14 @@ def anova(db, masker):
 def global_similarity(db, masker):
     """Study the global similarity of ffx activation maps"""
     df = db[db.acquisition == 'ffx']
+
+    df_copy = df.copy()    
+    _cond = df['task'] == 'BiologicalMotion2'
+    df_copy.loc[_cond, 'contrast'] = df_copy.loc[_cond, 'contrast'] + '_biomo2'
+    _cond = df['task'] == 'FingerTapping'
+    df_copy.loc[_cond, 'contrast'] = df_copy.loc[_cond, 'contrast'] + '_ftap'
+    df = df_copy
+
     X = masker.transform(df.path)
     xcorr = np.corrcoef(X)
     subject_dmtx, subject_ = design(df.subject)
@@ -185,6 +223,17 @@ def condition_similarity(db, masker):
     subjects and phase encoding
     """
     df = db[db.acquisition == 'ffx']
+    
+    df_copy = df.copy()  # Create a copy of the DataFrame
+    
+    _cond = df['task'] == 'BiologicalMotion2'
+    df_copy.loc[_cond, 'contrast'] = df_copy.loc[_cond, 'contrast'] + '_biomo2'
+
+    _cond = df['task'] == 'FingerTapping'
+    # df_copy = df.copy()
+    df_copy.loc[_cond, 'contrast'] = df_copy.loc[_cond, 'contrast'] + '_ftap'
+    df = df_copy
+    
     conditions = df.contrast.unique()
     n_conditions = len(conditions)
     print('The number of elementary contrasts is %s.' % n_conditions)
@@ -235,14 +284,31 @@ def condition_similarity(db, masker):
 
     tasks_ = np.unique(tasks).tolist()
     df_all_contrasts = pd.read_csv(ALL_CONTRASTS, sep='\t')
+
+    df_copy = df_all_contrasts.copy()  # Create a copy of the DataFrame
+    
+    _cond = df_all_contrasts['task'] == 'BiologicalMotion2'
+    df_copy.loc[_cond, 'contrast'] = df_copy.loc[_cond, 'contrast'] + '_biomo2'
+    
+    _cond = df_copy['task'] == 'FingerTapping'
+    df_copy.loc[_cond, 'contrast'] = df_copy.loc[_cond, 'contrast'] + '_ftap'
+    
+    trick_cond = df_copy['contrast'].isna()
+    df_copy.loc[trick_cond, 'contrast'] = 'null_ftap'
+    
+    df_all_contrasts = df_copy
+
     # Get contrasts and tags lists
     contrasts_list = []
     all_tags = []
+    pos_task = {}
     for tk in tasks_:
+        num_con = len(contrasts_list)
         contrasts_list.extend(df_all_contrasts[df_all_contrasts.task == \
                                                tk].contrast.tolist())
         all_tags.extend(df_all_contrasts[df_all_contrasts.task == \
                                          tk].tags.tolist())
+        pos_task[tk] = num_con
     tgs_clean, tgs_flatten, unique_tgs = tags(all_tags)
     
     print('The total number of contrasts is %s' % len(contrasts_list))
@@ -260,16 +326,24 @@ def condition_similarity(db, masker):
                 occur.append(0)
         occur_mtx.append(occur)
     df = pd.DataFrame(occur_mtx, columns=unique_tgs, index=contrasts_list)
+
+    plt.figure()
+    plt.imshow(df)
+    for task, position in pos_task.items():
+        plt.text(-0.5, position, task, ha='right', va='center',
+                 color='black')
+    plt.yticks([])
+    plt.savefig(os.path.join(cache, 'tags_occurrence' + '_' +
+                             suffix + '.png'), dpi=1200)
+
+
     cog_model = np.zeros((n_conditions, len(df.columns)))
     for i, condition in enumerate(conditions):
         if not df[df.index == condition].values.tolist():
             msg = 'Condition "%s" not found!' % condition
             warnings.warn(msg)
         else:
-            model = df[df.index == condition].values
-            if np.shape(model)[0] > 1:
-                model = model[0]
-            cog_model[i] = model
+            cog_model[i] = df[df.index == condition].values
     cog_comp = [ccomp for ccomp in cog_model.T if np.any(ccomp)]
     print('The number of cognitive components present only in ' + \
           'the elementary contrasts is %s.' % len(cog_comp))
@@ -297,6 +371,8 @@ def condition_similarity(db, masker):
     y = y[y != 0]
     print('pearson', st.pearsonr(x,y))
     print('spearman', st.spearmanr(x,y))
+    # PearsonR(statistic=0.41868416057824975, pvalue=1.3771091641528076e-73)
+    # spearman (statistic=0.22693191657859985, pvalue=2.0146645657106837e-21)
 
 # %%
 def condition_similarity_across_subjects(db, masker):
@@ -305,6 +381,17 @@ def condition_similarity_across_subjects(db, masker):
     averaged across subjects and phase encoding
     """
     df = db[db.acquisition == 'ffx']
+
+    df_copy = df.copy()  # Create a copy of the DataFrame
+    
+    _cond = df['task'] == 'BiologicalMotion2'
+    df_copy.loc[_cond, 'contrast'] = df_copy.loc[_cond, 'contrast'] + '_biomo2'
+
+    _cond = df['task'] == 'FingerTapping'
+    # df_copy = df.copy()
+    df_copy.loc[_cond, 'contrast'] = df_copy.loc[_cond, 'contrast'] + '_ftap'
+    df = df_copy
+
     conditions = df.contrast.unique()
     n_conditions = len(conditions)
     correlation = np.zeros((n_conditions, n_conditions))
@@ -380,7 +467,7 @@ def condition_similarity_across_subjects(db, masker):
     #cbar = fig.colorbar(cax, ticks=[0, .95])
     #cbar.ax.set_yticklabels(['0', '1'])  # vertically oriented colorbar
     plt.subplots_adjust(left=.02, top=.98, right=.98, bottom=.05)
-    plt.savefig(os.path.join(cache, 'condition_similarities.pdf'))
+    plt.savefig(os.path.join(cache, 'condition_similarities.png'))
     correlation_mean = np.corrcoef(x_sum)
     fig = plt.figure(figsize=(6., 5))
     ax = plt.axes()
@@ -395,7 +482,8 @@ def condition_similarity_across_subjects(db, masker):
     cbar = fig.colorbar(cax, ticks=[0, 0.95])
     cbar.ax.set_yticklabels(['0', '1'])  # vertically oriented colorbar
     plt.subplots_adjust(left=.25, top=.99, right=.99, bottom=.22)
-    plt.savefig(os.path.join(cache, 'condition_similarity_of_mean.pdf'))
+    #plt.savefig(os.path.join(cache, 'condition_similarity_of_mean.pdf'))
+    plt.savefig(os.path.join(cache, 'condition_similarity_of_mean.png'))
     C1 = bootstrap_complexity_correlation_mean(X, n_bootstrap=100)
     C2 = bootstrap_complexity_mean_correlation(np.array(list(
                                                correlations.values())),
@@ -408,7 +496,7 @@ def condition_similarity_across_subjects(db, masker):
     for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians',
                     'caps']: plt.setp(bp[element], color='r', linewidth=3)
     plt.yticks([0, 1], ['correlation of average', 'mean correlation'])
-    plt.axis([-95, -40, -.5, 1.5])
+    plt.axis([-130, -50, -.5, 1.5])
     plt.title('Complexity of correlation matrices')
     plt.subplots_adjust(left=.35, bottom=.1, right=.95, top=.9)
     plt.savefig(os.path.join(cache, 'correlation_complexity.pdf'))
@@ -417,10 +505,12 @@ def condition_similarity_across_subjects(db, masker):
 # %%
 if __name__ == '__main__':
     db = data_parser(derivatives=SMOOTH_DERIVATIVES, subject_list = PTS,
-                     task_list=TASKS)
+                     task_list=TASKS, conditions=df_conds)
+# Get the signals and perform an anova on subjects, conditions and acq
     mask_gm = nib.load(os.path.join(DERIVATIVES, 'group', 'anat',
                                     'gm_mask.nii.gz'))
     masker = NiftiMasker(mask_img=mask_gm, memory=mem).fit()
+    # %%
     ### ANOVAs ###
     # ## Compute the ANOVAs
     design_matrix, subject_map, contrast_map, acq_map = anova(db, masker)
@@ -461,7 +551,8 @@ if __name__ == '__main__':
                            title='Phase-encoding effect', draw_cross = False)
     phase_effect.savefig(os.path.join(
         cache, 'acq_effect' + '_' + suffix + '.png'), dpi=1200)
-
+# %%
+# Other analyses
     ### Other analyses ### 
     global_similarity(db, masker)
     condition_similarity(db, masker)
