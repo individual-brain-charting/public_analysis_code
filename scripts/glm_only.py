@@ -144,7 +144,7 @@ if __name__ == '__main__':
     # protocols += ['optimism' 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang']
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     # protocols = ['audio1', 'audio2']
-    # protocols = ['optimism', 'abstraction', 'leuven']
+    # protocols = ['optimism', 'abstraction', 'leuven', 'mdtb']
     protocols = ['mdtb'] # 
 
     for protocol in protocols:

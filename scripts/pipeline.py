@@ -23,7 +23,7 @@ def clean_anatomical_images(main_dir):
     import nibabel as nib
     from numpy import isnan
     subjects = ['sub-%02d' % i for i in range(1, 16)]
-    sessions = ['ses-%02d' % i for i in range(1, 50)]
+    sessions = ['ses-%02d' % i for i in range(1, 55)]
     for subject in subjects:
         for session in sessions:
             anat_img = os.path.join(
@@ -87,7 +87,7 @@ def prepare_derivatives(main_dir):
     source_dir = os.path.join(main_dir, 'sourcedata')
     output_dir = os.path.join(main_dir, 'derivatives')
     subjects = ['sub-%02d' % i for i in range(0, 16)]
-    sess = ['ses-%02d' % j for j in range(0, 50)]
+    sess = ['ses-%02d' % j for j in range(0, 55)]
     modalities = ['anat', 'fmap', 'func', 'dwi']
     dirs = ([output_dir] +
             [os.path.join(output_dir, subject) for subject in subjects
@@ -215,11 +215,10 @@ if __name__ == '__main__':
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
     do_topup = True
-    #protocol =  'leuven'
-
-    protocol = 'mdtb'
+    #
+    protocol =  'leuven' # 'mario1'  # 'mdtb'
     subject_session = get_subject_session(protocol)
-    subject_session = [('sub-15', 'ses-46')]
+    subject_session = [('sub-12', 'ses-48')]
     
     if do_topup:
         acq = None
