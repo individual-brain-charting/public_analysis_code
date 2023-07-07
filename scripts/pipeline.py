@@ -216,9 +216,9 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
     do_topup = True
     #
-    protocol =  'leuven' # 'mario1'  # 'mdtb'
+    protocol =  'mario1' # 'mario1'  # 'mdtb''leuven' # 
     subject_session = get_subject_session(protocol)
-    subject_session = [('sub-12', 'ses-48')]
+    subject_session = [('sub-09', 'ses-49')]
     
     if do_topup:
         acq = None
