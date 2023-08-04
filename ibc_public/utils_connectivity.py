@@ -401,8 +401,8 @@ def cross_validate(
         Array containing the connectomes to classify. Each row is a vectorised connectome.
     classes : numpy array
         Array containing the class for each connectome.
-    splits : numpy array
-        Array containing the indices of the training and test sets.
+    splits : list
+        List containing tuples of train set and test set indices. Each tuple corresponds to a cross-validation split.
     task_label : str
         Name of the task currently being classified.
     connectivity_measure : str
@@ -420,8 +420,6 @@ def cross_validate(
     print("Fitting classifier for each cross-validation split")
     # fit the classifier for each cross validation split in serial
     for train, test in tqdm(splits):
-        train = np.asarray(train)
-        test = np.asarray(test)
         results = classify_connectivity(
             connectomes,
             classes,
@@ -485,14 +483,12 @@ def do_cross_validation(
     # pick specific connectome to classify based on Sconnectivity measure
     connectomes = np.array(data[connectivity_measure].values.tolist())
     # get train and test splits
-    splits = np.array(
-        [*cv.split(connectomes, classes, groups)], dtype="object"
-    )
+    splits = [split for split in cv.split(connectomes, classes, groups)]
     # too many splits for Tasks from LPGO scheme, so randomly select some
     if classify == "Tasks":
         rng = np.random.default_rng(1)
         select_splits = rng.choice(len(splits), cv_splits, replace=False)
-        splits = splits[select_splits]
+        splits = [splits[i] for i in select_splits]
     # plot the train/test cross-validation splits
     plot_cv_indices(
         splits,
@@ -699,8 +695,6 @@ def plot_cv_indices(
     fig, ax = plt.subplots()
     cmap_data = plt.cm.tab20
     cmap_cv = plt.cm.coolwarm
-    if type(splits) is not list:
-        splits = list(splits)
     n_splits = len(splits)
     _, y = np.unique(y, return_inverse=True)
     _, group = np.unique(group, return_inverse=True)
