@@ -6,6 +6,7 @@ from nilearn import datasets
 from joblib import Parallel, delayed
 import seaborn as sns
 from ibc_public import utils_connectivity as fc
+import time
 
 
 sns.set_theme(context="talk", style="whitegrid")
@@ -14,6 +15,9 @@ sns.set_theme(context="talk", style="whitegrid")
 n_jobs = 15
 # cache and root output directory
 cache = DATA_ROOT = "/storage/store/work/haggarwa/"
+output_dir = f"fc_classification_{time.strftime('%Y%m%d-%H%M%S')}"
+output_dir = os.path.join(DATA_ROOT, output_dir)
+os.makedirs(output_dir, exist_ok=True)
 # cross-validation splits
 cv_splits = 50
 # we will use the resting state and all the movie-watching sessions
@@ -83,9 +87,9 @@ data.reset_index(inplace=True, drop=True)
 # run classification for all combinations of classification, task and connectivity measure in parallel
 # do_cross_validation returns a dataframe with the results of the cross validation for each case
 print("Cross validation...")
-all_results = Parallel(n_jobs=n_jobs, verbose=2)(
+all_results = Parallel(n_jobs=n_jobs, verbose=2, backend="multiprocessing")(
     delayed(fc.do_cross_validation)(
-        classes, task, cv_splits, connectivity_measure, data, DATA_ROOT
+        classes, task, cv_splits, connectivity_measure, data, output_dir
     )
     for classes, task, connectivity_measure in all_combinations(
         classify, tasks, connectivity_measures
@@ -97,3 +101,7 @@ all_results = pd.concat(all_results)
 all_results = fc.chance_level(all_results)
 # save the results
 all_results.to_csv(os.path.join("all_results.csv"))
+
+print("Plotting results...")
+fc.do_plots(all_results, output_dir)
+print("Done!")

@@ -534,73 +534,111 @@ def do_cross_validation(
     return results_df
 
 
-def do_plots(results, results_dir, classify):
-    results = chance_level(results)
-    print("Plotting results...")
-    # plot accuracy as barplots
-    plot_accuracy(results, results_dir, classify)
-    # plot confusion matrices
-    plot_confusion(results, results_dir)
+def do_plots(all_results, results_dir):
+    classify = all_results["classes"].unique()
+    tasks = all_results["task_label"].unique()
+    conn_measures = all_results["connectivity"].unique()
+    for clas in classify:
+        for task in tasks:
+            for conn_measure in conn_measures:
+                df = all_results[
+                    (all_results["connectivity"] == conn_measure)
+                    & (all_results["task_label"] == task)
+                    & (all_results["classes"] == clas)
+                ]
+                if len(df) == 0:
+                    continue
+                plot_confusion(df, clas, task, conn_measure, results_dir)
+    cov_estimators = all_results["cov"].unique()
+    for clas in classify:
+        for cov_estimator in cov_estimators:
+            df = all_results[
+                (all_results["cov"] == cov_estimator)
+                & (all_results["classes"] == clas)
+            ]
+            plot_accuracy(df, clas, cov_estimator, results_dir)
+            if clas == "Tasks":
+                plot_auc(df, clas, cov_estimator, results_dir)
 
 
 def chance_level(df):
     dfs = []
+    classify = df["classes"].unique()
     tasks = df["task_label"].unique()
     conn_measures = df["connectivity"].unique()
-    for task in tasks:
-        for conn_measure in conn_measures:
-            task_df = df[
-                (df["connectivity"] == conn_measure)
-                & (df["task_label"] == task)
-            ]
-            classes = []
-            n_splits = len(task_df)
-            for _, row in task_df.iterrows():
-                classes.extend(task_df["true_class"].tolist())
-                classes.extend(task_df["predicted_class"].tolist())
-            classes = np.concatenate(classes)
-            classes = np.asarray(classes)
-            classes = np.unique(classes)
-            task_df["labels"] = [classes for split in range(n_splits)]
-            task_df["n_labels"] = [len(classes) for split in range(n_splits)]
-            task_df["chance"] = [1 / len(classes) for split in range(n_splits)]
-            dfs.append(task_df)
+    for clas in classify:
+        for task in tasks:
+            for conn_measure in conn_measures:
+                task_df = df[
+                    (df["connectivity"] == conn_measure)
+                    & (df["task_label"] == task)
+                    & (df["classes"] == clas)
+                ]
+                if len(task_df) == 0:
+                    continue
+                classes = []
+                n_splits = len(task_df)
+                for _, row in task_df.iterrows():
+                    classes.extend(task_df["true_class"].tolist())
+                    classes.extend(task_df["predicted_class"].tolist())
+                classes = np.concatenate(classes)
+                classes = np.asarray(classes)
+                classes = np.unique(classes)
+                task_df["labels"] = [classes for split in range(n_splits)]
+                task_df["n_labels"] = [
+                    len(classes) for split in range(n_splits)
+                ]
+                task_df["chance"] = [
+                    1 / len(classes) for split in range(n_splits)
+                ]
+                dfs.append(task_df)
     df = pd.concat(dfs)
+    df["cov"] = df["connectivity"].str.split(" ").str[0]
+    df["cor"] = df["connectivity"].str.split(" ").str[1]
     return df
 
 
-def plot_accuracy(all_results, results_dir, classify):
-    if classify in ["Runs", "Subjects"]:
+def plot_accuracy(all_results, classes, cov, results_dir):
+    accuracy_dir = os.path.join(results_dir, "accuracy")
+    os.makedirs(accuracy_dir, exist_ok=True)
+    if classes in ["Runs", "Subjects"]:
         hue_order = [
             "RestingState",
             "Raiders",
             "GoodBadUgly",
             "MonkeyKingdom",
         ]
+        legend_cutoff = 3
+        palette_init = 0
     else:
         hue_order = [
             "RestingState vs Raiders",
             "RestingState vs GoodBadUgly",
             "RestingState vs MonkeyKingdom",
         ]
+        legend_cutoff = 2
+        palette_init = 1
     # plot accuracy
     task_df = all_results.copy()
     sns.barplot(
         task_df,
-        x="connectivity",
+        x="cor",
         y="accuracy",
         hue="task_label",
         hue_order=hue_order,
+        palette=sns.color_palette()[palette_init:],
     )
     sns.barplot(
         task_df,
-        x="connectivity",
+        x="cor",
         y="chance",
         hue="task_label",
-        palette="pastel",
+        palette=sns.color_palette("pastel")[palette_init:],
         hue_order=hue_order,
     )
-    plot_file = os.path.join(results_dir, f"accuracy.png")
+    plot_file = os.path.join(
+        results_dir, accuracy_dir, f"{classes}_{cov}_accuracy.png"
+    )
     legend = plt.legend(
         framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5)
     )
@@ -608,7 +646,7 @@ def plot_accuracy(all_results, results_dir, classify):
     for i, (text, handle) in enumerate(
         zip(legend.texts, legend.legend_handles)
     ):
-        if i > 3:
+        if i > legend_cutoff:
             text.set_visible(False)
             handle.set_visible(False)
     legend.set_title("Task")
@@ -618,17 +656,25 @@ def plot_accuracy(all_results, results_dir, classify):
     plt.close()
 
 
-def plot_auc(all_results, results_dir):
+def plot_auc(all_results, classes, cov, results_dir):
+    auc_dir = os.path.join(results_dir, "auc")
+    os.makedirs(auc_dir, exist_ok=True)
+    hue_order = [
+        "RestingState vs Raiders",
+        "RestingState vs GoodBadUgly",
+        "RestingState vs MonkeyKingdom",
+    ]
     # plot auc
     task_df = all_results.copy()
     sns.barplot(
         task_df,
-        x="connectivity",
+        x="cor",
         y="auc",
-        hue="task",
+        hue="task_label",
+        hue_order=hue_order,
         palette=sns.color_palette()[1:],
     )
-    plot_file = os.path.join(results_dir, f"auc.png")
+    plot_file = os.path.join(results_dir, auc_dir, f"{classes}_{cov}_auc.png")
     legend = plt.legend(
         framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5)
     )
@@ -645,40 +691,32 @@ def plot_auc(all_results, results_dir):
     plt.close()
 
 
-def plot_confusion(all_results, results_dir):
+def plot_confusion(df, classes, task, connectivity_measure, results_dir):
     # plot confusion matrices
     confusion_dir = os.path.join(results_dir, "confusion_mats")
     os.makedirs(confusion_dir, exist_ok=True)
-    tasks = all_results["task_label"].unique()
-    connectivity_measures = all_results["connectivity"].unique()
-    for task in tasks:
-        for conn_measure in connectivity_measures:
-            df = all_results[
-                (all_results["connectivity"] == conn_measure)
-                & (all_results["task_label"] == task)
-            ]
-            true_class = np.concatenate(df["true_class"].to_numpy())
-            predicted_class = np.concatenate(df["predicted_class"].to_numpy())
-            cm = confusion_matrix(
-                true_class, predicted_class, normalize="true"
-            )
-            fig, ax = plt.subplots()
-            pos = ax.matshow(cm, cmap=plt.cm.Blues)
-            ax.set_xticks(np.arange(df["n_labels"].iloc[0]))
-            ax.xaxis.tick_bottom()
-            ax.set_yticks(np.arange(df["n_labels"].iloc[0]))
-            ax.set_xticklabels(df["labels"].iloc[0], rotation=45)
-            ax.set_yticklabels(df["labels"].iloc[0])
-            ax.set_xlabel("Predicted")
-            ax.set_ylabel("True")
-            fig.colorbar(pos, ax=ax)
-            ax.set_title(f"Classifying {task} using {conn_measure}")
-            plot_file = os.path.join(
-                confusion_dir,
-                f"{task}_{conn_measure}_confusion.png",
-            )
-            plt.savefig(plot_file, bbox_inches="tight")
-            plt.close()
+    true_class = np.concatenate(df["true_class"].to_numpy())
+    predicted_class = np.concatenate(df["predicted_class"].to_numpy())
+    cm = confusion_matrix(true_class, predicted_class, normalize="true")
+    fig, ax = plt.subplots()
+    pos = ax.matshow(cm, cmap=plt.cm.Blues)
+    ax.set_xticks(np.arange(df["n_labels"].iloc[0]))
+    ax.xaxis.tick_bottom()
+    ax.set_yticks(np.arange(df["n_labels"].iloc[0]))
+    ax.set_xticklabels(df["labels"].iloc[0], rotation=45)
+    ax.set_yticklabels(df["labels"].iloc[0])
+    ax.set_xlabel("Predicted")
+    ax.set_ylabel("True")
+    fig.colorbar(pos, ax=ax)
+    ax.set_title(
+        f"Classifying {classes} within {task} using {connectivity_measure}"
+    )
+    plot_file = os.path.join(
+        confusion_dir,
+        f"{classes}_{task}_{connectivity_measure}_confusion.png",
+    )
+    plt.savefig(plot_file, bbox_inches="tight")
+    plt.close()
 
 
 def plot_cv_indices(
