@@ -1,13 +1,14 @@
 """Pipeline to perform functional connectivity classification over runs, subjects and tasks."""
 
 import os
-import pandas as pd
-from nilearn import datasets
-from joblib import Parallel, delayed
-import seaborn as sns
-from ibc_public import utils_connectivity as fc
 import time
 
+import pandas as pd
+import seaborn as sns
+from ibc_public import utils_connectivity as fc
+from nilearn import datasets
+
+from joblib import Parallel, delayed
 
 sns.set_theme(context="talk", style="whitegrid")
 

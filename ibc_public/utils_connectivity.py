@@ -1,22 +1,22 @@
-import numpy as np
-from sklearn.metrics import accuracy_score, roc_auc_score
-from sklearn.svm import LinearSVC
-from ibc_public.utils_data import DERIVATIVES
 import os
-import pandas as pd
-from joblib import Memory
-import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix
-import seaborn as sns
 from glob import glob
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from ibc_public.utils_data import DERIVATIVES, get_subject_session
+from nilearn.connectome import sym_matrix_to_vec
 from nilearn.maskers import NiftiLabelsMasker
 from sklearn.base import clone
-from nilearn.connectome import sym_matrix_to_vec
-from tqdm import tqdm
 from sklearn.covariance import GraphicalLassoCV, LedoitWolf
-from sklearn.model_selection import LeavePGroupsOut, GroupShuffleSplit
-from ibc_public.utils_data import get_subject_session
+from sklearn.metrics import accuracy_score, confusion_matrix, roc_auc_score
+from sklearn.model_selection import GroupShuffleSplit, LeavePGroupsOut
+from sklearn.svm import LinearSVC
+from sklearn.dummy import DummyClassifier
+from tqdm import tqdm
 
+from joblib import Memory
 
 sns.set_theme(context="talk", style="whitegrid")
 
@@ -91,6 +91,8 @@ def _update_results(
     task_label,
     connectivity_measure,
     classify,
+    dummy_auc,
+    dummy_accuracy,
 ):
     results["accuracy"].append(accuracy)
     results["auc"].append(auc)
@@ -111,6 +113,8 @@ def _update_results(
     elif classify == "Subjects":
         grouping = "Runs"
     results["groups"].append(grouping)
+    results["dummy_auc"].append(dummy_auc)
+    results["dummy_accuracy"].append(dummy_accuracy)
 
     return results
 
@@ -335,11 +339,11 @@ def classify_connectivity(
     Parameters
     ----------
     connectomes : numpy array
-        Array containing the connectomes to classify. Each row is a vectorised connectome.
+        Array containing the connectomes to classify. Each row is a vectorised connectome (upper triangle), each corresponding a run of a subject, meaning n_rows = n_runs * n_subjects for a task. When classify == "Runs" or "Subjects", the connectomes only correspond to one task, but when classify == "Task", we are classifying between two tasks. The number of columns is the number of edges in the connectome, meaning n_columns = n_parcels * (n_parcels - 1) / 2.
     classes : numpy array
-        Array containing the classes for each connectome.
-    tasks : list
-        list of tasks currently being classified.
+        One dimensional, dtype = object numpy array containing the class name as str for each connectome, so n_rows = n_runs * n_subjects for the task involved as explained above. When classify == "Runs", the class names are runs, such as "run-01", "run-02" and so on. When classify == "Subjects", they are the subjects, such as "sub-01", "sub-02" and so on. And when classify == "Tasks", they are tasks, such as "RestingState", "Raiders", "GoodBadUgly", "MonkeyKingdom".
+    task_label : str
+        Name of the task currently being classified.
     connectivity_measure : str
         Connectivity measure currently being classified.
     train : numpy array
@@ -361,12 +365,24 @@ def classify_connectivity(
     # make predictions for the left-out test subjects
     predictions = classifier.predict(connectomes[test])
     accuracy = accuracy_score(classes[test], predictions)
+
+    # fit a dummy classifier to get chance level
+    dummy = DummyClassifier().fit(connectomes[train], classes[train])
+    dummy_predictions = dummy.predict(connectomes[test])
+    dummy_accuracy = accuracy_score(classes[test], dummy_predictions)
+
     if classify in ["Runs", "Subjects"]:
         auc = 0
+        dummy_auc = 0
     else:
         auc = roc_auc_score(
             classes[test], classifier.decision_function(connectomes[test])
         )
+        dummy_auc = roc_auc_score(
+            classes[test],
+            dummy.decision_function(connectomes[test]),
+        )
+
     # store the scores for this cross-validation fold
     results = _update_results(
         results,
@@ -379,6 +395,8 @@ def classify_connectivity(
         task_label,
         connectivity_measure,
         classify,
+        dummy_auc,
+        dummy_accuracy,
     )
 
     return results
@@ -398,11 +416,11 @@ def cross_validate(
     Parameters
     ----------
     connectomes : numpy array
-        Array containing the connectomes to classify. Each row is a vectorised connectome.
+        Array containing the connectomes to classify. Each row is a vectorised connectome (upper triangle), each corresponding a run of a subject, meaning n_rows = n_runs * n_subjects for a task. When classify == "Runs" or "Subjects", the connectomes only correspond to one task, but when classify == "Task", we are classifying between two tasks. The number of columns is the number of edges in the connectome, meaning n_columns = n_parcels * (n_parcels - 1) / 2.
     classes : numpy array
-        Array containing the class for each connectome.
+        One dimensional, dtype = object numpy array containing the class name as str for each connectome, so n_rows = n_runs * n_subjects for the task involved as explained above. When classify == "Runs", the class names are runs, such as "run-01", "run-02" and so on. When classify == "Subjects", they are the subjects, such as "sub-01", "sub-02" and so on. And when classify == "Tasks", they are tasks, such as "RestingState", "Raiders", "GoodBadUgly", "MonkeyKingdom".
     splits : list
-        List containing tuples of train set and test set indices. Each tuple corresponds to a cross-validation split.
+        List containing tuples of train set and test set indices. Each tuple corresponds to a cross-validation split. Length of the list is the number of splits.
     task_label : str
         Name of the task currently being classified.
     connectivity_measure : str
@@ -490,7 +508,7 @@ def do_cross_validation(
         select_splits = rng.choice(len(splits), cv_splits, replace=False)
         splits = [splits[i] for i in select_splits]
     # plot the train/test cross-validation splits
-    plot_cv_indices(
+    _plot_cv_indices(
         splits,
         connectomes,
         classes,
@@ -511,6 +529,8 @@ def do_cross_validation(
         "train_sets": [],
         "test_sets": [],
         "task_label": [],
+        "dummy_auc": [],
+        "dummy_accuracy": [],
     }
     results = cross_validate(
         connectomes,
@@ -535,6 +555,15 @@ def do_cross_validation(
 
 
 def do_plots(all_results, results_dir):
+    """Function to handle plotting of results of all different classification scenarios such as when classifying Runs, Subjects, or Tasks. Here we plot the confusion matrices and the evaluation metric (accuracy or AUC) for each classification scenario.
+
+    Parameters
+    ----------
+    all_results : pandas DataFrame
+        DataFrame containing all the results of all classification scenarios.
+    results_dir : str
+        Path to directory where results are stored.
+    """
     classify = all_results["classes"].unique()
     tasks = all_results["task_label"].unique()
     conn_measures = all_results["connectivity"].unique()
@@ -556,9 +585,13 @@ def do_plots(all_results, results_dir):
                 (all_results["cov"] == cov_estimator)
                 & (all_results["classes"] == clas)
             ]
-            plot_accuracy(df, clas, cov_estimator, results_dir)
+            plot_evaluation_metric(
+                df, clas, cov_estimator, results_dir, metric="accuracy"
+            )
             if clas == "Tasks":
-                plot_auc(df, clas, cov_estimator, results_dir)
+                plot_evaluation_metric(
+                    df, clas, cov_estimator, results_dir, metric="auc"
+                )
 
 
 def chance_level(df):
@@ -598,9 +631,24 @@ def chance_level(df):
     return df
 
 
-def plot_accuracy(all_results, classes, cov, results_dir):
-    accuracy_dir = os.path.join(results_dir, "accuracy")
-    os.makedirs(accuracy_dir, exist_ok=True)
+def plot_evaluation_metric(all_results, classes, cov, results_dir, metric):
+    """Makes a barplot to compare the evaluation metric (accuracy or AUC) across different tasks as well as functional connectivity measure for a given classification scenario (Runs, Subjects, or Tasks).
+
+    Parameters
+    ----------
+    all_results : pandas DataFrame
+        DataFrame containing the results for a given classification scenario and a given cov estimator.
+    classes : str
+        Classification scenario. Can be "Runs", "Subjects", or "Tasks".
+    cov : str
+        Covariance estimator used for classification. Can be "GLC" or "LedoitWolf".
+    results_dir : str
+        Path to directory where results are stored.
+    metric : str
+        Evaluation metric to plot. Can be "accuracy" or "auc".
+    """
+    plot_dir = os.path.join(results_dir, metric)
+    os.makedirs(plot_dir, exist_ok=True)
     if classes in ["Runs", "Subjects"]:
         hue_order = [
             "RestingState",
@@ -623,7 +671,7 @@ def plot_accuracy(all_results, classes, cov, results_dir):
     sns.barplot(
         task_df,
         x="cor",
-        y="accuracy",
+        y=metric,
         hue="task_label",
         hue_order=hue_order,
         palette=sns.color_palette()[palette_init:],
@@ -631,13 +679,13 @@ def plot_accuracy(all_results, classes, cov, results_dir):
     sns.barplot(
         task_df,
         x="cor",
-        y="chance",
+        y=f"dummy_{metric}",
         hue="task_label",
         palette=sns.color_palette("pastel")[palette_init:],
         hue_order=hue_order,
     )
     plot_file = os.path.join(
-        results_dir, accuracy_dir, f"{classes}_{cov}_accuracy.png"
+        results_dir, plot_dir, f"{classes}_{cov}_{metric}.png"
     )
     legend = plt.legend(
         framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5)
@@ -651,47 +699,27 @@ def plot_accuracy(all_results, classes, cov, results_dir):
             handle.set_visible(False)
     legend.set_title("Task")
     plt.xlabel("FC measure")
-    plt.ylabel("Accuracy")
-    plt.savefig(plot_file, bbox_inches="tight", transparent=True)
-    plt.close()
-
-
-def plot_auc(all_results, classes, cov, results_dir):
-    auc_dir = os.path.join(results_dir, "auc")
-    os.makedirs(auc_dir, exist_ok=True)
-    hue_order = [
-        "RestingState vs Raiders",
-        "RestingState vs GoodBadUgly",
-        "RestingState vs MonkeyKingdom",
-    ]
-    # plot auc
-    task_df = all_results.copy()
-    sns.barplot(
-        task_df,
-        x="cor",
-        y="auc",
-        hue="task_label",
-        hue_order=hue_order,
-        palette=sns.color_palette()[1:],
-    )
-    plot_file = os.path.join(results_dir, auc_dir, f"{classes}_{cov}_auc.png")
-    legend = plt.legend(
-        framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5)
-    )
-    # remove legend repetition for chance level
-    for i, (text, handle) in enumerate(
-        zip(legend.texts, legend.legend_handles)
-    ):
-        if i > 3:
-            text.set_visible(False)
-            handle.set_visible(False)
-    plt.xlabel("FC measure")
-    plt.ylabel("AUC")
+    plt.ylabel(metric)
     plt.savefig(plot_file, bbox_inches="tight", transparent=True)
     plt.close()
 
 
 def plot_confusion(df, classes, task, connectivity_measure, results_dir):
+    """Plot the confusion matrix for a given classification scenario (Runs, Subjects, or Tasks), a given task, a given connectivity measure (correlation or partial correlation) and a given covariance estimator (GLC or LedoitWolf).
+
+    Parameters
+    ----------
+    df : pandas DataFrame
+        DataFrame containing the results for a given classification scenario, a given task, a given connectivity measure and a given covariance estimator.
+    classes : str
+        Classification scenario. Can be "Runs", "Subjects", or "Tasks".
+    task : str
+        Name of the task currently being classified. Can be "RestingState", "Raiders", "GoodBadUgly", or "MonkeyKingdom".
+    connectivity_measure : str
+        Connectivity measure currently being used for classification. Can be "correlation" or "partial correlation".
+    results_dir : str
+        Path to directory where results are stored.
+    """
     # plot confusion matrices
     confusion_dir = os.path.join(results_dir, "confusion_mats")
     os.makedirs(confusion_dir, exist_ok=True)
@@ -719,7 +747,7 @@ def plot_confusion(df, classes, task, connectivity_measure, results_dir):
     plt.close()
 
 
-def plot_cv_indices(
+def _plot_cv_indices(
     splits,
     X,
     y,
