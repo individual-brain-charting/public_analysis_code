@@ -1,0 +1,9 @@
+condition,lower_meridian,upper_meridian,left_meridian,right_meridian,lower_left,upper_left,lower_right,upper_right
+lower_meridian,1,,,,,,,
+upper_meridian,,1,,,,,,
+lower_right,,,,,,,1,
+upper_left,,,,,,1,,
+right_meridian,,,,1,,,,
+left_meridian,,,1,,,,,
+upper_right,,,,,,,,1
+lower_left,,,,,1,,,

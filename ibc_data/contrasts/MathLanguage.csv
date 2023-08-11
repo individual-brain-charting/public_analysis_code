@@ -1,0 +1,17 @@
+condition,colorlessg-wordlist,general-colorlessg,math-nonmath,nonmath-math,geometry-othermath,arithmetic_principle-othermath,arithmetic_fact-othermath,theory_of_mind-general,context-general,theory_of_mind-context,context-theory_of_mind,theory_of_mind_and_context-general
+arithmetic_fact_auditory,,,1,-1,"-0,5","-0,5",1,,,,,
+arithmetic_fact_visual,,,1,-1,"-0,5","-0,5",1,,,,,
+arithmetic_principle_auditory,,,1,-1,"-0,5",1,"-0,5",,,,,
+arithmetic_principle_visual,,,1,-1,"-0,5",1,"-0,5",,,,,
+colorlessg_auditory,1,-1,,,,,,,,,,
+colorlessg_visual,1,-1,,,,,,,,,,
+context_auditory,,,-1,1,,,,,1,-1,1,"0,5"
+context_visual,,,-1,1,,,,,1,-1,1,"0,5"
+general_auditory,,1,-1,1,,,,-1,-1,,,-1
+general_visual,,1,-1,1,,,,-1,-1,,,-1
+geometry_fact_auditory,,,1,-1,1,"-0,5","-0,5",,,,,
+geometry_fact_visual,,,1,-1,1,"-0,5","-0,5",,,,,
+theory_of_mind_auditory,,,-1,1,,,,1,,1,-1,"0,5"
+theory_of_mind_visual,,,-1,1,,,,1,,1,-1,"0,5"
+wordlist_auditory,-1,,,,,,,,,,,
+wordlist_visual,-1,,,,,,,,,,,

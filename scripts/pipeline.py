@@ -23,7 +23,7 @@ def clean_anatomical_images(main_dir):
     import nibabel as nib
     from numpy import isnan
     subjects = ['sub-%02d' % i for i in range(1, 16)]
-    sessions = ['ses-%02d' % i for i in range(1, 50)]
+    sessions = ['ses-%02d' % i for i in range(1, 55)]
     for subject in subjects:
         for session in sessions:
             anat_img = os.path.join(
@@ -68,7 +68,11 @@ def clean_subject(subject):
             funcs.append(func)
             session_ids.append(session_id)
             onsets.append(onset)
-
+            print('OK', rp, func, session_id, onset)
+        else:
+            pass
+            print('KO', rp, func, session_id, onset)
+            
     subject['onset'] = onsets
     subject['func'] = funcs
     subject['realignment_parameters'] = rps
@@ -79,10 +83,11 @@ def clean_subject(subject):
 
 def prepare_derivatives(main_dir):
     import shutil
+    shutil._USE_CP_SENDFILE = False
     source_dir = os.path.join(main_dir, 'sourcedata')
     output_dir = os.path.join(main_dir, 'derivatives')
     subjects = ['sub-%02d' % i for i in range(0, 16)]
-    sess = ['ses-%02d' % j for j in range(0, 50)]
+    sess = ['ses-%02d' % j for j in range(0, 55)]
     modalities = ['anat', 'fmap', 'func', 'dwi']
     dirs = ([output_dir] +
             [os.path.join(output_dir, subject) for subject in subjects
@@ -210,9 +215,10 @@ if __name__ == '__main__':
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
     do_topup = True
-    protocol = 'reward' 
-    subject_session = sorted(get_subject_session([protocol]))
-    subject_session = [('sub-12', 'ses-40'), ('sub-15', 'ses-39')] # 
+    #
+    protocol =  'mario1' # 'mario1'  # 'mdtb''leuven' # 
+    subject_session = get_subject_session(protocol)
+    subject_session = [('sub-09', 'ses-49')]
     
     if do_topup:
         acq = None

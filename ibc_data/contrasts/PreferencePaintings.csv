@@ -1,0 +1,4 @@
+condition,painting_constant,painting_linear,painting_quadratic
+painting_constant,1,,
+painting_linear,,1,
+painting_quadratic,,,1

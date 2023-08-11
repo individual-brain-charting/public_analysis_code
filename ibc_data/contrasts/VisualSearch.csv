@@ -1,0 +1,16 @@
+condition,probe_item,search_array,probe_item_absent–probe_item_present,search_array_absent–search_array_present ,probe_item_four–probe_item_two,search_array_four–search_array_two,delay_vis–delay_wm
+memory_array_two,,,,,,,
+memory_array_four,,,,,,,
+delay_wm,,,,,,,-1
+probe_item_two_present,1,,-1,,-1,,
+probe_item_four_present,1,,-1,,1,,
+probe_item_two_absent,1,,1,,-1,,
+probe_item_four_absent,1,,1,,1,,
+sample_item,,,,,,,
+delay_vis,,,,,,,1
+search_array_two_absent,,1,,1,,-1,
+search_array_two_present,,1,,-1,,-1,
+search_array_four_absent,,1,,1,,1,
+search_array_four_present,,1,,-1,,1,
+response_hit,,,,,,,
+response_miss,,,,,,,

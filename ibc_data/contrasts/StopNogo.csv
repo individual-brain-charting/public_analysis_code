@@ -1,0 +1,5 @@
+condition,nogo-go,unsuccessful-successful_stop,successful+nogo-unsuccessful
+go,-1,,
+nogo,1,,1
+successful_stop,,-1,1
+unsuccessful_stop,,1,-1

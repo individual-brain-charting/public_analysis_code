@@ -575,6 +575,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
     tasks = []
     modalities = []
     meshes = []
+    acquisitions = []
 
     # Check that given mesh value is valid
     available_meshes = [
@@ -636,6 +637,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     sides.append(side)
                     modalities.append('bold')
                     meshes.append(mesh)
+                    acquisitions.append(acquisition)
 
     print(f"{len(imgs)} images found, {len(missing_images)} were missing")
 
@@ -649,6 +651,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
         side=sides,
         modality=modalities,
         mesh=meshes,
+        acquisition=acquisitions
     )
 
     # create a FataFrame out of the dictionary and write it to disk

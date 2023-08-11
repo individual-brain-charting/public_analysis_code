@@ -246,8 +246,24 @@ def _audio_frametimes_and_onset():
     return frametimes, onsets
 
 
+def _orthogonalize_confounds_wrt_task(confounds, frametimes, paradigm, hrf_model='spm'):
+    """ These function orthogonalizes the provided confounds wrt the task effects.
+    Should be used with compcorr regressor typically.
+    """
+    # First create a design matrix
+    X = make_first_level_design_matrix(
+        frametimes, paradigm, hrf_model, drift_model=None).values
+    
+    # then orthogonalise the confounds
+    confounds -= X.dot(np.linalg.pinv(X).dot(confounds))
+
+    assert np.linalg.norm(X.T.dot(confounds)) < (
+        1.e-6 * np.linalg.norm(X) * np.linalg.norm(confounds))
+    return confounds
+
+    
 def first_level(subject_dic, additional_regressors=None, compcorr=False,
-                smooth=None, mesh=False, mask_img=None):
+                smooth=None, mesh=False, mask_img=None, orthogonalize_confounds=False):
     """ Run the first-level analysis (GLM fitting + statistical maps)
     in a given subject
 
@@ -299,19 +315,11 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         frametimes = np.linspace(slice_time_ref, (n_scans - 1 + slice_time_ref) * tr, n_scans)
         if task_id == 'Audio':
             frametimes, audio_onsets = _audio_frametimes_and_onset()
-            frametimes += 1
+            # frametimes += 1
             # slice_time_ref = 0
             
         if mesh is not False:
             compcorr = False  # XXX Fixme
-
-        if compcorr:
-            confounds = high_variance_confounds(fmri_path, mask_img=mask_img)
-            confounds = np.hstack((confounds, motion))
-            confound_names = ['conf_%d' % i for i in range(5)] + motion_names
-        else:
-            confounds = motion
-            confound_names = motion_names
 
         if onset is None:
             warnings.warn('Onset file not provided. Trying to guess it')
@@ -327,7 +335,18 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             paradigm = make_paradigm(onset, task_id)
             if task_id == 'Audio':
                 paradigm.onset = audio_onsets
-            
+
+        if compcorr:
+            confounds = high_variance_confounds(fmri_path, mask_img=mask_img)
+            if orthogonalize_confounds:
+                confounds = _orthogonalize_confounds_wrt_task(
+                    confounds, frametimes, paradigm, hrf_model='spm')
+            confounds = np.hstack((confounds, motion))
+            confound_names = ['conf_%d' % i for i in range(5)] + motion_names
+        else:
+            confounds = motion
+            confound_names = motion_names
+        
         # handle manually supplied regressors
         add_reg_names = []
         if additional_regressors[session_id] is None:
@@ -342,7 +361,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             add_regs = np.hstack((add_regs, confounds))
 
         add_reg_names += confound_names
-
+        
         # create the design matrix
         design_matrix = make_first_level_design_matrix(
             frametimes, paradigm, hrf_model=hrf_model, drift_model=drift_model,
@@ -353,7 +372,8 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         # create the relevant contrasts
         contrasts = make_contrasts(task_id, names)
 
-        subject_session_output_dir = _session_output_dir_from_session_id(session_id, mesh, subject_dic['output_dir'])
+        subject_session_output_dir = _session_output_dir_from_session_id(
+            session_id, mesh, subject_dic['output_dir'])
         
         if not os.path.exists(subject_session_output_dir):
             os.makedirs(subject_session_output_dir)
@@ -376,6 +396,7 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             make_glm_report(fmri_glm,
                             contrasts=contrasts,
                             bg_img=anat_img,
+                            title=session_id,
             ).save_as_html(stats_report_filename)
 
 
@@ -538,6 +559,7 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
                         continue
                 ffx_effects, ffx_variance, ffx_stat = fixed_effects_img(
                     effect_size_maps, effect_variance_maps, mask_img)
+                
                 save(ffx_effects, os.path.join(
                     write_dir, 'effect_size_maps/%s.nii.gz' % contrast))
                 save(ffx_variance, os.path.join(
