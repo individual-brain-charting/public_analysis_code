@@ -82,19 +82,20 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
     basenames = [os.path.basename(fm) for fm in field_maps]
     merged_zeroth_fieldmap_file = _make_merged_filename(fmap_dir, basenames)
     zeroth_fieldmap_files = field_maps  # FIXME
-    fslmerge_cmd = "fsl5.0-fslmerge -t %s %s %s" % (
+    fslmerge_cmd = "fslmerge -t %s %s %s" % (
         merged_zeroth_fieldmap_file, zeroth_fieldmap_files[0],
         zeroth_fieldmap_files[1])
     print("\r\nExecuting '%s' ..." % fslmerge_cmd)
     print(os.system(fslmerge_cmd))
     # add one slide if the number is odd
     odd = (np.mod(nib.load(merged_zeroth_fieldmap_file).shape[2], 2) == 1)
+    
     if odd:
-        cmd = "fsl5.0-fslroi %s /tmp/pe 0 -1 0 -1 0 1 0 -1" %\
+        cmd = "fslroi %s /tmp/pe 0 -1 0 -1 0 1 0 -1" %\
               merged_zeroth_fieldmap_file
         print(cmd)
         os.system(cmd)
-        cmd = "fsl5.0-fslmerge -z %s /tmp/pe %s" % (
+        cmd = "fslmerge -z %s /tmp/pe %s" % (
             merged_zeroth_fieldmap_file, merged_zeroth_fieldmap_file)
         print(cmd)
         os.system(cmd)
@@ -108,7 +109,7 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
     if os.path.exists(topup_results_basename):
         os.system('rm -f %s' % topup_results_basename)
     topup_cmd = (
-        "/i2bm/local/fsl/bin/topup --imain=%s --datain=%s --config=b02b0.cnf "
+        "topup --imain=%s --datain=%s --config=b02b0.cnf "
         "--out=%s" % (merged_zeroth_fieldmap_file, acq_params_file,
                       topup_results_basename))
     print("\r\nExecuting '%s' ..." % topup_cmd)
@@ -124,10 +125,27 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
         else:
             inindex = 2
 
+        # In the latest version of applytopup, 
+        # we need to ensure that the number of slices is the same as that of topup_results_basename
+        # so we need to add the following step
+        odd = (np.mod(nib.load(f).shape[2], 2) == 1)
+    
+        if odd:
+            cmd = f"fslroi {f} /tmp/pe 0 -1 0 -1 0 1 0 -1"
+            print(cmd)
+            os.system(cmd)
+            f_ = os.path.join('/tmp', os.path.basename(f))
+            cmd = f"fslmerge -z {f_} /tmp/pe {f}"
+            print(cmd)
+            os.system(cmd)
+        else:
+            f_ = f
+        # end addition regarding odd slice numbers
+
         applytopup_cmd = (
-            "fsl5.0-applytopup --imain=%s --verbose --inindex=%s "
+            "applytopup --imain=%s --verbose --inindex=%s "
             "--topup=%s --out=%s --datain=%s --method=jac" % (
-                f, inindex, topup_results_basename, dcf, acq_params_file))
+                f_, inindex, topup_results_basename, dcf, acq_params_file))
         print("\r\nExecuting '%s' ..." % applytopup_cmd)
         print(os.system(applytopup_cmd))
 
@@ -219,7 +237,7 @@ def masking(func, output_dir):
     mask_img = compute_multi_epi_mask(
         func, upper_cutoff=.7, lower_cutoff=.4)
     vox_vol = np.abs(np.linalg.det(mask_img.affine[:3, :3]))
-    full_vol = mask_img.get_data().sum() * vox_vol
+    full_vol = mask_img.get_fdata().sum() * vox_vol
     ref_vol = 1350000
     if full_vol < ref_vol:
         raise ValueError("wrong mask: volume is %f, should be larger than %f" %
@@ -506,7 +524,7 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
         session_paradigm = [session_id for (session_id, task_id) in
                             zip(session_ids, task_ids)
                             if task_id == paradigm]
-        # define the relevant contrasts
+        # define the relevant contrasts/neurospin/ibc/derivatives/sub-09/ses-00/anat/wsub-09_ses-00_T1w.nii.gz
         contrasts = make_contrasts(paradigm).keys()
         # create write_dir
         if mesh is not False:
@@ -620,19 +638,19 @@ def fixed_effects_img(con_imgs, var_imgs, mask_img):
     con, var = [], []
     if isinstance(mask_img, str):
         mask_img = nib.load(mask_img)
-    mask = mask_img.get_data().astype(np.bool)
+    mask = mask_img.get_fdata().astype('bool')
     for (con_img, var_img) in zip(con_imgs, var_imgs):
         if isinstance(con_img, str):
             con_img = nib.load(con_img)
         if isinstance(var_img, str):
             var_img = nib.load(var_img)
-        con.append(con_img.get_data()[mask])
-        var.append(var_img.get_data()[mask])
+        con.append(con_img.get_fdata()[mask])
+        var.append(var_img.get_fdata()[mask])
 
     arrays = fixed_effects(con, var)
     outputs = []
     for array in arrays:
-        vol = mask.astype(np.float)
+        vol = mask.astype('float')
         vol[mask] = array.ravel()
         outputs.append(nib.Nifti1Image(vol, mask_img.affine))
     return outputs

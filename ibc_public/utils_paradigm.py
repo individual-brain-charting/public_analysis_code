@@ -62,7 +62,7 @@ def post_process(df, paradigm_id):
         relevant_items = relevant_conditions[paradigm_id]
         condition = np.array(
             [df.trial_type == r for r in relevant_items])\
-            .sum(0).astype(np.bool)
+            .sum(0).astype('bool')
         df = df[condition]
 
     if paradigm_id[:10] == 'Preference':

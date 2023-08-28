@@ -37,7 +37,7 @@ def clean_anatomical_images(main_dir):
             # Don't do it again if it was already done
             if os.path.exists(dst):
                 continue
-            anat_data = nib.load(anat_img).get_data()
+            anat_data = nib.load(anat_img).get_fdata()
             anat_data[isnan(anat_data)] = 0
             anat_img_clean = nib.Nifti1Image(
                 anat_data, nib.load(anat_img).affine)
@@ -214,11 +214,11 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
-    do_topup = True
+    do_topup = False
     #
-    protocol =  'mario1' # 'mario1'  # 'mdtb''leuven' # 
+    protocol =  'mario2' # 'mario1'  # 'mdtb''leuven' # 
     subject_session = get_subject_session(protocol)
-    subject_session = [('sub-09', 'ses-49')]
+    subject_session = [('sub-09', 'ses-50')]
     
     if do_topup:
         acq = None
