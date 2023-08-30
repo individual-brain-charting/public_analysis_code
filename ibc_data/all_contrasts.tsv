@@ -555,20 +555,20 @@ RewProc	loss	lost reward	fixation	lost 20 or 10 units of reward	['reward_valuati
 RewProc	gain-loss	gained  reward 	lost reward	gained vs lost 20 or 10 units of reward 	['reward_valuation','reward_processing']
 RewProc	loss-gain	lost reward	gained reward 	lost vs gained 20 or 10 units of reward	['risk_aversion','risk_processing','loss_aversion']
 BreathHolding	breathe	breathe normally	fixation	breathe normally	['self_monitoring']
-BreathHolding	hold_breath	hold breath	fixation	hold breath	"[‘self_monitoring'	’breath_holding']"
-BreathHolding	hold-breathe	hold breath	breathe normally	hold breath vs breathe normally	"[‘self_monitoring'	’breath_holding']"
+BreathHolding	hold_breath	hold breath	fixation	hold breath	[‘self_monitoring',’breath_holding']
+BreathHolding	hold-breathe	hold breath	breathe normally	hold breath vs breathe normally	[‘self_monitoring',’breath_holding']
 BreathHolding	breathe-hold	breathe normally	hold breath	breathe normally vs hold breath	['self_monitoring']
-Checkerboard	checkerboard-fixation	checkerboard	fixation	checkerboard	"['response_selection','response_execution'	’visual_perception']"
+Checkerboard	checkerboard-fixation	checkerboard	fixation	checkerboard	['response_selection','response_execution',’visual_perception']
 FingerTap	fingertap-rest	button-press	rest	button press vs rest	['response_selection','response_execution','right_finger_response_execution']
 ItemRecognition	encode5-encode1	encoding 5 items	encoding 1 item	encoding 5 vs 1 item	['visual_attention','spatial_working_memory','task_difficulty']
 ItemRecognition	probe5_mem-probe1_mem	probing encoded digit in load 5	probing encoded digit in load 1	probing an encoded digit in a load of 5 vs 1	['visual_attention','spatial_working_memory','task_difficulty']
-ItemRecognition	probe5_new-probe1_new	probing new digit in a load 5	probing new digit in a load 1	probing a new digit in a load 5 vs 1	['visual_attention','spatial_working_memory''task_difficulty','numerosity']
+ItemRecognition	probe5_new-probe1_new	probing new digit in a load 5	probing new digit in a load 1	probing a new digit in a load 5 vs 1	['visual_attention','spatial_working_memory','task_difficulty','numerosity']
 ItemRecognition	prob-arrow	probing encoded and new digits	left or right pointing arrows	probing digits vs trials of pointing arrows	['visual_attention','spatial_working_memory']
 ItemRecognition	encode	encoding items	fixation	encoding 1  3 and 5 items	['visual_attention','spatial_working_memory']
 ItemRecognition	arrow_left-arrow_right	identifying left pointing arrow	identifying right pointing arrow	identifying a left vs right pointing arrow	['visual_attention','spatial_working_memory']
 Color	chromatic	chromatic mondrian patterns	fixation	attending to chromatic mondrian patterns	['color_perception','working_memory']
 Color	achromatic	achromatic mondrian patterns	fixation	attending to achromatic mondrian patterns	['working_memory']
-Color	chromatic-achromatic	chromatic mondrian patterns	achromatic mondrian patterns	chromatic vs achromatic mondrian patterns	"['color_perception	'working_memory']"
+Color	chromatic-achromatic	chromatic mondrian patterns	achromatic mondrian patterns	chromatic vs achromatic mondrian patterns	['color_perception’,'working_memory']
 Color	response	response to repeated pattern	fixation	response to repeated mondrian patterns	['response_selection','response_execution']
 Motion	incoherent	incoherent motion	fixation	dots moving incoherently	['random_motion','visual_awareness']
 Motion	coherent	coherent  motion	fixation	dots moving coherently	['coherent_motion','visual_awareness']
