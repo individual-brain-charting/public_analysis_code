@@ -93,6 +93,7 @@ def _update_results(
     classify,
     dummy_auc,
     dummy_accuracy,
+    weights,
 ):
     results["accuracy"].append(accuracy)
     results["auc"].append(auc)
@@ -115,6 +116,7 @@ def _update_results(
     results["groups"].append(grouping)
     results["dummy_auc"].append(dummy_auc)
     results["dummy_accuracy"].append(dummy_accuracy)
+    results["weights"].append(weights)
 
     return results
 
@@ -365,6 +367,7 @@ def classify_connectivity(
     # make predictions for the left-out test subjects
     predictions = classifier.predict(connectomes[test])
     accuracy = accuracy_score(classes[test], predictions)
+    weights = classifier.coef_
 
     # fit a dummy classifier to get chance level
     dummy = DummyClassifier().fit(connectomes[train], classes[train])
@@ -372,15 +375,24 @@ def classify_connectivity(
     dummy_accuracy = accuracy_score(classes[test], dummy_predictions)
 
     if classify in ["Runs", "Subjects"]:
+        average = "weighted"
+        multi_class = "ovr"
         auc = 0
         dummy_auc = 0
     else:
+        average = None
+        multi_class = "raise"
         auc = roc_auc_score(
-            classes[test], classifier.decision_function(connectomes[test])
+            classes[test],
+            classifier.decision_function(connectomes[test]),
+            average=average,
+            multi_class=multi_class,
         )
         dummy_auc = roc_auc_score(
             classes[test],
-            dummy.decision_function(connectomes[test]),
+            dummy.predict_proba(connectomes[test])[:, 1],
+            average=average,
+            multi_class=multi_class,
         )
 
     # store the scores for this cross-validation fold
@@ -397,6 +409,7 @@ def classify_connectivity(
         classify,
         dummy_auc,
         dummy_accuracy,
+        weights,
     )
 
     return results
@@ -531,6 +544,7 @@ def do_cross_validation(
         "task_label": [],
         "dummy_auc": [],
         "dummy_accuracy": [],
+        "weights": [],
     }
     results = cross_validate(
         connectomes,
