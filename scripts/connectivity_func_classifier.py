@@ -19,6 +19,11 @@ cache = DATA_ROOT = "/storage/store/work/haggarwa/"
 output_dir = f"fc_classification_{time.strftime('%Y%m%d-%H%M%S')}"
 output_dir = os.path.join(DATA_ROOT, output_dir)
 os.makedirs(output_dir, exist_ok=True)
+
+# connectivity calculation parameters
+calculate_connectivity = False
+fc_data_path = os.path.join(cache, "connectomes")
+
 # cross-validation splits
 cv_splits = 50
 # we will use the resting state and all the movie-watching sessions
@@ -49,13 +54,9 @@ def all_combinations(classify, tasks, connectivity_measures):
     # when classifying by tasks, we classify between two tasks
     # in this case, RestingState vs. each movie-watching task
     tasks_ = {
-        "Runs": tasks,
-        "Subjects": tasks,
-        "Tasks": [
-            ["RestingState", "Raiders"],
-            ["RestingState", "GoodBadUgly"],
-            ["RestingState", "MonkeyKingdom"],
-        ],
+        "Runs": [tasks],
+        "Subjects": [tasks],
+        "Tasks": [tasks],
     }
     for classes in classify:
         for task in tasks_[classes]:
@@ -63,32 +64,37 @@ def all_combinations(classify, tasks, connectivity_measures):
                 yield classes, task, connectivity_measure
 
 
-# get the atlas
-atlas = datasets.fetch_atlas_schaefer_2018(
-    data_dir=cache, resolution_mm=2, n_rois=400
-)
-# use the atlas to extract time series for each task in parallel
-# get_time_series returns a dataframe with the time series for each task, consisting of runs x subjects
-print("Time series extraction...")
-data = Parallel(n_jobs=n_jobs, verbose=0)(
-    delayed(fc.get_time_series)(task, atlas, cache) for task in tasks
-)
-# concatenate all the dataframes so we have a single dataframe with the time series from all tasks
-data = pd.concat(data)
-# estimate the connectivity matrices for each cov estimator in parallel
-# get_connectomes returns a dataframe with two columns each corresponding to the partial correlation and correlation connectome from each cov estimator
-print("Connectivity estimation...")
-data = Parallel(n_jobs=n_jobs, verbose=0)(
-    delayed(fc.get_connectomes)(cov, data, n_jobs) for cov in cov_estimators
-)
-# concatenate the dataframes so we have a single dataframe with the connectomes from all cov estimators
-cols_to_use = data[0].columns.difference(data[1].columns)
-data = pd.concat([data[1], data[0][cols_to_use]], axis=1)
-data.reset_index(inplace=True, drop=True)
+if calculate_connectivity == True:
+    # get the atlas
+    atlas = datasets.fetch_atlas_schaefer_2018(
+        data_dir=cache, resolution_mm=2, n_rois=400
+    )
+    # use the atlas to extract time series for each task in parallel
+    # get_time_series returns a dataframe with the time series for each task, consisting of runs x subjects
+    print("Time series extraction...")
+    data = Parallel(n_jobs=n_jobs, verbose=0)(
+        delayed(fc.get_time_series)(task, atlas, cache) for task in tasks
+    )
+    # concatenate all the dataframes so we have a single dataframe with the time series from all tasks
+    data = pd.concat(data)
+    # estimate the connectivity matrices for each cov estimator in parallel
+    # get_connectomes returns a dataframe with two columns each corresponding to the partial correlation and correlation connectome from each cov estimator
+    print("Connectivity estimation...")
+    data = Parallel(n_jobs=n_jobs, verbose=0)(
+        delayed(fc.get_connectomes)(cov, data, n_jobs)
+        for cov in cov_estimators
+    )
+    # concatenate the dataframes so we have a single dataframe with the connectomes from all cov estimators
+    cols_to_use = data[0].columns.difference(data[1].columns)
+    data = pd.concat([data[1], data[0][cols_to_use]], axis=1)
+    data.reset_index(inplace=True, drop=True)
+else:
+    data = pd.read_pickle(fc_data_path)
+
 # run classification for all combinations of classification, task and connectivity measure in parallel
 # do_cross_validation returns a dataframe with the results of the cross validation for each case
 print("Cross validation...")
-all_results = Parallel(n_jobs=n_jobs, verbose=2, backend="multiprocessing")(
+all_results = Parallel(n_jobs=n_jobs, verbose=2, backend="loky")(
     delayed(fc.do_cross_validation)(
         classes, task, cv_splits, connectivity_measure, data, output_dir
     )
@@ -101,7 +107,7 @@ all_results = pd.concat(all_results)
 # calculate chance level
 all_results = fc.chance_level(all_results)
 # save the results
-all_results.to_csv(os.path.join("all_results.csv"))
+all_results.to_csv(os.path.join(output_dir, "all_results.csv"))
 
 print("Plotting results...")
 fc.do_plots(all_results, output_dir)

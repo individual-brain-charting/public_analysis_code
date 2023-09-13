@@ -10,7 +10,12 @@ from nilearn.connectome import sym_matrix_to_vec
 from nilearn.maskers import NiftiLabelsMasker
 from sklearn.base import clone
 from sklearn.covariance import GraphicalLassoCV, LedoitWolf
-from sklearn.metrics import accuracy_score, confusion_matrix, roc_auc_score
+from sklearn.metrics import (
+    accuracy_score,
+    confusion_matrix,
+    roc_auc_score,
+    classification_report,
+)
 from sklearn.model_selection import GroupShuffleSplit, LeavePGroupsOut
 from sklearn.svm import LinearSVC
 from sklearn.dummy import DummyClassifier
@@ -93,12 +98,13 @@ def _update_results(
     classify,
     dummy_auc,
     dummy_accuracy,
+    dummy_predictions,
     weights,
 ):
-    results["accuracy"].append(accuracy)
-    results["auc"].append(auc)
+    results["LinearSVC_accuracy"].append(accuracy)
+    results["LinearSVC_auc"].append(auc)
     # store test labels and predictions
-    results["predicted_class"].append(predictions)
+    results["LinearSVC_predicted_class"].append(predictions)
     results["true_class"].append(truth)
     # store the connectivity measure
     results["connectivity"].append(connectivity_measure)
@@ -112,31 +118,29 @@ def _update_results(
     if classify in ["Runs", "Tasks"]:
         grouping = "Subjects"
     elif classify == "Subjects":
-        grouping = "Runs"
+        grouping = "Tasks"
     results["groups"].append(grouping)
-    results["dummy_auc"].append(dummy_auc)
-    results["dummy_accuracy"].append(dummy_accuracy)
+    results["Dummy_auc"].append(dummy_auc)
+    results["Dummy_accuracy"].append(dummy_accuracy)
+    results["Dummy_predicted_class"].append(dummy_predictions)
     results["weights"].append(weights)
 
     return results
 
 
 def _select_data(data, classify, task):
-    if classify in ["Runs", "Subjects"]:
-        assert type(task) == str
-        task_label = task
-        data = data[data["tasks"] == task]
-        if classify == "Runs":
-            classes = data["run_labels"].to_numpy(dtype=object)
-            groups = data["subject_ids"].to_numpy(dtype=object)
-        elif classify == "Subjects":
-            classes = data["subject_ids"].to_numpy(dtype=object)
-            groups = data["run_labels"].to_numpy(dtype=object)
-    elif classify == "Tasks":
-        assert type(task) == list
-        task_label = " vs ".join(task)
-        data = data[data["tasks"].isin(task)]
+    assert type(task) == list
+    task_label = " vs ".join(task)
+    data = data[data["tasks"].isin(task)]
+    if classify == "Tasks":
         classes = data["tasks"].to_numpy(dtype=object)
+        groups = data["subject_ids"].to_numpy(dtype=object)
+    elif classify == "Subjects":
+        classes = data["subject_ids"].to_numpy(dtype=object)
+        groups = data["tasks"].to_numpy(dtype=object)
+    elif classify == "Runs":
+        data["run_task"] = data["run_labels"] + "_" + data["tasks"]
+        classes = data["run_task"].to_numpy(dtype=object)
         groups = data["subject_ids"].to_numpy(dtype=object)
 
     return data, task_label, classes, groups
@@ -374,26 +378,28 @@ def classify_connectivity(
     dummy_predictions = dummy.predict(connectomes[test])
     dummy_accuracy = accuracy_score(classes[test], dummy_predictions)
 
-    if classify in ["Runs", "Subjects"]:
-        average = "weighted"
-        multi_class = "ovr"
-        auc = 0
-        dummy_auc = 0
-    else:
-        average = None
-        multi_class = "raise"
-        auc = roc_auc_score(
-            classes[test],
-            classifier.decision_function(connectomes[test]),
-            average=average,
-            multi_class=multi_class,
-        )
-        dummy_auc = roc_auc_score(
-            classes[test],
-            dummy.predict_proba(connectomes[test])[:, 1],
-            average=average,
-            multi_class=multi_class,
-        )
+    auc = 0
+    dummy_auc = 0
+    # if classify in ["Runs", "Subjects"]:
+    #     average = "weighted"
+    #     multi_class = "ovr"
+    #     auc = 0
+    #     dummy_auc = 0
+    # else:
+    #     average = None
+    #     multi_class = "raise"
+    #     auc = roc_auc_score(
+    #         classes[test],
+    #         classifier.decision_function(connectomes[test]),
+    #         average=average,
+    #         multi_class=multi_class,
+    #     )
+    #     dummy_auc = roc_auc_score(
+    #         classes[test],
+    #         dummy.predict_proba(connectomes[test])[:, 1],
+    #         average=average,
+    #         multi_class=multi_class,
+    #     )
 
     # store the scores for this cross-validation fold
     results = _update_results(
@@ -409,6 +415,7 @@ def classify_connectivity(
         classify,
         dummy_auc,
         dummy_accuracy,
+        dummy_predictions,
         weights,
     )
 
@@ -493,13 +500,13 @@ def do_cross_validation(
     cov = connectivity_measure.split(" ")[0]
     print(f"[{classify} classification], [{connectivity_measure}], [{task}]")
 
-    if classify in ["Runs", "Subjects"]:
+    if classify == "Subjects":
         cv_test_size = 0.25
         cv = GroupShuffleSplit(
             n_splits=cv_splits, random_state=0, test_size=cv_test_size
         )
         cv_scheme = "GroupShuffleSplit"
-    elif classify == "Tasks":
+    elif classify in ["Tasks", "Runs"]:
         cv = LeavePGroupsOut(5)
         cv_scheme = "LeavePGroupsOut"
 
@@ -516,7 +523,7 @@ def do_cross_validation(
     # get train and test splits
     splits = [split for split in cv.split(connectomes, classes, groups)]
     # too many splits for Tasks from LPGO scheme, so randomly select some
-    if classify == "Tasks":
+    if classify in ["Tasks", "Runs"]:
         rng = np.random.default_rng(1)
         select_splits = rng.choice(len(splits), cv_splits, replace=False)
         splits = [splits[i] for i in select_splits]
@@ -532,9 +539,9 @@ def do_cross_validation(
     )
     # initialize lists to store results
     results = {
-        "accuracy": [],
-        "auc": [],
-        "predicted_class": [],
+        "LinearSVC_accuracy": [],
+        "LinearSVC_auc": [],
+        "LinearSVC_predicted_class": [],
         "true_class": [],
         "connectivity": [],
         "classes": [],
@@ -542,8 +549,9 @@ def do_cross_validation(
         "train_sets": [],
         "test_sets": [],
         "task_label": [],
-        "dummy_auc": [],
-        "dummy_accuracy": [],
+        "Dummy_auc": [],
+        "Dummy_accuracy": [],
+        "Dummy_predicted_class": [],
         "weights": [],
     }
     results = cross_validate(
@@ -581,6 +589,7 @@ def do_plots(all_results, results_dir):
     classify = all_results["classes"].unique()
     tasks = all_results["task_label"].unique()
     conn_measures = all_results["connectivity"].unique()
+    all_reports = []
     for clas in classify:
         for task in tasks:
             for conn_measure in conn_measures:
@@ -590,22 +599,31 @@ def do_plots(all_results, results_dir):
                     & (all_results["classes"] == clas)
                 ]
                 if len(df) == 0:
+                    print(
+                        f"Empty DataFrame for {clas}, {task}, {conn_measure}"
+                    )
                     continue
                 plot_confusion(df, clas, task, conn_measure, results_dir)
-    cov_estimators = all_results["cov"].unique()
+                reports = create_report(df, clas, conn_measure, results_dir)
+                all_reports.append(reports)
+    all_reports = pd.concat(all_reports)
+    all_reports.to_csv(os.path.join(results_dir, "classification_report.csv"))
     for clas in classify:
-        for cov_estimator in cov_estimators:
-            df = all_results[
-                (all_results["cov"] == cov_estimator)
-                & (all_results["classes"] == clas)
-            ]
-            plot_evaluation_metric(
-                df, clas, cov_estimator, results_dir, metric="accuracy"
-            )
-            if clas == "Tasks":
-                plot_evaluation_metric(
-                    df, clas, cov_estimator, results_dir, metric="auc"
-                )
+        df = all_reports[all_reports["classes"] == clas]
+        plot_f1_score(df, clas, results_dir)
+
+        # for cov_estimator in cov_estimators:
+        #     df = all_results[
+        #         (all_results["cov"] == cov_estimator)
+        #         & (all_results["classes"] == clas)
+        #     ]
+        #     plot_evaluation_metric(
+        #         df, clas, cov_estimator, results_dir, metric="accuracy"
+        #     )
+        #     if clas == "Tasks":
+        #         plot_evaluation_metric(
+        #             df, clas, cov_estimator, results_dir, metric="auc"
+        #         )
 
 
 def chance_level(df):
@@ -627,7 +645,9 @@ def chance_level(df):
                 n_splits = len(task_df)
                 for _, row in task_df.iterrows():
                     classes.extend(task_df["true_class"].tolist())
-                    classes.extend(task_df["predicted_class"].tolist())
+                    classes.extend(
+                        task_df["LinearSVC_predicted_class"].tolist()
+                    )
                 classes = np.concatenate(classes)
                 classes = np.asarray(classes)
                 classes = np.unique(classes)
@@ -643,6 +663,132 @@ def chance_level(df):
     df["cov"] = df["connectivity"].str.split(" ").str[0]
     df["cor"] = df["connectivity"].str.split(" ").str[1]
     return df
+
+
+def create_report(df, classes, connectivity_measure, results_dir):
+    report_dir = os.path.join(results_dir, "classification_reports")
+    os.makedirs(report_dir, exist_ok=True)
+    reports = []
+    for classifier in ["Dummy", "LinearSVC"]:
+        true = []
+        predicted = []
+        for _, row in df.iterrows():
+            true.extend(df["true_class"].tolist())
+            predicted.extend(df[f"{classifier}_predicted_class"].tolist())
+        true = np.concatenate(true)
+        predicted = np.concatenate(predicted)
+        report = classification_report(true, predicted, output_dict=True)
+        report = pd.DataFrame(report).transpose()
+        report["classifier"] = [classifier for _ in range(len(report))]
+        report["classes"] = [classes for _ in range(len(report))]
+        report["connectivity"] = [
+            connectivity_measure for _ in range(len(report))
+        ]
+        reports.append(report)
+    reports = pd.concat(reports)
+    reports.reset_index(inplace=True)
+    reports.rename(columns={"index": "class_labels"}, inplace=True)
+    return reports
+
+
+def plot_f1_score(df, classes, results_dir):
+    plot_dir = os.path.join(results_dir, "f1_score")
+    os.makedirs(plot_dir, exist_ok=True)
+    classifier_df = df[df["classifier"] == "LinearSVC"]
+    dummy_df = df[df["classifier"] == "Dummy"]
+    order = [
+        "LedoitWolf correlation",
+        "LedoitWolf partial correlation",
+        "GLC correlation",
+        "GLC partial correlation",
+    ]
+    if classes == "Tasks":
+        hue_order = [
+            "RestingState",
+            "Raiders",
+            "GoodBadUgly",
+            "MonkeyKingdom",
+            "weighted avg",
+        ]
+        sns.barplot(
+            classifier_df,
+            y="connectivity",
+            x="f1-score",
+            hue="class_labels",
+            orient="h",
+            hue_order=hue_order,
+            palette=sns.color_palette(),
+            order=order,
+        )
+        sns.barplot(
+            dummy_df,
+            y="connectivity",
+            x="f1-score",
+            hue="class_labels",
+            orient="h",
+            hue_order=hue_order,
+            palette=sns.color_palette("pastel"),
+            order=order,
+        )
+        legend_cutoff = 4
+        legend = plt.legend(
+            framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5)
+        )
+        # remove legend repetition for chance level
+        for i, (text, handle) in enumerate(
+            zip(legend.texts, legend.legend_handles)
+        ):
+            if i > legend_cutoff:
+                text.set_visible(False)
+                handle.set_visible(False)
+        legend.set_title("Task")
+        plt.xlabel("F1 score")
+        plt.ylabel("FC measure")
+    else:
+        df_X = classifier_df.pivot(
+            index="connectivity", columns="class_labels", values="f1-score"
+        )
+        df_X = df_X.reindex(order)
+        fig = plt.figure(figsize=(25, 8))
+        ax1 = plt.subplot2grid((1, 2), (0, 0))
+        ax2 = plt.subplot2grid((1, 2), (0, 1))
+        sns.heatmap(df_X, xticklabels=True, yticklabels=True, ax=ax1)
+        hue_order = ["weighted avg"]
+        sns.barplot(
+            classifier_df,
+            y="connectivity",
+            x="f1-score",
+            hue="class_labels",
+            orient="h",
+            hue_order=hue_order,
+            palette=sns.color_palette()[4:],
+            ax=ax2,
+            order=order,
+        )
+        sns.barplot(
+            dummy_df,
+            y="connectivity",
+            x="f1-score",
+            hue="class_labels",
+            orient="h",
+            hue_order=hue_order,
+            palette=sns.color_palette("pastel")[4:],
+            ax=ax2,
+            order=order,
+        )
+        legend = plt.legend(
+            framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5)
+        )
+        ax1.set_ylabel("FC measure")
+        ax1.set_xlabel("Class labels")
+        ax2.set_ylabel("")
+        ax2.set_xlabel("Weighted average F1 score")
+        legend = plt.legend()
+        legend.remove()
+    plt.tight_layout()
+    plot_file = os.path.join(results_dir, plot_dir, f"{classes}_f1_score.png")
+    plt.savefig(plot_file, bbox_inches="tight", transparent=False)
+    plt.close()
 
 
 def plot_evaluation_metric(all_results, classes, cov, results_dir, metric):
@@ -685,7 +831,7 @@ def plot_evaluation_metric(all_results, classes, cov, results_dir, metric):
     sns.barplot(
         task_df,
         x="cor",
-        y=metric,
+        y=f"LinearSVC_{metric}",
         hue="task_label",
         hue_order=hue_order,
         palette=sns.color_palette()[palette_init:],
@@ -693,7 +839,7 @@ def plot_evaluation_metric(all_results, classes, cov, results_dir, metric):
     sns.barplot(
         task_df,
         x="cor",
-        y=f"dummy_{metric}",
+        y=f"Dummy_{metric}",
         hue="task_label",
         palette=sns.color_palette("pastel")[palette_init:],
         hue_order=hue_order,
@@ -737,28 +883,31 @@ def plot_confusion(df, classes, task, connectivity_measure, results_dir):
     # plot confusion matrices
     confusion_dir = os.path.join(results_dir, "confusion_mats")
     os.makedirs(confusion_dir, exist_ok=True)
-    true_class = np.concatenate(df["true_class"].to_numpy())
-    predicted_class = np.concatenate(df["predicted_class"].to_numpy())
-    cm = confusion_matrix(true_class, predicted_class, normalize="true")
-    fig, ax = plt.subplots()
-    pos = ax.matshow(cm, cmap=plt.cm.Blues)
-    ax.set_xticks(np.arange(df["n_labels"].iloc[0]))
-    ax.xaxis.tick_bottom()
-    ax.set_yticks(np.arange(df["n_labels"].iloc[0]))
-    ax.set_xticklabels(df["labels"].iloc[0], rotation=45)
-    ax.set_yticklabels(df["labels"].iloc[0])
-    ax.set_xlabel("Predicted")
-    ax.set_ylabel("True")
-    fig.colorbar(pos, ax=ax)
-    ax.set_title(
-        f"Classifying {classes} within {task} using {connectivity_measure}"
-    )
-    plot_file = os.path.join(
-        confusion_dir,
-        f"{classes}_{task}_{connectivity_measure}_confusion.png",
-    )
-    plt.savefig(plot_file, bbox_inches="tight")
-    plt.close()
+    for classifier in ["Dummy", "LinearSVC"]:
+        true_class = np.concatenate(df["true_class"].to_numpy())
+        predicted_class = np.concatenate(
+            df[f"{classifier}_predicted_class"].to_numpy()
+        )
+        cm = confusion_matrix(true_class, predicted_class, normalize="all")
+        fig, ax = plt.subplots()
+        pos = ax.matshow(cm, cmap=plt.cm.Blues)
+        ax.set_xticks(np.arange(df["n_labels"].iloc[0]))
+        ax.xaxis.tick_bottom()
+        ax.set_yticks(np.arange(df["n_labels"].iloc[0]))
+        ax.set_xticklabels(df["labels"].iloc[0], rotation=45)
+        ax.set_yticklabels(df["labels"].iloc[0])
+        ax.set_xlabel("Predicted")
+        ax.set_ylabel("True")
+        fig.colorbar(pos, ax=ax)
+        ax.set_title(
+            f"Classifying {classes} within {task} using {connectivity_measure}"
+        )
+        plot_file = os.path.join(
+            confusion_dir,
+            f"{classifier}_{classes}_{task}_{connectivity_measure}_confusion.png",
+        )
+        plt.savefig(plot_file, bbox_inches="tight")
+        plt.close()
 
 
 def _plot_cv_indices(

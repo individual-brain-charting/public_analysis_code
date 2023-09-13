@@ -60,7 +60,7 @@ def mean_connectivity(data, tasks, cov_estimators, measures):
     return pd.DataFrame(av_connectivity)
 
 
-def similarity(connectivity_matrices, subjects, mean_center=True):
+def similarity(connectivity_matrices, subjects, mean_center=True, z_transform=True):
     """Calculate pearson correlation between two connectivity matrices
 
     Parameters
@@ -69,6 +69,10 @@ def similarity(connectivity_matrices, subjects, mean_center=True):
         a list where each element is a connectivity matrix
     subjects : list
         a list where each element is a list of subjects
+    mean_center : bool
+        whether to mean center the correlation matrix
+    z_transform : bool
+        whether to z-transform the correlation matrix
 
     Returns
     -------
@@ -104,14 +108,19 @@ def similarity(connectivity_matrices, subjects, mean_center=True):
             similarity_mat_centered.T - similarity_mat_centered.mean(axis=1)
         ).T
 
+    if z_transform:
+        similarity_mat_zscored = stats.zscore(similarity_mat, axis=0)
+        similarity_mat_zscored = stats.zscore(similarity_mat_zscored, axis=1)
+
     similarity_mat = pd.DataFrame(
         similarity_mat, columns=task2_subs, index=task1_subs
     )
     similarity_mat_centered = pd.DataFrame(
         similarity_mat_centered, columns=task2_subs, index=task1_subs
     )
+    similarity_mat_zscored = pd.DataFrame(similarity_mat_zscored, columns=task2_subs, index=task1_subs)
 
-    return similarity_mat, similarity_mat_centered
+    return similarity_mat, similarity_mat_centered, similarity_mat_zscored
 
 
 def symmetrize(a):
@@ -219,18 +228,20 @@ def get_similarity(all_connectivity, task_pair, cov, measure):
         task_pair_subjects.append(
             _get_subjects(all_connectivity, task, cov, measure)
         )
-    similarity_mat, similarity_centered = similarity(
+    similarity_mat, similarity_centered, similarity_z = similarity(
         [*task_pair_connectivity],
         [*task_pair_subjects],
     )
     result = []
-    for i, matrix in enumerate([similarity_mat, similarity_centered]):
+    for i, matrix in enumerate([similarity_mat, similarity_centered, similarity_z]):
         matrix, kept_subs, kept_ind = symmetrize(matrix)
         p_value = samevcross_test(matrix)
         if i == 0:
             centering = "uncentered"
-        else:
+        elif i == 1:
             centering = "centered"
+        else:
+            centering = "z-scored"
 
         result_ = {
             "task1": task1,
@@ -250,66 +261,68 @@ def get_similarity(all_connectivity, task_pair, cov, measure):
 def plot_barplot(stats_df, out_dir):
     barplot_dir = os.path.join(out_dir, "barplot")
     os.makedirs(barplot_dir, exist_ok=True)
-    df = stats_df[stats_df["centering"] == "uncentered"]
-    sc_fc_mask = df["comparison"].str.contains("SC")
-    fc_fc = df[~sc_fc_mask]
-    sc_sc = df[sc_fc_mask]
-    fc_measure_order = [
-        "LedoitWolf correlation",
-        "LedoitWolf partial correlation",
-        "GLC correlation",
-        "GLC partial correlation",
-    ]
-    for i, df in enumerate([fc_fc, sc_sc]):
-        d = {"FC measure": [], "Similarity": [], "Comparison": []}
-        for _, row in df.iterrows():
-            corr = row["matrix"].tolist()
-            d["Similarity"].extend(corr)
-            d["FC measure"].extend([row["measure"]] * len(corr))
-            d["Comparison"].extend([row["comparison"]] * len(corr))
-        d = pd.DataFrame(d)
-        fig, ax = plt.subplots()
-        if i == 0:
-            hue_order = [
-                "RestingState vs. Raiders",
-                "RestingState vs. GoodBadUgly",
-                "RestingState vs. MonkeyKingdom",
-                "Raiders vs. GoodBadUgly",
-                "Raiders vs. MonkeyKingdom",
-                "GoodBadUgly vs. MonkeyKingdom",
-            ]
-            name = "fc_fc"
-            color_palette = sns.color_palette()[1:]
-        else:
-            hue_order = [
-                "RestingState vs. SC",
-                "Raiders vs. SC",
-                "GoodBadUgly vs. SC",
-                "MonkeyKingdom vs. SC",
-            ]
-            name = "fc_sc"
-            color_palette = sns.color_palette()
-        sns.barplot(
-            y="Similarity",
-            x="FC measure",
-            order=fc_measure_order,
-            hue="Comparison",
-            hue_order=hue_order,
-            palette=color_palette,
-            data=d,
-            ax=ax,
-        )
-        ax.legend(framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5))
-        plot_file = os.path.join(
-            barplot_dir,
-            f"similarity_{name}.png",
-        )
-        ax.xaxis.set_tick_params(rotation=90)
-        plt.savefig(plot_file, bbox_inches="tight", transparent=True)
-        plt.close()
+    for centering in stats_df["centering"].unique():
+        df = stats_df[stats_df["centering"] == centering]
+        sc_fc_mask = df["comparison"].str.contains("SC")
+        fc_fc = df[~sc_fc_mask]
+        sc_sc = df[sc_fc_mask]
+        fc_measure_order = [
+            "LedoitWolf correlation",
+            "LedoitWolf partial correlation",
+            "GLC correlation",
+            "GLC partial correlation",
+        ]
+        for i, df in enumerate([fc_fc, sc_sc]):
+            d = {"FC measure": [], "Similarity": [], "Comparison": []}
+            for _, row in df.iterrows():
+                corr = row["matrix"].tolist()
+                d["Similarity"].extend(corr)
+                d["FC measure"].extend([row["measure"]] * len(corr))
+                d["Comparison"].extend([row["comparison"]] * len(corr))
+            d = pd.DataFrame(d)
+            fig, ax = plt.subplots()
+            if i == 0:
+                hue_order = [
+                    "RestingState vs. Raiders",
+                    "RestingState vs. GoodBadUgly",
+                    "RestingState vs. MonkeyKingdom",
+                    "Raiders vs. GoodBadUgly",
+                    "Raiders vs. MonkeyKingdom",
+                    "GoodBadUgly vs. MonkeyKingdom",
+                ]
+                name = "fc_fc"
+                color_palette = sns.color_palette()[1:]
+            else:
+                hue_order = [
+                    "RestingState vs. SC",
+                    "Raiders vs. SC",
+                    "GoodBadUgly vs. SC",
+                    "MonkeyKingdom vs. SC",
+                ]
+                name = "fc_sc"
+                color_palette = sns.color_palette()
+            sns.barplot(
+                x="Similarity",
+                y="FC measure",
+                order=fc_measure_order,
+                hue="Comparison",
+                orient="h",
+                hue_order=hue_order,
+                palette=color_palette,
+                data=d,
+                ax=ax,
+            )
+            ax.legend(framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5))
+            plot_file = os.path.join(
+                barplot_dir,
+                f"similarity_{name}_{centering}.png",
+            )
+            ax.xaxis.set_tick_params(rotation=90)
+            plt.savefig(plot_file, bbox_inches="tight", transparent=False)
+            plt.close()
 
 
-def insert_stats(ax, p_val, data, loc=[], h=2, y_offset=0, x_n=3):
+def insert_stats(ax, p_val, data, loc=[], h=0, y_offset=0, x_n=3):
     """
     Insert p-values from statistical tests into boxplots.
     """
@@ -318,7 +331,7 @@ def insert_stats(ax, p_val, data, loc=[], h=2, y_offset=0, x_n=3):
     y_offset = y_offset / 100 * max_y
     x1, x2 = loc[0], loc[1]
     y = max_y + h + y_offset
-    ax.plot([x1, x1, x2, x2], [y, y + h, y + h, y], lw=1, c="0.25")
+    ax.plot([y, y + h, y + h, y], [x1, x1, x2, x2], lw=1, c="0.25")
     if p_val < 0.0001:
         text = f"****"
     if p_val < 0.001:
@@ -330,7 +343,7 @@ def insert_stats(ax, p_val, data, loc=[], h=2, y_offset=0, x_n=3):
     else:
         text = f"ns"
     ax.text(
-        (x1 + x2) * 0.5, y + h, text, ha="center", va="bottom", color="0.25"
+        y + 2.5, ((x1 + x2) * 0.5)-0.15, text, ha="center", va="bottom", color="0.25"
     )
     ax.set_xticks([*range(0, x_n)])
     ax.axis("off")
@@ -391,36 +404,38 @@ def plot_boxplot(stats_df, out_dir):
                 sns.color_palette()[color_map[comparison]],
             ]
             fig = plt.figure()
-            ax1 = plt.subplot2grid((15, 1), (1, 0), rowspan=14)
-            ax2 = plt.subplot2grid((15, 1), (0, 0))
+            ax1 = plt.subplot2grid((1, 15), (0, 0), colspan=12)
+            ax2 = plt.subplot2grid((1, 15), (0, -3))
             sns.boxplot(
-                y="Similarity",
-                x="FC measure",
+                x="Similarity",
+                y="FC measure",
                 order=fc_measure_order,
                 hue="Comparison",
                 hue_order=["Across Subject", "Within Subject"],
                 palette=color_palette,
+                orient="h",
                 data=d,
                 ax=ax1,
                 fliersize=0,
             )
             for i, p in enumerate(p_values):
+                index = abs((i - len(p_values)) - 1)
                 insert_stats(
                     ax2,
                     p[0],
                     d["Similarity"],
-                    loc=[i + 0.2, i + 0.6],
+                    loc=[index + 0.2, index + 0.6],
                     x_n=len(p_values),
                 )
             ax1.legend(
-                framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5)
+                framealpha=0, loc="center left", bbox_to_anchor=(1.2, 0.5)
             )
             ax1.xaxis.set_tick_params(rotation=90)
             plot_file = os.path.join(
                 boxplot_dir,
                 f"{comparison}_{centering}_box.png",
             )
-            plt.savefig(plot_file, bbox_inches="tight", transparent=True)
+            plt.savefig(plot_file, bbox_inches="tight", transparent=False)
             plt.close()
 
 
@@ -430,9 +445,7 @@ if __name__ == "__main__":
     output_dir = os.path.join(DATA_ROOT, output_dir)
     os.makedirs(output_dir, exist_ok=True)
     calculate_connectivity = False
-    fc_data_path = os.path.join(
-        cache, "fc_classification_20230807-143010", "connectomes"
-    )
+    fc_data_path = os.path.join(cache, "connectomes")
     sc_data_path = os.path.join(cache, "sc_data")
     # number of jobs to run in parallel
     n_jobs = 15
