@@ -33,7 +33,7 @@ SUBJECTS = ['sub-%02d' % i for i in
 _package_directory = os.path.dirname(os.path.abspath(__file__))
 # Useful for the very simple examples
 CONDITIONS = pd.read_csv(os.path.join(
-    _package_directory, '..', 'ibc_data', 'conditions.tsv'), sep='\t')
+    _package_directory, '..', 'ibc_data', 'ibc_conditions.tsv'), sep='\t')
 CONTRASTS = pd.read_csv(os.path.join(
     _package_directory, '..', 'ibc_data', 'main_contrasts.tsv'), sep='\t')
 ALL_CONTRASTS = os.path.join(
@@ -315,7 +315,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
     # fixed-effects activation images (postprocessed)
     con_df = conditions
-    contrast_name = con_df.contrast
+    contrast_name = con_df.condition
 
     acq_card = '*' # if acquisition == 'all'
     if acquisition in ['ffx', 'ap', 'pa']:
@@ -592,7 +592,7 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
     # fixed-effects activation images
     con_df = conditions
-    contrast_name = con_df.contrast
+    contrast_name = con_df.condition
     missing_images = []
     for subject in tqdm(subject_list):
         for i in range(len(con_df)):
