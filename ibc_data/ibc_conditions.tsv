@@ -286,7 +286,6 @@ NARPS	strongly_reject	Subject rejected the gamble with high confidence
 NARPS	stim	Mixed gamble stimulus with given units of potential gain and loss (amounts could vary between 5-20)		
 NARPS	gain	Significant parametric increase in BOLD signal to increasing potential gains		
 NARPS	loss	Significant parametric decrease in BOLD signal to increasing potential losses		
-NARPS	reject-accept	Gambles rejected vs. gambles accepted		
 FaceBody	bodies_body	Images of body parts (category) with full bodies without faces (subcategory)		
 FaceBody	bodies_limb	Images of body parts (category) with just limbs (subcategory)		
 FaceBody	characters_number	Images of printed characters (category) with just numbers (subcategory)		
