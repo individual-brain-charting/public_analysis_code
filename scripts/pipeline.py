@@ -218,7 +218,7 @@ if __name__ == '__main__':
     #
     protocol =  'mario2' # 'mario1'  # 'mdtb''leuven' # 
     subject_session = get_subject_session(protocol)
-    subject_session = [('sub-09', 'ses-50')]
+    subject_session = [('sub-04', 'ses-49')]
     
     if do_topup:
         acq = None
@@ -252,7 +252,7 @@ if __name__ == '__main__':
     json_file.flush()
 
     # resampling toward pre-defined shape
-    resample_func_and_anat()
+    resample_func_and_anat(n_jobs=1)
     """
     # Load the dump data
     list_subjects_update = json.load(open(json_file_name))
