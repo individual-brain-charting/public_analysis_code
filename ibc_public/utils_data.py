@@ -6,6 +6,7 @@ Author: Bertrand Thirion, Ana Luisa Pinho 2016-2020
 Compatibility: Python 3.5
 
 """
+
 import os
 import glob
 import warnings
@@ -37,6 +38,7 @@ CONTRASTS = pd.read_csv(os.path.join(
     _package_directory, '..', 'ibc_data', 'main_contrasts.tsv'), sep='\t')
 ALL_CONTRASTS = os.path.join(
     _package_directory, '..', 'ibc_data', 'all_contrasts.tsv')
+
 
 # Note that LABELS and BETTER NAMES ARE RELATIVE TO CONTRASTS
 LABELS = {}
@@ -661,5 +663,3 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
     # create a FataFrame out of the dictionary and write it to disk
     db = pd.DataFrame().from_dict(db_dict)
     return db
-
-# %%
