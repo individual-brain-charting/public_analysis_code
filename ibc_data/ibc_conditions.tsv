@@ -258,8 +258,8 @@ StopNogo	go	Arrow stays black; press button corresponding to arrow direction
 StopNogo	nogo	Arrow starts out red so do not press button
 StopNogo	successful_stop	Arrow starts out black but turns red; motor response inhibited
 StopNogo	unsuccessful_stop	Arrow starts out black but turns red; motor response not inhibited
-Catell	easy_oddball	Easy oddball trial where the non-oddball images are similar and very different from the oddball
-Catell	hard_oddball	Difficult oddball trial where all images are similar
+Catell	easy	Easy oddball trial where the non-oddball images are similar and very different from the oddball
+Catell	hard	Difficult oddball trial where all images are similar
 FingerTapping	specified	Finger to tap is highlighted
 FingerTapping	chosen	Participant chooses 1 out of 3 highlighted fingers to tap
 FingerTapping	null	No finger tap
