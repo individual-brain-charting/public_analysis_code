@@ -203,6 +203,9 @@ def get_ses_modality(task):
     elif task == "DWI":
         # session names with diffusion data
         session_names = ["anat1"]
+    elif task == "Mario":
+        # session names with mario gameplay data
+        session_names = ["mario1"]
     # get session numbers for each subject
     # returns a list of tuples with subject and session number
     subject_sessions = sorted(get_subject_session(session_names))
@@ -357,7 +360,7 @@ def classify_connectivity(
     test,
     results,
     classify,
-    pooled_tasks
+    pooled_tasks,
 ):
     """Classify the given connectomes using the given classes.
 
@@ -453,7 +456,7 @@ def cross_validate(
     connectivity_measure,
     results,
     classify,
-    pooled_tasks
+    pooled_tasks,
 ):
     """Cross validate the given connectomes using the given classes.
 
@@ -491,7 +494,7 @@ def cross_validate(
             test,
             results,
             classify,
-            pooled_tasks
+            pooled_tasks,
         )
 
     return results
@@ -558,7 +561,9 @@ def do_cross_validation(
 
     # select data based current task and whatever is being classified
     # get classes and groups
-    data, task_label, classes, groups = _select_data(data, classify, task, pooled_tasks)
+    data, task_label, classes, groups = _select_data(
+        data, classify, task, pooled_tasks
+    )
     # pick specific connectome to classify based on Sconnectivity measure
     connectomes = np.array(data[connectivity_measure].values.tolist())
     # get train and test splits
@@ -609,7 +614,7 @@ def do_cross_validation(
         connectivity_measure,
         results,
         classify,
-        pooled_tasks
+        pooled_tasks,
     )
 
     results_df = pd.DataFrame(results)

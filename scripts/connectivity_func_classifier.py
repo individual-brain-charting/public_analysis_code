@@ -21,18 +21,13 @@ output_dir = os.path.join(DATA_ROOT, output_dir)
 os.makedirs(output_dir, exist_ok=True)
 
 # connectivity calculation parameters
-calculate_connectivity = False
+calculate_connectivity = True
 fc_data_path = os.path.join(cache, "connectomes")
 
 # cross-validation splits
 cv_splits = 50
 # we will use the resting state and all the movie-watching sessions
-tasks = [
-    "RestingState",
-    "Raiders",
-    "GoodBadUgly",
-    "MonkeyKingdom",
-]
+tasks = ["RestingState", "Raiders", "GoodBadUgly", "MonkeyKingdom", "Mario"]
 # cov estimators
 cov_estimators = ["GLC", "LedoitWolf"]
 # connectivity measures for each cov estimator
@@ -54,9 +49,20 @@ def all_combinations(classify, tasks, connectivity_measures):
     # when classifying by tasks, we classify between two tasks
     # in this case, RestingState vs. each movie-watching task
     tasks_ = {
-        "Runs": [tasks],
-        "Subjects": [tasks],
-        "Tasks": [tasks],
+        "Runs": tasks,
+        "Subjects": tasks,
+        "Tasks": [
+            ["RestingState", "Raiders"],
+            ["RestingState", "GoodBadUgly"],
+            ["RestingState", "MonkeyKingdom"],
+            ["RestingState", "Mario"],
+            ["Raiders", "GoodBadUgly"],
+            ["Raiders", "MonkeyKingdom"],
+            ["GoodBadUgly", "MonkeyKingdom"],
+            ["Raiders", "Mario"],
+            ["GoodBadUgly", "Mario"],
+            ["MonkeyKingdom", "Mario"],
+        ],
     }
     for classes in classify:
         for task in tasks_[classes]:
