@@ -128,20 +128,38 @@ def _update_results(
     return results
 
 
-def _select_data(data, classify, task):
-    assert type(task) == list
-    task_label = " vs ".join(task)
-    data = data[data["tasks"].isin(task)]
-    if classify == "Tasks":
-        classes = data["tasks"].to_numpy(dtype=object)
-        groups = data["subject_ids"].to_numpy(dtype=object)
-    elif classify == "Subjects":
-        classes = data["subject_ids"].to_numpy(dtype=object)
-        groups = data["tasks"].to_numpy(dtype=object)
-    elif classify == "Runs":
-        data["run_task"] = data["run_labels"] + "_" + data["tasks"]
-        classes = data["run_task"].to_numpy(dtype=object)
-        groups = data["subject_ids"].to_numpy(dtype=object)
+def _select_data(data, classify, task, pooled_tasks):
+    if pooled_tasks:
+        assert type(task) == list
+        task_label = " vs ".join(task)
+        data = data[data["tasks"].isin(task)]
+        if classify == "Tasks":
+            classes = data["tasks"].to_numpy(dtype=object)
+            groups = data["subject_ids"].to_numpy(dtype=object)
+        elif classify == "Subjects":
+            classes = data["subject_ids"].to_numpy(dtype=object)
+            groups = data["tasks"].to_numpy(dtype=object)
+        elif classify == "Runs":
+            data["run_task"] = data["run_labels"] + "_" + data["tasks"]
+            classes = data["run_task"].to_numpy(dtype=object)
+            groups = data["subject_ids"].to_numpy(dtype=object)
+    else:
+        if classify in ["Runs", "Subjects"]:
+            assert type(task) == str
+            task_label = task
+            data = data[data["tasks"] == task]
+            if classify == "Runs":
+                classes = data["run_labels"].to_numpy(dtype=object)
+                groups = data["subject_ids"].to_numpy(dtype=object)
+            elif classify == "Subjects":
+                classes = data["subject_ids"].to_numpy(dtype=object)
+                groups = data["run_labels"].to_numpy(dtype=object)
+        elif classify == "Tasks":
+            assert type(task) == list
+            task_label = " vs ".join(task)
+            data = data[data["tasks"].isin(task)]
+            classes = data["tasks"].to_numpy(dtype=object)
+            groups = data["subject_ids"].to_numpy(dtype=object)
 
     return data, task_label, classes, groups
 
@@ -339,6 +357,7 @@ def classify_connectivity(
     test,
     results,
     classify,
+    pooled_tasks
 ):
     """Classify the given connectomes using the given classes.
 
@@ -382,28 +401,28 @@ def classify_connectivity(
     dummy_predictions = dummy.predict(connectomes[test])
     dummy_accuracy = accuracy_score(classes[test], dummy_predictions)
 
-    auc = 0
-    dummy_auc = 0
-    # if classify in ["Runs", "Subjects"]:
-    #     average = "weighted"
-    #     multi_class = "ovr"
-    #     auc = 0
-    #     dummy_auc = 0
-    # else:
-    #     average = None
-    #     multi_class = "raise"
-    #     auc = roc_auc_score(
-    #         classes[test],
-    #         classifier.decision_function(connectomes[test]),
-    #         average=average,
-    #         multi_class=multi_class,
-    #     )
-    #     dummy_auc = roc_auc_score(
-    #         classes[test],
-    #         dummy.predict_proba(connectomes[test])[:, 1],
-    #         average=average,
-    #         multi_class=multi_class,
-    #     )
+    if pooled_tasks:
+        auc = 0
+        dummy_auc = 0
+    else:
+        if classify in ["Runs", "Subjects"]:
+            auc = 0
+            dummy_auc = 0
+        else:
+            average = None
+            multi_class = "raise"
+            auc = roc_auc_score(
+                classes[test],
+                classifier.decision_function(connectomes[test]),
+                average=average,
+                multi_class=multi_class,
+            )
+            dummy_auc = roc_auc_score(
+                classes[test],
+                dummy.predict_proba(connectomes[test])[:, 1],
+                average=average,
+                multi_class=multi_class,
+            )
 
     # store the scores for this cross-validation fold
     results = _update_results(
@@ -434,6 +453,7 @@ def cross_validate(
     connectivity_measure,
     results,
     classify,
+    pooled_tasks
 ):
     """Cross validate the given connectomes using the given classes.
 
@@ -471,6 +491,7 @@ def cross_validate(
             test,
             results,
             classify,
+            pooled_tasks
         )
 
     return results
@@ -504,15 +525,31 @@ def do_cross_validation(
     cov = connectivity_measure.split(" ")[0]
     print(f"[{classify} classification], [{connectivity_measure}], [{task}]")
 
-    if classify == "Subjects":
-        cv_test_size = 0.25
-        cv = GroupShuffleSplit(
-            n_splits=cv_splits, random_state=0, test_size=cv_test_size
-        )
-        cv_scheme = "GroupShuffleSplit"
-    elif classify in ["Tasks", "Runs"]:
-        cv = LeavePGroupsOut(5)
-        cv_scheme = "LeavePGroupsOut"
+    if type(task) == list and len(task) > 2:
+        pooled_tasks = True
+    else:
+        pooled_tasks = False
+
+    if pooled_tasks:
+        if classify == "Subjects":
+            cv_test_size = 0.25
+            cv = GroupShuffleSplit(
+                n_splits=cv_splits, random_state=0, test_size=cv_test_size
+            )
+            cv_scheme = "GroupShuffleSplit"
+        elif classify in ["Tasks", "Runs"]:
+            cv = LeavePGroupsOut(5)
+            cv_scheme = "LeavePGroupsOut"
+    else:
+        if classify in ["Runs", "Subjects"]:
+            cv_test_size = 0.25
+            cv = GroupShuffleSplit(
+                n_splits=cv_splits, random_state=0, test_size=cv_test_size
+            )
+            cv_scheme = "GroupShuffleSplit"
+        elif classify == "Tasks":
+            cv = LeavePGroupsOut(5)
+            cv_scheme = "LeavePGroupsOut"
 
     results_dir = os.path.join(
         root, f"{classify}_{cov}_{cv_scheme}_{cv_splits}"
@@ -521,16 +558,22 @@ def do_cross_validation(
 
     # select data based current task and whatever is being classified
     # get classes and groups
-    data, task_label, classes, groups = _select_data(data, classify, task)
+    data, task_label, classes, groups = _select_data(data, classify, task, pooled_tasks)
     # pick specific connectome to classify based on Sconnectivity measure
     connectomes = np.array(data[connectivity_measure].values.tolist())
     # get train and test splits
     splits = [split for split in cv.split(connectomes, classes, groups)]
     # too many splits for Tasks from LPGO scheme, so randomly select some
-    if classify in ["Tasks", "Runs"]:
-        rng = np.random.default_rng(1)
-        select_splits = rng.choice(len(splits), cv_splits, replace=False)
-        splits = [splits[i] for i in select_splits]
+    if pooled_tasks:
+        if classify in ["Tasks", "Runs"]:
+            rng = np.random.default_rng(1)
+            select_splits = rng.choice(len(splits), cv_splits, replace=False)
+            splits = [splits[i] for i in select_splits]
+    else:
+        if classify == "Tasks":
+            rng = np.random.default_rng(1)
+            select_splits = rng.choice(len(splits), cv_splits, replace=False)
+            splits = [splits[i] for i in select_splits]
     # plot the train/test cross-validation splits
     _plot_cv_indices(
         splits,
@@ -566,6 +609,7 @@ def do_cross_validation(
         connectivity_measure,
         results,
         classify,
+        pooled_tasks
     )
 
     results_df = pd.DataFrame(results)
@@ -593,6 +637,7 @@ def do_plots(all_results, results_dir):
     classify = all_results["classes"].unique()
     tasks = all_results["task_label"].unique()
     conn_measures = all_results["connectivity"].unique()
+    cov_estimators = all_results["cov"].unique()
     all_reports = []
     for clas in classify:
         for task in tasks:
@@ -614,20 +659,22 @@ def do_plots(all_results, results_dir):
     all_reports.to_csv(os.path.join(results_dir, "classification_report.csv"))
     for clas in classify:
         df = all_reports[all_reports["classes"] == clas]
-        plot_f1_score(df, clas, results_dir)
-
-        # for cov_estimator in cov_estimators:
-        #     df = all_results[
-        #         (all_results["cov"] == cov_estimator)
-        #         & (all_results["classes"] == clas)
-        #     ]
-        #     plot_evaluation_metric(
-        #         df, clas, cov_estimator, results_dir, metric="accuracy"
-        #     )
-        #     if clas == "Tasks":
-        #         plot_evaluation_metric(
-        #             df, clas, cov_estimator, results_dir, metric="auc"
-        #         )
+        task_label = df.loc["task_label"][0]
+        if len(task_label.split(" vs ")) > 2:
+            plot_f1_score(df, clas, results_dir)
+        else:
+            for cov_estimator in cov_estimators:
+                df = all_results[
+                    (all_results["cov"] == cov_estimator)
+                    & (all_results["classes"] == clas)
+                ]
+                plot_evaluation_metric(
+                    df, clas, cov_estimator, results_dir, metric="accuracy"
+                )
+                if clas == "Tasks":
+                    plot_evaluation_metric(
+                        df, clas, cov_estimator, results_dir, metric="auc"
+                    )
 
 
 def chance_level(df):
