@@ -29,7 +29,7 @@ cv_splits = 50
 # we will use the resting state and all the movie-watching sessions
 tasks = ["RestingState", "Raiders", "GoodBadUgly", "MonkeyKingdom", "Mario"]
 # cov estimators
-cov_estimators = ["GLC", "LedoitWolf"]
+cov_estimators = ["Graphical-Lasso", "Ledoit-Wolf", "Unregularized"]
 # connectivity measures for each cov estimator
 measures = ["correlation", "partial correlation"]
 # connectivity measures

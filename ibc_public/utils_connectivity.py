@@ -9,7 +9,11 @@ from ibc_public.utils_data import DERIVATIVES, get_subject_session
 from nilearn.connectome import sym_matrix_to_vec
 from nilearn.maskers import NiftiLabelsMasker
 from sklearn.base import clone
-from sklearn.covariance import GraphicalLassoCV, LedoitWolf
+from sklearn.covariance import (
+    GraphicalLassoCV,
+    LedoitWolf,
+    EmpiricalCovariance,
+)
 from sklearn.metrics import (
     accuracy_score,
     confusion_matrix,
@@ -29,7 +33,7 @@ sns.set_theme(context="talk", style="whitegrid")
 def _get_tr(task):
     if task == "RestingState":
         repetition_time = 0.76
-    elif task in ["GoodBadUgly", "Raiders", "MonkeyKingdom"]:
+    elif task in ["GoodBadUgly", "Raiders", "MonkeyKingdom", "Mario"]:
         repetition_time = 2
     else:
         raise ValueError(f"Unknown task {task}")
@@ -332,10 +336,12 @@ def calculate_connectivity(X, cov_estimator):
 def get_connectomes(cov, data, n_jobs):
     print(f"[{cov} cov estimator]")
     # covariance estimator
-    if cov == "GLC":
+    if cov == "Graphical Lasso":
         cov_estimator = GraphicalLassoCV(verbose=0, n_jobs=n_jobs)
     elif cov == "LedoitWolf":
         cov_estimator = LedoitWolf()
+    elif cov == "Unregularized":
+        cov_estimator = EmpiricalCovariance()
     time_series = data["time_series"].tolist()
     connectomes = []
     for ts in tqdm(time_series):
