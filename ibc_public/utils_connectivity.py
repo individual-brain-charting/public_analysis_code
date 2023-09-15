@@ -367,14 +367,18 @@ def classify_connectivity(
         Dictionary storing the results of the classification.
     """
     # fit the classifier
-    classifier = LinearSVC().fit(connectomes[train], classes[train])
+    classifier = LinearSVC(max_iter=1000000, dual="auto").fit(
+        connectomes[train], classes[train]
+    )
     # make predictions for the left-out test subjects
     predictions = classifier.predict(connectomes[test])
     accuracy = accuracy_score(classes[test], predictions)
     weights = classifier.coef_
 
     # fit a dummy classifier to get chance level
-    dummy = DummyClassifier().fit(connectomes[train], classes[train])
+    dummy = DummyClassifier(strategy="stratified").fit(
+        connectomes[train], classes[train]
+    )
     dummy_predictions = dummy.predict(connectomes[test])
     dummy_accuracy = accuracy_score(classes[test], dummy_predictions)
 
