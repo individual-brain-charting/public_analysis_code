@@ -336,9 +336,9 @@ def calculate_connectivity(X, cov_estimator):
 def get_connectomes(cov, data, n_jobs):
     print(f"[{cov} cov estimator]")
     # covariance estimator
-    if cov == "Graphical Lasso":
+    if cov == "Graphical-Lasso":
         cov_estimator = GraphicalLassoCV(verbose=0, n_jobs=n_jobs)
-    elif cov == "LedoitWolf":
+    elif cov == "Ledoit-Wolf":
         cov_estimator = LedoitWolf()
     elif cov == "Unregularized":
         cov_estimator = EmpiricalCovariance()
