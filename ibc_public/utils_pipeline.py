@@ -201,10 +201,11 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
 
 def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
     """ """
-    from nibabel.gifti import read, write, GiftiDataArray, GiftiImage
+    from nibabel import load
+    from nibabel.gifti import GiftiDataArray, GiftiImage
     from nilearn.glm.first_level import run_glm as run_glm_nl
     from nilearn.glm import compute_contrast
-    Y = np.array([darrays.data for darrays in read(fmri_path).darrays])
+    Y = np.array([darrays.data for darrays in load(fmri_path).darrays])
     labels, res = run_glm_nl(Y, dmtx.values)
     # Estimate the contrasts
     print('Computing contrasts...')
@@ -225,9 +226,8 @@ def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
             map_path = os.path.join(map_dir, '%s_%s.gii' % (contrast_id, side))
             print("\t\tWriting %s ..." % map_path)
             tex = GiftiImage(
-                darrays=[GiftiDataArray().from_array(
-                    out_map, intent='t test')])
-            write(tex, map_path)
+                darrays=[GiftiDataArray(data=out_map.astype('float32'), intent='t test')])
+            tex.to_filename(map_path)
 
 
 def masking(func, output_dir):
@@ -321,9 +321,9 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         task_id = _session_id_to_task_id([session_id])[0]
 
         if mesh is not False:
-            from nibabel.gifti import read
+            from nibabel import load
             n_scans = np.array(
-                [darrays.data for darrays in read(fmri_path).darrays]).shape[0]
+                [darrays.data for darrays in load(fmri_path).darrays]).shape[0]
         else:
             n_scans = nib.load(fmri_path).shape[3]
 
@@ -546,7 +546,6 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
         for contrast in contrasts:
             print('fixed effects for contrast %s. ' % contrast)
             if mesh is not False:
-                from nibabel.gifti import write
                 for side in ['lh', 'rh']:
                     effect_size_maps, effect_variance_maps, data_available =\
                         _load_summary_stats(
@@ -559,12 +558,12 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
                                          'fixed effects computations')
                     ffx_effects, ffx_variance, ffx_stat = fixed_effects_surf(
                         effect_size_maps, effect_variance_maps)
-                    write(ffx_effects, os.path.join(
+                    ffx_effects.to_filename(os.path.join(
                         write_dir, 'effect_size_maps/%s_%s.gii' % (contrast, side)))
-                    write(ffx_variance, os.path.join(
+                    ffx_variance.to_filename(os.path.join(
                         write_dir, 'effect_variance_maps/%s_%s.gii' %
                         (contrast, side)))
-                    write(ffx_stat, os.path.join(
+                    ffx_stat.to_filename(os.path.join(
                         write_dir, 'stat_maps/%s_%s.gii' % (contrast, side)))
             else:
                 effect_size_maps, effect_variance_maps, data_available =\
@@ -606,8 +605,7 @@ def fixed_effects_surf(con_imgs, var_imgs):
     intents = ['NIFTI_INTENT_ESTIMATE', 'NIFTI_INTENT_ESTIMATE', 't test']
     arrays = fixed_effects(con, var)
     for array, intent in zip(arrays, intents):
-        gii = GiftiImage(
-            darrays=[GiftiDataArray().from_array(array, intent)])
+        gii = GiftiImage(darrays=[GiftiDataArray(array, intent)])
         outputs.append(gii)
 
     return outputs
