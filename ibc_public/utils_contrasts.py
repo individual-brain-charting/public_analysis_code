@@ -877,11 +877,14 @@ def breath_holding(design_matrix_columns):
 
 def checkerboard(design_matrix_columns):
     """ Contrasts for breath holding protocol"""
-    contrast_names = ['checkerboard-fixation']
+    contrast_names = ['checkerboard', 'fixation', 'checkerboard-fixation']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {'checkerboard-fixation': con['checkerboard'] - con['fixation']}
+    contrasts = {
+        'checkerboard': con['checkerboard'],
+        'fixation': con['fixation'],
+        'checkerboard-fixation': con['checkerboard'] - con['fixation']}
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -890,11 +893,14 @@ def checkerboard(design_matrix_columns):
 
 def fingertap(design_matrix_columns):
     """ Contrasts for breath holding protocol"""
-    contrast_names = ['fingertap-rest']
+    contrast_names = ['fingertap', 'rest', 'fingertap-rest']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {'fingertap-rest': con['fingertap'] - con['rest']}
+    contrasts = {
+        'fingertap': con['fingertap'],
+        'rest': con['rest'],
+        'fingertap-rest': con['fingertap'] - con['rest']}
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -903,9 +909,24 @@ def fingertap(design_matrix_columns):
 
 def item_recognition(design_matrix_columns):
     """ Contrasts for breath holding protocol"""
-    contrast_names = ['encode5-encode1', 'probe5_mem-probe1_mem',
-                      'probe5_new-probe1_new', 'prob-arrow',
-                      'encode', 'arrow_left-arrow_right']
+    contrast_names = [
+        'encode1',
+        'encode3',
+        'encode5',
+        'probe1_mem', 
+        'probe3_mem',
+        'probe5_mem',
+        'probe1_new',
+        'probe3_new',
+        'probe5_new',
+        'arrow_left',
+        'arrow_right',
+        'encode5-encode1', 
+        'probe5_mem-probe1_mem',
+        'probe5_new-probe1_new', 
+        'prob-arrow',
+        'encode', 
+        'arrow_left-arrow_right']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -920,6 +941,8 @@ def item_recognition(design_matrix_columns):
         'encode': con['encode1'] + con['encode3'] + con['encode5'],
         'arrow_left-arrow_right': con['arrow_left'] - con['arrow_right']
     }
+    for name in contrast_names[:11]:
+        contrasts[name] = con[name]
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
