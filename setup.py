@@ -9,6 +9,6 @@ setup(name='ibc_public',
       author='Bertrand Thirion',
       author_email='bertrand.thirion@inria.fr',
       packages=['ibc_public'],
-      package_data={'ibc_public': ['ibc_data']},
+      package_data={'ibc_public': ['ibc_data/*']},
       include_package_data=True,
 )
