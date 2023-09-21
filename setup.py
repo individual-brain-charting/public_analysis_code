@@ -9,6 +9,6 @@ setup(name='ibc_public',
       author='Bertrand Thirion',
       author_email='bertrand.thirion@inria.fr',
       packages=['ibc_public'],
-      #package_data={'ibc_pulic': ['ibc_data/*.tsv']},
-      #include_package_data=True,
+      data_files=[('masks', ['ibc_data/gm_mask_1_5mm.nii.gz', 
+                             'ibc_data/gm_mask_3mm.nii.gz'])],
 )

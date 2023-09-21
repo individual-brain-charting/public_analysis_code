@@ -315,7 +315,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
     # fixed-effects activation images (postprocessed)
     con_df = conditions
-    contrast_name = con_df.condition
+    contrast_name = con_df.contrast
 
     acq_card = '*' # if acquisition == 'all'
     if acquisition in ['ffx', 'ap', 'pa']:
@@ -592,7 +592,8 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
     # fixed-effects activation images
     con_df = conditions
-    contrast_name = con_df.condition
+    contrast_name = con_df.contrast
+    
     missing_images = []
     for subject in tqdm(subject_list):
         for i in range(len(con_df)):
