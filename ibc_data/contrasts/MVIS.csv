@@ -1,8 +1,0 @@
-condition,2_dots-2_dots_control,4_dots-4_dots_control,6_dots-6_dots_control,6_dots-2_dots,dots-control
-dot_displacement_response,,,,,
-2_dots,1,,,-1,1
-2_dots_control,-1,,,,-1
-4_dots,,1,,,1
-4_dots_control,,-1,,,-1
-6_dots,,,1,1,1
-6_dots_control,,,-1,,-1
