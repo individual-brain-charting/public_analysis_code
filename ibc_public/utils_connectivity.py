@@ -337,7 +337,9 @@ def get_connectomes(cov, data, n_jobs):
     print(f"[{cov} cov estimator]")
     # covariance estimator
     if cov == "Graphical-Lasso":
-        cov_estimator = GraphicalLassoCV(verbose=0, n_jobs=n_jobs)
+        cov_estimator = GraphicalLassoCV(
+            verbose=0, n_jobs=n_jobs, max_iter=100
+        )
     elif cov == "Ledoit-Wolf":
         cov_estimator = LedoitWolf()
     elif cov == "Unregularized":
@@ -395,7 +397,7 @@ def classify_connectivity(
         Dictionary storing the results of the classification.
     """
     # fit the classifier
-    classifier = LinearSVC(max_iter=1000000, dual="auto").fit(
+    classifier = LinearSVC(max_iter=100000, dual="auto").fit(
         connectomes[train], classes[train]
     )
     # make predictions for the left-out test subjects
@@ -420,6 +422,7 @@ def classify_connectivity(
         else:
             average = None
             multi_class = "raise"
+            print(f"{classes[test]}, {task_label}, {connectivity_measure}")
             auc = roc_auc_score(
                 classes[test],
                 classifier.decision_function(connectomes[test]),
@@ -490,7 +493,11 @@ def cross_validate(
     """
     print("Fitting classifier for each cross-validation split")
     # fit the classifier for each cross validation split in serial
-    for train, test in tqdm(splits):
+    for train, test in tqdm(
+        splits,
+        desc=f"{classify}, {connectivity_measure}, {task_label}",
+        leave=True,
+    ):
         results = classify_connectivity(
             connectomes,
             classes,
@@ -532,8 +539,6 @@ def do_cross_validation(
         DataFrame containing the results of the classification.
     """
     cov = connectivity_measure.split(" ")[0]
-    print(f"[{classify} classification], [{connectivity_measure}], [{task}]")
-
     if type(task) == list and len(task) > 2:
         pooled_tasks = True
     else:
@@ -627,9 +632,9 @@ def do_cross_validation(
     # save the results
     results_file = os.path.join(
         results_dir,
-        f"{task_label}_{connectivity_measure}_results.csv",
+        f"{task_label}_{connectivity_measure}_results.pkl",
     )
-    results_df.to_csv(results_file)
+    results_df.to_pickle(results_file)
     # do_plots(results, results_dir, classify)
 
     return results_df
@@ -648,44 +653,39 @@ def do_plots(all_results, results_dir):
     classify = all_results["classes"].unique()
     tasks = all_results["task_label"].unique()
     conn_measures = all_results["connectivity"].unique()
-    cov_estimators = all_results["cov"].unique()
-    all_reports = []
-    for clas in classify:
-        for task in tasks:
-            for conn_measure in conn_measures:
-                df = all_results[
-                    (all_results["connectivity"] == conn_measure)
-                    & (all_results["task_label"] == task)
-                    & (all_results["classes"] == clas)
-                ]
-                if len(df) == 0:
-                    print(
-                        f"Empty DataFrame for {clas}, {task}, {conn_measure}"
+    if len(tasks[0].split(" vs ")) > 2:
+        all_reports = []
+        for clas in classify:
+            for task in tasks:
+                for conn_measure in conn_measures:
+                    df = all_results[
+                        (all_results["connectivity"] == conn_measure)
+                        & (all_results["task_label"] == task)
+                        & (all_results["classes"] == clas)
+                    ]
+                    if len(df) == 0:
+                        print(
+                            f"Empty DataFrame for {clas}, {task}, {conn_measure}"
+                        )
+                        continue
+                    plot_confusion(df, clas, task, conn_measure, results_dir)
+                    reports = create_report(
+                        df, clas, conn_measure, results_dir
                     )
-                    continue
-                plot_confusion(df, clas, task, conn_measure, results_dir)
-                reports = create_report(df, clas, conn_measure, results_dir)
-                all_reports.append(reports)
-    all_reports = pd.concat(all_reports)
-    all_reports.to_csv(os.path.join(results_dir, "classification_report.csv"))
+                    all_reports.append(reports)
+        all_reports = pd.concat(all_reports)
+        all_reports.to_csv(
+            os.path.join(results_dir, "classification_report.csv")
+        )
     for clas in classify:
-        df = all_reports[all_reports["classes"] == clas]
-        task_label = df.loc["task_label"][0]
-        if len(task_label.split(" vs ")) > 2:
+        if len(tasks[0].split(" vs ")) > 2:
+            df = all_reports[all_reports["classes"] == clas]
             plot_f1_score(df, clas, results_dir)
         else:
-            for cov_estimator in cov_estimators:
-                df = all_results[
-                    (all_results["cov"] == cov_estimator)
-                    & (all_results["classes"] == clas)
-                ]
-                plot_evaluation_metric(
-                    df, clas, cov_estimator, results_dir, metric="accuracy"
-                )
-                if clas == "Tasks":
-                    plot_evaluation_metric(
-                        df, clas, cov_estimator, results_dir, metric="auc"
-                    )
+            df = all_results[(all_results["classes"] == clas)]
+            plot_evaluation_metric(df, clas, results_dir, metric="accuracy")
+            if clas == "Tasks":
+                plot_evaluation_metric(df, clas, results_dir, metric="auc")
 
 
 def chance_level(df):
@@ -759,6 +759,8 @@ def plot_f1_score(df, classes, results_dir):
     classifier_df = df[df["classifier"] == "LinearSVC"]
     dummy_df = df[df["classifier"] == "Dummy"]
     order = [
+        "Unregularized correlation",
+        "Unregularized partial correlation",
         "LedoitWolf correlation",
         "LedoitWolf partial correlation",
         "GLC correlation",
@@ -853,7 +855,7 @@ def plot_f1_score(df, classes, results_dir):
     plt.close()
 
 
-def plot_evaluation_metric(all_results, classes, cov, results_dir, metric):
+def plot_evaluation_metric(all_results, classes, results_dir, metric):
     """Makes a barplot to compare the evaluation metric (accuracy or AUC) across different tasks as well as functional connectivity measure for a given classification scenario (Runs, Subjects, or Tasks).
 
     Parameters
@@ -862,8 +864,6 @@ def plot_evaluation_metric(all_results, classes, cov, results_dir, metric):
         DataFrame containing the results for a given classification scenario and a given cov estimator.
     classes : str
         Classification scenario. Can be "Runs", "Subjects", or "Tasks".
-    cov : str
-        Covariance estimator used for classification. Can be "GLC" or "LedoitWolf".
     results_dir : str
         Path to directory where results are stored.
     metric : str
@@ -871,44 +871,65 @@ def plot_evaluation_metric(all_results, classes, cov, results_dir, metric):
     """
     plot_dir = os.path.join(results_dir, metric)
     os.makedirs(plot_dir, exist_ok=True)
+    order = [
+        "Unregularized correlation",
+        "Unregularized partial correlation",
+        "Ledoit-Wolf correlation",
+        "Ledoit-Wolf partial correlation",
+        "Graphical-Lasso correlation",
+        "Graphical-Lasso partial correlation",
+    ]
+
     if classes in ["Runs", "Subjects"]:
         hue_order = [
             "RestingState",
             "Raiders",
             "GoodBadUgly",
             "MonkeyKingdom",
+            "Mario",
         ]
-        legend_cutoff = 3
+        legend_cutoff = 4
         palette_init = 0
     else:
         hue_order = [
             "RestingState vs Raiders",
             "RestingState vs GoodBadUgly",
             "RestingState vs MonkeyKingdom",
+            "RestingState vs Mario",
+            "Raiders vs GoodBadUgly",
+            "Raiders vs MonkeyKingdom",
+            "GoodBadUgly vs MonkeyKingdom",
+            "Raiders vs Mario",
+            "GoodBadUgly vs Mario",
+            "MonkeyKingdom vs Mario",
         ]
-        legend_cutoff = 2
+        legend_cutoff = 9
         palette_init = 1
-    # plot accuracy
-    task_df = all_results.copy()
+
     sns.barplot(
-        task_df,
-        x="cor",
-        y=f"LinearSVC_{metric}",
+        all_results,
+        y="connectivity",
+        x=f"LinearSVC_{metric}",
         hue="task_label",
+        orient="h",
         hue_order=hue_order,
         palette=sns.color_palette()[palette_init:],
+        order=order,
+        errorbar=None,
     )
     sns.barplot(
-        task_df,
-        x="cor",
-        y=f"Dummy_{metric}",
+        all_results,
+        y="connectivity",
+        x=f"Dummy_{metric}",
         hue="task_label",
-        palette=sns.color_palette("pastel")[palette_init:],
+        orient="h",
         hue_order=hue_order,
+        palette=sns.color_palette("pastel")[palette_init:],
+        order=order,
+        errorbar=None,
     )
-    plot_file = os.path.join(
-        results_dir, plot_dir, f"{classes}_{cov}_{metric}.png"
-    )
+    plot_file = os.path.join(results_dir, plot_dir, f"{classes}_{metric}.svg")
+    plot_file2 = os.path.join(results_dir, plot_dir, f"{classes}_{metric}.png")
     legend = plt.legend(
         framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5)
     )
@@ -920,9 +941,12 @@ def plot_evaluation_metric(all_results, classes, cov, results_dir, metric):
             text.set_visible(False)
             handle.set_visible(False)
     legend.set_title("Task")
-    plt.xlabel("FC measure")
-    plt.ylabel(metric)
+    plt.xlabel(f"{metric.capitalize()}")
+    plt.ylabel("FC measure")
+    fig = plt.gcf()
+    fig.set_size_inches(5, 10)
     plt.savefig(plot_file, bbox_inches="tight", transparent=True)
+    plt.savefig(plot_file2, bbox_inches="tight", transparent=True)
     plt.close()
 
 

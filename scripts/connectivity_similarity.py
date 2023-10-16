@@ -60,7 +60,9 @@ def mean_connectivity(data, tasks, cov_estimators, measures):
     return pd.DataFrame(av_connectivity)
 
 
-def similarity(connectivity_matrices, subjects, mean_center=True, z_transform=True):
+def similarity(
+    connectivity_matrices, subjects, mean_center=True, z_transform=True
+):
     """Calculate pearson correlation between two connectivity matrices
 
     Parameters
@@ -118,7 +120,9 @@ def similarity(connectivity_matrices, subjects, mean_center=True, z_transform=Tr
     similarity_mat_centered = pd.DataFrame(
         similarity_mat_centered, columns=task2_subs, index=task1_subs
     )
-    similarity_mat_zscored = pd.DataFrame(similarity_mat_zscored, columns=task2_subs, index=task1_subs)
+    similarity_mat_zscored = pd.DataFrame(
+        similarity_mat_zscored, columns=task2_subs, index=task1_subs
+    )
 
     return similarity_mat, similarity_mat_centered, similarity_mat_zscored
 
@@ -233,7 +237,9 @@ def get_similarity(all_connectivity, task_pair, cov, measure):
         [*task_pair_subjects],
     )
     result = []
-    for i, matrix in enumerate([similarity_mat, similarity_centered, similarity_z]):
+    for i, matrix in enumerate(
+        [similarity_mat, similarity_centered, similarity_z]
+    ):
         matrix, kept_subs, kept_ind = symmetrize(matrix)
         p_value = samevcross_test(matrix)
         if i == 0:
@@ -267,10 +273,12 @@ def plot_barplot(stats_df, out_dir):
         fc_fc = df[~sc_fc_mask]
         sc_sc = df[sc_fc_mask]
         fc_measure_order = [
-            "LedoitWolf correlation",
-            "LedoitWolf partial correlation",
-            "GLC correlation",
-            "GLC partial correlation",
+            "Unregularized correlation",
+            "Unregularized partial correlation",
+            "Ledoit-Wolf correlation",
+            "Ledoit-Wolf partial correlation",
+            "Graphical-Lasso correlation",
+            "Graphical-Lasso partial correlation",
         ]
         for i, df in enumerate([fc_fc, sc_sc]):
             d = {"FC measure": [], "Similarity": [], "Comparison": []}
@@ -286,9 +294,13 @@ def plot_barplot(stats_df, out_dir):
                     "RestingState vs. Raiders",
                     "RestingState vs. GoodBadUgly",
                     "RestingState vs. MonkeyKingdom",
+                    "RestingState vs. Mario",
                     "Raiders vs. GoodBadUgly",
                     "Raiders vs. MonkeyKingdom",
                     "GoodBadUgly vs. MonkeyKingdom",
+                    "Raiders vs. Mario",
+                    "GoodBadUgly vs. Mario",
+                    "MonkeyKingdom vs. Mario",
                 ]
                 name = "fc_fc"
                 color_palette = sns.color_palette()[1:]
@@ -298,6 +310,7 @@ def plot_barplot(stats_df, out_dir):
                     "Raiders vs. SC",
                     "GoodBadUgly vs. SC",
                     "MonkeyKingdom vs. SC",
+                    "Mario vs. SC",
                 ]
                 name = "fc_sc"
                 color_palette = sns.color_palette()
@@ -311,18 +324,26 @@ def plot_barplot(stats_df, out_dir):
                 palette=color_palette,
                 data=d,
                 ax=ax,
+                # errorbar=None,
+                errwidth=1,
             )
             ax.legend(framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5))
             plot_file = os.path.join(
                 barplot_dir,
+                f"similarity_{name}_{centering}.svg",
+            )
+            plot_file2 = os.path.join(
+                barplot_dir,
                 f"similarity_{name}_{centering}.png",
             )
-            ax.xaxis.set_tick_params(rotation=90)
-            plt.savefig(plot_file, bbox_inches="tight", transparent=False)
+            fig.set_size_inches(5, 10)
+            plt.savefig(plot_file, bbox_inches="tight", transparent=True)
+            plt.savefig(plot_file2, bbox_inches="tight", transparent=False)
+
             plt.close()
 
 
-def insert_stats(ax, p_val, data, loc=[], h=0, y_offset=0, x_n=3):
+def insert_stats(ax, p_val, data, loc=[], h=0.15, y_offset=0, x_n=3):
     """
     Insert p-values from statistical tests into boxplots.
     """
@@ -331,7 +352,7 @@ def insert_stats(ax, p_val, data, loc=[], h=0, y_offset=0, x_n=3):
     y_offset = y_offset / 100 * max_y
     x1, x2 = loc[0], loc[1]
     y = max_y + h + y_offset
-    ax.plot([y, y + h, y + h, y], [x1, x1, x2, x2], lw=1, c="0.25")
+    ax.plot([y, y], [x1, x2], lw=1, c="0.25")
     if p_val < 0.0001:
         text = f"****"
     if p_val < 0.001:
@@ -343,7 +364,12 @@ def insert_stats(ax, p_val, data, loc=[], h=0, y_offset=0, x_n=3):
     else:
         text = f"ns"
     ax.text(
-        y + 2.5, ((x1 + x2) * 0.5)-0.15, text, ha="center", va="bottom", color="0.25"
+        y + 3.5,
+        ((x1 + x2) * 0.5) - 0.15,
+        f"{text}",
+        ha="center",
+        va="bottom",
+        color="0.25",
     )
     ax.set_xticks([*range(0, x_n)])
     ax.axis("off")
@@ -353,10 +379,12 @@ def plot_boxplot(stats_df, out_dir):
     boxplot_dir = os.path.join(out_dir, "boxplot")
     os.makedirs(boxplot_dir, exist_ok=True)
     fc_measure_order = [
-        "LedoitWolf correlation",
-        "LedoitWolf partial correlation",
-        "GLC correlation",
-        "GLC partial correlation",
+        "Unregularized correlation",
+        "Unregularized partial correlation",
+        "Ledoit-Wolf correlation",
+        "Ledoit-Wolf partial correlation",
+        "Graphical-Lasso correlation",
+        "Graphical-Lasso partial correlation",
     ]
     for centering in stats_df["centering"].unique():
         for comparison in stats_df["comparison"].unique():
@@ -369,7 +397,7 @@ def plot_boxplot(stats_df, out_dir):
                 "FC measure": [],
                 "Similarity": [],
             }
-            p_values = []
+            p_values = {}
             for _, row in df.iterrows():
                 n_subs = len(row["kept_subjects"])
                 corr = row["matrix"].reshape(n_subs, n_subs)
@@ -385,23 +413,30 @@ def plot_boxplot(stats_df, out_dir):
                     [row["measure"]] * (len(same_sub) + len(cross_sub))
                 )
                 d["Similarity"].extend(same_sub + cross_sub)
-                p_values.append((row["p_value"], row["measure"]))
+                p_values[row["measure"]] = row["p_value"]
             d = pd.DataFrame(d)
             color_map = {
                 "RestingState vs. Raiders": 1,
                 "RestingState vs. GoodBadUgly": 2,
                 "RestingState vs. MonkeyKingdom": 3,
-                "Raiders vs. GoodBadUgly": 4,
-                "Raiders vs. MonkeyKingdom": 5,
-                "GoodBadUgly vs. MonkeyKingdom": 6,
+                "RestingState vs. Mario": 4,
+                "Raiders vs. GoodBadUgly": 5,
+                "Raiders vs. MonkeyKingdom": 6,
+                "GoodBadUgly vs. MonkeyKingdom": 7,
+                "Raiders vs. Mario": 8,
+                "GoodBadUgly vs. Mario": 9,
+                "MonkeyKingdom vs. Mario": 10,
                 "RestingState vs. SC": 0,
                 "Raiders vs. SC": 1,
                 "GoodBadUgly vs. SC": 2,
                 "MonkeyKingdom vs. SC": 3,
+                "Mario vs. SC": 4,
             }
             color_palette = [
-                sns.color_palette("pastel")[color_map[comparison]],
-                sns.color_palette()[color_map[comparison]],
+                sns.color_palette("pastel", n_colors=11)[
+                    color_map[comparison]
+                ],
+                sns.color_palette(n_colors=11)[color_map[comparison]],
             ]
             fig = plt.figure()
             ax1 = plt.subplot2grid((1, 15), (0, 0), colspan=12)
@@ -418,11 +453,11 @@ def plot_boxplot(stats_df, out_dir):
                 ax=ax1,
                 fliersize=0,
             )
-            for i, p in enumerate(p_values):
+            for i, measure in enumerate(fc_measure_order):
                 index = abs((i - len(p_values)) - 1)
                 insert_stats(
                     ax2,
-                    p[0],
+                    p_values[measure],
                     d["Similarity"],
                     loc=[index + 0.2, index + 0.6],
                     x_n=len(p_values),
@@ -430,12 +465,17 @@ def plot_boxplot(stats_df, out_dir):
             ax1.legend(
                 framealpha=0, loc="center left", bbox_to_anchor=(1.2, 0.5)
             )
-            ax1.xaxis.set_tick_params(rotation=90)
+            plt.title(comparison, loc="right", x=-1, y=1.05)
             plot_file = os.path.join(
+                boxplot_dir,
+                f"{comparison}_{centering}_box.svg",
+            )
+            plot_file2 = os.path.join(
                 boxplot_dir,
                 f"{comparison}_{centering}_box.png",
             )
-            plt.savefig(plot_file, bbox_inches="tight", transparent=False)
+            plt.savefig(plot_file, bbox_inches="tight", transparent=True)
+            plt.savefig(plot_file2, bbox_inches="tight", transparent=False)
             plt.close()
 
 
@@ -445,14 +485,20 @@ if __name__ == "__main__":
     output_dir = os.path.join(DATA_ROOT, output_dir)
     os.makedirs(output_dir, exist_ok=True)
     calculate_connectivity = False
-    fc_data_path = os.path.join(cache, "connectomes")
-    sc_data_path = os.path.join(cache, "sc_data")
+    fc_data_path = os.path.join(cache, "connectomes2")
+    sc_data_path = os.path.join(cache, "sc_data_native_new")
     # number of jobs to run in parallel
-    n_jobs = 15
+    n_jobs = 50
     # tasks
-    tasks = ["RestingState", "Raiders", "GoodBadUgly", "MonkeyKingdom"]
+    tasks = [
+        "RestingState",
+        "Raiders",
+        "GoodBadUgly",
+        "MonkeyKingdom",
+        "Mario",
+    ]
     # cov estimators
-    cov_estimators = ["GLC", "LedoitWolf"]
+    cov_estimators = ["Graphical-Lasso", "Ledoit-Wolf", "Unregularized"]
     # connectivity measures for each cov estimator
     measures = ["correlation", "partial correlation"]
 
@@ -460,13 +506,18 @@ if __name__ == "__main__":
         ("RestingState", "Raiders"),
         ("RestingState", "GoodBadUgly"),
         ("RestingState", "MonkeyKingdom"),
+        ("RestingState", "Mario"),
         ("Raiders", "GoodBadUgly"),
         ("Raiders", "MonkeyKingdom"),
         ("GoodBadUgly", "MonkeyKingdom"),
+        ("Raiders", "Mario"),
+        ("GoodBadUgly", "Mario"),
+        ("MonkeyKingdom", "Mario"),
         ("RestingState", "SC"),
         ("Raiders", "SC"),
         ("GoodBadUgly", "SC"),
         ("MonkeyKingdom", "SC"),
+        ("Mario", "SC"),
     ]
 
     def all_combinations(task_pairs, cov_estimators, measures):
@@ -509,7 +560,7 @@ if __name__ == "__main__":
     all_connectivity = mean_connectivity(data, tasks, cov_estimators, measures)
     all_connectivity = pd.concat([all_connectivity, sc_data], axis=0)
 
-    results = Parallel(n_jobs=n_jobs, verbose=2, backend="multiprocessing")(
+    results = Parallel(n_jobs=n_jobs, verbose=2, backend="loky")(
         delayed(get_similarity)(all_connectivity, task_pair, cov, measure)
         for task_pair, cov, measure in all_combinations(
             task_pairs, cov_estimators, measures

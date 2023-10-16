@@ -13,7 +13,7 @@ from joblib import Parallel, delayed
 sns.set_theme(context="talk", style="whitegrid")
 
 # number of jobs to run in parallel
-n_jobs = 15
+n_jobs = 20
 # cache and root output directory
 cache = DATA_ROOT = "/storage/store/work/haggarwa/"
 output_dir = f"fc_classification_{time.strftime('%Y%m%d-%H%M%S')}"
@@ -21,8 +21,8 @@ output_dir = os.path.join(DATA_ROOT, output_dir)
 os.makedirs(output_dir, exist_ok=True)
 
 # connectivity calculation parameters
-calculate_connectivity = True
-fc_data_path = os.path.join(cache, "connectomes")
+calculate_connectivity = False
+fc_data_path = os.path.join(cache, "connectomes2")
 
 # cross-validation splits
 cv_splits = 50
@@ -49,20 +49,21 @@ def all_combinations(classify, tasks, connectivity_measures):
     # when classifying by tasks, we classify between two tasks
     # in this case, RestingState vs. each movie-watching task
     tasks_ = {
-        "Runs": tasks,
-        "Subjects": tasks,
-        "Tasks": [
-            ["RestingState", "Raiders"],
-            ["RestingState", "GoodBadUgly"],
-            ["RestingState", "MonkeyKingdom"],
-            ["RestingState", "Mario"],
-            ["Raiders", "GoodBadUgly"],
-            ["Raiders", "MonkeyKingdom"],
-            ["GoodBadUgly", "MonkeyKingdom"],
-            ["Raiders", "Mario"],
-            ["GoodBadUgly", "Mario"],
-            ["MonkeyKingdom", "Mario"],
-        ],
+        "Runs": [tasks],
+        "Subjects": [tasks],
+        "Tasks": [tasks]
+        # "Tasks": [
+        #     ["RestingState", "Raiders"],
+        #     ["RestingState", "GoodBadUgly"],
+        #     ["RestingState", "MonkeyKingdom"],
+        #     ["RestingState", "Mario"],
+        #     ["Raiders", "GoodBadUgly"],
+        #     ["Raiders", "MonkeyKingdom"],
+        #     ["GoodBadUgly", "MonkeyKingdom"],
+        #     ["Raiders", "Mario"],
+        #     ["GoodBadUgly", "Mario"],
+        #     ["MonkeyKingdom", "Mario"],
+        # ],
     }
     for classes in classify:
         for task in tasks_[classes]:
@@ -70,7 +71,7 @@ def all_combinations(classify, tasks, connectivity_measures):
                 yield classes, task, connectivity_measure
 
 
-if calculate_connectivity == True:
+if calculate_connectivity:
     # get the atlas
     atlas = datasets.fetch_atlas_schaefer_2018(
         data_dir=cache, resolution_mm=2, n_rois=400
@@ -91,9 +92,15 @@ if calculate_connectivity == True:
         for cov in cov_estimators
     )
     # concatenate the dataframes so we have a single dataframe with the connectomes from all cov estimators
-    cols_to_use = data[0].columns.difference(data[1].columns)
-    data = pd.concat([data[1], data[0][cols_to_use]], axis=1)
+    common_cols = ["time_series", "subject_ids", "run_labels", "tasks"]
+    data_ts = data[0][common_cols]
+    for df in data:
+        df.drop(columns=common_cols, inplace=True)
+    data.append(data_ts)
+    data = pd.concat(data, axis=1)
     data.reset_index(inplace=True, drop=True)
+    # save the data
+    data.to_pickle(fc_data_path)
 else:
     data = pd.read_pickle(fc_data_path)
 
@@ -113,7 +120,7 @@ all_results = pd.concat(all_results)
 # calculate chance level
 all_results = fc.chance_level(all_results)
 # save the results
-all_results.to_csv(os.path.join(output_dir, "all_results.csv"))
+all_results.to_pickle(os.path.join(output_dir, "all_results.pkl"))
 
 print("Plotting results...")
 fc.do_plots(all_results, output_dir)

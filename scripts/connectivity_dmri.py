@@ -152,26 +152,6 @@ def tcktransform_tract2mni(tck, mni_tck, tmp_dir):
     os.system(cmd8)
 
 
-def fetch_mni_template(tmp_dir):
-    """Fetch MNI template and mask
-
-    Parameters
-    ----------
-    tmp_dir : str
-        where to store the downloaded files
-    """
-    # download mni templates and mask
-    mni_templates_link = (
-        "http://www.bic.mni.mcgill.ca/~vfonov/"
-        "icbm/2009/mni_icbm152_nlin_sym_09a_nifti.zip"
-    )
-    os.system(f"wget {mni_templates_link} -P {tmp_dir}")
-    # unzip mni templates and mask
-    os.system(
-        f"unzip -o {tmp_dir}/mni_icbm152_nlin_sym_09a_nifti.zip -d {tmp_dir}"
-    )
-
-
 def apply_mask(img, mask, out_masked_img):
     """Wrapper function for NiftiMasker to apply mask to image
 
@@ -406,19 +386,11 @@ if __name__ == "__main__":
     # give atlas a custom name
     atlas["name"] = "schaefer400"
     # download mni templates and mask
-    fetch_mni_template(cache)
-    # path to mni t2w template
-    mni_unmasked = os.path.join(
-        cache,
-        "mni_icbm152_nlin_sym_09a",
-        "mni_icbm152_t2_tal_nlin_sym_09a.nii",
-    )
-    # path to mni t1w template mask
-    mni_mask = os.path.join(
-        cache,
-        "mni_icbm152_nlin_sym_09a",
-        "mni_icbm152_t1_tal_nlin_sym_09a_mask.nii",
-    )
+    mni = datasets.fetch_icbm152_2009()
+    # path to unmasked mni t2w template
+    mni_unmasked = mni["t2"]
+    # path to mni mask to remove skull
+    mni_mask = mni["mask"]
     # path to masked mni t2w
     mni_nifti = os.path.join(cache, "mni_t2w.nii.gz")
     # apply mask to mni t2w template
@@ -431,7 +403,7 @@ if __name__ == "__main__":
         else subject_session[1]
         for subject_session in subject_sessions
     }
-    results = Parallel(n_jobs=12, verbose=1, backend="multiprocessing")(
+    results = Parallel(n_jobs=12, verbose=2, backend="loky")(
         delayed(pipeline)(sub, ses, DERIVATIVES, OUT_ROOT, atlas, mni_nifti)
         for sub, ses in sub_ses.items()
     )
