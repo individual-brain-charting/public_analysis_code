@@ -728,9 +728,63 @@ MDTB	semantic_hard-easy	ambiguous sequence	natural sequence	ambiguous vs natural
 MDTB	2back_hard-easy	hard 2-back	easy 2-back	hard vs easy 2-back	
 MDTB	tom_belief-photo	statement relates to believes	statement relates to facts	statement relates to believes vs facts	
 MDTB	search_hard-easy	hard to look for the correct shape	easy to look for the correct shape 	hard vs easy to look for the correct shape	
-					
-					
-					
-					
-					
- 					
+Emotion	neutral_image	neutral valence image	fixation	images with neutral valence	
+Emotion	negative_image	negative valence image	fixation	images with negative valence	
+Emotion	echelle_valence	assess self state	fixation	assessment of emotional state	
+Emotion	negative-neutral	negative valence image	negative valence image	images with negative vs neutral valence	
+MultiModal	audio_animal	animal sounds	fixation	different animal sounds (except for monkey)	
+MultiModal	audio_monkey	monkey sounds	fixation	monkey sounds	
+MultiModal	audio_nature	nature sounds	fixation	sound made by nature	
+MultiModal	audio_silence	silence	fixation	no visual or audio stimuli	
+MultiModal	audio_speech	speech-like sounds	fixation	speech sounds	
+MultiModal	audio_tools	tool sounds	fixation	sound of noise made by tools	
+MultiModal	audio_voice	human made sounds	fixation	sounds made by humans (laugh, cough)	
+MultiModal	tactile_bottom	air puff on bottom lip	fixation	air puff on bottom lip	
+MultiModal	tactile_middle	air puff on middle lip	fixation	air puff on middle lip	
+MultiModal	tactile_top	air puff on upper lip	fixation	air puff on upper lip	
+MultiModal	image_animals	images of animals	fixation	images of animals (no monkeys or birds)	
+MultiModal	image_birds	images of birds	fixation	images of birds	
+MultiModal	image_fruits	images of fruits	fixation	images of fruits	
+MultiModal	image_human_body	images of head-less human bodies	fixation	images of head-less human bodies	
+MultiModal	image_human_face	images of human faces	fixation	images of human faces	
+MultiModal	image_human_object	images of vertical objects	fixation	images of vertical objects	
+MultiModal	image_monkey_body	images of head-less monkey bodies	fixation	images of head-less monkey bodies	
+MultiModal	image_monkey_face	images of monkey faces	fixation	images of monkey faces	
+MultiModal	image_monkey_object	images of round objects	fixation	images of round objects	
+MultiModal	image_sculpture	images of sculptures	fixation	images of sculptures	
+MultiModal	audio	audio stimuli	fixation	all audio stimuli	
+MultiModal	audio-control	audio stimuli	silence	all audio stimuli vs silence	
+MultiModal	visual	visual stimuli	fixation	all visual stimuli	
+MultiModal	visual-control	visual stimuli	silence	all visual stimuli vs pink-noise	
+MultiModal	tactile	tactile stimuli	fixation	all tactile stimuli	
+MultiModal	tactile-control	tactile stimuli	silence	all tactile stimuli vs no stimuli	
+MultiModal	audio-visual	audio stimuli	visual stimuli	audio vs visual stimuli	
+MultiModal	visual-audio	visual stimuli	audio stimuli	visual vs audio stimuli	
+MultiModal	tactile-visual	tactile stimuli	visual stimuli	tactile vs visual stimuli	
+MultiModal	visual-tactile	visual stimuli	tactile stimuli	visual vs tactile stimuli	
+MultiModal	tactile-audio	tactile stimuli	audio stimuli	tactile vs audio stimuli	
+MultiModal	audio-tactile	audio stimuli	tactile stimuli	audio vs tactile stimuli	
+MultiModal	face-other	human or monkey faces	rest of visual stimuli	images of human or monkey faces vs rest of visual stimuli	
+MultiModal	body-other	human or monkey bodies	rest of visual stimuli	images of human or monkey bodies vs rest of visual stimuli	
+MultiModal	body-non_face	human or monkey faces or bodies	rest of visual stimuli	images of human or monkey faces or bodies vs rest of visual stimuli	
+MultiModal	animate-inanimate	faces bodies or animals	rest of visual stimuli	images of all faces, bodies or animals vs rest of visual stimuli	
+MultiModal	monkey_speech-other	monkey sounds	rest of audio stimuli	monkey sounds vs rest of audio stimuli	
+MultiModal	speech-other	speech sounds	rest of audio stimuli	speech sounds vs rest of audio stimuli	
+MultiModal	speech+voice-other	speech or human sounds	rest of audio stimuli	speech or human sounds vs rest of audio stimuli	
+Mario	action_jump	jump	fixation	player jumps	
+Mario	action_leftrun	run left	fixation	player runs left	
+Mario	action_leftwalk	walk left	fixation	player walks left	
+Mario	action_rightrun	run right	fixation	player runs right	
+Mario	action_rightwalk	walk right	fixation	player walks right	
+Mario	loss_dying	lose or die	fixation	losing power or dying	
+Mario	onscreen_enemy	enemy appearance	fixation	enemy appearance on screen	
+Mario	reward_coin	get coin	fixation	getting coins	
+Mario	reward_enemykill_impact	kill enemy by impact	fixation	killing an enemy by impact	
+Mario	reward_enemykill_kick	kill enemy by kick	fixation	killing an enemy by kick	
+Mario	reward_enemykill_stomp	kill enemy by stomp	fixation	killing an enemy by stomp	
+Mario	reward_powerup_taken	gain size	fixation	gaining size or power	
+Mario	action	jump walk or run	fixation	player jumps, runs or walks	
+Mario	loss	lose	fixation	losing power or dying	
+Mario	reward	get reward	fixation	getting a reward	
+Mario	reward-loss	get reward	lose	getting a reward vs losing	
+Mario	reward_enemykill-others	get reward or kill enemy	rest of rewards	getting a reward for killing enemy vs other rewards	

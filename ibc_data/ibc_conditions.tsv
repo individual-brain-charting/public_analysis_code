@@ -498,3 +498,15 @@ MultiModal	image_monkey_body	Image of a monkey body (without the head) used as v
 MultiModal	image_monkey_face	Image of a monkey face used as visual stimulus
 MultiModal	image_monkey_object	Image of an object used by monkeys (i.e. drinker) used as visual stimulus
 MultiModal	image_sculpture	Image of a sculpture used as visual stimulus
+Mario	action_jump	Player jumps by pressing a special key
+Mario	action_leftrun	Player runs to the left (backwards) constrained by the current field of view
+Mario	action_leftwalk	Player walks to the left (backwards) constrained by the current field of view
+Mario	action_rightrun	Player runs to the right, advancing into the current world and level
+Mario	action_rightwalk	Player walks to the right, advancing into the current world and level
+Mario	loss_dying	Player loses size or dies
+Mario	onscreen_enemy	Enemy appears in the field of view
+Mario	reward_coin	Player earns coins, either visible or hidden coins
+Mario	reward_enemykill_impact	The enemy is defeated by the player in various ways: by smashing the brick underneath the enemy's position, by activating a lethal element directed towards the enemy, or by temporarily gaining the power to eliminate the enemy upon contact.
+Mario	reward_enemykill_kick	Player kicks the enemy, making it fall or die
+Mario	reward_enemykill_stomp	Player kills the enemy by stomping 
+Mario	reward_powerup_taken	Player gets a shot of life and size by catching a specified element (mushroom)
