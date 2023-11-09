@@ -376,9 +376,9 @@ StroopAomic	face_male	Male face shown
 StroopAomic	face_female	Female face shown
 StroopAomic	word_male	The presented word corresponds to a male
 StroopAomic	word_female	The presented word corresponds to a female
-WorkingMemoryAomic	active_change	The probe had a different orientation than it had on the array
-WorkingMemoryAomic	active_no_change	The probe had the same orientation than it had on the array
-WorkingMemoryAomic	passive	Passive trials, the bars were not displayed
+WMAomic	active_change	The probe had a different orientation than it had on the array
+WMAomic	active_no_change	The probe had the same orientation than it had on the array
+WMAomic	passive	Passive trials, the bars were not displayed
 AbstractionLocalizer	localizer_faces	Face images
 AbstractionLocalizer	localizer_humanbody	Body images
 AbstractionLocalizer	localizer_words	Words images
