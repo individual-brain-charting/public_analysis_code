@@ -669,7 +669,7 @@ Abstraction	humanbody_photo	photo of a human body	fixation	photos of human bodie
 Abstraction	animals_geometry	geometry render of an animal	fixation	geometry renders of animals	['animacy_perception','visual_representation','mental_representation','abstract_analogy','visual_form_recognition']
 Abstraction	animals_edge	edge render of an animal	fixation	edge renders of an animals	['animacy_perception','visual_representation','mental_representation','abstract_analogy','edge_detection']
 Abstraction	animals_photo	photo of an animal	fixation	photo of an animal	['animacy_perception','visual_representation']
-Abstraction	faces_geometry	geometry render of a human face	fixation	geometry renders of human faces	['visual_face_recognition','face_perception'','visual_representation','mental_representation','abstract_analogy','visual_form_recognition']
+Abstraction	faces_geometry	geometry render of a human face	fixation	geometry renders of human faces	['visual_face_recognition','face_perception','visual_representation','mental_representation','abstract_analogy','visual_form_recognition']
 Abstraction	faces_edge	edge render of a human face	fixation	edge renders of human faces	['visual_face_recognition','face_perception','visual_representation','mental_representation','abstract_analogy','edge_detection']
 Abstraction	faces_photo	photo of a human face	fixation	photos of human faces	['visual_face_recognition','face_perception','visual_representation']
 Abstraction	flora_geometry	geometry render of flora	fixation	geometry renders of flora	['animacy_perception','visual_representation','mental_representation','abstract_analogy','visual_form_recognition']
@@ -709,7 +709,7 @@ Abstraction	places_geometry-places_other	geometry render of places	edge and phot
 Abstraction	places_edge-places_other	edges render of places	geometry and photo renders of places	edge vs geometry and photo render of places	['mental_representation','abstract_analogy','edge_detection']
 Abstraction	places_photo-places_other	photos of places	geometry and edge renders of places	photo vs geometry and edge render of places	['visual_representation']
 Abstraction	response	indicate a star appeared	fixation	button press to star	['response_selection','response_execution']
-MDTB	action_action 	hands making knot	fixation	watching hands make a specific knot	['action_perception']
+MDTB	action_action 	hands making knot	fixation	watching hands make a specific knot	['action_perception','procedural_memory']
 MDTB	action_control	resulting knot from different angles	fixation	resulting knot shown from different angles	['action-outcome_learning','shape_recognition']
 MDTB	finger_simple	easy button sequence	fixation	easy sequence of button presses	['response_selection','response_execution','right_finger_response_execution']
 MDTB	finger_complex	hard button sequence	fixation	hard sequence of button presses	['motor_control','response_selection','response_execution','right_finger_response_execution','task_difficulty']
@@ -722,7 +722,7 @@ MDTB	tom_belief	statement relates to believes	fixation	statement relates to char
 MDTB	search_easy	easy to look for the correct shape	fixation	easy to look for the right-oriented shape	['visual_search','visual_pattern_recognition']
 MDTB	search_hard	hard to look for the correct shape	fixation	hard to look for the right-oriented shape	['visual_search','visual_pattern_recognition','visual_form_discrimination','task_difficulty']
 MDTB	flexion_extension	toes flexion-extension	fixation	continuous toes flexion-extension	['response_execution','left_toe_response_execution','right_toe_response_execution'] 
-MDTB	action_action-control	hands making knot	resulting knot from different angles	hands making specific knot vs resulting knot	['action_perception','action-outcome_learning','shape_recognition'] 
+MDTB	action_action-control	hands making knot	resulting knot from different angles	hands making specific knot vs resulting knot	['action_perception','procedural_memory','action-outcome_learning','shape_recognition'] 
 MDTB	finger_complex-simple	hard button sequence	easy button sequence	hard vs easy button sequence	['motor_control','task_difficulty']
 MDTB	semantic_hard-easy	ambiguous sequence	natural sequence	ambiguous vs natural sequence	['combinatorial_semantics','task_difficulty']
 MDTB	2back_hard-easy	hard 2-back	easy 2-back	hard vs easy 2-back	['task_difficulty']
@@ -730,47 +730,47 @@ MDTB	tom_belief-photo	statement relates to believes	statement relates to facts	s
 MDTB	search_hard-easy	hard to look for the correct shape	easy to look for the correct shape 	hard vs easy to look for the correct shape	['visual_form_discrimination','task_difficulty']
 Emotion	neutral_image	neutral valence image	fixation	images with neutral valence	['visual_perception','visual_scene_perception']
 Emotion	negative_image	negative valence image	fixation	images with negative valence	['visual_perception','negative_emotion','visual_scene_perception']
-Emotion	echelle_valence	assess self state	fixation	assessment of emotional state	['self-reference_effect']
+Emotion	echelle_valence	assess self state	fixation	assessment of emotional state	['self-reference_effect','emotional_self-evaluation']
 Emotion	negative-neutral	negative valence image	negative valence image	images with negative vs neutral valence	['negative_emotion']
-MultiModal	audio_animal	animal sounds	fixation	different animal sounds (except for monkey)	
-MultiModal	audio_monkey	monkey sounds	fixation	monkey sounds	
-MultiModal	audio_nature	nature sounds	fixation	sound made by nature	
-MultiModal	audio_silence	silence	fixation	no visual or audio stimuli	
-MultiModal	audio_speech	speech-like sounds	fixation	speech sounds	
-MultiModal	audio_tools	tool sounds	fixation	sound of noise made by tools	
-MultiModal	audio_voice	human made sounds	fixation	sounds made by humans (laugh, cough)	
-MultiModal	tactile_bottom	air puff on bottom lip	fixation	air puff on bottom lip	
-MultiModal	tactile_middle	air puff on middle lip	fixation	air puff on middle lip	
-MultiModal	tactile_top	air puff on upper lip	fixation	air puff on upper lip	
-MultiModal	image_animals	images of animals	fixation	images of animals (no monkeys or birds)	
-MultiModal	image_birds	images of birds	fixation	images of birds	
-MultiModal	image_fruits	images of fruits	fixation	images of fruits	
-MultiModal	image_human_body	images of head-less human bodies	fixation	images of head-less human bodies	
-MultiModal	image_human_face	images of human faces	fixation	images of human faces	
-MultiModal	image_human_object	images of vertical objects	fixation	images of vertical objects	
-MultiModal	image_monkey_body	images of head-less monkey bodies	fixation	images of head-less monkey bodies	
-MultiModal	image_monkey_face	images of monkey faces	fixation	images of monkey faces	
-MultiModal	image_monkey_object	images of round objects	fixation	images of round objects	
-MultiModal	image_sculpture	images of sculptures	fixation	images of sculptures	
-MultiModal	audio	audio stimuli	fixation	all audio stimuli	
-MultiModal	audio-control	audio stimuli	silence	all audio stimuli vs silence	
-MultiModal	visual	visual stimuli	fixation	all visual stimuli	
-MultiModal	visual-control	visual stimuli	silence	all visual stimuli vs pink-noise	
-MultiModal	tactile	tactile stimuli	fixation	all tactile stimuli	
-MultiModal	tactile-control	tactile stimuli	silence	all tactile stimuli vs no stimuli	
-MultiModal	audio-visual	audio stimuli	visual stimuli	audio vs visual stimuli	
-MultiModal	visual-audio	visual stimuli	audio stimuli	visual vs audio stimuli	
-MultiModal	tactile-visual	tactile stimuli	visual stimuli	tactile vs visual stimuli	
-MultiModal	visual-tactile	visual stimuli	tactile stimuli	visual vs tactile stimuli	
-MultiModal	tactile-audio	tactile stimuli	audio stimuli	tactile vs audio stimuli	
-MultiModal	audio-tactile	audio stimuli	tactile stimuli	audio vs tactile stimuli	
-MultiModal	face-other	human or monkey faces	rest of visual stimuli	images of human or monkey faces vs rest of visual stimuli	
-MultiModal	body-other	human or monkey bodies	rest of visual stimuli	images of human or monkey bodies vs rest of visual stimuli	
-MultiModal	body-non_face	human or monkey faces or bodies	rest of visual stimuli	images of human or monkey faces or bodies vs rest of visual stimuli	
-MultiModal	animate-inanimate	faces bodies or animals	rest of visual stimuli	images of all faces, bodies or animals vs rest of visual stimuli	
-MultiModal	monkey_speech-other	monkey sounds	rest of audio stimuli	monkey sounds vs rest of audio stimuli	
-MultiModal	speech-other	speech sounds	rest of audio stimuli	speech sounds vs rest of audio stimuli	
-MultiModal	speech+voice-other	speech or human sounds	rest of audio stimuli	speech or human sounds vs rest of audio stimuli	
+MultiModal	audio_animal	animal sounds	fixation	different animal sounds (except for monkey)	['animacy_perception','auditory_perception','auditory_recognition','auditory_working_memory']
+MultiModal	audio_monkey	monkey sounds	fixation	monkey sounds	['animacy_perception','auditory_perception','auditory_recognition','auditory_working_memory']
+MultiModal	audio_nature	nature sounds	fixation	sound made by nature	['sound_perception','auditory_perception','auditory_recognition','auditory_working_memory']
+MultiModal	audio_silence	silence	fixation	no visual or audio stimuli	['preattentive_processing','central_fixation','auditory_tone_detection','auditory_working_memory']
+MultiModal	audio_speech	speech-like sounds	fixation	speech sounds	['speech_perception','auditory_perception','auditory_recognition']
+MultiModal	audio_tools	tool sounds	fixation	sound of noise made by tools	['sound_perception','auditory_perception','auditory_recognition','object_recognition']
+MultiModal	audio_voice	human made sounds	fixation	sounds made by humans (laugh, cough)	['voice_perception','sound_perception','auditory_perception','auditory_recognition']
+MultiModal	tactile_bottom	air puff on bottom lip	fixation	air puff on bottom lip	['tactile_working_memory','detection','unisensory','sensory_memory','localization']
+MultiModal	tactile_middle	air puff on middle lip	fixation	air puff on middle lip	['tactile_working_memory','detection','unisensory','sensory_memory','localization']
+MultiModal	tactile_top	air puff on upper lip	fixation	air puff on upper lip	['tactile_working_memory','detection','unisensory','sensory_memory','localization']
+MultiModal	image_animals	images of animals	fixation	images of animals (no monkeys or birds)	['animacy_perception','visual_perception','visual_recognition','visual_working_memory']
+MultiModal	image_birds	images of birds	fixation	images of birds	['animacy_perception','visual_perception','visual_recognition','visual_working_memory']
+MultiModal	image_fruits	images of fruits	fixation	images of fruits	['visual_object_detection','visual_perception','visual_recognition','visual_working_memory']
+MultiModal	image_human_body	images of head-less human bodies	fixation	images of head-less human bodies	['animacy_perception','visual_perception','visual_recognition','visual_working_memory','visual_body_recognition']
+MultiModal	image_human_face	images of human faces	fixation	images of human faces	['animacy_perception','visual_perception','visual_recognition','visual_working_memory','face_perception']
+MultiModal	image_human_object	images of vertical objects	fixation	images of vertical objects	['visual_object_detection','visual_perception','visual_recognition','visual_working_memory','visual_form_recognition']
+MultiModal	image_monkey_body	images of head-less monkey bodies	fixation	images of head-less monkey bodies	['animacy_perception','visual_perception','visual_recognition','visual_working_memory','visual_body_recognition','discrimination']
+MultiModal	image_monkey_face	images of monkey faces	fixation	images of monkey faces	['animacy_perception','visual_perception','visual_recognition','visual_working_memory','visual_face_recognition','discrimination','face_perception']
+MultiModal	image_monkey_object	images of round objects	fixation	images of round objects	['visual_object_detection','visual_perception','visual_recognition','visual_working_memory','visual_form_recognition']
+MultiModal	image_sculpture	images of sculptures	fixation	images of sculptures	['visual_object_detection','visual_perception','visual_recognition','visual_working_memory']
+MultiModal	audio	audio stimuli	fixation	all audio stimuli	['auditory_perception','auditory_recognition','auditory_working_memory','sound_perception','auditory_tone_detection','voice_perception','speech_perception','amimacy_detection']
+MultiModal	audio-control	audio stimuli	silence	all audio stimuli vs silence	['auditory_perception','auditory_recognition','sound_perception','voice_perception','speech_perception','amimacy_detection']
+MultiModal	visual	visual stimuli	fixation	all visual stimuli	['animacy_perception','visual_perception','visual_recognition','visual_working_memory','visual_body_recognition','discrimination','visual_object_detection','face_perception','visual_face_recognition']
+MultiModal	visual-control	visual stimuli	silence	all visual stimuli vs pink-noise	['animacy_perception','visual_perception','visual_recognition','visual_body_recognition','discrimination','visual_object_detection','face_perception','visual_face_recognition']
+MultiModal	tactile	tactile stimuli	fixation	all tactile stimuli	['tactile_working_memory','detection','unisensory','sensory_memory','localization']
+MultiModal	tactile-control	tactile stimuli	silence	all tactile stimuli vs no stimuli	['detection','unisensory','sensory_memory']
+MultiModal	audio-visual	audio stimuli	visual stimuli	audio vs visual stimuli	['auditory_perception','auditory_recognition','sound_perception','auditory_tone_detection','voice_perception','speech_perception']
+MultiModal	visual-audio	visual stimuli	audio stimuli	visual vs audio stimuli	['visual_perception','visual_recognition','visual_body_recognition','visual_object_detection','face_perception','visual_face_recognition']
+MultiModal	tactile-visual	tactile stimuli	visual stimuli	tactile vs visual stimuli	['detection','unisensory','sensory_memory','localization']
+MultiModal	visual-tactile	visual stimuli	tactile stimuli	visual vs tactile stimuli	['visual_perception','visual_recognition','visual_body_recognition','visual_object_detection','face_perception','visual_face_recognition']
+MultiModal	tactile-audio	tactile stimuli	audio stimuli	tactile vs audio stimuli	['detection','unisensory','sensory_memory','localization']
+MultiModal	audio-tactile	audio stimuli	tactile stimuli	audio vs tactile stimuli	['auditory_perception','auditory_recognition','sound_perception','auditory_tone_detection','voice_perception','speech_perception']
+MultiModal	face-other	human or monkey faces	rest of visual stimuli	images of human or monkey faces vs rest of visual stimuli	['visual_face_recognition','face_perception']
+MultiModal	body-other	human or monkey bodies	rest of visual stimuli	images of human or monkey bodies vs rest of visual stimuli	['visual_body_recognition']
+MultiModal	body-non_face	human or monkey faces or bodies	rest of visual stimuli	images of human or monkey faces or bodies vs rest of visual stimuli	['visual_face_recognition','face_perception','visual_body_recognition']
+MultiModal	animate-inanimate	faces bodies or animals	rest of visual stimuli	images of all faces, bodies or animals vs rest of visual stimuli	['visual_face_recognition','face_perception','visual_body_recognition','animacy_perception','discrimination']
+MultiModal	monkey_speech-other	monkey sounds	rest of audio stimuli	monkey sounds vs rest of audio stimuli	['animacy_perception']
+MultiModal	speech-other	speech sounds	rest of audio stimuli	speech sounds vs rest of audio stimuli	['speech_perception']
+MultiModal	speech+voice-other	speech or human sounds	rest of audio stimuli	speech or human sounds vs rest of audio stimuli	['speech_perception','voice_perception','sound_perception']
 Mario	action_jump	jump	fixation	player jumps	
 Mario	action_leftrun	run left	fixation	player runs left	
 Mario	action_leftwalk	walk left	fixation	player walks left	
