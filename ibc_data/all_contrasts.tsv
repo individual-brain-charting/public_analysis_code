@@ -597,7 +597,7 @@ Motion	coherent	coherent  motion	fixation	dots moving coherently	['coherent_moti
 Motion	stationary	stationary dots	fixation	stationary dots appearing in different locations	['visual_localization','visual_awareness']
 Motion	clock	clockwise motion	fixation	motion in clockwise direction	['coherent_motion','visual_awareness']
 Motion	anti	anti-clockwise motion	fixation	anti-clockwise motion	['coherent_motion','visual_awareness']
-Motion	response	cued button press	fixation	fixation point turning blue	['response_selection','response_execution','color recognition','color_perception']
+Motion	response	cued button press	fixation	fixation point turning blue	['response_selection','response_execution','color_recognition','color_perception']
 Motion	coherent-incoherent	coherent motion	incoherent motion	dots moving coherently vs coherently	['coherent_motion','visual_awareness']
 Motion	coherent-stationary	coherent motion	stationary dots	dots moving coherently vs staying stationary	['coherent_motion','motion detection']
 Motion	incoherent-stationary	incoherent motion	stationary dots	dots moving incoherently vs staying stationary	['random_motion','motion detection']
