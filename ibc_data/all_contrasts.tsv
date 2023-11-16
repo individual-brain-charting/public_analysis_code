@@ -590,7 +590,7 @@ ItemRecognition	arrow_left	arrow points left	fixation	leftward pointing arrow	['
 ItemRecognition	arrow_right	arrow points right	fixation	rightward pointing arrow	['visual_attention','spatial_working_memory','response_selection']
 Color	chromatic	chromatic mondrian patterns	fixation	attending to chromatic mondrian patterns	['color_perception','working_memory']
 Color	achromatic	achromatic mondrian patterns	fixation	attending to achromatic mondrian patterns	['working_memory']
-Color	chromatic-achromatic	chromatic mondrian patterns	achromatic mondrian patterns	chromatic vs achromatic mondrian patterns	['color_perception’,'working_memory']
+Color	chromatic-achromatic	chromatic mondrian patterns	achromatic mondrian patterns	chromatic vs achromatic mondrian patterns	['color_perception','working_memory']
 Color	response	response to repeated pattern	fixation	response to repeated mondrian patterns	['response_selection','response_execution']
 Motion	incoherent	incoherent motion	fixation	dots moving incoherently	['random_motion','visual_awareness']
 Motion	coherent	coherent  motion	fixation	dots moving coherently	['coherent_motion','visual_awareness']
