@@ -235,31 +235,31 @@ def lpp_localizer(design_matrix_columns):
 def mario(design_matrix_columns):
     """ Contrasts for Mario task """
     contrast_names = [
-        # 'action_fire', # to be removed in utils_conditions
-        'action_jump',
-        'action_leftrun',
-        'action_leftwalk',
-        # 'action_pipedown',
-        # 'action_rest',  # to be removed in utils_conditions
-        'action_rightrun',
-        'action_rightwalk',
-        'loss_dying',
-        # 'loss_powerdown',
-        # 'loss_powerup_miss',
-        'onscreen_enemy',
-        # 'onscreen_powerup',
-        #'reward_bricksmash',
-        'reward_coin',
-        'reward_enemykill_impact',
-        'reward_enemykill_kick',
-        'reward_enemykill_stomp',
-        'reward_powerup_taken',
+       'keypress_right',
+       #'keypress_up',
+       'keypress_left',
+       #'keypress_down',
+       'keypress_jump',
+       # 'keypress_runshoot',
+       'onscreen_enemy',
+       #'onscreen_powerup',
+       'reward_enemykill_stomp',
+       'reward_coin', 
+       #'reward_powerup_taken', 
+       # 'reward_bricksmash',
+       # 'reward_enemykill_kick',
+       #'reward_enemykill_impact', 
+       #'loss_powerdown',
+       #'loss_powerup_miss',
+       #'loss_dying',
+         #
         'action',
         'loss',
         'reward',
         'reward-loss',
         'reward_enemykill-others',
     ]
+
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -268,7 +268,7 @@ def mario(design_matrix_columns):
     reward_enemykill =  np.sum(
         [con[name] for name in con.keys() if 'reward_enemykill' in name], 0)
     contrasts['action'] = np.sum([con[name] for name in con.keys()
-                                  if 'action' in name], 0)
+                                  if 'keypress' in name], 0)
     contrasts['loss'] = np.sum([con[name] for name in con.keys()
                                if 'loss' in name], 0)
     contrasts['reward'] = reward
@@ -358,9 +358,9 @@ def multi_modal(design_matrix_columns):
 def abstraction_localizer(design_matrix_columns):
     """ Contrasts for Abstraction Localizer"""
     localizer_ = ['localizer_faces', 'localizer_humanbody',
-                      'localizer_words', 'localizer_nonsensewords',
-                      'localizer_numbers', 'localizer_places',
-                      'localizer_objects', 'localizer_checkerboards']
+                  'localizer_words', 'localizer_nonsensewords',
+                  'localizer_numbers', 'localizer_places',
+                  'localizer_objects', 'localizer_checkerboards']
     others_ = ['response', 'localizer_faces-other',
                'localizer_humanbody-other','localizer_words-other',
                'localizer_nonsensewords-other',
@@ -390,6 +390,7 @@ def abstraction_localizer(design_matrix_columns):
         localizer
     contrasts['localizer_checkerboards-other'] = 8 *\
         con['localizer_checkerboards'] - localizer
+    contrasts['response'] = con['response']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -485,8 +486,8 @@ def abstraction(design_matrix_columns):
         con['flora_geometry'] - flora
     contrasts['flora_edge-flora_other'] = 3 *\
         con['flora_edge'] - flora
-    contrasts['flora_photos-flora_other'] = 3 *\
-        con['flora_photos'] - flora
+    contrasts['flora_photo-flora_other'] = 3 *\
+        con['flora_photo'] - flora
     contrasts['objects_geometry-objects_other'] = 3 *\
         con['objects_geometry'] - objects
     contrasts['objects_edge-objects_other'] = 3 *\
@@ -499,6 +500,7 @@ def abstraction(design_matrix_columns):
         con['places_edge'] - places
     contrasts['places_photo-places_other'] = 3 *\
         con['places_photo'] - places
+    contrasts['response'] = con['response']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)

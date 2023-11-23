@@ -72,7 +72,6 @@ def generate_glm_input(jobfile, smooth=None, lowres=False):
         hrf_model = subject.hrf_model
         if 'retino' in jobfile or 'stanford1' in jobfile:
             hrf_model = 'spm'
-
         subject_ = {
             'scratch': output_dir,
             'output_dir': output_dir,
@@ -86,10 +85,10 @@ def generate_glm_input(jobfile, smooth=None, lowres=False):
             'drift_model': subject.drift_model,
             'high_pass': 1. / 128,
             'time_units': subject.time_units,
-            'hrf_model': hrf_model,
-            'anat': anat,
             'onset': subject.onset,
             'report': True,
+            'hrf_model': hrf_model,
+            'anat': anat,
             'reports_output_dir': reports_output_dir,
             'report_log_filename': report_log_filename,
             'report_preproc_filename': report_preproc_filename,
@@ -144,13 +143,13 @@ if __name__ == '__main__':
     # protocols += ['optimism' 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang']
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     # protocols = ['audio1', 'audio2']
-    # protocols = ['optimism', 'abstraction', 'leuven', 'mdtb']
-    protocols = ['fbirn'] # 
+    protocols = ['abstraction', 'leuven', 'mdtb', 'mario1']
+    # protocols = ['mario2'] # 
 
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=6)(
+        Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
             for (subject, session) in subject_session)
