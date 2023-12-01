@@ -15,14 +15,14 @@ sns.set_theme(context="talk", style="whitegrid")
 # number of jobs to run in parallel
 n_jobs = 20
 # cache and root output directory
-cache = DATA_ROOT = "/storage/store/work/haggarwa/"
+cache = DATA_ROOT = "/storage/store2/work/haggarwa/"
 output_dir = f"fc_classification_{time.strftime('%Y%m%d-%H%M%S')}"
 output_dir = os.path.join(DATA_ROOT, output_dir)
 os.makedirs(output_dir, exist_ok=True)
 
 # connectivity calculation parameters
-calculate_connectivity = False
-fc_data_path = os.path.join(cache, "connectomes2")
+calculate_connectivity = True
+fc_data_path = os.path.join(cache, "connectomes_200_parcels_within_task")
 
 # cross-validation splits
 cv_splits = 50
@@ -49,21 +49,23 @@ def all_combinations(classify, tasks, connectivity_measures):
     # when classifying by tasks, we classify between two tasks
     # in this case, RestingState vs. each movie-watching task
     tasks_ = {
-        "Runs": [tasks],
-        "Subjects": [tasks],
-        "Tasks": [tasks]
-        # "Tasks": [
-        #     ["RestingState", "Raiders"],
-        #     ["RestingState", "GoodBadUgly"],
-        #     ["RestingState", "MonkeyKingdom"],
-        #     ["RestingState", "Mario"],
-        #     ["Raiders", "GoodBadUgly"],
-        #     ["Raiders", "MonkeyKingdom"],
-        #     ["GoodBadUgly", "MonkeyKingdom"],
-        #     ["Raiders", "Mario"],
-        #     ["GoodBadUgly", "Mario"],
-        #     ["MonkeyKingdom", "Mario"],
-        # ],
+        # "Runs": [tasks],
+        # "Subjects": [tasks],
+        # "Tasks": [tasks]
+        "Runs": tasks,
+        "Subjects": tasks,
+        "Tasks": [
+            ["RestingState", "Raiders"],
+            ["RestingState", "GoodBadUgly"],
+            ["RestingState", "MonkeyKingdom"],
+            ["RestingState", "Mario"],
+            ["Raiders", "GoodBadUgly"],
+            ["Raiders", "MonkeyKingdom"],
+            ["GoodBadUgly", "MonkeyKingdom"],
+            ["Raiders", "Mario"],
+            ["GoodBadUgly", "Mario"],
+            ["MonkeyKingdom", "Mario"],
+        ],
     }
     for classes in classify:
         for task in tasks_[classes]:
@@ -74,7 +76,7 @@ def all_combinations(classify, tasks, connectivity_measures):
 if calculate_connectivity:
     # get the atlas
     atlas = datasets.fetch_atlas_schaefer_2018(
-        data_dir=cache, resolution_mm=2, n_rois=400
+        data_dir=cache, resolution_mm=2, n_rois=200
     )
     # use the atlas to extract time series for each task in parallel
     # get_time_series returns a dataframe with the time series for each task, consisting of runs x subjects
@@ -107,7 +109,7 @@ else:
 # run classification for all combinations of classification, task and connectivity measure in parallel
 # do_cross_validation returns a dataframe with the results of the cross validation for each case
 print("Cross validation...")
-all_results = Parallel(n_jobs=n_jobs, verbose=2, backend="loky")(
+all_results = Parallel(n_jobs=n_jobs, verbose=11, backend="loky")(
     delayed(fc.do_cross_validation)(
         classes, task, cv_splits, connectivity_measure, data, output_dir
     )
@@ -117,11 +119,5 @@ all_results = Parallel(n_jobs=n_jobs, verbose=2, backend="loky")(
 )
 print("Saving results...")
 all_results = pd.concat(all_results)
-# calculate chance level
-all_results = fc.chance_level(all_results)
 # save the results
 all_results.to_pickle(os.path.join(output_dir, "all_results.pkl"))
-
-print("Plotting results...")
-fc.do_plots(all_results, output_dir)
-print("Done!")

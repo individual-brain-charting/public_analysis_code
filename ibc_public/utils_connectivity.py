@@ -1,83 +1,132 @@
 import os
 from glob import glob
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import seaborn as sns
 from ibc_public.utils_data import DERIVATIVES, get_subject_session
 from nilearn.connectome import sym_matrix_to_vec
 from nilearn.maskers import NiftiLabelsMasker
 from sklearn.base import clone
 from sklearn.covariance import (
     GraphicalLassoCV,
+    GraphicalLasso,
     LedoitWolf,
     EmpiricalCovariance,
+    empirical_covariance,
+    shrunk_covariance,
 )
 from sklearn.metrics import (
     accuracy_score,
-    confusion_matrix,
     roc_auc_score,
-    classification_report,
 )
 from sklearn.model_selection import GroupShuffleSplit, LeavePGroupsOut
 from sklearn.svm import LinearSVC
 from sklearn.dummy import DummyClassifier
 from tqdm import tqdm
+import itertools
 
-from joblib import Memory
-
-sns.set_theme(context="talk", style="whitegrid")
+HCP_ROOT = "/storage/store/data/HCP900"
 
 
-def _get_tr(task):
-    if task == "RestingState":
-        repetition_time = 0.76
-    elif task in ["GoodBadUgly", "Raiders", "MonkeyKingdom", "Mario"]:
-        repetition_time = 2
-    else:
-        raise ValueError(f"Unknown task {task}")
+def _get_tr(task, dataset="ibc"):
+    if dataset == "ibc":
+        if task == "RestingState":
+            repetition_time = 0.76
+        elif task in ["GoodBadUgly", "Raiders", "MonkeyKingdom", "Mario"]:
+            repetition_time = 2
+        else:
+            raise ValueError(f"Unknown task {task}")
+    elif dataset == "hcp":
+        repetition_time = 0.72
 
     return repetition_time
 
 
-def _get_niftis(task, subject, session, root=DERIVATIVES):
-    _run_files = glob(
-        os.path.join(
-            DERIVATIVES,
-            subject,
-            session,
-            "func",
-            f"wrdc*{task}*.nii.gz",
+def _get_niftis(task, subject, session, dataset="ibc"):
+    if dataset == "ibc":
+        _run_files = glob(
+            os.path.join(
+                DERIVATIVES,
+                subject,
+                session,
+                "func",
+                f"wrdc*{task}*.nii.gz",
+            )
         )
-    )
-    run_labels = []
-    run_files = []
-    for run in _run_files:
-        run_label = os.path.basename(run).split("_")[-2]
-        run_num = run_label.split("-")[-1]
-        # skip repeats of run-01, run-02, run-03 done at the end of
-        # the sessions in Raiders and GoodBadUgly
-        if task == "Raiders" and int(run_num) > 10:
-            continue
-        elif task == "GoodBadUgly" and int(run_num) > 18:
-            continue
-        run_labels.append(run_label)
-        run_files.append(run)
+        run_labels = []
+        run_files = []
+        for run in _run_files:
+            run_label = os.path.basename(run).split("_")[-2]
+            run_num = run_label.split("-")[-1]
+            # skip repeats of run-01, run-02, run-03 done at the end of
+            # the sessions in Raiders and GoodBadUgly
+            if task == "Raiders" and int(run_num) > 10:
+                continue
+            elif task == "GoodBadUgly" and int(run_num) > 18:
+                continue
+            elif task == "RestingState":
+                if run_label == "dir-ap":
+                    run_label = "run-01"
+                else:
+                    run_label = "run-02"
+            run_labels.append(run_label)
+            run_files.append(run)
+    elif dataset == "hcp":
+        run_files = glob(
+            os.path.join(
+                HCP_ROOT,
+                subject,
+                "MNINonLinear",
+                "Results",
+                session,
+                f"{session}.nii.gz",
+            )
+        )
+        run_labels = []
+        for run in run_files:
+            direction = session.split("_")[2]
+            if task == "REST":
+                rest_ses = session.split("_")[1]
+                if direction == "LR" and rest_ses == "REST1":
+                    run_label = "run-01"
+                elif direction == "RL" and rest_ses == "REST1":
+                    run_label = "run-02"
+                elif direction == "LR" and rest_ses == "REST2":
+                    run_label = "run-03"
+                elif direction == "RL" and rest_ses == "REST2":
+                    run_label = "run-04"
+            else:
+                if direction == "LR":
+                    run_label = "run-01"
+                elif direction == "RL":
+                    run_label = "run-02"
+            run_labels.append(run_label)
 
     return run_files, run_labels
 
 
-def _get_confounds(run_num, subject, session, root=DERIVATIVES):
-    return glob(
-        os.path.join(
-            DERIVATIVES,
-            subject,
-            session,
-            "func",
-            f"rp*{run_num}_bold*",
-        )
-    )[0]
+def _get_confounds(run_num, subject, session, dataset="ibc"):
+    if dataset == "ibc":
+        return glob(
+            os.path.join(
+                DERIVATIVES,
+                subject,
+                session,
+                "func",
+                f"rp*{run_num}_bold*",
+            )
+        )[0]
+    elif dataset == "hcp":
+        return glob(
+            os.path.join(
+                HCP_ROOT,
+                subject,
+                "MNINonLinear",
+                "Results",
+                session,
+                "Movement_Regressors_dt.txt",
+            )
+        )[0]
 
 
 def _update_data(data, all_time_series, subject_ids, run_labels, tasks):
@@ -103,7 +152,7 @@ def _update_results(
     dummy_auc,
     dummy_accuracy,
     dummy_predictions,
-    weights,
+    # weights,
 ):
     results["LinearSVC_accuracy"].append(accuracy)
     results["LinearSVC_auc"].append(auc)
@@ -127,14 +176,14 @@ def _update_results(
     results["Dummy_auc"].append(dummy_auc)
     results["Dummy_accuracy"].append(dummy_accuracy)
     results["Dummy_predicted_class"].append(dummy_predictions)
-    results["weights"].append(weights)
+    # results["weights"].append(weights)
 
     return results
 
 
 def _select_data(data, classify, task, pooled_tasks):
     if pooled_tasks:
-        assert type(task) == list
+        assert isinstance(task, list)
         task_label = " vs ".join(task)
         data = data[data["tasks"].isin(task)]
         if classify == "Tasks":
@@ -149,7 +198,7 @@ def _select_data(data, classify, task, pooled_tasks):
             groups = data["subject_ids"].to_numpy(dtype=object)
     else:
         if classify in ["Runs", "Subjects"]:
-            assert type(task) == str
+            assert isinstance(task, str)
             task_label = task
             data = data[data["tasks"] == task]
             if classify == "Runs":
@@ -159,7 +208,7 @@ def _select_data(data, classify, task, pooled_tasks):
                 classes = data["subject_ids"].to_numpy(dtype=object)
                 groups = data["run_labels"].to_numpy(dtype=object)
         elif classify == "Tasks":
-            assert type(task) == list
+            assert isinstance(task, list)
             task_label = " vs ".join(task)
             data = data[data["tasks"].isin(task)]
             classes = data["tasks"].to_numpy(dtype=object)
@@ -168,22 +217,27 @@ def _select_data(data, classify, task, pooled_tasks):
     return data, task_label, classes, groups
 
 
-def _clean(series):
-    series = series.split()
-    l = []
-    for i in series:
-        l.append(i.strip("'[]"))
-    series = np.asarray(l)
-    return series
+def _find_hcp_subjects(session_names):
+    # load csv file with subject ids and task availability
+    df = pd.read_csv(os.path.join(HCP_ROOT, "unrestricted_hcp_s900.csv"))
+    df = df[df["3T_Full_MR_Compl"] == True]
+    subs = list(df["Subject"].astype(str))
+    sub_ses = {}
+    for sub in subs:
+        sub_ses[sub] = session_names
+
+    return sub_ses
 
 
-def get_ses_modality(task):
+def get_ses_modality(task, dataset="ibc"):
     """Get session numbers and modality for given task
 
     Parameters
     ----------
     task : str
         name of the task
+    dataset : str
+        name of the dataset, can be ibc or hcp
 
     Returns
     -------
@@ -192,63 +246,77 @@ def get_ses_modality(task):
     modality : str
         modality of the task
     """
-    if task == "GoodBadUgly":
-        # session names with movie task data
-        session_names = ["BBT1", "BBT2", "BBT3"]
-    elif task == "MonkeyKingdom":
-        # session names with movie task data
-        session_names = ["monkey_kingdom"]
-    elif task == "Raiders":
-        # session names with movie task data
-        session_names = ["raiders1", "raiders2"]
-    elif task == "RestingState":
-        # session names with RestingState state task data
-        session_names = ["mtt1", "mtt2"]
-    elif task == "DWI":
-        # session names with diffusion data
-        session_names = ["anat1"]
-    elif task == "Mario":
-        # session names with mario gameplay data
-        session_names = ["mario1"]
-    # get session numbers for each subject
-    # returns a list of tuples with subject and session number
-    subject_sessions = sorted(get_subject_session(session_names))
-    # convert the tuples to a dictionary with subject as key and session
-    # number as value
-    sub_ses = {}
-    # for dwi, with anat1 as session_name, get_subject_session returns wrong
-    # session number for sub-01 and sub-15
-    # setting it to ses-12 for these subjects
-    if task == "DWI":
-        modality = "structural"
-        sub_ses = {
-            subject_session[0]: "ses-12"
-            if subject_session[0] in ["sub-01", "sub-15"]
-            else subject_session[1]
-            for subject_session in subject_sessions
-        }
-    else:
-        # for fMRI tasks, for one of the movies, ses no. 13 pops up for sub-11
-        # and sub-12, so skipping that
+    if dataset == "ibc":
+        if task == "GoodBadUgly":
+            # session names with movie task data
+            session_names = ["BBT1", "BBT2", "BBT3"]
+        elif task == "MonkeyKingdom":
+            # session names with movie task data
+            session_names = ["monkey_kingdom"]
+        elif task == "Raiders":
+            # session names with movie task data
+            session_names = ["raiders1", "raiders2"]
+        elif task == "RestingState":
+            # session names with RestingState state task data
+            session_names = ["mtt1", "mtt2"]
+        elif task == "DWI":
+            # session names with diffusion data
+            session_names = ["anat1"]
+        elif task == "Mario":
+            # session names with mario gameplay data
+            session_names = ["mario1"]
+        # get session numbers for each subject
+        # returns a list of tuples with subject and session number
+        subject_sessions = sorted(get_subject_session(session_names))
+        # convert the tuples to a dictionary with subject as key and session
+        # number as value
+        sub_ses = {}
+        # for dwi, with anat1 as session_name, get_subject_session returns wrong
+        # session number for sub-01 and sub-15
+        # setting it to ses-12 for these subjects
+        if task == "DWI":
+            modality = "structural"
+            sub_ses = {
+                subject_session[0]: "ses-12"
+                if subject_session[0] in ["sub-01", "sub-15"]
+                else subject_session[1]
+                for subject_session in subject_sessions
+            }
+        else:
+            # for fMRI tasks, for one of the movies, ses no. 13 pops up for sub-11
+            # and sub-12, so skipping that
+            modality = "functional"
+            for subject_session in subject_sessions:
+                if (
+                    subject_session[0] in ["sub-11", "sub-12"]
+                    and subject_session[1] == "ses-13"
+                ):
+                    continue
+                # initialize a subject as key and an empty list as the value
+                # and populate the list with session numbers
+                # try-except block is used to avoid overwriting the list for subject
+                try:
+                    sub_ses[subject_session[0]]
+                except KeyError:
+                    sub_ses[subject_session[0]] = []
+                sub_ses[subject_session[0]].append(subject_session[1])
+
+    elif dataset == "hcp":
+        if task == "REST":
+            # session names with RestingState state task data
+            session_names = ["rfMRI_REST1_LR", "rfMRI_REST2_RL"]
+        else:
+            # session names with diffusion data
+            session_names = [f"tfMRI_{task}_LR", f"tfMRI_{task}_RL"]
         modality = "functional"
-        for subject_session in subject_sessions:
-            if (
-                subject_session[0] in ["sub-11", "sub-12"]
-                and subject_session[1] == "ses-13"
-            ):
-                continue
-            # initialize a subject as key and an empty list as the value
-            # and populate the list with session numbers
-            # try-except block is used to avoid overwriting the list for subject
-            try:
-                sub_ses[subject_session[0]]
-            except KeyError:
-                sub_ses[subject_session[0]] = []
-            sub_ses[subject_session[0]].append(subject_session[1])
+
+        # create dictionary with subject as key and session number as value
+        sub_ses = _find_hcp_subjects(session_names)
+
     return sub_ses, modality
 
 
-def get_time_series(task, atlas, cache):
+def get_time_series(task, atlas, cache, dataset="ibc"):
     """Use NiftiLabelsMasker to extract time series from nifti files.
 
     Parameters
@@ -271,7 +339,7 @@ def get_time_series(task, atlas, cache):
         "run_labels": [],
         "tasks": [],
     }
-    repetition_time = _get_tr(task)
+    repetition_time = _get_tr(task, dataset)
     print(f"Getting time series for {task}...")
     masker = NiftiLabelsMasker(
         labels_img=atlas.maps,
@@ -280,32 +348,35 @@ def get_time_series(task, atlas, cache):
         high_pass=0.01,
         t_r=repetition_time,
         verbose=0,
-        memory=Memory(location=cache),
-        memory_level=3,
+        # memory=Memory(location=cache),
+        memory_level=0,
+        n_jobs=20,
     ).fit()
-    subject_sessions, _ = get_ses_modality(task)
+    subject_sessions, _ = get_ses_modality(task, dataset)
+    if dataset == "hcp":
+        subject_sessions = dict(itertools.islice(subject_sessions.items(), 50))
     all_time_series = []
     subject_ids = []
-    run_labels = []
-    for subject, sessions in subject_sessions.items():
+    run_labels_ = []
+    for subject, sessions in tqdm(
+        subject_sessions.items(), desc=task, total=len(subject_sessions)
+    ):
         for session in sorted(sessions):
-            runs, run_labels_ = _get_niftis(task, subject, session)
-            for run, run_label in zip(runs, run_labels_):
-                confounds = _get_confounds(run_label, subject, session)
+            runs, run_labels = _get_niftis(task, subject, session, dataset)
+            for run, run_label in zip(runs, run_labels):
+                confounds = _get_confounds(
+                    run_label, subject, session, dataset
+                )
                 time_series = masker.transform(run, confounds=confounds)
                 all_time_series.append(time_series)
                 subject_ids.append(subject)
-                # Label dir-ap as run-01 and dir-pa as run-02
-                if task == "RestingState":
-                    if run_label == "dir-ap":
-                        run_label = "run-01"
-                    else:
-                        run_label = "run-02"
-                run_labels.append(run_label)
+                run_labels_.append(run_label)
+
     tasks_ = [task for _ in range(len(all_time_series))]
 
-    data = _update_data(data, all_time_series, subject_ids, run_labels, tasks_)
-
+    data = _update_data(
+        data, all_time_series, subject_ids, run_labels_, tasks_
+    )
     return pd.DataFrame(data)
 
 
@@ -326,7 +397,21 @@ def calculate_connectivity(X, cov_estimator):
     """
     # get the connectivity measure
     cov_estimator_ = clone(cov_estimator)
-    cv = cov_estimator_.fit(X)
+    try:
+        cv = cov_estimator_.fit(X)
+    except FloatingPointError as error:
+        if isinstance(cov_estimator_, GraphicalLassoCV):
+            print(
+                "Caught a FloatingPointError, shrinking covariance beforehand..."
+            )
+            X = empirical_covariance(X, assume_centered=True)
+            X = shrunk_covariance(X, shrinkage=1)
+            cov_estimator_ = GraphicalLasso(
+                alpha=0.52, verbose=0, mode="cd", covariance="precomputed"
+            )
+            cv = cov_estimator_.fit(X)
+        else:
+            raise error
     cv_correlation = sym_matrix_to_vec(cv.covariance_, discard_diagonal=True)
     cv_partial = sym_matrix_to_vec(-cv.precision_, discard_diagonal=True)
 
@@ -334,19 +419,18 @@ def calculate_connectivity(X, cov_estimator):
 
 
 def get_connectomes(cov, data, n_jobs):
-    print(f"[{cov} cov estimator]")
     # covariance estimator
     if cov == "Graphical-Lasso":
         cov_estimator = GraphicalLassoCV(
-            verbose=0, n_jobs=n_jobs, max_iter=100
+            verbose=11, n_jobs=n_jobs, assume_centered=True
         )
     elif cov == "Ledoit-Wolf":
-        cov_estimator = LedoitWolf()
+        cov_estimator = LedoitWolf(assume_centered=True)
     elif cov == "Unregularized":
-        cov_estimator = EmpiricalCovariance()
+        cov_estimator = EmpiricalCovariance(assume_centered=True)
     time_series = data["time_series"].tolist()
     connectomes = []
-    for ts in tqdm(time_series):
+    for ts in tqdm(time_series, desc=cov, leave=True):
         connectome = calculate_connectivity(ts, cov_estimator)
         connectomes.append(connectome)
     correlation = np.asarray([connectome[0] for connectome in connectomes])
@@ -403,7 +487,7 @@ def classify_connectivity(
     # make predictions for the left-out test subjects
     predictions = classifier.predict(connectomes[test])
     accuracy = accuracy_score(classes[test], predictions)
-    weights = classifier.coef_
+    # weights = classifier.coef_
 
     # fit a dummy classifier to get chance level
     dummy = DummyClassifier(strategy="stratified").fit(
@@ -451,7 +535,7 @@ def classify_connectivity(
         dummy_auc,
         dummy_accuracy,
         dummy_predictions,
-        weights,
+        # weights,
     )
 
     return results
@@ -539,7 +623,7 @@ def do_cross_validation(
         DataFrame containing the results of the classification.
     """
     cov = connectivity_measure.split(" ")[0]
-    if type(task) == list and len(task) > 2:
+    if isinstance(task, list) and len(task) > 2:
         pooled_tasks = True
     else:
         pooled_tasks = False
@@ -615,7 +699,7 @@ def do_cross_validation(
         "Dummy_auc": [],
         "Dummy_accuracy": [],
         "Dummy_predicted_class": [],
-        "weights": [],
+        # "weights": [],
     }
     results = cross_validate(
         connectomes,
@@ -638,362 +722,6 @@ def do_cross_validation(
     # do_plots(results, results_dir, classify)
 
     return results_df
-
-
-def do_plots(all_results, results_dir):
-    """Function to handle plotting of results of all different classification scenarios such as when classifying Runs, Subjects, or Tasks. Here we plot the confusion matrices and the evaluation metric (accuracy or AUC) for each classification scenario.
-
-    Parameters
-    ----------
-    all_results : pandas DataFrame
-        DataFrame containing all the results of all classification scenarios.
-    results_dir : str
-        Path to directory where results are stored.
-    """
-    classify = all_results["classes"].unique()
-    tasks = all_results["task_label"].unique()
-    conn_measures = all_results["connectivity"].unique()
-    if len(tasks[0].split(" vs ")) > 2:
-        all_reports = []
-        for clas in classify:
-            for task in tasks:
-                for conn_measure in conn_measures:
-                    df = all_results[
-                        (all_results["connectivity"] == conn_measure)
-                        & (all_results["task_label"] == task)
-                        & (all_results["classes"] == clas)
-                    ]
-                    if len(df) == 0:
-                        print(
-                            f"Empty DataFrame for {clas}, {task}, {conn_measure}"
-                        )
-                        continue
-                    plot_confusion(df, clas, task, conn_measure, results_dir)
-                    reports = create_report(
-                        df, clas, conn_measure, results_dir
-                    )
-                    all_reports.append(reports)
-        all_reports = pd.concat(all_reports)
-        all_reports.to_csv(
-            os.path.join(results_dir, "classification_report.csv")
-        )
-    for clas in classify:
-        if len(tasks[0].split(" vs ")) > 2:
-            df = all_reports[all_reports["classes"] == clas]
-            plot_f1_score(df, clas, results_dir)
-        else:
-            df = all_results[(all_results["classes"] == clas)]
-            plot_evaluation_metric(df, clas, results_dir, metric="accuracy")
-            if clas == "Tasks":
-                plot_evaluation_metric(df, clas, results_dir, metric="auc")
-
-
-def chance_level(df):
-    dfs = []
-    classify = df["classes"].unique()
-    tasks = df["task_label"].unique()
-    conn_measures = df["connectivity"].unique()
-    for clas in classify:
-        for task in tasks:
-            for conn_measure in conn_measures:
-                task_df = df[
-                    (df["connectivity"] == conn_measure)
-                    & (df["task_label"] == task)
-                    & (df["classes"] == clas)
-                ]
-                if len(task_df) == 0:
-                    continue
-                classes = []
-                n_splits = len(task_df)
-                for _, row in task_df.iterrows():
-                    classes.extend(task_df["true_class"].tolist())
-                    classes.extend(
-                        task_df["LinearSVC_predicted_class"].tolist()
-                    )
-                classes = np.concatenate(classes)
-                classes = np.asarray(classes)
-                classes = np.unique(classes)
-                task_df["labels"] = [classes for split in range(n_splits)]
-                task_df["n_labels"] = [
-                    len(classes) for split in range(n_splits)
-                ]
-                task_df["chance"] = [
-                    1 / len(classes) for split in range(n_splits)
-                ]
-                dfs.append(task_df)
-    df = pd.concat(dfs)
-    df["cov"] = df["connectivity"].str.split(" ").str[0]
-    df["cor"] = df["connectivity"].str.split(" ").str[1]
-    return df
-
-
-def create_report(df, classes, connectivity_measure, results_dir):
-    report_dir = os.path.join(results_dir, "classification_reports")
-    os.makedirs(report_dir, exist_ok=True)
-    reports = []
-    for classifier in ["Dummy", "LinearSVC"]:
-        true = []
-        predicted = []
-        for _, row in df.iterrows():
-            true.extend(df["true_class"].tolist())
-            predicted.extend(df[f"{classifier}_predicted_class"].tolist())
-        true = np.concatenate(true)
-        predicted = np.concatenate(predicted)
-        report = classification_report(true, predicted, output_dict=True)
-        report = pd.DataFrame(report).transpose()
-        report["classifier"] = [classifier for _ in range(len(report))]
-        report["classes"] = [classes for _ in range(len(report))]
-        report["connectivity"] = [
-            connectivity_measure for _ in range(len(report))
-        ]
-        reports.append(report)
-    reports = pd.concat(reports)
-    reports.reset_index(inplace=True)
-    reports.rename(columns={"index": "class_labels"}, inplace=True)
-    return reports
-
-
-def plot_f1_score(df, classes, results_dir):
-    plot_dir = os.path.join(results_dir, "f1_score")
-    os.makedirs(plot_dir, exist_ok=True)
-    classifier_df = df[df["classifier"] == "LinearSVC"]
-    dummy_df = df[df["classifier"] == "Dummy"]
-    order = [
-        "Unregularized correlation",
-        "Unregularized partial correlation",
-        "LedoitWolf correlation",
-        "LedoitWolf partial correlation",
-        "GLC correlation",
-        "GLC partial correlation",
-    ]
-    if classes == "Tasks":
-        hue_order = [
-            "RestingState",
-            "Raiders",
-            "GoodBadUgly",
-            "MonkeyKingdom",
-            "weighted avg",
-        ]
-        sns.barplot(
-            classifier_df,
-            y="connectivity",
-            x="f1-score",
-            hue="class_labels",
-            orient="h",
-            hue_order=hue_order,
-            palette=sns.color_palette(),
-            order=order,
-        )
-        sns.barplot(
-            dummy_df,
-            y="connectivity",
-            x="f1-score",
-            hue="class_labels",
-            orient="h",
-            hue_order=hue_order,
-            palette=sns.color_palette("pastel"),
-            order=order,
-        )
-        legend_cutoff = 4
-        legend = plt.legend(
-            framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5)
-        )
-        # remove legend repetition for chance level
-        for i, (text, handle) in enumerate(
-            zip(legend.texts, legend.legend_handles)
-        ):
-            if i > legend_cutoff:
-                text.set_visible(False)
-                handle.set_visible(False)
-        legend.set_title("Task")
-        plt.xlabel("F1 score")
-        plt.ylabel("FC measure")
-    else:
-        df_X = classifier_df.pivot(
-            index="connectivity", columns="class_labels", values="f1-score"
-        )
-        df_X = df_X.reindex(order)
-        fig = plt.figure(figsize=(25, 8))
-        ax1 = plt.subplot2grid((1, 2), (0, 0))
-        ax2 = plt.subplot2grid((1, 2), (0, 1))
-        sns.heatmap(df_X, xticklabels=True, yticklabels=True, ax=ax1)
-        hue_order = ["weighted avg"]
-        sns.barplot(
-            classifier_df,
-            y="connectivity",
-            x="f1-score",
-            hue="class_labels",
-            orient="h",
-            hue_order=hue_order,
-            palette=sns.color_palette()[4:],
-            ax=ax2,
-            order=order,
-        )
-        sns.barplot(
-            dummy_df,
-            y="connectivity",
-            x="f1-score",
-            hue="class_labels",
-            orient="h",
-            hue_order=hue_order,
-            palette=sns.color_palette("pastel")[4:],
-            ax=ax2,
-            order=order,
-        )
-        legend = plt.legend(
-            framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5)
-        )
-        ax1.set_ylabel("FC measure")
-        ax1.set_xlabel("Class labels")
-        ax2.set_ylabel("")
-        ax2.set_xlabel("Weighted average F1 score")
-        legend = plt.legend()
-        legend.remove()
-    plt.tight_layout()
-    plot_file = os.path.join(results_dir, plot_dir, f"{classes}_f1_score.png")
-    plt.savefig(plot_file, bbox_inches="tight", transparent=False)
-    plt.close()
-
-
-def plot_evaluation_metric(all_results, classes, results_dir, metric):
-    """Makes a barplot to compare the evaluation metric (accuracy or AUC) across different tasks as well as functional connectivity measure for a given classification scenario (Runs, Subjects, or Tasks).
-
-    Parameters
-    ----------
-    all_results : pandas DataFrame
-        DataFrame containing the results for a given classification scenario and a given cov estimator.
-    classes : str
-        Classification scenario. Can be "Runs", "Subjects", or "Tasks".
-    results_dir : str
-        Path to directory where results are stored.
-    metric : str
-        Evaluation metric to plot. Can be "accuracy" or "auc".
-    """
-    plot_dir = os.path.join(results_dir, metric)
-    os.makedirs(plot_dir, exist_ok=True)
-    order = [
-        "Unregularized correlation",
-        "Unregularized partial correlation",
-        "Ledoit-Wolf correlation",
-        "Ledoit-Wolf partial correlation",
-        "Graphical-Lasso correlation",
-        "Graphical-Lasso partial correlation",
-    ]
-
-    if classes in ["Runs", "Subjects"]:
-        hue_order = [
-            "RestingState",
-            "Raiders",
-            "GoodBadUgly",
-            "MonkeyKingdom",
-            "Mario",
-        ]
-        legend_cutoff = 4
-        palette_init = 0
-    else:
-        hue_order = [
-            "RestingState vs Raiders",
-            "RestingState vs GoodBadUgly",
-            "RestingState vs MonkeyKingdom",
-            "RestingState vs Mario",
-            "Raiders vs GoodBadUgly",
-            "Raiders vs MonkeyKingdom",
-            "GoodBadUgly vs MonkeyKingdom",
-            "Raiders vs Mario",
-            "GoodBadUgly vs Mario",
-            "MonkeyKingdom vs Mario",
-        ]
-        legend_cutoff = 9
-        palette_init = 1
-
-    sns.barplot(
-        all_results,
-        y="connectivity",
-        x=f"LinearSVC_{metric}",
-        hue="task_label",
-        orient="h",
-        hue_order=hue_order,
-        palette=sns.color_palette()[palette_init:],
-        order=order,
-        errorbar=None,
-    )
-    sns.barplot(
-        all_results,
-        y="connectivity",
-        x=f"Dummy_{metric}",
-        hue="task_label",
-        orient="h",
-        hue_order=hue_order,
-        palette=sns.color_palette("pastel")[palette_init:],
-        order=order,
-        errorbar=None,
-    )
-    plot_file = os.path.join(results_dir, plot_dir, f"{classes}_{metric}.svg")
-    plot_file2 = os.path.join(results_dir, plot_dir, f"{classes}_{metric}.png")
-    legend = plt.legend(
-        framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5)
-    )
-    # remove legend repetition for chance level
-    for i, (text, handle) in enumerate(
-        zip(legend.texts, legend.legend_handles)
-    ):
-        if i > legend_cutoff:
-            text.set_visible(False)
-            handle.set_visible(False)
-    legend.set_title("Task")
-    plt.xlabel(f"{metric.capitalize()}")
-    plt.ylabel("FC measure")
-    fig = plt.gcf()
-    fig.set_size_inches(5, 10)
-    plt.savefig(plot_file, bbox_inches="tight", transparent=True)
-    plt.savefig(plot_file2, bbox_inches="tight", transparent=True)
-    plt.close()
-
-
-def plot_confusion(df, classes, task, connectivity_measure, results_dir):
-    """Plot the confusion matrix for a given classification scenario (Runs, Subjects, or Tasks), a given task, a given connectivity measure (correlation or partial correlation) and a given covariance estimator (GLC or LedoitWolf).
-
-    Parameters
-    ----------
-    df : pandas DataFrame
-        DataFrame containing the results for a given classification scenario, a given task, a given connectivity measure and a given covariance estimator.
-    classes : str
-        Classification scenario. Can be "Runs", "Subjects", or "Tasks".
-    task : str
-        Name of the task currently being classified. Can be "RestingState", "Raiders", "GoodBadUgly", or "MonkeyKingdom".
-    connectivity_measure : str
-        Connectivity measure currently being used for classification. Can be "correlation" or "partial correlation".
-    results_dir : str
-        Path to directory where results are stored.
-    """
-    # plot confusion matrices
-    confusion_dir = os.path.join(results_dir, "confusion_mats")
-    os.makedirs(confusion_dir, exist_ok=True)
-    for classifier in ["Dummy", "LinearSVC"]:
-        true_class = np.concatenate(df["true_class"].to_numpy())
-        predicted_class = np.concatenate(
-            df[f"{classifier}_predicted_class"].to_numpy()
-        )
-        cm = confusion_matrix(true_class, predicted_class, normalize="all")
-        fig, ax = plt.subplots()
-        pos = ax.matshow(cm, cmap=plt.cm.Blues)
-        ax.set_xticks(np.arange(df["n_labels"].iloc[0]))
-        ax.xaxis.tick_bottom()
-        ax.set_yticks(np.arange(df["n_labels"].iloc[0]))
-        ax.set_xticklabels(df["labels"].iloc[0], rotation=45)
-        ax.set_yticklabels(df["labels"].iloc[0])
-        ax.set_xlabel("Predicted")
-        ax.set_ylabel("True")
-        fig.colorbar(pos, ax=ax)
-        ax.set_title(
-            f"Classifying {classes} within {task} using {connectivity_measure}"
-        )
-        plot_file = os.path.join(
-            confusion_dir,
-            f"{classifier}_{classes}_{task}_{connectivity_measure}_confusion.png",
-        )
-        plt.savefig(plot_file, bbox_inches="tight")
-        plt.close()
 
 
 def _plot_cv_indices(

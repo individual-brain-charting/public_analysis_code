@@ -378,13 +378,13 @@ def pipeline(sub, ses, data_root, out_root, atlas, mni_nifti):
 
 if __name__ == "__main__":
     # cache and output directory
-    cache = OUT_ROOT = "/storage/store/work/haggarwa/"
+    cache = OUT_ROOT = "/storage/store2/work/haggarwa/"
     # get atlas
     atlas = datasets.fetch_atlas_schaefer_2018(
-        data_dir=cache, resolution_mm=1, n_rois=400
+        data_dir=cache, resolution_mm=1, n_rois=200
     )
     # give atlas a custom name
-    atlas["name"] = "schaefer400"
+    atlas["name"] = "schaefer200"
     # download mni templates and mask
     mni = datasets.fetch_icbm152_2009()
     # path to unmasked mni t2w template
