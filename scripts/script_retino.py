@@ -138,7 +138,7 @@ for subject_session in subjects_sessions:
     ses_dir = pjoin(DERIVATIVES, subject, session)
     if not os.path.exists(ses_dir):
         os.mkdir(ses_dir)
-    task_dir = pjoin(ses_dir, 'res_task-Retinotopy_space-MNI305_dir-ffx')
+    task_dir = pjoin(ses_dir, 'res_task-Retinotopy_space-MNI152_dir-ffx')
     if do_surface:
         task_dir = pjoin(ses_dir, 'res_task-Retinotopy_space-{}_dir-ffx'.format(mesh))
     if not os.path.exists(task_dir):

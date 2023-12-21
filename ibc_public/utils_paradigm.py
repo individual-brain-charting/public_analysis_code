@@ -445,6 +445,7 @@ def post_process(df, paradigm_id):
         df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
         df.replace('NEU_image_display', 'neutral_image', inplace=True)
         df.replace('NEG_image_display', 'negative_image', inplace=True)
+        df.replace('echelle_valence', 'valence_scale', inplace=True)
     if paradigm_id == 'MDTB':
         to_drop  = ['iti']
         df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)

@@ -461,7 +461,7 @@ def _session_output_dir_from_session_id(session_id, mesh, output_dir):
             'res_task-%s_space-%s' % (task_id, mesh))
     else:
         subject_session_output_dir = os.path.join(
-            output_dir, 'res_task-%s_space-MNI305' % task_id)
+            output_dir, 'res_task-%s_space-MNI152' % task_id)
     if run_:
         subject_session_output_dir += '_run-%s' % run_
     if dir_:
@@ -534,7 +534,7 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
                     'effect_size_maps', 'effect_variance_maps', 'stat_maps']]
         else:
             write_dir = os.path.join(subject_dic['output_dir'],
-                                     'res_task-%s_space-MNI305_dir-ffx' % paradigm)
+                                     'res_task-%s_space-MNI152_dir-ffx' % paradigm)
             dirs = [os.path.join(write_dir, stat) for stat in [
                 'effect_size_maps', 'effect_variance_maps', 'stat_maps']]
         for dir_ in dirs:

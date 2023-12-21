@@ -284,7 +284,7 @@ def mario(design_matrix_columns):
 
 def emotion(design_matrix_columns):
     """ Contrasts for emotion task """
-    contrast_names = ['neutral_image', 'negative_image', 'echelle_valence',
+    contrast_names = ['neutral_image', 'negative_image', 'valence_scale',
                       'negative-neutral'
     ]
     if design_matrix_columns is None:
