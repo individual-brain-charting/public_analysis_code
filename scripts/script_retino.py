@@ -18,7 +18,6 @@ from nilearn.image import resample_img
 from nibabel import load, save
 from nibabel.gifti import GiftiDataArray, GiftiImage
 from ibc_public.utils_data import DERIVATIVES
-import cortex
 from nilearn.glm import fdr_threshold
 
 data_dir = DERIVATIVES
@@ -162,7 +161,8 @@ for subject_session in subjects_sessions:
             n_maps = len(z_maps)
             fixed_effects = mean_z * np.sqrt(n_maps)
             gii = GiftiImage(
-                darrays=[GiftiDataArray().from_array(fixed_effects, 't test')])
+                darrays=[GiftiDataArray(fixed_effects.astype('float32'), intent='t test')])
+                       # GiftiDataArray().from_array(fixed_effects, 't test')])
             gii.to_filename(pjoin(write_dir, 'retinotopicity_%s.gii' % hemi))
             fixed_effects[np.isnan(fixed_effects)] = 0
             bh = fdr_threshold(fixed_effects, alpha)
@@ -200,15 +200,15 @@ for subject_session in subjects_sessions:
             phase_hemo[mask == 0] = 0
             GiftiImage(
                 darrays=[
-                    GiftiDataArray().from_array(phase_wedge, 'NIFTI_INTENT_ESTIMATE')]).\
+                    GiftiDataArray(phase_wedge.astype('float32'), intent='NIFTI_INTENT_ESTIMATE')]).\
                     to_filename(pjoin(write_dir, 'phase_wedge_%s.gii' % hemi))
             GiftiImage(
                 darrays=[
-                    GiftiDataArray().from_array(phase_ring, 'NIFTI_INTENT_ESTIMATE')]).\
+                    GiftiDataArray(phase_ring.astype('float32'), intent='NIFTI_INTENT_ESTIMATE')]).\
                     to_filename(pjoin(write_dir, 'phase_ring_%s.gii' % hemi))
             GiftiImage(
                 darrays=[
-                    GiftiDataArray().from_array(phase_hemo, 'NIFTI_INTENT_ESTIMATE')]).\
+                    GiftiDataArray(phase_hemo.astype('float32'), intent='NIFTI_INTENT_ESTIMATE')]).\
                     to_filename(pjoin(write_dir, 'phase_hemo_%s.gii' % hemi))
     else:
         z_maps = [pjoin(work_dir, acq, 'z_score_maps', 'effects_interest.nii.gz')
@@ -329,10 +329,58 @@ for i, subject_session in enumerate(subjects_sessions[2:3]):
         fig.show()
         
         
-        
 plt.show(block=False)
 
+
+from nilearn import surface, plotting
+fig = plt.figure(figsize=(6, 20))
+fig, axes = plt.subplots(nrows=12, ncols=2, subplot_kw={'projection': '3d'})
+
+for i, subject_session in enumerate(subjects_sessions):
+    subject, session = subject_session.split('_')
+    write_dir = pjoin(
+        DERIVATIVES, subject, session,
+        'res_task-Retinotopy_space-fsaverage7_dir-ffx', 'stat_maps')
+
+    for j, stat in enumerate(['phase_wedge', 'phase_ring']):
+        lh = os.path.join(write_dir, '%s_lh.gii' % stat)
+        rh = os.path.join(write_dir, '%s_rh.gii' % stat)
+        output_file = os.path.join(write_dir, '%s.png' % stat)
+
+        x1 = np.ravel([darrays.data for darrays in load(lh).darrays])
+        x2 = np.ravel([darrays.data for darrays in load(rh).darrays])
+        x = np.hstack((x1, x2))
+        x[x == 0] = np.nan
+        
+        # ax = plt.subplot(12, 2, i * 2 + j + 1, subplot_kw={'projection': '3d'})
+        ax = axes[i, j]
+        bg_map = np.sign(surface.load_surf_data(fsaverage['curv_left']))
+        bg_map_rescaled = (bg_map + 1) / 4 + 0.25
+
+        plotting.plot_surf_stat_map(
+            fsaverage['flat_left'],
+            stat_map=x1,
+            hemi='left',
+            view='dorsal',
+            bg_map=bg_map_rescaled,
+            bg_on_data=True,
+            axes=ax,
+            colorbar=False,
+            cmap='coolwarm',
+        )
+    #ax = plt.axes([.46, .96 - i * 1. * .0815, .08, .04])
+    #ax.text(.01, .2, subject)
+    #ax.axis('off')
+
+plt.subplots_adjust(left=.01, right=.99, top=.99, bottom=.01, hspace=.01, wspace=.01)
+
+output_file = pjoin(DERIVATIVES, 'group', 'retino', 'retino.svg')
+
+fig.savefig(output_file)
+
+
 """
+import cortex
 plt.figure(figsize=(6, 20))
 for i, subject_session in enumerate(subjects_sessions):
     subject, session = subject_session.split('_')
@@ -349,9 +397,10 @@ for i, subject_session in enumerate(subjects_sessions):
         x2 = np.ravel([darrays.data for darrays in load(rh).darrays])
         x = np.hstack((x1, x2))
         x[x == 0] = np.nan
-        vertex_data = cortex.Vertex(x, 'fsaverage')
-        ax = plt.subplot(12, 2, i * 2 + j + 1)
         
+        ax = plt.subplot(12, 2, i * 2 + j + 1)
+
+        vertex_data = cortex.Vertex(x, 'fsaverage')
         fig = cortex.quickshow(vertex_data,
                                with_colorbar=False,
                                with_rois=False,
@@ -362,6 +411,7 @@ for i, subject_session in enumerate(subjects_sessions):
                                curvature_threshold=True,
                                fig = ax
         )
+
         #fig.set_size_inches((8, 4.5))
         #fig.savefig(output_file)
     #
