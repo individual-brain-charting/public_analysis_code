@@ -37,7 +37,7 @@ subjects_sessions = np.unique(subjects_sessions)
 acqs = ['res_stats_%s' % acq for acq in [
     'WedgeAnti_pa', 'WedgeAnti_ap', 'WedgeClock_ap', 'WedgeClock_pa',
     'ExpRing_pa', 'ContRing_ap']]
-mesh = 'individual'
+mesh = 'fsaverage7'
 if do_surface:
     acqs = ['res_task-{}_space-{}_dir-{}'.format(acq[:-3], mesh, acq[-2:]) for acq in [
         'WedgeAnti_pa', 'WedgeAnti_ap', 'WedgeClock_ap', 'WedgeClock_pa',
@@ -129,6 +129,36 @@ def get_retino_coefs(work_dir, mesh, hemi):
     return retino_coefs
 
 
+def faces_2_connectivity(faces, identity=True, normalize=True):
+    from scipy.sparse import coo_matrix, dia_matrix
+    n_features = len(np.unique(faces))
+    edges = np.vstack((faces.T[:2].T, faces.T[1:].T, faces.T[0:3:2].T))
+    weight = np.ones(edges.shape[0])
+    connectivity = coo_matrix(
+        (weight, (edges.T[0], edges.T[1])),
+        (n_features, n_features))  # .tocsr()
+    # Making it symmetrical
+    connectivity = (connectivity + connectivity.T) / 2
+    if identity:
+        connectivity = connectivity +  coo_matrix(
+                (np.ones(n_features), (np.arange(n_features), np.arange(n_features))),
+                (n_features, n_features))  
+    if normalize:
+        connectivity.data /= np.array(connectivity.sum(1)[connectivity.nonzero()[0].T]).T[0]
+    return connectivity
+
+# parameters to smooth the stat map
+from nilearn.surface import load_surf_mesh
+from nilearn.datasets import fetch_surf_fsaverage
+fsaverage = fetch_surf_fsaverage('fsaverage7')
+mesh_ = fsaverage['pial_right']
+_, faces = load_surf_mesh(mesh_)
+smoothing_kernel_rh = faces_2_connectivity(faces)
+mesh_ = fsaverage['pial_left']
+_, faces = load_surf_mesh(mesh_)
+smoothing_kernel_lh = faces_2_connectivity(faces)
+n_smoothing = 0
+
 for subject_session in subjects_sessions:
     subject, session = subject_session.split('_')
     # subject, session = subject_session
@@ -160,14 +190,23 @@ for subject_session in subjects_sessions:
                               for z_map in z_maps], 0)
             n_maps = len(z_maps)
             fixed_effects = mean_z * np.sqrt(n_maps)
+            bh = fdr_threshold(fixed_effects, alpha)
+            mask = fixed_effects > bh
+            print(subject, bh, np.sum(mask))
+            smoothing_kernel = smoothing_kernel_lh
+            if hemi == 'rh':
+                 smoothing_kernel = smoothing_kernel_rh
+            print(fixed_effects.max())
+            for  _ in range(n_smoothing):
+                fixed_effects = smoothing_kernel.dot(fixed_effects)
+            fixed_effects[np.isnan(fixed_effects)] = 0
+            mask = fixed_effects > bh
+            print(fixed_effects.max(),np.sum(mask))
             gii = GiftiImage(
                 darrays=[GiftiDataArray(fixed_effects.astype('float32'), intent='t test')])
                        # GiftiDataArray().from_array(fixed_effects, 't test')])
             gii.to_filename(pjoin(write_dir, 'retinotopicity_%s.gii' % hemi))
-            fixed_effects[np.isnan(fixed_effects)] = 0
-            bh = fdr_threshold(fixed_effects, alpha)
-            print(bh)
-            mask = fixed_effects > bh
+            
             
             # todo: plot on a surface
             """
@@ -192,8 +231,11 @@ for subject_session in subjects_sessions:
             retino_coefs = get_retino_coefs(work_dir, mesh, hemi)
             
             phase_wedge, phase_ring, phase_hemo = phase_maps(
-                retino_coefs, offset_ring=np.pi, offset_wedge=0,
-                do_wedge=True, do_ring=True,
+                retino_coefs,
+                offset_ring=np.pi,
+                offset_wedge=0,
+                do_wedge=True,
+                do_ring=True,
             )
             phase_wedge[mask == 0] = 0
             phase_ring[mask == 0] = 0
@@ -288,9 +330,9 @@ for subject_session in subjects_sessions:
                       output_file=pjoin(write_dir, 'phase_hemo.png'))
 
 
-from nilearn.datasets import fetch_surf_fsaverage
-fsaverage = fetch_surf_fsaverage('fsaverage7')
 
+
+"""
 for i, subject_session in enumerate(subjects_sessions[2:3]):
     subject, session = subject_session.split('_')
     write_dir = pjoin(
@@ -300,10 +342,10 @@ for i, subject_session in enumerate(subjects_sessions[2:3]):
     lh_mesh = fsaverage.infl_left
     rh_sulc = fsaverage.sulc_right
     lh_sulc = fsaverage.sulc_left
-    lh_mesh = pjoin(DERIVATIVES, subject, 'ses-00', 'anat', subject, 'surf', 'lh.inflated')
-    lh_sulc = pjoin(DERIVATIVES, subject, 'ses-00', 'anat', subject, 'surf', 'lh.sulc')
-    rh_mesh = pjoin(DERIVATIVES, subject, 'ses-00', 'anat', subject, 'surf', 'rh.inflated')
-    rh_sulc = pjoin(DERIVATIVES, subject, 'ses-00', 'anat', subject, 'surf', 'rh.sulc')
+    # lh_mesh = pjoin(DERIVATIVES, subject, 'ses-00', 'anat', subject, 'surf', 'lh.inflated')
+    # lh_sulc = pjoin(DERIVATIVES, subject, 'ses-00', 'anat', subject, 'surf', 'lh.sulc')
+    # rh_mesh = pjoin(DERIVATIVES, subject, 'ses-00', 'anat', subject, 'surf', 'rh.inflated')
+    # rh_sulc = pjoin(DERIVATIVES, subject, 'ses-00', 'anat', subject, 'surf', 'rh.sulc')
     for j, stat in enumerate(['phase_wedge', 'phase_ring']):
         lh = os.path.join(write_dir, '%s_lh.gii' % stat)
         rh = os.path.join(write_dir, '%s_rh.gii' % stat)
@@ -327,11 +369,11 @@ for i, subject_session in enumerate(subjects_sessions[2:3]):
             engine='plotly'  # Specify the plotting engine here
         )
         fig.show()
-        
+"""
         
 plt.show(block=False)
 
-
+"""
 from nilearn import surface, plotting
 fig = plt.figure(figsize=(6, 20))
 fig, axes = plt.subplots(nrows=12, ncols=2, subplot_kw={'projection': '3d'})
@@ -380,7 +422,10 @@ fig.savefig(output_file)
 
 
 """
+
+
 import cortex
+mesh = 'fsaverage7'
 plt.figure(figsize=(6, 20))
 for i, subject_session in enumerate(subjects_sessions):
     subject, session = subject_session.split('_')
@@ -424,4 +469,3 @@ plt.subplots_adjust(left=.01, right=.99, top=.99, bottom=.01, hspace=.01, wspace
 output_file = pjoin(DERIVATIVES, 'group', 'retino', 'retino.svg')
 
 fig.savefig(output_file)
-"""
