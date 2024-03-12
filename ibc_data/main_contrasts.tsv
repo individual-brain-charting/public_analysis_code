@@ -245,7 +245,6 @@ MathLanguage	nonmath-math
 MathLanguage	theory_of_mind-general
 MathLanguage	theory_of_mind-context
 MathLanguage	theory_of_mind_and_context-general
-MathLanguage	theory_of_mind-general
 MathLanguage	visual-auditory
 SpatialNavigation	experimental-intersection
 SpatialNavigation	experimental-control
