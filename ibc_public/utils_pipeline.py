@@ -328,7 +328,11 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             n_scans = nib.load(fmri_path).shape[3]
 
         # motion parameters
-        motion = np.loadtxt(motion_path)
+        if motion_path is not None:
+            motion = np.loadtxt(motion_path)
+        else:
+            motion = np.random.randn(n_scans, 6) 
+
         # define the time stamps for different images
         frametimes = np.linspace(slice_time_ref, (n_scans - 1 + slice_time_ref) * tr, n_scans)
         if task_id == 'Audio':

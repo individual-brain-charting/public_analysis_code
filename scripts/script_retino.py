@@ -17,11 +17,11 @@ from nilearn.input_data import NiftiMasker
 from nilearn.image import resample_img
 from nibabel import load, save
 from nibabel.gifti import GiftiDataArray, GiftiImage
-from ibc_public.utils_data import DERIVATIVES
+from ibc_public.utils_data import DERIVATIVES, SMOOTH_DERIVATIVES
 from nilearn.glm import fdr_threshold
 
-data_dir = DERIVATIVES
-do_surface = True
+data_dir = SMOOTH_DERIVATIVES
+do_surface = False
 
 # find the subjects / sessions with the retinotopy protocol
 cos_imgs = glob.glob(pjoin(data_dir, 'sub-*', 'ses-*', 'res_task*',
@@ -34,9 +34,13 @@ for cos_img in cos_imgs:
 subjects_sessions = np.unique(subjects_sessions)
 
 # list all the acquisitions to take into account
-acqs = ['res_stats_%s' % acq for acq in [
-    'WedgeAnti_pa', 'WedgeAnti_ap', 'WedgeClock_ap', 'WedgeClock_pa',
-    'ExpRing_pa', 'ContRing_ap']]
+acqs = ['res_task-%s' % acq for acq in [
+    'WedgeAnti_space-MNI152_dir-pa',
+    'WedgeAnti_space-MNI152_dir-ap',
+    'WedgeClock_space-MNI152_dir-ap',
+    'WedgeClock_space-MNI152_dir-pa',
+    'ExpRing_space-MNI152_dir-pa',
+    'ContRing_space-MNI152_dir-ap']]
 mesh = 'fsaverage7'
 if do_surface:
     acqs = ['res_task-{}_space-{}_dir-{}'.format(acq[:-3], mesh, acq[-2:]) for acq in [
@@ -164,7 +168,7 @@ for subject_session in subjects_sessions:
     # subject, session = subject_session
     work_dir = pjoin(data_dir, subject, session)
     # result directory
-    ses_dir = pjoin(DERIVATIVES, subject, session)
+    ses_dir = pjoin(data_dir, subject, session)
     if not os.path.exists(ses_dir):
         os.mkdir(ses_dir)
     task_dir = pjoin(ses_dir, 'res_task-Retinotopy_space-MNI152_dir-ffx')
@@ -200,7 +204,7 @@ for subject_session in subjects_sessions:
             for  _ in range(n_smoothing):
                 fixed_effects = smoothing_kernel.dot(fixed_effects)
             fixed_effects[np.isnan(fixed_effects)] = 0
-            mask = fixed_effects > bh
+            mask = fixed_effects > THRESHOLD  # bh
             print(fixed_effects.max(),np.sum(mask))
             gii = GiftiImage(
                 darrays=[GiftiDataArray(fixed_effects.astype('float32'), intent='t test')])
@@ -255,8 +259,9 @@ for subject_session in subjects_sessions:
     else:
         z_maps = [pjoin(work_dir, acq, 'z_score_maps', 'effects_interest.nii.gz')
                   for acq in acqs]
-        mean_z = resample_img(
-            mean_img(z_maps), target_affine=ref_affine, target_shape=ref_shape)
+        mean_z = mean_img(z_maps)
+        #mean_z = resample_img(
+        #    mean_img(z_maps), target_affine=ref_affine, target_shape=ref_shape)
         n_maps = len(z_maps)
         fixed_effects = math_img('im * %d' % np.sqrt(n_maps), im=mean_z)
         fixed_effects.to_filename(pjoin(write_dir, 'retinotopicity.nii.gz'))
@@ -265,27 +270,27 @@ for subject_session in subjects_sessions:
             data_dir, subject, 'ses-00', 'anat', 'w%s_ses-00_T1w_nonan.nii.gz' % subject)
         plot_stat_map(fixed_effects, threshold=THRESHOLD, bg_img=anat, dim=0,
                       output_file=pjoin(write_dir, 'retinotopicity.png'))
-        mask = fixed_effects.get_data() > THRESHOLD
+        mask = fixed_effects.get_fdata() > THRESHOLD
         mask_img = nib.Nifti1Image(mask.astype('uint8'), fixed_effects.affine)
         # to be completed with region size thresholding
         masker = NiftiMasker(mask_img=mask_img).fit()
 
         # take all images corresonding to sine regressors
         cos_wedge_clock = mean_img((
-            pjoin(work_dir, 'res_stats_WedgeClock_pa', 'z_score_maps', 'cos.nii.gz'),
-            pjoin(work_dir, 'res_stats_WedgeClock_ap', 'z_score_maps', 'cos.nii.gz')))
+            pjoin(work_dir, 'res_task-WedgeClock_space-MNI152_dir-pa', 'z_score_maps', 'cos.nii.gz'),
+            pjoin(work_dir, 'res_task-WedgeClock_space-MNI152_dir-ap', 'z_score_maps', 'cos.nii.gz')))
 
         sin_wedge_clock = mean_img((
-            pjoin(work_dir, 'res_stats_WedgeClock_pa', 'z_score_maps', 'sin.nii.gz'),
-            pjoin(work_dir, 'res_stats_WedgeClock_ap', 'z_score_maps', 'sin.nii.gz')))
+            pjoin(work_dir, 'res_task-WedgeClock_space-MNI152_dir-pa', 'z_score_maps', 'sin.nii.gz'),
+            pjoin(work_dir, 'res_task-WedgeClock_space-MNI152_dir-ap', 'z_score_maps', 'sin.nii.gz')))
 
         cos_wedge_anti = mean_img((
-            pjoin(work_dir, 'res_stats_WedgeAnti_pa', 'z_score_maps', 'cos.nii.gz'),
-            pjoin(work_dir, 'res_stats_WedgeAnti_ap', 'z_score_maps', 'cos.nii.gz')))
+            pjoin(work_dir, 'res_task-WedgeAnti_space-MNI152_dir-pa', 'z_score_maps', 'cos.nii.gz'),
+            pjoin(work_dir, 'res_task-WedgeAnti_space-MNI152_dir-ap', 'z_score_maps', 'cos.nii.gz')))
 
         sin_wedge_anti = mean_img((
-            pjoin(work_dir, 'res_stats_WedgeAnti_pa', 'z_score_maps', 'sin.nii.gz'),
-            pjoin(work_dir, 'res_stats_WedgeAnti_ap', 'z_score_maps', 'sin.nii.gz')))
+            pjoin(work_dir, 'res_task-WedgeAnti_space-MNI152_dir-pa', 'z_score_maps', 'sin.nii.gz'),
+            pjoin(work_dir, 'res_task-WedgeAnti_space-MNI152_dir-ap', 'z_score_maps', 'sin.nii.gz')))
 
         retino_imgs = {
             'cos_wedge_pos': cos_wedge_anti,
@@ -293,15 +298,15 @@ for subject_session in subjects_sessions:
             'sin_wedge_neg': sin_wedge_clock,
             'cos_wedge_neg': cos_wedge_clock,
             'cos_ring_pos': pjoin(
-                work_dir, 'res_stats_ExpRing_pa', 'z_score_maps', 'cos.nii.gz'),
+                work_dir, 'res_task-ExpRing_space-MNI152_dir-pa', 'z_score_maps', 'cos.nii.gz'),
             'sin_ring_pos': pjoin(
-                work_dir, 'res_stats_ExpRing_pa', 'z_score_maps', 'sin.nii.gz'),
+                work_dir, 'res_task-ExpRing_space-MNI152_dir-pa', 'z_score_maps', 'sin.nii.gz'),
             'sin_ring_neg': pjoin(
-                work_dir, 'res_stats_ContRing_ap', 'z_score_maps', 'sin.nii.gz'),
+                work_dir, 'res_task-ContRing_space-MNI152_dir-ap', 'z_score_maps', 'sin.nii.gz'),
             'cos_ring_neg': pjoin(
-                work_dir, 'res_stats_ContRing_ap', 'z_score_maps', 'cos.nii.gz')
+                work_dir, 'res_task-ContRing_space-MNI152_dir-ap', 'z_score_maps', 'cos.nii.gz')
         }
- 
+    
         retino_coefs = {}
         for key in retino_imgs.keys():
             retino_coefs[key] = masker.transform(retino_imgs[key])
@@ -310,7 +315,6 @@ for subject_session in subjects_sessions:
             retino_coefs, offset_ring=np.pi, offset_wedge=0.,
             do_wedge=True, do_ring=True,
         )
-
         phase_wedge_img = masker.inverse_transform(phase_wedge)
         phase_ring_img = masker.inverse_transform(phase_ring)
         phase_hemo_img = masker.inverse_transform(phase_hemo)
@@ -332,11 +336,11 @@ for subject_session in subjects_sessions:
 
 
 
-"""
+
 for i, subject_session in enumerate(subjects_sessions[2:3]):
     subject, session = subject_session.split('_')
     write_dir = pjoin(
-        DERIVATIVES, subject, session,
+        data_dir, subject, session,
         'res_task-Retinotopy_space-{}_dir-ffx'.format(mesh), 'stat_maps')
     rh_mesh = fsaverage.infl_right
     lh_mesh = fsaverage.infl_left
@@ -369,7 +373,7 @@ for i, subject_session in enumerate(subjects_sessions[2:3]):
             engine='plotly'  # Specify the plotting engine here
         )
         fig.show()
-"""
+
         
 plt.show(block=False)
 
@@ -381,7 +385,7 @@ fig, axes = plt.subplots(nrows=12, ncols=2, subplot_kw={'projection': '3d'})
 for i, subject_session in enumerate(subjects_sessions):
     subject, session = subject_session.split('_')
     write_dir = pjoin(
-        DERIVATIVES, subject, session,
+        data_dir, subject, session,
         'res_task-Retinotopy_space-fsaverage7_dir-ffx', 'stat_maps')
 
     for j, stat in enumerate(['phase_wedge', 'phase_ring']):
@@ -416,7 +420,7 @@ for i, subject_session in enumerate(subjects_sessions):
 
 plt.subplots_adjust(left=.01, right=.99, top=.99, bottom=.01, hspace=.01, wspace=.01)
 
-output_file = pjoin(DERIVATIVES, 'group', 'retino', 'retino.svg')
+output_file = pjoin(data_dir, 'group', 'retino', 'retino.svg')
 
 fig.savefig(output_file)
 
@@ -430,7 +434,7 @@ plt.figure(figsize=(6, 20))
 for i, subject_session in enumerate(subjects_sessions):
     subject, session = subject_session.split('_')
     write_dir = pjoin(
-        DERIVATIVES, subject, session,
+        data_dir, subject, session,
         'res_task-Retinotopy_space-{}_dir-ffx'.format(mesh), 'stat_maps')
 
     for j, stat in enumerate(['phase_wedge', 'phase_ring']):
@@ -466,6 +470,6 @@ for i, subject_session in enumerate(subjects_sessions):
 
 plt.subplots_adjust(left=.01, right=.99, top=.99, bottom=.01, hspace=.01, wspace=.01)
 
-output_file = pjoin(DERIVATIVES, 'group', 'retino', 'retino.svg')
+output_file = pjoin(data_dir, 'group', 'retino', 'retino.svg')
 
 fig.savefig(output_file)

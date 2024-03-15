@@ -72,6 +72,10 @@ def generate_glm_input(jobfile, smooth=None, lowres=False):
         hrf_model = subject.hrf_model
         if 'retino' in jobfile or 'stanford1' in jobfile:
             hrf_model = 'spm'
+        onset = subject.onset
+        if 'retino':
+            onset = ['/tmp/foo.tsv'] * len(onset)
+        #    realignment_parameters = [None] * len(onset)
         subject_ = {
             'scratch': output_dir,
             'output_dir': output_dir,
@@ -85,7 +89,7 @@ def generate_glm_input(jobfile, smooth=None, lowres=False):
             'drift_model': subject.drift_model,
             'high_pass': 1. / 128,
             'time_units': subject.time_units,
-            'onset': subject.onset,
+            'onset': onset,
             'report': True,
             'hrf_model': hrf_model,
             'anat': anat,
@@ -143,13 +147,14 @@ if __name__ == '__main__':
     # protocols += ['optimism' 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang']
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     # protocols = ['audio1', 'audio2']
-    protocols = ['abstraction', 'leuven', 'mdtb', 'mario1']
-    # protocols = ['mario2'] # 
-
+    # protocols = ['abstraction', 'leuven', 'mdtb', 'mario1', 'mario2'] 
+    protocols = ['clips4']
+    
     """
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
+        subject_session = [('sub-05', 'ses-09')]
         Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
@@ -159,7 +164,8 @@ if __name__ == '__main__':
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=1)(
+        subject_session = [('sub-05', 'ses-09')]
+        Parallel(n_jobs=4)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
             for (subject, session) in subject_session)
@@ -168,6 +174,7 @@ if __name__ == '__main__':
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
+        subject_session = [('sub-05', 'ses-09')]
         Parallel(n_jobs=6)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
