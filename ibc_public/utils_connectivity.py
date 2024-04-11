@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from ibc_public.utils_data import DERIVATIVES, get_subject_session
 from nilearn.connectome import sym_matrix_to_vec
+from nilearn.image import high_variance_confounds
 from nilearn.maskers import NiftiLabelsMasker
 from sklearn.base import clone
 from sklearn.covariance import (
@@ -18,6 +19,7 @@ from sklearn.covariance import (
 from sklearn.metrics import (
     accuracy_score,
     roc_auc_score,
+    balanced_accuracy_score,
 )
 from sklearn.model_selection import GroupShuffleSplit, LeavePGroupsOut
 from sklearn.svm import LinearSVC
@@ -64,11 +66,11 @@ def _get_niftis(task, subject, session, dataset="ibc"):
                 continue
             elif task == "GoodBadUgly" and int(run_num) > 18:
                 continue
-            elif task == "RestingState":
-                if run_label == "dir-ap":
-                    run_label = "run-01"
-                else:
-                    run_label = "run-02"
+            # elif task == "RestingState":
+            #     if run_label == "dir-ap":
+            #         run_label = "run-01"
+            #     else:
+            #         run_label = "run-02"
             run_labels.append(run_label)
             run_files.append(run)
     elif dataset == "hcp":
@@ -105,7 +107,7 @@ def _get_niftis(task, subject, session, dataset="ibc"):
     return run_files, run_labels
 
 
-def _get_confounds(run_num, subject, session, dataset="ibc"):
+def _get_confounds(task, run_num, subject, session, dataset="ibc"):
     if dataset == "ibc":
         return glob(
             os.path.join(
@@ -113,7 +115,7 @@ def _get_confounds(run_num, subject, session, dataset="ibc"):
                 subject,
                 session,
                 "func",
-                f"rp*{run_num}_bold*",
+                f"rp*{task}*{run_num}_bold*",
             )
         )[0]
     elif dataset == "hcp":
@@ -152,6 +154,8 @@ def _update_results(
     dummy_auc,
     dummy_accuracy,
     dummy_predictions,
+    balanced_accuracy,
+    dummy_balanced_accuracy,
     # weights,
 ):
     results["LinearSVC_accuracy"].append(accuracy)
@@ -176,6 +180,8 @@ def _update_results(
     results["Dummy_auc"].append(dummy_auc)
     results["Dummy_accuracy"].append(dummy_accuracy)
     results["Dummy_predicted_class"].append(dummy_predictions)
+    results["balanced_accuracy"].append(balanced_accuracy)
+    results["dummy_balanced_accuracy"].append(dummy_balanced_accuracy)
     # results["weights"].append(weights)
 
     return results
@@ -350,7 +356,7 @@ def get_time_series(task, atlas, cache, dataset="ibc"):
         verbose=0,
         # memory=Memory(location=cache),
         memory_level=0,
-        n_jobs=20,
+        n_jobs=1,
     ).fit()
     subject_sessions, _ = get_ses_modality(task, dataset)
     if dataset == "hcp":
@@ -364,8 +370,27 @@ def get_time_series(task, atlas, cache, dataset="ibc"):
         for session in sorted(sessions):
             runs, run_labels = _get_niftis(task, subject, session, dataset)
             for run, run_label in zip(runs, run_labels):
+                print(task)
+                print(subject, session)
+                print(
+                    glob(
+                        os.path.join(
+                            DERIVATIVES,
+                            subject,
+                            session,
+                            "func",
+                            f"rp*{task}*{run_label}_bold*",
+                        )
+                    )
+                )
+                print(run_label)
+
                 confounds = _get_confounds(
-                    run_label, subject, session, dataset
+                    task, run_label, subject, session, dataset
+                )
+                compcor_confounds = high_variance_confounds(run)
+                confounds = np.hstack(
+                    (np.loadtxt(confounds), compcor_confounds)
                 )
                 time_series = masker.transform(run, confounds=confounds)
                 all_time_series.append(time_series)
@@ -487,6 +512,7 @@ def classify_connectivity(
     # make predictions for the left-out test subjects
     predictions = classifier.predict(connectomes[test])
     accuracy = accuracy_score(classes[test], predictions)
+    balanced_accuracy = balanced_accuracy_score(classes[test], predictions)
     # weights = classifier.coef_
 
     # fit a dummy classifier to get chance level
@@ -495,6 +521,13 @@ def classify_connectivity(
     )
     dummy_predictions = dummy.predict(connectomes[test])
     dummy_accuracy = accuracy_score(classes[test], dummy_predictions)
+    dummy_balanced_accuracy = balanced_accuracy_score(
+        classes[test], dummy_predictions
+    )
+
+    print(
+        f"\n{classify}, {connectivity_measure}, {task_label}: {accuracy:.2f} / {dummy_accuracy:.2f} ||| {balanced_accuracy:.2f} / {dummy_balanced_accuracy:.2f}"
+    )
 
     if pooled_tasks:
         auc = 0
@@ -506,7 +539,6 @@ def classify_connectivity(
         else:
             average = None
             multi_class = "raise"
-            print(f"{classes[test]}, {task_label}, {connectivity_measure}")
             auc = roc_auc_score(
                 classes[test],
                 classifier.decision_function(connectomes[test]),
@@ -536,6 +568,8 @@ def classify_connectivity(
         dummy_accuracy,
         dummy_predictions,
         # weights,
+        balanced_accuracy,
+        dummy_balanced_accuracy,
     )
 
     return results
@@ -699,6 +733,8 @@ def do_cross_validation(
         "Dummy_auc": [],
         "Dummy_accuracy": [],
         "Dummy_predicted_class": [],
+        "balanced_accuracy": [],
+        "dummy_balanced_accuracy": [],
         # "weights": [],
     }
     results = cross_validate(
@@ -711,7 +747,6 @@ def do_cross_validation(
         classify,
         pooled_tasks,
     )
-
     results_df = pd.DataFrame(results)
     # save the results
     results_file = os.path.join(
