@@ -272,12 +272,12 @@ if __name__ == "__main__":
     output_dir = os.path.join(DATA_ROOT, output_dir)
     os.makedirs(output_dir, exist_ok=True)
     calculate_connectivity = False
-    n_parcels = 400
+    n_parcels = 200
     if n_parcels == 400:
-        fc_data_path = os.path.join(cache, "connectomes2")
+        fc_data_path = os.path.join(cache, "connectomes_400_comprcorr")
         sc_data_path = os.path.join(cache, "sc_data_native_new")
     elif n_parcels == 200:
-        fc_data_path = os.path.join(cache, "connectomes_200_parcels")
+        fc_data_path = os.path.join(cache, "connectomes_200_comprcorr")
         sc_data_path = os.path.join(cache, "sc_data_native_200")
     # number of jobs to run in parallel
     n_jobs = 50
@@ -321,7 +321,7 @@ if __name__ == "__main__":
     if calculate_connectivity:
         # get the atlas
         atlas = datasets.fetch_atlas_schaefer_2018(
-            data_dir=cache, resolution_mm=2, n_rois=400
+            data_dir=cache, resolution_mm=2, n_rois=n_parcels
         )
         # use the atlas to extract time series for each task in parallel
         # get_time_series returns a dataframe with
