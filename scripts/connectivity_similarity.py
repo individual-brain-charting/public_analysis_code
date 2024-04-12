@@ -105,6 +105,9 @@ def similarity(
         similarity_mat_centered = (
             similarity_mat_centered.T - similarity_mat_centered.mean(axis=1)
         ).T
+        similarity_mat_centered = (
+            similarity_mat_centered + similarity_mat.mean()
+        )
 
     if z_transform:
         similarity_mat_zscored = stats.zscore(similarity_mat, axis=0)
@@ -272,7 +275,7 @@ if __name__ == "__main__":
     output_dir = os.path.join(DATA_ROOT, output_dir)
     os.makedirs(output_dir, exist_ok=True)
     calculate_connectivity = False
-    n_parcels = 200
+    n_parcels = 400
     if n_parcels == 400:
         fc_data_path = os.path.join(cache, "connectomes_400_comprcorr")
         sc_data_path = os.path.join(cache, "sc_data_native_new")

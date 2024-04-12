@@ -415,10 +415,12 @@ DATA_ROOT = "/storage/store2/work/haggarwa/"
 n_parcels = 400
 if n_parcels == 400:
     # results_dir = "fc_similarity_20231106-125501"
-    results_dir = "fc_similarity_20240124-162601"  # with compcorr
+    # results_dir = "fc_similarity_20240124-162601"  # with compcorr
+    results_dir = "fc_similarity_20240411-155121"  # adding back the overall mean similarity
 elif n_parcels == 200:
     # results_dir = "fc_similarity_20231117-164946"
-    results_dir = "fc_similarity_20240124-163818"  # with compcorr
+    # results_dir = "fc_similarity_20240124-163818"  # with compcorr
+    results_dir = "fc_similarity_20240411-155035"  # adding back the overall mean similarity
 similarity_data = pd.read_pickle(
     os.path.join(DATA_ROOT, results_dir, "results.pkl")
 )
@@ -449,19 +451,19 @@ for cov in cov_estimators:
                     similarity = np.mean(matrix)
                 similarity_values[i][j] = similarity
                 similarity_tasks[i][j] = (task1, task2)
-        sns.set_context("notebook")
-        get_lower_tri_heatmap(
-            similarity_values,
-            # cmap="Reds",
-            figsize=(5, 5),
-            labels=tasks,
-            output=os.path.join(output_dir, f"similarity_{cov}_{measure}"),
-            triu=True,
-            diag=True,
-            tril=False,
-            title=f"{cov} {measure}",
-            fontsize=15,
-        )
+        with sns.plotting_context("notebook"):
+            get_lower_tri_heatmap(
+                similarity_values,
+                # cmap="Reds",
+                figsize=(5, 5),
+                labels=tasks,
+                output=os.path.join(output_dir, f"similarity_{cov}_{measure}"),
+                triu=True,
+                diag=True,
+                tril=False,
+                title=f"{cov} {measure}",
+                fontsize=15,
+            )
 # create matrices showing subject-specificity of tasks
 if n_parcels == 400:
     output_dir = os.path.join(DATA_ROOT, "subspec_plots_compcorr")
@@ -520,19 +522,20 @@ for cov in cov_estimators:
             similarity_annot = similarity_annot.astype("str")
             # similarity_annot[1][3] = "Within\nsubs"
             # similarity_annot[3][1] = "Across\nsubs"
-            get_lower_tri_heatmap(
-                similarity_values,
-                figsize=(5, 5),
-                # cmap="RdBu_r",
-                annot=similarity_annot,
-                labels=tasks,
-                output=os.path.join(
-                    output_dir, f"subspec_{cov}_{measure}_{centering}"
-                ),
-                title=f"{cov} {measure}",
-                fontsize=15,
-            )
-            if centering == "uncentered":
+            with sns.plotting_context("notebook"):
+                get_lower_tri_heatmap(
+                    similarity_values,
+                    figsize=(5, 5),
+                    # cmap="RdBu_r",
+                    annot=similarity_annot,
+                    labels=tasks,
+                    output=os.path.join(
+                        output_dir, f"subspec_{cov}_{measure}_{centering}"
+                    ),
+                    title=f"{cov} {measure}",
+                    fontsize=15,
+                )
+            if centering == "centered":
                 print(
                     f"{cov} {measure}: {np.mean(diffs):.2f} +/- {np.std(diffs):.2f}"
                 )
@@ -617,15 +620,17 @@ for cov in cov_estimators:
         for n_parcels, color in zip([200, 400], colors):
             if n_parcels == 400:
                 # results_dir = "fc_similarity_20231106-125501"
-                results_dir = "fc_similarity_20240124-162601"  # with compcorr
+                # results_dir = "fc_similarity_20240124-162601"  # with compcorr
+                results_dir = "fc_similarity_20240411-155121"  # adding back the overall mean similarity
             elif n_parcels == 200:
                 # results_dir = "fc_similarity_20231117-164946"
-                results_dir = "fc_similarity_20240124-163818"  # with compcorr
+                # results_dir = "fc_similarity_20240124-163818"  # with compcorr
+                results_dir = "fc_similarity_20240411-155035"  # adding back the overall mean similarity
             similarity_data = pd.read_pickle(
                 os.path.join(DATA_ROOT, results_dir, "results.pkl")
             )
             mask = (similarity_data["measure"] == f"{cov} {measure}") & (
-                similarity_data["centering"] == "uncentered"
+                similarity_data["centering"] == "centered"
             )
             matrix = similarity_data[mask]["matrix"].to_numpy()[0]
             n_subs = len(similarity_data[mask]["kept_subjects"].to_numpy()[0])
@@ -639,7 +644,7 @@ for cov in cov_estimators:
             ax.hist(
                 cross_sub_thresh.flatten(),
                 bins=50,
-                label=f"{n_parcels} parcels",
+                label=f"{n_parcels} regions",
                 color=color,
                 alpha=0.5,
                 density=True,
@@ -647,9 +652,11 @@ for cov in cov_estimators:
             means.append(np.mean(cross_sub_thresh.flatten()))
         MWU_test = mannwhitneyu(values[0], values[1], alternative="greater")
         ax.annotate(
-            f"MWU test\n200 > 400 parcels:\np = {MWU_test[1]:.2e}",
-            xy=(0.59, 0.63),
+            f"MWU test\n200 > 400 regions:\np = {MWU_test[1]:.2e}",
+            xy=(0.57, 0.83),
             xycoords="axes fraction",
+            bbox={"fc": "0.8"},
+            fontsize=12,
         )
         ax.axvline(
             means[0],
@@ -667,7 +674,7 @@ for cov in cov_estimators:
             color=colors[1],
             linestyle="--",
         )
-        plt.legend()
+        plt.legend(framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5))
         ax.set_title(f"{cov} {measure}")
         plt.xlabel("FC-FC Similarity")
         plt.savefig(
@@ -1421,14 +1428,16 @@ tasks = [
 ]
 # load the data
 DATA_ROOT = "/storage/store2/work/haggarwa/"
-n_parcels = 400
+n_parcels = 200
 if n_parcels == 400:
     # results_dir = "fc_similarity_20231106-125501"
-    results_dir = "fc_similarity_20240124-162601"  # with compcorr
+    # results_dir = "fc_similarity_20240124-162601"  # with compcorr
+    results_dir = "fc_similarity_20240411-155121"  # adding back the overall mean similarity
     output_dir = os.path.join(DATA_ROOT, "fc-sc_subspec_plots_compcorr")
 elif n_parcels == 200:
     # results_dir = "fc_similarity_20231117-164946"
-    results_dir = "fc_similarity_20240124-163818"  # with compcorr
+    # results_dir = "fc_similarity_20240124-163818"  # with compcorr
+    results_dir = "fc_similarity_20240411-155035"  # adding back the overall mean similarity
     output_dir = os.path.join(DATA_ROOT, "fc-sc_subspec_plots_200_compcorr")
 
 similarity_data = pd.read_pickle(
@@ -1571,14 +1580,14 @@ for centering in similarity_data["centering"].unique():
                     )
                 ax1.set_yticks(np.arange(0, 10, 2) + 0.5, tasks)
                 ax1.set_ylabel("Task vs. SC")
-                ax1.set_xlabel("Corrected Similarity")
-                if centering == "centered":
-                    if n_parcels == 400:
-                        ax1.set_xlim(-0.02, 0.02)
-                        ax1.set_xticks(np.arange(-0.02, 0.03, 0.01))
-                    elif n_parcels == 200:
-                        ax1.set_xlim(-0.03, 0.03)
-                        ax1.set_xticks(np.arange(-0.03, 0.035, 0.01))
+                ax1.set_xlabel("Similarity")
+                # if centering == "centered":
+                #     if n_parcels == 400:
+                #         ax1.set_xlim(-0.02, 0.02)
+                #         ax1.set_xticks(np.arange(-0.02, 0.03, 0.01))
+                #     elif n_parcels == 200:
+                #         ax1.set_xlim(-0.03, 0.03)
+                #         ax1.set_xticks(np.arange(-0.03, 0.035, 0.01))
                 plt.title(f"{cov} {measure}", loc="right", x=-1, y=1.05)
                 plot_file = os.path.join(
                     output_dir,
@@ -1614,11 +1623,13 @@ DATA_ROOT = "/storage/store2/work/haggarwa/"
 n_parcels = 400
 if n_parcels == 400:
     # results_dir = "fc_similarity_20231106-125501"
-    results_dir = "fc_similarity_20240124-162601"  # with compcorr
+    # results_dir = "fc_similarity_20240124-162601"  # with compcorr
+    results_dir = "fc_similarity_20240411-155121"  # adding back the overall mean similarity
     output_dir = os.path.join(DATA_ROOT, "fc-sc_similarity_plots_compcorr")
 elif n_parcels == 200:
     # results_dir = "fc_similarity_20231117-164946"
-    results_dir = "fc_similarity_20240124-163818"  # with compcorr
+    # results_dir = "fc_similarity_20240124-163818"  # with compcorr
+    results_dir = "fc_similarity_20240411-155035"  # adding back the overall mean similarity
     output_dir = os.path.join(DATA_ROOT, "fc-sc_similarity_plots_200_compcorr")
 
 similarity_data = pd.read_pickle(
