@@ -2247,3 +2247,63 @@ mean_fmri = image.mean_img(fmri_file)
 view_img_on_surf(mean_fmri, surf_mesh="fsaverage").save_as_html(
     "output_dir/fmri.html"
 )
+
+
+### plot reliability
+
+# cov estimators
+cov_estimators = ["Graphical-Lasso", "Ledoit-Wolf", "Unregularized"]
+# connectivity measures for each cov estimator
+measures = ["correlation", "partial correlation"]
+# tasks
+tasks = [
+    "RestingState",
+    "Raiders",
+    "GoodBadUgly",
+]
+# load the data
+DATA_ROOT = "/storage/store2/work/haggarwa/"
+n_parcels = 400
+results_dir = f"reliability_{n_parcels}"
+reliability_data = pd.read_pickle(
+    os.path.join(DATA_ROOT, results_dir, f"corrs_full_mat_{n_parcels}")
+)
+keep_only = [
+    "Unregularized correlation",
+    "Ledoit-Wolf correlation",
+    "Graphical-Lasso partial correlation",
+    "time_series",
+]
+hue_order = [
+    "RestingState",
+    "Raiders",
+    "GoodBadUgly",
+]
+rest_colors = [sns.color_palette("tab20c")[0]]
+movie_colors = sns.color_palette("tab20c")[4:7]
+color_palette = rest_colors + movie_colors
+ax = sns.boxplot(
+    x="correlation",
+    y="measure",
+    hue="task",
+    data=reliability_data,
+    palette=color_palette,
+    orient="h",
+    order=keep_only,
+    hue_order=hue_order,
+)
+wrap_labels(ax, 20)
+legend = ax.legend(framealpha=0, loc="center left", bbox_to_anchor=(1, 0.5))
+ax.set_xlabel("Reliability")
+ax.set_ylabel("Measure")
+plot_file = os.path.join(
+    results_dir,
+    "reliability.svg",
+)
+plot_file2 = os.path.join(
+    results_dir,
+    "reliability.png",
+)
+plt.savefig(plot_file, bbox_inches="tight", transparent=True)
+plt.savefig(plot_file2, bbox_inches="tight", transparent=False)
+plt.close()
