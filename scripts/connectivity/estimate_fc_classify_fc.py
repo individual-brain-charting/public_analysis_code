@@ -1,11 +1,16 @@
-"""Pipeline to perform functional connectivity classification over runs, subjects and tasks."""
+"""Pipeline to estimate functional connectivity matrices (if needed) and then
+ perform FC classification over runs, subjects and tasks."""
 
 import os
 import time
 
 import pandas as pd
 import seaborn as sns
-from ibc_public import utils_connectivity as fc
+from ibc_public.connectivity.utils_fc_estimation import (
+    get_connectomes,
+    get_time_series,
+)
+from ibc_public.connectivity.utils_fc_classification import do_cross_validation
 from nilearn import datasets
 
 from joblib import Parallel, delayed
@@ -42,21 +47,23 @@ for cov in cov_estimators:
 # cache and root output directory
 cache = DATA_ROOT = "/storage/store/work/haggarwa/"
 if within_task:
-    output_dir = f"fc_withintask_classification_{n_parcels}_{time.strftime('%Y%m%d-%H%M%S')}"
+    output_dir = (
+        f"fc_withintask_classification_{n_parcels}"
+        f"_{time.strftime('%Y%m%d-%H%M%S')}"
+    )
 else:
-    output_dir = f"fc_acrosstask_classification_{n_parcels}_{time.strftime('%Y%m%d-%H%M%S')}"
+    output_dir = (
+        f"fc_acrosstask_classification_{n_parcels}_"
+        f"{time.strftime('%Y%m%d-%H%M%S')}"
+    )
 output_dir = os.path.join(DATA_ROOT, output_dir)
 os.makedirs(output_dir, exist_ok=True)
 
 # connectivity data path
 if n_parcels == 400:
-    # without compcorr
-    # fc_data_path = os.path.join(cache, "connectomes2")
     # with compcorr
     fc_data_path = os.path.join(cache, "connectomes_400_comprcorr")
 elif n_parcels == 200:
-    # without compcorr
-    # fc_data_path = os.path.join(cache, "connectomes_200_parcels")
     # with compcorr
     fc_data_path = os.path.join(cache, "connectomes_200_comprcorr")
 
@@ -67,21 +74,25 @@ if calculate_connectivity:
         data_dir=cache, resolution_mm=2, n_rois=n_parcels
     )
     # use the atlas to extract time series for each task in parallel
-    # get_time_series returns a dataframe with the time series for each task, consisting of runs x subjects
+    # get_time_series returns a dataframe with the time series for each task,
+    # consisting of runs x subjects
     print("Time series extraction...")
     data = Parallel(n_jobs=n_jobs, verbose=0)(
-        delayed(fc.get_time_series)(task, atlas, cache) for task in tasks
+        delayed(get_time_series)(task, atlas, cache) for task in tasks
     )
-    # concatenate all the dataframes so we have a single dataframe with the time series from all tasks
+    # concatenate all the dataframes so we have a single dataframe with the
+    # time series from all tasks
     data = pd.concat(data)
     # estimate the connectivity matrices for each cov estimator in parallel
-    # get_connectomes returns a dataframe with two columns each corresponding to the partial correlation and correlation connectome from each cov estimator
+    # get_connectomes returns a dataframe with two columns each corresponding
+    # to the partial correlation and correlation connectome from each cov
+    # estimator
     print("Connectivity estimation...")
     data = Parallel(n_jobs=20, verbose=0)(
-        delayed(fc.get_connectomes)(cov, data, n_jobs)
-        for cov in cov_estimators
+        delayed(get_connectomes)(cov, data, n_jobs) for cov in cov_estimators
     )
-    # concatenate the dataframes so we have a single dataframe with the connectomes from all cov estimators
+    # concatenate the dataframes so we have a single dataframe with the
+    # connectomes from all cov estimators
     common_cols = ["time_series", "subject_ids", "run_labels", "tasks"]
     data_ts = data[0][common_cols]
     for df in data:
@@ -101,9 +112,9 @@ else:
 def all_combinations(classify, tasks, connectivity_measures, within_task):
     # dictionary to map the classification to the tasks
     ## within each task
-    # when classifying by runs or subjects, we classify runs or subjects within each task
-    # when classifying by tasks, we classify between two tasks
-    # in this case, RestingState vs. each movie-watching task
+    # when classifying by runs or subjects, we classify runs or subjects
+    #  within each task when classifying by tasks, we classify between
+    # two tasks in this case, RestingState vs. each movie-watching task
     if within_task:
         tasks_ = {
             "Runs": tasks,
@@ -136,14 +147,16 @@ def all_combinations(classify, tasks, connectivity_measures, within_task):
 
 
 #### RUN CLASSIFICATION
-# run classification for all combinations of classification, task and connectivity measure in parallel
-# do_cross_validation returns a dataframe with the results of the cross validation for each case
+# run classification for all combinations of classification, task and
+# connectivity measure in parallel
+# do_cross_validation returns a dataframe with the results of the cross
+# validation for each case
 if within_task:
     print("Starting within task cross validation......")
 else:
     print("Starting across task cross validation......")
 all_results = Parallel(n_jobs=10, verbose=11, backend="loky")(
-    delayed(fc.do_cross_validation)(
+    delayed(do_cross_validation)(
         classes, task, n_splits, connectivity_measure, data, output_dir
     )
     for classes, task, connectivity_measure in all_combinations(

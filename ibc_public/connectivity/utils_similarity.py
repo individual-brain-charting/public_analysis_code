@@ -1,13 +1,8 @@
-import os
-import time
-
+"""Utility functions for calculating similarity between connectivity matrices.
+"""
 import numpy as np
 import pandas as pd
-from ibc_public import utils_connectivity as fc
-from nilearn import datasets
 from scipy import stats
-
-from joblib import Parallel, delayed
 
 
 def mean_connectivity(data, tasks, cov_estimators, measures):
@@ -133,8 +128,8 @@ def symmetrize(a):
     Parameters
     ----------
     a : pandas dataframe
-        a non-symmetrical matrix in pandas dataframe format. Already symmetrical
-        matrices will not be affected.
+        a non-symmetrical matrix in pandas dataframe format. Already
+        symmetrical matrices will not be affected.
 
     Returns
     -------
@@ -143,8 +138,8 @@ def symmetrize(a):
     columns : numpy array
         columns of the symmetrical matrix
     mask : tuple
-        a tuple of two boolean arrays indicating which indices of rows and columns
-        that were kept in the symmetrization process
+        a tuple of two boolean arrays indicating which indices of rows
+        and columns that were kept in the symmetrization process
     """
     extra_sub1 = np.setdiff1d(a.index.values, a.columns.values)
     extra_sub2 = np.setdiff1d(a.columns.values, a.index.values)
@@ -187,7 +182,8 @@ def samevcross_test(correlation):
 
 
 def _mask(df, task, cov, measure):
-    """Create a boolean mask for a dataframe by task, covariance estimator, and measure."""
+    """Create a boolean mask for a dataframe by task, covariance estimator,
+    and measure."""
     if task == "SC":
         return df["measure"] == "SC"
     else:
@@ -195,7 +191,8 @@ def _mask(df, task, cov, measure):
 
 
 def _filter_connectivity(data, task, cov, measure):
-    """Keep connectivity matrices by task, covariance estimator, and measure, by applying a boolean mask."""
+    """Keep connectivity matrices by task, covariance estimator, and measure,
+    by applying a boolean mask."""
     connectivity = data[_mask(data, task, cov, measure)][
         "connectivity"
     ].tolist()
@@ -203,17 +200,20 @@ def _filter_connectivity(data, task, cov, measure):
 
 
 def _get_subjects(data, task, cov, measure):
-    """Keep subject labels for a given task, covariance estimator, and measure."""
+    """Keep subject labels for a given task, covariance estimator,
+    and measure."""
     return data[_mask(data, task, cov, measure)]["subject"].tolist()
 
 
 def get_similarity(all_connectivity, task_pair, cov, measure):
-    """Get similarity between two tasks for a given covariance estimator and measure.
+    """Get similarity between two tasks for a given covariance estimator
+     and measure.
 
     Parameters
     ----------
     all_connectivity : pandas dataframe
-        a dataframe with the average connectivity for each subject, task, and measure
+        a dataframe with the average connectivity for each subject, task,
+        and measure
     task_pair : tuple
         a tuple of two tasks to compare
     cov : str
@@ -267,101 +267,3 @@ def get_similarity(all_connectivity, task_pair, cov, measure):
         result.append(result_)
 
     return result
-
-
-if __name__ == "__main__":
-    cache = DATA_ROOT = "/storage/store2/work/haggarwa/"
-    output_dir = f"fc_similarity_{time.strftime('%Y%m%d-%H%M%S')}"
-    output_dir = os.path.join(DATA_ROOT, output_dir)
-    os.makedirs(output_dir, exist_ok=True)
-    calculate_connectivity = False
-    n_parcels = 400
-    if n_parcels == 400:
-        fc_data_path = os.path.join(cache, "connectomes_400_comprcorr")
-        sc_data_path = os.path.join(cache, "sc_data_native_new")
-    elif n_parcels == 200:
-        fc_data_path = os.path.join(cache, "connectomes_200_comprcorr")
-        sc_data_path = os.path.join(cache, "sc_data_native_200")
-    # number of jobs to run in parallel
-    n_jobs = 50
-    # tasks
-    tasks = [
-        "RestingState",
-        "Raiders",
-        "GoodBadUgly",
-        "MonkeyKingdom",
-        "Mario",
-    ]
-    # cov estimators
-    cov_estimators = ["Graphical-Lasso", "Ledoit-Wolf", "Unregularized"]
-    # connectivity measures for each cov estimator
-    measures = ["correlation", "partial correlation"]
-
-    task_pairs = [
-        ("RestingState", "Raiders"),
-        ("RestingState", "GoodBadUgly"),
-        ("RestingState", "MonkeyKingdom"),
-        ("RestingState", "Mario"),
-        ("Raiders", "GoodBadUgly"),
-        ("Raiders", "MonkeyKingdom"),
-        ("GoodBadUgly", "MonkeyKingdom"),
-        ("Raiders", "Mario"),
-        ("GoodBadUgly", "Mario"),
-        ("MonkeyKingdom", "Mario"),
-        ("RestingState", "SC"),
-        ("Raiders", "SC"),
-        ("GoodBadUgly", "SC"),
-        ("MonkeyKingdom", "SC"),
-        ("Mario", "SC"),
-    ]
-
-    def all_combinations(task_pairs, cov_estimators, measures):
-        for task_pair in task_pairs:
-            for cov in cov_estimators:
-                for measure in measures:
-                    yield task_pair, cov, measure
-
-    if calculate_connectivity:
-        # get the atlas
-        atlas = datasets.fetch_atlas_schaefer_2018(
-            data_dir=cache, resolution_mm=2, n_rois=n_parcels
-        )
-        # use the atlas to extract time series for each task in parallel
-        # get_time_series returns a dataframe with
-        # the time series for each task, consisting of runs x subjects
-        print("Time series extraction...")
-        data = Parallel(n_jobs=n_jobs, verbose=0)(
-            delayed(fc.get_time_series)(task, atlas, cache) for task in tasks
-        )
-        # concatenate all the dataframes so we have a single dataframe
-        # with the time series from all tasks
-        data = pd.concat(data)
-        # estimate the connectivity matrices for each cov estimator in parallel
-        # get_connectomes returns a dataframe with two columns each corresponding
-        # to the partial correlation and correlation connectome from each cov estimator
-        print("Connectivity estimation...")
-        data = Parallel(n_jobs=n_jobs, verbose=0)(
-            delayed(fc.get_connectomes)(cov, data, n_jobs)
-            for cov in cov_estimators
-        )
-        # concatenate the dataframes so we have a single dataframe
-        # with the connectomes from all cov estimators
-        cols_to_use = data[0].columns.difference(data[1].columns)
-        data = pd.concat([data[1], data[0][cols_to_use]], axis=1)
-        data.reset_index(inplace=True, drop=True)
-    else:
-        data = pd.read_pickle(fc_data_path)
-        sc_data = pd.read_pickle(sc_data_path)
-    all_connectivity = mean_connectivity(data, tasks, cov_estimators, measures)
-    all_connectivity = pd.concat([all_connectivity, sc_data], axis=0)
-
-    results = Parallel(n_jobs=n_jobs, verbose=2, backend="loky")(
-        delayed(get_similarity)(all_connectivity, task_pair, cov, measure)
-        for task_pair, cov, measure in all_combinations(
-            task_pairs, cov_estimators, measures
-        )
-    )
-
-    results = [item for sublist in results for item in sublist]
-    results = pd.DataFrame(results)
-    results.to_pickle(os.path.join(output_dir, "results.pkl"))
