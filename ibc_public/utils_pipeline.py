@@ -82,19 +82,20 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
     basenames = [os.path.basename(fm) for fm in field_maps]
     merged_zeroth_fieldmap_file = _make_merged_filename(fmap_dir, basenames)
     zeroth_fieldmap_files = field_maps  # FIXME
-    fslmerge_cmd = "fsl5.0-fslmerge -t %s %s %s" % (
+    fslmerge_cmd = "fslmerge -t %s %s %s" % (
         merged_zeroth_fieldmap_file, zeroth_fieldmap_files[0],
         zeroth_fieldmap_files[1])
     print("\r\nExecuting '%s' ..." % fslmerge_cmd)
     print(os.system(fslmerge_cmd))
     # add one slide if the number is odd
     odd = (np.mod(nib.load(merged_zeroth_fieldmap_file).shape[2], 2) == 1)
+    
     if odd:
-        cmd = "fsl5.0-fslroi %s /tmp/pe 0 -1 0 -1 0 1 0 -1" %\
+        cmd = "fslroi %s /tmp/pe 0 -1 0 -1 0 1 0 -1" %\
               merged_zeroth_fieldmap_file
         print(cmd)
         os.system(cmd)
-        cmd = "fsl5.0-fslmerge -z %s /tmp/pe %s" % (
+        cmd = "fslmerge -z %s /tmp/pe %s" % (
             merged_zeroth_fieldmap_file, merged_zeroth_fieldmap_file)
         print(cmd)
         os.system(cmd)
@@ -108,7 +109,7 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
     if os.path.exists(topup_results_basename):
         os.system('rm -f %s' % topup_results_basename)
     topup_cmd = (
-        "/i2bm/local/fsl/bin/topup --imain=%s --datain=%s --config=b02b0.cnf "
+        "topup --imain=%s --datain=%s --config=b02b0.cnf "
         "--out=%s" % (merged_zeroth_fieldmap_file, acq_params_file,
                       topup_results_basename))
     print("\r\nExecuting '%s' ..." % topup_cmd)
@@ -124,10 +125,27 @@ def fsl_topup(field_maps, fmri_files, mem, write_dir, modality='func'):
         else:
             inindex = 2
 
+        # In the latest version of applytopup, 
+        # we need to ensure that the number of slices is the same as that of topup_results_basename
+        # so we need to add the following step
+        odd = (np.mod(nib.load(f).shape[2], 2) == 1)
+    
+        if odd:
+            cmd = f"fslroi {f} /tmp/pe 0 -1 0 -1 0 1 0 -1"
+            print(cmd)
+            os.system(cmd)
+            f_ = os.path.join('/tmp', os.path.basename(f))
+            cmd = f"fslmerge -z {f_} /tmp/pe {f}"
+            print(cmd)
+            os.system(cmd)
+        else:
+            f_ = f
+        # end addition regarding odd slice numbers
+
         applytopup_cmd = (
-            "fsl5.0-applytopup --imain=%s --verbose --inindex=%s "
+            "applytopup --imain=%s --verbose --inindex=%s "
             "--topup=%s --out=%s --datain=%s --method=jac" % (
-                f, inindex, topup_results_basename, dcf, acq_params_file))
+                f_, inindex, topup_results_basename, dcf, acq_params_file))
         print("\r\nExecuting '%s' ..." % applytopup_cmd)
         print(os.system(applytopup_cmd))
 
@@ -183,10 +201,11 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
 
 def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
     """ """
-    from nibabel.gifti import read, write, GiftiDataArray, GiftiImage
+    from nibabel import load
+    from nibabel.gifti import GiftiDataArray, GiftiImage
     from nilearn.glm.first_level import run_glm as run_glm_nl
     from nilearn.glm import compute_contrast
-    Y = np.array([darrays.data for darrays in read(fmri_path).darrays])
+    Y = np.array([darrays.data for darrays in load(fmri_path).darrays])
     labels, res = run_glm_nl(Y, dmtx.values)
     # Estimate the contrasts
     print('Computing contrasts...')
@@ -207,9 +226,8 @@ def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
             map_path = os.path.join(map_dir, '%s_%s.gii' % (contrast_id, side))
             print("\t\tWriting %s ..." % map_path)
             tex = GiftiImage(
-                darrays=[GiftiDataArray().from_array(
-                    out_map, intent='t test')])
-            write(tex, map_path)
+                darrays=[GiftiDataArray(data=out_map.astype('float32'), intent='t test')])
+            tex.to_filename(map_path)
 
 
 def masking(func, output_dir):
@@ -219,7 +237,7 @@ def masking(func, output_dir):
     mask_img = compute_multi_epi_mask(
         func, upper_cutoff=.7, lower_cutoff=.4)
     vox_vol = np.abs(np.linalg.det(mask_img.affine[:3, :3]))
-    full_vol = mask_img.get_data().sum() * vox_vol
+    full_vol = mask_img.get_fdata().sum() * vox_vol
     ref_vol = 1350000
     if full_vol < ref_vol:
         raise ValueError("wrong mask: volume is %f, should be larger than %f" %
@@ -303,14 +321,18 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
         task_id = _session_id_to_task_id([session_id])[0]
 
         if mesh is not False:
-            from nibabel.gifti import read
+            from nibabel import load
             n_scans = np.array(
-                [darrays.data for darrays in read(fmri_path).darrays]).shape[0]
+                [darrays.data for darrays in load(fmri_path).darrays]).shape[0]
         else:
             n_scans = nib.load(fmri_path).shape[3]
 
         # motion parameters
-        motion = np.loadtxt(motion_path)
+        if motion_path is not None:
+            motion = np.loadtxt(motion_path)
+        else:
+            motion = np.random.randn(n_scans, 6) 
+
         # define the time stamps for different images
         frametimes = np.linspace(slice_time_ref, (n_scans - 1 + slice_time_ref) * tr, n_scans)
         if task_id == 'Audio':
@@ -443,7 +465,7 @@ def _session_output_dir_from_session_id(session_id, mesh, output_dir):
             'res_task-%s_space-%s' % (task_id, mesh))
     else:
         subject_session_output_dir = os.path.join(
-            output_dir, 'res_task-%s_space-MNI305' % task_id)
+            output_dir, 'res_task-%s_space-MNI152' % task_id)
     if run_:
         subject_session_output_dir += '_run-%s' % run_
     if dir_:
@@ -506,7 +528,7 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
         session_paradigm = [session_id for (session_id, task_id) in
                             zip(session_ids, task_ids)
                             if task_id == paradigm]
-        # define the relevant contrasts
+        # define the relevant contrasts/neurospin/ibc/derivatives/sub-09/ses-00/anat/wsub-09_ses-00_T1w.nii.gz
         contrasts = make_contrasts(paradigm).keys()
         # create write_dir
         if mesh is not False:
@@ -516,7 +538,7 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
                     'effect_size_maps', 'effect_variance_maps', 'stat_maps']]
         else:
             write_dir = os.path.join(subject_dic['output_dir'],
-                                     'res_task-%s_space-MNI305_dir-ffx' % paradigm)
+                                     'res_task-%s_space-MNI152_dir-ffx' % paradigm)
             dirs = [os.path.join(write_dir, stat) for stat in [
                 'effect_size_maps', 'effect_variance_maps', 'stat_maps']]
         for dir_ in dirs:
@@ -528,7 +550,6 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
         for contrast in contrasts:
             print('fixed effects for contrast %s. ' % contrast)
             if mesh is not False:
-                from nibabel.gifti import write
                 for side in ['lh', 'rh']:
                     effect_size_maps, effect_variance_maps, data_available =\
                         _load_summary_stats(
@@ -541,12 +562,12 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
                                          'fixed effects computations')
                     ffx_effects, ffx_variance, ffx_stat = fixed_effects_surf(
                         effect_size_maps, effect_variance_maps)
-                    write(ffx_effects, os.path.join(
+                    ffx_effects.to_filename(os.path.join(
                         write_dir, 'effect_size_maps/%s_%s.gii' % (contrast, side)))
-                    write(ffx_variance, os.path.join(
+                    ffx_variance.to_filename(os.path.join(
                         write_dir, 'effect_variance_maps/%s_%s.gii' %
                         (contrast, side)))
-                    write(ffx_stat, os.path.join(
+                    ffx_stat.to_filename(os.path.join(
                         write_dir, 'stat_maps/%s_%s.gii' % (contrast, side)))
             else:
                 effect_size_maps, effect_variance_maps, data_available =\
@@ -588,8 +609,7 @@ def fixed_effects_surf(con_imgs, var_imgs):
     intents = ['NIFTI_INTENT_ESTIMATE', 'NIFTI_INTENT_ESTIMATE', 't test']
     arrays = fixed_effects(con, var)
     for array, intent in zip(arrays, intents):
-        gii = GiftiImage(
-            darrays=[GiftiDataArray().from_array(array, intent)])
+        gii = GiftiImage(darrays=[GiftiDataArray(array, intent)])
         outputs.append(gii)
 
     return outputs
@@ -620,19 +640,19 @@ def fixed_effects_img(con_imgs, var_imgs, mask_img):
     con, var = [], []
     if isinstance(mask_img, str):
         mask_img = nib.load(mask_img)
-    mask = mask_img.get_data().astype(np.bool)
+    mask = mask_img.get_fdata().astype('bool')
     for (con_img, var_img) in zip(con_imgs, var_imgs):
         if isinstance(con_img, str):
             con_img = nib.load(con_img)
         if isinstance(var_img, str):
             var_img = nib.load(var_img)
-        con.append(con_img.get_data()[mask])
-        var.append(var_img.get_data()[mask])
+        con.append(con_img.get_fdata()[mask])
+        var.append(var_img.get_fdata()[mask])
 
     arrays = fixed_effects(con, var)
     outputs = []
     for array in arrays:
-        vol = mask.astype(np.float)
+        vol = mask.astype('float')
         vol[mask] = array.ravel()
         outputs.append(nib.Nifti1Image(vol, mask_img.affine))
     return outputs

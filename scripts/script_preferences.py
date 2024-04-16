@@ -32,7 +32,7 @@ def compute_contrast(con_imgs, var_imgs, mask_img):
     if isinstance(mask_img, str):
         mask_img = nib.load(mask_img)
 
-    mask = mask_img.get_fdata().astype(np.bool)
+    mask = mask_img.get_fdata().astype('bool')
     con, var = [], []
     for (con_img, var_img) in zip(con_imgs, var_imgs):
         if isinstance(con_img, str):
@@ -47,7 +47,7 @@ def compute_contrast(con_imgs, var_imgs, mask_img):
     stat = fixed_con / np.sqrt(fixed_var)
     outputs = []
     for array in [fixed_con, fixed_var, stat]:
-        vol = mask.astype(np.float)
+        vol = mask.astype('float')
         vol[mask] = array.ravel()
         outputs.append(nib.Nifti1Image(vol, mask_img.affine))
     return outputs

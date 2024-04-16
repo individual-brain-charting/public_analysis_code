@@ -160,7 +160,7 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return multi_modal(design_matrix_columns)
     elif paradigm_id == 'Abstraction':
         return abstraction(design_matrix_columns)
-    elif paradigm_id == 'AbstractionLocalizer':
+    elif paradigm_id == 'LocalizerAbstraction':
         return abstraction_localizer(design_matrix_columns)
     elif paradigm_id == 'Mario':
         return mario(design_matrix_columns)
@@ -235,31 +235,31 @@ def lpp_localizer(design_matrix_columns):
 def mario(design_matrix_columns):
     """ Contrasts for Mario task """
     contrast_names = [
-        # 'action_fire', # to be removed in utils_conditions
-        'action_jump',
-        'action_leftrun',
-        'action_leftwalk',
-        # 'action_pipedown',
-        # 'action_rest',  # to be removed in utils_conditions
-        'action_rightrun',
-        'action_rightwalk',
-        'loss_dying',
-        # 'loss_powerdown',
-        # 'loss_powerup_miss',
-        'onscreen_enemy',
-        # 'onscreen_powerup',
-        #'reward_bricksmash',
-        'reward_coin',
-        'reward_enemykill_impact',
-        'reward_enemykill_kick',
-        'reward_enemykill_stomp',
-        'reward_powerup_taken',
+       'keypress_right',
+       #'keypress_up',
+       'keypress_left',
+       #'keypress_down',
+       'keypress_jump',
+       # 'keypress_runshoot',
+       'onscreen_enemy',
+       #'onscreen_powerup',
+       'reward_enemykill_stomp',
+       'reward_coin', 
+       #'reward_powerup_taken', 
+       # 'reward_bricksmash',
+       # 'reward_enemykill_kick',
+       #'reward_enemykill_impact', 
+       #'loss_powerdown',
+       #'loss_powerup_miss',
+       #'loss_dying',
+         #
         'action',
         'loss',
         'reward',
         'reward-loss',
         'reward_enemykill-others',
     ]
+
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -268,7 +268,7 @@ def mario(design_matrix_columns):
     reward_enemykill =  np.sum(
         [con[name] for name in con.keys() if 'reward_enemykill' in name], 0)
     contrasts['action'] = np.sum([con[name] for name in con.keys()
-                                  if 'action' in name], 0)
+                                  if 'keypress' in name], 0)
     contrasts['loss'] = np.sum([con[name] for name in con.keys()
                                if 'loss' in name], 0)
     contrasts['reward'] = reward
@@ -284,7 +284,7 @@ def mario(design_matrix_columns):
 
 def emotion(design_matrix_columns):
     """ Contrasts for emotion task """
-    contrast_names = ['neutral_image', 'negative_image', 'echelle_valence',
+    contrast_names = ['neutral_image', 'negative_image', 'valence_scale',
                       'negative-neutral'
     ]
     if design_matrix_columns is None:
@@ -358,9 +358,9 @@ def multi_modal(design_matrix_columns):
 def abstraction_localizer(design_matrix_columns):
     """ Contrasts for Abstraction Localizer"""
     localizer_ = ['localizer_faces', 'localizer_humanbody',
-                      'localizer_words', 'localizer_nonsensewords',
-                      'localizer_numbers', 'localizer_places',
-                      'localizer_objects', 'localizer_checkerboards']
+                  'localizer_words', 'localizer_nonsensewords',
+                  'localizer_numbers', 'localizer_places',
+                  'localizer_objects', 'localizer_checkerboards']
     others_ = ['response', 'localizer_faces-other',
                'localizer_humanbody-other','localizer_words-other',
                'localizer_nonsensewords-other',
@@ -390,6 +390,7 @@ def abstraction_localizer(design_matrix_columns):
         localizer
     contrasts['localizer_checkerboards-other'] = 8 *\
         con['localizer_checkerboards'] - localizer
+    contrasts['response'] = con['response']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -485,8 +486,8 @@ def abstraction(design_matrix_columns):
         con['flora_geometry'] - flora
     contrasts['flora_edge-flora_other'] = 3 *\
         con['flora_edge'] - flora
-    contrasts['flora_photos-flora_other'] = 3 *\
-        con['flora_photos'] - flora
+    contrasts['flora_photo-flora_other'] = 3 *\
+        con['flora_photo'] - flora
     contrasts['objects_geometry-objects_other'] = 3 *\
         con['objects_geometry'] - objects
     contrasts['objects_edge-objects_other'] = 3 *\
@@ -499,6 +500,7 @@ def abstraction(design_matrix_columns):
         con['places_edge'] - places
     contrasts['places_photo-places_other'] = 3 *\
         con['places_photo'] - places
+    contrasts['response'] = con['response']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -877,11 +879,14 @@ def breath_holding(design_matrix_columns):
 
 def checkerboard(design_matrix_columns):
     """ Contrasts for breath holding protocol"""
-    contrast_names = ['checkerboard-fixation']
+    contrast_names = ['checkerboard', 'fixation', 'checkerboard-fixation']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {'checkerboard-fixation': con['checkerboard'] - con['fixation']}
+    contrasts = {
+        'checkerboard': con['checkerboard'],
+        'fixation': con['fixation'],
+        'checkerboard-fixation': con['checkerboard'] - con['fixation']}
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -890,11 +895,14 @@ def checkerboard(design_matrix_columns):
 
 def fingertap(design_matrix_columns):
     """ Contrasts for breath holding protocol"""
-    contrast_names = ['fingertap-rest']
+    contrast_names = ['fingertap', 'rest', 'fingertap-rest']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = {'fingertap-rest': con['fingertap'] - con['rest']}
+    contrasts = {
+        'fingertap': con['fingertap'],
+        'rest': con['rest'],
+        'fingertap-rest': con['fingertap'] - con['rest']}
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -903,9 +911,24 @@ def fingertap(design_matrix_columns):
 
 def item_recognition(design_matrix_columns):
     """ Contrasts for breath holding protocol"""
-    contrast_names = ['encode5-encode1', 'probe5_mem-probe1_mem',
-                      'probe5_new-probe1_new', 'prob-arrow',
-                      'encode', 'arrow_left-arrow_right']
+    contrast_names = [
+        'encode1',
+        'encode3',
+        'encode5',
+        'probe1_mem', 
+        'probe3_mem',
+        'probe5_mem',
+        'probe1_new',
+        'probe3_new',
+        'probe5_new',
+        'arrow_left',
+        'arrow_right',
+        'encode5-encode1', 
+        'probe5_mem-probe1_mem',
+        'probe5_new-probe1_new', 
+        'prob-arrow',
+        'encode', 
+        'arrow_left-arrow_right']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -920,6 +943,8 @@ def item_recognition(design_matrix_columns):
         'encode': con['encode1'] + con['encode3'] + con['encode5'],
         'arrow_left-arrow_right': con['arrow_left'] - con['arrow_right']
     }
+    for name in contrast_names[:11]:
+        contrasts[name] = con[name]
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -1041,44 +1066,6 @@ def reward_processing(design_matrix_columns):
     contrasts['loss-gain'] = loss-gain
     for name in ['minus_20', 'plus_20', 'minus_10', 'plus_10']:
         contrasts[name] = con[name]
-    """
-    contrast_names = [
-        'out_+10', 'out_+20', 'out_-10', 'out_-20', 'stim',
-        'resp_green-left_switch', 'resp_green-right_init',
-        'resp_green-right_stay', 'resp_green-right_switch',
-        'resp_purple-left_stay', 'resp_purple-left_switch',
-        'resp_purple-right_stay', 'resp_purple-right_switch',
-        'gain-loss', 'loss-gain', 'stay-switch', 'switch-stay',
-        # 'gain-loss_stay', 'loss-gain_stay',
-        # 'gain-loss_switch', 'loss-gain_switch',
-        'green-purple', 'purple-green',
-        'left-right', 'right-left']
-    if design_matrix_columns is None:
-        return dict([(name, []) for name in contrast_names])
-    con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names[:13]])
-    stay = con['resp_green-right_stay'] + con['resp_purple-left_stay']\
-        + con['resp_purple-right_stay']
-    switch = con['resp_green-left_switch'] + con['resp_green-right_switch']\
-        + con['resp_purple-left_switch'] + con['resp_purple-right_switch']
-    contrasts['stay-switch'] = stay - switch
-    contrasts['switch-stay'] = switch - stay
-    contrasts['gain-loss'] = con['out_+10'] + con['out_+20']\
-        - con['out_-10'] - con['out_-20']
-    contrasts['loss-gain'] = - contrasts['gain-loss']
-    green = con['resp_green-left_switch'] + con['resp_green-right_init']\
-        + con['resp_green-right_stay'] + con['resp_green-right_switch']
-    purple = con['resp_purple-left_stay'] + con['resp_purple-left_switch']\
-        + con['resp_purple-right_stay'] + con['resp_purple-right_switch']
-    left = con['resp_green-left_switch'] + con['resp_purple-left_stay']\
-        + con['resp_purple-left_switch']
-    right = con['resp_green-right_stay'] + con['resp_green-right_switch']\
-        + con['resp_purple-right_stay'] + con['resp_purple-right_switch']
-    contrasts['green-purple'] = green - purple
-    contrasts['purple-green'] = - contrasts['green-purple']
-    contrasts['left-right'] = left - right
-    contrasts['right-left'] = - contrasts['left-right']
-    """
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -1368,9 +1355,9 @@ def biological_motion1(design_matrix_columns):
     """ Contrasts for biological motion 1 protocol"""
     contrast_names = ['global_upright', 'global_inverted',
                       'natural_upright', 'natural_inverted',
-                      'global_upright - natural_upright',
-                      'global_upright - global_inverted',
-                      'natural_upright - natural_inverted',
+                      'global_upright-natural_upright',
+                      'global_upright-global_inverted',
+                      'natural_upright-natural_inverted',
                       'global-natural', 'natural-global',
                       'inverted-upright'
                       ]
@@ -1378,11 +1365,11 @@ def biological_motion1(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = dict([(name, con[name]) for name in contrast_names[:4]])
-    contrasts['global_upright - natural_upright'] =\
+    contrasts['global_upright-natural_upright'] =\
         contrasts['global_upright'] - contrasts['natural_upright']
-    contrasts['global_upright - global_inverted'] = \
+    contrasts['global_upright-global_inverted'] = \
         contrasts['global_upright'] - contrasts['global_inverted']
-    contrasts['natural_upright - natural_inverted'] =\
+    contrasts['natural_upright-natural_inverted'] =\
         contrasts['natural_upright'] - contrasts['natural_inverted']
     contrasts['global-natural'] =\
         con['global_upright'] + con['global_inverted'] -\
@@ -1401,9 +1388,9 @@ def biological_motion2(design_matrix_columns):
     """ Contrasts for biological motion 1 protocol"""
     contrast_names = ['modified_upright', 'modified_inverted',
                       'natural_upright', 'natural_inverted',
-                      'natural_upright - modified_upright',
-                      'modified_upright - modified_inverted',
-                      'natural_upright - natural_inverted',
+                      'natural_upright-modified_upright',
+                      'modified_upright-modified_inverted',
+                      'natural_upright-natural_inverted',
                       'modified-natural', 'natural-modified',
                       'inverted-upright'
                       ]
@@ -1411,11 +1398,11 @@ def biological_motion2(design_matrix_columns):
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = dict([(name, con[name]) for name in contrast_names[:4]])
-    contrasts['natural_upright - modified_upright'] =\
+    contrasts['natural_upright-modified_upright'] =\
         contrasts['natural_upright'] - contrasts['modified_upright']
-    contrasts['modified_upright - modified_inverted'] = \
+    contrasts['modified_upright-modified_inverted'] = \
         contrasts['modified_upright'] - contrasts['modified_inverted']
-    contrasts['natural_upright - natural_inverted'] =\
+    contrasts['natural_upright-natural_inverted'] =\
         contrasts['natural_upright'] - contrasts['natural_inverted']
     contrasts['modified-natural'] =\
         con['modified_upright'] + con['modified_inverted'] -\
