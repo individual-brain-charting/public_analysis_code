@@ -1,23 +1,12 @@
 import os
-from glob import glob
 import pandas as pd
 import seaborn as sns
-from ibc_public import utils_connectivity as fc
-from nilearn.connectome import sym_matrix_to_vec
 import numpy as np
 from nilearn.connectome import vec_to_sym_matrix
-from nilearn.plotting import plot_connectome, view_connectome, view_img_on_surf
-from nilearn import image
 import matplotlib.pyplot as plt
-from nilearn import datasets
-from tqdm import tqdm
 from sklearn import preprocessing
-from sklearn.metrics import balanced_accuracy_score
 from sklearn.svm import LinearSVC
-from joblib import Parallel, delayed
-from scipy.stats import mannwhitneyu
 import textwrap
-import matplotlib as mpl
 
 
 def wrap_labels(ax, width, break_long_words=False):
@@ -160,11 +149,11 @@ def _load_transform_weights(
 ):
     try:
         weights = np.load(
-            os.path.join(weight_dir, f"{clas}_{cov}_{measure}_weights.npy")
+            os.path.join(weight_dir, f"{clas}_{cov} {measure}_weights.npy")
         )
     except FileNotFoundError:
         print(f"skipping {clas} {cov} {measure}")
-        pass
+        raise FileNotFoundError
 
     if transform == "maxratio":
         weights = np.abs(weights)
