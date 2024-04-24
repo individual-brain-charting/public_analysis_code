@@ -37,7 +37,7 @@ def slice_nifti_confound(nifti, confound, run):
     return img, confound
 
 
-def get_time_series(atlas, subject, run, WIM_ROOT, do_slice=True):
+def get_time_series(atlas, subject, run, external_ROOT, do_slice=True):
     """Get time series from external data"""
     data = {
         "time_series": [],
@@ -71,7 +71,7 @@ def get_time_series(atlas, subject, run, WIM_ROOT, do_slice=True):
     data["time_series"] = time_series
     data["subject_ids"] = subject
     data["run_labels"] = run_label
-    data["tasks"] = "WimGoodBadUgly"
+    data["tasks"] = "externalGoodBadUgly"
 
     return data
 
