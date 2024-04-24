@@ -1,5 +1,5 @@
-"""CV withing IBC and Wim GBU datasets to get a baseline performance for later
- generalization tests between the two datasets."""
+"""CV withing IBC and external GBU datasets to get a baseline performance for
+ later generalization tests between the two datasets."""
 
 import pandas as pd
 import numpy as np
@@ -24,11 +24,11 @@ measures = ["correlation", "partial correlation"]
 
 
 for do_hist_equ in [False, True]:
-    # load connectomes for Wim GBU
-    wim_connectomes = pd.read_pickle(
+    # load connectomes for external GBU
+    external_connectomes = pd.read_pickle(
         os.path.join(
             DATA_ROOT,
-            "wim_connectivity_full_length",
+            "external_connectivity_full_length",
             "connectomes_200.pkl",
         )
     )
@@ -36,7 +36,7 @@ for do_hist_equ in [False, True]:
     connectomes = pd.read_pickle(
         os.path.join(
             DATA_ROOT,
-            "ibc_sync_wim_connectivity_full_length",
+            "ibc_sync_external_connectivity_full_length",
             "connectomes_200.pkl",
         )
     )
@@ -46,24 +46,28 @@ for do_hist_equ in [False, True]:
     connectomes["run_labels"].replace("run-04", "2", inplace=True)
     connectomes["run_labels"].replace("run-05", "3", inplace=True)
 
-    wim_connectomes["run_labels"].replace("run-01", "1", inplace=True)
-    wim_connectomes["run_labels"].replace("run-02", "2", inplace=True)
-    wim_connectomes["run_labels"].replace("run-03", "3", inplace=True)
+    external_connectomes["run_labels"].replace("run-01", "1", inplace=True)
+    external_connectomes["run_labels"].replace("run-02", "2", inplace=True)
+    external_connectomes["run_labels"].replace("run-03", "3", inplace=True)
 
     classify = ["Runs"]
 
-    ### cv on Wim GBU ###
-    print("\n\ncv on Wim GBU")
+    ### cv on external GBU ###
+    print("\n\ncv on external GBU")
     results = []
     for clas in classify:
         for cov in cov_estimators:
             for measure in measures:
                 # train
-                classes = wim_connectomes["run_labels"].to_numpy(dtype=object)
-                groups = wim_connectomes["subject_ids"].to_numpy(dtype=object)
+                classes = external_connectomes["run_labels"].to_numpy(
+                    dtype=object
+                )
+                groups = external_connectomes["subject_ids"].to_numpy(
+                    dtype=object
+                )
                 unique_groups = np.unique(groups)
                 data = np.array(
-                    wim_connectomes[f"{cov} {measure}"].values.tolist()
+                    external_connectomes[f"{cov} {measure}"].values.tolist()
                 )
                 classifier = LinearSVC(max_iter=1000000, dual="auto")
                 dummy = DummyClassifier(strategy="most_frequent")
@@ -110,7 +114,7 @@ for do_hist_equ in [False, True]:
         sns.barplot(results, y="cov measure", x="accuracy", orient="h")
         plt.axvline(np.mean(dummy_accuracy), color="k", linestyle="--")
         plt_file = os.path.join(output_dir, f"{clas}.png")
-        title = "CV on Wim"
+        title = "CV on external"
 
         plt.xlim(0, 1.05)
         plt.title(title)

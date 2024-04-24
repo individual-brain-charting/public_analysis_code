@@ -12,12 +12,16 @@ sns.set_theme()
 sns.set_style("whitegrid")
 sns.set_context("talk")
 
-### transfer IBC -> Wim connectivity matrices ###
+### transfer IBC -> external connectivity matrices ###
 # get atlas for yeo network labels
 cache = "/storage/store2/work/haggarwa/"
 DATA_ROOT = "/storage/store2/work/haggarwa/"
-IBC_ROOT = os.path.join(DATA_ROOT, "ibc_sync_wim_connectivity_20231206-110710")
-WIM_ROOT = os.path.join(DATA_ROOT, "wim_connectivity_20231205-142311")
+IBC_ROOT = os.path.join(
+    DATA_ROOT, "ibc_sync_external_connectivity_20231206-110710"
+)
+external_ROOT = os.path.join(
+    DATA_ROOT, "external_connectivity_20231205-142311"
+)
 
 atlas = datasets.fetch_atlas_schaefer_2018(
     data_dir=cache, resolution_mm=2, n_rois=200
@@ -38,15 +42,17 @@ for i, label in enumerate(hemi_network_labels):
 cov_estimators = ["Graphical-Lasso", "Ledoit-Wolf", "Unregularized"]
 # connectivity measures for each cov estimator
 measures = ["correlation", "partial correlation"]
-for dataset in ["ibc", "wim"]:
+for dataset in ["ibc", "external"]:
     if dataset == "ibc":
         # load the data
         fc_data = pd.read_pickle(os.path.join(IBC_ROOT, "connectomes_200.pkl"))
         mats_dir = os.path.join(IBC_ROOT, "connectivity_matrices")
-    elif dataset == "wim":
+    elif dataset == "external":
         # load the data
-        fc_data = pd.read_pickle(os.path.join(WIM_ROOT, "connectomes_200.pkl"))
-        mats_dir = os.path.join(WIM_ROOT, "connectivity_matrices")
+        fc_data = pd.read_pickle(
+            os.path.join(external_ROOT, "connectomes_200.pkl")
+        )
+        mats_dir = os.path.join(external_ROOT, "connectivity_matrices")
     _, uniq_idx = np.unique(hemi_network_labels, return_index=True)
     hemi_network_labels = np.array(hemi_network_labels)[np.sort(uniq_idx)]
     sns.set_context("notebook", font_scale=1.05)

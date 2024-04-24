@@ -1,4 +1,4 @@
-"""This script creates 2D UMAP representations of IBC and Wim GBU data, to
+"""This script creates 2D UMAP representations of IBC and external GBU data, to
  assess the covariate shift between the two datasets. Also tries different 
  scaling methods to reduce the covariate shift"""
 import umap
@@ -13,11 +13,11 @@ import seaborn as sns
 
 
 cache = DATA_ROOT = "/storage/store2/work/haggarwa/"
-# load connectomes for Wim GBU
-wim_connectomes = pd.read_pickle(
+# load connectomes for external GBU
+external_connectomes = pd.read_pickle(
     os.path.join(
         DATA_ROOT,
-        "wim_connectivity_20240125-104121",
+        "external_connectivity_20240125-104121",
         "connectomes_200_compcorr.pkl",
     )
 )
@@ -40,16 +40,18 @@ IBC_connectomes["run_labels"].replace("run-03", "1", inplace=True)
 IBC_connectomes["run_labels"].replace("run-04", "2", inplace=True)
 IBC_connectomes["run_labels"].replace("run-05", "3", inplace=True)
 
-wim_connectomes["run_labels"].replace("run-01", "1", inplace=True)
-wim_connectomes["run_labels"].replace("run-02", "2", inplace=True)
-wim_connectomes["run_labels"].replace("run-03", "3", inplace=True)
+external_connectomes["run_labels"].replace("run-01", "1", inplace=True)
+external_connectomes["run_labels"].replace("run-02", "2", inplace=True)
+external_connectomes["run_labels"].replace("run-03", "3", inplace=True)
 
-wim_connectomes["tasks"].replace(
-    {"WimGoodBadUgly": "Mantini et al."}, inplace=True
+external_connectomes["tasks"].replace(
+    {"externalGoodBadUgly": "Mantini et al."}, inplace=True
 )
 IBC_connectomes["tasks"].replace({"GoodBadUgly": "IBC"}, inplace=True)
 
-connectomes = pd.concat([wim_connectomes, IBC_connectomes], ignore_index=True)
+connectomes = pd.concat(
+    [external_connectomes, IBC_connectomes], ignore_index=True
+)
 connectomes.reset_index(inplace=True, drop=True)
 connectomes["Dataset, run"] = (
     connectomes["tasks"] + ", run " + connectomes["run_labels"]
@@ -60,7 +62,7 @@ cov_estimators = ["Unregularized", "Ledoit-Wolf", "Graphical-Lasso"]
 # connectivity measures for each cov estimator
 measures = ["correlation", "partial correlation"]
 
-output_dir = os.path.join(DATA_ROOT, "umap_ibc_wim_gbu_robust")
+output_dir = os.path.join(DATA_ROOT, "umap_ibc_external_gbu_robust")
 os.makedirs(output_dir, exist_ok=True)
 
 for cov_estimator in cov_estimators:
@@ -73,18 +75,20 @@ for cov_estimator in cov_estimators:
         )
         ibc_fc = RobustScaler(unit_variance=True).fit_transform(ibc_fc)
         print(ibc_fc.shape)
-        # wim connectomes
-        wim_fc = np.array(
-            wim_connectomes[f"{cov_estimator} {measure}"].tolist()
+        # external connectomes
+        external_fc = np.array(
+            external_connectomes[f"{cov_estimator} {measure}"].tolist()
         )
-        wim_fc = RobustScaler(unit_variance=True).fit_transform(wim_fc)
-        print(wim_fc.shape)
+        external_fc = RobustScaler(unit_variance=True).fit_transform(
+            external_fc
+        )
+        print(external_fc.shape)
 
         # connectomes[f"{cov_estimator} {measure}"] = connectomes[
         #     f"{cov_estimator} {measure}"
         # ].apply(lambda x: exposure.equalize_hist(np.array(x)))
 
-        fc = np.concatenate([ibc_fc, wim_fc], axis=0)
+        fc = np.concatenate([ibc_fc, external_fc], axis=0)
         print(fc.shape)
 
         fc_umap = umap_reducer.fit_transform(fc)

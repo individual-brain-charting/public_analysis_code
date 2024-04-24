@@ -1,5 +1,5 @@
-"""This script trains a classifier on IBC GBU data and tests it on Wim
- (or Mantini et al.) GBU data"""
+"""This script trains a classifier on IBC GBU data and tests it on external GBU
+ data (from Mantini et al. 2012)"""
 
 import pandas as pd
 import numpy as np
@@ -18,11 +18,12 @@ import time
 from sklearn.preprocessing import RobustScaler, StandardScaler
 from ibc_public.connectivity.utils_plot import wrap_labels
 
-#### train on Wim test on IBC GBU ###
+#### train on external test on IBC GBU ###
 cache = DATA_ROOT = "/storage/store2/work/haggarwa/"
 
 output_dir = os.path.join(
-    DATA_ROOT, f"fc_ibc_to_wim_classification_{time.strftime('%Y%m%d-%H%M%S')}"
+    DATA_ROOT,
+    f"fc_ibc_to_external_classification_{time.strftime('%Y%m%d-%H%M%S')}",
 )
 os.makedirs(output_dir, exist_ok=True)
 
@@ -54,11 +55,11 @@ for scaling_type in [
     "standard_scaled",
     "hist_eq",
 ]:
-    # load connectomes for Wim GBU
-    wim_connectomes = pd.read_pickle(
+    # load connectomes for external GBU
+    external_connectomes = pd.read_pickle(
         os.path.join(
             DATA_ROOT,
-            "wim_connectivity_20240125-104121",
+            "external_connectivity_20240125-104121",
             "connectomes_200_compcorr.pkl",
         )
     )
@@ -83,9 +84,9 @@ for scaling_type in [
     IBC_connectomes["run_labels"].replace("run-04", "2", inplace=True)
     IBC_connectomes["run_labels"].replace("run-05", "3", inplace=True)
 
-    wim_connectomes["run_labels"].replace("run-01", "1", inplace=True)
-    wim_connectomes["run_labels"].replace("run-02", "2", inplace=True)
-    wim_connectomes["run_labels"].replace("run-03", "3", inplace=True)
+    external_connectomes["run_labels"].replace("run-01", "1", inplace=True)
+    external_connectomes["run_labels"].replace("run-02", "2", inplace=True)
+    external_connectomes["run_labels"].replace("run-03", "3", inplace=True)
 
     classify = ["Runs"]
     results = []
@@ -93,29 +94,33 @@ for scaling_type in [
         for measure in measures:
             # ibc connectomes
             ibc_fc = np.array(IBC_connectomes[f"{cov} {measure}"].tolist())
-            # wim connectomes
-            wim_fc = np.array(wim_connectomes[f"{cov} {measure}"].tolist())
+            # external connectomes
+            external_fc = np.array(
+                external_connectomes[f"{cov} {measure}"].tolist()
+            )
             if scaling_type == "robust_scaled":
                 print("\n\n With RobustScaler")
                 # do robust scaling for each array
                 ibc_fc = RobustScaler(unit_variance=True).fit_transform(ibc_fc)
-                wim_fc = RobustScaler(unit_variance=True).fit_transform(wim_fc)
+                external_fc = RobustScaler(unit_variance=True).fit_transform(
+                    external_fc
+                )
 
             elif scaling_type == "standard_scaled":
                 print("\n\n With StandardScaler")
                 # do robust scaling for each array
                 ibc_fc = StandardScaler().fit_transform(ibc_fc)
-                wim_fc = StandardScaler().fit_transform(wim_fc)
+                external_fc = StandardScaler().fit_transform(external_fc)
             elif scaling_type == "hist_eq":
                 print("\n\n With Histogram Equalization")
                 # do robust scaling for each array
                 ibc_fc = exposure.equalize_hist(ibc_fc)
-                wim_fc = exposure.equalize_hist(wim_fc)
+                external_fc = exposure.equalize_hist(external_fc)
             else:
                 print("\n\n Without Scaling")
 
-            ### train on Wim GBU, test on IBC GBU ###
-            print("\n\ntrain on IBC GBU, test on Wim GBU")
+            ### train on external GBU, test on IBC GBU ###
+            print("\n\ntrain on IBC GBU, test on external GBU")
 
             for clas in classify:
                 # train
@@ -129,24 +134,24 @@ for scaling_type in [
                 )
 
                 # test
-                predictions = classifier.predict(wim_fc)
-                dummy_predictions = dummy.predict(wim_fc)
+                predictions = classifier.predict(external_fc)
+                dummy_predictions = dummy.predict(external_fc)
 
                 # score
                 accuracy = accuracy_score(
-                    wim_connectomes["run_labels"], predictions
+                    external_connectomes["run_labels"], predictions
                 )
                 balanced_accuracy = balanced_accuracy_score(
-                    wim_connectomes["run_labels"], predictions
+                    external_connectomes["run_labels"], predictions
                 )
                 dummy_accuracy = accuracy_score(
-                    wim_connectomes["run_labels"], dummy_predictions
+                    external_connectomes["run_labels"], dummy_predictions
                 )
                 dummy_balanced_accuracy = balanced_accuracy_score(
-                    wim_connectomes["run_labels"], dummy_predictions
+                    external_connectomes["run_labels"], dummy_predictions
                 )
                 conf_mat = confusion_matrix(
-                    wim_connectomes["run_labels"], predictions
+                    external_connectomes["run_labels"], predictions
                 )
 
                 # save results

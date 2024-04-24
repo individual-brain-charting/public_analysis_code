@@ -1,5 +1,5 @@
-"""Pipeline to calculate functional connectivity from Wim (or Mantini et al.)
- GBU data"""
+"""Pipeline to calculate functional connectivity from external GBU data 
+(from Mantini et al. 2012)"""
 
 import os
 import time
@@ -38,7 +38,7 @@ def slice_nifti_confound(nifti, confound, run):
 
 
 def get_time_series(atlas, subject, run, WIM_ROOT, do_slice=True):
-    """Get time series from WIM data"""
+    """Get time series from external data"""
     data = {
         "time_series": [],
         "subject_ids": [],
@@ -59,8 +59,10 @@ def get_time_series(atlas, subject, run, WIM_ROOT, do_slice=True):
         resampling_target="data",
     ).fit()
     run_label = f"run-0{run.split('free')[-1]}"
-    nifti = os.path.join(WIM_ROOT, subject, f"concat_{run}.nii.gz")
-    confound = os.path.join(WIM_ROOT, subject, run, f"rp_af_{run}_001.txt")
+    nifti = os.path.join(external_ROOT, subject, f"concat_{run}.nii.gz")
+    confound = os.path.join(
+        external_ROOT, subject, run, f"rp_af_{run}_001.txt"
+    )
     compcor_confounds = high_variance_confounds(nifti)
     confound = np.hstack((np.loadtxt(confound), compcor_confounds))
     if do_slice:
@@ -132,15 +134,15 @@ def get_connectomes(cov, ts):
 
 if __name__ == "__main__":
     n_jobs = 50
-    # Wim data root directory
-    WIM_ROOT = (
+    # external data root directory
+    external_ROOT = (
         "/storage/store2/data/GoodBadUgly_DanteMantini_KULeuven/human_niftis"
     )
     # output root directory
     cache = DATA_ROOT = "/storage/store2/work/haggarwa/"
     # output directory
     output_dir = os.path.join(
-        DATA_ROOT, f"wim_connectivity_{time.strftime('%Y%m%d-%H%M%S')}"
+        DATA_ROOT, f"external_connectivity_{time.strftime('%Y%m%d-%H%M%S')}"
     )
     # output file path
     fc_data_path = os.path.join(output_dir, "connectomes_200_compcorr.pkl")
@@ -150,7 +152,7 @@ if __name__ == "__main__":
         data_dir=cache, resolution_mm=1, n_rois=200
     )
     # get subject names
-    subjects = os.listdir(WIM_ROOT)
+    subjects = os.listdir(external_ROOT)
     # runs
     runs = ["free1", "free2", "free3"]
     # cov estimators
@@ -160,7 +162,9 @@ if __name__ == "__main__":
 
     print("Time series extraction...")
     time_series = Parallel(n_jobs=n_jobs, verbose=11)(
-        delayed(get_time_series)(atlas, subject, run, WIM_ROOT, do_slice=False)
+        delayed(get_time_series)(
+            atlas, subject, run, external_ROOT, do_slice=False
+        )
         for subject, run in subject_run(subjects, runs)
     )
     pd.DataFrame(time_series).to_pickle(

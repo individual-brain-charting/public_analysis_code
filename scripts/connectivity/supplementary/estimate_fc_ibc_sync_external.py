@@ -1,5 +1,5 @@
-"""Pipeline to calculate functional connectivity and fit classifier for
- decoding IBC GBU runs synced with Wim (or Mantini et al.) GBU data"""
+"""Pipeline to calculate functional connectivity for IBC GBU runs synced 
+with external GBU data (from Mantini et al. 2012)"""
 
 import os
 import time
@@ -54,7 +54,7 @@ def slice_nifti_confound(nifti, confound, run):
 def get_time_series(
     atlas, subject, nifti, run_label, confound, task, do_slice=True
 ):
-    """Get time series from WIM data"""
+    """Get time series from external data"""
     data = {
         "time_series": [],
         "subject_ids": [],
@@ -149,7 +149,7 @@ if __name__ == "__main__":
     # output directory
     output_dir = os.path.join(
         DATA_ROOT,
-        f"ibc_sync_wim_connectivity_{time.strftime('%Y%m%d-%H%M%S')}",
+        f"ibc_sync_external_connectivity_{time.strftime('%Y%m%d-%H%M%S')}",
     )
     # output file path
     fc_data_path = os.path.join(output_dir, "connectomes_200.pkl")

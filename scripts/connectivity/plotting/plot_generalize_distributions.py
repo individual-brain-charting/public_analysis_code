@@ -11,11 +11,15 @@ sns.set_theme()
 sns.set_style("whitegrid")
 sns.set_context("talk")
 
-### transfer IBC -> Wim connectivity distribution plots ###
+### transfer IBC -> external connectivity distribution plots ###
 cache = "/storage/store2/work/haggarwa/"
 DATA_ROOT = "/storage/store2/work/haggarwa/"
-IBC_ROOT = os.path.join(DATA_ROOT, "ibc_sync_wim_connectivity_20231206-110710")
-WIM_ROOT = os.path.join(DATA_ROOT, "wim_connectivity_20231205-142311")
+IBC_ROOT = os.path.join(
+    DATA_ROOT, "ibc_sync_external_connectivity_20231206-110710"
+)
+external_ROOT = os.path.join(
+    DATA_ROOT, "external_connectivity_20231205-142311"
+)
 atlas = datasets.fetch_atlas_schaefer_2018(
     data_dir=cache, resolution_mm=2, n_rois=200
 )
@@ -37,23 +41,23 @@ cov_estimators = ["Graphical-Lasso", "Ledoit-Wolf", "Unregularized"]
 measures = ["correlation", "partial correlation"]
 
 dist_dir = os.path.join(
-    DATA_ROOT, "transfer_ibc_wim_connectivity_distributions"
+    DATA_ROOT, "transfer_ibc_external_connectivity_distributions"
 )
 os.makedirs(dist_dir, exist_ok=True)
 for cov in cov_estimators:
     for measure in measures:
         fig, ax = plt.subplots()
-        for dataset in ["ibc", "wim"]:
+        for dataset in ["ibc", "external"]:
             if dataset == "ibc":
                 # load the data
                 fc_data = pd.read_pickle(
                     os.path.join(IBC_ROOT, "connectomes_200.pkl")
                 )
                 color = "blue"
-            elif dataset == "wim":
+            elif dataset == "external":
                 # load the data
                 fc_data = pd.read_pickle(
-                    os.path.join(WIM_ROOT, "connectomes_200.pkl")
+                    os.path.join(external_ROOT, "connectomes_200.pkl")
                 )
                 color = "red"
             try:
