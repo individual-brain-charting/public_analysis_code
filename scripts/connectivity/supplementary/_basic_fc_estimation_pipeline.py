@@ -9,6 +9,8 @@ task for ROIs from Schaefer 2018 atlas
 
 See: https://nilearn.github.io/stable/connectivity/functional_connectomes.html
 and https://nilearn.github.io/stable/connectivity/connectome_extraction.html
+
+Not used anywhere in the analysis, but demos fc calculation
 """
 
 
@@ -245,7 +247,7 @@ for task in tasks:
 
     # fit tangent space embedding on all subjects for a given run
     for run_num, run in enumerate(t_all_sub_all_run):
-        # run 13 is missing for subject 08 
+        # run 13 is missing for subject 08
         if task == "task-Raiders" and run_num == 12:
             # delete NoneType array for subject 08 (element index 5)
             del run[5]

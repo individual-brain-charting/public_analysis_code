@@ -25,6 +25,6 @@ Tractography is done using MRtrix in script `dmri_preprocessing_tractography.py`
 # DWI connectome
 
 ## Steps
-1. The streamlines obtained from tractography were first warped into MNI152 space using ANTs' image registration `antsRegistration` and MRtrix's `tcktransform` in script `connectivity_dmri.py`.
-2. In addition, the script `connectivity_dmri.py` also transforms the given atlas to the native individual space. This way we can calculate two kinds of structural connectivity matrices: one in the MNI space and the other in the native individual space.
-3. Finally, the two connectomes are calculated using MRtrix's `tck2connectome` function in the same script `connectivity_dmri.py`.
+1. The streamlines obtained from tractography were first warped into MNI152 space using ANTs' image registration `antsRegistration` and MRtrix's `tcktransform` in script `estimate_sc.py`.
+2. In addition, the script `estimate_sc.py` also transforms the given atlas to the native individual space. This way we can calculate two kinds of structural connectivity matrices: one in the MNI space and the other in the native individual space.
+3. Finally, the two connectomes are calculated using MRtrix's `tck2connectome` function in the same script `estimate_sc.py`.
