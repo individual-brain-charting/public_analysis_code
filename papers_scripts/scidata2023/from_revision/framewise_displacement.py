@@ -75,7 +75,6 @@ def plot_subs_FD_distribution(df_plot, out_dir=''):
     plt.xlabel('Framewise Displacement [mm]')
     plt.ylabel(None) 
     plt.xlim(0.0, 1.0)
-
     plt.tight_layout()
     #plt.savefig(os.path.join(out_dir, f'FD.png'), dpi=300)
     plt.savefig(os.path.join(out_dir, 'FD_hor.png'), dpi=300)
@@ -86,12 +85,13 @@ def subplot_task_FD(df_to_plot, out_dir=''):
     axes = axes.flatten()
     for i, task in enumerate(df_to_plot['Task'].unique()):
         task_data = df_to_plot[df_to_plot['Task'] == task]
-        sns.boxplot(data=task_data, x='Subject', y='FD', ax=axes[i], 
-                     hue='Subject', palette='Set1', legend=False)
+        task_data_f = task_data[task_data['FD'] <= 0.9]
+        sns.boxplot(data=task_data_f, x='Subject', y='FD', ax=axes[i], 
+                     hue='Subject', palette='Set1', legend=False, whis=0.9)
         axes[i].set_title(task)
         axes[i].set_xlabel(None)
         axes[i].set_ylabel('Framewise Displacement [mm]')
-        axes[i].set_ylim(0, 1.0)
+        axes[i].set_ylim(0, 1.01)
     plt.tight_layout()
     plt.savefig(os.path.join(out_dir, 'FD_subplot.png'), dpi=300)
 
@@ -99,7 +99,7 @@ def subplot_task_FD(df_to_plot, out_dir=''):
 if __name__ == '__main__':
     # ########################### INPUTS #####################################
     cache = mem = '/storage/store3/work/aponcema/IBC_paper3/cache_two'
-    sub_num = [1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
+    sub_num = [1, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15]
     TASKS = ['ClipsTrn','ClipsVal','Raiders','WedgeAnti','WedgeClock',
              'ContRing','ExpRing']
     sess_names = ["clips1","clips2","clips3","clips4","raiders1","raiders2"]
