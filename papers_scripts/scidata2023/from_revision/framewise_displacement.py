@@ -36,16 +36,49 @@ def FD_subject(sub:str, task:str, db:pd.DataFrame):
     sub_FD = np.concatenate(all_FD)
     return sub_FD
 
+def _handle_missing_data(all_FD):
+    """For the cases where a sbject didn't perform a task, fill with NaNs."""
+    for task_idx, task_data in enumerate(all_FD):
+        for subj_idx, subj_data in enumerate(task_data):
+            if subj_data is None:  # Check if subj_data is None
+                if subj_idx > 0:
+                    all_FD[task_idx][subj_idx] = [np.nan] *\
+                        len(all_FD[task_idx][subj_idx - 1])
+                else:
+                    all_FD[task_idx][subj_idx] = [np.nan] * 300
+    return all_FD
 # %%
-def plot_subs_FD_distribution(all_subs_FD, PTS, task, out_dir=''):
+def create_df_for_plotting(all_FD, PTS, grouped_tasks):
+    """Create a dataframe for plotting the FD data."""
+    all_FD = _handle_missing_data(all_FD)
+    plot_data = {'Subject': [], 'Task': [], 'FD': []}
+    for task_idx, task_data in enumerate(all_FD):
+        for sub_idx, sub_data in enumerate(task_data):
+            for fd in sub_data:
+                plot_data['Subject'].append(PTS[sub_idx])
+                plot_data['Task'].append(grouped_tasks[task_idx])
+                plot_data['FD'].append(fd)
+    df = pd.DataFrame(plot_data)
+    return df
+
+# %%
+def plot_subs_FD_distribution(df_plot, PTS, tasks, out_dir=''):
     """Plot the distribution of framewise displacement for all subjects."""
-    plt.figure(figsize=(10, 6))
-    sns.boxplot(data=all_subs_FD, orient='v')
-    plt.ylabel('Framewise Displacement [mm]')
-    plt.xticks(np.arange(len(PTS)), [f"{sub}" for sub in PTS], rotation=45)
-    plt.suptitle(f'Framewise Displacement for {task}')
+
+    #plt.figure(figsize=(10, 7))
+    #sns.boxplot(data=df_plot, x='Subject', y='FD', hue='Task')
+    plt.figure(figsize=(8, 10))
+    sns.boxplot(data=df_plot, x='FD', y='Subject', hue='Task')
+    #plt.ylabel('Framewise Displacement [mm]')
+    #plt.xlabel(None) 
+    #plt.ylim(0, 1.0) # limit to 0.1mm
+    plt.xlabel('Framewise Displacement [mm]')
+    plt.ylabel(None) 
+    plt.xlim(0.0, 1.0)
+
     plt.tight_layout()
-    plt.savefig(os.path.join(out_dir, f'FD_{task}.png'), dpi=300)
+    #plt.savefig(os.path.join(out_dir, f'FD.png'), dpi=300)
+    plt.savefig(os.path.join(out_dir, f'FD_hor.png'), dpi=300)
     
 # %%
 if __name__ == '__main__':
@@ -73,8 +106,14 @@ if __name__ == '__main__':
                for sub, ses_list in sub_sess.items() for ses in ses_list]
     new_db = pd.concat(new_db_, ignore_index=True)
 
+    all_FD = []
     grouped_tasks = ["Clips", "Raiders", "Wedge", "Ring"]
     for task in grouped_tasks:
         all_subs_FD = [FD_subject(sub, task, new_db) for sub in PTS]
-        plot_subs_FD_distribution(all_subs_FD, PTS, task, out_dir=mem)
+        all_FD.append(all_subs_FD)
+    
+    # %%
+    df_to_plot = create_df_for_plotting(all_FD, PTS, grouped_tasks)
+    plot_subs_FD_distribution(df_to_plot, PTS, grouped_tasks)
+
 # %%
