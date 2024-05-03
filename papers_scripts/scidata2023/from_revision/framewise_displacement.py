@@ -62,7 +62,7 @@ def create_df_for_plotting(all_FD, PTS, grouped_tasks):
     return df
 
 # %%
-def plot_subs_FD_distribution(df_plot, PTS, tasks, out_dir=''):
+def plot_subs_FD_distribution(df_plot, out_dir=''):
     """Plot the distribution of framewise displacement for all subjects."""
 
     #plt.figure(figsize=(10, 7))
@@ -78,8 +78,23 @@ def plot_subs_FD_distribution(df_plot, PTS, tasks, out_dir=''):
 
     plt.tight_layout()
     #plt.savefig(os.path.join(out_dir, f'FD.png'), dpi=300)
-    plt.savefig(os.path.join(out_dir, f'FD_hor.png'), dpi=300)
-    
+    plt.savefig(os.path.join(out_dir, 'FD_hor.png'), dpi=300)
+# %%
+def subplot_task_FD(df_to_plot, out_dir=''):
+
+    fig, axes = plt.subplots(4, 1, figsize=(9, 12), sharey=True)
+    axes = axes.flatten()
+    for i, task in enumerate(df_to_plot['Task'].unique()):
+        task_data = df_to_plot[df_to_plot['Task'] == task]
+        sns.boxplot(data=task_data, x='Subject', y='FD', ax=axes[i], 
+                     hue='Subject', palette='Set1', legend=False)
+        axes[i].set_title(task)
+        axes[i].set_xlabel(None)
+        axes[i].set_ylabel('Framewise Displacement [mm]')
+        axes[i].set_ylim(0, 1.0)
+    plt.tight_layout()
+    plt.savefig(os.path.join(out_dir, 'FD_subplot.png'), dpi=300)
+
 # %%
 if __name__ == '__main__':
     # ########################### INPUTS #####################################
@@ -114,6 +129,10 @@ if __name__ == '__main__':
     
     # %%
     df_to_plot = create_df_for_plotting(all_FD, PTS, grouped_tasks)
-    plot_subs_FD_distribution(df_to_plot, PTS, grouped_tasks)
 
-# %%
+    # plot all the data in a single plot
+    # plot_subs_FD_distribution(df_to_plot, out_dir=cache)
+    
+    # plot each task as subplots
+    subplot_task_FD(df_to_plot, out_dir=cache)
+    # %%
