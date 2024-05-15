@@ -385,7 +385,7 @@ MDTB	2back_hard-easy
 MDTB	tom_belief-photo
 MDTB	search_hard-easy
 Emotion	neutral_image
-Emotion	echelle_valence
+Emotion	valence_scale
 Emotion	negative-neutral
 MultiModal	audio-control
 MultiModal	visual-control
@@ -403,18 +403,6 @@ MultiModal	animate-inanimate
 MultiModal	monkey_speech-other
 MultiModal	speech-other
 MultiModal	speech+voice-other
-Mario	action_jump
-Mario	action_leftrun
-Mario	action_leftwalk
-Mario	action_rightrun
-Mario	action_rightwalk
-Mario	loss_dying
-Mario	onscreen_enemy
-Mario	reward_coin
-Mario	reward_enemykill_impact
-Mario	reward_enemykill_kick
-Mario	reward_enemykill_stomp
-Mario	reward_powerup_taken
 Mario	action
 Mario	loss
 Mario	reward

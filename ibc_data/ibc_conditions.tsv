@@ -487,7 +487,7 @@ MDTB	semantic easy	Easy to decide whether the last word fits in the sentence, na
 MDTB	semantic hard	Hard to decide whether the last word fits in the sentence, ambiguous sequence
 Emotion	neutral_image	Block of neutral images
 Emotion	negative_image	Block of negative images
-Emotion	echelle_valence	Subject’s rating of emotional state
+Emotion	valence_scale	Subject’s rating of emotional state
 MultiModal	audio_monkey	Monkey sounds used as audio stimulus
 MultiModal	audio_animal	Animal sounds different from monkeys used as audio stimulus
 MultiModal	audio_nature	Nature sounds (i.e. rain) used as audio stimulus
