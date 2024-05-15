@@ -683,17 +683,27 @@ def color(design_matrix_columns):
 
 def optimism_bias(design_matrix_columns):
     """ Contrasts for optimism bias protocol """
-    contrast_names = ['all_events', 'optimism_bias', 'future_vs_past',
-                      'positive_vs_negative', 'future_positive_vs_negative',
-                      'past_positive_vs_negative', 'interaction']
+    contrast_names = [
+        'all_events',
+        'optimism_bias',
+        'future_vs_past',
+        'positive_vs_negative',
+        'future_positive_vs_negative',
+        'past_positive_vs_negative',
+        'interaction']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    all_ = [c for c in ['past_positive', 'future_positive', 'past_negative', 'future_negative',
-                        'inconclusive'] if c in design_matrix_columns]
+    all_ = [c for c in [
+        'past_positive',
+        'future_positive',
+        'past_negative',
+        'future_negative',
+        'inconclusive']
+            if c in design_matrix_columns]
     all_events = np.mean([con[c] for c in all_ ], 0)
-    future_negative_control = [c for c in
-                               ['future_positive', 'past_positive', 'past_negative']
+    future_negative_control = [c for c in [
+        'future_positive', 'past_positive', 'past_negative']
                                if c in design_matrix_columns]
     if 'future_negative' in design_matrix_columns:
         optimism_bias = con['future_negative'] - np.mean(

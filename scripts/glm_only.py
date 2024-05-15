@@ -73,7 +73,7 @@ def generate_glm_input(jobfile, smooth=None, lowres=False):
         if 'retino' in jobfile or 'stanford1' in jobfile:
             hrf_model = 'spm'
         onset = subject.onset
-        if 'retino':
+        if 'retino' in jobfile:
             onset = ['/tmp/foo.tsv'] * len(onset)
         #    realignment_parameters = [None] * len(onset)
         subject_ = {
@@ -146,26 +146,23 @@ if __name__ == '__main__':
     # protocols = ['biological_motion', 'camcan1', 'camcan2', 'audio1', 'audio2']
     # protocols += ['optimism' 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang']
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
-    # protocols = ['audio1', 'audio2']
-    # protocols = ['abstraction', 'leuven', 'mdtb', 'mario1', 'mario2'] 
-    protocols = ['clips4']
-    
-    """
+    # protocols = ['audio1', 'audio2', clips4]
+    protocols = ['abstraction', 'leuven', 'mdtb', 'mario1', 'mario2'] 
+    #
+
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        subject_session = [('sub-05', 'ses-09')]
         Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
             for (subject, session) in subject_session)
-    """
+
     smooth = 5
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        subject_session = [('sub-05', 'ses-09')]
-        Parallel(n_jobs=4)(
+        Parallel(n_jobs=6)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
             for (subject, session) in subject_session)
@@ -174,7 +171,6 @@ if __name__ == '__main__':
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         subject_session = get_subject_session(protocol)
-        subject_session = [('sub-05', 'ses-09')]
         Parallel(n_jobs=6)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
