@@ -474,7 +474,7 @@ StopNogo	successful_stop	response stop	fixation	shape recognition, stopped respo
 StopNogo	unsuccessful_stop	failed response stop	fixation	shape recognition, failed stopped response	['shape_recognition','proactive_control','response_selection','response_execution','response_conflict']
 Catell	easy	easy oddball task	fixation	easy oddball task	['visual_form_discrimination','oddball_detection']
 Catell	hard	hard oddball task	fixation	hard oddball task	['visual_form_discrimination','task_difficulty','oddball_detection']
-Catell	hard-easy	easy oddball task	hard oddball task	easy vs hard oddball task	['visual_form_discrimination','task_difficulty','oddball_detection']
+Catell	hard-easy	hard oddball task	easy oddball task	easy vs hard oddball task	['visual_form_discrimination','task_difficulty','oddball_detection']
 FingerTapping	specified	cued finger tapping	fixation	cued finger tapping	['motor_control','response_selection','response_execution','right_finger_response_execution']
 FingerTapping	chosen-specified	uncued finger tapping	cued finger tapping	uncued vs cued finfer tapping	['motor_planning']
 FingerTapping	chosen	uncued finger tapping	fixation	uncued finger tapping	['motor_planning','response_selection','response_execution','right_finger_response_execution']
