@@ -390,15 +390,15 @@ StroopAomic	word_female	The presented word corresponds to a female
 WMAomic	active_change	The probe had a different orientation than it had on the array
 WMAomic	active_no_change	The probe had the same orientation than it had on the array
 WMAomic	passive	Passive trials, the bars were not displayed
-AbstractionLocalizer	localizer_faces	Face images
-AbstractionLocalizer	localizer_humanbody	Body images
-AbstractionLocalizer	localizer_words	Words images
-AbstractionLocalizer	localizer_nonsensewords	Non-sense words images
-AbstractionLocalizer	localizer_numbers	Number images
-AbstractionLocalizer	localizer_places	Place images
-AbstractionLocalizer	localizer_objects	Object Images
-AbstractionLocalizer	localizer_checkerboards	Checkerboards images
-AbstractionLocalizer	response	Subject's button press when they saw a star
+LocalizerAbstraction	localizer_faces	Face images
+LocalizerAbstraction	localizer_humanbody	Body images
+LocalizerAbstraction	localizer_words	Words images
+LocalizerAbstraction	localizer_nonsensewords	Non-sense words images
+LocalizerAbstraction	localizer_numbers	Number images
+LocalizerAbstraction	localizer_places	Place images
+LocalizerAbstraction	localizer_objects	Object Images
+LocalizerAbstraction	localizer_checkerboards	Checkerboards images
+LocalizerAbstraction	response	Subject's button press when they saw a star
 Abstraction	humanbody_standing_geometry	Geometry rendering of standing human
 Abstraction	humanbody_walking_geometry	Geometry rendering of walking human
 Abstraction	humanbody_hand_geometry	Geometry rendering of hands
