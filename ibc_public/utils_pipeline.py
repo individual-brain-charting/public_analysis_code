@@ -167,6 +167,7 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
         the mask used for the fMRI data
     """
     from nilearn.glm.first_level import FirstLevelModel
+    from nilearn.image import index_img
     fmri_4d = nib.load(fmri_data)
 
     # GLM analysis
@@ -185,6 +186,8 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
         for map_type in ['z_score', 'stat', 'effect_size', 'effect_variance']:
             stat_map = fmri_glm.compute_contrast(
                 contrast_val, output_type=map_type)
+            if map_type == 'effect_size' and contrast_val.ndim == 1:
+                stat_map = index_img(stat_map, 0)
             map_dir = os.path.join(
                 subject_session_output_dir, '%s_maps' % map_type)
             if not os.path.exists(map_dir):
@@ -218,7 +221,9 @@ def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
         contrast_ = compute_contrast(labels, res, con_)
         stats = [contrast_.z_score(), contrast_.stat_, contrast_.effect,
                  contrast_.variance]
-        for map_type, out_map in zip(['z_score', 'stat', 'effect_size', 'effect_variance'], stats):
+        for map_type, out_map in zip(
+                ['z_score', 'stat', 'effect_size', 'effect_variance'],
+                stats):
             map_dir = os.path.join(
                 subject_session_output_dir, '%s_maps' % map_type)
             if not os.path.exists(map_dir):
@@ -226,7 +231,9 @@ def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
             map_path = os.path.join(map_dir, '%s_%s.gii' % (contrast_id, side))
             print("\t\tWriting %s ..." % map_path)
             tex = GiftiImage(
-                darrays=[GiftiDataArray(data=out_map.astype('float32'), intent='t test')])
+                darrays=[GiftiDataArray(
+                    data=out_map.astype('float32'),
+                    intent='t test')])
             tex.to_filename(map_path)
 
 

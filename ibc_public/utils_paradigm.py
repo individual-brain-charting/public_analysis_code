@@ -233,7 +233,7 @@ def post_process(df, paradigm_id):
             df = df.replace(nature, 'nature')
         for tool in tools:
             df = df.replace(tool, 'tool')
-        df.drop(df[df.trial_type == 'fixation'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'fixation'].index, inplace=True)
     if paradigm_id == 'Attention':
         df = df[df.trial_type.isin([
             'spatial_incongruent', 'double_congruent', 'spatial_congruent',
@@ -415,8 +415,8 @@ def post_process(df, paradigm_id):
         df.replace('Places_corridor', 'places_corridor', inplace=True)
         df.replace('Places_house', 'places_house', inplace=True)
     if paradigm_id == 'Scene':
-        df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
-        df.drop(df[df.trial_type == 'iti'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'fix'].index, inplace=True)
+        df.drop(df[df.trial_type == 'iti'].index, inplace=True)
         df.replace('dot_easy_left_correct', 'dot_easy_left', inplace=True)
         df.replace('dot_easy_left_incorrect', 'dot_easy_left', inplace=True)
         df.replace('dot_easy_right_correct', 'dot_easy_right', inplace=True)
@@ -426,11 +426,11 @@ def post_process(df, paradigm_id):
         df.replace('dot_hard_right_correct', 'dot_hard_right', inplace=True)
         df.replace('dot_hard_right_incorrect', 'dot_hard_right', inplace=True)
     if paradigm_id == 'Color':
-        df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
-        df.drop(df[df.trial_type == '1-back'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'fix'].index, inplace=True)
+        df.drop(df[df.trial_type == '1-back'].index, inplace=True)
         df.loc[df.trial_type == 'y', 'duration'] = .5
     if paradigm_id == 'Motion':
-        df.drop(df[df.trial_type == 'iti_fix'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'iti_fix'].index, inplace=True)
         df.loc[df.trial_type == 'y', 'duration'] = .5
     if paradigm_id == 'OptimismBias':
         #df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
@@ -442,13 +442,13 @@ def post_process(df, paradigm_id):
         # todo: distinguish incorrect vs female
     if paradigm_id == 'Emotion':
         to_drop  = ['block_divider']
-        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        df.drop(df[df.trial_type.isin(to_drop)].index, inplace=True)
         df.replace('NEU_image_display', 'neutral_image', inplace=True)
         df.replace('NEG_image_display', 'negative_image', inplace=True)
         df.replace('echelle_valence', 'valence_scale', inplace=True)
     if paradigm_id == 'MDTB':
         to_drop  = ['iti']
-        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        df.drop(df[df.trial_type.isin(to_drop)].index, inplace=True)
         df.replace('semantic_easy_False', 'semantic_easy', inplace=True)
         df.replace('semantic_easy_True', 'semantic_easy', inplace=True)
         df.replace('semantic_hard_False', 'semantic_hard', inplace=True)
@@ -468,7 +468,7 @@ def post_process(df, paradigm_id):
         df.replace('', '', inplace=True)
     if paradigm_id == 'MultiModal': # aka Leuven task
         to_drop  = ['fix' ]
-        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        df.drop(df[df.trial_type.isin(to_drop)].index, inplace=True)
         for x in df.trial_type.unique():
             y = x
             if 'audio' in x:
@@ -491,7 +491,7 @@ def post_process(df, paradigm_id):
             df.replace(x, y, inplace=True)
     if paradigm_id == 'Mario':
         to_drop = [] # fixme
-        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        df.drop(df[df.trial_type.isin(to_drop)].index, inplace=True)
     if paradigm_id == 'StroopAomic':
         df.replace('correct_incongruent_word_male_face_female',
                    'incongruent_word_male_face_female', inplace=True)

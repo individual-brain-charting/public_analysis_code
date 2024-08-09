@@ -210,10 +210,10 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
 # protocols = ['biological_motion', 'navigation' , 'camcan1', 'camcan2', 
 #              'fbirn', 'search', 'reward', 'scene', 'monkey_kingdom', 'color']
 # protocols = ['aomic', 'mdtb', , 'leuven', 'mario1', 'mario2']
-protocols = ['abstraction']
+protocols = ['color', 'abstraction', 'leuven']
 
 subject_sessions = sorted(get_subject_session(protocols))
-subject_sessions = [('sub-14', 'ses-45')]
+subject_sessions = [('sub-11', 'ses-49')]
 Parallel(n_jobs=6)(
     delayed(project_volume)(work_dir, subject_session[0], [subject_session[1]],
                             do_bbr=True)

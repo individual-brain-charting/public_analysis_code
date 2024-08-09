@@ -214,11 +214,10 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
-    do_topup = True
+    do_topup = False
     #
-    protocol =  'abstraction' # 'mario1'  # 'mdtb''leuven' # 'mario2' 
+    protocol =  'abstraction'
     subject_session = get_subject_session(protocol)
-    subject_session = [('sub-14', 'ses-45')]
     
     if do_topup:
         acq = None
