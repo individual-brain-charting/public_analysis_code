@@ -337,6 +337,15 @@ FacesAomic	female-male
 StroopAomic	congruent-incongruent
 StroopAomic	incongruent-congruent
 StroopAomic	face_male-face_female
+LocalizerAbstraction	localizer_checkerboards-other
+LocalizerAbstraction	localizer_faces-other
+LocalizerAbstraction	localizer_humanbody-other
+LocalizerAbstraction	localizer_nonsensewords-other
+LocalizerAbstraction	localizer_numbers-other
+LocalizerAbstraction	localizer_objects-other
+LocalizerAbstraction	localizer_places-other
+LocalizerAbstraction	localizer_words-other
+LocalizerAbstraction	response
 Abstraction	humanbody-other
 Abstraction	animals-other
 Abstraction	faces-other
