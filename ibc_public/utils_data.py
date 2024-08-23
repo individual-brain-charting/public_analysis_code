@@ -7,13 +7,15 @@ Compatibility: Python 3.5
 
 """
 
-import os
 import glob
+import os
+import shutil
 import warnings
 from collections import defaultdict
-import pandas as pd
-import shutil
+
 import numpy as np
+import pandas as pd
+
 # from ibc_public.utils_annotations import expand_table
 from tqdm import tqdm
 
@@ -102,7 +104,7 @@ def get_subject_session(protocols):
 
 def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 subject_list=SUBJECTS, task_list=False, verbose=0,
-                acquisition='all'):
+                acquisition_dir='all'):
     """Generate a dataframe that contains all the data corresponding
     to the archi, hcp and rsvp_language acquisitions
 
@@ -123,7 +125,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     verbose: Bool, optional,
              verbosity mode
 
-    acquisition={'all', 'ap', 'pa', 'ffx'}, default='all'
+    acquisition_dir={'all', 'ap', 'pa', 'ffx'}, default='all'
         which acquisition to select
 
     Returns
@@ -319,8 +321,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     contrast_name = con_df.contrast
 
     acq_card = '*' # if acquisition == 'all'
-    if acquisition in ['ffx', 'ap', 'pa']:
-        acq_card = 'dir-%s' % acquisition
+    if acquisition_dir in ['ffx', 'ap', 'pa']:
+        acq_card = 'dir-%s' % acquisition_dir
 
     for subject in subject_list:
             for i in range(len(con_df)):
@@ -335,7 +337,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 
                 wildcard = os.path.join(
                     derivatives, subject, '*',
-                    'res_task-%s_space-MNI152_%s' % (task, acq_card),
+                    'res_task-%s_space-MNI152*_%s' % (task, acq_card),
                     'stat_maps', '%s.nii.gz' % contrast)
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
@@ -384,8 +386,8 @@ def average_anat(db):
 
 def gm_mask(db, ref_affine, ref_shape, threshold=.25):
     """ Utility to create a gm mask by averaging glm images from the db """
-    from nilearn.image import mean_img
     import nibabel as nib
+    from nilearn.image import mean_img
     gm_imgs = db[db.contrast == 'gm'].path.values
     mean_gm = mean_img(
         gm_imgs, target_affine=ref_affine, target_shape=ref_shape)
@@ -396,8 +398,8 @@ def gm_mask(db, ref_affine, ref_shape, threshold=.25):
 
 def resample_images(paths, ref_affine, ref_shape):
     """ Utility to resample images provided as paths and return an image"""
-    from nilearn.image import resample_img
     import nibabel as nib
+    from nilearn.image import resample_img
     imgs = []
     for path in paths:
         fmri_image = resample_img(
