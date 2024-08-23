@@ -7,15 +7,13 @@ Compatibility: Python 3.5
 
 """
 
-import glob
 import os
-import shutil
+import glob
 import warnings
 from collections import defaultdict
-
-import numpy as np
 import pandas as pd
-
+import shutil
+import numpy as np
 # from ibc_public.utils_annotations import expand_table
 from tqdm import tqdm
 
@@ -386,8 +384,8 @@ def average_anat(db):
 
 def gm_mask(db, ref_affine, ref_shape, threshold=.25):
     """ Utility to create a gm mask by averaging glm images from the db """
-    import nibabel as nib
     from nilearn.image import mean_img
+    import nibabel as nib
     gm_imgs = db[db.contrast == 'gm'].path.values
     mean_gm = mean_img(
         gm_imgs, target_affine=ref_affine, target_shape=ref_shape)
@@ -398,8 +396,8 @@ def gm_mask(db, ref_affine, ref_shape, threshold=.25):
 
 def resample_images(paths, ref_affine, ref_shape):
     """ Utility to resample images provided as paths and return an image"""
-    import nibabel as nib
     from nilearn.image import resample_img
+    import nibabel as nib
     imgs = []
     for path in paths:
         fmri_image = resample_img(
