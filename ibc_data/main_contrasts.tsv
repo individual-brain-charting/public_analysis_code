@@ -302,7 +302,7 @@ NARPS	strongly_reject
 NARPS	reject-accept
 NARPS	accept-reject
 VisualSearch	probe_item_absent-probe_item_present
-VisualSearch	search_array_absent-search_array_present 
+VisualSearch	search_array_absent-search_array_present
 VisualSearch	probe_item_four-probe_item_two
 VisualSearch	search_array_four-search_array_two
 RewProc	left-right
@@ -373,7 +373,7 @@ Abstraction	objects_photo-objects_other
 Abstraction	places_geometry-places_other
 Abstraction	places_edge-places_other
 Abstraction	places_photo-places_other
-MDTB	action_action 
+MDTB	action_action
 MDTB	action_control
 MDTB	finger_simple
 MDTB	finger_complex
