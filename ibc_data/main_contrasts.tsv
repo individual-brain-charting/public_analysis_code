@@ -327,6 +327,7 @@ OptimismBias	future_vs_past
 OptimismBias	positive_vs_negative
 OptimismBias	future_positive_vs_negative
 OptimismBias	past_positive_vs_negative
+HarririAomic	emotion-shape
 FacesAomic	all-neutral
 FacesAomic	anger-neutral
 FacesAomic	contempt-neutral
@@ -337,6 +338,8 @@ FacesAomic	female-male
 StroopAomic	congruent-incongruent
 StroopAomic	incongruent-congruent
 StroopAomic	face_male-face_female
+WMAomic	active_change-active_no_change
+WMAomic	active-passive
 LocalizerAbstraction	localizer_checkerboards-other
 LocalizerAbstraction	localizer_faces-other
 LocalizerAbstraction	localizer_humanbody-other
