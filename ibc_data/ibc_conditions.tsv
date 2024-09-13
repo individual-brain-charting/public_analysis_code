@@ -483,8 +483,8 @@ MDTB	tom_belief	The statement presented relates to thoughts or believes the char
 MDTB	tom_photo	The statement presented relates to facts described on the paragraph
 MDTB	2back_easy	Easy 2-back trial, it is easy to remember whether the image was shown 2 images ago.
 MDTB	2back_hard	Hard 2-back trial, it is hard to remember whether the image was shown 2 images ago.
-MDTB	semantic easy	Easy to decide whether the last word fits in the sentence, natural sequence
-MDTB	semantic hard	Hard to decide whether the last word fits in the sentence, ambiguous sequence
+MDTB	semantic_easy	Easy to decide whether the last word fits in the sentence, natural sequence
+MDTB	semantic_hard	Hard to decide whether the last word fits in the sentence, ambiguous sequence
 Emotion	neutral_image	Block of neutral images
 Emotion	negative_image	Block of negative images
 Emotion	valence_scale	Subject’s rating of emotional state

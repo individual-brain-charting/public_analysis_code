@@ -102,7 +102,7 @@ def get_subject_session(protocols):
 
 def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 subject_list=SUBJECTS, task_list=False, verbose=0,
-                acquisition='all'):
+                acquisition_dir='all'):
     """Generate a dataframe that contains all the data corresponding
     to the archi, hcp and rsvp_language acquisitions
 
@@ -123,7 +123,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     verbose: Bool, optional,
              verbosity mode
 
-    acquisition={'all', 'ap', 'pa', 'ffx'}, default='all'
+    acquisition_dir={'all', 'ap', 'pa', 'ffx'}, default='all'
         which acquisition to select
 
     Returns
@@ -319,8 +319,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     contrast_name = con_df.contrast
 
     acq_card = '*' # if acquisition == 'all'
-    if acquisition in ['ffx', 'ap', 'pa']:
-        acq_card = 'dir-%s' % acquisition
+    if acquisition_dir in ['ffx', 'ap', 'pa']:
+        acq_card = 'dir-%s' % acquisition_dir
 
     for subject in subject_list:
             for i in range(len(con_df)):
@@ -335,7 +335,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 
                 wildcard = os.path.join(
                     derivatives, subject, '*',
-                    'res_task-%s_space-MNI152_%s' % (task, acq_card),
+                    'res_task-%s_space-MNI152*_%s' % (task, acq_card),
                     'stat_maps', '%s.nii.gz' % contrast)
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
