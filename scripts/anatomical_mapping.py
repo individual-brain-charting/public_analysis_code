@@ -17,7 +17,6 @@ import nibabel as nib
 
 data_dir = '/neurospin/ibc/derivatives'
 subjects = ['sub-%02d' % i for i in [1, 2, 4, 5, 6, 7, 8, 9, 11, 13, 14, 12, 15]]
-subjects = ['sub-%02d' % i for i in [12]]
 os.environ['SUBJECTS_DIR'] = ''
 
 
@@ -199,7 +198,7 @@ def project_volume(work_dir, subject, do_bbr=True):
             'rh': nib.load(right_smooth_tex).darrays[0].data
         }
         
-    from nibabel.gifti import write, GiftiImage, GiftiDataArray as gda
+    from nibabel.gifti import GiftiImage, GiftiDataArray as gda
     session = os.path.basename(ref_file).split('_')[1]
     for mesh in ['fsaverage5', 'fsaverage7']:
         for hemi in ['lh', 'rh']:
@@ -208,15 +207,14 @@ def project_volume(work_dir, subject, do_bbr=True):
                 write_dir,
                 '{}_{}_T1T2Ratio_space-{}_{}.gii'.format(
                     subject, session, mesh, hemi))
-            write(
-                GiftiImage(darrays=[gda(data=ratio.astype('float32'))]),
-                file_ratio)
+            GiftiImage(
+                darrays=[gda(data=ratio.astype('float32'))]
+            ).to_filename(file_ratio)
 
-"""
 Parallel(n_jobs=1)(
     delayed(project_volume)(data_dir, subject)
     for subject in subjects)
-"""
+
 
 ###########################################################################
 from nilearn.plotting import plot_surf, view_surf, show

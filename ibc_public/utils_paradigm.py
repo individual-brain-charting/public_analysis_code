@@ -433,8 +433,7 @@ def post_process(df, paradigm_id):
         df.drop(df[df.trial_type == 'iti_fix'].index, inplace=True)
         df.loc[df.trial_type == 'y', 'duration'] = .5
     if paradigm_id == 'OptimismBias':
-        #df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
-        df.drop(df[df.trial_type == 'start'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'start'].index, inplace=True)
     if paradigm_id == 'HarririAomic':
         df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, 0, inplace=True)
     if paradigm_id == 'StroopAomic':

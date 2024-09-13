@@ -107,7 +107,7 @@ if __name__ == '__main__':
                  'navigation', 'search']
     protocols = ['scene', 'color', 'aomic']
     """
-    protocols = ['leuven'] # 'mario1', 'mdtb', 'color', 'mario2', 'leuven' 'abstraction'
+    protocols = ['abstraction'] # 'mario1', 'mdtb', 'color', 'mario2', 'leuven' 'abstraction'
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol
@@ -115,7 +115,7 @@ if __name__ == '__main__':
             acquisition = 'clips4'
         subject_session = sorted(get_subject_session(acquisition))
         for mesh in ['fsaverage5', 'individual', 'fsaverage7']:
-            Parallel(n_jobs=1)(
+            Parallel(n_jobs=2)(
                 delayed(run_subject_surface_glm)(
                     jobfile, subject, session, protocol, mesh=mesh)
                 for (subject, session) in subject_session)

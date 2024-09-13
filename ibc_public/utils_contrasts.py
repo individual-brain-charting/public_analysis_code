@@ -714,30 +714,37 @@ def optimism_bias(design_matrix_columns):
     else:
         optimism_bias = con['future_positive'] - np.mean(
             [con[c] for c in future_negative_control], 0)
-    future = [s for s in ['future_negative', 'future_positive']
-              if s in design_matrix_columns] #  'future_neutral',
-    past = [s for s in ['past_negative', 'past_positive']
-            if s in design_matrix_columns] # 'past_neutral',
-    positive = [s for s in ['future_positive', 'past_positive']
+    future = [s for s in [
+        'future_negative', 'future_positive', 'future_neutral']
+              if s in design_matrix_columns] #
+    past = [s for s in ['past_negative', 'past_positive', 'past_neutral']
+            if s in design_matrix_columns]
+    positive = [s for s in ['future_positive', 'past_positive', 'positive']
                 if s in design_matrix_columns]
-    negative = [s for s in ['future_negative', 'past_negative']
+    negative = [s for s in ['future_negative', 'past_negative', 'negative']
                 if s in design_matrix_columns]
     positive_vs_negative = np.mean([con[c] for c in positive], 0) -\
                            np.mean([con[c] for c in negative], 0)
     future_vs_past = np.mean([con[c] for c in future], 0)\
                      - np.mean([con[c] for c in past], 0)
+    """
     inter_pos = [c for c in ['future_positive', 'past_negative']
                  if c in design_matrix_columns]
     inter_neg = [c for c in ['future_negative', 'past_positive']
                  if c in design_matrix_columns]
-    interaction = np.mean([con[c] for c in inter_pos], 0)\
-                     - np.mean([con[c] for c in inter_neg], 0)
+    if len(inter_pos) > 0 and len(inter_neg) > 0:
+        interaction = np.mean([con[c] for c in inter_pos], 0)\
+            - np.mean([con[c] for c in inter_neg], 0)
+    else:
+        pass
+    """
+    interaction = positive_vs_negative * future_vs_past
     if ('future_negative' in design_matrix_columns) and (
             'future_positive' in design_matrix_columns):
         future_positive_vs_negative = con['future_positive'] - con['future_negative']
     else:
         future_positive_vs_negative = positive_vs_negative
-    if 'past_negative' in design_matrix_columns:
+    if 'past_negative' in design_matrix_columns and 'past_positive' in design_matrix_columns:
         past_positive_vs_negative = con['past_positive'] - con['past_negative']
     else:
         past_positive_vs_negative = positive_vs_negative
