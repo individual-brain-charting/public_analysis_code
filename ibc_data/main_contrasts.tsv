@@ -227,6 +227,7 @@ WardAndAllport	intermediate-direct
 WardAndAllport	planning_ambiguous_direct
 WardAndAllport	planning_unambiguous_intermediate
 WardAndAllport	ambiguous-unambiguous
+LPPLocalizer	french-control
 BiologicalMotion1	global_upright-global_inverted
 BiologicalMotion1	natural_upright-natural_inverted
 BiologicalMotion1	global_upright-natural_upright
