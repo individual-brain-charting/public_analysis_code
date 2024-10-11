@@ -198,8 +198,11 @@ def _adapt_jobfile(jobfile, subject, output_name, session=None):
 
 def run_subject_preproc(jobfile, subject, session=None):
     """ Create jobfile and run it on """
-    output_name = os.path.join(
-        '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
+    if subject in jobfile:
+        output_name = os.path.join('/tmp', os.path.basename(jobfile))
+    else:
+        output_name = os.path.join(
+            '/tmp', os.path.basename(jobfile)[:-4] + f'_{subject}.ini')
     _adapt_jobfile(jobfile, subject, output_name, session)
     # Read the jobfile
     list_subjects, params = _generate_preproc_pipeline(output_name)
@@ -214,11 +217,11 @@ if __name__ == '__main__':
     main_dir = '/neurospin/ibc/'
     cache_dir = '/neurospin/tmp/ibc'
     prepare_derivatives(main_dir)
-    do_topup = True
+    do_topup = False
     #
-    protocol =  'abstraction'
+    protocol =  'audio1'
     subject_session = get_subject_session(protocol)
-    subject_session =[('sub-06', 'ses-45')]
+    subject_session =[('sub-08', 'ses-24')]
     
     if do_topup:
         acq = None
@@ -229,7 +232,7 @@ if __name__ == '__main__':
         apply_topup(main_dir, cache_dir, subject_session, acq=acq)
 
     subject_data = []
-    jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
+    jobfile = f'ini_files/IBC_preproc_{protocol}_sub-08.ini'
     subject_data_ = Parallel(n_jobs=1)(
         delayed(run_subject_preproc)(jobfile, subject, session)
         for subject, session in subject_session)
