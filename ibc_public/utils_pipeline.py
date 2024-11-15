@@ -616,7 +616,7 @@ def fixed_effects_surf(con_imgs, var_imgs):
     intents = ['NIFTI_INTENT_ESTIMATE', 'NIFTI_INTENT_ESTIMATE', 't test']
     arrays = fixed_effects(con, var)
     for array, intent in zip(arrays, intents):
-        gii = GiftiImage(darrays=[GiftiDataArray(array, intent)])
+        gii = GiftiImage(darrays=[GiftiDataArray(array.astype('float32'), intent)])
         outputs.append(gii)
 
     return outputs
