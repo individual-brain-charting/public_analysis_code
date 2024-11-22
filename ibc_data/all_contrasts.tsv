@@ -339,7 +339,7 @@ Attention	double_incongruent	no spatial cue distractors	fixation	no spatial cue 
 Attention	double_cue	no spatial cue	fixation	cues appear in both possible location of the probe at the same time	['spatial_attention','response_selection','response_execution']
 Attention	spatial_incongruent-spatial_congruent	ignore distractors	no distractors	ignore distractors vs. no distractors with spatial cue	['selective_attention']
 Attention	spatial_incongruent	spatial cue distractors	fixation	cued probe with distractors in the probe	['spatial_attention','attentional_focusing','saccadic_eye_movement','selective_attention','response_selection','response_execution']
-Attention	spatial_congruent	spatial cue no distractors	fixation	cued  probe no distractors	['spatial_attention','attentional_focusing','saccadic_eye_mocement','response_selection','response_execution']
+Attention	spatial_congruent	spatial cue no distractors	fixation	cued  probe no distractors	['spatial_attention','attentional_focusing','saccadic_eye_movement','response_selection','response_execution']
 StopSignal	go	shape recognition	fixation	shape recognition	['shape_recognition','proactive_control','response_selection','response_execution']
 StopSignal	stop	response stop	fixation	shape recognition, stopped response	['shape_recognition','proactive_control','response_inhibition','response_selection','response_execution']
 StopSignal	stop-go	response stop	response	response inhibition	['response_inhibition','shape_perception']
