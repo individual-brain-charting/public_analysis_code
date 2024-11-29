@@ -101,6 +101,8 @@ def elementary_contrasts_surf(con_imgs, var_imgs):
 
 # in-volume computation
 workdir = SMOOTH_DERIVATIVES
+# workdir = DERIVATIVES
+# workdir = THREE_MM
 if workdir == THREE_MM:
     mask_img = os.path.join(
         _package_directory, '../ibc_data', 'gm_mask_3mm.nii.gz')
@@ -134,13 +136,13 @@ for (subject, session) in subject_session:
             effects, variance, mask_img)
 
         fixed_effect.to_filename(
-            os.path.join(effect_dir, f'Preference{contrast}.nii.gz'))
+            os.path.join(effect_dir, f'preference_{contrast}.nii.gz'))
         fixed_variance.to_filename(
-            os.path.join(variance_dir, f'Preference{contrast}.nii.gz'))
+            os.path.join(variance_dir, f'preference_{contrast}.nii.gz'))
         fixed_stat.to_filename(
-            os.path.join(stat_dir, f'Preference{contrast}.nii.gz'))
+            os.path.join(stat_dir, f'preference_{contrast}.nii.gz'))
 
-        output_file = os.path.join(stat_dir, f'Preference{contrast}.png')
+        output_file = os.path.join(stat_dir, f'preference_{contrast}.png')
         plot_stat_map(fixed_stat, bg_img=anat, dim=0,
                       output_file=output_file, threshold=4.0)
 
@@ -214,14 +216,14 @@ for (subject, session) in subject_session:
                     effects, variance)
                 fixed_effect.to_filename(os.path.join(
                         effect_dir,
-                        f'Preference{contrast}_{hemi}.gii'))
+                        f'preference_{contrast}_{hemi}.gii'))
                 fixed_variance.to_filename(os.path.join(
                         variance_dir,
-                        f'Preference{contrast}_{hemi}.gii'))
+                        f'preference_{contrast}_{hemi}.gii'))
                 fixed_stat.to_filename(
                     os.path.join(
                         stat_dir,
-                        f'Preference{contrast}_{hemi}.gii'))
+                        f'preference_{contrast}_{hemi}.gii'))
 
             # Compare categories
             contrast = 'constant'

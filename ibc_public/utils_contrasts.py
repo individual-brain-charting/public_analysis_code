@@ -764,12 +764,7 @@ def optimism_bias(design_matrix_columns):
 
 def motion(design_matrix_columns):
     """ Contrasts for motion localizer """
-    contrast_names = [#'left_incoherent',  'left_coherent_clock', 'left_stationary',
-                      #'left_coherent_anti',
-                      #'right_incoherent',  'right_coherent_clock', 'right_stationary',
-                      #'right_coherent_anti',
-                      #'both_incoherent',  'both_coherent_clock', 'both_stationary',
-                      #'both_coherent_anti',
+    contrast_names = [
                       'incoherent',  'coherent', 'stationary',
                       'clock', 'anti', 'response',
                       'coherent-incoherent', 'coherent-stationary',
