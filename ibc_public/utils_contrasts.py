@@ -628,7 +628,10 @@ def faces_aomic(design_matrix_columns):
                       'male-female',
                       'female-male',
                       'mediterranean-european',
-                      'european-mediterranean']
+                      'european-mediterranean',
+                      'positive-neutral',
+                      'negative-neutral',
+                      'positive-negative',]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -656,6 +659,9 @@ def faces_aomic(design_matrix_columns):
                  'male-female':male-female,
                  'european-mediterranean': european - mediterranean,
                  'mediterranean-european': mediterranean - european,
+                 'positive-neutral': joy + pride - 2 * neutral,
+                 'negative-neutral': contempt + anger - 2 * neutral,
+                 'positive-negative': joy + pride - (contempt + anger),
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)

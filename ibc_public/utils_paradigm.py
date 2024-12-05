@@ -435,9 +435,9 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'OptimismBias':
         df.drop(df[df.trial_type == 'start'].index, inplace=True)
     if paradigm_id == 'HarririAomic':
-        df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, 0, inplace=True)
+        df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, inplace=True)
     if paradigm_id == 'StroopAomic':
-        df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, 0, inplace=True)
+        df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, inplace=True)
         # todo: distinguish incorrect vs female
     if paradigm_id == 'Emotion':
         to_drop  = ['block_divider']
