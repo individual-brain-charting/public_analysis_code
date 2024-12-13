@@ -219,9 +219,9 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
     do_topup = False
     #
-    protocol =  'audio1'
+    protocol =  'tom'
     subject_session = get_subject_session(protocol)
-    subject_session =[('sub-08', 'ses-24')]
+    subject_session =[('sub-08', 'ses-19')]
     
     if do_topup:
         acq = None

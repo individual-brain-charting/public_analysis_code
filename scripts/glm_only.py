@@ -114,7 +114,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
     elif protocol == 'stanford3' and subject in ['sub-15']:
         jobfile = 'ini_files/IBC_preproc_stanford3_sub-15.ini'
     output_name = os.path.join(
-        '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
+        '/tmp', os.path.basename(jobfile)[:-4] + f'_{subject}.ini')
     _adapt_jobfile(jobfile, subject, output_name, session)
     list_subjects_update = generate_glm_input(output_name, smooth, lowres)
     clean_anatomical_images(IBC)
@@ -147,14 +147,13 @@ if __name__ == '__main__':
     # protocols += ['optimism' 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang']
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     # protocols = ['audio1', 'audio2', clips4]
-    protocols = ['optimism']
+    protocols = ['aomic']
     # protocols = ['mdtb', 'mario1', 'mario2', 'leuven', 'abstraction'] 
     #
 
     for protocol in protocols:
-        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
+        jobfile = f'ini_files/IBC_preproc_{protocol}.ini'
         subject_session =  get_subject_session(protocol)
-        subject_session = [('sub-12', 'ses-44')]
         print(subject_session)
         Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
@@ -164,7 +163,7 @@ if __name__ == '__main__':
     smooth = 5
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = get_subject_session(protocol)
+        # subject_session = get_subject_session(protocol)
         Parallel(n_jobs=6)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
@@ -173,7 +172,7 @@ if __name__ == '__main__':
     smooth = None
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = get_subject_session(protocol)
+        #subject_session = get_subject_session(protocol)
         Parallel(n_jobs=6)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)

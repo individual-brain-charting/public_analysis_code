@@ -186,7 +186,7 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
         for map_type in ['z_score', 'stat', 'effect_size', 'effect_variance']:
             stat_map = fmri_glm.compute_contrast(
                 contrast_val, output_type=map_type)
-            if map_type == 'effect_size' and contrast_val.ndim == 1:
+            if len(stat_map.shape) == 4 and contrast_val.ndim == 1:
                 stat_map = index_img(stat_map, 0)
             map_dir = os.path.join(
                 subject_session_output_dir, '%s_maps' % map_type)
@@ -616,7 +616,7 @@ def fixed_effects_surf(con_imgs, var_imgs):
     intents = ['NIFTI_INTENT_ESTIMATE', 'NIFTI_INTENT_ESTIMATE', 't test']
     arrays = fixed_effects(con, var)
     for array, intent in zip(arrays, intents):
-        gii = GiftiImage(darrays=[GiftiDataArray(array, intent)])
+        gii = GiftiImage(darrays=[GiftiDataArray(array.astype('float32'), intent)])
         outputs.append(gii)
 
     return outputs

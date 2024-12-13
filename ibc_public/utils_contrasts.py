@@ -628,7 +628,10 @@ def faces_aomic(design_matrix_columns):
                       'male-female',
                       'female-male',
                       'mediterranean-european',
-                      'european-mediterranean']
+                      'european-mediterranean',
+                      'positive-neutral',
+                      'negative-neutral',
+                      'positive-negative',]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -656,6 +659,9 @@ def faces_aomic(design_matrix_columns):
                  'male-female':male-female,
                  'european-mediterranean': european - mediterranean,
                  'mediterranean-european': mediterranean - european,
+                 'positive-neutral': joy + pride - 2 * neutral,
+                 'negative-neutral': contempt + anger - 2 * neutral,
+                 'positive-negative': joy + pride - (contempt + anger),
     }
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
@@ -764,12 +770,7 @@ def optimism_bias(design_matrix_columns):
 
 def motion(design_matrix_columns):
     """ Contrasts for motion localizer """
-    contrast_names = [#'left_incoherent',  'left_coherent_clock', 'left_stationary',
-                      #'left_coherent_anti',
-                      #'right_incoherent',  'right_coherent_clock', 'right_stationary',
-                      #'right_coherent_anti',
-                      #'both_incoherent',  'both_coherent_clock', 'both_stationary',
-                      #'both_coherent_anti',
+    contrast_names = [
                       'incoherent',  'coherent', 'stationary',
                       'clock', 'anti', 'response',
                       'coherent-incoherent', 'coherent-stationary',
