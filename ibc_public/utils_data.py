@@ -553,7 +553,7 @@ def make_db(
     task_list: list_optional,
         list of tasks to be returned
     space: string, optional,
-        Should be one of ["fsaverage5", "fsaverage7", "individual", "MNI305"],
+        Should be one of ["fsaverage5", "fsaverage7", "individual", "MNI152"],
         Default: "fsaverage5"
     extension: string, optional
         Extension of the files to be found.
@@ -584,10 +584,10 @@ def make_db(
         "fsaverage5",
         "fsaverage7",
         "individual",
-        "MNI305",
+        "MNI152",
     ]
     volumetric_spaces = [
-        "MNI305",
+        "MNI152",
     ]
     if space not in available_spaces:
         raise ValueError(
@@ -753,7 +753,7 @@ def make_vol_db(
     conditions=CONDITIONS,
     subject_list=SUBJECTS,
     task_list=False,
-    space="MNI305",
+    space="MNI152",
     extension=".nii.gz",
     acquisition="ffx"
 ):
