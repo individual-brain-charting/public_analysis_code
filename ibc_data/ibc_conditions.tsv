@@ -98,12 +98,10 @@ Enumeration	enumeration_linear	Capture the linear effect of enumeration response
 Enumeration	enumeration_constant	Occurrence regressor for the enumeration response to constant numerosity when compared against fixation
 Enumeration	enumeration_quadratic	Capture the quadratic effect of enumeration response to numerosity interaction
 Self	instructions	Presentation of a question related to the succeeding block
-Self	self-reference_encoding	Judge with overt response whether or not a certain adjective, displayed on the screen, qualifies oneself
-Self	other-reference_encoding	Judging with overt response whether a certain adjective, displayed on the screen, qualifies someone else
-Self	self-reference_recognition	Successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “self-reference encoding” trial of the preceding encoding phase
-Self	other-reference_recognition	Successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “other-reference encoding” trial of the preceding encoding phase
-Self	memory	Successful identification with an overt response that a new adjective has never been presented before
-Self	no_recognition	Unsuccessful identification with an overt response that a new adjective has been presented before
+Self	encode_self	Judge with overt response whether or not a certain adjective, displayed on the screen, qualifies oneself
+Self	encode_other	Judging with overt response whether a certain adjective, displayed on the screen, qualifies someone else
+Self	recognition_self_hit	Successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “self-reference encoding” trial of the preceding encoding phase
+Self	recognition_other_hit	Successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “other-reference encoding” trial of the preceding encoding phase
 Bang	talk	Speech: watch contiguous scenes of speech. No speech: watch contiguous scenes with no speech
 Bang	no_talk	Watch contiguous scenes with no speech
 WedgeClock	lower_meridian	Visual representation in the lower half-plane of the visual field delimited by its horizontal meridian
@@ -192,10 +190,12 @@ Audio	tool	Sound of tool usage
 Audio	voice	Non-speech human sound
 Audio	catch	Repetition of the previous sound
 Audio	silence	No sound
-Attention	spatial	The stimulus is spatially cued, so the subject knows where the arrows will be shown (only one star appears).
+Attention	spatial_cue	The stimulus is spatially cued, so the subject knows where the arrows will be shown (only one star appears).
 Attention	double_cue	The stimulus is not spatially cued, so the subject doesn't know where the arrows will be shown (both stars appear).
-Attention	congruent	The stimulus is congruent (same direction) with the rest of the arrows shown.
-Attention	incongruent	The stimulus is not congruent (opposite direction) with the rest of the arrows shown.
+Attention	spatial_congruent	The stimulus is congruent (same direction) with the rest of the arrows shown.
+Attention	spatial_incongruent	spatial cue distractor
+Attention	double_congruent	spatial cue no distractor
+Attention	double_incongruent	The stimulus is not congruent (opposite direction) with the rest of the arrows shown.
 StopSignal	go	Answer to the stim
 StopSignal	stop	Hold motor response
 TwoByTwo	cue_taskstay_cuestay	Appearance of the cue on screen when both the task and the cue are the same with respect to the previous trial

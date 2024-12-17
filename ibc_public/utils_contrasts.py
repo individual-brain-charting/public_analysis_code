@@ -357,15 +357,22 @@ def multi_modal(design_matrix_columns):
 
 def abstraction_localizer(design_matrix_columns):
     """ Contrasts for Abstraction Localizer"""
-    localizer_ = ['localizer_faces', 'localizer_humanbody',
-                  'localizer_words', 'localizer_nonsensewords',
-                  'localizer_numbers', 'localizer_places',
-                  'localizer_objects', 'localizer_checkerboards']
-    others_ = ['response', 'localizer_faces-other',
-               'localizer_humanbody-other','localizer_words-other',
+    localizer_ = ['localizer_faces',
+                  'localizer_humanbody',
+                  'localizer_words',
+                  'localizer_nonsensewords',
+                  'localizer_numbers',
+                  'localizer_places',
+                  'localizer_objects',
+                  'localizer_checkerboards']
+    others_ = ['response',
+               'localizer_faces-other',
+               'localizer_humanbody-other',
+               'localizer_words-other',
                'localizer_nonsensewords-other',
                'localizer_numbers-other',
-               'localizer_places-other', 'localizer_objects-other',
+               'localizer_places-other',
+               'localizer_objects-other',
                'localizer_checkerboards-other'
     ]
     contrast_names = localizer_ + others_
@@ -406,9 +413,15 @@ def abstraction(design_matrix_columns):
     flora_ =['flora_geometry', 'flora_edge', 'flora_photo']
     objects_ = ['objects_geometry', 'objects_edge', 'objects_photo']
     places_ = ['places_geometry', 'places_edge', 'places_photo']
-    others_ = ['humanbody-other', 'animals-other','faces-other',
-               'flora-other','objects-other','places-other',
-               'geometry-other','edge-other','photo-other',
+    others_ = ['humanbody-other',
+               'animals-other',
+               'faces-other',
+               'flora-other',
+               'objects-other',
+               'places-other',
+               'geometry-other',
+               'edge-other',
+               'photo-other',
                'humanbody_geometry-humanbody_other',
                'humanbody_edge-humanbody_other',
                'humanbody_photo-humanbody_other',
@@ -691,6 +704,11 @@ def optimism_bias(design_matrix_columns):
     """ Contrasts for optimism bias protocol """
     contrast_names = [
         'all_events',
+        'past_positive',
+        'future_positive',
+        'past_negative',
+        'future_negative',
+        'inconclusive'
         'optimism_bias',
         'future_vs_past',
         'positive_vs_negative',
@@ -733,17 +751,7 @@ def optimism_bias(design_matrix_columns):
                            np.mean([con[c] for c in negative], 0)
     future_vs_past = np.mean([con[c] for c in future], 0)\
                      - np.mean([con[c] for c in past], 0)
-    """
-    inter_pos = [c for c in ['future_positive', 'past_negative']
-                 if c in design_matrix_columns]
-    inter_neg = [c for c in ['future_negative', 'past_positive']
-                 if c in design_matrix_columns]
-    if len(inter_pos) > 0 and len(inter_neg) > 0:
-        interaction = np.mean([con[c] for c in inter_pos], 0)\
-            - np.mean([con[c] for c in inter_neg], 0)
-    else:
-        pass
-    """
+    
     interaction = positive_vs_negative * future_vs_past
     if ('future_negative' in design_matrix_columns) and (
             'future_positive' in design_matrix_columns):
@@ -754,7 +762,32 @@ def optimism_bias(design_matrix_columns):
         past_positive_vs_negative = con['past_positive'] - con['past_negative']
     else:
         past_positive_vs_negative = positive_vs_negative
+    if 'past_positive' not in con.keys():
+        past_positive = all_events
+    else:
+        past_positive = con['past_positive']
+    if 'past_negative' not in con.keys():
+        past_negative = all_events
+    else:
+        past_negative = con['past_negative']
+    if 'future_positive' not in con.keys():
+        future_positive = all_events
+    else:
+        future_positive = con['future_positive']
+    if 'future_negative' not in con.keys():
+        future_negative = all_events
+    else:
+        future_negative = con['future_negative']
+    if 'inconclusive' not in con.keys():
+        inconclusive = all_events
+    else:
+        inconclusive = con['inconclusive']
     contrasts = {'all_events': all_events - con['fix'],
+                 'past_negative': past_negative,
+                 'past_positive': past_positive,
+                 'future_positive': future_positive,
+                 'future_negative': future_negative,
+                 'inconclusive': inconclusive,
                  'optimism_bias': optimism_bias,
                  'future_vs_past': future_vs_past,
                  'positive_vs_negative': positive_vs_negative,
@@ -1580,10 +1613,14 @@ def attention(design_matrix_columns):
     """ Contrasts for Stanford's attention protocol"""
     contrast_names = [
         'spatial_cue-double_cue',
-        'spatial_cue', 'double_cue',
-        'incongruent-congruent', 'spatial_incongruent-spatial_congruent',
-        'double_incongruent-double_congruent', 'spatial_incongruent',
-        'double_congruent', 'spatial_congruent',
+        'spatial_cue',
+        'double_cue',
+        'incongruent-congruent',
+        'spatial_incongruent-spatial_congruent',
+        'double_incongruent-double_congruent',
+        'spatial_incongruent',
+        'double_congruent',
+        'spatial_congruent',
         'double_incongruent'
         ]
     if design_matrix_columns is None:
@@ -1836,13 +1873,29 @@ def lyon_mveb(design_matrix_columns):
 def lyon_mvis(design_matrix_columns):
     """ Contrasts for Lyon mvis localizer"""
     contrast_names = ['dot_displacement_response',
-                      '2_dots-2_dots_control', '4_dots-4_dots_control',
-                      '6_dots-6_dots_control', '6_dots-2_dots', 'dots-control']
+                      '2_dots',
+                      '2_dots_control',
+                      '4_dots',
+                      '4_dots_control',
+                      '6_dots',
+                      '6_dots_control',
+                      '2_dots-2_dots_control',
+                      '4_dots-4_dots_control',
+                      '6_dots-6_dots_control',
+                      '6_dots-2_dots',
+                      'dots-control']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     # contrasts = dict([(cname, con[cname]) for cname in contrast_names[:-4]])
-    contrasts = {'dot_displacement_response': con['response']}
+    contrasts = {'dot_displacement_response': con['response'],
+                 '2_dots': con['2_dots'],
+                 '2_dots_control': con['2_dots_control'],
+                 '4_dots': con['4_dots'],
+                 '4_dots_control': con['4_dots_control'],
+                 '6_dots': con['6_dots'],
+                 '6_dots_control': con['6_dots_control']
+                 }
     contrasts['2_dots-2_dots_control'] = con['2_dots'] - con['2_dots_control']
     contrasts['4_dots-4_dots_control'] = con['4_dots'] - con['4_dots_control']
     contrasts['6_dots-6_dots_control'] = con['6_dots'] - con['6_dots_control']
@@ -1945,10 +1998,16 @@ def bang(design_matrix_columns):
 def self_localizer(design_matrix_columns):
     """ Contrasts for self experiment"""
     contrast_names = [
-        'encode_self-other', 'encode_other', 'encode_self',
-        'instructions', 'false_alarm', 'correct_rejection',
-        'recognition_hit', 'recognition_hit-correct_rejection',
-        'recognition_self-other', 'recognition_self_hit',
+        'encode_self-other',
+        'encode_other',
+        'encode_self',
+        'instructions',
+        'false_alarm',
+        'correct_rejection',
+        'recognition_hit',
+        'recognition_hit-correct_rejection',
+        'recognition_self-other',
+        'recognition_self_hit',
         'recognition_other_hit'
     ]
     if design_matrix_columns is None:
