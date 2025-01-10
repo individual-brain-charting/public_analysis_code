@@ -233,7 +233,7 @@ def post_process(df, paradigm_id):
             df = df.replace(nature, 'nature')
         for tool in tools:
             df = df.replace(tool, 'tool')
-        df.drop(df[df.trial_type == 'fixation'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'fixation'].index, inplace=True)
     if paradigm_id == 'Attention':
         df = df[df.trial_type.isin([
             'spatial_incongruent', 'double_congruent', 'spatial_congruent',
@@ -415,8 +415,8 @@ def post_process(df, paradigm_id):
         df.replace('Places_corridor', 'places_corridor', inplace=True)
         df.replace('Places_house', 'places_house', inplace=True)
     if paradigm_id == 'Scene':
-        df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
-        df.drop(df[df.trial_type == 'iti'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'fix'].index, inplace=True)
+        df.drop(df[df.trial_type == 'iti'].index, inplace=True)
         df.replace('dot_easy_left_correct', 'dot_easy_left', inplace=True)
         df.replace('dot_easy_left_incorrect', 'dot_easy_left', inplace=True)
         df.replace('dot_easy_right_correct', 'dot_easy_right', inplace=True)
@@ -426,28 +426,28 @@ def post_process(df, paradigm_id):
         df.replace('dot_hard_right_correct', 'dot_hard_right', inplace=True)
         df.replace('dot_hard_right_incorrect', 'dot_hard_right', inplace=True)
     if paradigm_id == 'Color':
-        df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
-        df.drop(df[df.trial_type == '1-back'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'fix'].index, inplace=True)
+        df.drop(df[df.trial_type == '1-back'].index, inplace=True)
         df.loc[df.trial_type == 'y', 'duration'] = .5
     if paradigm_id == 'Motion':
-        df.drop(df[df.trial_type == 'iti_fix'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'iti_fix'].index, inplace=True)
         df.loc[df.trial_type == 'y', 'duration'] = .5
     if paradigm_id == 'OptimismBias':
-        #df.drop(df[df.trial_type == 'fix'].index, 0, inplace=True)
-        df.drop(df[df.trial_type == 'start'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'start'].index, inplace=True)
     if paradigm_id == 'HarririAomic':
-        df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, 0, inplace=True)
+        df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, inplace=True)
     if paradigm_id == 'StroopAomic':
-        df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, 0, inplace=True)
+        df.drop(df[df.trial_type.isin(['ttl', 'iti'])].index, inplace=True)
         # todo: distinguish incorrect vs female
     if paradigm_id == 'Emotion':
         to_drop  = ['block_divider']
-        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        df.drop(df[df.trial_type.isin(to_drop)].index, inplace=True)
         df.replace('NEU_image_display', 'neutral_image', inplace=True)
         df.replace('NEG_image_display', 'negative_image', inplace=True)
+        df.replace('echelle_valence', 'valence_scale', inplace=True)
     if paradigm_id == 'MDTB':
         to_drop  = ['iti']
-        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        df.drop(df[df.trial_type.isin(to_drop)].index, inplace=True)
         df.replace('semantic_easy_False', 'semantic_easy', inplace=True)
         df.replace('semantic_easy_True', 'semantic_easy', inplace=True)
         df.replace('semantic_hard_False', 'semantic_hard', inplace=True)
@@ -467,7 +467,7 @@ def post_process(df, paradigm_id):
         df.replace('', '', inplace=True)
     if paradigm_id == 'MultiModal': # aka Leuven task
         to_drop  = ['fix' ]
-        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        df.drop(df[df.trial_type.isin(to_drop)].index, inplace=True)
         for x in df.trial_type.unique():
             y = x
             if 'audio' in x:
@@ -489,15 +489,8 @@ def post_process(df, paradigm_id):
                 y = y.replace('top', 'tactile_top')
             df.replace(x, y, inplace=True)
     if paradigm_id == 'Mario':
-        to_drop  = ['keypress_down',
-                    'keypress_jump',
-                    'keypress_left',
-                    'keypress_right',
-                    'keypress_runshoot',
-                    'action_fire',
-                    'action_rest'
-                    ]
-        df.drop(df[df.trial_type.isin(to_drop)].index, 0, inplace=True)
+        to_drop = [] # fixme
+        df.drop(df[df.trial_type.isin(to_drop)].index, inplace=True)
     if paradigm_id == 'StroopAomic':
         df.replace('correct_incongruent_word_male_face_female',
                    'incongruent_word_male_face_female', inplace=True)
@@ -511,6 +504,117 @@ def post_process(df, paradigm_id):
                    'incongruent_word_male_face_female', inplace=True)
         df.replace('incorrect_incongruent_word_female_face_male',
                    'incongruent_word_female_face_male', inplace=True)
+    if paradigm_id == 'LocalizerAbstraction':
+        df.replace('Number', 'localizer_numbers', inplace=True)
+        df.replace('House', 'localizer_places', inplace=True)
+        df.replace('CheckerH', 'localizer_checkerboards', inplace=True)
+        df.replace('CheckerV', 'localizer_checkerboards', inplace=True)
+        df.replace('Tool', 'localizer_objects', inplace=True)
+        df.replace('Body', 'localizer_humanbody', inplace=True)
+        df.replace('Word', 'localizer_words', inplace=True)
+        df.replace('Face', 'localizer_faces', inplace=True)
+        df.replace('FalseFont', 'localizer_nonsensewords', inplace=True)
+        # df.replace('FalseFont_probe', '', inplace=True)
+        # df.replace('Tool_probe', '', inplace=True)
+        # df.replace('Face_probe', '', inplace=True)
+        # df.replace('Number_probe', '', inplace=True)
+        # df.replace('Body_probe', '', inplace=True)
+        # df.replace('House_probe', '', inplace=True)
+        # df.replace('Word_probe', '', inplace=True)
+    if paradigm_id == 'Abstraction':
+        for trial in df.trial_type.unique():
+            parts = trial.split('_')
+            if parts[-1] in ['geometry', 'photo', 'edge']:
+                trial_ = parts[0] + '_' + parts[2]
+                df.replace(trial, trial_, inplace=True)
+        """
+        humanbody_ = ['humanbody_geometry', '',
+                      'humanbody_photo']
+        animals_ = ['animals_geometry', 'animals_edge', 'animals_photo']
+        faces_ = ['faces_geometry', 'faces_edge', 'faces_photo']
+        flora_ =['flora_geometry', 'flora_edge', 'flora_photo']
+        objects_ = ['objects_geometry', 'objects_edge', 'objects_photo']
+        places_ = ['places_geometry', 'places_edge', 'places_photo']
+          
+        df.replace('flora_tree_edge', '', inplace=True)
+        df.replace('flora_flower_edge', '', inplace=True)
+        df.replace('flora_cherry_edge', '', inplace=True)
+        df.replace('flora_carrot_edge', '', inplace=True)
+        df.replace('flora_flower_geometry', '', inplace=True)
+        df.replace('flora_carrot_geometry', '', inplace=True)
+        df.replace('flora_tree_geometry', '', inplace=True)
+        df.replace('flora_cherry_geometry', '', inplace=True)
+        df.replace('flora_cherry_photo', '', inplace=True)
+        df.replace('flora_carrot_photo', '', inplace=True)
+        df.replace('flora_flower_photo', '', inplace=True)
+        df.replace('flora_tree_photo', '', inplace=True)
+        
+        df.replace('humanbody_standing_edge', 'humanbody_edge', inplace=True)
+        df.replace('humanbody_walking_edge', 'humanbody_edge', inplace=True)
+        df.replace('humanbody_hand_edge', 'humanbody_edge', inplace=True)
+        df.replace('humanbody_legs_edge', 'humanbody_edge', inplace=True)
+        df.replace('humanbody_standing_geometry', '', inplace=True)
+        df.replace('humanbody_walking_geometry', '', inplace=True)
+        df.replace('humanbody_hand_geometry', '', inplace=True)
+        df.replace('humanbody_legs_geometry', '', inplace=True)
+        df.replace('humanbody_hand_photo', '', inplace=True)
+        df.replace('humanbody_walking_photo', '', inplace=True)
+        df.replace('humanbody_standing_photo', '', inplace=True)
+        df.replace('humanbody_legs_photo', '', inplace=True)
+        
+
+        df.replace('faces_face_edge', '', inplace=True)
+        df.replace('faces_cat_edge', '', inplace=True)
+        df.replace('faces_eyes_edge', '', inplace=True)
+        df.replace('faces_eyes_geometry', '', inplace=True)
+        df.replace('faces_cat_geometry', '', inplace=True)
+        df.replace('faces_face2_geometry', '', inplace=True)
+        df.replace('faces_face_geometry', '', inplace=True)
+        df.replace('faces_face2_photo', '', inplace=True)
+        df.replace('faces_cat_photo', '', inplace=True)
+        df.replace('faces_eyes_photo', '', inplace=True)
+        df.replace('faces_face_photo', '', inplace=True)
+
+        df.replace('places_windmill_edge', '', inplace=True)
+        df.replace('places_house_edge', '', inplace=True)
+        df.replace('places_road_edge', '', inplace=True)
+        df.replace('places_mountain_edge', '', inplace=True)
+        df.replace('places_windmill_geometry', '', inplace=True)
+        df.replace('places_road_geometry', '', inplace=True)
+        df.replace('places_mountain_geometry', '', inplace=True)
+        df.replace('places_house_geometry', '', inplace=True)
+        df.replace('places_house_photo', '', inplace=True)
+        df.replace('places_road_photo', '', inplace=True)
+        df.replace('places_windmill_photo', '', inplace=True)
+        df.replace('places_mountain_photo', '', inplace=True)
+        
+        df.replace('objects_key_edge', '', inplace=True)
+        df.replace('objects_camera_edge', '', inplace=True)
+        df.replace('objects_watch_edge', '', inplace=True)
+        df.replace('objects_truck_edge', '', inplace=True)
+        df.replace('objects_camera_geometry', '', inplace=True)
+        df.replace('objects_truck_geometry', '', inplace=True)
+        df.replace('objects_key_geometry', '', inplace=True)
+        df.replace('objects_watch_geometry', '', inplace=True)
+        df.replace('objects_watch_photo', '', inplace=True)
+        df.replace('objects_camera_photo', '', inplace=True)
+        df.replace('objects_key_photo', '', inplace=True)
+        df.replace('objects_truck_photo', '', inplace=True)
+        
+        df.replace('animals_girafe_edge', '', inplace=True)
+        df.replace('animals_bird_edge', '', inplace=True)
+        df.replace('animals_butterfly_edge', '', inplace=True)
+        df.replace('animals_fish_edge', '', inplace=True)
+        df.replace('animals_butterfly_geometry', '', inplace=True)
+        df.replace('animals_bird_geometry', '', inplace=True)
+        df.replace('animals_girafe_geometry', '', inplace=True)
+        df.replace('animals_fish_geometry', '', inplace=True)
+        df.replace('animals_fish_photo', '', inplace=True)
+        df.replace('animals_butterfly_photo', '', inplace=True)
+        df.replace('animals_girafe_photo', '', inplace=True)
+        df.replace('animals_bird_photo', '', inplace=True)
+       """
+
     return df
 
 

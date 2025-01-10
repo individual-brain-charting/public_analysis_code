@@ -10,6 +10,7 @@ Compatibility: Python 3.5
 import os
 import glob
 import warnings
+from collections import defaultdict
 import pandas as pd
 import shutil
 import numpy as np
@@ -101,7 +102,7 @@ def get_subject_session(protocols):
 
 def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 subject_list=SUBJECTS, task_list=False, verbose=0,
-                acquisition='all'):
+                acquisition_dir='all'):
     """Generate a dataframe that contains all the data corresponding
     to the archi, hcp and rsvp_language acquisitions
 
@@ -122,7 +123,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     verbose: Bool, optional,
              verbosity mode
 
-    acquisition={'all', 'ap', 'pa', 'ffx'}, default='all'
+    acquisition_dir={'all', 'ap', 'pa', 'ffx'}, default='all'
         which acquisition to select
 
     Returns
@@ -318,8 +319,8 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     contrast_name = con_df.contrast
 
     acq_card = '*' # if acquisition == 'all'
-    if acquisition in ['ffx', 'ap', 'pa']:
-        acq_card = 'dir-%s' % acquisition
+    if acquisition_dir in ['ffx', 'ap', 'pa']:
+        acq_card = 'dir-%s' % acquisition_dir
 
     for subject in subject_list:
             for i in range(len(con_df)):
@@ -334,7 +335,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
                 
                 wildcard = os.path.join(
                     derivatives, subject, '*',
-                    'res_task-%s_space-MNI305_%s' % (task, acq_card),
+                    'res_task-%s_space-MNI152*_%s' % (task, acq_card),
                     'stat_maps', '%s.nii.gz' % contrast)
                 imgs_ = glob.glob(wildcard)
                 if len(imgs_) == 0:
@@ -530,35 +531,36 @@ def copy_db(df, write_dir, filename='result_db.csv'):
     return df1
 
 
-def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
-                 subject_list=SUBJECTS, task_list=False, mesh="fsaverage5",
-                 acquisition='ffx'
+def make_db(
+    derivatives=DERIVATIVES,
+    conditions=CONDITIONS,
+    subject_list=SUBJECTS,
+    task_list=False,
+    space="fsaverage5",
+    extension=".gii",
+    acquisition="ffx",
 ):
     """ Create a database for surface data (gifti files)
 
-    derivatives: string,
-              directory where the studd will be found
-
-    conditions: Bool, optional,
-                Whether to map conditions or contrastsderivatives: string, optional
-        path toward a valid BIDS derivatives directory
-
+    Parameters
+    ----------
+    derivatives: string, optional,
+        Directory where the study will be found
     conditions: pandas DataFrame, optional,
-        dataframe describing the conditions under considerations
-
+        Dataframe describing the conditions under consideration
     subject_list: list, optional,
         list of subjects to be included in the analysis
-
     task_list: list_optional,
         list of tasks to be returned
-
-    mesh: string, optional,
-          should be one of ["fsaverage5", "fsaverage7", "individual"],
-          default behaviour will be that of "fsaverage5" if no value
-          or incorrect value is given
-
-    acquisition: one of ['ffx', 'ap', 'pa', 'all'], defaults to 'ffx'
-          the acquisition to be picked.
+    space: string, optional,
+        Should be one of ["fsaverage5", "fsaverage7", "individual", "MNI152"],
+        Default: "fsaverage5"
+    extension: string, optional
+        Extension of the files to be found.
+        Default: ".gii"
+    acquisition: string, optional
+        Acquisiton to be picked. One of ["ffx", "ap", "pa", "all"].
+        Default: "ffx"
 
     Returns
     -------
@@ -574,59 +576,69 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
     contrasts = []
     tasks = []
     modalities = []
-    meshes = []
+    spaces = []
     acquisitions = []
 
     # Check that given mesh value is valid
-    available_meshes = [
+    available_spaces = [
         "fsaverage5",
         "fsaverage7",
         "individual",
+        "MNI152",
     ]
-    if mesh not in available_meshes:
+    volumetric_spaces = [
+        "MNI152",
+    ]
+    if space not in available_spaces:
         raise ValueError(
-            'Mesh value (%s) unknown ; should be one of %s'
-            % (mesh, available_meshes)
+            'Space value (%s) unknown ; should be one of %s'
+            % (space, available_spaces)
         )
-
 
     # fixed-effects activation images
     con_df = conditions
     contrast_name = con_df.contrast
-    
-    missing_images = []
-    for subject in tqdm(subject_list):
+    missing_images_per_subject = defaultdict(list)
+
+    # Without the following print, other prints won't show up ;
+    # this is probably an issue with tqdm
+    print("Build CSV file rows")
+
+    for subject in tqdm(subject_list, desc="Search subject maps"):
         for i in range(len(con_df)):
             contrast = contrast_name[i]
             task = con_df.task[i]
-            task_name = task
             if (task_list is not False) and (task not in task_list):
                 continue
 
-            # set directory depending on mesh type
-            # (defaults to mesh == "fsaverage5" if no value
-            # or incorrect value is given)
+            # Set directory depending on space type
             if acquisition == 'all':
-                dir_ = 'res_task-%s_space-%s*' % (task, mesh)
+                dir_ = 'res_task-%s_space-%s*' % (task, space)
             elif acquisition == 'ffx':
-                dir_ = 'res_task-%s_space-%s*_dir-ffx' % (task, mesh)
+                dir_ = 'res_task-%s_space-%s*_dir-ffx' % (task, space)
             elif acquisition in ['ap', 'pa']:
-                dir_ = 'res_task-%s_space-%s*_dir-%s' % (task, mesh, acquisition)
-            for side in ['lh', 'rh']:
-                wc = os.path.join(
+                dir_ = 'res_task-%s_space-%s*_dir-%s' % (
+                    task, space, acquisition
+                )
+
+            if space in volumetric_spaces:
+                selected_imgs_filename = os.path.join(
                     derivatives, subject, '*', dir_, 'stat_maps',
-                    '%s_%s.gii' % (contrast, side))
+                    '%s%s' % (contrast, extension)
+                )
                 if acquisition in ['ap', 'pa']:
-                    wc = os.path.join(
+                    selected_imgs_filename = os.path.join(
                         derivatives, subject, '*', dir_, 'z_score_maps',
-                        '%s*%s.gii' % (contrast, side))
-                imgs_ = glob.glob(wc)
+                        '%s%s' % (contrast, extension)
+                    )
+                imgs_ = glob.glob(selected_imgs_filename)
                 imgs_.sort()
 
-                # Display warning when no image is found
+                # Store missing images
                 if len(imgs_) == 0:
-                    missing_images.append([subject, contrast, task, side])
-                    print(wc)
+                    missing_images_per_subject[subject].append(
+                        [subject, contrast, task]
+                    )
 
                 for img in imgs_:
                     session = img.split('/')[-4]
@@ -634,27 +646,124 @@ def make_surf_db(derivatives=DERIVATIVES, conditions=CONDITIONS,
                     sessions.append(session)
                     subjects.append(img.split('/')[-5])
                     contrasts.append(contrast)
-                    tasks.append(task_name)
-                    sides.append(side)
+                    tasks.append(task)
                     modalities.append('bold')
-                    meshes.append(mesh)
+                    spaces.append(space)
                     acquisitions.append(acquisition)
 
-    print(f"{len(imgs)} images found, {len(missing_images)} were missing")
+            else:
+                for side in ['lh', 'rh']:
+                    selected_imgs_filename = os.path.join(
+                        derivatives, subject, '*', dir_, 'stat_maps',
+                        '%s_%s%s' % (contrast, side, extension)
+                    )
+                    if acquisition in ['ap', 'pa']:
+                        selected_imgs_filename = os.path.join(
+                            derivatives, subject, '*', dir_, 'z_score_maps',
+                            '%s*%s%s' % (contrast, side, extension)
+                        )
+                    imgs_ = glob.glob(selected_imgs_filename)
+                    imgs_.sort()
 
-    # create a dictionary with all the information
-    db_dict = dict(
-        path=imgs,
-        subject=subjects,
-        contrast=contrasts,
-        session=sessions,
-        task=tasks,
-        side=sides,
-        modality=modalities,
-        mesh=meshes,
-        acquisition=acquisitions
-    )
+                    # Display warning when no image is found
+                    if len(imgs_) == 0:
+                        missing_images_per_subject[subject].append(
+                            [subject, contrast, task, side]
+                        )
+
+                    for img in imgs_:
+                        session = img.split('/')[-4]
+                        imgs.append(img)
+                        sessions.append(session)
+                        subjects.append(img.split('/')[-5])
+                        contrasts.append(contrast)
+                        tasks.append(task)
+                        sides.append(side)
+                        modalities.append('bold')
+                        spaces.append(space)
+                        acquisitions.append(acquisition)
+
+    total_missing_maps = sum([
+        len(missing_images_per_subject[subject])
+        for subject in missing_images_per_subject.keys()
+    ])
+    print(f"{len(imgs)} images found, {total_missing_maps} were missing")
+
+    for subject in missing_images_per_subject.keys():
+        print(
+            f"Missing images for subject {subject}:\t"
+            "{len(missing_images_per_subject[subject])}"
+        )
+
+    if space in volumetric_spaces:
+        # create a dictionary with all the information
+        db_dict = dict(
+            path=imgs,
+            subject=subjects,
+            contrast=contrasts,
+            session=sessions,
+            task=tasks,
+            modality=modalities,
+            space=spaces,
+            acquisition=acquisitions
+        )
+    else:
+        # create a dictionary with all the information
+        db_dict = dict(
+            path=imgs,
+            subject=subjects,
+            contrast=contrasts,
+            session=sessions,
+            task=tasks,
+            side=sides,
+            modality=modalities,
+            mesh=spaces,
+            acquisition=acquisitions
+        )
 
     # create a FataFrame out of the dictionary and write it to disk
     db = pd.DataFrame().from_dict(db_dict)
+
     return db
+
+
+def make_surf_db(
+    derivatives=DERIVATIVES,
+    conditions=CONDITIONS,
+    subject_list=SUBJECTS,
+    task_list=False,
+    mesh="fsaverage5",
+    extension=".gii",
+    acquisition="ffx"
+):
+    """Create a CSV file listing available surface maps."""
+    return make_db(
+        derivatives=derivatives,
+        conditions=conditions,
+        subject_list=subject_list,
+        task_list=task_list,
+        space=mesh,
+        extension=extension,
+        acquisition=acquisition
+    )
+
+
+def make_vol_db(
+    derivatives=DERIVATIVES,
+    conditions=CONDITIONS,
+    subject_list=SUBJECTS,
+    task_list=False,
+    space="MNI152",
+    extension=".nii.gz",
+    acquisition="ffx"
+):
+    """Create a CSV file listing available volumetric maps."""
+    return make_db(
+        derivatives=derivatives,
+        conditions=conditions,
+        subject_list=subject_list,
+        task_list=task_list,
+        space=space,
+        extension=extension,
+        acquisition=acquisition
+    )

@@ -72,7 +72,10 @@ def generate_glm_input(jobfile, smooth=None, lowres=False):
         hrf_model = subject.hrf_model
         if 'retino' in jobfile or 'stanford1' in jobfile:
             hrf_model = 'spm'
-
+        onset = subject.onset
+        if 'retino' in jobfile:
+            onset = ['/tmp/foo.tsv'] * len(onset)
+        #    realignment_parameters = [None] * len(onset)
         subject_ = {
             'scratch': output_dir,
             'output_dir': output_dir,
@@ -86,10 +89,10 @@ def generate_glm_input(jobfile, smooth=None, lowres=False):
             'drift_model': subject.drift_model,
             'high_pass': 1. / 128,
             'time_units': subject.time_units,
+            'onset': onset,
+            'report': True,
             'hrf_model': hrf_model,
             'anat': anat,
-            'onset': subject.onset,
-            'report': True,
             'reports_output_dir': reports_output_dir,
             'report_log_filename': report_log_filename,
             'report_preproc_filename': report_preproc_filename,
@@ -111,7 +114,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
     elif protocol == 'stanford3' and subject in ['sub-15']:
         jobfile = 'ini_files/IBC_preproc_stanford3_sub-15.ini'
     output_name = os.path.join(
-        '/tmp', os.path.basename(jobfile)[:-4] + '_%s.ini' % subject)
+        '/tmp', os.path.basename(jobfile)[:-4] + f'_{subject}.ini')
     _adapt_jobfile(jobfile, subject, output_name, session)
     list_subjects_update = generate_glm_input(output_name, smooth, lowres)
     clean_anatomical_images(IBC)
@@ -143,23 +146,25 @@ if __name__ == '__main__':
     # protocols = ['biological_motion', 'camcan1', 'camcan2', 'audio1', 'audio2']
     # protocols += ['optimism' 'fbirn', 'enumeration', 'color', 'lyon1', 'lyon2', 'navigation', 'mathlang']
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
-    # protocols = ['audio1', 'audio2']
-    # protocols = ['optimism', 'abstraction', 'leuven', 'mdtb']
-    protocols = ['fbirn'] # 
+    # protocols = ['audio1', 'audio2', clips4]
+    protocols = ['aomic']
+    # protocols = ['mdtb', 'mario1', 'mario2', 'leuven', 'abstraction'] 
+    #
 
     for protocol in protocols:
-        jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=6)(
+        jobfile = f'ini_files/IBC_preproc_{protocol}.ini'
+        subject_session =  get_subject_session(protocol)
+        print(subject_session)
+        Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, lowres=True, smooth=5)
             for (subject, session) in subject_session)
-    
+
     smooth = 5
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=6)(
+        # subject_session = get_subject_session(protocol)
+        Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
             for (subject, session) in subject_session)
@@ -167,8 +172,8 @@ if __name__ == '__main__':
     smooth = None
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
-        subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=6)(
+        #subject_session = get_subject_session(protocol)
+        Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
             for (subject, session) in subject_session)

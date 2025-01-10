@@ -207,10 +207,13 @@ def project_volume(work_dir, subject, sessions, do_bbr=True):
 #protocols = ['mathlang']
 # protocols = ['enumeration']
 #protocols = ['stanford1', 'stanford2', 'stanford3']
-# protocols = ['biological_motion', 'navigation' , 'camcan1', 'camcan2', 'fbirn', 'search', 'reward', 'scene', 'monkey_kingdom', 'color']
-
-protocols = ['fbirn']
+# protocols = ['biological_motion', 'navigation' , 'camcan1', 'camcan2', 
+#              'fbirn', 'search', 'reward', 'scene', 'monkey_kingdom', 'color']
+# protocols = ['aomic', 'mdtb', , 'leuven', 'mario1', 'mario2']
+protocols = ['audio1']
 subject_sessions = sorted(get_subject_session(protocols))
+
+subject_sessions = [('sub-08', 'ses-19')]
 
 Parallel(n_jobs=6)(
     delayed(project_volume)(work_dir, subject_session[0], [subject_session[1]],

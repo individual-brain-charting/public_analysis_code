@@ -11,13 +11,13 @@ Author: Bertrand Thirion
 import os
 from nipype.interfaces.freesurfer import BBRegister
 from joblib import Memory, Parallel, delayed
+from nibabel.gifti import GiftiImage, GiftiDataArray as gda
 import glob
 import numpy as np
 import nibabel as nib
 
 data_dir = '/neurospin/ibc/derivatives'
 subjects = ['sub-%02d' % i for i in [1, 2, 4, 5, 6, 7, 8, 9, 11, 13, 14, 12, 15]]
-subjects = ['sub-%02d' % i for i in [12]]
 os.environ['SUBJECTS_DIR'] = ''
 
 
@@ -135,14 +135,18 @@ def project_volume(work_dir, subject, do_bbr=True):
             bbreg = BBRegister(subject_id=subject, source_file=image,
                                init='header', contrast_type='t2')
 
-        regheader = os.path.join(os.path.dirname(image), basename + '_bbreg_%s.dat'
-                                 % subject)
+        regheader = os.path.join(
+            os.path.dirname(image),
+            basename + '_bbreg_%s.dat' % subject
+        )
         bbreg.run()
 
         # output names
         # the .gii files will be put in the same directory as the input
-        left_tex = os.path.join(write_dir, basename + '_space-individual_lh.gii')
-        right_tex = os.path.join(write_dir, basename + '_space-individual_rh.gii')
+        left_tex = os.path.join(
+            write_dir, basename + '_space-individual_lh.gii')
+        right_tex = os.path.join(
+            write_dir, basename + '_space-individual_rh.gii')
 
         # run freesrufer command for projection
         os.system(
@@ -199,7 +203,6 @@ def project_volume(work_dir, subject, do_bbr=True):
             'rh': nib.load(right_smooth_tex).darrays[0].data
         }
         
-    from nibabel.gifti import write, GiftiImage, GiftiDataArray as gda
     session = os.path.basename(ref_file).split('_')[1]
     for mesh in ['fsaverage5', 'fsaverage7']:
         for hemi in ['lh', 'rh']:
@@ -208,15 +211,16 @@ def project_volume(work_dir, subject, do_bbr=True):
                 write_dir,
                 '{}_{}_T1T2Ratio_space-{}_{}.gii'.format(
                     subject, session, mesh, hemi))
-            write(
-                GiftiImage(darrays=[gda(data=ratio.astype('float32'))]),
-                file_ratio)
+            GiftiImage(
+                darrays=[gda(data=ratio.astype('float32'))]
+            ).to_filename(file_ratio)
+            print(file_ratio)
 
-"""
+subjects = ['sub-15']
 Parallel(n_jobs=1)(
     delayed(project_volume)(data_dir, subject)
     for subject in subjects)
-"""
+
 
 ###########################################################################
 from nilearn.plotting import plot_surf, view_surf, show
@@ -240,7 +244,11 @@ for subject_session in subject_sessions:
         for texture in textures:
             tex = nib.load(texture).darrays[0].data
             view_surf(
-                fsaverage['infl_left'], surf_map=tex, bg_map=None, vmin=1, vmax=2
+                fsaverage['infl_left'],
+                surf_map=tex,
+                bg_map=None,
+                vmin=1,
+                vmax=2
             ).open_in_browser()
 
         wc = os.path.join(dir_, '*_*_T1T2Ratio_space-fsaverage5_rh.gii')
@@ -248,7 +256,11 @@ for subject_session in subject_sessions:
         for texture in textures:
             tex = nib.load(texture).darrays[0].data
             view_surf(
-                fsaverage['infl_right'], surf_map=tex, bg_map=None, vmin=1, vmax=2
+                fsaverage['infl_right'],
+                surf_map=tex,
+                bg_map=None,
+                vmin=1,
+                vmax=2
             ).open_in_browser()
     else:
         wc = os.path.join(dir_, '*_*_T1T2Ratio_space-fsaverage5_lh.gii')

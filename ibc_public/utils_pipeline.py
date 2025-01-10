@@ -167,6 +167,7 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
         the mask used for the fMRI data
     """
     from nilearn.glm.first_level import FirstLevelModel
+    from nilearn.image import index_img
     fmri_4d = nib.load(fmri_data)
 
     # GLM analysis
@@ -185,6 +186,8 @@ def run_glm(dmtx, contrasts, fmri_data, mask_img, subject_dic,
         for map_type in ['z_score', 'stat', 'effect_size', 'effect_variance']:
             stat_map = fmri_glm.compute_contrast(
                 contrast_val, output_type=map_type)
+            if len(stat_map.shape) == 4 and contrast_val.ndim == 1:
+                stat_map = index_img(stat_map, 0)
             map_dir = os.path.join(
                 subject_session_output_dir, '%s_maps' % map_type)
             if not os.path.exists(map_dir):
@@ -218,7 +221,9 @@ def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
         contrast_ = compute_contrast(labels, res, con_)
         stats = [contrast_.z_score(), contrast_.stat_, contrast_.effect,
                  contrast_.variance]
-        for map_type, out_map in zip(['z_score', 'stat', 'effect_size', 'effect_variance'], stats):
+        for map_type, out_map in zip(
+                ['z_score', 'stat', 'effect_size', 'effect_variance'],
+                stats):
             map_dir = os.path.join(
                 subject_session_output_dir, '%s_maps' % map_type)
             if not os.path.exists(map_dir):
@@ -226,7 +231,9 @@ def run_surface_glm(dmtx, contrasts, fmri_path, subject_session_output_dir):
             map_path = os.path.join(map_dir, '%s_%s.gii' % (contrast_id, side))
             print("\t\tWriting %s ..." % map_path)
             tex = GiftiImage(
-                darrays=[GiftiDataArray(data=out_map.astype('float32'), intent='t test')])
+                darrays=[GiftiDataArray(
+                    data=out_map.astype('float32'),
+                    intent='t test')])
             tex.to_filename(map_path)
 
 
@@ -328,7 +335,11 @@ def first_level(subject_dic, additional_regressors=None, compcorr=False,
             n_scans = nib.load(fmri_path).shape[3]
 
         # motion parameters
-        motion = np.loadtxt(motion_path)
+        if motion_path is not None:
+            motion = np.loadtxt(motion_path)
+        else:
+            motion = np.random.randn(n_scans, 6) 
+
         # define the time stamps for different images
         frametimes = np.linspace(slice_time_ref, (n_scans - 1 + slice_time_ref) * tr, n_scans)
         if task_id == 'Audio':
@@ -461,7 +472,7 @@ def _session_output_dir_from_session_id(session_id, mesh, output_dir):
             'res_task-%s_space-%s' % (task_id, mesh))
     else:
         subject_session_output_dir = os.path.join(
-            output_dir, 'res_task-%s_space-MNI305' % task_id)
+            output_dir, 'res_task-%s_space-MNI152' % task_id)
     if run_:
         subject_session_output_dir += '_run-%s' % run_
     if dir_:
@@ -534,7 +545,7 @@ def fixed_effects_analysis(subject_dic, mask_img=None,
                     'effect_size_maps', 'effect_variance_maps', 'stat_maps']]
         else:
             write_dir = os.path.join(subject_dic['output_dir'],
-                                     'res_task-%s_space-MNI305_dir-ffx' % paradigm)
+                                     'res_task-%s_space-MNI152_dir-ffx' % paradigm)
             dirs = [os.path.join(write_dir, stat) for stat in [
                 'effect_size_maps', 'effect_variance_maps', 'stat_maps']]
         for dir_ in dirs:
@@ -605,7 +616,7 @@ def fixed_effects_surf(con_imgs, var_imgs):
     intents = ['NIFTI_INTENT_ESTIMATE', 'NIFTI_INTENT_ESTIMATE', 't test']
     arrays = fixed_effects(con, var)
     for array, intent in zip(arrays, intents):
-        gii = GiftiImage(darrays=[GiftiDataArray(array, intent)])
+        gii = GiftiImage(darrays=[GiftiDataArray(array.astype('float32'), intent)])
         outputs.append(gii)
 
     return outputs

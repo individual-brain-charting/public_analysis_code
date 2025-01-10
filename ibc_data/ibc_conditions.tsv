@@ -98,25 +98,34 @@ Enumeration	enumeration_linear	Capture the linear effect of enumeration response
 Enumeration	enumeration_constant	Occurrence regressor for the enumeration response to constant numerosity when compared against fixation
 Enumeration	enumeration_quadratic	Capture the quadratic effect of enumeration response to numerosity interaction
 Self	instructions	Presentation of a question related to the succeeding block
-Self	self-reference_encoding	Judge with overt response whether or not a certain adjective, displayed on the screen, qualifies oneself
-Self	other-reference_encoding	Judging with overt response whether a certain adjective, displayed on the screen, qualifies someone else
-Self	self-reference_recognition	Successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “self-reference encoding” trial of the preceding encoding phase
-Self	other-reference_recognition	Successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “other-reference encoding” trial of the preceding encoding phase
-Self	memory	Successful identification with an overt response that a new adjective has never been presented before
-Self	no_recognition	Unsuccessful identification with an overt response that a new adjective has been presented before
+Self	encode_self	Judge with overt response whether or not a certain adjective, displayed on the screen, qualifies oneself
+Self	encode_other	Judging with overt response whether a certain adjective, displayed on the screen, qualifies someone else
+Self	recognition_self_hit	Successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “self-reference encoding” trial of the preceding encoding phase
+Self	recognition_other_hit	Successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “other-reference encoding” trial of the preceding encoding phase
 Bang	talk	Speech: watch contiguous scenes of speech. No speech: watch contiguous scenes with no speech
 Bang	no_talk	Watch contiguous scenes with no speech
-Wedge	lower_meridian	Visual representation in the lower half-plane of the visual field delimited by its horizontal meridian
-Wedge	upper_meridian	Visual representation in the upper half-plane of the visual field delimited by its horizontal meridian
-Wedge	lower_right	Visual representation in the lower-right quadrant of the visual field delimited by its vertical and horizontal meridians
-Wedge	upper_left	Visual representation in the upper-left quadrant of the visual field delimited by its vertical and horizontal meridians
-Wedge	right_meridian	Visual representation in the right half-plane of the visual field delimited by its vertical meridian
-Wedge	left_meridian	Visual representation in the left half-plane of the visual field delimited by its vertical meridian
-Wedge	upper_right	Visual representation in the upper-right quadrant of the visual field delimited by its vertical and horizontal meridians
-Wedge	lower_left	Visual representation in the lower-left quadrant of the visual field delimited by its vertical and horizontal meridians
-Ring	foveal	Visual representation in the fovea
-Ring	middle	Visual representation in the mid-periphery of the visual field
-Ring	peripheral	Visual representation in the far-periphery of the visual field
+WedgeClock	lower_meridian	Visual representation in the lower half-plane of the visual field delimited by its horizontal meridian
+WedgeClock	upper_meridian	Visual representation in the upper half-plane of the visual field delimited by its horizontal meridian
+WedgeClock	lower_right	Visual representation in the lower-right quadrant of the visual field delimited by its vertical and horizontal meridians
+WedgeClock	upper_left	Visual representation in the upper-left quadrant of the visual field delimited by its vertical and horizontal meridians
+WedgeClock	right_meridian	Visual representation in the right half-plane of the visual field delimited by its vertical meridian
+WedgeClock	left_meridian	Visual representation in the left half-plane of the visual field delimited by its vertical meridian
+WedgeClock	upper_right	Visual representation in the upper-right quadrant of the visual field delimited by its vertical and horizontal meridians
+WedgeClock	lower_left	Visual representation in the lower-left quadrant of the visual field delimited by its vertical and horizontal meridians
+WedgeAnti	lower_meridian	Visual representation in the lower half-plane of the visual field delimited by its horizontal meridian
+WedgeAnti	upper_meridian	Visual representation in the upper half-plane of the visual field delimited by its horizontal meridian
+WedgeAnti	lower_right	Visual representation in the lower-right quadrant of the visual field delimited by its vertical and horizontal meridians
+WedgeAnti	upper_left	Visual representation in the upper-left quadrant of the visual field delimited by its vertical and horizontal meridians
+WedgeAnti	right_meridian	Visual representation in the right half-plane of the visual field delimited by its vertical meridian
+WedgeAnti	left_meridian	Visual representation in the left half-plane of the visual field delimited by its vertical meridian
+WedgeAnti	upper_right	Visual representation in the upper-right quadrant of the visual field delimited by its vertical and horizontal meridians
+WedgeAnti	lower_left	Visual representation in the lower-left quadrant of the visual field delimited by its vertical and horizontal meridians
+ExpRing	foveal	Visual representation in the fovea
+ExpRing	middle	Visual representation in the mid-periphery of the visual field
+ExpRing	peripheral	Visual representation in the far-periphery of the visual field
+ContRing	foveal	Visual representation in the fovea
+ContRing	middle	Visual representation in the mid-periphery of the visual field
+ContRing	peripheral	Visual representation in the far-periphery of the visual field
 Lec2	unattend	A white word is rapidly presented and the participant must ignore it
 Lec2	attend	A black word is rapidly presented and the participant must silently read it to form a short story together with the rest of black words
 Audi	tear	Concatenated sounds of people crying
@@ -181,10 +190,12 @@ Audio	tool	Sound of tool usage
 Audio	voice	Non-speech human sound
 Audio	catch	Repetition of the previous sound
 Audio	silence	No sound
-Attention	spatial	The stimulus is spatially cued, so the subject knows where the arrows will be shown (only one star appears).
+Attention	spatial_cue	The stimulus is spatially cued, so the subject knows where the arrows will be shown (only one star appears).
 Attention	double_cue	The stimulus is not spatially cued, so the subject doesn't know where the arrows will be shown (both stars appear).
-Attention	congruent	The stimulus is congruent (same direction) with the rest of the arrows shown.
-Attention	incongruent	The stimulus is not congruent (opposite direction) with the rest of the arrows shown.
+Attention	spatial_congruent	The stimulus is congruent (same direction) with the rest of the arrows shown.
+Attention	spatial_incongruent	spatial cue distractor
+Attention	double_congruent	spatial cue no distractor
+Attention	double_incongruent	The stimulus is not congruent (opposite direction) with the rest of the arrows shown.
 StopSignal	go	Answer to the stim
 StopSignal	stop	Hold motor response
 TwoByTwo	cue_taskstay_cuestay	Appearance of the cue on screen when both the task and the cue are the same with respect to the previous trial
@@ -379,15 +390,15 @@ StroopAomic	word_female	The presented word corresponds to a female
 WMAomic	active_change	The probe had a different orientation than it had on the array
 WMAomic	active_no_change	The probe had the same orientation than it had on the array
 WMAomic	passive	Passive trials, the bars were not displayed
-AbstractionLocalizer	localizer_faces	Face images
-AbstractionLocalizer	localizer_humanbody	Body images
-AbstractionLocalizer	localizer_words	Words images
-AbstractionLocalizer	localizer_nonsensewords	Non-sense words images
-AbstractionLocalizer	localizer_numbers	Number images
-AbstractionLocalizer	localizer_places	Place images
-AbstractionLocalizer	localizer_objects	Object Images
-AbstractionLocalizer	localizer_checkerboards	Checkerboards images
-AbstractionLocalizer	response	Subject's button press when they saw a star
+LocalizerAbstraction	localizer_faces	Face images
+LocalizerAbstraction	localizer_humanbody	Body images
+LocalizerAbstraction	localizer_words	Words images
+LocalizerAbstraction	localizer_nonsensewords	Non-sense words images
+LocalizerAbstraction	localizer_numbers	Number images
+LocalizerAbstraction	localizer_places	Place images
+LocalizerAbstraction	localizer_objects	Object Images
+LocalizerAbstraction	localizer_checkerboards	Checkerboards images
+LocalizerAbstraction	response	Subject's button press when they saw a star
 Abstraction	humanbody_standing_geometry	Geometry rendering of standing human
 Abstraction	humanbody_walking_geometry	Geometry rendering of walking human
 Abstraction	humanbody_hand_geometry	Geometry rendering of hands
@@ -472,11 +483,11 @@ MDTB	tom_belief	The statement presented relates to thoughts or believes the char
 MDTB	tom_photo	The statement presented relates to facts described on the paragraph
 MDTB	2back_easy	Easy 2-back trial, it is easy to remember whether the image was shown 2 images ago.
 MDTB	2back_hard	Hard 2-back trial, it is hard to remember whether the image was shown 2 images ago.
-MDTB	semantic easy	Easy to decide whether the last word fits in the sentence, natural sequence
-MDTB	semantic hard	Hard to decide whether the last word fits in the sentence, ambiguous sequence
+MDTB	semantic_easy	Easy to decide whether the last word fits in the sentence, natural sequence
+MDTB	semantic_hard	Hard to decide whether the last word fits in the sentence, ambiguous sequence
 Emotion	neutral_image	Block of neutral images
 Emotion	negative_image	Block of negative images
-Emotion	echelle_valence	Subject’s rating of emotional state
+Emotion	valence_scale	Subject’s rating of emotional state
 MultiModal	audio_monkey	Monkey sounds used as audio stimulus
 MultiModal	audio_animal	Animal sounds different from monkeys used as audio stimulus
 MultiModal	audio_nature	Nature sounds (i.e. rain) used as audio stimulus
