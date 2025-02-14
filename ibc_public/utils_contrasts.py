@@ -614,8 +614,13 @@ def stroop_aomic(design_matrix_columns):
 
 def harriri_aomic(design_matrix_columns):
     """ Contrasts for HarririAomic """
-    contrast_names = ['emotion', 'index_response',  'middle_response',
-                      'shape','emotion-shape']
+    contrast_names = [
+        'emotion',
+        'index_response',
+        'middle_response',
+        'shape',
+        'emotion-shape'
+    ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -647,6 +652,7 @@ def faces_aomic(design_matrix_columns):
                       'positive-negative',]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
+    
     con = _elementary_contrasts(design_matrix_columns)
     anger = np.sum([con[x] for x in con.keys() if x[:5] == 'anger'], 0)
     contempt = np.sum([con[x] for x in con.keys() if x[:8] == 'contempt'], 0)
@@ -1801,13 +1807,25 @@ def lyon_lec1(design_matrix_columns):
 def audio(design_matrix_columns):
     """Contrasts for the audio protocol"""
     contrast_names = [
-        'animal', 'music', 'nature',
-        'speech', 'tool', 'voice',
-        'animal-others', 'music-others', 'nature-others',
-        'speech-others', 'tool-others', 'voice-others',
+        'animal',
+        'music',
+        'nature',
+        'speech',
+        'tool',
+        'voice',
+        'animal-others',
+        'music-others',
+        'nature-others',
+        'speech-others',
+        'tool-others',
+        'voice-others',
         'mean-silence',
-        'animal-silence', 'music-silence', 'nature-silence',
-        'speech-silence', 'tool-silence', 'voice-silence',
+        'animal-silence',
+        'music-silence',
+        'nature-silence',
+        'speech-silence',
+        'tool-silence',
+        'voice-silence',
         ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
