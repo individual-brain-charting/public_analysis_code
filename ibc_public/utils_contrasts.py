@@ -1029,13 +1029,17 @@ def narps(design_matrix_columns):
 def scenes(design_matrix_columns):
     """Contrasts for scenes protocol"""
     contrast_names = [
-        'dot_easy_left', 'dot_easy_right', 'dot_hard_left', 'dot_hard_right',
-        'scene_impossible_correct', 'scene_impossible_incorrect',
+        'dot_easy_left', # 'possible_scrambled_left'
+        'dot_easy_right', # 'possible_scrambled_right'
+        'dot_hard_left', # 'impossible_scrambled_left'
+        'dot_hard_right', # 'impossible_scrambled_right'
+        'scene_impossible_correct',
+        'scene_impossible_incorrect',
         'scene_possible_correct', # 'scene_possible_incorrect',
         'scene_possible_correct-scene_impossible_correct',
-        'scene_correct-dot_correct',
-        'dot_left-right',
-        'dot_hard-easy'
+        'scene_correct-dot_correct', # scene_correct-scrambled_correct # plus contrast definition is wrong !
+        'dot_left-right', # 'scrambled_left-right'
+        'dot_hard-easy' # 'scrambled_impossible-possible'
         ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
