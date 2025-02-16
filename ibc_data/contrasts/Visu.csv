@@ -1,9 +1,0 @@
-condition,animal-scrambled,characters-scrambled,face-scrambled,house-scrambled,pseudoword-scrambled,scene-scrambled,tool-scrambled
-scrambled,-1,-1,-1,-1,-1,-1,-1
-animal,1,,,,,,
-characters,,1,,,,,
-face,,,1,,,,
-house,,,,1,,,
-pseudoword,,,,,1,,
-scene,,,,,,1,
-tool,,,,,,,1

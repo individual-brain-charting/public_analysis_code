@@ -1,8 +1,0 @@
-condition,2_letters_different-same,4_letters_different-same,6_letters_different-same,6_letters_different-2_letters_different
-letter_occurrence_response,,,,
-2_letters_different,1,,,-1
-4_letters_different,,1,,
-6_letters_different,,,1,1
-2_letters_same,-1,,,
-4_letters_same,,-1,,
-6_letters_same,,,-1,
