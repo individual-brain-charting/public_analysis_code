@@ -661,7 +661,7 @@ def faces_aomic(design_matrix_columns):
     pride = np.sum([con[x] for x in con.keys() if x[:5] == 'pride'], 0)
     male = np.sum([con[x] for x in con.keys() if 'female' not in x], 0)
     female  = np.sum([con[x] for x in con.keys() if 'female' in x], 0)
-    european = np.sum([con[x] for x in con.keys() if 'european' not in x], 0)
+    european = np.sum([con[x] for x in con.keys() if 'european' in x], 0)
     mediterranean = np.sum(
         [con[x] for x in con.keys() if 'mediterranean' in x], 0)
     contrasts = {'anger': anger,
