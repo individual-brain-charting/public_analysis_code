@@ -399,78 +399,24 @@ LocalizerAbstraction	localizer_places	Place images
 LocalizerAbstraction	localizer_objects	Object Images
 LocalizerAbstraction	localizer_checkerboards	Checkerboards images
 LocalizerAbstraction	response	Subject's button press when they saw a star
-Abstraction	humanbody_standing_geometry	Geometry rendering of standing human
-Abstraction	humanbody_walking_geometry	Geometry rendering of walking human
-Abstraction	humanbody_hand_geometry	Geometry rendering of hands
-Abstraction	humanbody_legs_geometry	Geometry rendering of legs
-Abstraction	humanbody_standing_edge	Edge rendering of standing human
-Abstraction	humanbody_walking_edge	Edge rendering of walking human
-Abstraction	humanbody_hand_edge	Edge rendering of hands
-Abstraction	humanbody_legs_edge	Edge rendering of legs
-Abstraction	humanbody_standing_photo	Photo rendering of standing human
-Abstraction	humanbody_walking_photo	Photo rendering of walking human
-Abstraction	humanbody_hand_photo	Photo rendering of hands
-Abstraction	humanbody_legs_photo	Photo rendering of legs
-Abstraction	animals_bird_geometry	Images of a bird presented with the geometry render
-Abstraction	animals_fish_geometry	Images of a fish presented with the geometry render
-Abstraction	animals_giraffe_geometry	Images of a giraffe presented with the geometry render
-Abstraction	animals_butterfly_geometry	Images of a butterfly presented with the geometry render
-Abstraction	animals_bird_edge	Images of a bird presented with the edge render
-Abstraction	animals_fish_edge	Images of a fish presented with the edge render
-Abstraction	animals_giraffe_edge	Images of a giraffe presented with the edge render
-Abstraction	animals_butterfly_edge	Images of a butterfly presented with the edge render
-Abstraction	animals_bird_photo	Images of a bird presented with the photo render
-Abstraction	animals_fish_photo	Images of a fish presented with the photo render
-Abstraction	animals_giraffe_photo	Images of a giraffe presented with the photo render
-Abstraction	animals_butterfly_photo	Images of a butterfly presented with the photo render
-Abstraction	faces_face_geometry	Image of a face presented with the geometry render
-Abstraction	faces_face2_geometry	Image of a different face presented with the geometry render
-Abstraction	faces_eyes_geometry	Image of eyes presented with the geometry render
-Abstraction	faces_cat_geometry	Image of a cat face presented with the geometry render
-Abstraction	faces_face_edge	Image of a face presented with the edge render
-Abstraction	faces_face2_edge	Image of a different face presented with the edge render
-Abstraction	faces_eyes_edge	Image of eyes presented with the edge render
-Abstraction	faces_cat_edge	Image of a cat face presented with the edge render
-Abstraction	faces_face_photo	Image of a face presented with the photo render
-Abstraction	faces_face2_photo	Image of a different face presented with the photo render
-Abstraction	faces_eyes_photo	Image of eyes presented with the photo render
-Abstraction	faces_cat_photo	Image of a cat face presented with the photo render
-Abstraction	flora_tree_geometry	Image of a tree presented with the photo render
-Abstraction	flora_flower_geometry	Image of a flower presented with the photo render
-Abstraction	flora_cherry_geometry	Image of a cherry presented with the photo render
-Abstraction	flora_carrot_geometry	Image of a carrot presented with the photo render
-Abstraction	flora_tree_edge	Image of a tree presented with the photo render
-Abstraction	flora_flower_edge	Image of a flower presented with the photo render
-Abstraction	flora_cherry_edge	Image of a cherry presented with the photo render
-Abstraction	flora_carrot_edge	Image of a carrot presented with the photo render
-Abstraction	flora_tree_photo	Image of a tree presented with the photo render
-Abstraction	flora_flower_photo	Image of a flower presented with the photo render
-Abstraction	flora_cherry_photo	Image of a cherry presented with the photo render
-Abstraction	flora_carrot_photo	Image of a carrot presented with the photo render
-Abstraction	objects_truck_geometry	Image of a truck presented with the photo render
-Abstraction	objects_key_geometry	Image of a key presented with the photo render
-Abstraction	objects_camera_geometry	Image of a camara presented with the photo render
-Abstraction	objects_watch_geometry	Image of a watch presented with the photo render
-Abstraction	objects_truck_edge	Image of a truck presented with the photo render
-Abstraction	objects_key_edge	Image of a key presented with the photo render
-Abstraction	objects_camera_edge	Image of a camara presented with the photo render
-Abstraction	objects_watch_edge	Image of a watch presented with the photo render
-Abstraction	objects_truck_photo	Image of a truck presented with the photo render
-Abstraction	objects_key_photo	Image of a key presented with the photo render
-Abstraction	objects_camera_photo	Image of a camara presented with the photo render
-Abstraction	objects_watch_photo	Image of a watch presented with the photo render
-Abstraction	places_house_geometry	Image of a house presented with the photo render
-Abstraction	places_mountain_geometry	Image of a mountain presented with the photo render
-Abstraction	places_road_geometry	Image of a road presented with the photo render
-Abstraction	places_windmill_geometry	Image of a windmill presented with the photo render
-Abstraction	places_house_edge	Image of a house presented with the photo render
-Abstraction	places_mountain_edge	Image of a mountain presented with the photo render
-Abstraction	places_road_edge	Image of a road presented with the photo render
-Abstraction	places_windmill_edge	Image of a windmill presented with the photo render
-Abstraction	places_house_photo	Image of a house presented with the photo render
-Abstraction	places_mountain_photo	Image of a mountain presented with the photo render
-Abstraction	places_road_photo	Image of a road presented with the photo render
-Abstraction	places_windmill_photo	Image of a windmill presented with the photo render
+Abstraction	humanbody_geometry	Geometry rendering of human bodies: legs, hands, standing human and walking human
+Abstraction	humanbody_edge	Edge rendering of human bodies: legs, hands, standing human and walking human
+Abstraction	humanbody_photo	Photo rendering of human bodies: legs, hands, standing human and walking human
+Abstraction	animals_geometry	Geometry rendering of animals: bird, fish, giraffe, butterfly
+Abstraction	animals_edge	Edge rendering of animals: bird, fish, giraffe, butterfly
+Abstraction	animals_photo	Photo rendering of animals: bird, fish, giraffe, butterfly
+Abstraction	faces_geometry	Geometry rendering of faces: human face, cat face, eyes
+Abstraction	faces_edge	Edge rendering of faces: human face, cat face, eyes
+Abstraction	faces_photo	Photo rendering of faces: human face, cat face, eyes
+Abstraction	flora_geometry	Geometry rendering of flora: flower, tree, cherry, carrot
+Abstraction	flora_edge	Edge rendering of flora: flower, tree, cherry, carrot
+Abstraction	flora_photo	Photo rendering of flora: flower, tree, cherry, carrot
+Abstraction	objects_geometry	Geometry rendering of objects: truck, key, camera, watch
+Abstraction	objects_edge	Edge rendering of objects: truck, key, camera, watch
+Abstraction	objects_photo	Photo rendering of objects: truck, key, camera, watch
+Abstraction	places_geometry	Geometry rendering of places: house, mountain, road, windmill
+Abstraction	places_edge	Edge rendering of places: house, mountain, road, windmill
+Abstraction	places_photo	Photo rendering of places: house, mountain, road, windmill
 Abstraction	response	Subject's button press when they saw a star
 MDTB	search_easy	It is easy to judge whether there is a right-oriented 'L' shape present on the array
 MDTB	search_hard	It is hard to judge whether there is a right-oriented 'L' shape present on the array
