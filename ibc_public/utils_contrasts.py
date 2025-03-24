@@ -1029,37 +1029,38 @@ def narps(design_matrix_columns):
 def scenes(design_matrix_columns):
     """Contrasts for scenes protocol"""
     contrast_names = [
-        'dot_easy_left', # 'possible_scrambled_left'
-        'dot_easy_right', # 'possible_scrambled_right'
-        'dot_hard_left', # 'impossible_scrambled_left'
-        'dot_hard_right', # 'impossible_scrambled_right'
+        'possible_scrambled_left',
+        'possible_scrambled_right',
+        'impossible_scrambled_left', 
+        'impossible_scrambled_right',
         'scene_impossible_correct',
         'scene_impossible_incorrect',
         'scene_possible_correct', # 'scene_possible_incorrect',
         'scene_possible_correct-scene_impossible_correct',
-        'scene_correct-dot_correct', # scene_correct-scrambled_correct # plus contrast definition is wrong !
-        'dot_left-right', # 'scrambled_left-right'
-        'dot_hard-easy' # 'scrambled_impossible-possible'
+        'scene_correct-scrambled_correct', 
+        # contrast definition is inaccurate because we dropped correct trials among scrambled conditions
+        'scrambled_left-right',
+        'scrambled_impossible-possible'
         ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    if 'scene_possible_incorrect' in design_matrix_columns:
-        scene_correct_minus_dot_correct = (
-            con['scene_impossible_correct'] + con['scene_possible_correct'] -
-            con['scene_impossible_incorrect'] - con['scene_possible_incorrect'])
-    else:
-        scene_correct_minus_dot_correct = (
-            con['scene_impossible_correct'] + con['scene_possible_correct'] -
-            2 * con['scene_impossible_incorrect'])
+    #if 'scene_possible_incorrect' in design_matrix_columns:
+    scene_correct_minus_dot_correct = (
+        con['scene_impossible_correct'] + con['scene_possible_correct'] -
+        con['dot_easy_left'] - con['dot_easy_right'])
+    #else:
+    #    scene_correct_minus_dot_correct = (
+    #        con['scene_impossible_correct'] + con['scene_possible_correct'] -
+    #        2 * con['scene_impossible_incorrect'])
     contrasts = dict([(name, con[name]) for name in contrast_names[:7]])
     contrasts['scene_possible_correct-scene_impossible_correct'] =\
         con['scene_possible_correct'] - con['scene_impossible_correct']
-    contrasts['scene_correct-dot_correct'] = scene_correct_minus_dot_correct
-    contrasts['dot_left-right'] =\
+    contrasts['scene_correct-scrambled_correct'] = scene_correct_minus_dot_correct
+    contrasts['scrambled_left-right'] =\
         con['dot_easy_left'] + con['dot_hard_left'] -\
         con['dot_easy_right'] - con['dot_hard_right']
-    contrasts['dot_hard-easy'] =\
+    contrasts['scrambled_impossible-possible'] =\
         -con['dot_easy_left'] + con['dot_hard_left'] -\
         con['dot_easy_right'] + con['dot_hard_right']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
