@@ -529,6 +529,8 @@ def mdtb(design_matrix_columns):
                       'tom_photo', 'tom_belief', ####
                       'search_easy', 'search_hard',  ####
                       'flexion_extension',
+                      'movie',
+                      'rest',
                       'action_action-control',
                       'finger_complex-simple',
                       'semantic_hard-easy',
