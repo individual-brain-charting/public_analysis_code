@@ -1,5 +1,0 @@
-condition,natural_upright - modified_upright,modified_upright - modified_inverted,natural_upright - natural_inverted,modified-natural,natural-modified,inverted-upright
-modified_upright,-1,1,,1,-1,-1
-modified_inverted,,-1,,1,-1,1
-natural_upright,1,,1,-1,1,-1
-natural_inverted,,,-1,-1,1,1

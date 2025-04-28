@@ -1,7 +1,0 @@
-condition,stim,resp,stim_load3-load1,resp_load3-load1
-stim_load1,1,,-1,
-stim_load2,1,,,
-stim_load3,1,,1,
-resp_load1,,1,,-1
-resp_load2,,1,,
-resp_load3,,1,,1

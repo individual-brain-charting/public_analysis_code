@@ -1,5 +1,0 @@
-condition,go_critical-stop,go_noncritical-ignore,ignore-stop,stop-ignore
-go_critical,1,,,
-go_noncritical,,1,,
-stop,-1,,-1,1
-ignore,,-1,1,-1
