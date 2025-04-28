@@ -1361,18 +1361,18 @@ def stop_nogo(design_matrix_columns):
 
 def finger_tapping(design_matrix_columns):
     """ Contrasts for finger tapping protocol"""
-    contrast_names = ['specified', 'chosen', 'null',
-                      'chosen-specified', 'specified-null', 'chosen-null']
+    contrast_names = ['specified', 'chosen', 'no_tap',
+                      'chosen-specified', 'specified-no_tap', 'chosen-no_tap']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {
         'specified': con['specified'],
         'chosen': con['chosen'],
-        'null': con['null'],
+        'no_tap': con['no_tap'],
         'chosen-specified': con['chosen'] - con['specified'],
-        'specified-null': con['specified'] - con['null'],
-        'chosen-null': con['chosen'] - con['null']}
+        'specified-no_tap': con['specified'] - con['no_tap'],
+        'chosen-no_tap': con['chosen'] - con['no_tap']}
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
