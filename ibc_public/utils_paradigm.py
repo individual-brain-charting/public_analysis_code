@@ -403,7 +403,7 @@ def post_process(df, paradigm_id):
         df['modulation'] = 1
         df = concat([df, df1, df2], axis=0, ignore_index=True)
     if paradigm_id == 'FaceBody':
-        df.drop(df[df.trial_type == 'Baseline'].index, 0, inplace=True)
+        df.drop(df[df.trial_type == 'Baseline'].index, inplace=True)
         df.replace('Bodies_body', 'bodies_body', inplace=True)
         df.replace('Bodies_limb', 'bodies_limb', inplace=True)
         df.replace('Characters_number', 'characters_number', inplace=True)
@@ -417,14 +417,14 @@ def post_process(df, paradigm_id):
     if paradigm_id == 'Scene':
         df.drop(df[df.trial_type == 'fix'].index, inplace=True)
         df.drop(df[df.trial_type == 'iti'].index, inplace=True)
-        df.replace('dot_easy_left_correct', 'dot_easy_left', inplace=True)
-        df.replace('dot_easy_left_incorrect', 'dot_easy_left', inplace=True)
-        df.replace('dot_easy_right_correct', 'dot_easy_right', inplace=True)
-        df.replace('dot_easy_right_incorrect', 'dot_easy_right', inplace=True)
-        df.replace('dot_hard_left_correct', 'dot_hard_left', inplace=True)
-        df.replace('dot_hard_left_incorrect', 'dot_hard_left', inplace=True)
-        df.replace('dot_hard_right_correct', 'dot_hard_right', inplace=True)
-        df.replace('dot_hard_right_incorrect', 'dot_hard_right', inplace=True)
+        df.replace('dot_easy_left_correct', 'possible_scrambled_left', inplace=True)
+        df.replace('dot_easy_left_incorrect', 'possible_scrambled_left', inplace=True)
+        df.replace('dot_easy_right_correct', 'possible_scrambled_right', inplace=True)
+        df.replace('dot_easy_right_incorrect', 'possible_scrambled_right', inplace=True)
+        df.replace('dot_hard_left_correct', 'impossible_scrambled_left', inplace=True)
+        df.replace('dot_hard_left_incorrect', 'impossible_scrambled_left', inplace=True)
+        df.replace('dot_hard_right_correct', 'impossible_scrambled_right', inplace=True)
+        df.replace('dot_hard_right_incorrect', 'impossible_scrambled_right', inplace=True)
     if paradigm_id == 'Color':
         df.drop(df[df.trial_type == 'fix'].index, inplace=True)
         df.drop(df[df.trial_type == '1-back'].index, inplace=True)

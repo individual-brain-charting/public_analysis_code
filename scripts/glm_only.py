@@ -149,7 +149,7 @@ if __name__ == '__main__':
     # protocols = ['audio1', 'audio2', clips4]
     # protocols = ['optimism']
     # protocols = ['mdtb', 'mario1', 'mario2', 'leuven', 'abstraction', 'aomic'] 
-    protocols = ['aomic']
+    protocols = ['scene']
 
     for protocol in protocols:
         jobfile = f'ini_files/IBC_preproc_{protocol}.ini'

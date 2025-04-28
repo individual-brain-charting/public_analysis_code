@@ -714,7 +714,7 @@ def optimism_bias(design_matrix_columns):
         'future_positive',
         'past_negative',
         'future_negative',
-        'inconclusive'
+        'inconclusive',
         'optimism_bias',
         'future_vs_past',
         'positive_vs_negative',
@@ -1045,24 +1045,19 @@ def scenes(design_matrix_columns):
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    #if 'scene_possible_incorrect' in design_matrix_columns:
     scene_correct_minus_dot_correct = (
         con['scene_impossible_correct'] + con['scene_possible_correct'] -
-        con['dot_easy_left'] - con['dot_easy_right'])
-    #else:
-    #    scene_correct_minus_dot_correct = (
-    #        con['scene_impossible_correct'] + con['scene_possible_correct'] -
-    #        2 * con['scene_impossible_incorrect'])
+        con['possible_scrambled_left'] - con['possible_scrambled_right'])
     contrasts = dict([(name, con[name]) for name in contrast_names[:7]])
     contrasts['scene_possible_correct-scene_impossible_correct'] =\
         con['scene_possible_correct'] - con['scene_impossible_correct']
     contrasts['scene_correct-scrambled_correct'] = scene_correct_minus_dot_correct
     contrasts['scrambled_left-right'] =\
-        con['dot_easy_left'] + con['dot_hard_left'] -\
-        con['dot_easy_right'] - con['dot_hard_right']
+        con['possible_scrambled_left'] + con['impossible_scrambled_left'] -\
+        con['possible_scrambled_right'] - con['impossible_scrambled_right']
     contrasts['scrambled_impossible-possible'] =\
-        -con['dot_easy_left'] + con['dot_hard_left'] -\
-        con['dot_easy_right'] + con['dot_hard_right']
+        -con['possible_scrambled_left'] + con['impossible_scrambled_left'] -\
+        con['possible_scrambled_right'] + con['impossible_scrambled_right']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
