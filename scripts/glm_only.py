@@ -129,7 +129,7 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
         subject['onset'] = [onset for onset in subject['onset']]
         clean_subject(subject)
         if len(subject['session_id']) > 0:
-            if protocol == 'clips4':
+            if protocol == 'clips4_':
                 first_level(subject, compcorr=compcorr,
                             additional_regressors=RETINO_REG,
                             smooth=smooth, mask_img=mask_img)
@@ -148,8 +148,8 @@ if __name__ == '__main__':
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     # protocols = ['audio1', 'audio2', clips4]
     # protocols = ['optimism']
-    # protocols = ['mdtb', 'mario1', 'mario2', 'leuven', 'abstraction', 'aomic'] 
-    protocols = ['scene']
+    # protocols = ['mdtb', 'mario1', 'mario2', 'leuven', 'abstraction', 'aomic', 'scene'] 
+    protocols = ['clips4']
 
     for protocol in protocols:
         jobfile = f'ini_files/IBC_preproc_{protocol}.ini'

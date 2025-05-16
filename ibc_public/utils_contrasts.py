@@ -32,8 +32,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return hcp_social(design_matrix_columns)
     elif paradigm_id == 'RSVPLanguage':
         return rsvp_language(design_matrix_columns)
-    elif paradigm_id in ['ContRing', 'ExpRing', 'WedgeClock', ###
-                         'WedgeAnti', 'Wedge', 'Ring']:###
+    #elif paradigm_id in ['ContRing', 'ExpRing', 'WedgeClock', ###
+    #                     'WedgeAnti', 'Wedge', 'Ring']:###
         return retino(design_matrix_columns)###
     elif paradigm_id in ['Wedge', 'WedgeAnti', 'WedgeClock']:
         return wedge(design_matrix_columns)

@@ -84,7 +84,7 @@ def run_subject_surface_glm(jobfile, subject, session, protocol, mesh=None, comp
         if len(subject['session_id']) > 0:
             print(len(subject['session_id']))
         if len(subject['session_id']) > 0:
-            if protocol == 'retino':
+            if protocol == 'retino_':
                 subject['onset'] = [''] * len(subject['onset'])
                 first_level(subject, compcorr=compcorr,
                             additional_regressors=RETINO_REG,
@@ -107,7 +107,7 @@ if __name__ == '__main__':
                  'navigation', 'search']
     protocols = ['color', 'aomic'] 'abstraction' 'lyon1', 'aomic' 'optimism'
     """
-    protocols = ['scene'] # 'mario1', 'mdtb', 'color', 'mario2', 'leuven' 
+    protocols = ['retino'] # 'mario1', 'mdtb', 'color', 'mario2', 'leuven' 'scene'
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol
