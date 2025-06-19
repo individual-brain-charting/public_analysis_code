@@ -278,8 +278,8 @@ VSTMC	resp_load3-load1
 VSTMC	stim
 VSTMC	resp
 FingerTapping	chosen-specified
-FingerTapping	specified-null
-FingerTapping	chosen-null
+FingerTapping	specified-no_tap
+FingerTapping	chosen-no_tap
 FaceBody	bodies_body
 FaceBody	bodies_limb
 FaceBody	bodies-others
