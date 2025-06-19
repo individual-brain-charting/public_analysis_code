@@ -148,8 +148,8 @@ if __name__ == '__main__':
     # protocols = ['self', 'search', 'scene', 'tom', 'stanford1', 'stanford2', 'stanford3']
     # protocols = ['audio1', 'audio2', clips4]
     # protocols = ['optimism']
-    # protocols = ['mdtb', 'mario1', 'mario2', 'leuven', 'abstraction', 'aomic', 'scene'] 
-    protocols = ['clips4']
+    # protocols = ['clips4', 'mario1', 'mario2', 'leuven', 'abstraction', 'aomic', 'scene'] 
+    protocols = ['mdtb']
 
     for protocol in protocols:
         jobfile = f'ini_files/IBC_preproc_{protocol}.ini'
@@ -164,7 +164,7 @@ if __name__ == '__main__':
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         # subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=1)(
+        Parallel(n_jobs=5)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
             for (subject, session) in subject_session)
@@ -173,7 +173,7 @@ if __name__ == '__main__':
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         #subject_session = get_subject_session(protocol)
-        Parallel(n_jobs=1)(
+        Parallel(n_jobs=5)(
             delayed(run_subject_glm)(
                 jobfile, protocol, subject, session, smooth=smooth)
             for (subject, session) in subject_session)

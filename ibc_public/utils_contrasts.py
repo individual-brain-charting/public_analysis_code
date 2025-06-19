@@ -522,24 +522,31 @@ def abstraction(design_matrix_columns):
 
 def mdtb(design_matrix_columns):
     """ Contrasts for Multy Domain Task Battery """
-    contrast_names = ['action_action', 'action_control',
-                      'finger_simple', 'finger_complex',
-                      'semantic_hard', 'semantic_easy', #####
-                      '2back_easy', '2back_hard', ####
-                      'tom_photo', 'tom_belief', ####
-                      'search_easy', 'search_hard',  ####
+    contrast_names = ['action_action',
+                      'action_control',
+                      'finger_simple',
+                      'finger_complex',
+                      'semantic_hard',
+                      'semantic_easy', #####
+                      '2back_easy',
+                      '2back_hard', ####
+                      'tom_photo',
+                      'tom_belief', ####
+                      'search_easy',
+                      'search_hard',  ####
                       'flexion_extension',
+                      'movie',
                       'action_action-control',
                       'finger_complex-simple',
                       'semantic_hard-easy',
                       '2back_hard-easy',
                       'tom_belief-photo',
-                      'search_hard-easy'
+                      'search_hard-easy',
     ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names[:13]])
+    contrasts = dict([(name, con[name]) for name in contrast_names[:14]])
     contrasts['action_action-control'] = con['action_action'] - con['action_control']
     contrasts['finger_complex-simple'] = con['finger_simple'] - con['finger_complex']
     contrasts['semantic_hard-easy'] = con['semantic_hard'] - con['semantic_easy']
