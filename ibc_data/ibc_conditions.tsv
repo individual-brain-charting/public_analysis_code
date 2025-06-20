@@ -431,6 +431,7 @@ MDTB	2back_easy	Easy 2-back trial, it is easy to remember whether the image was 
 MDTB	2back_hard	Hard 2-back trial, it is hard to remember whether the image was shown 2 images ago.
 MDTB	semantic_easy	Easy to decide whether the last word fits in the sentence, natural sequence
 MDTB	semantic_hard	Hard to decide whether the last word fits in the sentence, ambiguous sequence
+MDTB	movie	Watching a clip of an animated movie without sound
 Emotion	neutral_image	Block of neutral images
 Emotion	negative_image	Block of negative images
 Emotion	valence_scale	Subject’s rating of emotional state

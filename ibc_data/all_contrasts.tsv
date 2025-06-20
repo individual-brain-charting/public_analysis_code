@@ -731,6 +731,7 @@ MDTB	tom_belief	believes	fixation	statement relates to character's believes	['se
 MDTB	search_easy	easy to find correct shape	fixation	easy to look for the right-oriented shape	['visual_search','visual_localization','salience','response_execution','response_selection']
 MDTB	search_hard	hard to find correct shape	fixation	hard to look for the right-oriented shape	['visual_search','visual_localization','visual_form_discrimination','task_difficulty','response_execution','response_selection']
 MDTB	flexion_extension	toes flexion-extension	fixation	continuous toes flexion-extension	['response_execution','left_toe_response_execution','right_toe_response_execution']
+MDTB	movie	movie watching	fixation	watching an animated movie without sound	['naturalistic_scenes','emotional_expression','visual_scene_perception']
 MDTB	action_action-control	hands making knot	resulting knot from different angles	hands making specific knot vs resulting knot	['action_perception','procedural_memory','action-outcome_learning','shape_recognition','task_difficulty','naturalistic_biological_motion']
 MDTB	finger_complex-simple	hard button sequence	easy button sequence	hard vs easy button sequence	['motor_control','task_difficulty']
 MDTB	semantic_hard-easy	ambiguous sequence	natural sequence	ambiguous vs natural sequence	['combinatorial_semantics','task_difficulty']
