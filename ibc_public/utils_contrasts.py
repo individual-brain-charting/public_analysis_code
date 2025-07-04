@@ -32,8 +32,8 @@ def make_contrasts(paradigm_id, design_matrix_columns=None):
         return hcp_social(design_matrix_columns)
     elif paradigm_id == 'RSVPLanguage':
         return rsvp_language(design_matrix_columns)
-    elif paradigm_id in ['ContRing', 'ExpRing', 'WedgeClock', ###
-                         'WedgeAnti', 'Wedge', 'Ring']:###
+    #elif paradigm_id in ['ContRing', 'ExpRing', 'WedgeClock', ###
+    #                     'WedgeAnti', 'Wedge', 'Ring']:###
         return retino(design_matrix_columns)###
     elif paradigm_id in ['Wedge', 'WedgeAnti', 'WedgeClock']:
         return wedge(design_matrix_columns)
@@ -357,15 +357,22 @@ def multi_modal(design_matrix_columns):
 
 def abstraction_localizer(design_matrix_columns):
     """ Contrasts for Abstraction Localizer"""
-    localizer_ = ['localizer_faces', 'localizer_humanbody',
-                  'localizer_words', 'localizer_nonsensewords',
-                  'localizer_numbers', 'localizer_places',
-                  'localizer_objects', 'localizer_checkerboards']
-    others_ = ['response', 'localizer_faces-other',
-               'localizer_humanbody-other','localizer_words-other',
+    localizer_ = ['localizer_faces',
+                  'localizer_humanbody',
+                  'localizer_words',
+                  'localizer_nonsensewords',
+                  'localizer_numbers',
+                  'localizer_places',
+                  'localizer_objects',
+                  'localizer_checkerboards']
+    others_ = ['response',
+               'localizer_faces-other',
+               'localizer_humanbody-other',
+               'localizer_words-other',
                'localizer_nonsensewords-other',
                'localizer_numbers-other',
-               'localizer_places-other', 'localizer_objects-other',
+               'localizer_places-other',
+               'localizer_objects-other',
                'localizer_checkerboards-other'
     ]
     contrast_names = localizer_ + others_
@@ -406,9 +413,15 @@ def abstraction(design_matrix_columns):
     flora_ =['flora_geometry', 'flora_edge', 'flora_photo']
     objects_ = ['objects_geometry', 'objects_edge', 'objects_photo']
     places_ = ['places_geometry', 'places_edge', 'places_photo']
-    others_ = ['humanbody-other', 'animals-other','faces-other',
-               'flora-other','objects-other','places-other',
-               'geometry-other','edge-other','photo-other',
+    others_ = ['humanbody-other',
+               'animals-other',
+               'faces-other',
+               'flora-other',
+               'objects-other',
+               'places-other',
+               'geometry-other',
+               'edge-other',
+               'photo-other',
                'humanbody_geometry-humanbody_other',
                'humanbody_edge-humanbody_other',
                'humanbody_photo-humanbody_other',
@@ -509,24 +522,31 @@ def abstraction(design_matrix_columns):
 
 def mdtb(design_matrix_columns):
     """ Contrasts for Multy Domain Task Battery """
-    contrast_names = ['action_action', 'action_control',
-                      'finger_simple', 'finger_complex',
-                      'semantic_hard', 'semantic_easy', #####
-                      '2back_easy', '2back_hard', ####
-                      'tom_photo', 'tom_belief', ####
-                      'search_easy', 'search_hard',  ####
+    contrast_names = ['action_action',
+                      'action_control',
+                      'finger_simple',
+                      'finger_complex',
+                      'semantic_hard',
+                      'semantic_easy', #####
+                      '2back_easy',
+                      '2back_hard', ####
+                      'tom_photo',
+                      'tom_belief', ####
+                      'search_easy',
+                      'search_hard',  ####
                       'flexion_extension',
+                      'movie',
                       'action_action-control',
                       'finger_complex-simple',
                       'semantic_hard-easy',
                       '2back_hard-easy',
                       'tom_belief-photo',
-                      'search_hard-easy'
+                      'search_hard-easy',
     ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    contrasts = dict([(name, con[name]) for name in contrast_names[:13]])
+    contrasts = dict([(name, con[name]) for name in contrast_names[:14]])
     contrasts['action_action-control'] = con['action_action'] - con['action_control']
     contrasts['finger_complex-simple'] = con['finger_simple'] - con['finger_complex']
     contrasts['semantic_hard-easy'] = con['semantic_hard'] - con['semantic_easy']
@@ -601,8 +621,13 @@ def stroop_aomic(design_matrix_columns):
 
 def harriri_aomic(design_matrix_columns):
     """ Contrasts for HarririAomic """
-    contrast_names = ['emotion', 'index_response',  'middle_response',
-                      'shape','emotion-shape']
+    contrast_names = [
+        'emotion',
+        'index_response',
+        'middle_response',
+        'shape',
+        'emotion-shape'
+    ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
@@ -634,6 +659,7 @@ def faces_aomic(design_matrix_columns):
                       'positive-negative',]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
+    
     con = _elementary_contrasts(design_matrix_columns)
     anger = np.sum([con[x] for x in con.keys() if x[:5] == 'anger'], 0)
     contempt = np.sum([con[x] for x in con.keys() if x[:8] == 'contempt'], 0)
@@ -642,7 +668,7 @@ def faces_aomic(design_matrix_columns):
     pride = np.sum([con[x] for x in con.keys() if x[:5] == 'pride'], 0)
     male = np.sum([con[x] for x in con.keys() if 'female' not in x], 0)
     female  = np.sum([con[x] for x in con.keys() if 'female' in x], 0)
-    european = np.sum([con[x] for x in con.keys() if 'european' not in x], 0)
+    european = np.sum([con[x] for x in con.keys() if 'european' in x], 0)
     mediterranean = np.sum(
         [con[x] for x in con.keys() if 'mediterranean' in x], 0)
     contrasts = {'anger': anger,
@@ -691,6 +717,11 @@ def optimism_bias(design_matrix_columns):
     """ Contrasts for optimism bias protocol """
     contrast_names = [
         'all_events',
+        'past_positive',
+        'future_positive',
+        'past_negative',
+        'future_negative',
+        'inconclusive',
         'optimism_bias',
         'future_vs_past',
         'positive_vs_negative',
@@ -733,17 +764,7 @@ def optimism_bias(design_matrix_columns):
                            np.mean([con[c] for c in negative], 0)
     future_vs_past = np.mean([con[c] for c in future], 0)\
                      - np.mean([con[c] for c in past], 0)
-    """
-    inter_pos = [c for c in ['future_positive', 'past_negative']
-                 if c in design_matrix_columns]
-    inter_neg = [c for c in ['future_negative', 'past_positive']
-                 if c in design_matrix_columns]
-    if len(inter_pos) > 0 and len(inter_neg) > 0:
-        interaction = np.mean([con[c] for c in inter_pos], 0)\
-            - np.mean([con[c] for c in inter_neg], 0)
-    else:
-        pass
-    """
+    
     interaction = positive_vs_negative * future_vs_past
     if ('future_negative' in design_matrix_columns) and (
             'future_positive' in design_matrix_columns):
@@ -754,7 +775,32 @@ def optimism_bias(design_matrix_columns):
         past_positive_vs_negative = con['past_positive'] - con['past_negative']
     else:
         past_positive_vs_negative = positive_vs_negative
+    if 'past_positive' not in con.keys():
+        past_positive = all_events
+    else:
+        past_positive = con['past_positive']
+    if 'past_negative' not in con.keys():
+        past_negative = all_events
+    else:
+        past_negative = con['past_negative']
+    if 'future_positive' not in con.keys():
+        future_positive = all_events
+    else:
+        future_positive = con['future_positive']
+    if 'future_negative' not in con.keys():
+        future_negative = all_events
+    else:
+        future_negative = con['future_negative']
+    if 'inconclusive' not in con.keys():
+        inconclusive = all_events
+    else:
+        inconclusive = con['inconclusive']
     contrasts = {'all_events': all_events - con['fix'],
+                 'past_negative': past_negative,
+                 'past_positive': past_positive,
+                 'future_positive': future_positive,
+                 'future_negative': future_negative,
+                 'inconclusive': inconclusive,
                  'optimism_bias': optimism_bias,
                  'future_vs_past': future_vs_past,
                  'positive_vs_negative': positive_vs_negative,
@@ -990,35 +1036,35 @@ def narps(design_matrix_columns):
 def scenes(design_matrix_columns):
     """Contrasts for scenes protocol"""
     contrast_names = [
-        'dot_easy_left', 'dot_easy_right', 'dot_hard_left', 'dot_hard_right',
-        'scene_impossible_correct', 'scene_impossible_incorrect',
+        'possible_scrambled_left',
+        'possible_scrambled_right',
+        'impossible_scrambled_left', 
+        'impossible_scrambled_right',
+        'scene_impossible_correct',
+        'scene_impossible_incorrect',
         'scene_possible_correct', # 'scene_possible_incorrect',
         'scene_possible_correct-scene_impossible_correct',
-        'scene_correct-dot_correct',
-        'dot_left-right',
-        'dot_hard-easy'
+        'scene_correct-scrambled_correct', 
+        # contrast definition is inaccurate because we dropped correct trials among scrambled conditions
+        'scrambled_left-right',
+        'scrambled_impossible-possible'
         ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
-    if 'scene_possible_incorrect' in design_matrix_columns:
-        scene_correct_minus_dot_correct = (
-            con['scene_impossible_correct'] + con['scene_possible_correct'] -
-            con['scene_impossible_incorrect'] - con['scene_possible_incorrect'])
-    else:
-        scene_correct_minus_dot_correct = (
-            con['scene_impossible_correct'] + con['scene_possible_correct'] -
-            2 * con['scene_impossible_incorrect'])
+    scene_correct_minus_dot_correct = (
+        con['scene_impossible_correct'] + con['scene_possible_correct'] -
+        con['possible_scrambled_left'] - con['possible_scrambled_right'])
     contrasts = dict([(name, con[name]) for name in contrast_names[:7]])
     contrasts['scene_possible_correct-scene_impossible_correct'] =\
         con['scene_possible_correct'] - con['scene_impossible_correct']
-    contrasts['scene_correct-dot_correct'] = scene_correct_minus_dot_correct
-    contrasts['dot_left-right'] =\
-        con['dot_easy_left'] + con['dot_hard_left'] -\
-        con['dot_easy_right'] - con['dot_hard_right']
-    contrasts['dot_hard-easy'] =\
-        -con['dot_easy_left'] + con['dot_hard_left'] -\
-        con['dot_easy_right'] + con['dot_hard_right']
+    contrasts['scene_correct-scrambled_correct'] = scene_correct_minus_dot_correct
+    contrasts['scrambled_left-right'] =\
+        con['possible_scrambled_left'] + con['impossible_scrambled_left'] -\
+        con['possible_scrambled_right'] - con['impossible_scrambled_right']
+    contrasts['scrambled_impossible-possible'] =\
+        -con['possible_scrambled_left'] + con['impossible_scrambled_left'] -\
+        con['possible_scrambled_right'] + con['impossible_scrambled_right']
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -1322,18 +1368,18 @@ def stop_nogo(design_matrix_columns):
 
 def finger_tapping(design_matrix_columns):
     """ Contrasts for finger tapping protocol"""
-    contrast_names = ['specified', 'chosen', 'null',
-                      'chosen-specified', 'specified-null', 'chosen-null']
+    contrast_names = ['specified', 'chosen', 'no_tap',
+                      'chosen-specified', 'specified-no_tap', 'chosen-no_tap']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     contrasts = {
         'specified': con['specified'],
         'chosen': con['chosen'],
-        'null': con['null'],
+        'no_tap': con['no_tap'],
         'chosen-specified': con['chosen'] - con['specified'],
-        'specified-null': con['specified'] - con['null'],
-        'chosen-null': con['chosen'] - con['null']}
+        'specified-no_tap': con['specified'] - con['no_tap'],
+        'chosen-no_tap': con['chosen'] - con['no_tap']}
     assert((sorted(contrasts.keys()) == sorted(contrast_names)))
     _append_derivative_contrast(design_matrix_columns, contrasts)
     _append_effects_interest_contrast(design_matrix_columns, contrasts)
@@ -1580,10 +1626,14 @@ def attention(design_matrix_columns):
     """ Contrasts for Stanford's attention protocol"""
     contrast_names = [
         'spatial_cue-double_cue',
-        'spatial_cue', 'double_cue',
-        'incongruent-congruent', 'spatial_incongruent-spatial_congruent',
-        'double_incongruent-double_congruent', 'spatial_incongruent',
-        'double_congruent', 'spatial_congruent',
+        'spatial_cue',
+        'double_cue',
+        'incongruent-congruent',
+        'spatial_incongruent-spatial_congruent',
+        'double_incongruent-double_congruent',
+        'spatial_incongruent',
+        'double_congruent',
+        'spatial_congruent',
         'double_incongruent'
         ]
     if design_matrix_columns is None:
@@ -1764,13 +1814,25 @@ def lyon_lec1(design_matrix_columns):
 def audio(design_matrix_columns):
     """Contrasts for the audio protocol"""
     contrast_names = [
-        'animal', 'music', 'nature',
-        'speech', 'tool', 'voice',
-        'animal-others', 'music-others', 'nature-others',
-        'speech-others', 'tool-others', 'voice-others',
+        'animal',
+        'music',
+        'nature',
+        'speech',
+        'tool',
+        'voice',
+        'animal-others',
+        'music-others',
+        'nature-others',
+        'speech-others',
+        'tool-others',
+        'voice-others',
         'mean-silence',
-        'animal-silence', 'music-silence', 'nature-silence',
-        'speech-silence', 'tool-silence', 'voice-silence',
+        'animal-silence',
+        'music-silence',
+        'nature-silence',
+        'speech-silence',
+        'tool-silence',
+        'voice-silence',
         ]
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
@@ -1836,13 +1898,29 @@ def lyon_mveb(design_matrix_columns):
 def lyon_mvis(design_matrix_columns):
     """ Contrasts for Lyon mvis localizer"""
     contrast_names = ['dot_displacement_response',
-                      '2_dots-2_dots_control', '4_dots-4_dots_control',
-                      '6_dots-6_dots_control', '6_dots-2_dots', 'dots-control']
+                      '2_dots',
+                      '2_dots_control',
+                      '4_dots',
+                      '4_dots_control',
+                      '6_dots',
+                      '6_dots_control',
+                      '2_dots-2_dots_control',
+                      '4_dots-4_dots_control',
+                      '6_dots-6_dots_control',
+                      '6_dots-2_dots',
+                      'dots-control']
     if design_matrix_columns is None:
         return dict([(name, []) for name in contrast_names])
     con = _elementary_contrasts(design_matrix_columns)
     # contrasts = dict([(cname, con[cname]) for cname in contrast_names[:-4]])
-    contrasts = {'dot_displacement_response': con['response']}
+    contrasts = {'dot_displacement_response': con['response'],
+                 '2_dots': con['2_dots'],
+                 '2_dots_control': con['2_dots_control'],
+                 '4_dots': con['4_dots'],
+                 '4_dots_control': con['4_dots_control'],
+                 '6_dots': con['6_dots'],
+                 '6_dots_control': con['6_dots_control']
+                 }
     contrasts['2_dots-2_dots_control'] = con['2_dots'] - con['2_dots_control']
     contrasts['4_dots-4_dots_control'] = con['4_dots'] - con['4_dots_control']
     contrasts['6_dots-6_dots_control'] = con['6_dots'] - con['6_dots_control']
@@ -1945,10 +2023,16 @@ def bang(design_matrix_columns):
 def self_localizer(design_matrix_columns):
     """ Contrasts for self experiment"""
     contrast_names = [
-        'encode_self-other', 'encode_other', 'encode_self',
-        'instructions', 'false_alarm', 'correct_rejection',
-        'recognition_hit', 'recognition_hit-correct_rejection',
-        'recognition_self-other', 'recognition_self_hit',
+        'encode_self-other',
+        'encode_other',
+        'encode_self',
+        'instructions',
+        'false_alarm',
+        'correct_rejection',
+        'recognition_hit',
+        'recognition_hit-correct_rejection',
+        'recognition_self-other',
+        'recognition_self_hit',
         'recognition_other_hit'
     ]
     if design_matrix_columns is None:

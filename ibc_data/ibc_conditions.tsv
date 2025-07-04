@@ -98,12 +98,10 @@ Enumeration	enumeration_linear	Capture the linear effect of enumeration response
 Enumeration	enumeration_constant	Occurrence regressor for the enumeration response to constant numerosity when compared against fixation
 Enumeration	enumeration_quadratic	Capture the quadratic effect of enumeration response to numerosity interaction
 Self	instructions	Presentation of a question related to the succeeding block
-Self	self-reference_encoding	Judge with overt response whether or not a certain adjective, displayed on the screen, qualifies oneself
-Self	other-reference_encoding	Judging with overt response whether a certain adjective, displayed on the screen, qualifies someone else
-Self	self-reference_recognition	Successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “self-reference encoding” trial of the preceding encoding phase
-Self	other-reference_recognition	Successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “other-reference encoding” trial of the preceding encoding phase
-Self	memory	Successful identification with an overt response that a new adjective has never been presented before
-Self	no_recognition	Unsuccessful identification with an overt response that a new adjective has been presented before
+Self	encode_self	Judge with overt response whether or not a certain adjective, displayed on the screen, qualifies oneself
+Self	encode_other	Judging with overt response whether a certain adjective, displayed on the screen, qualifies someone else
+Self	recognition_self_hit	Successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “self-reference encoding” trial of the preceding encoding phase
+Self	recognition_other_hit	Successful recognition with an overt response of an adjective, displayed on the screen, as having been already presented during one “other-reference encoding” trial of the preceding encoding phase
 Bang	talk	Speech: watch contiguous scenes of speech. No speech: watch contiguous scenes with no speech
 Bang	no_talk	Watch contiguous scenes with no speech
 WedgeClock	lower_meridian	Visual representation in the lower half-plane of the visual field delimited by its horizontal meridian
@@ -192,10 +190,12 @@ Audio	tool	Sound of tool usage
 Audio	voice	Non-speech human sound
 Audio	catch	Repetition of the previous sound
 Audio	silence	No sound
-Attention	spatial	The stimulus is spatially cued, so the subject knows where the arrows will be shown (only one star appears).
+Attention	spatial_cue	The stimulus is spatially cued, so the subject knows where the arrows will be shown (only one star appears).
 Attention	double_cue	The stimulus is not spatially cued, so the subject doesn't know where the arrows will be shown (both stars appear).
-Attention	congruent	The stimulus is congruent (same direction) with the rest of the arrows shown.
-Attention	incongruent	The stimulus is not congruent (opposite direction) with the rest of the arrows shown.
+Attention	spatial_congruent	The stimulus is congruent (same direction) with the rest of the arrows shown.
+Attention	spatial_incongruent	spatial cue distractor
+Attention	double_congruent	spatial cue no distractor
+Attention	double_incongruent	The stimulus is not congruent (opposite direction) with the rest of the arrows shown.
 StopSignal	go	Answer to the stim
 StopSignal	stop	Hold motor response
 TwoByTwo	cue_taskstay_cuestay	Appearance of the cue on screen when both the task and the cue are the same with respect to the previous trial
@@ -273,7 +273,7 @@ Catell	easy	Easy oddball trial where the non-oddball images are similar and very
 Catell	hard	Difficult oddball trial where all images are similar
 FingerTapping	specified	Finger to tap is highlighted
 FingerTapping	chosen	Participant chooses 1 out of 3 highlighted fingers to tap
-FingerTapping	null	No finger tap
+FingerTapping	no_tap	No finger tap
 VSTMC	stim_load1	Dots in only one colour move coherently in a given direction
 VSTMC	stim_load2	Dots in two colours move coherently in two different directions
 VSTMC	stim_load3	Dots in all three colours move coherently in 3 different directions
@@ -339,16 +339,16 @@ ItemRecognition	arrow_left	Leftward pointing arrow
 VisualSearch	memory_array_two	Array of two items, with or without the item to search for (probe item) - in working memory trials
 VisualSearch	memory_array_four	Array of four items, with or without the item to search for (probe item) - in working memory trials
 VisualSearch	delay_wm	Delay period between memory array and probe item in working memory trials
-VisualSearch	probe_item_two_absent	Item to search for but was absent in memory array of two items - in working memory trials
-VisualSearch	probe_item_four_absent	Item to search for but was absent in memory array of four items - in working memory trials
-VisualSearch	probe_item_two_present	Item to search for and was present in memory array of two items - in working memory trials
-VisualSearch	probe_item_four_present	Item to search for and was present in memory array of four items - in working memory trials
+VisualSearch	probe_item_two	Item to search for in memory array of two items - in working memory trials
+VisualSearch	probe_item_four	Item to search for in memory array of four items - in working memory trials
+VisualSearch	probe_item_present	Item to search for and was present in memory array - in working memory trials
+VisualSearch	probe_item_absent	Item to search for but was absent in memory array – in working memory trials
 VisualSearch	sample_item	Item to search for in an array of two or four items (search array) - in visual search trials
 VisualSearch	delay_vis	Delay period between sample item and search array in visual search trials
-VisualSearch	search_array_two_absent	Array of two items, without sample item - in visual search trials
-VisualSearch	search_array_two_present	Array of two items, with sample item - in visual search trials
-VisualSearch	search_array_four_absent	Array of four items, without sample item - in visual search trials
-VisualSearch	search_array_four_present	Array of four items, with sample item - in visual search trials
+VisualSearch	search_array_two	Array of two items - in visual search trials
+VisualSearch	search_array_four	Array of four items - in visual search trials
+VisualSearch	search_array_present	Array with sample item - in visual search trials
+VisualSearch	search_array_absent	Array without sample item - in visual search trials
 VisualSearch	response_hit	Subject responded correctly
 VisualSearch	response_miss	Subject responded incorrectly
 Color	chromatic	Chromatic Mondrian patterns
@@ -399,78 +399,24 @@ LocalizerAbstraction	localizer_places	Place images
 LocalizerAbstraction	localizer_objects	Object Images
 LocalizerAbstraction	localizer_checkerboards	Checkerboards images
 LocalizerAbstraction	response	Subject's button press when they saw a star
-Abstraction	humanbody_standing_geometry	Geometry rendering of standing human
-Abstraction	humanbody_walking_geometry	Geometry rendering of walking human
-Abstraction	humanbody_hand_geometry	Geometry rendering of hands
-Abstraction	humanbody_legs_geometry	Geometry rendering of legs
-Abstraction	humanbody_standing_edge	Edge rendering of standing human
-Abstraction	humanbody_walking_edge	Edge rendering of walking human
-Abstraction	humanbody_hand_edge	Edge rendering of hands
-Abstraction	humanbody_legs_edge	Edge rendering of legs
-Abstraction	humanbody_standing_photo	Photo rendering of standing human
-Abstraction	humanbody_walking_photo	Photo rendering of walking human
-Abstraction	humanbody_hand_photo	Photo rendering of hands
-Abstraction	humanbody_legs_photo	Photo rendering of legs
-Abstraction	animals_bird_geometry	Images of a bird presented with the geometry render
-Abstraction	animals_fish_geometry	Images of a fish presented with the geometry render
-Abstraction	animals_giraffe_geometry	Images of a giraffe presented with the geometry render
-Abstraction	animals_butterfly_geometry	Images of a butterfly presented with the geometry render
-Abstraction	animals_bird_edge	Images of a bird presented with the edge render
-Abstraction	animals_fish_edge	Images of a fish presented with the edge render
-Abstraction	animals_giraffe_edge	Images of a giraffe presented with the edge render
-Abstraction	animals_butterfly_edge	Images of a butterfly presented with the edge render
-Abstraction	animals_bird_photo	Images of a bird presented with the photo render
-Abstraction	animals_fish_photo	Images of a fish presented with the photo render
-Abstraction	animals_giraffe_photo	Images of a giraffe presented with the photo render
-Abstraction	animals_butterfly_photo	Images of a butterfly presented with the photo render
-Abstraction	faces_face_geometry	Image of a face presented with the geometry render
-Abstraction	faces_face2_geometry	Image of a different face presented with the geometry render
-Abstraction	faces_eyes_geometry	Image of eyes presented with the geometry render
-Abstraction	faces_cat_geometry	Image of a cat face presented with the geometry render
-Abstraction	faces_face_edge	Image of a face presented with the edge render
-Abstraction	faces_face2_edge	Image of a different face presented with the edge render
-Abstraction	faces_eyes_edge	Image of eyes presented with the edge render
-Abstraction	faces_cat_edge	Image of a cat face presented with the edge render
-Abstraction	faces_face_photo	Image of a face presented with the photo render
-Abstraction	faces_face2_photo	Image of a different face presented with the photo render
-Abstraction	faces_eyes_photo	Image of eyes presented with the photo render
-Abstraction	faces_cat_photo	Image of a cat face presented with the photo render
-Abstraction	flora_tree_geometry	Image of a tree presented with the photo render
-Abstraction	flora_flower_geometry	Image of a flower presented with the photo render
-Abstraction	flora_cherry_geometry	Image of a cherry presented with the photo render
-Abstraction	flora_carrot_geometry	Image of a carrot presented with the photo render
-Abstraction	flora_tree_edge	Image of a tree presented with the photo render
-Abstraction	flora_flower_edge	Image of a flower presented with the photo render
-Abstraction	flora_cherry_edge	Image of a cherry presented with the photo render
-Abstraction	flora_carrot_edge	Image of a carrot presented with the photo render
-Abstraction	flora_tree_photo	Image of a tree presented with the photo render
-Abstraction	flora_flower_photo	Image of a flower presented with the photo render
-Abstraction	flora_cherry_photo	Image of a cherry presented with the photo render
-Abstraction	flora_carrot_photo	Image of a carrot presented with the photo render
-Abstraction	objects_truck_geometry	Image of a truck presented with the photo render
-Abstraction	objects_key_geometry	Image of a key presented with the photo render
-Abstraction	objects_camera_geometry	Image of a camara presented with the photo render
-Abstraction	objects_watch_geometry	Image of a watch presented with the photo render
-Abstraction	objects_truck_edge	Image of a truck presented with the photo render
-Abstraction	objects_key_edge	Image of a key presented with the photo render
-Abstraction	objects_camera_edge	Image of a camara presented with the photo render
-Abstraction	objects_watch_edge	Image of a watch presented with the photo render
-Abstraction	objects_truck_photo	Image of a truck presented with the photo render
-Abstraction	objects_key_photo	Image of a key presented with the photo render
-Abstraction	objects_camera_photo	Image of a camara presented with the photo render
-Abstraction	objects_watch_photo	Image of a watch presented with the photo render
-Abstraction	places_house_geometry	Image of a house presented with the photo render
-Abstraction	places_mountain_geometry	Image of a mountain presented with the photo render
-Abstraction	places_road_geometry	Image of a road presented with the photo render
-Abstraction	places_windmill_geometry	Image of a windmill presented with the photo render
-Abstraction	places_house_edge	Image of a house presented with the photo render
-Abstraction	places_mountain_edge	Image of a mountain presented with the photo render
-Abstraction	places_road_edge	Image of a road presented with the photo render
-Abstraction	places_windmill_edge	Image of a windmill presented with the photo render
-Abstraction	places_house_photo	Image of a house presented with the photo render
-Abstraction	places_mountain_photo	Image of a mountain presented with the photo render
-Abstraction	places_road_photo	Image of a road presented with the photo render
-Abstraction	places_windmill_photo	Image of a windmill presented with the photo render
+Abstraction	humanbody_geometry	Geometry rendering of human bodies: legs, hands, standing human and walking human
+Abstraction	humanbody_edge	Edge rendering of human bodies: legs, hands, standing human and walking human
+Abstraction	humanbody_photo	Photo rendering of human bodies: legs, hands, standing human and walking human
+Abstraction	animals_geometry	Geometry rendering of animals: bird, fish, giraffe, butterfly
+Abstraction	animals_edge	Edge rendering of animals: bird, fish, giraffe, butterfly
+Abstraction	animals_photo	Photo rendering of animals: bird, fish, giraffe, butterfly
+Abstraction	faces_geometry	Geometry rendering of faces: human face, cat face, eyes
+Abstraction	faces_edge	Edge rendering of faces: human face, cat face, eyes
+Abstraction	faces_photo	Photo rendering of faces: human face, cat face, eyes
+Abstraction	flora_geometry	Geometry rendering of flora: flower, tree, cherry, carrot
+Abstraction	flora_edge	Edge rendering of flora: flower, tree, cherry, carrot
+Abstraction	flora_photo	Photo rendering of flora: flower, tree, cherry, carrot
+Abstraction	objects_geometry	Geometry rendering of objects: truck, key, camera, watch
+Abstraction	objects_edge	Edge rendering of objects: truck, key, camera, watch
+Abstraction	objects_photo	Photo rendering of objects: truck, key, camera, watch
+Abstraction	places_geometry	Geometry rendering of places: house, mountain, road, windmill
+Abstraction	places_edge	Edge rendering of places: house, mountain, road, windmill
+Abstraction	places_photo	Photo rendering of places: house, mountain, road, windmill
 Abstraction	response	Subject's button press when they saw a star
 MDTB	search_easy	It is easy to judge whether there is a right-oriented 'L' shape present on the array
 MDTB	search_hard	It is hard to judge whether there is a right-oriented 'L' shape present on the array
@@ -485,6 +431,7 @@ MDTB	2back_easy	Easy 2-back trial, it is easy to remember whether the image was 
 MDTB	2back_hard	Hard 2-back trial, it is hard to remember whether the image was shown 2 images ago.
 MDTB	semantic_easy	Easy to decide whether the last word fits in the sentence, natural sequence
 MDTB	semantic_hard	Hard to decide whether the last word fits in the sentence, ambiguous sequence
+MDTB	movie	Watching a clip of an animated movie without sound
 Emotion	neutral_image	Block of neutral images
 Emotion	negative_image	Block of negative images
 Emotion	valence_scale	Subject’s rating of emotional state

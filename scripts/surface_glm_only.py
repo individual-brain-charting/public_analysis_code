@@ -84,7 +84,7 @@ def run_subject_surface_glm(jobfile, subject, session, protocol, mesh=None, comp
         if len(subject['session_id']) > 0:
             print(len(subject['session_id']))
         if len(subject['session_id']) > 0:
-            if protocol == 'retino':
+            if protocol == 'retino_':
                 subject['onset'] = [''] * len(subject['onset'])
                 first_level(subject, compcorr=compcorr,
                             additional_regressors=RETINO_REG,
@@ -105,18 +105,17 @@ if __name__ == '__main__':
     protocols = ['preference', 'audio1', 'audio2']
     protocols = ['enumeration', 'biological_motion', 'reward', 'mathlang', 
                  'navigation', 'search']
-    protocols = ['scene', 'color', 'aomic']
+    protocols = ['color', 'aomic'] 'abstraction' 'lyon1', 'aomic' 'optimism'
     """
-    protocols = ['mathlang'] # 'mario1', 'mdtb', 'color', 'mario2', 'leuven' 'abstraction'
+    protocols = ['mdtb'] # 'mario1', 'retino', 'color', 'mario2', 'leuven' 'scene'
     for protocol in protocols:
         jobfile = 'ini_files/IBC_preproc_%s.ini' % protocol
         acquisition = protocol
         if protocol == 'retino':
             acquisition = 'clips4'
         subject_session = sorted(get_subject_session(acquisition))
-        subject_session = [('sub-08', 'ses-24')]
         for mesh in ['fsaverage5', 'individual', 'fsaverage7']:
-            Parallel(n_jobs=2)(
+            Parallel(n_jobs=1)(
                 delayed(run_subject_surface_glm)(
                     jobfile, subject, session, protocol, mesh=mesh)
                 for (subject, session) in subject_session)

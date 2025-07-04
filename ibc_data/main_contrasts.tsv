@@ -63,9 +63,17 @@ MTTNS	sn_space-time_event
 MTTNS	southside-northside_event
 MTTNS	sn_before-after_event
 PreferenceHouses	house_constant
+PreferenceHouses	house_linear
+PreferenceHouses	house_quadratic
 PreferenceFaces	face_constant
+PreferenceFaces	face_linear
+PreferenceFaces	face_quadratic
 PreferencePaintings	painting_constant
+PreferencePaintings	painting_linear
+PreferencePaintings	painting_quadratic
 PreferenceFood	food_constant
+PreferenceFood	food_linear
+PreferenceFood	food_quadratic
 Preference	preference_linear
 Preference	preference_quadratic
 TheoryOfMind	photo
@@ -270,8 +278,8 @@ VSTMC	resp_load3-load1
 VSTMC	stim
 VSTMC	resp
 FingerTapping	chosen-specified
-FingerTapping	specified-null
-FingerTapping	chosen-null
+FingerTapping	specified-no_tap
+FingerTapping	chosen-no_tap
 FaceBody	bodies_body
 FaceBody	bodies_limb
 FaceBody	bodies-others
@@ -390,6 +398,7 @@ MDTB	tom_belief
 MDTB	search_easy
 MDTB	search_hard
 MDTB	flexion_extension
+MDTB	movie
 MDTB	action_action-control
 MDTB	finger_complex-simple
 MDTB	semantic_hard-easy
