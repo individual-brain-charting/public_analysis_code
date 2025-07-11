@@ -698,7 +698,7 @@ Abstraction	objects-other	renders of objects	renders of the rest of categories	r
 Abstraction	places-other	renders of places	renders of the rest of categories	renders of places vs of rest of categories	['visual_place_recognition']
 Abstraction	geometry-other	geometry renders of all categories	edge and photo renders of all categories	geometry vs edge and photo render	['visual_representation','visual_form_recognition']
 Abstraction	edge-other	edge renders of all categories	geometry and photo renders of all categories	edge vs geometry and photo render	['visual_representation']
-Abstraction	photo-other	photos of all categories	geometry and edge renders of all categories	photo vs geometry and edge render	['visual_place_recognition','visual_object_recognition','naturalistic_scenes','visual_body_recognition','visual_face_recognition','animacy_perception']
+Abstraction	photo-other	photos of all categories	geometry and edge renders of all categories	photo vs geometry and edge render	['visual_place_recognition','visual_object_recognition','naturalistic_scenes','visual_body_recognition','visual_face_recognition']
 Abstraction	humanbody_geometry-humanbody_other	geometry render of human bodies	edge and photo renders of a human body	geometry vs edge and photo render of human bodies	['visual_body_recognition','visual_representation','visual_form_recognition']
 Abstraction	humanbody_edge-humanbody_other	edges render of human bodies	geometry and photo renders of a human body	edge vs geometry and photo render of human bodies	['visual_body_recognition','visual_representation']
 Abstraction	humanbody_photo-humanbody_other	photos of human bodies	geometry and edge renders of a human body	photo vs geometry and edge render of human bodies	['visual_body_recognition']
