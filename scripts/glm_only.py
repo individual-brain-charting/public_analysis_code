@@ -113,6 +113,8 @@ def run_subject_glm(jobfile, protocol, subject, session=None, smooth=None,
         jobfile = 'ini_files/IBC_preproc_preference_sub-11.ini'
     elif protocol == 'stanford3' and subject in ['sub-15']:
         jobfile = 'ini_files/IBC_preproc_stanford3_sub-15.ini'
+    elif protocol == 'audio1' and subject in ['sub-08']:
+        jobfile = 'ini_files/IBC_preproc_audio1_sub-08.ini'
     output_name = os.path.join(
         '/tmp', os.path.basename(jobfile)[:-4] + f'_{subject}.ini')
     _adapt_jobfile(jobfile, subject, output_name, session)
@@ -149,11 +151,11 @@ if __name__ == '__main__':
     # protocols = ['audio1', 'audio2', clips4]
     # protocols = ['optimism']
     # protocols = ['clips4', 'mario1', 'mario2', 'leuven', 'abstraction', 'aomic', 'scene'] 
-    protocols = ['mdtb']
+    protocols = ['audio1']
 
     for protocol in protocols:
         jobfile = f'ini_files/IBC_preproc_{protocol}.ini'
-        subject_session =  get_subject_session(protocol)
+        subject_session = get_subject_session(protocol)
         print(subject_session)
         Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
