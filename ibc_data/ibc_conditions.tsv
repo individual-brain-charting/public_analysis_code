@@ -52,7 +52,7 @@ HcpWm	0back_place	0-back, pictures of places were displayed
 HcpWm	2back_place	2-back, pictures of places were displayed
 RSVPLanguage	complex	Constituents, i.e. words formed syntactically and semantically congruent sentences with more than one clause grid image that may be tilted or not (high sentence-structure complexity)
 RSVPLanguage	simple	Constituents, i.e. words formed syntactically and semantically congruent sentences of one single clause (low_sentence-structure_complexity)
-RSVPLanguage	read_jabberwocky	Syntactically congruent sentences composed by non-lexical vocable constituents
+RSVPLanguage	jabberwocky	Syntactically congruent sentences composed by non-lexical vocable constituents
 RSVPLanguage	word_list	Syntactically non-congruent sentences but with semantic content
 RSVPLanguage	pseudoword_list	Syntactically and semantically non-congruent sentences composed by non-lexical vocable constituents
 RSVPLanguage	consonant_string	Syntactically and semantically non-congruent sentences composed by non-vocable constituents
