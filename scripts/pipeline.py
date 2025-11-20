@@ -219,9 +219,9 @@ if __name__ == '__main__':
     prepare_derivatives(main_dir)
     do_topup = False
     #
-    protocol =  'tom'
+    protocol =  'stanford3'
     subject_session = get_subject_session(protocol)
-    subject_session =[('sub-08', 'ses-19')]
+    subject_session =[('sub-15', 'ses-26')]
     
     if do_topup:
         acq = None
@@ -232,7 +232,8 @@ if __name__ == '__main__':
         apply_topup(main_dir, cache_dir, subject_session, acq=acq)
 
     subject_data = []
-    jobfile = f'ini_files/IBC_preproc_{protocol}_sub-08.ini'
+    # jobfile = f'ini_files/IBC_preproc_{protocol}_sub-08.ini'
+    jobfile = f'ini_files/IBC_preproc_{protocol}.ini'
     subject_data_ = Parallel(n_jobs=1)(
         delayed(run_subject_preproc)(jobfile, subject, session)
         for subject, session in subject_session)

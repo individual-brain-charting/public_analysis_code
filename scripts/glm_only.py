@@ -151,11 +151,12 @@ if __name__ == '__main__':
     # protocols = ['audio1', 'audio2', clips4]
     # protocols = ['optimism']
     # protocols = ['clips4', 'mario1', 'mario2', 'leuven', 'abstraction', 'aomic', 'scene'] 
-    protocols = ['audio1']
+    protocols = ['stnford3']
 
     for protocol in protocols:
         jobfile = f'ini_files/IBC_preproc_{protocol}.ini'
         subject_session = get_subject_session(protocol)
+        subject_session = [('sub-15', 'ses-26')]
         print(subject_session)
         Parallel(n_jobs=1)(
             delayed(run_subject_glm)(
