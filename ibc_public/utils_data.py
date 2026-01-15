@@ -144,7 +144,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     # T1 images
     for subject in subject_list:
         t1_path = 'sub-*/ses-*/anat/w%s_ses-00_T1w.nii.gz' % subject
-        t1_abs_path = os.path.join(DERIVATIVES, t1_path)
+        t1_abs_path = os.path.join(derivatives, t1_path)
         t1_imgs_ = glob.glob(os.path.join(t1_abs_path))
         for img in t1_imgs_:
             session = img.split('/')[-3]
@@ -159,7 +159,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
     for subject in subject_list:
         t1bet_path = 'sub-*/ses-*/anat/w%s_ses-00_T1w_bet.nii.gz' % subject
-        t1bet_abs_path = os.path.join(DERIVATIVES, t1bet_path)
+        t1bet_abs_path = os.path.join(derivatives, t1bet_path)
         t1bet_imgs_ = glob.glob(os.path.join(t1bet_abs_path))
         for img in t1bet_imgs_:
             session = img.split('/')[-3]
@@ -174,7 +174,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
     for subject in subject_list:
         ht1_path = 'sub-*/ses-*/anat/w%s*_acq-highres_T1w_bet.nii.gz' % subject
-        ht1_abs_path = os.path.join(DERIVATIVES, ht1_path)
+        ht1_abs_path = os.path.join(derivatives, ht1_path)
         ht1_imgs_ = glob.glob(os.path.join(ht1_abs_path))
         for img in ht1_imgs_:
             session = img.split('/')[-3]
@@ -190,7 +190,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     # gray-matter images
     for subject in subject_list:
         mwc1_path = 'sub-*/ses-*/anat/mwc1%s_ses-00_T1w.nii.gz' % subject
-        mwc1_abs_path = os.path.join(DERIVATIVES, mwc1_path)
+        mwc1_abs_path = os.path.join(derivatives, mwc1_path)
         mwc1_imgs_ = glob.glob(os.path.join(mwc1_abs_path))
         for img in mwc1_imgs_:
             session = img.split('/')[-3]
@@ -205,7 +205,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
 
     for subject in subject_list:
         hmwc1_path = 'sub-*/ses-*/anat/mwc1%s*_acq-highres_T1w.nii.gz' % subject
-        hmwc1_abs_path = os.path.join(DERIVATIVES, hmwc1_path)
+        hmwc1_abs_path = os.path.join(derivatives, hmwc1_path)
         hmwc1_imgs_ = glob.glob(os.path.join(hmwc1_abs_path))
         for img in hmwc1_imgs_:
             session = img.split('/')[-3]
@@ -221,7 +221,7 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
     # white-matter image
     for subject in subject_list:
         mwc2_path = 'sub-*/ses-*/anat/mwc2%s_ses-00_T1w.nii.gz' % subject
-        mwc2_abs_path = os.path.join(DERIVATIVES, mwc2_path)
+        mwc2_abs_path = os.path.join(derivatives, mwc2_path)
         mwc2_imgs_ = glob.glob(os.path.join(mwc2_abs_path))
         for img in mwc2_imgs_:
             session = img.split('/')[-3]
@@ -235,84 +235,83 @@ def data_parser(derivatives=DERIVATIVES, conditions=CONDITIONS,
             acquisitions.append('')
 
     # preprocessed bold images and corresponding motion parameters
-    if derivatives in [DERIVATIVES, THREE_MM]:
-        for sbj in subject_list:
-            for acq in ['ap', 'pa']:
-                for task in task_list:
-                    bold_name = 'wrdc%s_ses*_task-%s_dir-%s*_bold.nii.gz' \
-                                % (sbj, task, acq)
-                    bold_path = os.path.join(derivatives, 'sub-*/ses-*/func',
-                                             bold_name)
-                    bold = glob.glob(bold_path)
-                    if not bold:
-                        # Add exception for 'bang' task, since 'ap' was
-                        # never part of acq planning
-                        if acq == 'ap' and task == 'Bang':
-                            pass
-                        else:
-                            msg = 'wrdc*.nii.gz file for task ' + \
-                                  '%s %s in %s not found!' % (task, acq, sbj)
-                            warnings.warn(msg)
-                    for img in bold:
-                        basename = os.path.basename(img)
-                        parts = basename.split('_')
-                        task_ = None
-                        for part in parts:
-                            if part[4:7] == 'sub':
-                                subject = part[4:10]
-                            elif part[:3] == 'ses':
-                                session = part
-                            elif part[:5] == 'task-':
-                                task_ = part[5:]
-                            elif part[:4] == 'dir-':
-                                acquisition = part[4:]
-                        if task not in task_list:
-                            continue
-                        paths.append(img)
-                        sessions.append(session)
-                        subjects.append(subject)
-                        modalities.append('bold')
-                        contrasts.append('preprocessed')
-                        tasks.append(task_)
-                        acquisitions.append(acquisition)
+    for sbj in subject_list:
+        for acq in ['ap', 'pa']:
+            for task in task_list:
+                bold_name = 'wrdc%s_ses*_task-%s_dir-%s*_bold.nii.gz' \
+                            % (sbj, task, acq)
+                bold_path = os.path.join(derivatives, 'sub-*/ses-*/func',
+                                            bold_name)
+                bold = glob.glob(bold_path)
+                if not bold:
+                    # Add exception for 'bang' task, since 'ap' was
+                    # never part of acq planning
+                    if acq == 'ap' and task == 'Bang':
+                        pass
+                    else:
+                        msg = 'wrdc*.nii.gz file for task ' + \
+                                '%s %s in %s not found!' % (task, acq, sbj)
+                        warnings.warn(msg)
+                for img in bold:
+                    basename = os.path.basename(img)
+                    parts = basename.split('_')
+                    task_ = None
+                    for part in parts:
+                        if part[4:7] == 'sub':
+                            subject = part[4:10]
+                        elif part[:3] == 'ses':
+                            session = part
+                        elif part[:5] == 'task-':
+                            task_ = part[5:]
+                        elif part[:4] == 'dir-':
+                            acquisition = part[4:]
+                    if task not in task_list:
+                        continue
+                    paths.append(img)
+                    sessions.append(session)
+                    subjects.append(subject)
+                    modalities.append('bold')
+                    contrasts.append('preprocessed')
+                    tasks.append(task_)
+                    acquisitions.append(acquisition)
 
-                    rps_name = 'rp_dc%s_ses*_task-%s_dir-%s*_bold.txt' \
-                               % (sbj, task, acq)
-                    rps_path = os.path.join(DERIVATIVES, 'sub-*/ses-*/func',
-                                            rps_name)
-                    rps = glob.glob(rps_path)
-                    if not rps:
-                        # Add exception for 'bang' task, since 'ap' was
-                        # never part of acq planning
-                        if acq == 'ap' and task == 'Bang':
-                            pass
-                        else:
-                            msg = 'rp-dc*.txt file for task ' + \
-                                  '%s %s in %s not found!' % (task, acq, sbj)
-                            warnings.warn(msg)
+                rps_name = 'rp_dc%s_ses*_task-%s_dir-%s*_bold.txt' \
+                            % (sbj, task, acq)
+                rps_path = os.path.join(derivatives, 'sub-*/ses-*/func',
+                                        rps_name)
+                rps = glob.glob(rps_path)
+                if not rps:
+                    # Add exception for 'bang' task, since 'ap' was
+                    # never part of acq planning
+                    if acq == 'ap' and task == 'Bang':
+                        pass
+                    else:
+                        msg = 'rp-dc*.txt file for task ' + \
+                                '%s %s in %s not found!' % (task, acq, sbj)
+                        warnings.warn(msg)
 
-                    for rp_file in rps:
-                        basename = os.path.basename(rp_file)
-                        parts = basename.split('_')
-                        task_ = None
-                        for part in parts:
-                            if part[:3] == 'sub':
-                                subject = part
-                            elif part[:3] == 'ses':
-                                session = part
-                            elif part[:5] == 'task-':
-                                task_ = part[5:]
-                            elif part[:4] == 'dir-':
-                                acquisition = part[4:]
-                        if task not in task_list:
-                            continue
-                        paths.append(rp_file)
-                        sessions.append(session)
-                        subjects.append(subject)
-                        modalities.append('bold')
-                        contrasts.append('motion')
-                        tasks.append(task_)
-                        acquisitions.append(acquisition)
+                for rp_file in rps:
+                    basename = os.path.basename(rp_file)
+                    parts = basename.split('_')
+                    task_ = None
+                    for part in parts:
+                        if part[:3] == 'sub':
+                            subject = part
+                        elif part[:3] == 'ses':
+                            session = part
+                        elif part[:5] == 'task-':
+                            task_ = part[5:]
+                        elif part[:4] == 'dir-':
+                            acquisition = part[4:]
+                    if task not in task_list:
+                        continue
+                    paths.append(rp_file)
+                    sessions.append(session)
+                    subjects.append(subject)
+                    modalities.append('bold')
+                    contrasts.append('motion')
+                    tasks.append(task_)
+                    acquisitions.append(acquisition)
 
     # fixed-effects activation images (postprocessed)
     con_df = conditions
