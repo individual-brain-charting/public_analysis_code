@@ -278,8 +278,8 @@ VSTMC	resp_load3-load1
 VSTMC	stim
 VSTMC	resp
 FingerTapping	chosen-specified
-FingerTapping	specified-null
-FingerTapping	chosen-null
+FingerTapping	specified-no_tap
+FingerTapping	chosen-no_tap
 FaceBody	bodies_body
 FaceBody	bodies_limb
 FaceBody	bodies-others
@@ -398,6 +398,7 @@ MDTB	tom_belief
 MDTB	search_easy
 MDTB	search_hard
 MDTB	flexion_extension
+MDTB	movie
 MDTB	action_action-control
 MDTB	finger_complex-simple
 MDTB	semantic_hard-easy

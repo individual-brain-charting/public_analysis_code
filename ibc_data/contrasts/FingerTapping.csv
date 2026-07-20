@@ -1,4 +1,4 @@
-condition,chosen-specified,specified-null,chosen-null
+condition,chosen-specified,specified-no_tap,chosen-no_tap
 specified,-1,1,
 chosen,1,,1
-null,,-1,-1
+no_tap,,-1,-1

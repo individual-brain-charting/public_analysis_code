@@ -692,7 +692,7 @@ def make_db(
     for subject in missing_images_per_subject.keys():
         print(
             f"Missing images for subject {subject}:\t"
-            "{len(missing_images_per_subject[subject])}"
+            f"{len(missing_images_per_subject[subject])}"
         )
 
     if space in volumetric_spaces:
