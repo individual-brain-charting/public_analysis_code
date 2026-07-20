@@ -18,7 +18,7 @@ import numpy as np
 from tqdm import tqdm
 
 main_parent_dir = '/neurospin/ibc'
-alt_parent_dir = '/storage/store2/data/ibc'
+alt_parent_dir = '/data/parietal/store2/data/ibc'
 
 if os.path.exists(main_parent_dir):
     ibc = main_parent_dir
